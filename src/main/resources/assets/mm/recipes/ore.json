@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "DD",
+        "DD"
+    ],
+    
+    "key":
+    {
+        "D":
+        {
+            "item": "minecraft:dirt",
+            "data": 0
+        }
+    },
+    
+    "result":
+    {
+        "item": "mm:ore",
+        "count": 1
+    }
+}

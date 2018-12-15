@@ -7,6 +7,11 @@ import com.barribob.MaelstromMod.util.IHasModel;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
+/**
+ * 
+ * The base class for new mod items
+ *
+ */
 public class ItemBase extends Item implements IHasModel
 {
 	public ItemBase(String name) 

@@ -7,10 +7,14 @@ import com.barribob.MaelstromMod.items.ItemBase;
 
 import net.minecraft.item.Item;
 
-public class ModItems {
-
+/**
+ * 
+ * Holds all of our new items
+ *
+ */
+public class ModItems 
+{
 	public static final List<Item> ITEMS = new ArrayList<Item>();
 	
 	public static final Item WHAPA = new ItemBase("whapa");
-	
 }

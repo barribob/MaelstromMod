@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod;
 
+import com.barribob.MaelstromMod.init.ModRecipes;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -11,6 +12,13 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+/**
+ * 
+ * Main mod class
+ * Many of the base boilerplate here is thanks to loremaster's tutorials 
+ * https://www.youtube.com/channel/UC3n-lKS-MYlunVtErgzSFZg
+ *
+ */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
 public class Main {
 	
@@ -27,12 +35,11 @@ public class Main {
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
-		
+		ModRecipes.init();
 	}
 	
 	@EventHandler
 	public static void PostInit(FMLPostInitializationEvent event) {
 		
 	}
-	
 }
