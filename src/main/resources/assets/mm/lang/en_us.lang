@@ -1,9 +1,30 @@
 //———————————————————————————————————————————————————————————
-//Items
+// Items
 //———————————————————————————————————————————————————————————
 item.whapa.name=Whapa
 
 //———————————————————————————————————————————————————————————
-//Blocks
+// Tools
+//———————————————————————————————————————————————————————————
+item.ore_sword.name=Ore Sword
+item.ore_shovel.name=Ore Shovel
+item.ore_pickaxe.name=Ore Pickaxe
+item.ore_axe.name=Ore Axe
+
+//———————————————————————————————————————————————————————————
+// Armor
+//———————————————————————————————————————————————————————————
+item.ore_helmet.name=Ore Helmet
+item.ore_chestplate.name=Ore Chestplate
+item.ore_leggings.name=Ore Leggings
+item.ore_boots.name=Ore Boots
+
+//———————————————————————————————————————————————————————————
+// Blocks
 //———————————————————————————————————————————————————————————
 tile.ore.name=Ore
+
+//———————————————————————————————————————————————————————————
+// Entities
+//———————————————————————————————————————————————————————————
+entity.shade.name=Shade

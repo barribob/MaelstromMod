@@ -1,8 +1,12 @@
 package com.barribob.MaelstromMod;
 
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.init.ModRecipes;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.RenderHandler;
+import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
+import com.barribob.MaelstromMod.world.ModWorldGen;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -11,6 +15,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * 
@@ -30,12 +35,16 @@ public class Main {
 	
 	@EventHandler
 	public static void PreInit(FMLPreInitializationEvent event) {
+		GameRegistry.registerWorldGenerator(new ModWorldGen(), 3);
 		
+		ModEntities.registerEntities();
+		RenderHandler.registerEntityRenderers();
 	}
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
 		ModRecipes.init();
+		SoundsHandler.registerSounds();
 	}
 	
 	@EventHandler

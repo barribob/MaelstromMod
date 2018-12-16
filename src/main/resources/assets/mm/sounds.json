@@ -1,0 +1,20 @@
+{
+    "entity.shade.ambient":
+    {
+        "category": "entity",
+        "subtitle": "entity.shade.ambient",
+        "sounds": [{ "name": "mm:entity/shade/ambient", "stream": true}]
+    },
+    "entity.shade.hurt":
+    {
+        "category": "entity",
+        "subtitle": "entity.shade.hurt",
+        "sounds": [{ "name": "mm:entity/shade/hurt", "stream": true}]
+    },
+    "entity.shade.death":
+    {
+        "category": "entity",
+        "subtitle": "entity.shade.hurt",
+        "sounds": [{ "name": "mm:entity/shade/hurt", "stream": true}]
+    }
+}
