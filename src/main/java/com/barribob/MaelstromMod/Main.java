@@ -9,7 +9,8 @@ import com.barribob.MaelstromMod.proxy.CommonProxy;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.RenderHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
-import com.barribob.MaelstromMod.world.ModWorldGen;
+import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
+import com.barribob.MaelstromMod.world.gen.WorldGenOre;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -46,7 +47,8 @@ public class Main {
 	@EventHandler
 	public static void PreInit(FMLPreInitializationEvent event) 
 	{
-		GameRegistry.registerWorldGenerator(new ModWorldGen(), 3);
+		GameRegistry.registerWorldGenerator(new WorldGenOre(), 3);
+		GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
 		
 		ModEntities.registerEntities();
 		RenderHandler.registerEntityRenderers();

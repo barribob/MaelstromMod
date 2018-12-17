@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.world;
+package com.barribob.MaelstromMod.world.gen;
 
 import java.util.Random;
 
@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
  * Handles all of the world generation for the mod
  *
  */
-public class ModWorldGen implements IWorldGenerator
+public class WorldGenOre implements IWorldGenerator
 {
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) 
