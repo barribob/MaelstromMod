@@ -13,6 +13,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModRecipes 
 {
 	public static void init() {
-		GameRegistry.addSmelting(ModBlocks.ORE, new ItemStack(Blocks.DIRT), 0.0f);
+		GameRegistry.addSmelting(ModBlocks.DARK_AZURE_STONE, new ItemStack(ModBlocks.LIGHT_AZURE_STONE), 0.0f);
 	}
 }

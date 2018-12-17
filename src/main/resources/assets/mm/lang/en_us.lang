@@ -22,7 +22,9 @@ item.ore_boots.name=Ore Boots
 //———————————————————————————————————————————————————————————
 // Blocks
 //———————————————————————————————————————————————————————————
-tile.ore.name=Ore
+tile.azure_grass.name=Azure Grass
+tile.dark_azure_stone.name=Dark Azure Stone
+tile.light_azure_stone.name=Light Azure Stone
 
 //———————————————————————————————————————————————————————————
 // Entities

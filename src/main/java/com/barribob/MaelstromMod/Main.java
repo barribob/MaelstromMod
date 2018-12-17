@@ -1,5 +1,8 @@
 package com.barribob.MaelstromMod;
 
+import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
+import com.barribob.MaelstromMod.init.BiomeInit;
+import com.barribob.MaelstromMod.init.DimensionInit;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.init.ModRecipes;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
@@ -15,6 +18,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -22,6 +26,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * Main mod class
  * Many of the base boilerplate here is thanks to loremaster's tutorials 
  * https://www.youtube.com/channel/UC3n-lKS-MYlunVtErgzSFZg
+ * Entities, world generation, and dimension frameworks are thanks to Harry Talks
+ * https://www.youtube.com/channel/UCUAawSqNFBEj-bxguJyJL9g
  *
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
@@ -33,22 +39,38 @@ public class Main {
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
 	public static CommonProxy proxy;
 	
+	/**
+	 * 
+	 * Basically initializes the entire mod by calling all of the init methods in the static classes
+	 */
 	@EventHandler
-	public static void PreInit(FMLPreInitializationEvent event) {
+	public static void PreInit(FMLPreInitializationEvent event) 
+	{
 		GameRegistry.registerWorldGenerator(new ModWorldGen(), 3);
 		
 		ModEntities.registerEntities();
 		RenderHandler.registerEntityRenderers();
+		
+		BiomeInit.registerBiomes();
+		DimensionInit.registerDimensions();
 	}
 
 	@EventHandler
-	public static void Init(FMLInitializationEvent event) {
+	public static void Init(FMLInitializationEvent event) 
+	{
 		ModRecipes.init();
 		SoundsHandler.registerSounds();
 	}
 	
 	@EventHandler
-	public static void PostInit(FMLPostInitializationEvent event) {
+	public static void PostInit(FMLPostInitializationEvent event) 
+	{
 		
+	}
+	
+	@EventHandler
+	public static void serverInit(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new CommandDimensionTeleport());
 	}
 }
