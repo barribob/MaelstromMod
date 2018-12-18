@@ -27,7 +27,7 @@ public class BiomeAzure extends Biome
 {
 	public BiomeAzure() 
 	{
-		super(new BiomeProperties("azure").setBaseHeight(1.0f).setHeightVariation(0.5f).setTemperature(0.5f).setRainDisabled().setWaterColor(10252253));
+		super(new BiomeProperties("azure").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253));
 		
 		/**
 		 * Sets what in standard biomes is the grass (top block) and dirt (filler block)

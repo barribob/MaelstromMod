@@ -66,7 +66,9 @@ public class ChunkGeneratorAzure implements IChunkGenerator
     
     // This is for temples and stuff like that I think
     private MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
-    private MapGenBase ravineGenerator = new MapGenRavine();
+    
+    // Custom ravine generator
+    private MapGenBase ravineGenerator = new MapGenAzureRavine();
     private Biome[] biomesForGeneration;
     double[] mainNoiseRegion;
     double[] minLimitRegion;
