@@ -23,11 +23,11 @@ public class WorldGenAzureTree extends WorldGenAbstractTree
 	private static final IBlockState AZURE_LOG = ModBlocks.AZURE_LOG.getDefaultState();
     private static final IBlockState AZURE_LEAVES = ModBlocks.AZURE_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
 
-	public WorldGenAzureTree(boolean notify) {
+	public WorldGenAzureTree(boolean notify) 
+	{
 		super(notify);
 	}
 
-	
     private void placeLogAt(World worldIn, BlockPos pos)
     {
         if (this.canGrowInto(worldIn.getBlockState(pos).getBlock()))
@@ -49,37 +49,40 @@ public class WorldGenAzureTree extends WorldGenAbstractTree
 
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
-        int i = rand.nextInt(5) + 7;
-        int j = i - rand.nextInt(2) - 3;
-        int k = i - j;
-        int l = 1 + rand.nextInt(k + 1);
+        int relativeHeight = rand.nextInt(5) + 7;
+        int leafHeight =  rand.nextInt(2) + 2;
+        int maxLeafWidth = 1 + rand.nextInt(leafHeight + 1);
+        int additionalHeight = rand.nextInt(3) + 1;
+        int additionalTrees = rand.nextInt(4) + 1;
+        int maxLeafDecayChance = 3;
 
-        if (position.getY() >= 1 && position.getY() + i + 1 <= 256)
+        // Check to make sure the tree position is valid
+        if (position.getY() >= 1 && position.getY() + relativeHeight + 1 <= 256)
         {
             boolean flag = true;
 
-            for (int i1 = position.getY(); i1 <= position.getY() + 1 + i && flag; ++i1)
+            for (int y = position.getY(); y <= position.getY() + 1 + relativeHeight + additionalHeight * additionalTrees && flag; ++y)
             {
                 int j1 = 1;
 
-                if (i1 - position.getY() < j)
+                if (y - position.getY() < leafHeight + relativeHeight)
                 {
                     j1 = 0;
                 }
                 else
                 {
-                    j1 = l;
+                    j1 = maxLeafWidth;
                 }
 
                 BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-                for (int k1 = position.getX() - j1; k1 <= position.getX() + j1 && flag; ++k1)
+                for (int x = position.getX() - j1; x <= position.getX() + j1 && flag; ++x)
                 {
-                    for (int l1 = position.getZ() - j1; l1 <= position.getZ() + j1 && flag; ++l1)
+                    for (int z = position.getZ() - j1; z <= position.getZ() + j1 && flag; ++z)
                     {
-                        if (i1 >= 0 && i1 < 256)
+                        if (y >= 0 && y < 256)
                         {
-                            if (!this.isReplaceable(worldIn,blockpos$mutableblockpos.setPos(k1, i1, l1)))
+                            if (!this.isReplaceable(worldIn,blockpos$mutableblockpos.setPos(x, y, z)))
                             {
                                 flag = false;
                             }
@@ -102,55 +105,31 @@ public class WorldGenAzureTree extends WorldGenAbstractTree
                 IBlockState state = worldIn.getBlockState(down);
                 boolean isSoil = state.getBlock() == ModBlocks.AZURE_GRASS;
 
-                if (isSoil && position.getY() < 256 - i - 1)
+                // Make sure there is soil
+                if (isSoil && position.getY() < 256 - relativeHeight - 1)
                 {
-                    state.getBlock().onPlantGrow(state, worldIn, down, position);
-                    int k2 = 0;
-
-                    for (int l2 = position.getY() + i; l2 >= position.getY() + j; --l2)
-                    {
-                        for (int j3 = position.getX() - k2; j3 <= position.getX() + k2; ++j3)
-                        {
-                            int k3 = j3 - position.getX();
-
-                            for (int i2 = position.getZ() - k2; i2 <= position.getZ() + k2; ++i2)
-                            {
-                                int j2 = i2 - position.getZ();
-
-                                if (Math.abs(k3) != k2 || Math.abs(j2) != k2 || k2 <= 0)
-                                {
-                                    BlockPos blockpos = new BlockPos(j3, l2, i2);
-                                    state = worldIn.getBlockState(blockpos);
-
-                                    if (state.getBlock().canBeReplacedByLeaves(state, worldIn, blockpos))
-                                    {
-                                        this.setBlockAndNotifyAdequately(worldIn, blockpos, AZURE_LEAVES);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (k2 >= 1 && l2 == position.getY() + j + 1)
-                        {
-                            --k2;
-                        }
-                        else if (k2 < l)
-                        {
-                            ++k2;
-                        }
-                    }
-
-                    for (int i3 = 0; i3 < i - 1; ++i3)
-                    {
-                        BlockPos upN = position.up(i3);
-                        state = worldIn.getBlockState(upN);
-
-                        if (state.getBlock().isAir(state, worldIn, upN) || state.getBlock().isLeaves(state, worldIn, upN))
-                        {
-                            this.setBlockAndNotifyAdequately(worldIn, position.up(i3), AZURE_LOG);
-                        }
-                    }
-
+                	state.getBlock().onPlantGrow(state, worldIn, down, position);
+                	
+                	// Generate the first tree
+                	generateTreeSegment(relativeHeight, leafHeight, maxLeafWidth, worldIn, rand, position, state);
+                	
+            		// Increase the position to align with the next segment of the tree
+                	BlockPos newPos = new BlockPos(position.getX(), position.getY() + relativeHeight - 1, position.getZ());
+                	
+                	// Generate the additional trees on top of the first tree
+                	for(int i = 0; i < additionalTrees; i++)
+                	{
+                		// Sometimes make the leaves at the top shorter
+                		if(rand.nextInt(maxLeafDecayChance) == 0)
+                		{
+                    		maxLeafWidth = maxLeafWidth > 1 ? maxLeafWidth - 1 : maxLeafWidth;                			
+                		}
+                		
+                		generateTreeSegment(additionalHeight, leafHeight, maxLeafWidth, worldIn, rand, newPos, state);
+                		
+                		// Increase the position to align with the next segment of the tree
+                		newPos = new BlockPos(position.getX(), newPos.getY() + additionalHeight - 1, position.getZ());
+                	}
                     return true;
                 }
                 else
@@ -162,6 +141,68 @@ public class WorldGenAzureTree extends WorldGenAbstractTree
         else
         {
             return false;
+        }
+    }
+
+    /**
+     * 
+     * @param relativeHeight The height of the tree segment to generate
+     * @param leafHeight The height of the leaves to generate (e.g. a leaf height of 3 will generate leaves from relative height down to relative height - 3)
+     * @param maxLeafWidth
+     * @param worldIn
+     * @param rand
+     * @param position
+     * @param state
+     */
+    private void generateTreeSegment(int relativeHeight, int leafHeight, int maxLeafWidth, World worldIn, Random rand, BlockPos position, IBlockState state) 
+    {
+        int leafWidth = 0;
+
+        // Generate the leaves
+        for (int y = position.getY() + relativeHeight; y >= position.getY() + relativeHeight - leafHeight; --y)
+        {
+            for (int x = position.getX() - leafWidth; x <= position.getX() + leafWidth; ++x)
+            {
+                int widthX = x - position.getX();
+
+                for (int z = position.getZ() - leafWidth; z <= position.getZ() + leafWidth; ++z)
+                {
+                    int widthZ = z - position.getZ();
+
+                    if (Math.abs(widthX) != leafWidth || Math.abs(widthZ) != leafWidth || leafWidth <= 0)
+                    {
+                        BlockPos blockpos = new BlockPos(x, y, z);
+                        state = worldIn.getBlockState(blockpos);
+
+                        if (state.getBlock().canBeReplacedByLeaves(state, worldIn, blockpos))
+                        {
+                            this.setBlockAndNotifyAdequately(worldIn, blockpos, AZURE_LEAVES);
+                        }
+                    }
+                }
+            }
+
+            // Change the bushiness of the layer
+            if (leafWidth >= 1 && y == position.getY() + leafHeight + 1)
+            {
+                --leafWidth;
+            }
+            else if (leafWidth < maxLeafWidth)
+            {
+                ++leafWidth;
+            }
+        }
+
+        // Generate the trunk
+        for (int y = 0; y < relativeHeight - 1; ++y)
+        {
+            BlockPos upN = position.up(y);
+            state = worldIn.getBlockState(upN);
+
+            if (state.getBlock().isAir(state, worldIn, upN) || state.getBlock().isLeaves(state, worldIn, upN))
+            {
+                this.setBlockAndNotifyAdequately(worldIn, position.up(y), AZURE_LOG);
+            }
         }
     }
 }

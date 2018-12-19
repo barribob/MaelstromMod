@@ -28,7 +28,7 @@ public class WorldGenBigPlumTree extends WorldGenAbstractTree
     private BlockPos basePos = BlockPos.ORIGIN;
     int heightLimit;
     int height;
-    double heightAttenuation = 0.618D;
+    double heightAttenuation = 0.718D;
     double branchSlope = 0.381D;
     double scaleWidth = 1.0D;
     double leafDensity = 1.0D;
