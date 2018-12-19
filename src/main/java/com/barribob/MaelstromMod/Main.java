@@ -29,6 +29,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * https://www.youtube.com/channel/UC3n-lKS-MYlunVtErgzSFZg
  * Entities, world generation, and dimension frameworks are thanks to Harry Talks
  * https://www.youtube.com/channel/UCUAawSqNFBEj-bxguJyJL9g
+ * Also thanks to Jabelar for some articles on leaves and how to make them work properly
+ * https://jabelarminecraft.blogspot.com/
  *
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)

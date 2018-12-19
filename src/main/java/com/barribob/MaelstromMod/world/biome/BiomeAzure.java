@@ -5,6 +5,7 @@ import java.util.Random;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.gen.WorldGenAzureTree;
+import com.barribob.MaelstromMod.world.gen.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.WorldGenPlumTree;
 
@@ -29,6 +30,7 @@ public class BiomeAzure extends Biome
     protected static final WorldGenAzureTree AZURE_TREE = new WorldGenAzureTree(false);
     protected static final WorldGenPlumTree SMALL_PLUM_TREE = new WorldGenPlumTree(false, true);
     protected static final WorldGenBigPlumTree LARGE_PLUM_TREE = new WorldGenBigPlumTree(false);
+    protected static final WorldGenAzureVines AZURE_VINES = new WorldGenAzureVines();
 	
 	public BiomeAzure() 
 	{
@@ -164,5 +166,20 @@ public class BiomeAzure extends Biome
                 }
             }
         }
+    }
+    
+    @Override
+    public void decorate(World worldIn, Random rand, BlockPos pos) {
+    	super.decorate(worldIn, rand, pos);
+    	int vineAttempts = 10;
+    	for(int l = 0; l < vineAttempts; l++)
+    	{
+    		// Generate the vines starting at y=70, and randomly throughout the chunk
+    		// the +8 offsets are to avoid cascading chunk generation, which lags the game
+    		int i = rand.nextInt(16) + 8;
+    		int j = 70;
+    		int k = rand.nextInt(16) + 8;
+    		AZURE_VINES.generate(worldIn, rand, pos.add(i, j, k));
+    	}
     }
 }
