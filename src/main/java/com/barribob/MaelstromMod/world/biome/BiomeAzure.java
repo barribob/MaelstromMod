@@ -4,6 +4,9 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.world.gen.WorldGenAzureTree;
+import com.barribob.MaelstromMod.world.gen.WorldGenBigPlumTree;
+import com.barribob.MaelstromMod.world.gen.WorldGenPlumTree;
 
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
@@ -13,10 +16,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.BiomeProperties;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 /**
  * 
@@ -25,6 +26,10 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
  */
 public class BiomeAzure extends Biome
 {
+    protected static final WorldGenAzureTree AZURE_TREE = new WorldGenAzureTree(false);
+    protected static final WorldGenPlumTree SMALL_PLUM_TREE = new WorldGenPlumTree(false, true);
+    protected static final WorldGenBigPlumTree LARGE_PLUM_TREE = new WorldGenBigPlumTree(false);
+	
 	public BiomeAzure() 
 	{
 		super(new BiomeProperties("azure").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253));
@@ -41,9 +46,32 @@ public class BiomeAzure extends Biome
 		this.spawnableMonsterList.clear();
 		this.spawnableWaterCreatureList.clear();
 		
+		this.decorator.treesPerChunk = 2;
+		
 		// Add our mobs to spawn in the biome
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityShade.class, 10, 1, 5));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityWitherSkeleton.class, 10, 1, 5));
+	}
+	
+	/**
+	 * Determines which trees to generate
+	 */
+	@Override
+	public WorldGenAbstractTree getRandomTreeFeature(Random rand) 
+	{
+		int plumTreeOdds = 10;
+		int largePlumTreeOdds = 12
+				;
+		if(rand.nextInt(plumTreeOdds) == 0) 
+		{
+			return SMALL_PLUM_TREE;
+		}
+		else if(rand.nextInt(largePlumTreeOdds) == 0)
+		{
+			return LARGE_PLUM_TREE;
+		}
+		
+		return AZURE_TREE;
 	}
 	
 	/**

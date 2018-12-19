@@ -45,7 +45,6 @@ public class BlockLeavesBase extends BlockLeaves implements IHasModel
         Main.proxy.setFancyGraphics(this, true);
         
         // Adds states so that we can use the BlockLeaves decaying feature
-		Main.proxy.setCustomState(this, new StateMap.Builder().ignore(new IProperty[] {this.CHECK_DECAY}).ignore(new IProperty[] {this.DECAYABLE}).build());
         setDefaultState(blockState.getBaseState().withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
 		
 		// Add both an item as a block and the block itself
