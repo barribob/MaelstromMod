@@ -38,12 +38,12 @@ public class WorldGenAzureVines extends WorldGenerator
 		for(BlockPos direction : directions)
 		{
 			int vineLength = getVineLength(worldIn, position, direction);
-			if(vineLength >= minVineLength && vineLength <= maxVineLength)
+			if(vineLength >= minVineLength && vineLength < maxVineLength)
 			{
 				// Generate the vines in a straight line
-				for(int i = 0; i < vineLength + 1; i++)
+				for(int i = 0; i < vineLength; i++)
 				{
-					if(i == 0 || i == vineLength)
+					if(i == 0 || i == vineLength - 1)
 					{
 						worldIn.setBlockState(position, ModBlocks.AZURE_VINES.getDefaultState());
 					}
@@ -66,7 +66,7 @@ public class WorldGenAzureVines extends WorldGenerator
 	public int getVineLength(World worldIn, BlockPos position, BlockPos direction)
 	{
 		int emptySpace = 0;
-		BlockPos newPos = direction.add(position);
+		BlockPos newPos = position;
 		while(worldIn.getBlockState(newPos).getBlock() == Blocks.AIR && worldIn.getBlockState(newPos.down()).getBlock() == Blocks.AIR)
 		{
 			emptySpace += 1;

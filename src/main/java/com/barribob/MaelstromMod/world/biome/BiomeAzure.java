@@ -2,8 +2,11 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.blocks.BlockAzureBush;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.world.gen.WorldGenAzureDoublePlant;
+import com.barribob.MaelstromMod.world.gen.WorldGenAzureFoliage;
 import com.barribob.MaelstromMod.world.gen.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.WorldGenBigPlumTree;
@@ -19,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.WorldGenerator;
 
 /**
  * 
@@ -31,6 +35,12 @@ public class BiomeAzure extends Biome
     protected static final WorldGenPlumTree SMALL_PLUM_TREE = new WorldGenPlumTree(false, true);
     protected static final WorldGenBigPlumTree LARGE_PLUM_TREE = new WorldGenBigPlumTree(false);
     protected static final WorldGenAzureVines AZURE_VINES = new WorldGenAzureVines();
+    protected static final WorldGenAzureDoublePlant DOUBLE_PLANT = new WorldGenAzureDoublePlant();
+    
+    private final BlockAzureBush[] FLOWER_LIST = {(BlockAzureBush)ModBlocks.BLUE_DAISY, (BlockAzureBush)ModBlocks.RUBY_ORCHID};
+    protected final WorldGenAzureFoliage FLOWERS = new WorldGenAzureFoliage(FLOWER_LIST, 64);
+    
+    private final BlockAzureBush[] TALL_GRASS_LIST = {(BlockAzureBush)ModBlocks.BROWNED_GRASS};
 	
 	public BiomeAzure() 
 	{
@@ -49,6 +59,11 @@ public class BiomeAzure extends Biome
 		this.spawnableWaterCreatureList.clear();
 		
 		this.decorator.treesPerChunk = 2;
+        this.decorator.grassPerChunk = 3;
+		
+		// Registers flowers when using bonemeal
+		this.addFlower(ModBlocks.BLUE_DAISY.getDefaultState(), 1);
+		this.addFlower(ModBlocks.RUBY_ORCHID.getDefaultState(), 1);
 		
 		// Add our mobs to spawn in the biome
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityShade.class, 10, 1, 5));
@@ -169,9 +184,10 @@ public class BiomeAzure extends Biome
     }
     
     @Override
-    public void decorate(World worldIn, Random rand, BlockPos pos) {
+    public void decorate(World worldIn, Random rand, BlockPos pos) 
+    {
     	super.decorate(worldIn, rand, pos);
-    	int vineAttempts = 10;
+    	int vineAttempts = 7;
     	for(int l = 0; l < vineAttempts; l++)
     	{
     		// Generate the vines starting at y=70, and randomly throughout the chunk
@@ -181,5 +197,31 @@ public class BiomeAzure extends Biome
     		int k = rand.nextInt(16) + 8;
     		AZURE_VINES.generate(worldIn, rand, pos.add(i, j, k));
     	}
+    	
+    	int doublePlants = rand.nextInt(3);
+    	for(int l = 0; l < doublePlants; l++)
+    	{
+    		int i = rand.nextInt(16) + 8;
+    		int j = 70;
+    		int k = rand.nextInt(16) + 8;
+    		DOUBLE_PLANT.generate(worldIn, rand, pos.add(i, j, k));
+    	}
+    	
+    	int flowers = rand.nextInt(2);
+    	for(int l = 0; l < flowers; l++)
+    	{
+    		int i = rand.nextInt(16) + 8;
+    		int j = 70;
+    		int k = rand.nextInt(16) + 8;
+    		FLOWERS.generate(worldIn, rand, pos.add(i, j, k));
+    	}
+    }
+    
+    /**
+     * Gets a WorldGen appropriate for this biome.
+     */
+    public WorldGenerator getRandomWorldGenForGrass(Random rand)
+    {
+        return new WorldGenAzureFoliage(TALL_GRASS_LIST, 128); 
     }
 }
