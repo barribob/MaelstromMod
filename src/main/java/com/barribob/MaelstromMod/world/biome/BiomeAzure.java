@@ -5,12 +5,12 @@ import java.util.Random;
 import com.barribob.MaelstromMod.blocks.BlockAzureBush;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.world.gen.WorldGenAzureDoublePlant;
-import com.barribob.MaelstromMod.world.gen.WorldGenAzureFoliage;
-import com.barribob.MaelstromMod.world.gen.WorldGenAzureTree;
-import com.barribob.MaelstromMod.world.gen.WorldGenAzureVines;
-import com.barribob.MaelstromMod.world.gen.WorldGenBigPlumTree;
-import com.barribob.MaelstromMod.world.gen.WorldGenPlumTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;

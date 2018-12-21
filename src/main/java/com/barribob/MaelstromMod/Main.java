@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.DimensionInit;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.init.ModRecipes;
+import com.barribob.MaelstromMod.init.ModStructures;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.RenderHandler;
@@ -12,6 +13,7 @@ import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 import com.barribob.MaelstromMod.world.gen.WorldGenOre;
 
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -34,8 +36,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  *
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
-public class Main {
-	
+public class Main 
+{
 	@Instance
 	public static Main instance;
 	
@@ -64,6 +66,7 @@ public class Main {
 	{
 		ModRecipes.init();
 		SoundsHandler.registerSounds();
+		ModStructures.registerStructures();
 	}
 	
 	@EventHandler

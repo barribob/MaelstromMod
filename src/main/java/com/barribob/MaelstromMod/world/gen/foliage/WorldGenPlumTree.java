@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.world.gen;
+package com.barribob.MaelstromMod.world.gen.foliage;
 
 import java.util.Random;
 
