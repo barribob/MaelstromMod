@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVineBridge;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
@@ -34,7 +35,7 @@ public class BiomeAzure extends Biome
     protected static final WorldGenAzureTree AZURE_TREE = new WorldGenAzureTree(false);
     protected static final WorldGenPlumTree SMALL_PLUM_TREE = new WorldGenPlumTree(false, true);
     protected static final WorldGenBigPlumTree LARGE_PLUM_TREE = new WorldGenBigPlumTree(false);
-    protected static final WorldGenAzureVines AZURE_VINES = new WorldGenAzureVines();
+    protected static final WorldGenAzureVineBridge AZURE_VINES = new WorldGenAzureVineBridge();
     protected static final WorldGenAzureDoublePlant DOUBLE_PLANT = new WorldGenAzureDoublePlant();
     
     private final BlockAzureBush[] FLOWER_LIST = {(BlockAzureBush)ModBlocks.BLUE_DAISY, (BlockAzureBush)ModBlocks.RUBY_ORCHID};
@@ -215,6 +216,16 @@ public class BiomeAzure extends Biome
     		int k = rand.nextInt(16) + 8;
     		FLOWERS.generate(worldIn, rand, pos.add(i, j, k));
     	}
+    	
+    	WorldGenAzureVines worldgenvines = new WorldGenAzureVines();
+    	int vines = 10;
+        for (int j1 = 0; j1 < vines; ++j1)
+        {
+            int x = rand.nextInt(16) + 8;
+            int y = rand.nextInt(45) + 15;
+            int z = rand.nextInt(16) + 8;
+            worldgenvines.generate(worldIn, rand, pos.add(x, y, z));
+        }
     }
     
     /**

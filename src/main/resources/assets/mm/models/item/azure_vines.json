@@ -1,3 +1,6 @@
 {
-   "parent": "mm:block/azure_vines"
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "mm:blocks/azure_vines"
+    }
 }

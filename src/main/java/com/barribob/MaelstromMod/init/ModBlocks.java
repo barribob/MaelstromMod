@@ -3,13 +3,14 @@ package com.barribob.MaelstromMod.init;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.barribob.MaelstromMod.blocks.BlockAzureFlower;
 import com.barribob.MaelstromMod.blocks.BlockAzureGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureTallGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureVines;
+import com.barribob.MaelstromMod.blocks.BlockAzureVinesBlock;
 import com.barribob.MaelstromMod.blocks.BlockBase;
 import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
 import com.barribob.MaelstromMod.blocks.BlockFenceBase;
-import com.barribob.MaelstromMod.blocks.BlockAzureFlower;
 import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
 import com.barribob.MaelstromMod.blocks.BlockLogBase;
 
@@ -36,7 +37,8 @@ public class ModBlocks
 	public static final Block AZURE_LEAVES = new BlockLeavesBase("azure_leaves", 0.5f, 0.5f, SoundType.PLANT);
 	public static final Block PLUM_LOG = new BlockLogBase("plum_log", 1.0f, 10, SoundType.WOOD);
 	public static final Block PLUM_LEAVES = new BlockLeavesBase("plum_leaves", 0.5f, 0.5f, SoundType.PLANT);
-	public static final Block AZURE_VINES = new BlockAzureVines("azure_vines", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT);
+	public static final Block AZURE_VINES_BLOCK = new BlockAzureVinesBlock("azure_vines_block", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT);
+	public static final Block AZURE_VINES = new BlockAzureVines("azure_vines", 0.5f, 0.5f, SoundType.PLANT);
 	public static final Block BROWNED_GRASS = new BlockAzureTallGrass("browned_grass", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT);
 	public static final Block BLUE_DAISY = new BlockAzureFlower("blue_daisy", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT);
 	public static final Block RUBY_ORCHID = new BlockAzureFlower("ruby_orchid", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT);
