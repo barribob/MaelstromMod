@@ -29,89 +29,95 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * A lot of these methods come from the BlockOldLeaves class to make the leaf decay functionality work with my leaves
+ * A lot of these methods come from the BlockOldLeaves class to make the leaf
+ * decay functionality work with my leaves
  *
  */
 public class BlockLeavesBase extends BlockLeaves implements IHasModel
 {
-	public BlockLeavesBase(String name) 
-	{
-		super();
-		setUnlocalizedName(name);
-		setRegistryName(name);
-		setCreativeTab(CreativeTabs.DECORATIONS);
-		
-        // Set fancy graphics to true for these leaves
-        Main.proxy.setFancyGraphics(this, true);
-        
-        // Adds states so that we can use the BlockLeaves decaying feature
-        setDefaultState(blockState.getBaseState().withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
-		
-		// Add both an item as a block and the block itself
-		ModBlocks.BLOCKS.add(this);
-		ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
-	}
-	
-	public BlockLeavesBase(String name, float hardness, float resistance, SoundType soundType)
-	{
-		this(name);
-		setHardness(hardness);
-		setResistance(resistance);
-		setSoundType(soundType);
-	}
-	
-	/**
-	 * Helper function called from the client proxy
-	 * @param isFancy
-	 */
-	public void setFancyGraphics(boolean isFancy) 
-	{
-		this.setGraphicsLevel(isFancy);
-	}
+    public BlockLeavesBase(String name)
+    {
+	super();
+	setUnlocalizedName(name);
+	setRegistryName(name);
+	setCreativeTab(CreativeTabs.DECORATIONS);
 
-	@Override
-	public void registerModels() 
-	{
-		Main.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
-	}
-	
-	@Override
-	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-		return new ArrayList<ItemStack>();
-	}
+	// Set fancy graphics to true for these leaves
+	Main.proxy.setFancyGraphics(this, true);
 
-	@Override
-	public EnumType getWoodType(int meta) {
-		return null;
-	}
-	
-	@Override
+	// Adds states so that we can use the BlockLeaves decaying feature
+	setDefaultState(blockState.getBaseState().withProperty(CHECK_DECAY, Boolean.valueOf(true))
+		.withProperty(DECAYABLE, Boolean.valueOf(true)));
+
+	// Add both an item as a block and the block itself
+	ModBlocks.BLOCKS.add(this);
+	ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
+    }
+
+    public BlockLeavesBase(String name, float hardness, float resistance, SoundType soundType)
+    {
+	this(name);
+	setHardness(hardness);
+	setResistance(resistance);
+	setSoundType(soundType);
+    }
+
+    /**
+     * Helper function called from the client proxy
+     * 
+     * @param isFancy
+     */
+    public void setFancyGraphics(boolean isFancy)
+    {
+	this.setGraphicsLevel(isFancy);
+    }
+
+    @Override
+    public void registerModels()
+    {
+	Main.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
+    }
+
+    @Override
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune)
+    {
+	return new ArrayList<ItemStack>();
+    }
+
+    @Override
+    public EnumType getWoodType(int meta)
+    {
+	return null;
+    }
+
+    @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {CHECK_DECAY, DECAYABLE});
+	return new BlockStateContainer(this, new IProperty[] { CHECK_DECAY, DECAYABLE });
     }
-	
-	@Override
+
+    @Override
     public int getMetaFromState(IBlockState state)
     {
-        int i = 0;
+	int i = 0;
 
-        if (!((Boolean)state.getValue(DECAYABLE)).booleanValue())
-        {
-            i |= 4;
-        }
+	if (!((Boolean) state.getValue(DECAYABLE)).booleanValue())
+	{
+	    i |= 4;
+	}
 
-        if (((Boolean)state.getValue(CHECK_DECAY)).booleanValue())
-        {
-            i |= 8;
-        }
+	if (((Boolean) state.getValue(CHECK_DECAY)).booleanValue())
+	{
+	    i |= 8;
+	}
 
-        return i;
+	return i;
     }
-	
+
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
+	return this.getDefaultState().withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0))
+		.withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
     }
 }

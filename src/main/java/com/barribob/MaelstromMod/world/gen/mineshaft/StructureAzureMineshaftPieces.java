@@ -493,6 +493,11 @@ public class StructureAzureMineshaftPieces
 		    {
 			this.setBlockState(worldIn, rail, x, y + 1, z, structureBoundingBoxIn);
 		    }
+		    else
+		    {
+			this.setBlockState(worldIn, this.getPlanksBlock(), x, y, z, structureBoundingBoxIn);
+			this.setBlockState(worldIn, rail, x, y + 1, z, structureBoundingBoxIn);
+		    }
 		}
 
 		return true;
@@ -711,6 +716,11 @@ public class StructureAzureMineshaftPieces
 			    this.boundingBox.minY + 3, this.boundingBox.minZ + 1, this.boundingBox.maxX - 1,
 			    this.boundingBox.minY + 3, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(),
 			    Blocks.AIR.getDefaultState(), false);
+		    // Place upper floor
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY + 3,
+			    this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.minY + 3,
+			    this.boundingBox.maxZ - 1, this.getPlanksBlock(), this.getPlanksBlock(),
+			    false);
 		} else
 		{
 		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1,
@@ -731,7 +741,13 @@ public class StructureAzureMineshaftPieces
 			this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxY);
 		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.maxX - 1,
 			this.boundingBox.minY, this.boundingBox.maxZ - 1, this.boundingBox.maxY);
-
+		
+		// Place lower floor
+		this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY - 1,
+			    this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.minY - 1,
+			    this.boundingBox.maxZ - 1, this.getPlanksBlock(), this.getPlanksBlock(),
+			    false);
+		
 		for (int i = this.boundingBox.minX; i <= this.boundingBox.maxX; ++i)
 		{
 		    for (int j = this.boundingBox.minZ; j <= this.boundingBox.maxZ; ++j)
@@ -1061,6 +1077,21 @@ public class StructureAzureMineshaftPieces
 		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 5 - i - (i < 4 ? 1 : 0), 2 + i, 2, 7 - i,
 			    2 + i, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
 		}
+		
+		this.setBlockState(worldIn, this.getPlanksBlock(), 1, 4, -1, structureBoundingBoxIn);
+		this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 5, -1, structureBoundingBoxIn);
+		this.setBlockState(worldIn, this.getPlanksBlock(), 1, 4, 0, structureBoundingBoxIn);
+		this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 5, 0, structureBoundingBoxIn);
+		
+		// Generates the rails down the stairs
+		for (int i = 1; i < 7; ++i)
+		{
+		    this.setBlockState(worldIn, this.getPlanksBlock(), 1, 6 - i - (i < 7 ? 1 : 0), i, structureBoundingBoxIn);
+		    this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 7 - i - (i < 7 ? 1 : 0), i, structureBoundingBoxIn);
+		}
+		
+		this.setBlockState(worldIn, this.getPlanksBlock(), 1, -1, 7, structureBoundingBoxIn);
+		this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 0, 7, structureBoundingBoxIn);
 
 		return true;
 	    }

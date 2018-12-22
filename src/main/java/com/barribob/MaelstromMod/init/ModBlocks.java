@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
 import com.barribob.MaelstromMod.blocks.BlockFenceBase;
 import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
 import com.barribob.MaelstromMod.blocks.BlockLogBase;
+import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -45,4 +46,6 @@ public class ModBlocks
 	public static final Block DOUBLE_BROWNED_GRASS = new BlockDoubleBrownedGrass("double_browned_grass", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT);
 	public static final Block AZURE_PLANKS = new BlockBase("azure_planks", Material.WOOD, 1.0f, 10, SoundType.WOOD);
 	public static final Block AZURE_FENCE = new BlockFenceBase("azure_fence", Material.WOOD, 1.0f, 10, SoundType.WOOD);
+	public static final Block AZURE_MAELSTROM = new BlockMaelstrom("azure_maelstrom", 1.7f, 35, SoundType.STONE, 1);
+	public static final Block AZURE_MAELSTROM_CORE = new BlockBase("azure_maelstrom_core", Material.ROCK, 2.7f, 35, SoundType.STONE);
 }

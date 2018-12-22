@@ -22,102 +22,106 @@ import net.minecraft.world.IBlockAccess;
 
 /**
  * 
- * The base class for a log, so that it can sustain leaves
- * Also, some of the other metadata is so the original log functionality can be used
+ * The base class for a log, so that it can sustain leaves Also, some of the
+ * other metadata is so the original log functionality can be used
  *
  */
 public class BlockLogBase extends BlockLog implements IHasModel
 {
-	public BlockLogBase(String name) 
-	{
-		super();
-		setUnlocalizedName(name);
-		setRegistryName(name);
-		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-		
-		// Add both an item as a block and the block itself
-		ModBlocks.BLOCKS.add(this);
-		ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
-	}
-	
-	public BlockLogBase(String name, float hardness, float resistance, SoundType soundType)
-	{
-		this(name);
-		setHardness(hardness);
-		setResistance(resistance);
-		setSoundType(soundType);
-	}
+    public BlockLogBase(String name)
+    {
+	super();
+	setUnlocalizedName(name);
+	setRegistryName(name);
+	setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+	this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 
-	@Override
-	public void registerModels() 
-	{
-		Main.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
-	}
-	
-	/**
-	 * Makes the block able to sustain leaves
-	 * @param state
-	 * @param world
-	 * @param pos
-	 * @return
-	 */
-	@Override
-	public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return true;
-	}
-	
-	@Override
-	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		return BlockPlanks.EnumType.SPRUCE.getMapColor();
-	}
-	
+	// Add both an item as a block and the block itself
+	ModBlocks.BLOCKS.add(this);
+	ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
+    }
+
+    public BlockLogBase(String name, float hardness, float resistance, SoundType soundType)
+    {
+	this(name);
+	setHardness(hardness);
+	setResistance(resistance);
+	setSoundType(soundType);
+    }
+
+    @Override
+    public void registerModels()
+    {
+	Main.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
+    }
+
+    /**
+     * Makes the block able to sustain leaves
+     * 
+     * @param state
+     * @param world
+     * @param pos
+     * @return
+     */
+    @Override
+    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+	return true;
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+	return BlockPlanks.EnumType.SPRUCE.getMapColor();
+    }
+
     /**
      * Convert the given metadata into a BlockState for this Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        IBlockState iblockstate = this.getDefaultState();
+	IBlockState iblockstate = this.getDefaultState();
 
-        switch (meta & 12)
-        {
-            case 0:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
-                break;
-            case 4:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
-                break;
-            case 8:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
-                break;
-            default:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
-        }
+	switch (meta & 12)
+	{
+	case 0:
+	    iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
+	    break;
+	case 4:
+	    iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
+	    break;
+	case 8:
+	    iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+	    break;
+	default:
+	    iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+	}
 
-        return iblockstate;
+	return iblockstate;
     }
-    
+
     @SuppressWarnings("incomplete-switch")
-    public int getMetaFromState(IBlockState state) {
-    	int i = 0;
+    public int getMetaFromState(IBlockState state)
+    {
+	int i = 0;
 
-        switch ((BlockLog.EnumAxis)state.getValue(LOG_AXIS))
-        {
-            case X:
-                i |= 4;
-                break;
-            case Z:
-                i |= 8;
-                break;
-            case NONE:
-                i |= 12;
-        }
+	switch ((BlockLog.EnumAxis) state.getValue(LOG_AXIS))
+	{
+	case X:
+	    i |= 4;
+	    break;
+	case Z:
+	    i |= 8;
+	    break;
+	case NONE:
+	    i |= 12;
+	}
 
-        return i;
+	return i;
     }
-    
+
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {LOG_AXIS});
+	return new BlockStateContainer(this, new IProperty[] { LOG_AXIS });
     }
 }
