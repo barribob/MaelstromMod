@@ -36,7 +36,7 @@ public class ModItems
 
 	public static final List<Item> ITEMS = new ArrayList<Item>();
 	
-	public static final Item WHAPA = new ItemBase("whapa");
+	public static final Item INVISIBLE = new ItemBase("invisible", null);
 	
 	public static final ItemSword ORE_SWORD = new ToolSword("ore_sword", MATERIAL_ORE);
 	public static final ItemSpade ORE_SPADE = new ToolSpade("ore_shovel", MATERIAL_ORE);

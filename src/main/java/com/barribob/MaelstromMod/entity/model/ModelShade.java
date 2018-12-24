@@ -1,56 +1,67 @@
 package com.barribob.MaelstromMod.entity.model;
 
+import com.barribob.MaelstromMod.entity.entities.EntityModMobBase;
+
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * Created using Tabula 7.0.0
  */
 public class ModelShade extends ModelBase {
-    public ModelRenderer right_arm;
-    public ModelRenderer right_leg;
-    public ModelRenderer head;
-    public ModelRenderer body;
-    public ModelRenderer left_arm;
-    public ModelRenderer left_leg;
+    public ModelRenderer Wisps;
+    public ModelRenderer Body;
+    public ModelRenderer RightArm;
+    public ModelRenderer LeftArm;
+    public ModelRenderer Head;
+    public ModelRenderer RightHand;
+    public ModelRenderer LeftHand;
+    public ModelRenderer HeadShape;
 
     public ModelShade() {
-        this.textureWidth = 64;
-        this.textureHeight = 64;
-        this.right_arm = new ModelRenderer(this, 40, 16);
-        this.right_arm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-        this.right_arm.addBox(-3.0F, -2.0F, -2.0F, 3, 12, 4, 0.0F);
-        this.left_leg = new ModelRenderer(this, 16, 48);
-        this.left_leg.setRotationPoint(1.9F, 13.0F, 0.0F);
-        this.left_leg.addBox(-1.0F, 0.0F, -2.0F, 3, 11, 4, 0.0F);
-        this.head = new ModelRenderer(this, 0, 0);
-        this.head.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.head.addBox(-4.0F, -7.0F, -4.0F, 8, 6, 8, 0.0F);
-        this.left_arm = new ModelRenderer(this, 32, 48);
-        this.left_arm.setRotationPoint(5.0F, 2.0F, 0.0F);
-        this.left_arm.addBox(0.0F, -2.0F, -2.0F, 3, 12, 4, 0.0F);
-        this.body = new ModelRenderer(this, 16, 16);
-        this.body.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, 0.0F);
-        this.right_leg = new ModelRenderer(this, 0, 16);
-        this.right_leg.setRotationPoint(-1.9F, 13.0F, 0.0F);
-        this.right_leg.addBox(-2.0F, 0.0F, -2.0F, 3, 11, 4, 0.0F);
+        this.textureWidth = 74;
+        this.textureHeight = 36;
+        this.Wisps = new ModelRenderer(this, 26, 22);
+        this.Wisps.setRotationPoint(0.0F, 12.0F, 0.0F);
+        this.Wisps.addBox(-3.5F, 0.0F, -2.0F, 7, 8, 4, 0.0F);
+        this.LeftArm = new ModelRenderer(this, 0, 22);
+        this.LeftArm.mirror = true;
+        this.LeftArm.setRotationPoint(3.5F, 0.0F, 0.0F);
+        this.LeftArm.addBox(1.0F, -2.0F, -2.0F, 3, 10, 4, 0.0F);
+        this.Head = new ModelRenderer(this, 32, 0);
+        this.Head.setRotationPoint(0.0F, -2.0F, 0.0F);
+        this.Head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
+        this.LeftHand = new ModelRenderer(this, 16, 22);
+        this.LeftHand.mirror = true;
+        this.LeftHand.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.LeftHand.addBox(1.0F, 8.0F, -1.0F, 2, 4, 2, 0.0F);
+        this.HeadShape = new ModelRenderer(this, 50, 17);
+        this.HeadShape.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.HeadShape.addBox(-1.0F, -9.0F, -5.0F, 2, 9, 10, 0.0F);
+        this.RightHand = new ModelRenderer(this, 16, 22);
+        this.RightHand.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.RightHand.addBox(-3.0F, 8.0F, -1.0F, 2, 4, 2, 0.0F);
+        this.Body = new ModelRenderer(this, 0, 0);
+        this.Body.setRotationPoint(0.0F, -2.0F, 0.0F);
+        this.Body.addBox(-4.5F, 0.0F, -3.0F, 9, 14, 6, 0.0F);
+        this.RightArm = new ModelRenderer(this, 0, 22);
+        this.RightArm.setRotationPoint(-3.5F, 0.0F, 0.0F);
+        this.RightArm.addBox(-4.0F, -2.0F, -2.0F, 3, 10, 4, 0.0F);
+        this.LeftArm.addChild(this.LeftHand);
+        this.Head.addChild(this.HeadShape);
+        this.RightArm.addChild(this.RightHand);
     }
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.right_arm.render(f5);
-        this.left_leg.render(f5);
-        this.head.render(f5);
-        this.left_arm.render(f5);
-        this.body.render(f5);
-        this.right_leg.render(f5);
+        this.Wisps.render(f5);
+        this.LeftArm.render(f5);
+        this.Head.render(f5);
+        this.Body.render(f5);
+        this.RightArm.render(f5);
     }
 
     /**
@@ -62,54 +73,25 @@ public class ModelShade extends ModelBase {
         modelRenderer.rotateAngleZ = z;
     }
     
-    /**
-     *
-     * Set the rotation angles to mimic the zombie for the arms, and the biped for the legs
-     *
-     */
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
-        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-        this.head.rotateAngleX = headPitch * 0.017453292F;
-
-        this.body.rotateAngleY = 0.0F;
-
-        this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-        this.right_leg.rotateAngleY = 0.0F;
-        this.left_leg.rotateAngleY = 0.0F;
-        this.right_leg.rotateAngleZ = 0.0F;
-        this.left_leg.rotateAngleZ = 0.0F;
-
-        this.right_arm.rotateAngleY = 0.0F;
-        this.right_arm.rotateAngleZ = 0.0F;
-
-        this.left_arm.rotateAngleY = 0.0F;
-        this.right_arm.rotateAngleY = 0.0F;
-
-
-        this.body.rotateAngleX = 0.0F;
-        this.right_leg.rotationPointZ = 0.1F;
-        this.left_leg.rotationPointZ = 0.1F;
-        this.right_leg.rotationPointY = 12.0F;
-        this.left_leg.rotationPointY = 12.0F;
-        this.head.rotationPointY = 0.0F;
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         
-        boolean flag = entityIn instanceof EntityZombie && ((EntityZombie)entityIn).isArmsRaised();
+        boolean armsUp = entityIn instanceof EntityModMobBase && ((EntityModMobBase)entityIn).isSwingingArms();
         float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
         float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
-        this.right_arm.rotateAngleZ = 0.0F;
-        this.left_arm.rotateAngleZ = 0.0F;
-        this.right_arm.rotateAngleY = -(0.1F - f * 0.6F);
-        this.left_arm.rotateAngleY = 0.1F - f * 0.6F;
-        float f2 = -(float)Math.PI / (flag ? 1.5F : 2.25F);
-        this.right_arm.rotateAngleX = f2;
-        this.left_arm.rotateAngleX = f2;
-        this.right_arm.rotateAngleX += f * 1.2F - f1 * 0.4F;
-        this.left_arm.rotateAngleX += f * 1.2F - f1 * 0.4F;
-        this.right_arm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-        this.left_arm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-        this.right_arm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-        this.left_arm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+        this.RightArm.rotateAngleZ = 0.0F;
+        this.LeftArm.rotateAngleZ = 0.0F;
+        this.RightArm.rotateAngleY = -(0.1F - f * 0.6F);
+        this.LeftArm.rotateAngleY = 0.1F - f * 0.6F;
+        float f2 = -(float)Math.PI / (armsUp ? 1.5F : 2.25F);
+        this.RightArm.rotateAngleX = f2;
+        this.LeftArm.rotateAngleX = f2;
+        this.RightArm.rotateAngleX += f * 1.2F - f1 * 0.4F;
+        this.LeftArm.rotateAngleX += f * 1.2F - f1 * 0.4F;
+        this.RightArm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+        this.LeftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+        this.RightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+        this.LeftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
     }
 }

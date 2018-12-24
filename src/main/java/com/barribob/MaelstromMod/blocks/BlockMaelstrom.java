@@ -3,21 +3,18 @@ package com.barribob.MaelstromMod.blocks;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleSpell;
-import net.minecraft.client.particle.ParticleSuspendedTown;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -64,24 +61,13 @@ public class BlockMaelstrom extends BlockLeavesBase
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
-        for (int i = 0; i < 3; ++i)
-        {
-            double d0 = (double)pos.getX() + rand.nextDouble();
-            double d1 = (double)pos.getY() + 1.1F;
-            double d2 = (double)pos.getZ() + rand.nextDouble();
-            Particle particle = new ParticleSuspendedTown.Factory().createParticle(0, worldIn, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-            particle.setRBGColorF(0.5f, 0.3f, 0.5f);
-            Minecraft.getMinecraft().effectRenderer.addEffect(particle);
-        }
-        
-        if(rand.nextInt(20) == 0) {
-            double d0 = (double)pos.getX() + rand.nextDouble();
-            double d1 = (double)pos.getY() + 1.1F;
-            double d2 = (double)pos.getZ() + rand.nextDouble();
-            Particle particle = new ParticleSpell.Factory().createParticle(0, worldIn, d0, d1, d2, 0.0D, 0.1D, 0.0D);
-            particle.setRBGColorF(0.5f, 0.3f, 0.5f);
-            Minecraft.getMinecraft().effectRenderer.addEffect(particle);
-        }
+	for(int i = 0; i < 3; i++) {	    
+	    ParticleManager.spawnMaelstromParticle(worldIn, rand, new Vec3d(pos.getX() + rand.nextDouble(), pos.getY() + 1.1f, pos.getZ() + rand.nextDouble()));
+	}
+	if(rand.nextInt(3) == 0)
+	{
+	    ParticleManager.spawnMaelstromPotionParticle(worldIn, rand, new Vec3d(pos.getX() + rand.nextDouble(), pos.getY() + 1.1f, pos.getZ() + rand.nextDouble()));
+	}
     }
     
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)

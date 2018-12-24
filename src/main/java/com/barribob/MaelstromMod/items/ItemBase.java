@@ -14,18 +14,26 @@ import net.minecraft.item.Item;
  */
 public class ItemBase extends Item implements IHasModel
 {
-	public ItemBase(String name) 
+    public ItemBase(String name, CreativeTabs tab)
+    {
+	setUnlocalizedName(name);
+	setRegistryName(name);
+	if (tab != null)
 	{
-		setUnlocalizedName(name);
-		setRegistryName(name);
-		setCreativeTab(CreativeTabs.MATERIALS);
-		
-		ModItems.ITEMS.add(this);
+	    setCreativeTab(CreativeTabs.MATERIALS);
 	}
-	
-	@Override
-	public void registerModels() 
-	{
-		Main.proxy.registerItemRenderer(this, 0, "inventory");
-	}
+
+	ModItems.ITEMS.add(this);
+    }
+
+    public ItemBase(String name)
+    {
+	this(name, CreativeTabs.MATERIALS);
+    }
+
+    @Override
+    public void registerModels()
+    {
+	Main.proxy.registerItemRenderer(this, 0, "inventory");
+    }
 }
