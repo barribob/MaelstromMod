@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.model;
 
-import com.barribob.MaelstromMod.entity.entities.EntityModMobBase;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -77,7 +77,7 @@ public class ModelShade extends ModelBase {
     {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         
-        boolean armsUp = entityIn instanceof EntityModMobBase && ((EntityModMobBase)entityIn).isSwingingArms();
+        boolean armsUp = entityIn instanceof EntityMaelstromMob && ((EntityMaelstromMob)entityIn).isSwingingArms();
         float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
         float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
         this.RightArm.rotateAngleZ = 0.0F;

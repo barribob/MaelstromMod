@@ -41,12 +41,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * A lot of these methods are from the EntityMob class to make it behave similarly
  *
  */
-public abstract class EntityModMobBase extends EntityCreature implements IRangedAttackMob
+public abstract class EntityMaelstromMob extends EntityCreature implements IRangedAttackMob
 {
     // Swinging arms is the animation for the attack
-    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityModMobBase.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class, DataSerializers.BOOLEAN);
 
-    public EntityModMobBase(World worldIn)
+    public EntityMaelstromMob(World worldIn)
     {
 	super(worldIn);
     }
@@ -57,7 +57,7 @@ public abstract class EntityModMobBase extends EntityCreature implements IRanged
 	this.tasks.addTask(2, new EntityAIRestrictSun(this));
 	this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
 	this.tasks.addTask(4,
-		new EntityAIRangedAttack<EntityModMobBase>(this, this.getMoveSpeedAmp(), this.getAttackTime(), this.getAttackDistance()));
+		new EntityAIRangedAttack<EntityMaelstromMob>(this, this.getMoveSpeedAmp(), this.getAttackTime(), this.getAttackDistance()));
 	this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 	this.tasks.addTask(6, new EntityAILookIdle(this));
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
@@ -68,7 +68,7 @@ public abstract class EntityModMobBase extends EntityCreature implements IRanged
 	{
 	    public boolean apply(@Nullable Entity entity)
 	    {
-		return !(entity instanceof EntityModMobBase);
+		return !(entity instanceof EntityMaelstromMob);
 	    }
 	}));
     }
@@ -128,12 +128,6 @@ public abstract class EntityModMobBase extends EntityCreature implements IRanged
 	{
 	    this.setDead();
 	}
-    }
-
-    protected void applyEntityAttributes()
-    {
-	super.applyEntityAttributes();
-	this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
     }
 
     /**

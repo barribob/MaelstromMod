@@ -16,9 +16,15 @@ public class SoundsHandler
     public static SoundEvent ENTITY_SHADE_AMBIENT;
     public static SoundEvent ENTITY_SHADE_HURT;
     public static SoundEvent ENTITY_SHADE_DEATH;
+    public static SoundEvent ENTITY_HORROR_AMBIENT;
+    public static SoundEvent ENTITY_HORROR_HURT;
+    public static SoundEvent ENTITY_HORROR_DEATH;
 
     public static void registerSounds()
     {
+	ENTITY_HORROR_AMBIENT = registerSound("entity.horror.ambient");
+	ENTITY_HORROR_HURT = registerSound("entity.horror.hurt");
+	ENTITY_HORROR_DEATH = registerSound("entity.horror.death");
 	ENTITY_SHADE_AMBIENT = registerSound("entity.shade.ambient");
 	ENTITY_SHADE_HURT = registerSound("entity.shade.hurt");
 	ENTITY_SHADE_DEATH = registerSound("entity.shade.death");

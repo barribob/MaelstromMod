@@ -16,5 +16,23 @@
         "category": "entity",
         "subtitle": "entity.shade.hurt",
         "sounds": [{ "name": "mm:entity/shade/hurt", "stream": true}]
+    },
+        "entity.horror.ambient":
+    {
+        "category": "entity",
+        "subtitle": "entity.shade.ambient",
+        "sounds": [{ "name": "mm:entity/horror/ambient", "stream": true}]
+    },
+        "entity.horror.hurt":
+    {
+        "category": "entity",
+        "subtitle": "entity.shade.hurt",
+        "sounds": [{ "name": "mm:entity/horror/hurt", "stream": true}]
+    },
+        "entity.horror.death":
+    {
+        "category": "entity",
+        "subtitle": "entity.shade.hurt",
+        "sounds": [{ "name": "mm:entity/horror/hurt", "stream": true}]
     }
 }

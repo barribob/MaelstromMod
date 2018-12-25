@@ -24,7 +24,7 @@ import net.minecraft.world.World;
  * Represent the attibutes and logic of the shade monster
  *
  */
-public class EntityShade extends EntityModMobBase
+public class EntityShade extends EntityMaelstromMob
 {
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 1.0f;

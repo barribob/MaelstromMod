@@ -1,38 +1,38 @@
 package com.barribob.MaelstromMod.entity.render;
 
-import com.barribob.MaelstromMod.entity.entities.EntityShade;
-import com.barribob.MaelstromMod.entity.model.ModelShade;
+import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.util.Reference;
 
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
 /**
  * 
- * Renders the shade monster (links the textures, the class, and the model)
+ * Renders an entity with a generic type, texture, and model passed in.
  *
  */
-public class RenderShade extends RenderLiving<EntityShade>
+public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 {
+    public ResourceLocation TEXTURES;
 
-    public static final ResourceLocation TEXTURES = new ResourceLocation(
-	    Reference.MOD_ID + ":textures/entity/shade.png");
-
-    public RenderShade(RenderManager rendermanagerIn)
+    public <U extends ModelBase> RenderModEntity(RenderManager rendermanagerIn, ResourceLocation textures, Class<U> modelClass) throws InstantiationException, IllegalAccessException
     {
-	super(rendermanagerIn, new ModelShade(), 0.5f);
+	super(rendermanagerIn, modelClass.newInstance(), 0.5f);
+	this.TEXTURES = textures;
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityShade entity)
+    protected ResourceLocation getEntityTexture(T entity)
     {
 	return TEXTURES;
     }
 
     @Override
-    public void doRender(EntityShade entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
 	if (!entity.isInvisible())
 	{
@@ -50,5 +50,4 @@ public class RenderShade extends RenderLiving<EntityShade>
 	    super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
     }
-
 }

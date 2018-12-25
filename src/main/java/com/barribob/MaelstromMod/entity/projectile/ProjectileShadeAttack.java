@@ -44,7 +44,7 @@ public class ProjectileShadeAttack extends EntityThrowable
 	// Despawn if a certain distance away from its thrower
 	if (!this.world.isRemote)
 	{
-	    if (this.getDistance(this.getThrower()) > TRAVEL_RANGE)
+	    if (this.getThrower() != null && this.getDistance(this.getThrower()) > TRAVEL_RANGE)
 	    {
 		this.world.setEntityState(this, PARTICLE_BYTE);
 		this.setDead();
