@@ -3,7 +3,7 @@ package com.barribob.MaelstromMod.world.biome;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.blocks.BlockAzureBush;
-import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
@@ -16,7 +16,6 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.monster.EntityWitherSkeleton;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -67,8 +66,7 @@ public class BiomeAzure extends Biome
 	this.addFlower(ModBlocks.RUBY_ORCHID.getDefaultState(), 1);
 
 	// Add our mobs to spawn in the biome
-	this.spawnableMonsterList.add(new SpawnListEntry(EntityShade.class, 10, 1, 5));
-	this.spawnableMonsterList.add(new SpawnListEntry(EntityWitherSkeleton.class, 10, 1, 5));
+	this.spawnableCreatureList.add(new SpawnListEntry(EntityDreamElk.class, 10, 1, 5));
     }
 
     /**

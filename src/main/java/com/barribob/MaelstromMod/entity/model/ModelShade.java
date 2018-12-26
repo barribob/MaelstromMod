@@ -93,5 +93,9 @@ public class ModelShade extends ModelBase {
         this.LeftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
         this.RightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
         this.LeftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+        
+        this.Head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.Head.rotateAngleX = headPitch * 0.017453292F;
+
     }
 }

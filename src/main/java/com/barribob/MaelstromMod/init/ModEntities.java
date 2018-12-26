@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.init;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
@@ -18,18 +19,20 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
  */
 public class ModEntities
 {
-    public static final int ENTITY_SHADE = 100;
-    public static final int ENTITY_HORROR = 101;
+    public static final int SHADE_ID = 100;
+    public static final int HORROR_ID = 101;
+    public static final int DREAM_ELK_ID = 102;
 
-    public static final int ENTITY_SHADE_ATTACK = 200;
-    public static final int ENTITY_HORROR_ATTACK = 201;
+    public static final int SHADE_ATTACK_ID = 200;
+    public static final int HORROR_ATTACK_ID = 201;
 
     public static void registerEntities()
     {
-	registerEntity("shade", EntityShade.class, ENTITY_SHADE, 30, 6433126, 3221816);
-	registerEntity("horror", EntityHorror.class, ENTITY_HORROR, 30, 6433126, 3221816);
-	registerProjectile("shade_attack", ProjectileShadeAttack.class, ENTITY_SHADE_ATTACK, 30);
-	registerProjectile("horror_attack", ProjectileHorrorAttack.class, ENTITY_HORROR_ATTACK, 30);
+	registerEntity("shade", EntityShade.class, SHADE_ID, 30, 6433126, 3221816);
+	registerEntity("horror", EntityHorror.class, HORROR_ID, 30, 6433126, 3221816);
+	registerEntity("dream_elk", EntityDreamElk.class, DREAM_ELK_ID, 30, 7248383, 7236306);
+	registerProjectile("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
+	registerProjectile("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, int color1, int color2)
