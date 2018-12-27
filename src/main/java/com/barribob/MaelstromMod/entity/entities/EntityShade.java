@@ -1,13 +1,27 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import javax.annotation.Nullable;
+
+import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
+import com.google.common.base.Predicate;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackRangedBow;
+import net.minecraft.entity.ai.EntityAIFleeSun;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIRestrictSun;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
@@ -43,6 +57,13 @@ public class EntityShade extends EntityMaelstromMob
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(14);
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8);
+    }
+    
+    protected void initEntityAI()
+    {
+	super.initEntityAI();
+	this.tasks.addTask(4,
+		new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 3.0f));
     }
 
     @Override
@@ -85,23 +106,5 @@ public class EntityShade extends EntityMaelstromMob
 	projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
 	this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 	this.world.spawnEntity(projectile);
-    }
-
-    @Override
-    protected int getAttackTime()
-    {
-	return 20;
-    }
-
-    @Override
-    protected float getAttackDistance()
-    {
-	return 3.0f;
-    }
-
-    @Override
-    protected float getMoveSpeedAmp()
-    {
-	return 1.0f;
     }
 }

@@ -56,8 +56,6 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 	this.tasks.addTask(1, new EntityAISwimming(this));
 	this.tasks.addTask(2, new EntityAIRestrictSun(this));
 	this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
-	this.tasks.addTask(4,
-		new EntityAIRangedAttack<EntityMaelstromMob>(this, this.getMoveSpeedAmp(), this.getAttackTime(), this.getAttackDistance()));
 	this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 	this.tasks.addTask(6, new EntityAILookIdle(this));
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
@@ -154,25 +152,4 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
     {
 	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
     }
-
-    /**
-     * Get the attack cooldown in ticks for the entity attack
-     * 
-     * @return
-     */
-    protected abstract int getAttackTime();
-
-    /**
-     * Get the distance that the mob will attack
-     * 
-     * @return
-     */
-    protected abstract float getAttackDistance();
-
-    /**
-     * Return the increased move speed when engaged in combat
-     * 
-     * @return
-     */
-    protected abstract float getMoveSpeedAmp();
 }

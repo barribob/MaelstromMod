@@ -1,10 +1,15 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import java.util.List;
+
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -12,26 +17,30 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ProjectileShadeAttack extends EntityThrowable
+/**
+ * 
+ * The simple attacks that the beast outputs during its ranged mode
+ *
+ */
+public class ProjectileBeastAttack extends EntityThrowable
 {
-    private static final float DAMAGE = 4.0f;
-    private static final float TRAVEL_RANGE = 2.0f;
+    private static final float DAMAGE = 6.0f;
+    private static final float TRAVEL_RANGE = 20.0f;
     private static final byte PARTICLE_BYTE = 3;
-    private static final int PARTICLE_AMOUNT = 10;
+    private static final int PARTICLE_AMOUNT = 3;
+    private static final int IMPACT_PARTICLE_AMOUNT = 20;
 
-    public ProjectileShadeAttack(World worldIn, EntityLivingBase throwerIn)
+    public ProjectileBeastAttack(World worldIn, EntityLivingBase throwerIn)
     {
 	super(worldIn, throwerIn);
-	this.setNoGravity(true);
-	this.setSize(0.4f, 0.4f);
     }
 
-    public ProjectileShadeAttack(World worldIn)
+    public ProjectileBeastAttack(World worldIn)
     {
 	super(worldIn);
     }
 
-    public ProjectileShadeAttack(World worldIn, double x, double y, double z)
+    public ProjectileBeastAttack(World worldIn, double x, double y, double z)
     {
 	super(worldIn, x, y, z);
     }
@@ -58,33 +67,52 @@ public class ProjectileShadeAttack extends EntityThrowable
 
     /**
      * Called every update to spawn particles
+     * 
      * @param world
      */
     protected void spawnParticles(World world)
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    float particleSpread = 0.3f;
-	    Vec3d vec1 = new Vec3d(this.posX + rand.nextFloat() * particleSpread,
-		    this.posY + rand.nextFloat() * particleSpread, this.posZ + rand.nextFloat() * particleSpread);
-	    ParticleManager.spawnMaelstromParticle(world, rand, vec1.add(new Vec3d(this.motionX, this.motionY, this.motionZ)));
+	    ParticleManager.spawnMaelstromSmoke(world, rand,
+		    new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + ModRandom.getFloat(0.5f), this.posZ + ModRandom.getFloat(0.5f)));
 	}
     }
 
     @Override
     protected void onImpact(RayTraceResult result)
     {
-	if (result.entityHit != null && !(result.entityHit instanceof EntityMaelstromMob))
+	if(result.entityHit instanceof EntityMaelstromMob)
+	{
+	    return;
+	}
+	
+	if (result.entityHit != null)
 	{
 	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), DAMAGE);
+	}
+	   
+	if (!this.world.isRemote)
+	{
+	    this.world.setEntityState(this, this.PARTICLE_BYTE);
+	    this.setDead();
 	}
     }
 
     /**
-     * Handler for {@link World#setEntityState}
+     * Handler for {@link World#setEntityState} Connected through setEntityState to
+     * spawn particles
      */
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
+	if (id == this.PARTICLE_BYTE)
+	{
+	    for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
+	    {
+		Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(1), this.posY + ModRandom.getFloat(1), this.posZ + ModRandom.getFloat(1));
+		ParticleManager.spawnMaelstromSmoke(world, rand, vec1);
+	    }
+	}
     }
 }

@@ -26,58 +26,58 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * 
- * Main mod class
- * Many of the base boilerplate here is thanks to loremaster's tutorials 
- * https://www.youtube.com/channel/UC3n-lKS-MYlunVtErgzSFZg
- * Entities, world generation, and dimension frameworks are thanks to Harry Talks
- * https://www.youtube.com/channel/UCUAawSqNFBEj-bxguJyJL9g
- * Also thanks to Julian Abelar for a bunch of modding tutorials and articles
+ * Main mod class Many of the base boilerplate here is thanks to loremaster's
+ * tutorials https://www.youtube.com/channel/UC3n-lKS-MYlunVtErgzSFZg Entities,
+ * world generation, and dimension frameworks are thanks to Harry Talks
+ * https://www.youtube.com/channel/UCUAawSqNFBEj-bxguJyJL9g Also thanks to
+ * Julian Abelar for a bunch of modding tutorials and articles
  * https://jabelarminecraft.blogspot.com/
  *
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
-public class Main 
+public class Main
 {
-	@Instance
-	public static Main instance;
-	
-	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
-	public static CommonProxy proxy;
-	
-	/**
-	 * 
-	 * Basically initializes the entire mod by calling all of the init methods in the static classes
-	 */
-	@EventHandler
-	public static void PreInit(FMLPreInitializationEvent event) 
-	{
-		GameRegistry.registerWorldGenerator(new WorldGenOre(), 3);
-		GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
-		
-		ModEntities.registerEntities();
-		RenderHandler.registerEntityRenderers();
-		
-		BiomeInit.registerBiomes();
-		DimensionInit.registerDimensions();
-	}
+    @Instance
+    public static Main instance;
 
-	@EventHandler
-	public static void Init(FMLInitializationEvent event) 
-	{
-		ModRecipes.init();
-		SoundsHandler.registerSounds();
-		ModStructures.registerStructures();
-	}
-	
-	@EventHandler
-	public static void PostInit(FMLPostInitializationEvent event) 
-	{
-		
-	}
-	
-	@EventHandler
-	public static void serverInit(FMLServerStartingEvent event)
-	{
-		event.registerServerCommand(new CommandDimensionTeleport());
-	}
+    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
+    public static CommonProxy proxy;
+
+    /**
+     * 
+     * Basically initializes the entire mod by calling all of the init methods in
+     * the static classes
+     */
+    @EventHandler
+    public static void PreInit(FMLPreInitializationEvent event)
+    {
+	GameRegistry.registerWorldGenerator(new WorldGenOre(), 3);
+	GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
+
+	ModEntities.registerEntities();
+	RenderHandler.registerEntityRenderers();
+
+	BiomeInit.registerBiomes();
+	DimensionInit.registerDimensions();
+    }
+
+    @EventHandler
+    public static void Init(FMLInitializationEvent event)
+    {
+	ModRecipes.init();
+	SoundsHandler.registerSounds();
+	ModStructures.registerStructures();
+    }
+
+    @EventHandler
+    public static void PostInit(FMLPostInitializationEvent event)
+    {
+
+    }
+
+    @EventHandler
+    public static void serverInit(FMLServerStartingEvent event)
+    {
+	event.registerServerCommand(new CommandDimensionTeleport());
+    }
 }

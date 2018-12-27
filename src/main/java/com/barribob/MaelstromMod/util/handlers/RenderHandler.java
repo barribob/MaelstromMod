@@ -1,11 +1,14 @@
 package com.barribob.MaelstromMod.util.handlers;
 
+import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.render.RenderInvisibleProjectile;
@@ -29,9 +32,11 @@ public class RenderHandler
 	registerModEntityRenderer(EntityShade.class, ModelShade.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
 	registerModEntityRenderer(EntityHorror.class, ModelHorror.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/horror.png"));
 	registerModEntityRenderer(EntityDreamElk.class, ModelDreamElk.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
+	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 
 	registerInvisibleProjectileRenderer(ProjectileShadeAttack.class);
 	registerInvisibleProjectileRenderer(ProjectileHorrorAttack.class);
+	registerInvisibleProjectileRenderer(ProjectileBeastAttack.class);
     }
 
     /*

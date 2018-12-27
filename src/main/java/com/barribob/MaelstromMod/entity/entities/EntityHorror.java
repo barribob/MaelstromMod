@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -35,6 +36,13 @@ public class EntityHorror extends EntityMaelstromMob
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(14);
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8);
     }
+    
+    protected void initEntityAI()
+    {
+	super.initEntityAI();
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 100, 5.0f));
+    }
+
 
     /**
      * Spawns smoke out of the middle of the entity
@@ -66,24 +74,6 @@ public class EntityHorror extends EntityMaelstromMob
 	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 	    this.world.spawnEntity(projectile);
 	}
-    }
-
-    @Override
-    protected int getAttackTime()
-    {
-	return 100;
-    }
-
-    @Override
-    protected float getAttackDistance()
-    {
-	return 5.0f;
-    }
-
-    @Override
-    protected float getMoveSpeedAmp()
-    {
-	return 1.0f;
     }
     
     @Override

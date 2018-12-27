@@ -72,7 +72,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     {
 	super.resetTask();
 	((IRangedAttackMob) this.entity).setSwingingArms(false);
-	this.attackTime = -1;
+	this.attackTime = this.attackCooldown;
     }
 
     /**
