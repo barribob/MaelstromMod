@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -14,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ProjectileShadeAttack extends EntityThrowable
 {
-    private static final float DAMAGE = 4.0f;
+    private static final float DAMAGE = 3.0f;
     private static final float TRAVEL_RANGE = 2.0f;
     private static final byte PARTICLE_BYTE = 3;
     private static final int PARTICLE_AMOUNT = 10;
@@ -74,9 +75,9 @@ public class ProjectileShadeAttack extends EntityThrowable
     @Override
     protected void onImpact(RayTraceResult result)
     {
-	if (result.entityHit != null && !(result.entityHit instanceof EntityMaelstromMob))
+	if (result.entityHit != null && !(result.entityHit instanceof EntityMaelstromMob) && this.getThrower() != null)
 	{
-	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), DAMAGE);
+	    result.entityHit.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this.getThrower()), DAMAGE);
 	}
     }
 

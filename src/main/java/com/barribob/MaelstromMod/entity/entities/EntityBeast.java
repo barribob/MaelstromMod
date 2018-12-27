@@ -203,7 +203,7 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	if (entityIn instanceof EntityLivingBase)
 	{
-	    entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 4);
+	    entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 3);
 	    return true;
 	}
 	return false;

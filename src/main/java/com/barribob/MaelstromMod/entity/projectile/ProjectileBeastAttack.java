@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.projectile;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -24,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ProjectileBeastAttack extends EntityThrowable
 {
-    private static final float DAMAGE = 6.0f;
+    private static final float DAMAGE = 5.0f;
     private static final float TRAVEL_RANGE = 20.0f;
     private static final byte PARTICLE_BYTE = 3;
     private static final int PARTICLE_AMOUNT = 3;
@@ -87,11 +88,11 @@ public class ProjectileBeastAttack extends EntityThrowable
 	    return;
 	}
 	
-	if (result.entityHit != null)
+	if (result.entityHit != null && this.getThrower() != null)
 	{
-	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), DAMAGE);
+	    result.entityHit.attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.getThrower()), DAMAGE);
 	}
-	   
+	
 	if (!this.world.isRemote)
 	{
 	    this.world.setEntityState(this, this.PARTICLE_BYTE);

@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.projectile;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -89,9 +90,9 @@ public class ProjectileHorrorAttack extends EntityThrowable
 	{
 	    for (Object entity : list)
 	    {
-		if (entity instanceof EntityLivingBase && !(entity instanceof EntityMaelstromMob))
+		if (entity instanceof EntityLivingBase && !(entity instanceof EntityMaelstromMob) && this.getThrower() != null)
 		{
-		    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), DAMAGE);
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage(this.getThrower()), DAMAGE);
 		}
 	    }
 	}
