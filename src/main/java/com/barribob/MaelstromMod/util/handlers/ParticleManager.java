@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleExplosion;
 import net.minecraft.client.particle.ParticleExplosionLarge;
 import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.client.particle.ParticleSpell;
@@ -55,6 +56,19 @@ public class ParticleManager
     public static void spawnMaelstromExplosion(World worldIn, Random rand, Vec3d pos)
     {
 	Particle particle = new ParticleExplosionLarge.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.1f), 0.0f, ModRandom.getFloat(0.1f));
+	setMaelstromColor(particle);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+    
+    /**
+     * Spawns large smoke particles
+     * @param worldIn
+     * @param rand
+     * @param pos
+     */
+    public static void spawnMaelstromLargeSmoke(World worldIn, Random rand, Vec3d pos)
+    {
+	Particle particle = new ParticleExplosion.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.1f), 0.0f, ModRandom.getFloat(0.1f));
 	setMaelstromColor(particle);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }

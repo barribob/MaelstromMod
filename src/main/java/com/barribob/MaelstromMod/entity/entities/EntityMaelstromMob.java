@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.entities;
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
@@ -30,6 +31,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,14 +39,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * The base mob that most mobs in this mod will extend
- * A lot of these methods are from the EntityMob class to make it behave similarly
+ * The base mob that most mobs in this mod will extend A lot of these methods
+ * are from the EntityMob class to make it behave similarly
  *
  */
 public abstract class EntityMaelstromMob extends EntityCreature implements IRangedAttackMob
 {
     // Swinging arms is the animation for the attack
-    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class,
+	    DataSerializers.BOOLEAN);
 
     public EntityMaelstromMob(World worldIn)
     {
@@ -60,8 +63,9 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 	this.tasks.addTask(6, new EntityAILookIdle(this));
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
 	this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-	
-	// This makes it so that the entity attack every entity except others of its kind
+
+	// This makes it so that the entity attack every entity except others of its
+	// kind
 	this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
 	{
 	    public boolean apply(@Nullable Entity entity)
@@ -151,5 +155,30 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
     public void setSwingingArms(boolean swingingArms)
     {
 	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
+    }
+
+    /**
+     * Changes the default "white smoke" spawning from a mob spawner to a purple smoke
+     */
+    @Override
+    public void spawnExplosionParticle()
+    {
+	if (this.world.isRemote)
+	{
+	    for (int i = 0; i < 20; ++i)
+	    {
+		double d0 = this.rand.nextGaussian() * 0.02D;
+		double d1 = this.rand.nextGaussian() * 0.02D;
+		double d2 = this.rand.nextGaussian() * 0.02D;
+		ParticleManager.spawnMaelstromLargeSmoke(world, rand,
+			new Vec3d(this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - d0 * 10.0D,
+				this.posY + (double) (this.rand.nextFloat() * this.height) - d1 * 10.0D,
+				this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - d2 * 10.0D));
+	    }
+	}
+	else
+	{
+	    this.world.setEntityState(this, (byte) 20);
+	}
     }
 }

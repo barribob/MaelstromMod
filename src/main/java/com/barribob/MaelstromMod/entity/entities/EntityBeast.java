@@ -36,6 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * The first boss of the mod
+ * 
  * @author micha
  *
  */
@@ -50,9 +51,10 @@ public class EntityBeast extends EntityMaelstromMob
     private final static float PROJECTILE_SPEED = 1.0f;
     private final static float PROJECTILE_INACCURACY = 6.0f;
     private final static int PROJECTILE_AMOUNT = 5;
+    private final static int MINION_AMOUNT = 2;
 
     private boolean isRanged; // Used for animation
-    
+
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE,
 	    BossInfo.Overlay.NOTCHED_20));
@@ -80,7 +82,10 @@ public class EntityBeast extends EntityMaelstromMob
 
 	if (flag && healthBelowMilestone(health))
 	{
-	    this.spawnMinion();
+	    for (int i = 0; i < this.MINION_AMOUNT; i++)
+	    {
+		this.spawnMinion();
+	    }
 	}
 
 	return flag;
@@ -94,7 +99,8 @@ public class EntityBeast extends EntityMaelstromMob
      */
     private boolean healthBelowMilestone(float prevHealth)
     {
-	return (prevHealth >= 60 && this.getHealth() < 60) || (prevHealth >= 40 && this.getHealth() < 40) || (prevHealth >= 20 && this.getHealth() < 20);
+	return (prevHealth >= 60 && this.getHealth() < 60) || (prevHealth >= 40 && this.getHealth() < 40)
+		|| (prevHealth >= 20 && this.getHealth() < 20);
     }
 
     /**
@@ -107,9 +113,9 @@ public class EntityBeast extends EntityMaelstromMob
 	for (int i = 0; i < tries; i++)
 	{
 	    // Find a random position to spawn the enemy
-	    int i1 = (int) this.posX + MathHelper.getInt(this.rand, 4, 8) * MathHelper.getInt(this.rand, -1, 1);
-	    int j1 = (int) this.posY + MathHelper.getInt(this.rand, 4, 8) * MathHelper.getInt(this.rand, -1, 1);
-	    int k1 = (int) this.posZ + MathHelper.getInt(this.rand, 4, 8) * MathHelper.getInt(this.rand, -1, 1);
+	    int i1 = (int) this.posX + MathHelper.getInt(this.rand, 3, 7) * MathHelper.getInt(this.rand, -1, 1);
+	    int j1 = (int) this.posY + MathHelper.getInt(this.rand, 3, 7) * MathHelper.getInt(this.rand, -1, 1);
+	    int k1 = (int) this.posZ + MathHelper.getInt(this.rand, 3, 7) * MathHelper.getInt(this.rand, -1, 1);
 
 	    if (this.world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(this.world, new BlockPos(i1, j1 - 1, k1),
 		    net.minecraft.util.EnumFacing.UP))
@@ -130,6 +136,7 @@ public class EntityBeast extends EntityMaelstromMob
 			shade.setAttackTarget(this.getAttackTarget());
 		    }
 		    shade.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(shade)), (IEntityLivingData) null);
+		    shade.spawnExplosionParticle();
 		    break;
 		}
 	    }

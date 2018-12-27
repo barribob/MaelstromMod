@@ -5,7 +5,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
-import com.barribob.MaelstromMod.entity.entities.TileEntitySpawner;
+import com.barribob.MaelstromMod.entity.entities.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
@@ -42,7 +42,7 @@ public class ModEntities
 	registerProjectile("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerProjectile("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
 	registerProjectile("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 30);
-	registerTileEntity(TileEntitySpawner.class, "spawner");
+	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, int color1, int color2)

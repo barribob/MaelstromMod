@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.blocks;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -52,7 +53,7 @@ public class BlockMaelstrom extends BlockLeavesBase
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-	if(entityIn instanceof EntityLivingBase) 
+	if(entityIn instanceof EntityLivingBase && !(entityIn instanceof EntityMaelstromMob)) 
 	{
 	    entityIn.attackEntityFrom(DamageSource.CACTUS, damage);
 	}

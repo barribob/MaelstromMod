@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.google.common.base.Predicate;
 
@@ -28,9 +29,11 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
