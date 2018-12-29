@@ -5,25 +5,25 @@ import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
 
-import net.minecraft.block.BlockFence;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
-public class BlockFenceBase extends BlockFence implements IHasModel
+public class BlockStairsBase extends BlockStairs implements IHasModel
 {
-
-    public BlockFenceBase(Material materialIn, MapColor mapColorIn)
+    protected BlockStairsBase(IBlockState modelState)
     {
-	super(materialIn, mapColorIn);
+	super(modelState);
     }
 
-    public BlockFenceBase(String name, Material material)
+    public BlockStairsBase(String name, IBlockState modelState)
     {
-	super(material, MapColor.WOOD);
+	super(modelState);
 	setUnlocalizedName(name);
 	setRegistryName(name);
 	setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
@@ -33,9 +33,9 @@ public class BlockFenceBase extends BlockFence implements IHasModel
 	ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
-    public BlockFenceBase(String name, Material material, float hardness, float resistance, SoundType soundType)
+    public BlockStairsBase(String name, IBlockState modelState, float hardness, float resistance, SoundType soundType)
     {
-	this(name, material);
+	this(name, modelState);
 	setHardness(hardness);
 	setResistance(resistance);
 	setSoundType(soundType);

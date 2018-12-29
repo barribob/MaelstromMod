@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "mm:blocks/maelstrom_bricks",
+        "top": "mm:blocks/maelstrom_bricks",
+        "side": "mm:blocks/maelstrom_bricks"
+    }
+}

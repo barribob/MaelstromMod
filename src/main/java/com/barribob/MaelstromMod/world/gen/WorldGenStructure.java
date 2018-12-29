@@ -21,39 +21,41 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
  */
 public class WorldGenStructure extends WorldGenerator implements IStructure
 {
-	public static String structureName;
-	
-	/**
-	 * @param name The name of the structure to load in the nbt file
-	 */
-	public WorldGenStructure(String name)
+    public static String structureName;
+
+    /**
+     * @param name
+     *            The name of the structure to load in the nbt file
+     */
+    public WorldGenStructure(String name)
+    {
+	this.structureName = name;
+    }
+
+    @Override
+    public boolean generate(World worldIn, Random rand, BlockPos position)
+    {
+	this.GenerateStructure(worldIn, position);
+	return true;
+    }
+
+    /**
+     * Loads the structure from the nbt file and generates it
+     * 
+     * @param world
+     * @param pos
+     */
+    public static void GenerateStructure(World world, BlockPos pos)
+    {
+	MinecraftServer mcServer = world.getMinecraftServer();
+	TemplateManager manager = worldServer.getStructureTemplateManager();
+	ResourceLocation location = new ResourceLocation(Reference.MOD_ID, structureName);
+	Template template = manager.get(mcServer, location);
+	if (template != null)
 	{
-		this.structureName = name;
+	    IBlockState state = world.getBlockState(pos);
+	    world.notifyBlockUpdate(pos, state, state, 3);
+	    template.addBlocksToWorldChunk(world, pos, settings);
 	}
-	
-	@Override
-	public boolean generate(World worldIn, Random rand, BlockPos position) 
-	{
-		this.GenerateStructure(worldIn, position);
-		return true;
-	}
-	
-	/**
-	 * Loads the structure from the nbt file and generates it
-	 * @param world
-	 * @param pos
-	 */
-	public static void GenerateStructure(World world, BlockPos pos)
-	{
-		MinecraftServer mcServer = world.getMinecraftServer();
-		TemplateManager manager = worldServer.getStructureTemplateManager();
-		ResourceLocation location = new ResourceLocation(Reference.MOD_ID, structureName);
-		Template template = manager.get(mcServer, location);
-		if(template != null)
-		{
-			IBlockState state = world.getBlockState(pos);
-			world.notifyBlockUpdate(pos, state, state, 3);
-			template.addBlocksToWorldChunk(world, pos, settings);
-		}
-	}
+    }
 }

@@ -1,8 +1,5 @@
 {
     "variants": {
-        "check_decay=true,decayable=true": { "model": "mm:azure_maelstrom" },
-        "check_decay=true,decayable=false": { "model": "mm:azure_maelstrom" },
-        "check_decay=false,decayable=true": { "model": "mm:azure_maelstrom" },
-        "check_decay=false,decayable=false": { "model": "mm:azure_maelstrom" }
+        "normal": { "model": "mm:azure_maelstrom" }
     }
 }
