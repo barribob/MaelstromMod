@@ -17,14 +17,15 @@ import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureEndCityPieces;
 import net.minecraft.world.gen.structure.StructureStart;
 
+/**
+ * 
+ * Determines where to spawn the maelstrom fortress
+ *
+ */
 public class MapGenMaelstromFortress extends MapGenStructure
 {
-    private final List<Biome.SpawnListEntry> spawnList = Lists.<Biome.SpawnListEntry>newArrayList();
-
     public MapGenMaelstromFortress()
     {
-	this.spawnList.add(new Biome.SpawnListEntry(EntityShade.class, 10, 2, 3));
-	this.spawnList.add(new Biome.SpawnListEntry(EntityHorror.class, 5, 4, 4));
     }
 
     public String getStructureName()
@@ -32,11 +33,9 @@ public class MapGenMaelstromFortress extends MapGenStructure
 	return "Maelstrom Fortress";
     }
 
-    public List<Biome.SpawnListEntry> getSpawnList()
-    {
-	return this.spawnList;
-    }
-
+    /**
+     * Uses the same spawning logic as the nether fortress
+     */
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
     {
 	int i = chunkX >> 4;
@@ -44,7 +43,7 @@ public class MapGenMaelstromFortress extends MapGenStructure
 	this.rand.setSeed((long) (i ^ j << 4) ^ this.world.getSeed());
 	this.rand.nextInt();
 
-	if (this.rand.nextInt(3) != 0)
+	if (this.rand.nextInt(4) != 0)
 	{
 	    return false;
 	}
@@ -71,8 +70,6 @@ public class MapGenMaelstromFortress extends MapGenStructure
 
     public static class Start extends StructureStart
     {
-	private boolean isSizeable;
-
 	public Start()
 	{
 	}
@@ -87,12 +84,12 @@ public class MapGenMaelstromFortress extends MapGenStructure
 	{
 	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
 	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-	    int i = 70 + random.nextInt(10);
+	    int y = 95;
 
-	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, i, chunkZ * 16 + 8);
-	    MaelstromFortress.startHouseTower(worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, this.components, rnd);
+	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
+	    MaelstromFortress.startFortress(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, this.components, rnd);
 	    this.updateBoundingBox();
-	    System.out.println("generate!" + blockpos);
+	    System.out.println(blockpos);
 	}
     }
 }

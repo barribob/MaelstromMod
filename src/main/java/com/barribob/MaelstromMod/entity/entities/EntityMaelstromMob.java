@@ -46,8 +46,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class EntityMaelstromMob extends EntityCreature implements IRangedAttackMob
 {
     // Swinging arms is the animation for the attack
-    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class,
-	    DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class, DataSerializers.BOOLEAN);
 
     public EntityMaelstromMob(World worldIn)
     {
@@ -105,11 +104,6 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 	return heightIn > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
     }
 
-    public float getBlockPathWeight(BlockPos pos)
-    {
-	return 0.5F - this.world.getLightBrightness(pos);
-    }
-
     /**
      * Checks if the entity's current position is a valid location to spawn this
      * entity.
@@ -158,7 +152,8 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
     }
 
     /**
-     * Changes the default "white smoke" spawning from a mob spawner to a purple smoke
+     * Changes the default "white smoke" spawning from a mob spawner to a purple
+     * smoke
      */
     @Override
     public void spawnExplosionParticle()

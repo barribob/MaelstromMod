@@ -84,9 +84,12 @@ public class ChunkGeneratorAzure implements IChunkGenerator
     {
 	{
 	    caveGenerator = net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(caveGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.CAVE);
-	    ravineGenerator = net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(ravineGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.RAVINE);
-	    mineshaftGenerator = (MapGenAzureMineshaft) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(mineshaftGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.MINESHAFT);
-	    fortressGenerator = (MapGenMaelstromFortress) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(fortressGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.NETHER_BRIDGE);
+	    ravineGenerator = net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(ravineGenerator,
+		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.RAVINE);
+	    mineshaftGenerator = (MapGenAzureMineshaft) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(mineshaftGenerator,
+		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.MINESHAFT);
+	    fortressGenerator = (MapGenMaelstromFortress) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(fortressGenerator,
+		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.NETHER_BRIDGE);
 	}
 
 	this.world = worldIn;
@@ -128,7 +131,8 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	/**
 	 * Set the noises
 	 */
-	net.minecraftforge.event.terraingen.InitNoiseGensEvent.ContextOverworld ctx = new net.minecraftforge.event.terraingen.InitNoiseGensEvent.ContextOverworld(minLimitPerlinNoise, maxLimitPerlinNoise, mainPerlinNoise, surfaceNoise, scaleNoise, depthNoise, forestNoise);
+	net.minecraftforge.event.terraingen.InitNoiseGensEvent.ContextOverworld ctx = new net.minecraftforge.event.terraingen.InitNoiseGensEvent.ContextOverworld(
+		minLimitPerlinNoise, maxLimitPerlinNoise, mainPerlinNoise, surfaceNoise, scaleNoise, depthNoise, forestNoise);
 	ctx = net.minecraftforge.event.terraingen.TerrainGen.getModdedNoiseGenerators(worldIn, this.rand, ctx);
 	this.minLimitPerlinNoise = ctx.getLPerlin1();
 	this.maxLimitPerlinNoise = ctx.getLPerlin2();
@@ -305,12 +309,16 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 
     private void generateHeightmap(int p_185978_1_, int p_185978_2_, int p_185978_3_)
     {
-	this.depthRegion = this.depthNoise.generateNoiseOctaves(this.depthRegion, p_185978_1_, p_185978_3_, 5, 5, (double) this.settings.depthNoiseScaleX, (double) this.settings.depthNoiseScaleZ, (double) this.settings.depthNoiseScaleExponent);
+	this.depthRegion = this.depthNoise.generateNoiseOctaves(this.depthRegion, p_185978_1_, p_185978_3_, 5, 5, (double) this.settings.depthNoiseScaleX,
+		(double) this.settings.depthNoiseScaleZ, (double) this.settings.depthNoiseScaleExponent);
 	float f = this.settings.coordinateScale;
 	float f1 = this.settings.heightScale;
-	this.mainNoiseRegion = this.mainPerlinNoise.generateNoiseOctaves(this.mainNoiseRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double) (f / this.settings.mainNoiseScaleX), (double) (f1 / this.settings.mainNoiseScaleY), (double) (f / this.settings.mainNoiseScaleZ));
-	this.minLimitRegion = this.minLimitPerlinNoise.generateNoiseOctaves(this.minLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double) f, (double) f1, (double) f);
-	this.maxLimitRegion = this.maxLimitPerlinNoise.generateNoiseOctaves(this.maxLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double) f, (double) f1, (double) f);
+	this.mainNoiseRegion = this.mainPerlinNoise.generateNoiseOctaves(this.mainNoiseRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5,
+		(double) (f / this.settings.mainNoiseScaleX), (double) (f1 / this.settings.mainNoiseScaleY), (double) (f / this.settings.mainNoiseScaleZ));
+	this.minLimitRegion = this.minLimitPerlinNoise.generateNoiseOctaves(this.minLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double) f, (double) f1,
+		(double) f);
+	this.maxLimitRegion = this.maxLimitPerlinNoise.generateNoiseOctaves(this.maxLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double) f, (double) f1,
+		(double) f);
 	int i = 0;
 	int j = 0;
 
@@ -452,7 +460,8 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	}
 
 	if (biome != Biomes.DESERT && biome != Biomes.DESERT_HILLS && this.settings.useWaterLakes && !flag && this.rand.nextInt(this.settings.waterLakeChance) == 0)
-	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag, net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE))
+	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
+		    net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE))
 	    {
 		int i1 = this.rand.nextInt(16) + 8;
 		int j1 = this.rand.nextInt(256);
@@ -461,7 +470,8 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	    }
 
 	if (!flag && this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes)
-	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag, net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAVA))
+	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
+		    net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAVA))
 	    {
 		int i2 = this.rand.nextInt(16) + 8;
 		int l2 = this.rand.nextInt(this.rand.nextInt(248) + 8);
@@ -474,7 +484,8 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	    }
 
 	if (this.settings.useDungeons)
-	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag, net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.DUNGEON))
+	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
+		    net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.DUNGEON))
 	    {
 		for (int j2 = 0; j2 < this.settings.dungeonChance; ++j2)
 		{
@@ -486,7 +497,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	    }
 
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE);
-	if (rand.nextInt(10) == 0)
+	if (rand.nextInt(15) == 0)
 	{
 	    int x1 = rand.nextInt(8) + 16;
 	    int y = 70;
@@ -495,11 +506,13 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	}
 
 	biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
-	if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag, net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ANIMALS))
+	if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
+		net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ANIMALS))
 	    WorldEntitySpawner.performWorldGenSpawning(this.world, biome, i + 8, j + 8, 16, 16, this.rand);
 	blockpos = blockpos.add(8, 0, 8);
 
-	if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag, net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ICE))
+	if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
+		net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ICE))
 	{
 	    for (int k2 = 0; k2 < 16; ++k2)
 	    {
@@ -528,19 +541,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 
     public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos)
     {
-	if (creatureType == EnumCreatureType.MONSTER)
-	{
-	    if (this.fortressGenerator.isInsideStructure(pos))
-	    {
-		return this.fortressGenerator.getSpawnList();
-	    }
-
-	    if (this.fortressGenerator.isPositionInStructure(this.world, pos) && this.world.getBlockState(pos.down()).getBlock() == ModBlocks.MAELSTROM_BRICKS)
-	    {
-		return this.fortressGenerator.getSpawnList();
-	    }
-	}
-
 	Biome biome = this.world.getBiome(pos);
 	return biome.getSpawnableList(creatureType);
     }
@@ -555,7 +555,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	{
 	    return this.mineshaftGenerator.isInsideStructure(pos);
 	}
-	else if("Maelstrom Fortress".equals(structureName) && this.fortressGenerator != null)
+	else if ("Maelstrom Fortress".equals(structureName) && this.fortressGenerator != null)
 	{
 	    return this.fortressGenerator.isInsideStructure(pos);
 	}
@@ -595,12 +595,13 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 		this.mineshaftGenerator.generate(this.world, x, z, (ChunkPrimer) null);
 	    }
 	}
-	
-        this.fortressGenerator.generate(this.world, x, z, (ChunkPrimer)null);
+
+	this.fortressGenerator.generate(this.world, x, z, (ChunkPrimer) null);
     }
-    
+
     /**
-     * Called to generate additional structures after initial worldgen, used by ocean monuments
+     * Called to generate additional structures after initial worldgen, used by
+     * ocean monuments
      */
     @Override
     public boolean generateStructures(Chunk chunkIn, int x, int z)

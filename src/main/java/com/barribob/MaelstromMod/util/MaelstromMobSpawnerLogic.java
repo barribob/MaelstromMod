@@ -34,8 +34,8 @@ public abstract class MaelstromMobSpawnerLogic
     /** List of potential entities to spawn */
     private final List<WeightedSpawnerEntity> potentialSpawns = Lists.<WeightedSpawnerEntity>newArrayList();
     private WeightedSpawnerEntity spawnData = new WeightedSpawnerEntity();
-    private int minSpawnDelay = 300;
-    private int maxSpawnDelay = 700;
+    private int minSpawnDelay = 600;
+    private int maxSpawnDelay = 800;
     private int spawnCount = 4;
     /** Cached instance of the entity to render inside the spawner. */
     private Entity cachedEntity;
@@ -78,7 +78,7 @@ public abstract class MaelstromMobSpawnerLogic
 
 	// Currently does not deal with any server stuff, although this might be a
 	// mistake, so potentially this may have to revert back to the vanilla logic
-	if (this.getSpawnerWorld().isRemote)
+	if (this.getSpawnerWorld().isRemote || !this.isActivated())
 	{
 	    return;
 	}
