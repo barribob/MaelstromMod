@@ -51,13 +51,8 @@ public class EntityBeast extends EntityMaelstromMob
     private final static float PROJECTILE_SPEED = 1.0f;
     private final static float PROJECTILE_INACCURACY = 6.0f;
     private final static int PROJECTILE_AMOUNT = 5;
-    private final static int MINION_AMOUNT = 2;
 
     private boolean isRanged; // Used for animation
-
-    // Responsible for the boss bar
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE,
-	    BossInfo.Overlay.NOTCHED_20));
 
     public EntityBeast(World worldIn)
     {
@@ -71,76 +66,6 @@ public class EntityBeast extends EntityMaelstromMob
 	super.initEntityAI();
 	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME,
 		RANGED_SWITCH_CHANCE));
-    }
-
-    // Checks to see if it should spawn a minion
-    @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
-    {
-	float health = this.getHealth();
-	boolean flag = super.attackEntityFrom(source, amount);
-
-	if (flag && healthBelowMilestone(health))
-	{
-	    for (int i = 0; i < this.MINION_AMOUNT; i++)
-	    {
-		this.spawnMinion();
-	    }
-	}
-
-	return flag;
-    }
-
-    /**
-     * Determines whether the boss's health dropped below a certain benchmark
-     * 
-     * @param prevHealth
-     * @return
-     */
-    private boolean healthBelowMilestone(float prevHealth)
-    {
-	return (prevHealth >= 60 && this.getHealth() < 60) || (prevHealth >= 40 && this.getHealth() < 40)
-		|| (prevHealth >= 20 && this.getHealth() < 20);
-    }
-
-    /**
-     * Try to spawn a minion shade to aid in battle Taken from the zombie spawn
-     * reinforcements code
-     */
-    private void spawnMinion()
-    {
-	int tries = 50;
-	for (int i = 0; i < tries; i++)
-	{
-	    // Find a random position to spawn the enemy
-	    int i1 = (int) this.posX + MathHelper.getInt(this.rand, 3, 7) * MathHelper.getInt(this.rand, -1, 1);
-	    int j1 = (int) this.posY + MathHelper.getInt(this.rand, 3, 7) * MathHelper.getInt(this.rand, -1, 1);
-	    int k1 = (int) this.posZ + MathHelper.getInt(this.rand, 3, 7) * MathHelper.getInt(this.rand, -1, 1);
-
-	    if (this.world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(this.world, new BlockPos(i1, j1 - 1, k1),
-		    net.minecraft.util.EnumFacing.UP))
-	    {
-		EntityShade shade = new EntityShade(this.world);
-		shade.setPosition((double) i1, (double) j1, (double) k1);
-
-		// Make sure that the position is a proper spawning position
-		if (!this.world.isAnyPlayerWithinRangeAt((double) i1, (double) j1, (double) k1, 5.0D)
-			&& this.world.checkNoEntityCollision(shade.getEntityBoundingBox(), shade)
-			&& this.world.getCollisionBoxes(shade, shade.getEntityBoundingBox()).isEmpty()
-			&& !this.world.containsAnyLiquid(shade.getEntityBoundingBox()))
-		{
-		    // Spawn the entity
-		    this.world.spawnEntity(shade);
-		    if (this.getAttackTarget() != null)
-		    {
-			shade.setAttackTarget(this.getAttackTarget());
-		    }
-		    shade.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(shade)), (IEntityLivingData) null);
-		    shade.spawnExplosionParticle();
-		    break;
-		}
-	    }
-	}
     }
 
     /**
@@ -174,7 +99,7 @@ public class EntityBeast extends EntityMaelstromMob
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(120.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(14);
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8);
     }
@@ -207,54 +132,5 @@ public class EntityBeast extends EntityMaelstromMob
 	    return true;
 	}
 	return false;
-    }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    public void readEntityFromNBT(NBTTagCompound compound)
-    {
-	super.readEntityFromNBT(compound);
-
-	if (this.hasCustomName())
-	{
-	    this.bossInfo.setName(this.getDisplayName());
-	}
-    }
-
-    /**
-     * Sets the custom name tag for this entity
-     */
-    public void setCustomNameTag(String name)
-    {
-	super.setCustomNameTag(name);
-	this.bossInfo.setName(this.getDisplayName());
-    }
-
-    @Override
-    protected void updateAITasks()
-    {
-	this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
-	super.updateAITasks();
-    }
-
-    /**
-     * Add the given player to the list of players tracking this entity. For
-     * instance, a player may track a boss in order to view its associated boss bar.
-     */
-    public void addTrackingPlayer(EntityPlayerMP player)
-    {
-	super.addTrackingPlayer(player);
-	this.bossInfo.addPlayer(player);
-    }
-
-    /**
-     * Removes the given player from the list of players tracking this entity. See
-     * {@link Entity#addTrackingPlayer} for more information on tracking.
-     */
-    public void removeTrackingPlayer(EntityPlayerMP player)
-    {
-	super.removeTrackingPlayer(player);
-	this.bossInfo.removePlayer(player);
     }
 }

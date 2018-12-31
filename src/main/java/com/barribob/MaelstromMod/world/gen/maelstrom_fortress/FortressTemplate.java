@@ -3,7 +3,7 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_fortress;
 import java.util.List;
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.entities.EntityBeast;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Reference;
@@ -154,7 +154,7 @@ public class FortressTemplate extends StructureComponentTemplate
 	}
 	else if (function.startsWith("boss"))
 	{
-	    EntityBeast entity = new EntityBeast(worldIn);
+	    EntityMaelstromIllager entity = new EntityMaelstromIllager(worldIn);
 	    entity.setPosition((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D);
 	    worldIn.spawnEntity(entity);
 	}
@@ -171,4 +171,6 @@ public class FortressTemplate extends StructureComponentTemplate
 
 	}
     }
+    
+    
 }
