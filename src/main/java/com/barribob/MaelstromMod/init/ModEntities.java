@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.init;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
@@ -30,6 +31,7 @@ public class ModEntities
     public static final int DREAM_ELK_ID = 102;
     public static final int BEAST_ID = 103;
     public static final int MAELSTROM_ILLAGER_ID = 104;
+    public static final int AZURE_VILLAGER_ID = 105;
     
     public static final int SHADE_ATTACK_ID = 200;
     public static final int HORROR_ATTACK_ID = 201;
@@ -42,6 +44,7 @@ public class ModEntities
 	registerEntity("dream_elk", EntityDreamElk.class, DREAM_ELK_ID, 30, 7248383, 7236306);
 	registerEntity("beast", EntityBeast.class, BEAST_ID, 30, 6433126, 3221816);
 	registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 30, 6433126, 3221816);
+	registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 30, 7248383, 7236306);
 
 	registerProjectile("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerProjectile("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);

@@ -89,7 +89,6 @@ public class MapGenMaelstromFortress extends MapGenStructure
 	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
 	    MaelstromFortress.startFortress(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, this.components, rnd);
 	    this.updateBoundingBox();
-	    System.out.println(blockpos);
 	}
     }
 }

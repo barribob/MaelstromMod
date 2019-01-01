@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.util.handlers;
 
+import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
@@ -13,6 +14,7 @@ import com.barribob.MaelstromMod.entity.model.ModelShade;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderInvisibleProjectile;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.util.Reference;
@@ -36,10 +38,18 @@ public class RenderHandler
 	registerModEntityRenderer(EntityDreamElk.class, ModelDreamElk.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
 	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromIllager.class, ModelMaelstromIllager.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_illager.png"));
-
+	
 	registerInvisibleProjectileRenderer(ProjectileShadeAttack.class);
 	registerInvisibleProjectileRenderer(ProjectileHorrorAttack.class);
 	registerInvisibleProjectileRenderer(ProjectileBeastAttack.class);
+	
+	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>() {
+	    @Override
+	    public Render<? super EntityAzureVillager> createRenderFor(RenderManager manager)
+	    {
+	        return new RenderAzureVillager(manager);
+	    }
+	});
     }
 
     /*

@@ -91,6 +91,14 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	return SoundEvents.ENTITY_EVOCATION_ILLAGER_HURT;
     }
+    
+    /**
+     * Determines if an entity can be despawned, used on idle far away entities
+     */
+    protected boolean canDespawn()
+    {
+        return false;
+    }
 
     @Override
     protected ResourceLocation getLootTable()

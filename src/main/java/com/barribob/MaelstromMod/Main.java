@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.DimensionInit;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.init.ModProfessions;
 import com.barribob.MaelstromMod.init.ModRecipes;
 import com.barribob.MaelstromMod.init.ModStructures;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
@@ -67,6 +68,7 @@ public class Main
 	ModRecipes.init();
 	SoundsHandler.registerSounds();
 	ModStructures.registerStructures();
+	ModProfessions.associateCareersAndTrades();
     }
 
     @EventHandler

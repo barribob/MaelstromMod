@@ -67,6 +67,14 @@ public class EntityBeast extends EntityMaelstromMob
 	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME,
 		RANGED_SWITCH_CHANCE));
     }
+    
+    /**
+     * Determines if an entity can be despawned, used on idle far away entities
+     */
+    protected boolean canDespawn()
+    {
+        return false;
+    }
 
     /**
      * Handler for {@link World#setEntityState}

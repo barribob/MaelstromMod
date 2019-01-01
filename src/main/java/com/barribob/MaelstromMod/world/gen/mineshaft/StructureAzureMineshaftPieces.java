@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.google.common.collect.Lists;
 
@@ -16,8 +17,11 @@ import net.minecraft.block.BlockTorch;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.entity.monster.EntityCaveSpider;
+import net.minecraft.entity.monster.EntityZombieVillager;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -64,13 +68,11 @@ public class StructureAzureMineshaftPieces
 	    return ModBlocks.AZURE_FENCE.getDefaultState();
 	}
 
-	protected boolean isSupportingBox(World p_189918_1_, StructureBoundingBox p_189918_2_, int p_189918_3_,
-		int p_189918_4_, int p_189918_5_, int p_189918_6_)
+	protected boolean isSupportingBox(World p_189918_1_, StructureBoundingBox p_189918_2_, int p_189918_3_, int p_189918_4_, int p_189918_5_, int p_189918_6_)
 	{
 	    for (int i = p_189918_3_; i <= p_189918_4_; ++i)
 	    {
-		if (this.getBlockStateFromPos(p_189918_1_, i, p_189918_5_ + 1, p_189918_6_, p_189918_2_)
-			.getMaterial() == Material.AIR)
+		if (this.getBlockStateFromPos(p_189918_1_, i, p_189918_5_ + 1, p_189918_6_, p_189918_2_).getMaterial() == Material.AIR)
 		{
 		    return false;
 		}
@@ -78,12 +80,12 @@ public class StructureAzureMineshaftPieces
 
 	    return true;
 	}
-	
+
 	/**
 	 * Fill the given area with the selected blocks
 	 */
-	protected void fillWithBlocks(World worldIn, StructureBoundingBox boundingboxIn, int xMin, int yMin, int zMin,
-		int xMax, int yMax, int zMax, IBlockState boundaryBlockState, IBlockState insideBlockState, boolean existingOnly)
+	protected void fillWithBlocks(World worldIn, StructureBoundingBox boundingboxIn, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax,
+		IBlockState boundaryBlockState, IBlockState insideBlockState, boolean existingOnly)
 	{
 	    for (int i = yMin; i <= yMax; ++i)
 	    {
@@ -96,7 +98,8 @@ public class StructureAzureMineshaftPieces
 			    if (i != yMin && i != yMax && j != xMin && j != xMax && k != zMin && k != zMax)
 			    {
 				this.setBlockState(worldIn, insideBlockState, j, i, k, boundingboxIn);
-			    } else
+			    }
+			    else
 			    {
 				this.setBlockState(worldIn, boundaryBlockState, j, i, k, boundingboxIn);
 			    }
@@ -106,7 +109,7 @@ public class StructureAzureMineshaftPieces
 	    }
 	}
     }
-    
+
     public static void registerStructurePieces()
     {
 	MapGenStructureIO.registerStructureComponent(StructureAzureMineshaftPieces.Corridor.class, "AMSCorridor");
@@ -117,38 +120,37 @@ public class StructureAzureMineshaftPieces
 
     }
 
-    private static StructureAzureMineshaftPieces.Piece createRandomShaftPiece(List<StructureComponent> structures,
-	    Random rand, int x, int y, int z, @Nullable EnumFacing facing, int p_189940_6_)
+    private static StructureAzureMineshaftPieces.Piece createRandomShaftPiece(List<StructureComponent> structures, Random rand, int x, int y, int z,
+	    @Nullable EnumFacing facing, int p_189940_6_)
     {
 	int i = rand.nextInt(100);
 
 	if (i >= 80)
 	{
-	    StructureBoundingBox structureboundingbox = StructureAzureMineshaftPieces.Cross.findCrossing(structures,
-		    rand, x, y, z, facing);
+	    StructureBoundingBox structureboundingbox = StructureAzureMineshaftPieces.Cross.findCrossing(structures, rand, x, y, z, facing);
 
 	    if (structureboundingbox != null)
 	    {
 		return new StructureAzureMineshaftPieces.Cross(p_189940_6_, rand, structureboundingbox, facing);
 	    }
-	} else if (i >= 70)
+	}
+	else if (i >= 70)
 	{
-	    StructureBoundingBox structureboundingbox1 = StructureAzureMineshaftPieces.Stairs.findStairs(structures,
-		    rand, x, y, z, facing);
+	    StructureBoundingBox structureboundingbox1 = StructureAzureMineshaftPieces.Stairs.findStairs(structures, rand, x, y, z, facing);
 
 	    if (structureboundingbox1 != null)
 	    {
 		return new StructureAzureMineshaftPieces.Stairs(p_189940_6_, rand, structureboundingbox1, facing);
 	    }
-	} else if (i >= 60)
+	}
+	else if (i >= 60)
 	{
 	    int heightOffset = -1;
-	    return StructureAzureMineshaftPieces.WoodHut.createPiece(structures, rand, x, y + heightOffset, z, facing,
-		    p_189940_6_);
-	} else
+	    return StructureAzureMineshaftPieces.WoodHut.createPiece(structures, rand, x, y + heightOffset, z, facing, p_189940_6_);
+	}
+	else
 	{
-	    StructureBoundingBox structureboundingbox2 = StructureAzureMineshaftPieces.Corridor
-		    .findCorridorSize(structures, rand, x, y, z, facing);
+	    StructureBoundingBox structureboundingbox2 = StructureAzureMineshaftPieces.Corridor.findCorridorSize(structures, rand, x, y, z, facing);
 
 	    if (structureboundingbox2 != null)
 	    {
@@ -159,17 +161,16 @@ public class StructureAzureMineshaftPieces
 	return null;
     }
 
-    private static StructureAzureMineshaftPieces.Piece generateAndAddPiece(StructureComponent component,
-	    List<StructureComponent> structures, Random rand, int x, int y, int z, EnumFacing facing, int p_189938_7_)
+    private static StructureAzureMineshaftPieces.Piece generateAndAddPiece(StructureComponent component, List<StructureComponent> structures, Random rand, int x, int y, int z,
+	    EnumFacing facing, int p_189938_7_)
     {
 	if (p_189938_7_ > 8)
 	{
 	    return null;
-	} else if (Math.abs(x - component.getBoundingBox().minX) <= 80
-		&& Math.abs(z - component.getBoundingBox().minZ) <= 80)
+	}
+	else if (Math.abs(x - component.getBoundingBox().minX) <= 80 && Math.abs(z - component.getBoundingBox().minZ) <= 80)
 	{
-	    StructureAzureMineshaftPieces.Piece structuremineshaftpieces$piece = createRandomShaftPiece(structures,
-		    rand, x, y, z, facing, p_189938_7_ + 1);
+	    StructureAzureMineshaftPieces.Piece structuremineshaftpieces$piece = createRandomShaftPiece(structures, rand, x, y, z, facing, p_189938_7_ + 1);
 
 	    if (structuremineshaftpieces$piece != null)
 	    {
@@ -178,7 +179,8 @@ public class StructureAzureMineshaftPieces
 	    }
 
 	    return structuremineshaftpieces$piece;
-	} else
+	}
+	else
 	{
 	    return null;
 	}
@@ -221,14 +223,14 @@ public class StructureAzureMineshaftPieces
 	    if (this.getCoordBaseMode().getAxis() == EnumFacing.Axis.Z)
 	    {
 		this.sectionCount = p_i47140_3_.getZSize() / 5;
-	    } else
+	    }
+	    else
 	    {
 		this.sectionCount = p_i47140_3_.getXSize() / 5;
 	    }
 	}
 
-	public static StructureBoundingBox findCorridorSize(List<StructureComponent> p_175814_0_, Random rand, int x,
-		int y, int z, EnumFacing facing)
+	public static StructureBoundingBox findCorridorSize(List<StructureComponent> p_175814_0_, Random rand, int x, int y, int z, EnumFacing facing)
 	{
 	    StructureBoundingBox structureboundingbox = new StructureBoundingBox(x, y, z, x, y + 2, z);
 	    int i;
@@ -285,19 +287,18 @@ public class StructureAzureMineshaftPieces
 
 		    if (j <= 1)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.minX, this.boundingBox.minY,
-				this.boundingBox.minZ - 1, enumfacing, i);
-		    } else if (j == 2)
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1,
+				enumfacing, i);
+		    }
+		    else if (j == 2)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.minX - 1, this.boundingBox.minY,
-				this.boundingBox.minZ, EnumFacing.WEST, i);
-		    } else
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ,
+				EnumFacing.WEST, i);
+		    }
+		    else
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.maxX + 1, this.boundingBox.minY,
-				this.boundingBox.minZ, EnumFacing.EAST, i);
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ,
+				EnumFacing.EAST, i);
 		    }
 
 		    break;
@@ -305,18 +306,17 @@ public class StructureAzureMineshaftPieces
 
 		    if (j <= 1)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.minX, this.boundingBox.minY,
-				this.boundingBox.maxZ + 1, enumfacing, i);
-		    } else if (j == 2)
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1,
+				enumfacing, i);
+		    }
+		    else if (j == 2)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.minX - 1, this.boundingBox.minY,
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY,
 				this.boundingBox.maxZ - 3, EnumFacing.WEST, i);
-		    } else
+		    }
+		    else
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.maxX + 1, this.boundingBox.minY,
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY,
 				this.boundingBox.maxZ - 3, EnumFacing.EAST, i);
 		    }
 
@@ -325,19 +325,18 @@ public class StructureAzureMineshaftPieces
 
 		    if (j <= 1)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.minX - 1, this.boundingBox.minY,
-				this.boundingBox.minZ, enumfacing, i);
-		    } else if (j == 2)
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ,
+				enumfacing, i);
+		    }
+		    else if (j == 2)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.minX, this.boundingBox.minY,
-				this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-		    } else
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1,
+				EnumFacing.NORTH, i);
+		    }
+		    else
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.minX, this.boundingBox.minY,
-				this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1,
+				EnumFacing.SOUTH, i);
 		    }
 
 		    break;
@@ -345,18 +344,17 @@ public class StructureAzureMineshaftPieces
 
 		    if (j <= 1)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.maxX + 1, this.boundingBox.minY,
-				this.boundingBox.minZ, enumfacing, i);
-		    } else if (j == 2)
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ,
+				enumfacing, i);
+		    }
+		    else if (j == 2)
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.maxX - 3, this.boundingBox.minY,
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX - 3, this.boundingBox.minY,
 				this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-		    } else
+		    }
+		    else
 		    {
-			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				this.boundingBox.maxX - 3, this.boundingBox.minY,
+			StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX - 3, this.boundingBox.minY,
 				this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
 		    }
 		}
@@ -372,15 +370,17 @@ public class StructureAzureMineshaftPieces
 
 			if (j1 == 0)
 			{
-			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, i1,
-				    this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i + 1);
-			} else if (j1 == 1)
+			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, i1, this.boundingBox.minY, this.boundingBox.minZ - 1,
+				    EnumFacing.NORTH, i + 1);
+			}
+			else if (j1 == 1)
 			{
-			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, i1,
-				    this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i + 1);
+			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, i1, this.boundingBox.minY, this.boundingBox.maxZ + 1,
+				    EnumFacing.SOUTH, i + 1);
 			}
 		    }
-		} else
+		}
+		else
 		{
 		    for (int k = this.boundingBox.minZ + 3; k + 3 <= this.boundingBox.maxZ; k += 5)
 		    {
@@ -388,12 +388,13 @@ public class StructureAzureMineshaftPieces
 
 			if (l == 0)
 			{
-			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				    this.boundingBox.minX - 1, this.boundingBox.minY, k, EnumFacing.WEST, i + 1);
-			} else if (l == 1)
+			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY, k, EnumFacing.WEST,
+				    i + 1);
+			}
+			else if (l == 1)
 			{
-			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-				    this.boundingBox.maxX + 1, this.boundingBox.minY, k, EnumFacing.EAST, i + 1);
+			    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, k, EnumFacing.EAST,
+				    i + 1);
 			}
 		    }
 		}
@@ -403,26 +404,23 @@ public class StructureAzureMineshaftPieces
 	/**
 	 * Adds chest to the structure and sets its contents
 	 */
-	protected boolean generateChest(World worldIn, StructureBoundingBox structurebb, Random randomIn, int x, int y,
-		int z, ResourceLocation loot)
+	protected boolean generateChest(World worldIn, StructureBoundingBox structurebb, Random randomIn, int x, int y, int z, ResourceLocation loot)
 	{
-	    BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y),
-		    this.getZWithOffset(x, z));
+	    BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 
 	    if (structurebb.isVecInside(blockpos) && worldIn.getBlockState(blockpos).getMaterial() == Material.AIR
 		    && worldIn.getBlockState(blockpos.down()).getMaterial() != Material.AIR)
 	    {
 		IBlockState iblockstate = Blocks.RAIL.getDefaultState().withProperty(BlockRail.SHAPE,
-			randomIn.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH
-				: BlockRailBase.EnumRailDirection.EAST_WEST);
+			randomIn.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH : BlockRailBase.EnumRailDirection.EAST_WEST);
 		this.setBlockState(worldIn, iblockstate, x, y, z, structurebb);
-		EntityMinecartChest entityminecartchest = new EntityMinecartChest(worldIn,
-			(double) ((float) blockpos.getX() + 0.5F), (double) ((float) blockpos.getY() + 0.5F),
-			(double) ((float) blockpos.getZ() + 0.5F));
+		EntityMinecartChest entityminecartchest = new EntityMinecartChest(worldIn, (double) ((float) blockpos.getX() + 0.5F),
+			(double) ((float) blockpos.getY() + 0.5F), (double) ((float) blockpos.getZ() + 0.5F));
 		entityminecartchest.setLootTable(loot, randomIn.nextLong());
 		worldIn.spawnEntity(entityminecartchest);
 		return true;
-	    } else
+	    }
+	    else
 	    {
 		return false;
 	    }
@@ -437,7 +435,8 @@ public class StructureAzureMineshaftPieces
 	    if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn))
 	    {
 		return false;
-	    } else
+	    }
+	    else
 	    {
 		int i = 0;
 		int j = 2;
@@ -446,7 +445,7 @@ public class StructureAzureMineshaftPieces
 		int sections = this.sectionCount * 5 - 1;
 		IBlockState planks = this.getPlanksBlock();
 		this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 2, 2, sections, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-		
+
 		for (int j1 = 0; j1 < this.sectionCount; ++j1)
 		{
 		    int k1 = 2 + j1 * 5;
@@ -454,14 +453,12 @@ public class StructureAzureMineshaftPieces
 
 		    if (randomIn.nextInt(100) == 0)
 		    {
-			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 2, 0, k1 - 1,
-				LootTableList.CHESTS_ABANDONED_MINESHAFT);
+			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 2, 0, k1 - 1, LootTableList.CHESTS_ABANDONED_MINESHAFT);
 		    }
 
 		    if (randomIn.nextInt(100) == 0)
 		    {
-			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 0, 0, k1 + 1,
-				LootTableList.CHESTS_ABANDONED_MINESHAFT);
+			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 0, 0, k1 + 1, LootTableList.CHESTS_ABANDONED_MINESHAFT);
 		    }
 		}
 
@@ -520,7 +517,8 @@ public class StructureAzureMineshaftPieces
 		{
 		    this.fillWithBlocks(world, box, i1, i4, i3, i1, i4, i3, planks, air, false);
 		    this.fillWithBlocks(world, box, i5, i4, i3, i5, i4, i3, planks, air, false);
-		} else
+		}
+		else
 		{
 		    this.fillWithBlocks(world, box, i1, i4, i3, i5, i4, i3, planks, air, false);
 		    this.setBlockState(world, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.SOUTH), i1 + 1, i4, i3 - 1, box);
@@ -558,8 +556,7 @@ public class StructureAzureMineshaftPieces
 	    this.corridorDirection = EnumFacing.getHorizontal(tagCompound.getInteger("D"));
 	}
 
-	public Cross(int p_i47139_1_, Random p_i47139_2_, StructureBoundingBox p_i47139_3_,
-		@Nullable EnumFacing p_i47139_4_)
+	public Cross(int p_i47139_1_, Random p_i47139_2_, StructureBoundingBox p_i47139_3_, @Nullable EnumFacing p_i47139_4_)
 	{
 	    super(p_i47139_1_);
 	    this.corridorDirection = p_i47139_4_;
@@ -567,8 +564,7 @@ public class StructureAzureMineshaftPieces
 	    this.isMultipleFloors = p_i47139_3_.getYSize() > 3;
 	}
 
-	public static StructureBoundingBox findCrossing(List<StructureComponent> listIn, Random rand, int x, int y,
-		int z, EnumFacing facing)
+	public static StructureBoundingBox findCrossing(List<StructureComponent> listIn, Random rand, int x, int y, int z, EnumFacing facing)
 	{
 	    StructureBoundingBox structureboundingbox = new StructureBoundingBox(x, y, z, x, y + 2, z);
 
@@ -601,8 +597,7 @@ public class StructureAzureMineshaftPieces
 		structureboundingbox.maxZ = z + 3;
 	    }
 
-	    return StructureComponent.findIntersecting(listIn, structureboundingbox) != null ? null
-		    : structureboundingbox;
+	    return StructureComponent.findIntersecting(listIn, structureboundingbox) != null ? null : structureboundingbox;
 	}
 
 	/**
@@ -617,66 +612,62 @@ public class StructureAzureMineshaftPieces
 	    {
 	    case NORTH:
 	    default:
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.WEST, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.EAST, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ - 1,
+			EnumFacing.NORTH, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1,
+			EnumFacing.WEST, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1,
+			EnumFacing.EAST, i);
 		break;
 	    case SOUTH:
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.WEST, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.EAST, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ + 1,
+			EnumFacing.SOUTH, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1,
+			EnumFacing.WEST, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1,
+			EnumFacing.EAST, i);
 		break;
 	    case WEST:
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.WEST, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ - 1,
+			EnumFacing.NORTH, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ + 1,
+			EnumFacing.SOUTH, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1,
+			EnumFacing.WEST, i);
 		break;
 	    case EAST:
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.EAST, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ - 1,
+			EnumFacing.NORTH, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ + 1,
+			EnumFacing.SOUTH, i);
+		StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1,
+			EnumFacing.EAST, i);
 	    }
 
 	    if (this.isMultipleFloors)
 	    {
 		if (rand.nextBoolean())
 		{
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-			    this.boundingBox.minX + 1, this.boundingBox.minY + 3 + 1, this.boundingBox.minZ - 1,
-			    EnumFacing.NORTH, i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY + 3 + 1,
+			    this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
 		}
 
 		if (rand.nextBoolean())
 		{
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-			    this.boundingBox.minX - 1, this.boundingBox.minY + 3 + 1, this.boundingBox.minZ + 1,
-			    EnumFacing.WEST, i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY + 3 + 1,
+			    this.boundingBox.minZ + 1, EnumFacing.WEST, i);
 		}
 
 		if (rand.nextBoolean())
 		{
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-			    this.boundingBox.maxX + 1, this.boundingBox.minY + 3 + 1, this.boundingBox.minZ + 1,
-			    EnumFacing.EAST, i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + 3 + 1,
+			    this.boundingBox.minZ + 1, EnumFacing.EAST, i);
 		}
 
 		if (rand.nextBoolean())
 		{
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-			    this.boundingBox.minX + 1, this.boundingBox.minY + 3 + 1, this.boundingBox.maxZ + 1,
-			    EnumFacing.SOUTH, i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.minY + 3 + 1,
+			    this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
 		}
 	    }
 	}
@@ -690,75 +681,53 @@ public class StructureAzureMineshaftPieces
 	    if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn))
 	    {
 		return false;
-	    } else
+	    }
+	    else
 	    {
 		IBlockState iblockstate = this.getPlanksBlock();
 
 		if (this.isMultipleFloors)
 		{
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1,
-			    this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX - 1,
-			    this.boundingBox.minY + 3 - 1, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(),
-			    Blocks.AIR.getDefaultState(), false);
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY,
-			    this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.minY + 3 - 1,
-			    this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(),
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX - 1,
+			    this.boundingBox.minY + 3 - 1, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxX,
+			    this.boundingBox.minY + 3 - 1, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1, this.boundingBox.maxY - 2, this.boundingBox.minZ,
+			    this.boundingBox.maxX - 1, this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.maxY - 2, this.boundingBox.minZ + 1, this.boundingBox.maxX,
+			    this.boundingBox.maxY, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1, this.boundingBox.minY + 3, this.boundingBox.minZ + 1,
+			    this.boundingBox.maxX - 1, this.boundingBox.minY + 3, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(),
 			    false);
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1,
-			    this.boundingBox.maxY - 2, this.boundingBox.minZ, this.boundingBox.maxX - 1,
-			    this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(),
-			    Blocks.AIR.getDefaultState(), false);
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX,
-			    this.boundingBox.maxY - 2, this.boundingBox.minZ + 1, this.boundingBox.maxX,
-			    this.boundingBox.maxY, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(),
-			    Blocks.AIR.getDefaultState(), false);
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1,
-			    this.boundingBox.minY + 3, this.boundingBox.minZ + 1, this.boundingBox.maxX - 1,
-			    this.boundingBox.minY + 3, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(),
-			    Blocks.AIR.getDefaultState(), false);
 		    // Place upper floor
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY + 3,
-			    this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.minY + 3,
-			    this.boundingBox.maxZ - 1, this.getPlanksBlock(), this.getPlanksBlock(),
-			    false);
-		} else
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY + 3, this.boundingBox.minZ + 1, this.boundingBox.maxX,
+			    this.boundingBox.minY + 3, this.boundingBox.maxZ - 1, this.getPlanksBlock(), this.getPlanksBlock(), false);
+		}
+		else
 		{
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1,
-			    this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX - 1,
-			    this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(),
-			    Blocks.AIR.getDefaultState(), false);
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY,
-			    this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.maxY,
-			    this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(),
-			    false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX - 1,
+			    this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxX,
+			    this.boundingBox.maxY, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
 		}
 
-		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxY);
-		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1,
-			this.boundingBox.minY, this.boundingBox.maxZ - 1, this.boundingBox.maxY);
-		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.maxX - 1,
-			this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxY);
-		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.maxX - 1,
-			this.boundingBox.minY, this.boundingBox.maxZ - 1, this.boundingBox.maxY);
-		
+		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxY);
+		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 1, this.boundingBox.maxY);
+		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.maxX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxY);
+		this.placeSupportPillar(worldIn, structureBoundingBoxIn, this.boundingBox.maxX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 1, this.boundingBox.maxY);
+
 		// Place lower floor
-		this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY - 1,
-			    this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.minY - 1,
-			    this.boundingBox.maxZ - 1, this.getPlanksBlock(), this.getPlanksBlock(),
-			    false);
-		
+		this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY - 1, this.boundingBox.minZ + 1, this.boundingBox.maxX,
+			this.boundingBox.minY - 1, this.boundingBox.maxZ - 1, this.getPlanksBlock(), this.getPlanksBlock(), false);
+
 		for (int i = this.boundingBox.minX; i <= this.boundingBox.maxX; ++i)
 		{
 		    for (int j = this.boundingBox.minZ; j <= this.boundingBox.maxZ; ++j)
 		    {
-			if (this.getBlockStateFromPos(worldIn, i, this.boundingBox.minY - 1, j, structureBoundingBoxIn)
-				.getMaterial() == Material.AIR
-				&& this.getSkyBrightness(worldIn, i, this.boundingBox.minY - 1, j,
-					structureBoundingBoxIn) < 8)
+			if (this.getBlockStateFromPos(worldIn, i, this.boundingBox.minY - 1, j, structureBoundingBoxIn).getMaterial() == Material.AIR
+				&& this.getSkyBrightness(worldIn, i, this.boundingBox.minY - 1, j, structureBoundingBoxIn) < 8)
 			{
-			    this.setBlockState(worldIn, iblockstate, i, this.boundingBox.minY - 1, j,
-				    structureBoundingBoxIn);
+			    this.setBlockState(worldIn, iblockstate, i, this.boundingBox.minY - 1, j, structureBoundingBoxIn);
 			}
 		    }
 		}
@@ -767,14 +736,12 @@ public class StructureAzureMineshaftPieces
 	    }
 	}
 
-	private void placeSupportPillar(World p_189923_1_, StructureBoundingBox p_189923_2_, int p_189923_3_,
-		int p_189923_4_, int p_189923_5_, int p_189923_6_)
+	private void placeSupportPillar(World p_189923_1_, StructureBoundingBox p_189923_2_, int p_189923_3_, int p_189923_4_, int p_189923_5_, int p_189923_6_)
 	{
-	    if (this.getBlockStateFromPos(p_189923_1_, p_189923_3_, p_189923_6_ + 1, p_189923_5_, p_189923_2_)
-		    .getMaterial() != Material.AIR)
+	    if (this.getBlockStateFromPos(p_189923_1_, p_189923_3_, p_189923_6_ + 1, p_189923_5_, p_189923_2_).getMaterial() != Material.AIR)
 	    {
-		this.fillWithBlocks(p_189923_1_, p_189923_2_, p_189923_3_, p_189923_4_, p_189923_5_, p_189923_3_,
-			p_189923_6_, p_189923_5_, this.getPlanksBlock(), Blocks.AIR.getDefaultState(), false);
+		this.fillWithBlocks(p_189923_1_, p_189923_2_, p_189923_3_, p_189923_4_, p_189923_5_, p_189923_3_, p_189923_6_, p_189923_5_, this.getPlanksBlock(),
+			Blocks.AIR.getDefaultState(), false);
 	    }
 	}
     }
@@ -791,8 +758,8 @@ public class StructureAzureMineshaftPieces
 	public Room(int p_i47137_1_, Random room, int p_i47137_3_, int p_i47137_4_)
 	{
 	    super(p_i47137_1_);
-	    this.boundingBox = new StructureBoundingBox(p_i47137_3_, 50, p_i47137_4_, p_i47137_3_ + 7 + room.nextInt(6),
-		    54 + room.nextInt(6), p_i47137_4_ + 7 + room.nextInt(6));
+	    this.boundingBox = new StructureBoundingBox(p_i47137_3_, 50, p_i47137_4_, p_i47137_3_ + 7 + room.nextInt(6), 54 + room.nextInt(6),
+		    p_i47137_4_ + 7 + room.nextInt(6));
 	}
 
 	/**
@@ -820,16 +787,13 @@ public class StructureAzureMineshaftPieces
 		    break;
 		}
 
-		StructureAzureMineshaftPieces.Piece structuremineshaftpieces$piece = StructureAzureMineshaftPieces
-			.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + k,
-				this.boundingBox.minY + rand.nextInt(j) + 1, this.boundingBox.minZ - 1,
-				EnumFacing.NORTH, i);
+		StructureAzureMineshaftPieces.Piece structuremineshaftpieces$piece = StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
+			this.boundingBox.minX + k, this.boundingBox.minY + rand.nextInt(j) + 1, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
 
 		if (structuremineshaftpieces$piece != null)
 		{
 		    StructureBoundingBox structureboundingbox = structuremineshaftpieces$piece.getBoundingBox();
-		    this.connectedRooms.add(new StructureBoundingBox(structureboundingbox.minX,
-			    structureboundingbox.minY, this.boundingBox.minZ, structureboundingbox.maxX,
+		    this.connectedRooms.add(new StructureBoundingBox(structureboundingbox.minX, structureboundingbox.minY, this.boundingBox.minZ, structureboundingbox.maxX,
 			    structureboundingbox.maxY, this.boundingBox.minZ + 1));
 		}
 	    }
@@ -843,17 +807,14 @@ public class StructureAzureMineshaftPieces
 		    break;
 		}
 
-		StructureAzureMineshaftPieces.Piece structuremineshaftpieces$peice1 = StructureAzureMineshaftPieces
-			.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX + k,
-				this.boundingBox.minY + rand.nextInt(j) + 1, this.boundingBox.maxZ + 1,
-				EnumFacing.SOUTH, i);
+		StructureAzureMineshaftPieces.Piece structuremineshaftpieces$peice1 = StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
+			this.boundingBox.minX + k, this.boundingBox.minY + rand.nextInt(j) + 1, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
 
 		if (structuremineshaftpieces$peice1 != null)
 		{
 		    StructureBoundingBox structureboundingbox1 = structuremineshaftpieces$peice1.getBoundingBox();
-		    this.connectedRooms.add(new StructureBoundingBox(structureboundingbox1.minX,
-			    structureboundingbox1.minY, this.boundingBox.maxZ - 1, structureboundingbox1.maxX,
-			    structureboundingbox1.maxY, this.boundingBox.maxZ));
+		    this.connectedRooms.add(new StructureBoundingBox(structureboundingbox1.minX, structureboundingbox1.minY, this.boundingBox.maxZ - 1,
+			    structureboundingbox1.maxX, structureboundingbox1.maxY, this.boundingBox.maxZ));
 		}
 	    }
 
@@ -866,17 +827,14 @@ public class StructureAzureMineshaftPieces
 		    break;
 		}
 
-		StructureAzureMineshaftPieces.Piece structuremineshaftpieces$peice2 = StructureAzureMineshaftPieces
-			.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1,
-				this.boundingBox.minY + rand.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.WEST,
-				i);
+		StructureAzureMineshaftPieces.Piece structuremineshaftpieces$peice2 = StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
+			this.boundingBox.minX - 1, this.boundingBox.minY + rand.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.WEST, i);
 
 		if (structuremineshaftpieces$peice2 != null)
 		{
 		    StructureBoundingBox structureboundingbox2 = structuremineshaftpieces$peice2.getBoundingBox();
-		    this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.minX, structureboundingbox2.minY,
-			    structureboundingbox2.minZ, this.boundingBox.minX + 1, structureboundingbox2.maxY,
-			    structureboundingbox2.maxZ));
+		    this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.minX, structureboundingbox2.minY, structureboundingbox2.minZ, this.boundingBox.minX + 1,
+			    structureboundingbox2.maxY, structureboundingbox2.maxZ));
 		}
 	    }
 
@@ -889,15 +847,13 @@ public class StructureAzureMineshaftPieces
 		    break;
 		}
 
-		StructureComponent structurecomponent = StructureAzureMineshaftPieces.generateAndAddPiece(componentIn,
-			listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + rand.nextInt(j) + 1,
-			this.boundingBox.minZ + k, EnumFacing.EAST, i);
+		StructureComponent structurecomponent = StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1,
+			this.boundingBox.minY + rand.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.EAST, i);
 
 		if (structurecomponent != null)
 		{
 		    StructureBoundingBox structureboundingbox3 = structurecomponent.getBoundingBox();
-		    this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.maxX - 1,
-			    structureboundingbox3.minY, structureboundingbox3.minZ, this.boundingBox.maxX,
+		    this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.maxX - 1, structureboundingbox3.minY, structureboundingbox3.minZ, this.boundingBox.maxX,
 			    structureboundingbox3.maxY, structureboundingbox3.maxZ));
 		}
 	    }
@@ -912,30 +868,26 @@ public class StructureAzureMineshaftPieces
 	    if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn))
 	    {
 		return false;
-	    } else
+	    }
+	    else
 	    {
 
 		// Fills the floor with dirt?
-		this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY,
-			this.boundingBox.minZ, this.boundingBox.maxX, this.boundingBox.minY, this.boundingBox.maxZ,
-			ModBlocks.AZURE_PLANKS.getDefaultState(), Blocks.AIR.getDefaultState(), true);
+		this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX,
+			this.boundingBox.minY, this.boundingBox.maxZ, ModBlocks.AZURE_PLANKS.getDefaultState(), Blocks.AIR.getDefaultState(), true);
 
-		this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY + 1,
-			this.boundingBox.minZ, this.boundingBox.maxX,
-			Math.min(this.boundingBox.minY + 3, this.boundingBox.maxY), this.boundingBox.maxZ,
-			Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		this.fillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY + 1, this.boundingBox.minZ, this.boundingBox.maxX,
+			Math.min(this.boundingBox.minY + 3, this.boundingBox.maxY), this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
 
 		for (StructureBoundingBox structureboundingbox : this.connectedRooms)
 		{
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, structureboundingbox.minX,
-			    structureboundingbox.maxY - 2, structureboundingbox.minZ, structureboundingbox.maxX,
-			    structureboundingbox.maxY, structureboundingbox.maxZ, Blocks.AIR.getDefaultState(),
-			    Blocks.AIR.getDefaultState(), false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, structureboundingbox.minX, structureboundingbox.maxY - 2, structureboundingbox.minZ,
+			    structureboundingbox.maxX, structureboundingbox.maxY, structureboundingbox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(),
+			    false);
 		}
 
-		this.randomlyRareFillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX,
-			this.boundingBox.minY + 4, this.boundingBox.minZ, this.boundingBox.maxX, this.boundingBox.maxY,
-			this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), false);
+		this.randomlyRareFillWithBlocks(worldIn, structureBoundingBoxIn, this.boundingBox.minX, this.boundingBox.minY + 4, this.boundingBox.minZ,
+			this.boundingBox.maxX, this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), false);
 		return true;
 	    }
 	}
@@ -992,8 +944,7 @@ public class StructureAzureMineshaftPieces
 	    this.boundingBox = p_i47136_3_;
 	}
 
-	public static StructureBoundingBox findStairs(List<StructureComponent> listIn, Random rand, int x, int y, int z,
-		EnumFacing facing)
+	public static StructureBoundingBox findStairs(List<StructureComponent> listIn, Random rand, int x, int y, int z, EnumFacing facing)
 	{
 	    StructureBoundingBox structureboundingbox = new StructureBoundingBox(x, y - 5, z, x, y + 2, z);
 
@@ -1017,8 +968,7 @@ public class StructureAzureMineshaftPieces
 		structureboundingbox.maxZ = z + 2;
 	    }
 
-	    return StructureComponent.findIntersecting(listIn, structureboundingbox) != null ? null
-		    : structureboundingbox;
+	    return StructureComponent.findIntersecting(listIn, structureboundingbox) != null ? null : structureboundingbox;
 	}
 
 	/**
@@ -1036,22 +986,20 @@ public class StructureAzureMineshaftPieces
 		{
 		case NORTH:
 		default:
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX,
-			    this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1,
+			    EnumFacing.NORTH, i);
 		    break;
 		case SOUTH:
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX,
-			    this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1,
+			    EnumFacing.SOUTH, i);
 		    break;
 		case WEST:
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-			    this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.WEST,
-			    i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ,
+			    EnumFacing.WEST, i);
 		    break;
 		case EAST:
-		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand,
-			    this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.EAST,
-			    i);
+		    StructureAzureMineshaftPieces.generateAndAddPiece(componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ,
+			    EnumFacing.EAST, i);
 		}
 	    }
 	}
@@ -1065,31 +1013,30 @@ public class StructureAzureMineshaftPieces
 	    if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn))
 	    {
 		return false;
-	    } else
+	    }
+	    else
 	    {
-		this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 5, 0, 2, 7, 1, Blocks.AIR.getDefaultState(),
-			Blocks.AIR.getDefaultState(), false);
-		this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 0, 7, 2, 2, 8, Blocks.AIR.getDefaultState(),
-			Blocks.AIR.getDefaultState(), false);
+		this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 5, 0, 2, 7, 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 0, 7, 2, 2, 8, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
 
 		for (int i = 0; i < 5; ++i)
 		{
-		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 5 - i - (i < 4 ? 1 : 0), 2 + i, 2, 7 - i,
-			    2 + i, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+		    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 5 - i - (i < 4 ? 1 : 0), 2 + i, 2, 7 - i, 2 + i, Blocks.AIR.getDefaultState(),
+			    Blocks.AIR.getDefaultState(), false);
 		}
-		
+
 		this.setBlockState(worldIn, this.getPlanksBlock(), 1, 4, -1, structureBoundingBoxIn);
 		this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 5, -1, structureBoundingBoxIn);
 		this.setBlockState(worldIn, this.getPlanksBlock(), 1, 4, 0, structureBoundingBoxIn);
 		this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 5, 0, structureBoundingBoxIn);
-		
+
 		// Generates the rails down the stairs
 		for (int i = 1; i < 7; ++i)
 		{
 		    this.setBlockState(worldIn, this.getPlanksBlock(), 1, 6 - i - (i < 7 ? 1 : 0), i, structureBoundingBoxIn);
 		    this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 7 - i - (i < 7 ? 1 : 0), i, structureBoundingBoxIn);
 		}
-		
+
 		this.setBlockState(worldIn, this.getPlanksBlock(), 1, -1, 7, structureBoundingBoxIn);
 		this.setBlockState(worldIn, Blocks.RAIL.getDefaultState(), 1, 0, 7, structureBoundingBoxIn);
 
@@ -1098,10 +1045,14 @@ public class StructureAzureMineshaftPieces
 	}
 
 	@Override
-	protected void writeStructureToNBT(NBTTagCompound tagCompound){}
+	protected void writeStructureToNBT(NBTTagCompound tagCompound)
+	{
+	}
 
 	@Override
-	protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_){}
+	protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_)
+	{
+	}
     }
 
     public static class WoodHut extends StructureAzureMineshaftPieces.Piece
@@ -1140,11 +1091,10 @@ public class StructureAzureMineshaftPieces
 	    this.isTallHouse = tagCompound.getBoolean("C");
 	}
 
-	public static StructureAzureMineshaftPieces.WoodHut createPiece(List<StructureComponent> structures,
-		Random rand, int x, int y, int z, EnumFacing facing, int p_175853_7_)
+	public static StructureAzureMineshaftPieces.WoodHut createPiece(List<StructureComponent> structures, Random rand, int x, int y, int z, EnumFacing facing,
+		int p_175853_7_)
 	{
-	    StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(x, y, z, 0, 0,
-		    0, 4, 6, 5, facing);
+	    StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(x, y, z, 0, 0, 0, 4, 6, 5, facing);
 	    return StructureComponent.findIntersecting(structures, structureboundingbox) == null
 		    ? new StructureAzureMineshaftPieces.WoodHut(p_175853_7_, rand, structureboundingbox, facing)
 		    : null;
@@ -1163,12 +1113,14 @@ public class StructureAzureMineshaftPieces
 	    IBlockState fence = ModBlocks.AZURE_FENCE.getDefaultState();
 	    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 1, 1, 3, 5, 4, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
 	    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 3, 0, 4, stone, stone, false);
-	    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, 1, 2, 0, 3, ModBlocks.DARK_AZURE_STONE.getDefaultState(), ModBlocks.DARK_AZURE_STONE.getDefaultState(), false);
+	    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, 1, 2, 0, 3, ModBlocks.DARK_AZURE_STONE.getDefaultState(), ModBlocks.DARK_AZURE_STONE.getDefaultState(),
+		    false);
 
 	    if (this.isTallHouse)
 	    {
 		this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 4, 1, 2, 4, 3, log, log, false);
-	    } else
+	    }
+	    else
 	    {
 		this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 5, 1, 2, 5, 3, log, log, false);
 	    }
@@ -1197,8 +1149,7 @@ public class StructureAzureMineshaftPieces
 	    if (this.tablePosition > 0)
 	    {
 		this.setBlockState(worldIn, fence, this.tablePosition, 1, 3, structureBoundingBoxIn);
-		this.setBlockState(worldIn, Blocks.WOODEN_PRESSURE_PLATE.getDefaultState(), this.tablePosition, 2, 3,
-			structureBoundingBoxIn);
+		this.setBlockState(worldIn, Blocks.WOODEN_PRESSURE_PLATE.getDefaultState(), this.tablePosition, 2, 3, structureBoundingBoxIn);
 	    }
 
 	    this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 1, 1, 0, structureBoundingBoxIn);
@@ -1207,8 +1158,32 @@ public class StructureAzureMineshaftPieces
 
 	    // Fill with a porch
 	    this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 0, -1, 2, 0, -1, planks, planks, false);
-	    
+	    this.spawnAzureVillager(worldIn, structureBoundingBoxIn, 1, 1, 2, 1);
+
 	    return true;
+	}
+
+	/**
+	 * Spawns a number of villagers in this component. Parameters: world, component
+	 * bounding box, x offset, y offset, z offset, number of villagers
+	 */
+	protected void spawnAzureVillager(World worldIn, StructureBoundingBox structurebb, int x, int y, int z, int count)
+	{
+	    for (int i = 0; i < count; ++i)
+	    {
+		int j = this.getXWithOffset(x + i, z);
+		int k = this.getYWithOffset(y);
+		int l = this.getZWithOffset(x + i, z);
+
+		if (!structurebb.isVecInside(new BlockPos(j, k, l)))
+		{
+		    break;
+		}
+
+		EntityAzureVillager entityvillager = new EntityAzureVillager(worldIn);
+		entityvillager.setLocationAndAngles((double) j + 0.5D, (double) k, (double) l + 0.5D, 0.0F, 0.0F);
+		worldIn.spawnEntity(entityvillager);
+	    }
 	}
     }
 }
