@@ -16,54 +16,64 @@ import net.minecraft.util.text.TextFormatting;
 
 public class CommandDimensionTeleport extends CommandBase
 {
-	private final List<String> aliases = Lists.newArrayList(Reference.MOD_ID, "tp", "tpdim", "teleport", "dimension");
+    private final List<String> aliases = Lists.newArrayList(Reference.MOD_ID, "tpdim", "teleport", "dimension");
 
-	@Override
-	public String getName() 
+    @Override
+    public String getName()
+    {
+	return "tpdimension";
+    }
+
+    @Override
+    public String getUsage(ICommandSender sender)
+    {
+	return "tpdimension <dimension id>";
+    }
+
+    @Override
+    public List<String> getAliases()
+    {
+	return aliases;
+    }
+
+    @Override
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender)
+    {
+	return true;
+    }
+
+    @Override
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+    {
+	if (args.length < 1)
+	    return;
+
+	String s = args[0];
+
+	int dimensionId;
+
+	try
 	{
-		return "tpdimension";
+	    dimensionId = Integer.parseInt(s);
+	}
+	catch (NumberFormatException e)
+	{
+	    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Dimension Id Invalid"));
+	    return;
 	}
 
-	@Override
-	public String getUsage(ICommandSender sender) 
+	try
 	{
-		return "tpdimension <dimension id>";
+	    if (sender instanceof EntityPlayer)
+	    {
+		Teleport.teleportToDimension((EntityPlayer) sender, dimensionId, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ());
+	    }
 	}
-	
-	@Override
-	public List<String> getAliases() 
+	catch (IllegalArgumentException e)
 	{
-		return aliases;
-	}
-	
-	@Override
-	public boolean checkPermission(MinecraftServer server, ICommandSender sender) 
-	{
-		return true;
+	    sender.sendMessage(new TextComponentString(TextFormatting.RED + e.getMessage()));
+	    return;
 	}
 
-	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException 
-	{
-		if(args.length < 1) return;
-		
-		String s = args[0];
-		
-		int dimensionId;
-		
-		try
-		{
-			dimensionId = Integer.parseInt(s);
-		}
-		catch (NumberFormatException e)
-		{
-			sender.sendMessage(new TextComponentString(TextFormatting.RED + "Dimension Id Invalid"));
-			return;
-		}
-		
-		if(sender instanceof EntityPlayer)
-		{
-			Teleport.teleportToDimension((EntityPlayer)sender, dimensionId, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ());
-		}
-	}
+    }
 }

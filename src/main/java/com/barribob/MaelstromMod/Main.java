@@ -56,7 +56,7 @@ public class Main
 	GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
 
 	ModEntities.registerEntities();
-	RenderHandler.registerEntityRenderers();
+	proxy.init();
 
 	BiomeInit.registerBiomes();
 	DimensionInit.registerDimensions();
@@ -69,6 +69,7 @@ public class Main
 	SoundsHandler.registerSounds();
 	ModStructures.registerStructures();
 	ModProfessions.associateCareersAndTrades();
+	
     }
 
     @EventHandler
@@ -78,7 +79,7 @@ public class Main
     }
 
     @EventHandler
-    public static void serverInit(FMLServerStartingEvent event)
+    public static void serverLoad(FMLServerStartingEvent event)
     {
 	event.registerServerCommand(new CommandDimensionTeleport());
     }

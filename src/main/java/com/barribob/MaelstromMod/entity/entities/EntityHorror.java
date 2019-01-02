@@ -36,13 +36,12 @@ public class EntityHorror extends EntityMaelstromMob
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(14);
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8);
     }
-    
+
     protected void initEntityAI()
     {
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 100, 5.0f));
     }
-
 
     /**
      * Spawns smoke out of the middle of the entity
@@ -51,10 +50,12 @@ public class EntityHorror extends EntityMaelstromMob
     public void onUpdate()
     {
 	super.onUpdate();
-	for (int i = 0; i < 5; i++)
+	if (world.isRemote)
 	{
-	    ParticleManager.spawnMaelstromSmoke(world, rand,
-		    new Vec3d(this.posX + ModRandom.getFloat(0.7f), this.posY + 1, this.posZ + ModRandom.getFloat(0.7f)));
+	    for (int i = 0; i < 5; i++)
+	    {
+		ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX + ModRandom.getFloat(0.7f), this.posY + 1, this.posZ + ModRandom.getFloat(0.7f)));
+	    }
 	}
     }
 
@@ -75,7 +76,7 @@ public class EntityHorror extends EntityMaelstromMob
 	    this.world.spawnEntity(projectile);
 	}
     }
-    
+
     @Override
     protected SoundEvent getAmbientSound()
     {
@@ -97,6 +98,6 @@ public class EntityHorror extends EntityMaelstromMob
     @Override
     protected float getSoundVolume()
     {
-        return 0.5f;
+	return 0.5f;
     }
 }
