@@ -459,43 +459,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 
 	}
 
-	if (biome != Biomes.DESERT && biome != Biomes.DESERT_HILLS && this.settings.useWaterLakes && !flag && this.rand.nextInt(this.settings.waterLakeChance) == 0)
-	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
-		    net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE))
-	    {
-		int i1 = this.rand.nextInt(16) + 8;
-		int j1 = this.rand.nextInt(256);
-		int k1 = this.rand.nextInt(16) + 8;
-		(new WorldGenLakes(Blocks.WATER)).generate(this.world, this.rand, blockpos.add(i1, j1, k1));
-	    }
-
-	if (!flag && this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes)
-	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
-		    net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAVA))
-	    {
-		int i2 = this.rand.nextInt(16) + 8;
-		int l2 = this.rand.nextInt(this.rand.nextInt(248) + 8);
-		int k3 = this.rand.nextInt(16) + 8;
-
-		if (l2 < this.world.getSeaLevel() || this.rand.nextInt(this.settings.lavaLakeChance / 8) == 0)
-		{
-		    (new WorldGenLakes(Blocks.LAVA)).generate(this.world, this.rand, blockpos.add(i2, l2, k3));
-		}
-	    }
-
-	if (this.settings.useDungeons)
-	    if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
-		    net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.DUNGEON))
-	    {
-		for (int j2 = 0; j2 < this.settings.dungeonChance; ++j2)
-		{
-		    int i3 = this.rand.nextInt(16) + 8;
-		    int l3 = this.rand.nextInt(256);
-		    int l1 = this.rand.nextInt(16) + 8;
-		    (new WorldGenDungeons()).generate(this.world, this.rand, blockpos.add(i3, l3, l1));
-		}
-	    }
-
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE);
 	if (rand.nextInt(15) == 0)
 	{
@@ -510,29 +473,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 		net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ANIMALS))
 	    WorldEntitySpawner.performWorldGenSpawning(this.world, biome, i + 8, j + 8, 16, 16, this.rand);
 	blockpos = blockpos.add(8, 0, 8);
-
-	if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag,
-		net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ICE))
-	{
-	    for (int k2 = 0; k2 < 16; ++k2)
-	    {
-		for (int j3 = 0; j3 < 16; ++j3)
-		{
-		    BlockPos blockpos1 = this.world.getPrecipitationHeight(blockpos.add(k2, 0, j3));
-		    BlockPos blockpos2 = blockpos1.down();
-
-		    if (this.world.canBlockFreezeWater(blockpos2))
-		    {
-			this.world.setBlockState(blockpos2, Blocks.ICE.getDefaultState(), 2);
-		    }
-
-		    if (this.world.canSnowAt(blockpos1, true))
-		    {
-			this.world.setBlockState(blockpos1, Blocks.SNOW_LAYER.getDefaultState(), 2);
-		    }
-		}
-	    }
-	} // Forge: End ICE
 
 	net.minecraftforge.event.ForgeEventFactory.onChunkPopulate(false, this, this.world, this.rand, x, z, flag);
 
