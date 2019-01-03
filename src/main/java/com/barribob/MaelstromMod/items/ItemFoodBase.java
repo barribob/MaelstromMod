@@ -5,17 +5,13 @@ import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 
-/**
- * 
- * The base class for basic mod foods
- *
- */
-public class ItemBase extends Item implements IHasModel
+public class ItemFoodBase extends ItemFood implements IHasModel
 {
-    public ItemBase(String name, CreativeTabs tab)
+    public ItemFoodBase(String name, CreativeTabs tab, int amount, float saturation, boolean isWolfFood)
     {
+	super(amount, saturation, isWolfFood);
 	setUnlocalizedName(name);
 	setRegistryName(name);
 	if (tab != null)
@@ -24,11 +20,6 @@ public class ItemBase extends Item implements IHasModel
 	}
 
 	ModItems.ITEMS.add(this);
-    }
-
-    public ItemBase(String name)
-    {
-	this(name, CreativeTabs.MATERIALS);
     }
 
     @Override

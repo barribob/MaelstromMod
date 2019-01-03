@@ -13,4 +13,5 @@ import net.minecraft.world.storage.loot.LootTableList;
 public class LootTableHandler 
 {
 	public static final ResourceLocation SHADE = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "shade"));
+	public static final ResourceLocation ELK = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "elk"));
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.barribob.MaelstromMod.items.ItemBase;
+import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.armor.ArmorBase;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
 import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
@@ -11,6 +12,7 @@ import com.barribob.MaelstromMod.items.tools.ToolSpade;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.util.Reference;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -37,6 +39,10 @@ public class ModItems
 	public static final List<Item> ITEMS = new ArrayList<Item>();
 	
 	public static final Item INVISIBLE = new ItemBase("invisible", null);
+	
+	public static final Item ELK_HIDE = new ItemBase("elk_hide", CreativeTabs.MATERIALS);
+	public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", CreativeTabs.FOOD, 3, 0.3F, true);
+	public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", CreativeTabs.FOOD, 8, 1.0F, true);
 	
 	public static final ItemSword ORE_SWORD = new ToolSword("ore_sword", MATERIAL_ORE);
 	public static final ItemSpade ORE_SPADE = new ToolSpade("ore_shovel", MATERIAL_ORE);

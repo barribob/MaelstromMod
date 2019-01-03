@@ -10,9 +10,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * Adds all of the smelting recipes for the mod
  *
  */
-public class ModRecipes 
+public class ModRecipes
 {
-	public static void init() {
-		GameRegistry.addSmelting(ModBlocks.DARK_AZURE_STONE, new ItemStack(ModBlocks.LIGHT_AZURE_STONE), 0.0f);
-	}
+    public static void init()
+    {
+	GameRegistry.addSmelting(ModItems.ELK_STRIPS, new ItemStack(ModItems.ELK_JERKY), 0.1f);
+    }
 }

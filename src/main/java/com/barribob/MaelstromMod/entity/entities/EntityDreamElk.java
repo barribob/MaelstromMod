@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.ai.AIEatAzureGrass;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -64,6 +66,12 @@ public class EntityDreamElk extends EntityCreature
     {
 	this.eatGrassTimer = this.grassAI.getEatingGrassTimer();
 	super.updateAITasks();
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.ELK;
     }
 
     @Override
