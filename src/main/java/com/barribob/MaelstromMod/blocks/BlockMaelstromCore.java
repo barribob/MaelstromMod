@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.blocks;
 
+import java.util.Random;
+
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.entities.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
@@ -65,14 +67,20 @@ public class BlockMaelstromCore extends BlockContainer implements IHasModel
     {
 	return new TileEntityMalestromSpawner();
     }
-    
+
     /**
-     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
-     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
+     * The type of render function called. MODEL for mixed tesr and static model,
+     * MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids, INVISIBLE to
+     * skip all rendering
      */
     public EnumBlockRenderType getRenderType(IBlockState state)
     {
-        return EnumBlockRenderType.MODEL;
+	return EnumBlockRenderType.MODEL;
     }
 
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+	return ModItems.AZURE_MAELSTROM_CORE_CRYSTAL;
+    }
 }

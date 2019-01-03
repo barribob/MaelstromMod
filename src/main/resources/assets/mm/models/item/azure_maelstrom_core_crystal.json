@@ -1,0 +1,6 @@
+{
+   "parent": "item/generated",
+   "textures": {
+       "layer0": "mm:items/azure_maelstrom_core_crystal"
+   }
+}

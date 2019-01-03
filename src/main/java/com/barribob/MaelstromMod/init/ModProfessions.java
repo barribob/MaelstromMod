@@ -54,7 +54,7 @@ public class ModProfessions
 
 	public TradeEmeraldsForArmor()
 	{
-	    sellStack = new ItemStack(ModItems.ORE_CHESPLATE);
+	    sellStack = new ItemStack(ModItems.MAELSTROM_CHESTPLATE);
 	    priceInfo = new PriceInfo(5, 5);
 	}
 

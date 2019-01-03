@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.block.Block;
@@ -53,7 +54,7 @@ public class BlockMaelstrom extends BlockBase
     {
 	if(entityIn instanceof EntityLivingBase && !(entityIn instanceof EntityMaelstromMob)) 
 	{
-	    entityIn.attackEntityFrom(DamageSource.CACTUS, damage);
+	    entityIn.attackEntityFrom(ModDamageSource.MAELSTROM_DAMAGE, damage);
 	}
     }
     
