@@ -45,7 +45,7 @@ public class EntityShade extends EntityMaelstromMob
 {
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 1.0f;
-    
+
     public EntityShade(World worldIn)
     {
 	super(worldIn);
@@ -61,12 +61,11 @@ public class EntityShade extends EntityMaelstromMob
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(14);
 	this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8);
     }
-    
+
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4,
-		new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 3.0f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 3.0f));
     }
 
     @Override
@@ -94,20 +93,24 @@ public class EntityShade extends EntityMaelstromMob
     }
 
     /**
-     * Shoots a projectile in a similar fashion to the snow golem (see EntitySnowman)
+     * Shoots a projectile in a similar fashion to the snow golem (see
+     * EntitySnowman)
      */
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	ProjectileShadeAttack projectile = new ProjectileShadeAttack(this.world, this);
-        double d0 = target.posY + (double)target.getEyeHeight() - 1.100000023841858D;
-	double xDir = target.posX - this.posX;
-	double yDir = d0 - projectile.posY;
-	double zDir = target.posZ - this.posZ;
-        float f = MathHelper.sqrt(xDir * xDir + zDir * zDir) * 0.2F;
-        yDir = Math.min(yDir + f, 0); // Keep the entity from aiming upward
-	projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
-	this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-	this.world.spawnEntity(projectile);
+	if (!world.isRemote)
+	{
+	    ProjectileShadeAttack projectile = new ProjectileShadeAttack(this.world, this);
+	    double d0 = target.posY + (double) target.getEyeHeight() - 1.100000023841858D;
+	    double xDir = target.posX - this.posX;
+	    double yDir = d0 - projectile.posY;
+	    double zDir = target.posZ - this.posZ;
+	    float f = MathHelper.sqrt(xDir * xDir + zDir * zDir) * 0.2F;
+	    yDir = Math.min(yDir + f, 0); // Keep the entity from aiming upward
+	    projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
+	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+	    this.world.spawnEntity(projectile);
+	}
     }
 }

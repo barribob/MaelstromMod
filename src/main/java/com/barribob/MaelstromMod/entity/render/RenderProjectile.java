@@ -17,19 +17,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * Makes a projectile registered with this class render invisibly
- *
- * @param <T> The projectile to render
- */
+ * Makes a projectile registered with this class render with the given item
+ * 
+ **/
 @SideOnly(Side.CLIENT)
-public class RenderInvisibleProjectile<T extends Entity> extends Render<T>
+public class RenderProjectile<T extends Entity> extends Render<T>
 {
     private final RenderItem itemRenderer;
+    private final Item itemToRender;
 
-    public RenderInvisibleProjectile(RenderManager renderManagerIn, RenderItem itemRendererIn)
+    public RenderProjectile(RenderManager renderManagerIn, RenderItem itemRendererIn, Item item)
     {
         super(renderManagerIn);
         this.itemRenderer = itemRendererIn;
+        this.itemToRender = item;
     }
 
     /**
@@ -45,8 +46,8 @@ public class RenderInvisibleProjectile<T extends Entity> extends Render<T>
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
         this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        // Use an invisible item to render
-        this.itemRenderer.renderItem(new ItemStack(ModItems.INVISIBLE), ItemCameraTransforms.TransformType.GROUND);
+        System.out.println(this.itemToRender);
+        this.itemRenderer.renderItem(new ItemStack(this.itemToRender), ItemCameraTransforms.TransformType.GROUND);
         
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();

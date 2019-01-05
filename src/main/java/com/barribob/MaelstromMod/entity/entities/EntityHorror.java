@@ -65,15 +65,18 @@ public class EntityHorror extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	for (int i = 0; i < PROJECTILE_AMOUNT; i++)
+	if (!world.isRemote)
 	{
-	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
-	    double xDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
-	    double yDir = 1;
-	    double zDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
-	    projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
-	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-	    this.world.spawnEntity(projectile);
+	    for (int i = 0; i < PROJECTILE_AMOUNT; i++)
+	    {
+		ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
+		double xDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
+		double yDir = 1;
+		double zDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
+		projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
+		this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+		this.world.spawnEntity(projectile);
+	    }
 	}
     }
 

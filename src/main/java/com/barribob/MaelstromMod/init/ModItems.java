@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.barribob.MaelstromMod.items.ItemBase;
+import com.barribob.MaelstromMod.items.ItemBoomstick;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
@@ -46,6 +47,9 @@ public class ModItems
 	public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", CreativeTabs.FOOD, 8, 1.0F, true);
 	
 	public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", CreativeTabs.MATERIALS);
+	
+	public static final Item IRON_PELLET = new ItemBase("iron_pellet", CreativeTabs.MATERIALS);
+	public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, 250, IRON_PELLET);
 	
 	public static final ItemSword ORE_SWORD = new ToolSword("ore_sword", MATERIAL_ORE);
 	public static final ItemSpade ORE_SPADE = new ToolSpade("ore_shovel", MATERIAL_ORE);

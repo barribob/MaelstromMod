@@ -11,12 +11,16 @@ import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromIllager;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
+import com.barribob.MaelstromMod.entity.projectile.EntityModThrowable;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
-import com.barribob.MaelstromMod.entity.render.RenderInvisibleProjectile;
+import com.barribob.MaelstromMod.entity.render.RenderProjectile;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
+import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.client.Minecraft;
@@ -24,7 +28,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -39,9 +43,11 @@ public class RenderHandler
 	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromIllager.class, ModelMaelstromIllager.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_illager.png"));
 	
-	registerInvisibleProjectileRenderer(ProjectileShadeAttack.class);
-	registerInvisibleProjectileRenderer(ProjectileHorrorAttack.class);
-	registerInvisibleProjectileRenderer(ProjectileBeastAttack.class);
+	registerProjectileRenderer(ProjectileShadeAttack.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(ProjectileHorrorAttack.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(ProjectileBeastAttack.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
 	
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>() {
 	    @Override
@@ -81,18 +87,18 @@ public class RenderHandler
     }
 
     /**
-     * Makes a projectile render invisibly
+     * Makes a projectile render with the given item
      * 
      * @param projectileClass
      */
-    private static <T extends EntityThrowable> void registerInvisibleProjectileRenderer(Class<T> projectileClass)
+    private static <T extends EntityModThrowable> void registerProjectileRenderer(Class<T> projectileClass, Item item)
     {
 	RenderingRegistry.registerEntityRenderingHandler(projectileClass, new IRenderFactory<T>()
 	{
 	    @Override
 	    public Render<? super T> createRenderFor(RenderManager manager)
 	    {
-		return new RenderInvisibleProjectile(manager, Minecraft.getMinecraft().getRenderItem());
+		return new RenderProjectile(manager, Minecraft.getMinecraft().getRenderItem(), item);
 	    }
 	});
     }

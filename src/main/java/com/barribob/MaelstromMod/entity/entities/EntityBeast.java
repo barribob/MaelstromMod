@@ -64,16 +64,15 @@ public class EntityBeast extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME,
-		RANGED_SWITCH_CHANCE));
+	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE));
     }
-    
+
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */
     protected boolean canDespawn()
     {
-        return false;
+	return false;
     }
 
     /**
@@ -118,17 +117,20 @@ public class EntityBeast extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
+	if (!world.isRemote)
 	{
-	    ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this);
-	    double d0 = target.posY + (double) target.getEyeHeight();
-	    double d1 = target.posX - this.posX;
-	    double d2 = d0 - projectile.posY;
-	    double d3 = target.posZ - this.posZ;
-	    float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-	    projectile.shoot(d1, d2 + (double) f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
-	    this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-	    this.world.spawnEntity(projectile);
+	    for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
+	    {
+		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this);
+		double d0 = target.posY + (double) target.getEyeHeight();
+		double d1 = target.posX - this.posX;
+		double d2 = d0 - projectile.posY;
+		double d3 = target.posZ - this.posZ;
+		float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+		projectile.shoot(d1, d2 + (double) f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
+		this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+		this.world.spawnEntity(projectile);
+	    }
 	}
     }
 
