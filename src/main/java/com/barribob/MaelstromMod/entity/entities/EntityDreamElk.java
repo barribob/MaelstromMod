@@ -71,7 +71,7 @@ public class EntityDreamElk extends EntityCreature
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.ELK;
+	return LootTableHandler.AZURE_FORTRESS;
     }
 
     @Override

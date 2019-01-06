@@ -1,7 +1,10 @@
 package com.barribob.MaelstromMod.items;
 
+import java.util.List;
+
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
@@ -10,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 /**
@@ -52,5 +56,12 @@ public class ItemBoomstick extends ItemGun
 
 	    world.spawnEntity(projectile);
 	}
+    }
+    
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+	tooltip.add(TextFormatting.GRAY + "Required Ammo: Metal Pellet");
+	tooltip.add(TextFormatting.GRAY + "Deals damage at close range.");
     }
 }

@@ -46,7 +46,6 @@ public class RenderProjectile<T extends Entity> extends Render<T>
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
         this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        System.out.println(this.itemToRender);
         this.itemRenderer.renderItem(new ItemStack(this.itemToRender), ItemCameraTransforms.TransformType.GROUND);
         
         GlStateManager.disableRescaleNormal();

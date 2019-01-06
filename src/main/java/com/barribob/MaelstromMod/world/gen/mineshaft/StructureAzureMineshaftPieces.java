@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockPlanks;
@@ -453,12 +454,12 @@ public class StructureAzureMineshaftPieces
 
 		    if (randomIn.nextInt(100) == 0)
 		    {
-			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 2, 0, k1 - 1, LootTableList.CHESTS_ABANDONED_MINESHAFT);
+			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 2, 0, k1 - 1, LootTableHandler.AZURE_MINESHAFT);
 		    }
 
 		    if (randomIn.nextInt(100) == 0)
 		    {
-			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 0, 0, k1 + 1, LootTableList.CHESTS_ABANDONED_MINESHAFT);
+			this.generateChest(worldIn, structureBoundingBoxIn, randomIn, 0, 0, k1 + 1, LootTableHandler.AZURE_MINESHAFT);
 		    }
 		}
 

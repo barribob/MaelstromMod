@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
@@ -26,6 +27,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BossInfo;
@@ -53,6 +55,9 @@ public class EntityBeast extends EntityMaelstromMob
     private final static int PROJECTILE_AMOUNT = 5;
 
     private boolean isRanged; // Used for animation
+    
+    // Responsible for the boss bar
+    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
 
     public EntityBeast(World worldIn)
     {
@@ -65,6 +70,12 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	super.initEntityAI();
 	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE));
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.BEAST;
     }
 
     /**
@@ -142,5 +153,52 @@ public class EntityBeast extends EntityMaelstromMob
 	    return true;
 	}
 	return false;
+    }
+    
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+	if (this.hasCustomName())
+	{
+	    this.bossInfo.setName(this.getDisplayName());
+	}
+
+	super.readEntityFromNBT(compound);
+    }
+    
+    /**
+     * Sets the custom name tag for this entity
+     */
+    public void setCustomNameTag(String name)
+    {
+	super.setCustomNameTag(name);
+	this.bossInfo.setName(this.getDisplayName());
+    }
+    
+    @Override
+    protected void updateAITasks()
+    {
+	this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+	super.updateAITasks();
+    }
+    
+    /**
+     * Add the given player to the list of players tracking this entity. For
+     * instance, a player may track a boss in order to view its associated boss bar.
+     */
+    public void addTrackingPlayer(EntityPlayerMP player)
+    {
+	super.addTrackingPlayer(player);
+	this.bossInfo.addPlayer(player);
+    }
+
+    /**
+     * Removes the given player from the list of players tracking this entity. See
+     * {@link Entity#addTrackingPlayer} for more information on tracking.
+     */
+    public void removeTrackingPlayer(EntityPlayerMP player)
+    {
+	super.removeTrackingPlayer(player);
+	this.bossInfo.removePlayer(player);
     }
 }
