@@ -14,4 +14,16 @@ public class ModRandom
 	Random rand = new Random();
 	return (rand.nextFloat() - rand.nextFloat()) * 0.5f * range;
     }
+    
+    /**
+     * Chooses a random integer between the min [inclusive] and the max [exclusive]
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int range(int min, int max)
+    {
+	Random rand = new Random();
+	return min + rand.nextInt(max);
+    }
 }

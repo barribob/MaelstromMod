@@ -60,7 +60,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
 
         if (equipmentSlot == this.armorType)
         {
-            multimap.put("Maelstrom Armor", new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstronm Armor modifier", (double)this.maelstrom_armor, 0));
+            multimap.put("maelstrom_armor", new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstrom Armor modifier", (double)this.maelstrom_armor, 0));
         }
 
         return multimap;

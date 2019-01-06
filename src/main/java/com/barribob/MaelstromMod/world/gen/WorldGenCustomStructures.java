@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.init.BiomeInit;
-import com.barribob.MaelstromMod.init.DimensionInit;
+import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.init.ModBlocks;
 
 import net.minecraft.block.Block;
@@ -30,9 +30,8 @@ public class WorldGenCustomStructures implements IWorldGenerator
     {
 	switch (world.provider.getDimension())
 	{
-	case DimensionInit.DIMENSION_AZURE_ID:
+	case ModDimensions.DIMENSION_AZURE_ID:
 	    break;
-
 	// The nether
 	case 1:
 	    break;

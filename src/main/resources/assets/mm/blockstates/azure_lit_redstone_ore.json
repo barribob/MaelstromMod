@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "mm:azure_lit_redstone_ore" }
+    }
+}

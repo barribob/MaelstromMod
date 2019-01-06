@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.barribob.MaelstromMod.blocks.BlockAzureFlower;
 import com.barribob.MaelstromMod.blocks.BlockAzureGrass;
+import com.barribob.MaelstromMod.blocks.BlockAzureRedstoneOre;
 import com.barribob.MaelstromMod.blocks.BlockAzureTallGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureVines;
 import com.barribob.MaelstromMod.blocks.BlockAzureVinesBlock;
@@ -15,11 +16,13 @@ import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
 import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
+import com.barribob.MaelstromMod.blocks.BlockAzureOre;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
 /**
  * 
@@ -53,4 +56,12 @@ public class ModBlocks
 	public static final Block MAELSTROM_BRICKS = new BlockBase("maelstrom_bricks", Material.ROCK, 2.0f, 40, SoundType.STONE);
 	public static final Block MAELSTROM_BRICK_FENCE = new BlockFenceBase("maelstrom_brick_fence", Material.ROCK, 2.0f, 40, SoundType.STONE);
 	public static final Block MAELSTROM_BRICK_STAIRS = new BlockStairsBase("maelstrom_brick_stairs", MAELSTROM_BRICKS.getDefaultState(), 2.0f, 40, SoundType.STONE);
+	public static final Block AZURE_COAL_ORE = new BlockAzureOre("azure_coal_ore", 3.0f, 40, SoundType.STONE);
+	public static final Block AZURE_DIAMOND_ORE = new BlockAzureOre("azure_diamond_ore", 3.0f, 40, SoundType.STONE);
+	public static final Block AZURE_EMERALD_ORE = new BlockAzureOre("azure_emerald_ore", 3.0f, 40, SoundType.STONE);
+	public static final Block AZURE_LAPIS_ORE = new BlockAzureOre("azure_lapis_ore", 3.0f, 40, SoundType.STONE);
+	public static final Block AZURE_IRON_ORE = new BlockAzureOre("azure_iron_ore", 3.0f, 40, SoundType.STONE);
+	public static final Block AZURE_GOLD_ORE = new BlockAzureOre("azure_gold_ore", 3.0f, 40, SoundType.STONE);
+	public static final Block AZURE_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_redstone_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+	public static final Block AZURE_LIT_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_lit_redstone_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(CreativeTabs.BUILDING_BLOCKS).setLightLevel(0.3f);
 }

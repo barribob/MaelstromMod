@@ -5,6 +5,7 @@ import java.util.Random;
 import com.barribob.MaelstromMod.blocks.BlockAzureBush;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.world.gen.WorldGenAzureMinable;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
@@ -35,8 +36,7 @@ public class BiomeAzure extends Biome
     protected static final WorldGenPlumTree SMALL_PLUM_TREE = new WorldGenPlumTree(false, true);
     protected static final WorldGenBigPlumTree LARGE_PLUM_TREE = new WorldGenBigPlumTree(false);
 
-    private final BlockAzureBush[] FLOWER_LIST = { (BlockAzureBush) ModBlocks.BLUE_DAISY,
-	    (BlockAzureBush) ModBlocks.RUBY_ORCHID };
+    private final BlockAzureBush[] FLOWER_LIST = { (BlockAzureBush) ModBlocks.BLUE_DAISY, (BlockAzureBush) ModBlocks.RUBY_ORCHID };
     protected final WorldGenAzureFoliage FLOWERS = new WorldGenAzureFoliage(FLOWER_LIST, 64);
 
     private final BlockAzureBush[] TALL_GRASS_LIST = { (BlockAzureBush) ModBlocks.BROWNED_GRASS };
@@ -65,7 +65,7 @@ public class BiomeAzure extends Biome
 	this.addFlower(ModBlocks.BLUE_DAISY.getDefaultState(), 1);
 	this.addFlower(ModBlocks.RUBY_ORCHID.getDefaultState(), 1);
 
-	// Add our mobs to spawn in the biome
+        // Add our mobs to spawn in the biome
 	this.spawnableCreatureList.add(new SpawnListEntry(EntityDreamElk.class, 10, 1, 5));
     }
 
@@ -80,7 +80,8 @@ public class BiomeAzure extends Biome
 	if (rand.nextInt(plumTreeOdds) == 0)
 	{
 	    return SMALL_PLUM_TREE;
-	} else if (rand.nextInt(largePlumTreeOdds) == 0)
+	}
+	else if (rand.nextInt(largePlumTreeOdds) == 0)
 	{
 	    return LARGE_PLUM_TREE;
 	}
@@ -93,8 +94,7 @@ public class BiomeAzure extends Biome
      * and filler blocks correctly Since we can't override directly, we have to hack
      * around a bit in here and in the azure chunk generator
      */
-    public void generateAzureTerrain(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z,
-	    double noiseVal)
+    public void generateAzureTerrain(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal)
     {
 	int i = worldIn.getSeaLevel();
 	IBlockState iblockstate = this.topBlock;
@@ -110,7 +110,8 @@ public class BiomeAzure extends Biome
 	    if (j1 <= rand.nextInt(5))
 	    {
 		chunkPrimerIn.setBlockState(i1, j1, l, BEDROCK);
-	    } else
+	    }
+	    else
 	    {
 		IBlockState iblockstate2 = chunkPrimerIn.getBlockState(i1, j1, l);
 
@@ -130,7 +131,8 @@ public class BiomeAzure extends Biome
 			{
 			    iblockstate = AIR;
 			    iblockstate1 = STONE;
-			} else if (j1 >= i - 4 && j1 <= i + 1)
+			}
+			else if (j1 >= i - 4 && j1 <= i + 1)
 			{
 			    iblockstate = this.topBlock;
 			    iblockstate1 = this.fillerBlock;
@@ -141,7 +143,8 @@ public class BiomeAzure extends Biome
 			    if (this.getTemperature(blockpos$mutableblockpos.setPos(x, j1, z)) < 0.15F)
 			    {
 				iblockstate = ICE;
-			    } else
+			    }
+			    else
 			    {
 				iblockstate = WATER;
 			    }
@@ -152,16 +155,19 @@ public class BiomeAzure extends Biome
 			if (j1 >= i - 1)
 			{
 			    chunkPrimerIn.setBlockState(i1, j1, l, iblockstate);
-			} else if (j1 < i - 7 - k)
+			}
+			else if (j1 < i - 7 - k)
 			{
 			    iblockstate = AIR;
 			    iblockstate1 = STONE;
 			    chunkPrimerIn.setBlockState(i1, j1, l, GRAVEL);
-			} else
+			}
+			else
 			{
 			    chunkPrimerIn.setBlockState(i1, j1, l, iblockstate1);
 			}
-		    } else if (j > 0)
+		    }
+		    else if (j > 0)
 		    {
 			--j;
 			chunkPrimerIn.setBlockState(i1, j1, l, iblockstate1);
@@ -169,9 +175,7 @@ public class BiomeAzure extends Biome
 			if (j == 0 && iblockstate1.getBlock() == Blocks.SAND && k > 1)
 			{
 			    j = rand.nextInt(4) + Math.max(0, j1 - 63);
-			    iblockstate1 = iblockstate1.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND
-				    ? RED_SANDSTONE
-				    : SANDSTONE;
+			    iblockstate1 = iblockstate1.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND ? RED_SANDSTONE : SANDSTONE;
 			}
 		    }
 		}
@@ -183,7 +187,7 @@ public class BiomeAzure extends Biome
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {
 	super.decorate(worldIn, rand, pos);
-
+	
 	WorldGenAzureVineBridge AZURE_VINES = new WorldGenAzureVineBridge();
 	int vineAttempts = 7;
 	for (int l = 0; l < vineAttempts; l++)

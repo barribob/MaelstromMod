@@ -1,7 +1,7 @@
 package com.barribob.MaelstromMod.world.dimension.azure_dimension;
 
 import com.barribob.MaelstromMod.init.BiomeInit;
-import com.barribob.MaelstromMod.init.DimensionInit;
+import com.barribob.MaelstromMod.init.ModDimensions;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -30,7 +30,7 @@ public class DimensionAzure extends WorldProvider
     @Override
     public DimensionType getDimensionType()
     {
-	return DimensionInit.AZURE;
+	return ModDimensions.AZURE;
     }
 
     @Override
