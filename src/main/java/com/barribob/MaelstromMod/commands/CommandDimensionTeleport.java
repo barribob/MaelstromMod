@@ -10,6 +10,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -64,9 +65,9 @@ public class CommandDimensionTeleport extends CommandBase
 
 	try
 	{
-	    if (sender instanceof EntityPlayer)
+	    if (sender instanceof EntityPlayerMP && ((EntityPlayer) sender).dimension != dimensionId)
 	    {
-		Teleport.teleportToDimension((EntityPlayer) sender, dimensionId, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ());
+		Teleport.teleportToDimension((EntityPlayerMP) sender, dimensionId, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ());
 	    }
 	}
 	catch (IllegalArgumentException e)

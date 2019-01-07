@@ -5,9 +5,11 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
+import com.barribob.MaelstromMod.world.gen.maelstrom_castle.WorldGenMaelstromCastle;
 import com.barribob.MaelstromMod.init.ModBlocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,6 +27,8 @@ import scala.actors.threadpool.Arrays;
  */
 public class WorldGenCustomStructures implements IWorldGenerator
 {
+    public static final WorldGenStructure MAELSTROM_CASTLE = new WorldGenMaelstromCastle("maelstrom_castle/maelstrom_castle");
+
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
@@ -32,12 +36,14 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	{
 	case ModDimensions.DIMENSION_AZURE_ID:
 	    break;
+
 	// The nether
 	case 1:
 	    break;
 
 	// The overworld
 	case 0:
+	    generateStructure(MAELSTROM_CASTLE, world, random, chunkX, chunkZ, 500, Blocks.GRASS);
 	    break;
 
 	// The end
@@ -48,7 +54,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
     /**
      * Generates a structure in the world, calculating floor height and only placing
-     * on the top block
+     * on the top block. Only places it in specified biome classes
      * 
      * @param generator
      * @param world
@@ -59,7 +65,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
      * @param topBlock
      * @param classes
      */
-    private void generateStructure(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ, int chance, Block topBlock, Class<?>... classes)
+    private void generateBiomeSpecificStructure(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ, int chance, Block topBlock, Class<?>... classes)
     {
 	ArrayList<Class<?>> classesList = new ArrayList<Class<?>>(Arrays.asList(classes));
 
@@ -78,6 +84,34 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		{
 		    generator.generate(world, rand, pos);
 		}
+	    }
+	}
+    }
+
+    /**
+     * Generates a structure in the world, calculating floor height and only placing
+     * on the top block
+     * 
+     * @param generator
+     * @param world
+     * @param rand
+     * @param chunkX
+     * @param chunkZ
+     * @param chance
+     * @param topBlock
+     * @param classes
+     */
+    private void generateStructure(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ, int chance, Block topBlock)
+    {
+	if (rand.nextInt(chance) == 0)
+	{
+	    int x = chunkX * 16 + 8;
+	    int z = chunkZ * 16 + 8;
+	    int y = calculateGenerationHeight(world, x, z, topBlock);
+
+	    if (world.getWorldType() != WorldType.FLAT)
+	    {
+		generator.generate(world, rand, new BlockPos(x, y, z));
 	    }
 	}
     }

@@ -52,8 +52,8 @@ public class Main
     @EventHandler
     public static void PreInit(FMLPreInitializationEvent event)
     {
-	GameRegistry.registerWorldGenerator(new WorldGenOre(), 3);
-	GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
+	GameRegistry.registerWorldGenerator(new WorldGenOre(), 2);
+	GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 3);
 
 	ModEntities.registerEntities();
 	proxy.init();

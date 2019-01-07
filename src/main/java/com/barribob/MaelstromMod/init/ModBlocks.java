@@ -17,6 +17,7 @@ import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
 import com.barribob.MaelstromMod.blocks.BlockAzureOre;
+import com.barribob.MaelstromMod.blocks.BlockAzurePortal;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
 
 import net.minecraft.block.Block;
@@ -64,4 +65,8 @@ public class ModBlocks
 	public static final Block AZURE_GOLD_ORE = new BlockAzureOre("azure_gold_ore", 3.0f, 40, SoundType.STONE);
 	public static final Block AZURE_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_redstone_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	public static final Block AZURE_LIT_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_lit_redstone_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(CreativeTabs.BUILDING_BLOCKS).setLightLevel(0.3f);
+	public static final Block MAELSTROM_STONEBRICK = new BlockBase("maelstrom_stonebrick", Material.ROCK, 1.7f, 35, SoundType.STONE);
+	public static final Block MAELSTROM_STONEBRICK_STAIRS = new BlockStairsBase("maelstrom_stonebrick_stairs", MAELSTROM_STONEBRICK.getDefaultState(), 1.7f, 35, SoundType.STONE);
+	public static final Block MAELSTROM_STONEBRICK_FENCE = new BlockFenceBase("maelstrom_stonebrick_fence", Material.ROCK, 1.7f, 35, SoundType.STONE);
+	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal", Material.ROCK, SoundType.STONE);
 }

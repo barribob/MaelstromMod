@@ -35,7 +35,7 @@ public class Teleport extends Teleporter
 	entityIn.setVelocity(0, 0, 0);
     }
 
-    public static void teleportToDimension(EntityPlayer player, int dimension, double x, double y, double z)
+    public static void teleportToDimension(EntityPlayerMP player, int dimension, double x, double y, double z)
     {
 	EntityPlayerMP entityPlayerMP = (EntityPlayerMP) player;
 	MinecraftServer server = player.getEntityWorld().getMinecraftServer();

@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromStray;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
@@ -18,6 +19,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
+import com.barribob.MaelstromMod.entity.render.RenderMaelstromStray;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.init.ModItems;
@@ -54,6 +56,14 @@ public class RenderHandler
 	    public Render<? super EntityAzureVillager> createRenderFor(RenderManager manager)
 	    {
 	        return new RenderAzureVillager(manager);
+	    }
+	});
+	
+	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromStray.class, new IRenderFactory<EntityMaelstromStray>() {
+	    @Override
+	    public Render<? super EntityMaelstromStray> createRenderFor(RenderManager manager)
+	    {
+	        return new RenderMaelstromStray(manager);
 	    }
 	});
     }
