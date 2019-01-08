@@ -41,6 +41,7 @@ tile.double_browned_grass.name=Tall Browned Grass
 tile.azure_planks.name=Planks
 tile.azure_fence.name=Fence
 tile.azure_maelstrom.name=Maelstrom Block
+tile.azure_decaying_maelstrom.name=Decaying Maelstrom Block
 tile.azure_maelstrom_core.name=Fracture Maelstrom Core
 tile.maelstrom_bricks.name=Maelstrom Bricks
 tile.maelstrom_brick_fence.name=Maelstrom Brick Fence
@@ -53,6 +54,11 @@ tile.azure_iron_ore.name=Iron Ore
 tile.azure_gold_ore.name=Gold Ore
 tile.azure_redstone_ore.name=Redstone Ore
 tile.azure_lit_redostone_ore.name=Lit Redstone Ore
+tile.maelstrom_stonebrick.name=Maelstrom Stonebrick
+tile.maelstrom_stonebrick_stairs.name=Maelstrom Stonebrick Stairs
+tile.maelstrom_stonebrick_fence.name=Maelstrom Stonebrick Fence
+tile.azure_portal.name=Fracture Portal
+tile.disappearing_spawner.name=Disappearing Spawner
 
 //———————————————————————————————————————————————————————————
 // Entities

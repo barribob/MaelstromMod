@@ -459,7 +459,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 
 	}
 
-	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE);
+	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE);
 	if (rand.nextInt(15) == 0)
 	{
 	    int x1 = rand.nextInt(8) + 16;

@@ -34,9 +34,9 @@ public class ItemGun extends ItemBase
     private int maxCooldown;
     private Item ammo;
 
-    public ItemGun(String name, int cooldown, int maxDamage, Item ammo)
+    public ItemGun(String name, int cooldown, int maxDamage, Item ammo, CreativeTabs tab)
     {
-	super(name);
+	super(name, tab);
 	this.maxStackSize = 1;
 	this.ammo = ammo;
 	this.maxCooldown = cooldown;

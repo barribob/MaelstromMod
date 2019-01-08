@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.blocks;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
 
@@ -24,7 +25,6 @@ public class BlockBase extends Block implements IHasModel
 	super(material);
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 
 	// Add both an item as a block and the block itself
 	ModBlocks.BLOCKS.add(this);

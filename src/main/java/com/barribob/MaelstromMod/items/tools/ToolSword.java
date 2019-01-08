@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.items.tools;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
 
@@ -14,7 +15,7 @@ public class ToolSword extends ItemSword implements IHasModel
 	super(material);
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(CreativeTabs.COMBAT);
+	setCreativeTab(ModCreativeTabs.ALL);
 
 	ModItems.ITEMS.add(this);
     }

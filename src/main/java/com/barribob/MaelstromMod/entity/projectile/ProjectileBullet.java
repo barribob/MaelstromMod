@@ -48,42 +48,44 @@ public class ProjectileBullet extends Projectile
     {
 	super(worldIn, x, y, z);
     }
-    
+
     /**
      * Set knockback strength for enchantments
+     * 
      * @param factor
      */
     public void setKnockback(int factor)
     {
 	this.knockbackStrength = factor;
     }
-    
+
     @Override
     protected void onHit(RayTraceResult result)
-    {	
+    {
 	if (result.entityHit != null && this.shootingEntity != null)
 	{
 	    result.entityHit.hurtResistantTime = 0;
 	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.damage);
-	
+
 	    // Factor in knockback strength
 	    if (this.knockbackStrength > 0)
-            {
-                float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+	    {
+		float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-                if (f1 > 0.0F)
-                {
-                    result.entityHit.addVelocity(this.motionX * (double)this.knockbackStrength * 0.6000000238418579D / (double)f1, 0.1D, this.motionZ * (double)this.knockbackStrength * 0.6000000238418579D / (double)f1);
-                }
-            }
-	    
+		if (f1 > 0.0F)
+		{
+		    result.entityHit.addVelocity(this.motionX * (double) this.knockbackStrength * 0.6000000238418579D / (double) f1, 0.1D,
+			    this.motionZ * (double) this.knockbackStrength * 0.6000000238418579D / (double) f1);
+		}
+	    }
+
 	    // Factor in fire
 	    if (this.isBurning() && !(result.entityHit instanceof EntityEnderman))
-            {
+	    {
 		result.entityHit.setFire(5);
-            }
+	    }
 	}
-	
+
 	super.onHit(result);
     }
 }

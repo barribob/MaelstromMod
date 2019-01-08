@@ -26,7 +26,6 @@ public class BlockStairsBase extends BlockStairs implements IHasModel
 	super(modelState);
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 
 	// Add both an item as a block and the block itself
 	ModBlocks.BLOCKS.add(this);

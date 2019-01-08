@@ -40,7 +40,6 @@ public class BlockLeavesBase extends BlockLeaves implements IHasModel
 	super();
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(CreativeTabs.DECORATIONS);
 
 	// Set fancy graphics to true for these leaves
 	Main.proxy.setFancyGraphics(this, true);

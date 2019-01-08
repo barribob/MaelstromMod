@@ -5,6 +5,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
@@ -23,9 +24,9 @@ import net.minecraft.world.World;
  */
 public class ItemBoomstick extends ItemGun
 {
-    public ItemBoomstick(String name, int cooldown, int maxDamage, Item ammo)
+    public ItemBoomstick(String name, int cooldown, int maxDamage, Item ammo, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, ammo);
+	super(name, cooldown, maxDamage, ammo, tab);
     }
 
     /**
@@ -38,7 +39,7 @@ public class ItemBoomstick extends ItemGun
 
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
+	
 	for (int i = 0; i < pelletCount; i++)
 	{
 	    int power = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);

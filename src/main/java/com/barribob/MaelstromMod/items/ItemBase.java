@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.items;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
 
@@ -28,7 +29,7 @@ public class ItemBase extends Item implements IHasModel
 
     public ItemBase(String name)
     {
-	this(name, CreativeTabs.MATERIALS);
+	this(name, ModCreativeTabs.ALL);
     }
 
     @Override

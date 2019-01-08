@@ -69,7 +69,6 @@ public class Main
 	SoundsHandler.registerSounds();
 	ModStructures.registerStructures();
 	ModProfessions.associateCareersAndTrades();
-	
     }
 
     @EventHandler

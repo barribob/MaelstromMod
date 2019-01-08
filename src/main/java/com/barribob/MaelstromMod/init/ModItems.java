@@ -45,15 +45,15 @@ public class ModItems
     public static final Item INVISIBLE = new ItemBase("invisible", null);
 
     // The azure dimension's items
-    public static final Item ELK_HIDE = new ItemBase("elk_hide", CreativeTabs.MATERIALS);
-    public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", CreativeTabs.FOOD, 3, 0.3F, true);
-    public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", CreativeTabs.FOOD, 8, 1.0F, true);
+    public static final Item ELK_HIDE = new ItemBase("elk_hide", ModCreativeTabs.ALL);
+    public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", ModCreativeTabs.ALL, 3, 0.3F, true);
+    public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", ModCreativeTabs.ALL, 8, 1.0F, true);
 
-    public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", CreativeTabs.MATERIALS);
-    public static final Item AZURE_KEY = new ItemAzureKey("azure_key", CreativeTabs.MATERIALS);
+    public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
+    public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
 
-    public static final Item IRON_PELLET = new ItemBase("iron_pellet", CreativeTabs.MATERIALS);
-    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, 250, IRON_PELLET);
+    public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
+    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, 250, IRON_PELLET, ModCreativeTabs.ALL);
     
     public static final Item BEAST_BLADE = new ToolSword("beast_blade", BEAST);
 

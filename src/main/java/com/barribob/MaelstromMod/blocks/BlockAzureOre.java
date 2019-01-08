@@ -33,7 +33,6 @@ public class BlockAzureOre extends BlockOre implements IHasModel
 	super();
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 
 	// Add both an item as a block and the block itself
 	ModBlocks.BLOCKS.add(this);

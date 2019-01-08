@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.blocks;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModCreativeTabs;
 
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockTallGrass;

@@ -64,10 +64,4 @@ public class DimensionAzure extends WorldProvider
         f3 = f3 * (f * 0.70F + 0.09F);
         return new Vec3d((double)f1, (double)f2, (double)f3);
     }
-    
-    @Override
-    public float getCloudHeight()
-    {
-        return 50;
-    }
 }

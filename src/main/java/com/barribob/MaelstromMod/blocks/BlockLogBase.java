@@ -33,7 +33,6 @@ public class BlockLogBase extends BlockLog implements IHasModel
 	super();
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 
 	// Add both an item as a block and the block itself
