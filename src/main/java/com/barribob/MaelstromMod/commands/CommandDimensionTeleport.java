@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.WorldServer;
 
 public class CommandDimensionTeleport extends CommandBase
 {
@@ -67,7 +68,14 @@ public class CommandDimensionTeleport extends CommandBase
 	{
 	    if (sender instanceof EntityPlayerMP && ((EntityPlayer) sender).dimension != dimensionId)
 	    {
-		Teleport.teleportToDimension((EntityPlayerMP) sender, dimensionId, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ());
+		WorldServer worldServer = server.getWorld(dimensionId);
+		
+		if (worldServer == null || server == null)
+		{
+		    throw new IllegalArgumentException("Dimension: " + dimensionId + " doesn't exist");
+		}
+		
+		Teleport.teleportToDimension((EntityPlayerMP) sender, dimensionId, new Teleport(worldServer, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ()));
 	    }
 	}
 	catch (IllegalArgumentException e)

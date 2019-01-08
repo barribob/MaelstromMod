@@ -71,6 +71,6 @@ public class ModBlocks
 	public static final Block MAELSTROM_STONEBRICK = new BlockBase("maelstrom_stonebrick", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_STONEBRICK_STAIRS = new BlockStairsBase("maelstrom_stonebrick_stairs", MAELSTROM_STONEBRICK.getDefaultState(), 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_STONEBRICK_FENCE = new BlockFenceBase("maelstrom_stonebrick_fence", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal", Material.ROCK, SoundType.STONE);
+	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal", Material.ROCK, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block DISAPPEARING_SPAWNER = new BlockDisappearingSpawner("disappearing_spawner", Material.ROCK);
 }
