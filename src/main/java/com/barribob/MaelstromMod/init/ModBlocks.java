@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.blocks.BlockAzureTallGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureVines;
 import com.barribob.MaelstromMod.blocks.BlockAzureVinesBlock;
 import com.barribob.MaelstromMod.blocks.BlockBase;
+import com.barribob.MaelstromMod.blocks.BlockDisappearingSpawner;
 import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
 import com.barribob.MaelstromMod.blocks.BlockFenceBase;
 import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
@@ -69,4 +70,5 @@ public class ModBlocks
 	public static final Block MAELSTROM_STONEBRICK_STAIRS = new BlockStairsBase("maelstrom_stonebrick_stairs", MAELSTROM_STONEBRICK.getDefaultState(), 1.7f, 35, SoundType.STONE);
 	public static final Block MAELSTROM_STONEBRICK_FENCE = new BlockFenceBase("maelstrom_stonebrick_fence", Material.ROCK, 1.7f, 35, SoundType.STONE);
 	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal", Material.ROCK, SoundType.STONE);
+	public static final Block DISAPPEARING_SPAWNER = new BlockDisappearingSpawner("disappearing_spawner", Material.ROCK);
 }

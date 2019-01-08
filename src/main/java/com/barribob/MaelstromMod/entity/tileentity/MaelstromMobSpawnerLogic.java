@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.util;
+package com.barribob.MaelstromMod.entity.tileentity;
 
 import java.util.List;
 

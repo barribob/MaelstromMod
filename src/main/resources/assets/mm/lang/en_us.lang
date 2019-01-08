@@ -63,6 +63,7 @@ entity.dream_elk.name=Dream Elk
 entity.beast.name=Maelstrom Beast
 entity.maelstrom_illager.name=Maelstrom Illager
 entity.azure_villager.name=Villager
+entity.maelstrom_mage.name=Maelstrom Mage
 
 //———————————————————————————————————————————————————————————
 // Projectiles

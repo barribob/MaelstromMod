@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
-import com.barribob.MaelstromMod.entity.entities.TileEntityMalestromSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
@@ -161,13 +163,14 @@ public class FortressTemplate extends StructureComponentTemplate
 	}
 	else if (function.startsWith("enemy"))
 	{
-	    worldIn.setBlockState(pos, ModBlocks.AZURE_MAELSTROM_CORE.getDefaultState(), 2);
+	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 
-	    if (tileentity instanceof TileEntityMalestromSpawner)
+	    if (tileentity instanceof TileEntityDisappearingSpawner)
 	    {
-		String entityName = rand.nextInt(2) == 0 ? "shade" : "horror";
-		((TileEntityMalestromSpawner) tileentity).getSpawnerBaseLogic().setEntityId(new ResourceLocation(Reference.MOD_ID + ":" + entityName));
+		String[] entities = {"shade", "horror", "maelstrom_mage"};
+		String entityName = ModRandom.choice(entities);
+		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntityId(new ResourceLocation(Reference.MOD_ID + ":" + entityName));
 	    }
 
 	}

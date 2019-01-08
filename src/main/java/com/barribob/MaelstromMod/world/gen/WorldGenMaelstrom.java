@@ -3,8 +3,9 @@ package com.barribob.MaelstromMod.world.gen;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.entities.TileEntityMalestromSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.block.Block;
@@ -67,7 +68,8 @@ public class WorldGenMaelstrom extends WorldGenerator
 
         if (tileentity instanceof TileEntityMalestromSpawner)
         {
-            String entityName = rand.nextInt(2) == 0 ? "shade" : "horror";
+            String[] entities = {"shade", "horror", "maelstrom_mage"};
+            String entityName = ModRandom.choice(entities);
             ((TileEntityMalestromSpawner)tileentity).getSpawnerBaseLogic().setEntityId(new ResourceLocation(Reference.MOD_ID + ":" + entityName));
         }
 	

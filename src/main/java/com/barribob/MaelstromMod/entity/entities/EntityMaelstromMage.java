@@ -3,7 +3,10 @@ package com.barribob.MaelstromMod.entity.entities;
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
@@ -23,7 +26,9 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -38,15 +43,15 @@ import net.minecraft.world.World;
 
 /**
  * 
- * Represent the attibutes and logic of the shade monster
+ * The maelstro shade monster
  *
  */
-public class EntityShade extends EntityMaelstromMob
+public class EntityMaelstromMage extends EntityMaelstromMob
 {
-    public static final float PROJECTILE_INACCURACY = 0;
-    public static final float PROJECTILE_VELOCITY = 1.0f;
+    public static final float PROJECTILE_INACCURACY = 6.0f;
+    public static final float PROJECTILE_SPEED = 1.5f;
 
-    public EntityShade(World worldIn)
+    public EntityMaelstromMage(World worldIn)
     {
 	super(worldIn);
     }
@@ -57,13 +62,13 @@ public class EntityShade extends EntityMaelstromMob
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
     }
 
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 3.0f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 40, 15.0f));
     }
 
     @Override
@@ -89,6 +94,20 @@ public class EntityShade extends EntityMaelstromMob
     {
 	return LootTableHandler.SHADE;
     }
+    
+    /**
+     * Spawn summoning particles
+     */
+    public void onUpdate()
+    {
+	super.onUpdate();
+
+	if (this.world.isRemote && this.isSwingingArms())
+	{
+	    float f = ModRandom.getFloat(0.5f);
+	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + f, this.posY + this.getEyeHeight() + 1.0f, this.posZ + f));
+	}
+    }
 
     /**
      * Shoots a projectile in a similar fashion to the snow golem (see
@@ -99,15 +118,15 @@ public class EntityShade extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    ProjectileShadeAttack projectile = new ProjectileShadeAttack(this.world, this);
-	    double d0 = target.posY + (double) target.getEyeHeight() - 1.100000023841858D;
-	    double xDir = target.posX - this.posX;
-	    double yDir = d0 - projectile.posY;
-	    double zDir = target.posZ - this.posZ;
-	    float f = MathHelper.sqrt(xDir * xDir + zDir * zDir) * 0.2F;
-	    yDir = Math.min(yDir + f, 0); // Keep the entity from aiming upward
-	    projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
-	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
+	    projectile.posY = this.posY + this.getEyeHeight() + 1.0f; // Raise pos y to summon the projectile above the head
+	    double d0 = target.posY + (double) target.getEyeHeight();
+	    double d1 = target.posX - this.posX;
+	    double d2 = d0 - projectile.posY;
+	    double d3 = target.posZ - this.posZ;
+	    float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+	    projectile.shoot(d1, d2 + (double) f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
+	    this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 	    this.world.spawnEntity(projectile);
 	}
     }

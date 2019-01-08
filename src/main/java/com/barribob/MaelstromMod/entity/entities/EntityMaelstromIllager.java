@@ -67,8 +67,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(14);
-	this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8);
     }
 
     protected void initEntityAI()

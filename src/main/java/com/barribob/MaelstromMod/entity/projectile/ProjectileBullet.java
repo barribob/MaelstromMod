@@ -64,7 +64,7 @@ public class ProjectileBullet extends Projectile
 	if (result.entityHit != null && this.shootingEntity != null)
 	{
 	    result.entityHit.hurtResistantTime = 0;
-	    result.entityHit.attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), this.damage);
+	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.damage);
 	
 	    // Factor in knockback strength
 	    if (this.knockbackStrength > 0)

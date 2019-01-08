@@ -1,9 +1,8 @@
-package com.barribob.MaelstromMod.entity.entities;
+package com.barribob.MaelstromMod.entity.tileentity;
 
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.util.MaelstromMobSpawnerLogic;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;

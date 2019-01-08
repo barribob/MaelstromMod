@@ -5,12 +5,13 @@ import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromStray;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromIllager;
+import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
 import com.barribob.MaelstromMod.entity.projectile.EntityModThrowable;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
@@ -19,9 +20,8 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
-import com.barribob.MaelstromMod.entity.render.RenderMaelstromStray;
-import com.barribob.MaelstromMod.entity.render.RenderProjectile;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
+import com.barribob.MaelstromMod.entity.render.RenderProjectile;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -44,6 +44,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityDreamElk.class, ModelDreamElk.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
 	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromIllager.class, ModelMaelstromIllager.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_illager.png"));
+	registerModEntityRenderer(EntityMaelstromMage.class, ModelMaelstromMage.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
 	
 	registerProjectileRenderer(ProjectileShadeAttack.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileHorrorAttack.class, ModItems.INVISIBLE);
@@ -56,14 +57,6 @@ public class RenderHandler
 	    public Render<? super EntityAzureVillager> createRenderFor(RenderManager manager)
 	    {
 	        return new RenderAzureVillager(manager);
-	    }
-	});
-	
-	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromStray.class, new IRenderFactory<EntityMaelstromStray>() {
-	    @Override
-	    public Render<? super EntityMaelstromStray> createRenderFor(RenderManager manager)
-	    {
-	        return new RenderMaelstromStray(manager);
 	    }
 	});
     }

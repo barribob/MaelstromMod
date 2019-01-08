@@ -6,14 +6,15 @@ import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromStray;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
-import com.barribob.MaelstromMod.entity.entities.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.entity.Entity;
@@ -35,7 +36,7 @@ public class ModEntities
     public static final int BEAST_ID = 103;
     public static final int MAELSTROM_ILLAGER_ID = 104;
     public static final int AZURE_VILLAGER_ID = 105;
-    public static final int MAELSTROM_STRAY_ID = 106;
+    public static final int MAELSTROM_MAGE_ID = 106;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -51,7 +52,7 @@ public class ModEntities
 	registerEntity("beast", EntityBeast.class, BEAST_ID, 30, 6433126, 3221816);
 	registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 30, 6433126, 3221816);
 	registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 30, 7248383, 7236306);
-	registerEntity("maelstrom_stray", EntityMaelstromStray.class, MAELSTROM_STRAY_ID, 30, 6433126, 3221816);
+	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 30, 6433126, 3221816);
 
 	registerProjectile("projectile", Projectile.class, PROJECTILE_ID, 30);
 	registerProjectile("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
@@ -60,6 +61,7 @@ public class ModEntities
 	registerProjectile("bullet", ProjectileBullet.class, BULLET_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
+	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, int color1, int color2)

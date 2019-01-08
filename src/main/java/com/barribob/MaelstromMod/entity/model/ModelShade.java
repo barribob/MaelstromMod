@@ -78,6 +78,7 @@ public class ModelShade extends ModelBase {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         
         boolean armsUp = entityIn instanceof EntityMaelstromMob && ((EntityMaelstromMob)entityIn).isSwingingArms();
+        
         float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
         float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
         this.RightArm.rotateAngleZ = 0.0F;
@@ -96,6 +97,5 @@ public class ModelShade extends ModelBase {
         
         this.Head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.Head.rotateAngleX = headPitch * 0.017453292F;
-
     }
 }
