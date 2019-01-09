@@ -1,38 +1,82 @@
 {
-    "entity.shade.ambient":
-    {
+    "entity.shade.ambient": {
         "category": "entity",
         "subtitle": "entity.shade.ambient",
-        "sounds": [{ "name": "mm:entity/shade/ambient", "stream": true}]
+        "sounds": [
+            {
+                "name": "mm:entity/shade/ambient",
+                "stream": true
+            }
+        ]
     },
-    "entity.shade.hurt":
-    {
+    "entity.shade.hurt": {
         "category": "entity",
         "subtitle": "entity.shade.hurt",
-        "sounds": [{ "name": "mm:entity/shade/hurt", "stream": true}]
+        "sounds": [
+            {
+                "name": "mm:entity/shade/hurt",
+                "stream": true
+            }
+        ]
     },
-    "entity.shade.death":
-    {
+    "entity.shade.death": {
         "category": "entity",
         "subtitle": "entity.shade.hurt",
-        "sounds": [{ "name": "mm:entity/shade/hurt", "stream": true}]
+        "sounds": [
+            {
+                "name": "mm:entity/shade/hurt",
+                "stream": true
+            }
+        ]
     },
-        "entity.horror.ambient":
-    {
+    "entity.horror.ambient": {
         "category": "entity",
         "subtitle": "entity.shade.ambient",
-        "sounds": [{ "name": "mm:entity/horror/ambient", "stream": true}]
+        "sounds": [
+            {
+                "name": "mm:entity/horror/ambient",
+                "stream": true
+            }
+        ]
     },
-        "entity.horror.hurt":
-    {
+    "entity.horror.hurt": {
         "category": "entity",
         "subtitle": "entity.shade.hurt",
-        "sounds": [{ "name": "mm:entity/horror/hurt", "stream": true}]
+        "sounds": [
+            {
+                "name": "mm:entity/horror/hurt",
+                "stream": true
+            }
+        ]
     },
-        "entity.horror.death":
-    {
+    "entity.horror.death": {
         "category": "entity",
         "subtitle": "entity.shade.hurt",
-        "sounds": [{ "name": "mm:entity/horror/hurt", "stream": true}]
+        "sounds": [
+            {
+                "name": "mm:entity/horror/hurt",
+                "stream": true
+            }
+        ]
+    },
+    "entity.beast.ambient": {
+        "category": "entity",
+        "subtitle": "entity.beast.ambient",
+        "sounds": [
+            {
+                "name": "mm:entity/beast/ambient",
+                "stream": true
+            }
+        ]
+    },
+    "entity.beast.hurt": {
+        "category": "entity",
+        "subtitle": "entity.beast.hurt",
+        "sounds": [
+            {
+                "name": "mm:entity/beast/hurt",
+                "stream": true
+            }
+        ]
     }
 }

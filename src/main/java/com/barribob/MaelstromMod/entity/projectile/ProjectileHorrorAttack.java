@@ -20,7 +20,7 @@ public class ProjectileHorrorAttack extends Projectile
     private static final float DAMAGE = 4.0f;
     private static final int PARTICLE_AMOUNT = 1;
     private static final int IMPACT_PARTICLE_AMOUNT = 20;
-    private static final int EXPOSION_AREA_FACTOR = 6;
+    private static final int EXPOSION_AREA_FACTOR = 2;
 
     public ProjectileHorrorAttack(World worldIn, EntityLivingBase throwerIn)
     {
@@ -63,13 +63,13 @@ public class ProjectileHorrorAttack extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit != null)
+	if (result.entityHit == this.shootingEntity)
 	    return;
 
 	/*
 	 * Find all entities in a certain area and deal damage to them
 	 */
-	List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(EXPOSION_AREA_FACTOR, EXPOSION_AREA_FACTOR, EXPOSION_AREA_FACTOR));
+	List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(EXPOSION_AREA_FACTOR, EXPOSION_AREA_FACTOR, EXPOSION_AREA_FACTOR).expand(-EXPOSION_AREA_FACTOR, -EXPOSION_AREA_FACTOR, -EXPOSION_AREA_FACTOR));
 	if (list != null)
 	{
 	    for (Object entity : list)

@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
+import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
@@ -28,6 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BossInfo;
@@ -200,5 +202,29 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
+    }
+    
+    @Override
+    protected SoundEvent getAmbientSound()
+    {
+        return SoundsHandler.ENTITY_BEAST_AMBIENT;
+    }
+    
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+    {
+        return SoundsHandler.ENTITY_BEAST_HURT;
+    }
+    
+    @Override
+    protected SoundEvent getDeathSound()
+    {
+        return SoundsHandler.ENTITY_BEAST_HURT;
+    }
+    
+    @Override
+    protected float getSoundVolume()
+    {
+	return 0.5f;
     }
 }

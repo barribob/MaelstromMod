@@ -52,11 +52,12 @@ public abstract class DisappearingSpawnerLogic
 	return StringUtils.isNullOrEmpty(s) ? null : new ResourceLocation(s);
     }
 
-    public void setEntityId(@Nullable ResourceLocation id)
+    public void setEntities(@Nullable ResourceLocation id, int count)
     {
 	if (id != null)
 	{
 	    this.spawnData.getNbt().setString("id", id.toString());
+	    this.spawnCount = count;
 	}
     }
 
@@ -183,6 +184,7 @@ public abstract class DisappearingSpawnerLogic
     public void readFromNBT(NBTTagCompound nbt)
     {
 	this.spawnDelay = nbt.getShort("Delay");
+	this.spawnCount = nbt.getShort("SpawnCount");
 	this.potentialSpawns.clear();
 
 	if (nbt.hasKey("SpawnPotentials", 9))

@@ -71,7 +71,7 @@ public class EntityDreamElk extends EntityCreature
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.AZURE_FORTRESS;
+	return LootTableHandler.ELK;
     }
 
     @Override
@@ -186,5 +186,11 @@ public class EntityDreamElk extends EntityCreature
     {
         super.getHurtSound(damageSourceIn);
         return SoundEvents.ENTITY_HORSE_HURT;
+    }
+    
+    @Override
+    protected float getSoundVolume()
+    {
+	return 0.5f;
     }
 }

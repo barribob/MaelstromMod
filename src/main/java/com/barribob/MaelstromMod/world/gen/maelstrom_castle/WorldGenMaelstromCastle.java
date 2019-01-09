@@ -63,7 +63,7 @@ public class WorldGenMaelstromCastle extends WorldGenStructure
 
 	    if (tileentity instanceof TileEntityDisappearingSpawner)
 	    {
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntityId(new ResourceLocation(Reference.MOD_ID + ":shade"));
+		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":shade"), 1);
 	    }
 
 	}

@@ -49,7 +49,7 @@ import net.minecraft.world.World;
 public class EntityMaelstromMage extends EntityMaelstromMob
 {
     public static final float PROJECTILE_INACCURACY = 6.0f;
-    public static final float PROJECTILE_SPEED = 1.5f;
+    public static final float PROJECTILE_SPEED = 1.2f;
 
     public EntityMaelstromMage(World worldIn)
     {
@@ -68,7 +68,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 40, 15.0f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 50, 15.0f));
     }
 
     @Override
@@ -120,7 +120,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 	{
 	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
 	    projectile.posY = this.posY + this.getEyeHeight() + 1.0f; // Raise pos y to summon the projectile above the head
-	    double d0 = target.posY + (double) target.getEyeHeight();
+	    double d0 = target.posY + (double) target.getEyeHeight() - 0.9f;
 	    double d1 = target.posX - this.posX;
 	    double d2 = d0 - projectile.posY;
 	    double d3 = target.posZ - this.posZ;

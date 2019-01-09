@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
+import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,20 +20,23 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * The base class for the mod's cooldown weapons. 
- * keeps track of cooldown and calls shoot() when the gun sucessfully shoots
+ * The base class for the mod's cooldown weapons. keeps track of cooldown and
+ * calls shoot() when the gun sucessfully shoots
  *
  */
 public class ItemGun extends ItemBase
 {
     private int maxCooldown;
     private Item ammo;
+    private static final int SMOKE_PARTICLES = 4;
 
     public ItemGun(String name, int cooldown, int maxDamage, Item ammo, CreativeTabs tab)
     {
@@ -58,6 +62,7 @@ public class ItemGun extends ItemBase
 
     /**
      * Taken from the bow class. Finds the appropriate ammo for the gun
+     * 
      * @param player
      * @return
      */
@@ -151,6 +156,32 @@ public class ItemGun extends ItemBase
 		if (!worldIn.isRemote)
 		{
 		    shoot(worldIn, playerIn, handIn, itemstack);
+		}
+		else
+		{
+		    // Add the fire and smoke effects when the gun goes off
+		    Vec3d flameOffset = playerIn.getLookVec().scale(0.5f);
+
+		    if (handIn == EnumHand.MAIN_HAND)
+		    {
+			flameOffset = flameOffset.rotateYaw((float) Math.PI * -0.5f);
+		    }
+		    else
+		    {
+			flameOffset = flameOffset.rotateYaw((float) Math.PI * 0.5f);
+		    }
+
+		    flameOffset = flameOffset.add(playerIn.getLookVec());
+
+		    worldIn.spawnParticle(EnumParticleTypes.FLAME, playerIn.posX + flameOffset.x, playerIn.posY + playerIn.getEyeHeight() + flameOffset.y,
+			    playerIn.posZ + flameOffset.z, 0, 0, 0);
+
+		    for (int i = 0; i < SMOKE_PARTICLES; i++)
+		    {
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, playerIn.posX + flameOffset.x + ModRandom.getFloat(0.2f),
+				playerIn.posY + playerIn.getEyeHeight() + flameOffset.y + ModRandom.getFloat(0.2f), playerIn.posZ + flameOffset.z + ModRandom.getFloat(0.2f),
+				0, 0, 0);
+		    }
 		}
 
 		compound.setInteger("cooldown", this.maxCooldown);

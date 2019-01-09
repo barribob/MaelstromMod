@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class ProjectileShadeAttack extends Projectile
 {
-    private static final float DAMAGE = 3.0f;
+    private static final float DAMAGE = 4.0f;
     private static final int PARTICLE_AMOUNT = 10;
 
     public ProjectileShadeAttack(World worldIn, EntityLivingBase throwerIn)

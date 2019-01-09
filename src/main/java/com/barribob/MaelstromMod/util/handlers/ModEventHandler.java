@@ -151,7 +151,7 @@ public class ModEventHandler
 		{
 		    int i = Math.round(13.0F - (float) ammo * 13.0F);
 		    draw(bufferbuilder, xPosition + 2, yPosition + 13 - 2, 13, 2, 0, 0, 0, 255);
-		    draw(bufferbuilder, xPosition + 2, yPosition + 13 - 2, i, 1, 0, 0, 255, 255);
+		    draw(bufferbuilder, xPosition + 2, yPosition + 13 - 2, i, 1, 177, 220, 255, 255);
 		}
 
 		GlStateManager.enableBlend();

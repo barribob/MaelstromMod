@@ -19,6 +19,8 @@ public class SoundsHandler
     public static SoundEvent ENTITY_HORROR_AMBIENT;
     public static SoundEvent ENTITY_HORROR_HURT;
     public static SoundEvent ENTITY_HORROR_DEATH;
+    public static SoundEvent ENTITY_BEAST_AMBIENT;
+    public static SoundEvent ENTITY_BEAST_HURT;
 
     public static void registerSounds()
     {
@@ -28,6 +30,8 @@ public class SoundsHandler
 	ENTITY_SHADE_AMBIENT = registerSound("entity.shade.ambient");
 	ENTITY_SHADE_HURT = registerSound("entity.shade.hurt");
 	ENTITY_SHADE_DEATH = registerSound("entity.shade.death");
+	ENTITY_BEAST_AMBIENT = registerSound("entity.beast.ambient");
+	ENTITY_BEAST_HURT = registerSound("entity.beast.hurt");
     }
 
     private static SoundEvent registerSound(String name)

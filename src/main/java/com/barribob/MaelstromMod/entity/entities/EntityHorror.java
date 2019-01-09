@@ -26,6 +26,7 @@ public class EntityHorror extends EntityMaelstromMob
     public EntityHorror(World worldIn)
     {
 	super(worldIn);
+        this.setSize(1.2F, 1.2F);
     }
 
     @Override
@@ -107,6 +108,6 @@ public class EntityHorror extends EntityMaelstromMob
     @Override
     protected float getSoundVolume()
     {
-	return 0.5f;
+	return 0.25f;
     }
 }
