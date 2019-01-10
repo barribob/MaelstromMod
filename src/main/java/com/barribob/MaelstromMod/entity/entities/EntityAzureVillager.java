@@ -51,6 +51,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.DifficultyInstance;
@@ -72,6 +73,16 @@ public class EntityAzureVillager extends EntityCreature implements IMerchant
     private MerchantRecipeList buyingList;
     @Nullable
     private EntityPlayer buyingPlayer;
+    private static final String[] CHAT_MESSAGES = {
+	    "We've been having a problem with the maelstrom that's invaded this dimension.",
+	    "You seem like a warrior, would you defeat the maelstrom invaders for us?",
+	    "We'll reward you handsomely for taking out the maelstrom.",
+	    "Have a look around the mineshaft for any useful gear and items.",
+	    "Under the maelstrom growths, there is a core that spawns the maelstrom. Remove those!",
+	    "Keep an eye out for the maelstrom fortress. That's where the boss is."
+    };
+    
+    private static int message_counter = 0;
 
     protected void entityInit()
     {
@@ -294,12 +305,24 @@ public class EntityAzureVillager extends EntityCreature implements IMerchant
             {
                 this.setCustomer(player);
                 player.displayVillagerTradeGui(this);
+                
+                // Display chat messages
+                if(!player.world.isRemote)
+                {
+                    player.sendMessage(new TextComponentString(TextFormatting.DARK_BLUE + "Villager: " + TextFormatting.WHITE + CHAT_MESSAGES[message_counter]));
+                    
+                    message_counter++;
+                    if(message_counter >= CHAT_MESSAGES.length)
+                    {
+                	message_counter = 0;	
+                    }
+                }
             }
             else if (this.buyingList.isEmpty())
             {
                 return super.processInteract(player, hand);
             }
-
+            
             return true;
         }
         else

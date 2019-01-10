@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.google.common.base.Predicate;
@@ -119,9 +120,7 @@ public class EntityBeast extends EntityMaelstromMob
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(14);
-	this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
     }
 
     /**
@@ -151,7 +150,7 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	if (entityIn instanceof EntityLivingBase)
 	{
-	    entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 3);
+	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), 2);
 	    return true;
 	}
 	return false;

@@ -105,7 +105,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 	if (this.world.isRemote && this.isSwingingArms())
 	{
 	    float f = ModRandom.getFloat(0.5f);
-	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + f, this.posY + this.getEyeHeight() + 1.0f, this.posZ + f));
+	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + f, this.posY + this.getEyeHeight() + 1.0f, this.posZ + f), true);
 	}
     }
 

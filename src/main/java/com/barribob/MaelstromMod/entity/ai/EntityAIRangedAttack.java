@@ -32,7 +32,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     private static final float STRAFING_DIRECTION_CHANGE_CHANCE = 0.3f;
     private static final int SEE_TIME = 20;
     private static final int LOSE_SIGHT_TIME = 60;
-    private static final float ARMS_RAISED_TIME_RATIO = 0.3f;
+    protected static float ARMS_RAISED_TIME_RATIO = 0.3f;
 
     public EntityAIRangedAttack(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance)
     {
@@ -41,11 +41,6 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 	this.attackCooldown = attackCooldown;
 	this.maxAttackDistance = maxAttackDistance * maxAttackDistance;
 	this.setMutexBits(3);
-    }
-
-    public void setAttackCooldown(int attackCooldown)
-    {
-	this.attackCooldown = attackCooldown;
     }
 
     /**

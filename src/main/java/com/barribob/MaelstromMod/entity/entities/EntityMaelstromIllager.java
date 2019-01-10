@@ -1,44 +1,26 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import javax.annotation.Nullable;
-
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
-import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
-import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.monster.EntitySpellcasterIllager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
@@ -51,6 +33,7 @@ import net.minecraft.world.World;
 public class EntityMaelstromIllager extends EntityMaelstromMob
 {
     private boolean summonedBeast;
+    private EntityAIRangedAttack rangedAttackAI;
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -58,6 +41,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     public EntityMaelstromIllager(World worldIn)
     {
 	super(worldIn);
+	this.setSize(0.7f, 2.2f);
     }
 
     @Override
@@ -66,13 +50,14 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(75.0D);
     }
 
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 180, 15.0f));
+	rangedAttackAI = new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 360, 15.0f);
+	this.tasks.addTask(4, rangedAttackAI);
     }
 
     protected SoundEvent getAmbientSound()
@@ -89,19 +74,57 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	return SoundEvents.ENTITY_EVOCATION_ILLAGER_HURT;
     }
-    
+
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */
     protected boolean canDespawn()
     {
-        return false;
+	return false;
     }
 
     @Override
     protected ResourceLocation getLootTable()
     {
 	return LootTableHandler.MAELSTROM_ILLAGER;
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount)
+    {
+	if (!this.isSwingingArms())
+	{
+	    amount = 0;
+	}
+
+	float prevHealth = this.getHealth();
+	boolean flag = super.attackEntityFrom(source, amount);
+
+	String message = "";
+	if (prevHealth > this.getMaxHealth() * 0.95 && this.getHealth() <= this.getMaxHealth() * 0.95)
+	{
+	    message = "What a fine being we have here! I must investigate!";
+	}
+
+	if (prevHealth > this.getMaxHealth() * 0.75 && this.getHealth() <= this.getMaxHealth() * 0.75)
+	{
+	    message = "Come join our empire as a maelstrom zombie!";
+	}
+
+	if (prevHealth > this.getMaxHealth() * 0.5 && this.getHealth() <= this.getMaxHealth() * 0.5)
+	{
+	    message = "Ouchie! My creations, assist me!";
+	}
+
+	if (message != "")
+	{
+	    for (EntityPlayer player : this.bossInfo.getPlayers())
+	    {
+		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Maelstrom Illager: " + TextFormatting.WHITE + message));
+	    }
+	}
+
+	return flag;
     }
 
     /**
@@ -111,17 +134,28 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	if (!summonedBeast && this.getHealth() < 30 && this.spawnMinion(new EntityBeast(this.world)))
+	if (!summonedBeast && this.getHealth() < this.getMaxHealth() * 0.5 && this.spawnMinion(new EntityBeast(this.world)))
 	{
 	    summonedBeast = true;
 	}
-	else if (rand.nextInt(2) == 0)
-	{
-	    this.spawnMinion(new EntityShade(this.world));
-	}
 	else
 	{
-	    this.spawnMinion(new EntityHorror(this.world));
+	    for (int i = 0; i < 2; i++)
+	    {
+		int r = rand.nextInt(3);
+		if (r == 0)
+		{
+		    this.spawnMinion(new EntityShade(this.world));
+		}
+		else if (r == 1)
+		{
+		    this.spawnMinion(new EntityMaelstromMage(this.world));
+		}
+		else
+		{
+		    this.spawnMinion(new EntityHorror(this.world));
+		}
+	    }
 	}
     }
 
@@ -137,8 +171,8 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	    float f = this.renderYawOffset * 0.017453292F + MathHelper.cos((float) this.ticksExisted * 0.6662F) * 0.25F;
 	    float f1 = MathHelper.cos(f);
 	    float f2 = MathHelper.sin(f);
-	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + (double) f1 * 0.6D, this.posY + 1.8D, this.posZ + (double) f2 * 0.6D));
-	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX - (double) f1 * 0.6D, this.posY + 1.8D, this.posZ - (double) f2 * 0.6D));
+	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + (double) f1 * 0.6D, this.posY + 1.8D, this.posZ + (double) f2 * 0.6D), true);
+	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX - (double) f1 * 0.6D, this.posY + 1.8D, this.posZ - (double) f2 * 0.6D), true);
 	}
     }
 
@@ -171,20 +205,20 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
      */
     private boolean spawnMinion(EntityMaelstromMob mob)
     {
-	int tries = 50;
+	int tries = 100;
 	for (int i = 0; i < tries; i++)
 	{
 	    // Find a random position to spawn the enemy
-	    int i1 = (int) this.posX + MathHelper.getInt(this.rand, 2, 4) * MathHelper.getInt(this.rand, -1, 1);
-	    int j1 = (int) this.posY + MathHelper.getInt(this.rand, 0, 4) * MathHelper.getInt(this.rand, -1, 1);
-	    int k1 = (int) this.posZ + MathHelper.getInt(this.rand, 2, 4) * MathHelper.getInt(this.rand, -1, 1);
+	    int i1 = (int) this.posX + MathHelper.getInt(this.rand, 2, 6) * MathHelper.getInt(this.rand, -1, 1);
+	    int j1 = (int) this.posY + MathHelper.getInt(this.rand, -2, 2) * MathHelper.getInt(this.rand, -1, 1);
+	    int k1 = (int) this.posZ + MathHelper.getInt(this.rand, 2, 6) * MathHelper.getInt(this.rand, -1, 1);
 
 	    if (this.world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(this.world, new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP))
 	    {
 		mob.setPosition((double) i1, (double) j1, (double) k1);
 
 		// Make sure that the position is a proper spawning position
-		if (!this.world.isAnyPlayerWithinRangeAt((double) i1, (double) j1, (double) k1, 5.0D) && this.world.checkNoEntityCollision(mob.getEntityBoundingBox(), mob)
+		if (!this.world.isAnyPlayerWithinRangeAt((double) i1, (double) j1, (double) k1, 3.0D)
 			&& this.world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(mob.getEntityBoundingBox()))
 		{
 		    // Spawn the entity

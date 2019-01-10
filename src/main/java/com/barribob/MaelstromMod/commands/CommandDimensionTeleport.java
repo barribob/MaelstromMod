@@ -60,7 +60,7 @@ public class CommandDimensionTeleport extends CommandBase
 	}
 	catch (NumberFormatException e)
 	{
-	    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Dimension Id Invalid"));
+	    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Dimension Id Invalid, make sure its a number e.g. '0' for the overworld."));
 	    return;
 	}
 
@@ -72,7 +72,8 @@ public class CommandDimensionTeleport extends CommandBase
 		
 		if (worldServer == null || server == null)
 		{
-		    throw new IllegalArgumentException("Dimension: " + dimensionId + " doesn't exist");
+		    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Dimension: " + dimensionId + " doesn't exist"));
+		    return;
 		}
 		
 		Teleport.teleportToDimension((EntityPlayerMP) sender, dimensionId, new Teleport(worldServer, sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ()));

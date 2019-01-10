@@ -26,7 +26,7 @@ public class EntityHorror extends EntityMaelstromMob
     public EntityHorror(World worldIn)
     {
 	super(worldIn);
-        this.setSize(1.2F, 1.2F);
+	this.setSize(1.2F, 1.2F);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class EntityHorror extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 100, 5.0f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 5.0f));
     }
 
     /**
@@ -55,7 +55,7 @@ public class EntityHorror extends EntityMaelstromMob
 	{
 	    for (int i = 0; i < 5; i++)
 	    {
-		ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX + ModRandom.getFloat(0.7f), this.posY + 1, this.posZ + ModRandom.getFloat(0.7f)));
+		ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX + ModRandom.getFloat(0.7f), this.posY + 1, this.posZ + ModRandom.getFloat(0.7f)), true);
 	    }
 	}
     }
@@ -68,16 +68,13 @@ public class EntityHorror extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    for (int i = 0; i < PROJECTILE_AMOUNT; i++)
-	    {
-		ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
-		double xDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
-		double yDir = 1;
-		double zDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
-		projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
-		this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-		this.world.spawnEntity(projectile);
-	    }
+	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
+	    double xDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
+	    double yDir = 1;
+	    double zDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
+	    projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
+	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+	    this.world.spawnEntity(projectile);
 	}
     }
 
@@ -98,11 +95,11 @@ public class EntityHorror extends EntityMaelstromMob
     {
 	return SoundsHandler.ENTITY_HORROR_DEATH;
     }
-    
+
     @Override
     protected ResourceLocation getLootTable()
     {
-        return LootTableHandler.HORROR;
+	return LootTableHandler.HORROR;
     }
 
     @Override

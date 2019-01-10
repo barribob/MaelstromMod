@@ -46,7 +46,7 @@ public class ProjectileHorrorAttack extends Projectile
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX, this.posY, this.posZ));
+	    ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX, this.posY, this.posZ), true);
 	}
     }
     

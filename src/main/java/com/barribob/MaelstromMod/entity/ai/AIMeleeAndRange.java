@@ -50,7 +50,7 @@ public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extend
      */
     public boolean shouldExecute()
     {
-	return attackAI.shouldExecute();
+	return attackAI.shouldExecute() && meleeAttackAI.shouldExecute();
     }
 
     /**
@@ -58,7 +58,7 @@ public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extend
      */
     public boolean shouldContinueExecuting()
     {
-	return attackAI.shouldContinueExecuting();
+	return attackAI.shouldContinueExecuting() && meleeAttackAI.shouldContinueExecuting();
     }
 
     /**
@@ -75,7 +75,8 @@ public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extend
      */
     public void resetTask()
     {
-	attackAI.resetTask();
+	this.rangedAttackAI.resetTask();
+	this.meleeAttackAI.resetTask();
     }
 
     /**

@@ -70,7 +70,7 @@ public class BlockMaelstrom extends BlockBase
 	}
 	if (rand.nextInt(3) == 0)
 	{
-	    ParticleManager.spawnMaelstromPotionParticle(worldIn, rand, new Vec3d(pos.getX() + rand.nextDouble(), pos.getY() + 1.1f, pos.getZ() + rand.nextDouble()));
+	    ParticleManager.spawnMaelstromPotionParticle(worldIn, rand, new Vec3d(pos.getX() + rand.nextDouble(), pos.getY() + 1.1f, pos.getZ() + rand.nextDouble()), false);
 	}
     }
 }

@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ProjectileBeastAttack extends Projectile
 {
-    private static final float DAMAGE = 5.0f;
+    private static final float DAMAGE = 4.0f;
     private static final int PARTICLE_AMOUNT = 3;
     private static final int IMPACT_PARTICLE_AMOUNT = 20;
 
@@ -54,7 +54,7 @@ public class ProjectileBeastAttack extends Projectile
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
 	    ParticleManager.spawnMaelstromSmoke(world, rand,
-		    new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + ModRandom.getFloat(0.5f), this.posZ + ModRandom.getFloat(0.5f)));
+		    new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + ModRandom.getFloat(0.5f), this.posZ + ModRandom.getFloat(0.5f)), true);
 	}
     }
     
@@ -64,7 +64,7 @@ public class ProjectileBeastAttack extends Projectile
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{
 	    Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(1), this.posY + ModRandom.getFloat(1), this.posZ + ModRandom.getFloat(1));
-	    ParticleManager.spawnMaelstromSmoke(world, rand, vec1);
+	    ParticleManager.spawnMaelstromSmoke(world, rand, vec1, true);
 	}
     }
 

@@ -22,11 +22,12 @@ import net.minecraft.world.Explosion;
 public class ModDamageSource
 {
     private static final String MAELSTROM = Reference.MOD_ID + ":" + "maelstrom";
-    private static final String MOB_MAELSTROM = Reference.MOD_ID + ":" + "mobMalestrom";
-    private static final String PLAYER_MAELSTROM = Reference.MOD_ID + ":" + "playerMalestrom";
-    private static final String ARROW_MAELSTROM = Reference.MOD_ID + ":" + "arrowMalestrom";
-    private static final String THROWN_MAELSTROM = Reference.MOD_ID + ":" + "thrownMalestrom";
+    private static final String MOB_MAELSTROM = Reference.MOD_ID + ":" + "mobMaelstrom";
+    private static final String PLAYER_MAELSTROM = Reference.MOD_ID + ":" + "playerMaelstrom";
+    private static final String ARROW_MAELSTROM = Reference.MOD_ID + ":" + "arrowMaelstrom";
+    private static final String THROWN_MAELSTROM = Reference.MOD_ID + ":" + "thrownMaelstrom";
     private static final String EXPLOSION_MAELSTROM = Reference.MOD_ID + ":" + "explosionMaelstrom";
+    private static final String EXPLOSION_MAELSTROM_ENTITY = Reference.MOD_ID + ":" + "explosionMaelstrom.player";
 
     public static final DamageSource MAELSTROM_DAMAGE = (new DamageSource(MAELSTROM)).setDamageBypassesArmor().setDamageIsAbsolute();
 
@@ -39,7 +40,7 @@ public class ModDamageSource
     public static boolean isMaelstromDamage(DamageSource source)
     {
 	return source.damageType == MOB_MAELSTROM || source.damageType == PLAYER_MAELSTROM || source.damageType == ARROW_MAELSTROM
-		|| source.damageType == THROWN_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM || source.damageType == MAELSTROM;
+		|| source.damageType == THROWN_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM_ENTITY || source.damageType == MAELSTROM;
     }
 
     /**
@@ -85,7 +86,7 @@ public class ModDamageSource
      */
     public static DamageSource causeMaelstromExplosionDamage(@Nullable EntityLivingBase entityLivingBaseIn)
     {
-	return entityLivingBaseIn != null ? (new EntityDamageSource(EXPLOSION_MAELSTROM + ".player", entityLivingBaseIn)).setDamageBypassesArmor()
+	return entityLivingBaseIn != null ? (new EntityDamageSource(EXPLOSION_MAELSTROM_ENTITY, entityLivingBaseIn)).setDamageBypassesArmor()
 		.setDamageIsAbsolute().setExplosion()
 		: (new DamageSource(EXPLOSION_MAELSTROM)).setDamageBypassesArmor().setDamageIsAbsolute().setExplosion();
     }

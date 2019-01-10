@@ -37,7 +37,7 @@ public class ModItems
     public static final ToolMaterial BEAST = EnumHelper.addToolMaterial("beast", 2, 2000, 8.0f, 4.0f, 10);
     
     // Armor materials
-    public static final ArmorMaterial ARMOR_MATERIAL_MAELSTROM = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 14, new int[] { 1, 3, 3, 1 }, 10,
+    public static final ArmorMaterial ARMOR_MATERIAL_MAELSTROM = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 1, 3, 3, 1 }, 10,
 	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();

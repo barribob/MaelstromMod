@@ -25,8 +25,8 @@ import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 
 /**
  * 
- * The tile entity spawner logic for the disappearing spawner.
- * Similar to the vanilla spawner, except it sets itself to air
+ * The tile entity spawner logic for the disappearing spawner. Similar to the
+ * vanilla spawner, except it sets itself to air
  *
  */
 public abstract class DisappearingSpawnerLogic
@@ -71,28 +71,28 @@ public abstract class DisappearingSpawnerLogic
 	return isAnyPlayerWithinRangeAt(this.getSpawnerWorld(), (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D,
 		(double) this.activatingRangeFromPlayer);
     }
-    
+
     /**
      * Checks to see if any players (in survival) are in range for spawning
      */
     private boolean isAnyPlayerWithinRangeAt(World world, double x, double y, double z, double range)
     {
-        for (int j2 = 0; j2 < world.playerEntities.size(); ++j2)
-        {
-            EntityPlayer entityplayer = world.playerEntities.get(j2);
+	for (int j2 = 0; j2 < world.playerEntities.size(); ++j2)
+	{
+	    EntityPlayer entityplayer = world.playerEntities.get(j2);
 
-            if (EntitySelectors.NOT_SPECTATING.apply(entityplayer) && !entityplayer.capabilities.isCreativeMode)
-            {
-                double d0 = entityplayer.getDistanceSq(x, y, z);
+	    if (EntitySelectors.NOT_SPECTATING.apply(entityplayer) && !entityplayer.capabilities.isCreativeMode)
+	    {
+		double d0 = entityplayer.getDistanceSq(x, y, z);
 
-                if (range < 0.0D || d0 < range * range)
-                {
-                    return true;
-                }
-            }
-        }
+		if (range < 0.0D || d0 < range * range)
+		{
+		    return true;
+		}
+	    }
+	}
 
-        return false;
+	return false;
     }
 
     public void updateSpawner()
@@ -112,6 +112,8 @@ public abstract class DisappearingSpawnerLogic
 	    --this.spawnDelay;
 	    return;
 	}
+	
+	World world = this.getSpawnerWorld();
 
 	boolean flag = false;
 	for (int i = 0; i < this.spawnCount; i++)
@@ -122,7 +124,6 @@ public abstract class DisappearingSpawnerLogic
 	    {
 		NBTTagCompound nbttagcompound = this.spawnData.getNbt();
 		NBTTagList nbttaglist = nbttagcompound.getTagList("Pos", 6);
-		World world = this.getSpawnerWorld();
 
 		// Get a random position
 		int i1 = blockpos.getX() + MathHelper.getInt(world.rand, 0, this.spawnRange) * MathHelper.getInt(world.rand, -1, 1);
@@ -152,13 +153,13 @@ public abstract class DisappearingSpawnerLogic
 			    AnvilChunkLoader.spawnEntity(entity, world);
 			    world.playEvent(2004, blockpos, 0);
 			    entityliving.spawnExplosionParticle();
-			    world.setBlockToAir(blockpos);
 			    break;
 			}
 		    }
 		}
 	    }
 	}
+	world.setBlockToAir(blockpos);
     }
 
     /**

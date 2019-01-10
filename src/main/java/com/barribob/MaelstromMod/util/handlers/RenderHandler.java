@@ -10,7 +10,6 @@ import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
-import com.barribob.MaelstromMod.entity.model.ModelMaelstromIllager;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
 import com.barribob.MaelstromMod.entity.projectile.EntityModThrowable;
@@ -20,6 +19,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
+import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
 import com.barribob.MaelstromMod.init.ModItems;
@@ -43,7 +43,6 @@ public class RenderHandler
 	registerModEntityRenderer(EntityHorror.class, ModelHorror.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/horror.png"));
 	registerModEntityRenderer(EntityDreamElk.class, ModelDreamElk.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
 	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
-	registerModEntityRenderer(EntityMaelstromIllager.class, ModelMaelstromIllager.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_illager.png"));
 	registerModEntityRenderer(EntityMaelstromMage.class, ModelMaelstromMage.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
 	
 	registerProjectileRenderer(ProjectileShadeAttack.class, ModItems.INVISIBLE);
@@ -57,6 +56,14 @@ public class RenderHandler
 	    public Render<? super EntityAzureVillager> createRenderFor(RenderManager manager)
 	    {
 	        return new RenderAzureVillager(manager);
+	    }
+	});
+	
+	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromIllager.class, new IRenderFactory<EntityMaelstromIllager>() {
+	    @Override
+	    public Render<? super EntityMaelstromIllager> createRenderFor(RenderManager manager)
+	    {
+	        return new RenderMaelstromIllager(manager);
 	    }
 	});
     }
