@@ -158,7 +158,7 @@ public class EntityDreamElk extends EntityCreature
     public boolean attackEntityAsMob(Entity entityIn)
     {
 	this.world.setEntityState(this, (byte) 4);
-	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 6);
+	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 4);
 
 	if (flag)
 	{

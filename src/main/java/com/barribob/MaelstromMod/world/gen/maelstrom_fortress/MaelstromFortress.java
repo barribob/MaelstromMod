@@ -44,7 +44,6 @@ public class MaelstromFortress
 	generateMainTowerTowers(manager, template, components, rand);
     }
 
-
     /**
      * Adds a new piece, with the previous template a reference for position and
      * rotation
@@ -118,11 +117,9 @@ public class MaelstromFortress
      * Generates bridges if they can continue to generate new towers/stairs
      */
     private static boolean generateSingleBridge(TemplateManager manager, FortressTemplate parent, List<StructureComponent> structures, Random rand,
-	    Rotation additionalRotation, BlockPos pos)
+	    Rotation rotation, BlockPos pos)
     {
-	Rotation rotation = parent.getPlacementSettings().getRotation();
-
-	FortressTemplate bridgeTemplate = addPiece(manager, parent, pos, BRIDGES[rand.nextInt(BRIDGES.length)], rotation.add(additionalRotation), false);
+	FortressTemplate bridgeTemplate = addPiece(manager, parent, pos, BRIDGES[rand.nextInt(BRIDGES.length)], rotation, false);
 
 	if (bridgeTemplate.getDistance() < SIZE && !isColliding(manager, bridgeTemplate, structures, rand))
 	{
@@ -176,7 +173,7 @@ public class MaelstromFortress
 	// Generate the next bridges in all four directions
 	for (Tuple<Rotation, BlockPos> tuple : bridges)
 	{
-	    if (generateSingleBridge(manager, parent, structures, rand, tuple.getFirst(), tuple.getSecond()))
+	    if (generateSingleBridge(manager, parent, structures, rand, rotation.add(tuple.getFirst()), tuple.getSecond()))
 	    {
 		bridgesGenerated++;
 	    }
@@ -196,15 +193,13 @@ public class MaelstromFortress
     {
 	Rotation rotation = template.getPlacementSettings().getRotation();
 
-	FortressTemplate towerTemplate;
-
 	List<Tuple<Rotation, BlockPos>> towers = new ArrayList(MAIN_TOWER);
 	Collections.shuffle(towers);
 
 	// Generate the next towers in all four directions
 	for (Tuple<Rotation, BlockPos> tuple : towers)
 	{
-	    towerTemplate = addPiece(manager, template, tuple.getSecond(), TOWERS[rand.nextInt(TOWERS.length)], rotation.add(tuple.getFirst()), false);
+	    FortressTemplate towerTemplate = addPiece(manager, template, tuple.getSecond(), TOWERS[rand.nextInt(TOWERS.length)], rotation.add(tuple.getFirst()), false);
 	    structures.add(towerTemplate);
 	    generateTowerBase(manager, towerTemplate, structures, rand, BlockPos.ORIGIN, rotation.add(tuple.getFirst()));
 	    generateBridges(manager, towerTemplate, structures, rand);

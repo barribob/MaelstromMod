@@ -56,6 +56,7 @@ public class ModEventHandler
      * Renders the maelstrom armor bar and the gun reload bar
      */
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void onGuiPostRender(RenderGameOverlayEvent.Post event)
     {
 	Minecraft mc = Minecraft.getMinecraft();
@@ -79,6 +80,7 @@ public class ModEventHandler
     /*
      * Sourced from the render hotbar method in GuiIngame to display a cooldown bar
      */
+    @SideOnly(Side.CLIENT)
     private static void renderGunReload(Minecraft mc, RenderGameOverlayEvent.Post event, EntityPlayer player)
     {
 	GameSettings gamesettings = mc.gameSettings;
@@ -131,6 +133,7 @@ public class ModEventHandler
     /**
      * Renders the gun reload bar for a single item stack if it is an instanceof ItemGun
      */
+    @SideOnly(Side.CLIENT)
     private static void renderItemAmmo(ItemStack stack, int xPosition, int yPosition, Minecraft mc)
     {
 	if (!stack.isEmpty())
@@ -167,6 +170,7 @@ public class ModEventHandler
      * Draw with the WorldRenderer
      * Sourced from some vanilla rendering class
      */
+    @SideOnly(Side.CLIENT)
     private static void draw(BufferBuilder renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha)
     {
 	renderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -180,6 +184,7 @@ public class ModEventHandler
     /**
      * Renders the maelstrom armor bar
      */
+    @SideOnly(Side.CLIENT)
     private static void renderArmorBar(Minecraft mc, RenderGameOverlayEvent.Post event, EntityPlayer player)
     {
 	mc.getTextureManager().bindTexture(ICONS);

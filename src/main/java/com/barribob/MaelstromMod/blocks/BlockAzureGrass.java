@@ -22,6 +22,7 @@ public class BlockAzureGrass extends BlockBase implements IGrowable
     {
 	super(name, material, hardness, resistance, soundType);
 	this.setTickRandomly(true);
+	this.setHarvestLevel("shovel", 1);
     }
 
     @Override

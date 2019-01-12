@@ -2,13 +2,13 @@
 {
   "modid": "mm",
   "name": "Maelstrom Mod",
-  "description": "",
+  "description": "A content expansion mod.",
   "version": "${0.1}",
   "mcversion": "${1.12}",
   "url": "",
   "updateUrl": "",
   "authorList": ["Barribob"],
-  "credits": "Loremaster",
+  "credits": "Loremaster, Harry Talks, Julian Abelar for great tutorials",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

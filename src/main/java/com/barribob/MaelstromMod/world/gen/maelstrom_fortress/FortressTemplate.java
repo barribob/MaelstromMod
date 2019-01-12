@@ -97,7 +97,7 @@ public class FortressTemplate extends StructureComponentTemplate
     {
 	for (StructureComponent structurecomponent : listIn)
 	{
-	    if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(box.minX + 2, box.minZ + 2, box.maxX - 2, box.maxZ - 2))
+	    if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(box.minX + 1, box.minZ + 1, box.maxX - 1, box.maxZ - 1))
 	    {
 		return structurecomponent;
 	    }

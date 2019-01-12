@@ -42,6 +42,7 @@ public class BlockDecayingMaelstrom extends BlockLeavesBase
     {
 	super(name, hardness, resistance, soundType);
 	this.damage = damage;
+	this.setHarvestLevel("pickaxe", 1);
     }
     
     /**

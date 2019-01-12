@@ -13,7 +13,7 @@ public class EntityAIRangedAttackNoReset <T extends EntityCreature> extends Enti
     public EntityAIRangedAttackNoReset(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance)
     {
 	super(entity, moveSpeedAmp, attackCooldown, maxAttackDistance);
-	this.ARMS_RAISED_TIME_RATIO = 0.15f;
+	this.arms_raised_time_ratio = 0.15f;
     }
 
     @Override

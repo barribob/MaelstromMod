@@ -140,7 +140,6 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 	this.dataManager.register(SWINGING_ARMS, Boolean.valueOf(false));
     }
 
-    @SideOnly(Side.CLIENT)
     public boolean isSwingingArms()
     {
 	return ((Boolean) this.dataManager.get(SWINGING_ARMS)).booleanValue();

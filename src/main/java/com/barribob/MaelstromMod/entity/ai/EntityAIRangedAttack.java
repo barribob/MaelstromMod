@@ -32,7 +32,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     private static final float STRAFING_DIRECTION_CHANGE_CHANCE = 0.3f;
     private static final int SEE_TIME = 20;
     private static final int LOSE_SIGHT_TIME = 60;
-    protected static float ARMS_RAISED_TIME_RATIO = 0.3f;
+    protected float arms_raised_time_ratio = 0.3f;
 
     public EntityAIRangedAttack(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance)
     {
@@ -140,7 +140,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 		    ((IRangedAttackMob) this.entity).setSwingingArms(false);
 		}
 		// Right before the attack, raise arms
-		else if (this.attackTime <= this.attackCooldown * this.ARMS_RAISED_TIME_RATIO)
+		else if (this.attackTime <= this.attackCooldown * this.arms_raised_time_ratio)
 		{
 		    ((IRangedAttackMob) this.entity).setSwingingArms(true);
 		}

@@ -43,7 +43,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 	// The overworld
 	case 0:
-	    generateStructure(MAELSTROM_CASTLE, world, random, chunkX, chunkZ, 25, Blocks.GRASS);
+	    generateStructure(MAELSTROM_CASTLE, world, random, chunkX, chunkZ, 1000, Blocks.GRASS);
 	    break;
 
 	// The end
