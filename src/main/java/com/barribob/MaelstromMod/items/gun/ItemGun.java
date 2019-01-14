@@ -1,9 +1,10 @@
-package com.barribob.MaelstromMod.items;
+package com.barribob.MaelstromMod.items.gun;
 
 import java.util.HashMap;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModRandom;
 
@@ -136,9 +137,9 @@ public class ItemGun extends ItemBase
 	{
 	    NBTTagCompound compound = itemstack.getTagCompound();
 
-	    if ((playerIn.capabilities.isCreativeMode || !ammoStack.isEmpty()) && compound.getInteger("cooldown") <= 0)
+	    if ((playerIn.capabilities.isCreativeMode || !ammoStack.isEmpty() || this.ammo == null) && compound.getInteger("cooldown") <= 0)
 	    {
-		boolean dontConsumeAmmo = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, itemstack) > 0;
+		boolean dontConsumeAmmo = playerIn.capabilities.isCreativeMode || this.ammo == null || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, itemstack) > 0;
 
 		if (!dontConsumeAmmo)
 		{
@@ -148,7 +149,10 @@ public class ItemGun extends ItemBase
 		    {
 			playerIn.inventory.deleteStack(ammoStack);
 		    }
+		}
 
+		if (!playerIn.capabilities.isCreativeMode)
+		{
 		    itemstack.damageItem(1, playerIn);
 		}
 
@@ -200,15 +204,6 @@ public class ItemGun extends ItemBase
     public boolean isFull3D()
     {
 	return true;
-    }
-
-    /**
-     * Return the enchantability factor of the item, most of the time is based on
-     * material.
-     */
-    public int getItemEnchantability()
-    {
-	return 1;
     }
 
     protected void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack)

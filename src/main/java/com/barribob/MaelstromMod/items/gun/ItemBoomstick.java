@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.items;
+package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
@@ -57,6 +57,15 @@ public class ItemBoomstick extends ItemGun
 
 	    world.spawnEntity(projectile);
 	}
+    }
+    
+    /**
+     * Return the enchantability factor of the item, most of the time is based on
+     * material.
+     */
+    public int getItemEnchantability()
+    {
+	return 1;
     }
     
     @Override

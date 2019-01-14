@@ -1,7 +1,7 @@
 package com.barribob.MaelstromMod.util.handlers;
 
-import com.barribob.MaelstromMod.items.ItemGun;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
+import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.Reference;
 
