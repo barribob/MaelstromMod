@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.HashMap;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.util.IHasModel;
@@ -47,6 +48,12 @@ public class ItemGun extends ItemBase
 	this.maxCooldown = cooldown;
 	this.setMaxDamage(maxDamage);
     }
+    
+    private float getEnchantedCooldown(ItemStack stack)
+    {
+	int reload = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.reload, stack);
+	return this.maxCooldown * (1 - reload * 0.1f);
+    }
 
     /**
      * Returns a float between 0 and 1 to represent the cooldown of the gun
@@ -55,7 +62,7 @@ public class ItemGun extends ItemBase
     {
 	if (stack.hasTagCompound() && stack.getTagCompound().hasKey("cooldown"))
 	{
-	    return stack.getTagCompound().getInteger("cooldown") / (float) this.maxCooldown;
+	    return stack.getTagCompound().getInteger("cooldown") / this.getEnchantedCooldown(stack);
 	}
 
 	return 0;
@@ -113,7 +120,7 @@ public class ItemGun extends ItemBase
 	    }
 	    else
 	    {
-		compound.setInteger("cooldown", maxCooldown);
+		compound.setInteger("cooldown", (int)this.getEnchantedCooldown(stack));
 	    }
 
 	    stack.setTagCompound(compound);
@@ -188,7 +195,7 @@ public class ItemGun extends ItemBase
 		    }
 		}
 
-		compound.setInteger("cooldown", this.maxCooldown);
+		compound.setInteger("cooldown", (int)this.getEnchantedCooldown(itemstack));
 		itemstack.setTagCompound(compound);
 
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);

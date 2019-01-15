@@ -96,3 +96,8 @@ death.attack.mm:explosionMaelstrom.player=%1$s was blown by the maelstrom while 
 //———————————————————————————————————————————————————————————
 attribute.name.maelstrom_armor=Maelstrom Armor
 attribute.name.extended_reach=Extended Reach
+
+//———————————————————————————————————————————————————————————
+// Enchantments
+//———————————————————————————————————————————————————————————
+enchantment.reload=Recharge
