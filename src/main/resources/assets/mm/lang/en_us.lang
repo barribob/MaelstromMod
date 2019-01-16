@@ -101,3 +101,6 @@ attribute.name.extended_reach=Extended Reach
 // Enchantments
 //———————————————————————————————————————————————————————————
 enchantment.reload=Recharge
+enchantment.gun_power=Damage
+enchantment.impact=Impact
+enchantment.gun_flame=Enflame

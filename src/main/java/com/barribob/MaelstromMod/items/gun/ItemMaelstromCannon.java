@@ -39,11 +39,13 @@ public class ItemMaelstromCannon extends ItemGun
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.6F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
+	int power = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
+	int knockback = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
 	float velocity = 1.0F;
 	float inaccuracy = 3.0f;
 	float degreesUp = 20;
 
-	ProjectileMaelstromCannon projectile = new ProjectileMaelstromCannon(world, player);
+	ProjectileMaelstromCannon projectile = new ProjectileMaelstromCannon(world, player, 4.0f, stack);
 	projectile.shoot(player, player.rotationPitch - degreesUp, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25f);
 	world.spawnEntity(projectile);

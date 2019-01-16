@@ -203,6 +203,15 @@ public class ItemGun extends ItemBase
 	}
 	return new ActionResult(EnumActionResult.FAIL, itemstack);
     }
+    
+    /**
+     * Return the enchantability factor of the item, most of the time is based on
+     * material.
+     */
+    public int getItemEnchantability()
+    {
+	return 1;
+    }
 
     /**
      * Returns True is the item is renderer in full 3D when hold.

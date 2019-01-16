@@ -42,30 +42,15 @@ public class ItemBoomstick extends ItemGun
 	
 	for (int i = 0; i < pelletCount; i++)
 	{
-	    int power = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-	    int knockback = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+	    float inaccuracy = 20.0f;
+	    float speed = 2f;
 
-	    ProjectileBullet projectile = new ProjectileBullet(world, player, 1 + power * 0.1f);
-	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 2F, 20.0F);
-	    projectile.setKnockback(knockback);
+	    ProjectileBullet projectile = new ProjectileBullet(world, player, 1, stack);
+	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
-
-	    if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0)
-	    {
-		projectile.setFire(100);
-	    }
 
 	    world.spawnEntity(projectile);
 	}
-    }
-    
-    /**
-     * Return the enchantability factor of the item, most of the time is based on
-     * material.
-     */
-    public int getItemEnchantability()
-    {
-	return 1;
     }
     
     @Override

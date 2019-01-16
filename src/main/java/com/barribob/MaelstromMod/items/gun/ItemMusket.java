@@ -43,31 +43,14 @@ public class ItemMusket extends ItemGun
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-	int power = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-	int knockback = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
 	float inaccuracy = 5.0f;
 	float velocity = 4.0f;
 
-	ProjectileBullet projectile = new ProjectileBullet(world, player, 6 + power * 0.75f);
+	ProjectileBullet projectile = new ProjectileBullet(world, player, 6, stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
-	projectile.setKnockback(knockback);
 	projectile.setTravelRange(40f);
 
-	if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0)
-	{
-	    projectile.setFire(100);
-	}
-
 	world.spawnEntity(projectile);
-    }
-
-    /**
-     * Return the enchantability factor of the item, most of the time is based on
-     * material.
-     */
-    public int getItemEnchantability()
-    {
-	return 1;
     }
 
     @Override
