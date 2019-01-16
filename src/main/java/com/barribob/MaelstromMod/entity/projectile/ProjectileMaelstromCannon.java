@@ -80,7 +80,7 @@ public class ProjectileMaelstromCannon extends ProjectileGun
 	    {
 		if (entity instanceof EntityLivingBase && this.shootingEntity != null)
 		{
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), this.getDamage());
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), this.getDamage(((EntityLivingBase) entity)));
 
 		    if (this.isBurning())
 		    {
