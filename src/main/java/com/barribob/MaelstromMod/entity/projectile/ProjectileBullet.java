@@ -52,6 +52,12 @@ public class ProjectileBullet extends ProjectileGun
     {
 	if (result.entityHit != null && this.shootingEntity != null)
 	{
+	    // Factor in fire
+	    if (this.isBurning() && !(result.entityHit instanceof EntityEnderman))
+	    {
+		result.entityHit.setFire(5);
+	    }
+	    
 	    result.entityHit.hurtResistantTime = 0;
 	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getDamage(result.entityHit));
 
@@ -65,12 +71,6 @@ public class ProjectileBullet extends ProjectileGun
 		    result.entityHit.addVelocity(this.motionX * (double) this.getKnockback() * 0.6000000238418579D / (double) f1, 0.1D,
 			    this.motionZ * (double) this.getKnockback() * 0.6000000238418579D / (double) f1);
 		}
-	    }
-
-	    // Factor in fire
-	    if (this.isBurning() && !(result.entityHit instanceof EntityEnderman))
-	    {
-		result.entityHit.setFire(5);
 	    }
 	}
 

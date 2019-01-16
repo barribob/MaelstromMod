@@ -17,7 +17,9 @@ import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
@@ -50,6 +52,8 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileBeastAttack.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
+	registerProjectileRenderer(ProjectileMaelstromCannon.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(ProjectileWillOTheWisp.class, ModItems.INVISIBLE);
 	
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>() {
 	    @Override

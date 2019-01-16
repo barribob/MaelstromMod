@@ -35,7 +35,7 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     }
 
     /**
-     * Returns the maximum value of enchantability nedded on the enchantment level passed.
+     * Returns the maximum value of enchantability needed on the enchantment level passed.
      */
     public int getMaxEnchantability(int enchantmentLevel)
     {
@@ -43,7 +43,7 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     }
     
     /**
-     * Determines if the enchantment passed can be applyied together with this enchantment.
+     * Determines if the enchantment passed can be applied together with this enchantment.
      */
     public boolean canApplyTogether(Enchantment ench)
     {

@@ -14,6 +14,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.util.Reference;
@@ -45,6 +46,7 @@ public class ModEntities
     public static final int BEAST_ATTACK_ID = 203;
     public static final int BULLET_ID = 204;
     public static final int MAELSTROM_CANNON_ID = 205;
+    public static final int WILL_O_THE_WISP_ID = 206;
 
     public static void registerEntities()
     {
@@ -62,6 +64,7 @@ public class ModEntities
 	registerProjectile("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 30);
 	registerProjectile("bullet", ProjectileBullet.class, BULLET_ID, 30);
 	registerProjectile("maelstrom_cannon", ProjectileMaelstromCannon.class, MAELSTROM_CANNON_ID, 30);
+	registerProjectile("will-o-the-wisp", ProjectileWillOTheWisp.class, WILL_O_THE_WISP_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

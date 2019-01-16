@@ -43,7 +43,7 @@ public class ItemMusket extends ItemGun
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-	float inaccuracy = 5.0f;
+	float inaccuracy = 4.0f;
 	float velocity = 4.0f;
 
 	ProjectileBullet projectile = new ProjectileBullet(world, player, 6, stack);
@@ -57,7 +57,7 @@ public class ItemMusket extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	tooltip.add(TextFormatting.GRAY + "Required Ammo: Metal Pellet");
-	tooltip.add(TextFormatting.GRAY + "Shoots a medium range bullet: acts as a melee weapon");
+	tooltip.add(TextFormatting.GRAY + "Medium range and melee attack");
     }
     
     /**

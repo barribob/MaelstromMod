@@ -48,7 +48,7 @@ public class ItemGun extends ItemBase
 	this.maxCooldown = cooldown;
 	this.setMaxDamage(maxDamage);
     }
-    
+
     private float getEnchantedCooldown(ItemStack stack)
     {
 	int reload = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.reload, stack);
@@ -120,7 +120,7 @@ public class ItemGun extends ItemBase
 	    }
 	    else
 	    {
-		compound.setInteger("cooldown", (int)this.getEnchantedCooldown(stack));
+		compound.setInteger("cooldown", (int) this.getEnchantedCooldown(stack));
 	    }
 
 	    stack.setTagCompound(compound);
@@ -146,7 +146,8 @@ public class ItemGun extends ItemBase
 
 	    if ((playerIn.capabilities.isCreativeMode || !ammoStack.isEmpty() || this.ammo == null) && compound.getInteger("cooldown") <= 0)
 	    {
-		boolean dontConsumeAmmo = playerIn.capabilities.isCreativeMode || this.ammo == null || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, itemstack) > 0;
+		boolean dontConsumeAmmo = playerIn.capabilities.isCreativeMode || this.ammo == null
+			|| EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, itemstack) > 0;
 
 		if (!dontConsumeAmmo)
 		{
@@ -170,32 +171,10 @@ public class ItemGun extends ItemBase
 		}
 		else
 		{
-		    // Add the fire and smoke effects when the gun goes off
-		    Vec3d flameOffset = playerIn.getLookVec().scale(0.5f);
-
-		    if (handIn == EnumHand.MAIN_HAND)
-		    {
-			flameOffset = flameOffset.rotateYaw((float) Math.PI * -0.5f);
-		    }
-		    else
-		    {
-			flameOffset = flameOffset.rotateYaw((float) Math.PI * 0.5f);
-		    }
-
-		    flameOffset = flameOffset.add(playerIn.getLookVec());
-
-		    worldIn.spawnParticle(EnumParticleTypes.FLAME, playerIn.posX + flameOffset.x, playerIn.posY + playerIn.getEyeHeight() + flameOffset.y,
-			    playerIn.posZ + flameOffset.z, 0, 0, 0);
-
-		    for (int i = 0; i < SMOKE_PARTICLES; i++)
-		    {
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, playerIn.posX + flameOffset.x + ModRandom.getFloat(0.2f),
-				playerIn.posY + playerIn.getEyeHeight() + flameOffset.y + ModRandom.getFloat(0.2f), playerIn.posZ + flameOffset.z + ModRandom.getFloat(0.2f),
-				0, 0, 0);
-		    }
+		    spawnShootParticles(worldIn, playerIn, handIn);
 		}
 
-		compound.setInteger("cooldown", (int)this.getEnchantedCooldown(itemstack));
+		compound.setInteger("cooldown", (int) this.getEnchantedCooldown(itemstack));
 		itemstack.setTagCompound(compound);
 
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
@@ -203,7 +182,37 @@ public class ItemGun extends ItemBase
 	}
 	return new ActionResult(EnumActionResult.FAIL, itemstack);
     }
-    
+
+    /**
+     * Called from the client side whenever the gun successfully shoots
+     */
+    @SideOnly(Side.CLIENT)
+    protected void spawnShootParticles(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    {
+	// Add the fire and smoke effects when the gun goes off
+	Vec3d flameOffset = playerIn.getLookVec().scale(0.5f);
+
+	if (handIn == EnumHand.MAIN_HAND)
+	{
+	    flameOffset = flameOffset.rotateYaw((float) Math.PI * -0.5f);
+	}
+	else
+	{
+	    flameOffset = flameOffset.rotateYaw((float) Math.PI * 0.5f);
+	}
+
+	flameOffset = flameOffset.add(playerIn.getLookVec());
+
+	worldIn.spawnParticle(EnumParticleTypes.FLAME, playerIn.posX + flameOffset.x, playerIn.posY + playerIn.getEyeHeight() + flameOffset.y, playerIn.posZ + flameOffset.z,
+		0, 0, 0);
+
+	for (int i = 0; i < SMOKE_PARTICLES; i++)
+	{
+	    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, playerIn.posX + flameOffset.x + ModRandom.getFloat(0.2f),
+		    playerIn.posY + playerIn.getEyeHeight() + flameOffset.y + ModRandom.getFloat(0.2f), playerIn.posZ + flameOffset.z + ModRandom.getFloat(0.2f), 0, 0, 0);
+	}
+    }
+
     /**
      * Return the enchantability factor of the item, most of the time is based on
      * material.

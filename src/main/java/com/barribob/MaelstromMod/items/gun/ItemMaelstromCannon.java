@@ -55,6 +55,6 @@ public class ItemMaelstromCannon extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	tooltip.add(TextFormatting.GRAY + "Required Ammo: None");
-	tooltip.add(TextFormatting.GRAY + "Shoots explosive projectiles.");
+	tooltip.add(TextFormatting.GRAY + "Close range explosive attack");
     }
 }

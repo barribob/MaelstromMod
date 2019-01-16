@@ -40,7 +40,7 @@ public class ModProfessions
 	AZURE_VILLAGER = new VillagerProfession(Reference.MOD_ID + ":azure_villager", Reference.MOD_ID + ":textures/entity/azure_villager.png",
 		"minecraft:textures/entity/zombie_villager/zombie_farmer.png");
 
-	AZURE_WEAPONSMITH = (new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith")).addTrade(1, new ConstructArmor()).addTrade(1, new Boomstick())
+	AZURE_WEAPONSMITH = (new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith")).addTrade(1, new ConstructArmor()).addTrade(1, new BasicGuns())
 		.addTrade(1, new CrystalsForEmeralds()).addTrade(1, new EntityVillager.ListEnchantedBookForEmeralds()).addTrade(1, new EnchantedIronForEmeralds());
     }
 
@@ -86,21 +86,20 @@ public class ModProfessions
 	}
     }
 
-    public static class Boomstick implements ITradeList
+    public static class BasicGuns implements ITradeList
     {
-	public ItemStack sellStack;
 	public PriceInfo priceInfo;
 
-	public Boomstick()
+	public BasicGuns()
 	{
 	    priceInfo = new PriceInfo(5, 7);
-	    sellStack = new ItemStack(ModItems.BOOMSTICK);
 	}
 
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 	{
 	    int price = 1;
+	    ItemStack sellStack = random.nextInt(2) == 0 ? new ItemStack(ModItems.BOOMSTICK) : new ItemStack(ModItems.MUSKET);
 
 	    if (priceInfo != null)
 	    {

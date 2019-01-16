@@ -92,7 +92,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.SHADE;
+	return LootTableHandler.MAELSTROM_MAGE;
     }
     
     /**

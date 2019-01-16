@@ -13,6 +13,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 public class LootTableHandler
 {
     public static final ResourceLocation SHADE = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/shade"));
+    public static final ResourceLocation MAELSTROM_MAGE = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/maelstrom_mage"));
     public static final ResourceLocation ELK = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/elk"));
     public static final ResourceLocation HORROR = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/horror"));
     public static final ResourceLocation MAELSTROM_ILLAGER = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/maelstrom_illager"));

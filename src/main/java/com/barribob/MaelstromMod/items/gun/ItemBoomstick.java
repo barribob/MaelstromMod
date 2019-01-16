@@ -57,6 +57,6 @@ public class ItemBoomstick extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	tooltip.add(TextFormatting.GRAY + "Required Ammo: Metal Pellet");
-	tooltip.add(TextFormatting.GRAY + "Deals damage at close range.");
+	tooltip.add(TextFormatting.GRAY + "Close range shotgun attack");
     }
 }
