@@ -3,7 +3,9 @@ package com.barribob.MaelstromMod.util.handlers;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
+import com.barribob.MaelstromMod.items.tools.ISweepAttackOverride;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
+import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InGameGui;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 import com.barribob.MaelstromMod.util.ModDamageSource;
@@ -17,6 +19,7 @@ import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,12 +27,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * Holds various important functionalities only accessible through the forge event system
+ * Holds various important functionalities only accessible through the forge
+ * event system
  *
  */
 @Mod.EventBusSubscriber()
 public class ModEventHandler
 {
+    @SubscribeEvent(receiveCanceled = true)
+    public static void onAttackEntityEvent(AttackEntityEvent event)
+    {
+	// Overrides the melee attack of the player if the item used is the sweep attack override interface
+	if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ISweepAttackOverride)
+	{
+	    PlayerMeleeAttack.attackTargetEntityWithCurrentItem(event.getEntityPlayer(), event.getTarget(), (ISweepAttackOverride)event.getEntityPlayer().getHeldItemMainhand().getItem());
+	    event.setCanceled(true);
+	}
+	else
+	{
+	    event.setCanceled(false);
+	}
+    }
+
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public static void onMouseEvent(MouseEvent event)

@@ -113,6 +113,21 @@
                 },
                 {
                     "type": "item",
+                    "name": "mm:maelstrom_battleaxe",
+                    "weight": 3,
+                    "functions": [
+                        {
+                            "function": "enchant_with_levels",
+                            "treasure": true,
+                            "levels": {
+                                "min": 1,
+                                "max": 15
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "minecraft:iron_sword",
                     "weight": 3,
                     "functions": [
@@ -121,7 +136,7 @@
                             "treasure": true,
                             "levels": {
                                 "min": 1,
-                                "max": 10
+                                "max": 15
                             }
                         }
                     ]
@@ -136,7 +151,7 @@
                             "treasure": true,
                             "levels": {
                                 "min": 1,
-                                "max": 10
+                                "max": 15
                             }
                         }
                     ]
@@ -151,7 +166,7 @@
                             "treasure": true,
                             "levels": {
                                 "min": 1,
-                                "max": 10
+                                "max": 15
                             }
                         }
                     ]
@@ -166,7 +181,7 @@
                             "treasure": true,
                             "levels": {
                                 "min": 1,
-                                "max": 10
+                                "max": 15
                             }
                         }
                     ]
@@ -181,7 +196,7 @@
                             "treasure": true,
                             "levels": {
                                 "min": 1,
-                                "max": 10
+                                "max": 15
                             }
                         }
                     ]
@@ -196,7 +211,7 @@
                             "treasure": true,
                             "levels": {
                                 "min": 1,
-                                "max": 10
+                                "max": 15
                             }
                         }
                     ]
@@ -211,7 +226,7 @@
                             "treasure": true,
                             "levels": {
                                 "min": 1,
-                                "max": 10
+                                "max": 15
                             }
                         }
                     ]
