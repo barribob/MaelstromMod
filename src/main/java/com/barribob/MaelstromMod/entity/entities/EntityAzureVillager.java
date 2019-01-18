@@ -45,6 +45,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -125,6 +126,24 @@ public class EntityAzureVillager extends EntityCreature implements IMerchant
     protected ResourceLocation getLootTable()
     {
 	return LootTableList.ENTITIES_VILLAGER;
+    }
+    
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+    {
+        return SoundEvents.ENTITY_VILLAGER_HURT;
+    }
+    
+    @Override
+    protected SoundEvent getAmbientSound()
+    {
+        return SoundEvents.ENTITY_VILLAGER_AMBIENT;
+    }
+    
+    @Override
+    protected SoundEvent getDeathSound()
+    {
+        return SoundEvents.ENTITY_VILLAGER_DEATH;
     }
     
     /**

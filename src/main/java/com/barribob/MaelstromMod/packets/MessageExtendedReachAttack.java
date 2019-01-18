@@ -2,11 +2,16 @@ package com.barribob.MaelstromMod.packets;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.tools.ToolExtendedReachSword;
+import com.barribob.MaelstromMod.renderer.InputOverrides;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -50,6 +55,7 @@ public class MessageExtendedReachAttack implements IMessage
 	public IMessage onMessage(MessageExtendedReachAttack message, MessageContext ctx)
 	{
 	    final EntityPlayerMP player = ctx.getServerHandler().player;
+	    Minecraft mc = Minecraft.getMinecraft();
 
 	    player.getServer().addScheduledTask(new Runnable()
 	    {
@@ -58,20 +64,33 @@ public class MessageExtendedReachAttack implements IMessage
 		{
 		    Entity entity = player.world.getEntityByID(message.entityId);
 
-		    if (player.getHeldItemMainhand() == null || entity == null)
+		    if (player.getHeldItemMainhand() == null)
 		    {
 			return;
 		    }
 
-		    Item sword = player.getHeldItemMainhand().getItem();
-
-		    if (sword instanceof IExtendedReach)
+		    if (entity == null) // Miss
 		    {
-			if (((IExtendedReach) sword).getReach() >= player.getDistance(entity))
+			// On a miss, reset cooldown anyways
+			mc.player.resetCooldown();
+			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
+		    }
+		    else // Hit
+		    {
+			Item sword = player.getHeldItemMainhand().getItem();
+
+			if (sword instanceof IExtendedReach)
 			{
-			    player.attackTargetEntityWithCurrentItem(entity);
+			    RayTraceResult result = InputOverrides.getMouseOver(1.0f, mc, ((IExtendedReach) sword).getReach());
+
+			    if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY)
+			    {
+				mc.playerController.attackEntity(player, entity);
+			    }
 			}
 		    }
+
+		    mc.player.swingArm(EnumHand.MAIN_HAND);
 		}
 	    });
 

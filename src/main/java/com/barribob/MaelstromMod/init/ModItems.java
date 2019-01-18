@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.items.gun.ItemMusket;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
+import com.barribob.MaelstromMod.items.tools.ToolDagger;
 import com.barribob.MaelstromMod.items.tools.ToolExtendedReachSword;
 import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
 import com.barribob.MaelstromMod.items.tools.ToolSpade;
@@ -64,6 +65,7 @@ public class ModItems
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, 250, ModCreativeTabs.ALL);
     
     public static final Item SWORD_OF_SHADES = new ToolExtendedReachSword("sword_of_shades", 4.0f, ToolMaterial.IRON);
+    public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", ToolMaterial.IRON);
     public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", ToolMaterial.IRON);
     public static final Item BEAST_BLADE = new ToolSword("beast_blade", BEAST);
 

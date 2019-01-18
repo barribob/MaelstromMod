@@ -128,6 +128,21 @@
                 },
                 {
                     "type": "item",
+                    "name": "mm:shadow_dagger",
+                    "weight": 3,
+                    "functions": [
+                        {
+                            "function": "enchant_with_levels",
+                            "treasure": true,
+                            "levels": {
+                                "min": 1,
+                                "max": 15
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "minecraft:iron_sword",
                     "weight": 3,
                     "functions": [

@@ -29,13 +29,11 @@ import net.minecraft.world.World;
 public class ToolBattleaxe extends ToolSword implements ISweepAttackOverride
 {
     private final float attackDamage;
-    private final Item.ToolMaterial material;
 
     public ToolBattleaxe(String name, ToolMaterial material)
     {
 	super(name, material);
-	this.material = material;
-	this.attackDamage = 3.0F + material.getAttackDamage() * 2;
+	this.attackDamage = 3.0F + (float)Math.floor(material.getAttackDamage() * 1.5f);
     }
 
     /**
@@ -45,7 +43,7 @@ public class ToolBattleaxe extends ToolSword implements ISweepAttackOverride
     public void doSweepAttack(EntityPlayer player, EntityLivingBase target)
     {
 	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-	float sweepDamage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * attackDamage;
+	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
 	float maxDistanceSq = 10.0f;
 	float targetEntitySize = (float) 2.0D;
 
@@ -75,7 +73,7 @@ public class ToolBattleaxe extends ToolSword implements ISweepAttackOverride
 	{
 	    // Change the attack damage and speed specific for the battleaxe
 	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.attackDamage, 0));
-	    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.9D, 0));
+	    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.0D, 0));
 	}
 
 	return multimap;

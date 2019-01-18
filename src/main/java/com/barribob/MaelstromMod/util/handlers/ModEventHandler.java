@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -37,10 +38,12 @@ public class ModEventHandler
     @SubscribeEvent(receiveCanceled = true)
     public static void onAttackEntityEvent(AttackEntityEvent event)
     {
-	// Overrides the melee attack of the player if the item used is the sweep attack override interface
+	// Overrides the melee attack of the player if the item used is the sweep attack
+	// override interface
 	if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ISweepAttackOverride)
 	{
-	    PlayerMeleeAttack.attackTargetEntityWithCurrentItem(event.getEntityPlayer(), event.getTarget(), (ISweepAttackOverride)event.getEntityPlayer().getHeldItemMainhand().getItem());
+	    PlayerMeleeAttack.attackTargetEntityWithCurrentItem(event.getEntityPlayer(), event.getTarget(),
+		    (ISweepAttackOverride) event.getEntityPlayer().getHeldItemMainhand().getItem());
 	    event.setCanceled(true);
 	}
 	else
@@ -50,7 +53,7 @@ public class ModEventHandler
     }
 
     @SideOnly(Side.CLIENT)
-    @SubscribeEvent
+    @SubscribeEvent(receiveCanceled = true)
     public static void onMouseEvent(MouseEvent event)
     {
 	// If left clicking
@@ -69,13 +72,26 @@ public class ModEventHandler
 		{
 		    float reach = ((IExtendedReach) itemStack.getItem()).getReach();
 		    RayTraceResult result = InputOverrides.getMouseOver(1.0f, mc, reach);
+
 		    if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY)
 		    {
 			Main.network.sendToServer(new MessageExtendedReachAttack(result.entityHit.getEntityId()));
 		    }
+		    else
+		    {
+			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
+		    }
+
+		    // Because the actual animation is canceled as well, the methods below let the client animate properly
+		    mc.player.resetCooldown();
+		    mc.player.swingArm(EnumHand.MAIN_HAND);
+		    event.setCanceled(true);// Prevents shorter reach swords from hitting with the event going through
+		    return;
 		}
 	    }
 	}
+
+	event.setCanceled(false);
     }
 
     @SubscribeEvent
