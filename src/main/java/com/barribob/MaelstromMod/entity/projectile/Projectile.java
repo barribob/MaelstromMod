@@ -24,7 +24,6 @@ public class Projectile extends EntityModThrowable
 	super(worldIn, throwerIn);
 	this.travelRange = 20.0f;
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
-	System.out.println(startPos);
     }
 
     public Projectile(World worldIn)
