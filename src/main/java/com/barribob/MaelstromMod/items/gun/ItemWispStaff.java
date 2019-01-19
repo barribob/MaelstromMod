@@ -49,7 +49,7 @@ public class ItemWispStaff extends ItemGun
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Required Ammo: None");
+	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + "Short range piercing flame attack");
     }
 

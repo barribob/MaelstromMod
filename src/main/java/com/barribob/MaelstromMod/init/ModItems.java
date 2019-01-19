@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
+import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
@@ -58,11 +59,14 @@ public class ModItems
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
     public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
 
+    // Try to have the tradables have a use time of 20000 ticks
+    // try to have drops be around 10000 ticks
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
-    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, 300, IRON_PELLET, ModCreativeTabs.ALL);
-    public static final Item MUSKET = new ItemMusket("musket", 40, 350, 5.0f, IRON_PELLET, ModCreativeTabs.ALL);
-    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", 20, 300, ModCreativeTabs.ALL);
-    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, 250, ModCreativeTabs.ALL);
+    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, 325, IRON_PELLET, ModCreativeTabs.ALL);
+    public static final Item MUSKET = new ItemMusket("musket", 40, 500, 5.0f, IRON_PELLET, ModCreativeTabs.ALL);
+    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", 20, 500, ModCreativeTabs.ALL);
+    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, 160, ModCreativeTabs.ALL);
+    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, 500, ModCreativeTabs.ALL);
     
     public static final Item SWORD_OF_SHADES = new ToolExtendedReachSword("sword_of_shades", 4.0f, ToolMaterial.IRON);
     public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", ToolMaterial.IRON);

@@ -25,7 +25,7 @@ public class ProjectileWillOTheWisp extends ProjectileGun
 {
     private static final int PARTICLE_AMOUNT = 6;
     private static final int AREA_FACTOR = 2;
-    
+
     public ProjectileWillOTheWisp(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)
     {
 	super(worldIn, throwerIn, baseDamage, stack);
@@ -41,7 +41,7 @@ public class ProjectileWillOTheWisp extends ProjectileGun
     {
 	super(worldIn, x, y, z);
     }
-    
+
     /**
      * Called every update to spawn particles
      * 
@@ -53,21 +53,21 @@ public class ProjectileWillOTheWisp extends ProjectileGun
 	float f2 = 0.3f;
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX + ModRandom.getFloat(f1), this.posY + ModRandom.getFloat(f1), this.posZ + ModRandom.getFloat(f1)), true);
+	    ParticleManager.spawnMaelstromSmoke(world, rand,
+		    new Vec3d(this.posX + ModRandom.getFloat(f1), this.posY + ModRandom.getFloat(f1), this.posZ + ModRandom.getFloat(f1)), true);
 	    world.spawnParticle(EnumParticleTypes.FLAME, this.posX + ModRandom.getFloat(f2), this.posY + ModRandom.getFloat(f2), this.posZ + ModRandom.getFloat(f2), 0, 0, 0);
 	}
     }
-    
+
     @Override
     public void onUpdate()
     {
-        super.onUpdate();
-        
-        /*
+	super.onUpdate();
+
+	/*
 	 * Find all entities in a certain area and deal damage to them
 	 */
-	List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(AREA_FACTOR, AREA_FACTOR, AREA_FACTOR)
-		.expand(-AREA_FACTOR, -AREA_FACTOR, -AREA_FACTOR));
+	List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(AREA_FACTOR));
 	if (list != null)
 	{
 	    for (Object entity : list)
@@ -75,14 +75,14 @@ public class ProjectileWillOTheWisp extends ProjectileGun
 		if (entity instanceof EntityLivingBase && this.shootingEntity != null && entity != this.shootingEntity)
 		{
 		    int burnTime = this.isBurning() ? 10 : 5;
-		    
 		    ((EntityLivingBase) entity).setFire(burnTime);
-		    
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), this.getDamage(((EntityLivingBase) entity)));
+
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity),
+			    this.getDamage(((EntityLivingBase) entity)));
 		    ((EntityLivingBase) entity).addVelocity(0, 0.1D, 0);
-		    
+
 		    float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		    
+
 		    if (f1 > 0.0F)
 		    {
 			((EntityLivingBase) entity).addVelocity(this.motionX * (double) this.getKnockback() * 0.6000000238418579D / (double) f1, 0.0D,
@@ -92,16 +92,16 @@ public class ProjectileWillOTheWisp extends ProjectileGun
 	    }
 	}
     }
-    
+
     @Override
     protected void onHit(RayTraceResult result)
-    {	
+    {
 	// Only destroy if the collision is a block
-	if(result.entityHit != null)
+	if (result.entityHit != null)
 	{
 	    return;
 	}
-	
+
 	super.onHit(result);
     }
 }

@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.items.gun;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModEnchantments;
@@ -9,6 +10,7 @@ import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModRandom;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -24,6 +26,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -211,6 +214,14 @@ public class ItemGun extends ItemBase
 	    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, playerIn.posX + flameOffset.x + ModRandom.getFloat(0.2f),
 		    playerIn.posY + playerIn.getEyeHeight() + flameOffset.y + ModRandom.getFloat(0.2f), playerIn.posZ + flameOffset.z + ModRandom.getFloat(0.2f), 0, 0, 0);
 	}
+    }
+    
+    // List the required ammo for the gun
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+	String ammoName = this.ammo == null ? "None" : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
+	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + ammoName);
     }
 
     /**

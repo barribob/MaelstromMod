@@ -47,13 +47,8 @@ public class RenderHandler
 	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromMage.class, ModelMaelstromMage.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
 	
-	registerProjectileRenderer(ProjectileShadeAttack.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(ProjectileHorrorAttack.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(ProjectileBeastAttack.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
-	registerProjectileRenderer(ProjectileMaelstromCannon.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(ProjectileWillOTheWisp.class, ModItems.INVISIBLE);
 	
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>() {
 	    @Override
