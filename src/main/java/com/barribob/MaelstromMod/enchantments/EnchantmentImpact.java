@@ -1,9 +1,12 @@
 package com.barribob.MaelstromMod.enchantments;
 
+import com.barribob.MaelstromMod.items.gun.ItemGun;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.enchantment.Enchantment.Rarity;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 
 /**
  * 
@@ -42,5 +45,11 @@ public class EnchantmentImpact extends Enchantment
     public int getMaxLevel()
     {
         return 2;
+    }
+    
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack)
+    {
+	return stack.getItem() instanceof ItemGun;
     }
 }

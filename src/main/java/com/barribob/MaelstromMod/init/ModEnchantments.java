@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.init;
 
-import com.barribob.MaelstromMod.enchantments.EnchantmentFlame;
+import com.barribob.MaelstromMod.enchantments.EnchantmentEnflame;
 import com.barribob.MaelstromMod.enchantments.EnchantmentImpact;
 import com.barribob.MaelstromMod.enchantments.EnchantmentMaelstromDestroyer;
 import com.barribob.MaelstromMod.enchantments.EnchantmentPower;
@@ -41,7 +41,7 @@ public class ModEnchantments
 	    registry.register(new EnchantmentReload("reload", Enchantment.Rarity.UNCOMMON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND}));
 	    registry.register(new EnchantmentPower("gun_power", Enchantment.Rarity.COMMON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND}));
 	    registry.register(new EnchantmentImpact("impact", Enchantment.Rarity.RARE, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND}));
-	    registry.register(new EnchantmentFlame("gun_flame", Enchantment.Rarity.RARE, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND}));
+	    registry.register(new EnchantmentEnflame("gun_flame", Enchantment.Rarity.RARE, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND}));
 	    registry.register(new EnchantmentMaelstromDestroyer("maelstrom_destroyer", Enchantment.Rarity.RARE, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND}));
 	}
     }

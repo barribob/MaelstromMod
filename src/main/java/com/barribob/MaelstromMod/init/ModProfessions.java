@@ -40,7 +40,7 @@ public class ModProfessions
 	AZURE_VILLAGER = new VillagerProfession(Reference.MOD_ID + ":azure_villager", Reference.MOD_ID + ":textures/entity/azure_villager.png",
 		"minecraft:textures/entity/zombie_villager/zombie_farmer.png");
 
-	AZURE_WEAPONSMITH = (new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith")).addTrade(1, new ConstructArmor()).addTrade(1, new BasicGuns())
+	AZURE_WEAPONSMITH = (new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith")).addTrade(1, new ConstructArmor()).addTrade(1, new RangedWeapons())
 		.addTrade(1, new CrystalsForEmeralds()).addTrade(1, new EntityVillager.ListEnchantedBookForEmeralds()).addTrade(1, new EnchantedIronForEmeralds());
     }
 
@@ -86,11 +86,11 @@ public class ModProfessions
 	}
     }
 
-    public static class BasicGuns implements ITradeList
+    public static class RangedWeapons implements ITradeList
     {
 	public PriceInfo priceInfo;
 
-	public BasicGuns()
+	public RangedWeapons()
 	{
 	    priceInfo = new PriceInfo(5, 7);
 	}
@@ -99,7 +99,18 @@ public class ModProfessions
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 	{
 	    int price = 1;
-	    ItemStack sellStack = random.nextInt(2) == 0 ? new ItemStack(ModItems.BOOMSTICK) : new ItemStack(ModItems.MUSKET);
+	    ItemStack sellStack;
+	    switch (random.nextInt(3))
+	    {
+	    case 0:
+		sellStack = new ItemStack(ModItems.BOOMSTICK);
+		break;
+	    case 1:
+		sellStack = new ItemStack(ModItems.MUSKET);
+		break;
+	    default:
+		sellStack = new ItemStack(ModItems.QUAKE_STAFF);
+	    }
 
 	    if (priceInfo != null)
 	    {
@@ -156,8 +167,8 @@ public class ModProfessions
 	    }
 
 	    ItemStack itemstack = new ItemStack(Items.EMERALD, priceInfo.getPrice(random), 0);
-	    ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(sellStack.getItem(), 1, sellStack.getMetadata()),
-		    10 + random.nextInt(10), false);
+	    ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(sellStack.getItem(), 1, sellStack.getMetadata()), 10 + random.nextInt(10),
+		    false);
 	    recipeList.add(new MerchantRecipe(itemstack, itemstack1));
 	}
     }

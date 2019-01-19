@@ -1,18 +1,21 @@
 package com.barribob.MaelstromMod.enchantments;
 
+import com.barribob.MaelstromMod.items.gun.ItemGun;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.enchantment.Enchantment.Rarity;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 
 /**
  * 
  * Added the flame enchantment to guns
  *
  */
-public class EnchantmentFlame extends Enchantment
+public class EnchantmentEnflame extends Enchantment
 {
-    public EnchantmentFlame(String registryName, Rarity rarityIn, EntityEquipmentSlot[] slots)
+    public EnchantmentEnflame(String registryName, Rarity rarityIn, EntityEquipmentSlot[] slots)
     {
 	// The enum enchantment type doesn't matter here
 	super(rarityIn, EnumEnchantmentType.ALL, slots);
@@ -42,5 +45,11 @@ public class EnchantmentFlame extends Enchantment
     public int getMaxLevel()
     {
         return 1;
+    }
+    
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack)
+    {
+	return stack.getItem() instanceof ItemGun;
     }
 }
