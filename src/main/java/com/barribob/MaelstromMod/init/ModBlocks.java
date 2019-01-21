@@ -79,5 +79,5 @@ public class ModBlocks
 	public static final Block AZURE_STONEBRICK_CARVED = new BlockBase("azure_stonebrick_carved", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_STONEBRICK_CARVED_2 = new BlockBase("azure_stonebrick_carved_2", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_STONEBRICK_CARVED_3 = new BlockBase("azure_stonebrick_carved_3", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_STONEBRICK_LIT = new BlockBase("azure_stonebrick_lit", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK_LIT = new BlockBase("azure_stonebrick_lit", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
 }

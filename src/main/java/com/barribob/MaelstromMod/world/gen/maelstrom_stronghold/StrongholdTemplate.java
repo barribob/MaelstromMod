@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.world.gen.maelstrom_fortress;
+package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 
 import java.util.List;
 import java.util.Random;
@@ -31,23 +31,15 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
  * The specific template used for generating the maelstrom fortress
  *
  */
-public class FortressTemplate extends ModStructureTemplate
+public class StrongholdTemplate extends ModStructureTemplate
 {
-    private int distance;
-
-    public FortressTemplate()
+    public StrongholdTemplate()
     {
     }
 
-    public FortressTemplate(TemplateManager manager, String type, int distance, BlockPos pos, Rotation rotation, boolean overwriteIn)
+    public StrongholdTemplate(TemplateManager manager, String type, BlockPos pos, Rotation rotation, boolean overwriteIn)
     {
 	super(manager, type, pos, rotation, overwriteIn);
-	this.distance = distance;
-    }
-
-    public int getDistance()
-    {
-	return this.distance;
     }
 
     /**
@@ -93,6 +85,6 @@ public class FortressTemplate extends ModStructureTemplate
     @Override
     public String templateLocation()
     {
-	return "maelstrom_fortress";
+	return "maelstrom_stronghold";
     }
 }
