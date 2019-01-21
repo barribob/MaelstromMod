@@ -156,7 +156,7 @@ public class InGameGui
 	// Add 10 for the normal armor bar
 	startY -= player.getTotalArmorValue() > 0 ? 10 : 0;
 
-	int maelstromArmor = ArmorHandler.getMaelstromArmor(player);
+	int maelstromArmor = ArmorHandler.getMaelstromArmorBars(player);
 
 	// Draw the maelstrom armor bar
 	// Specific numbers taken from the GuiIngame armor section
