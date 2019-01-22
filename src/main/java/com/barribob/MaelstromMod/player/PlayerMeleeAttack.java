@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.player;
 
 import com.barribob.MaelstromMod.items.tools.ISweepAttackOverride;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
@@ -42,7 +44,7 @@ public class PlayerMeleeAttack
      * Attacks for the player the targeted entity with the currently equipped item.
      * The equipped item has hitEntity called on it. Args: targetEntity
      */
-    public static void attackTargetEntityWithCurrentItem(EntityPlayer player, Entity targetEntity, ISweepAttackOverride item)
+    public static void attackTargetEntityWithCurrentItem(EntityPlayer player, Entity targetEntity)
     {
 	if (!onPlayerAttackTarget(player, targetEntity))
 	    return;
@@ -122,7 +124,7 @@ public class PlayerMeleeAttack
 		    double mx = targetEntity.motionX;
 		    double my = targetEntity.motionY;
 		    double mz = targetEntity.motionZ;
-		    boolean attackSuccessful = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage); // Actually attacks the entity
+		    boolean attackSuccessful = targetEntity.attackEntityFrom(ModDamageSource.causeMalestromPlayerDamage(player), damage); // Actually attacks the entity
 
 		    if (attackSuccessful)
 		    {
@@ -146,9 +148,10 @@ public class PlayerMeleeAttack
 			}
 
 			// Do the overridden sweep attack
-			if (sweepAttack && targetEntity instanceof EntityLivingBase)
+			Item item = player.getHeldItemMainhand().getItem();
+			if (item instanceof ISweepAttackOverride && sweepAttack && targetEntity instanceof EntityLivingBase)
 			{
-			    item.doSweepAttack(player, (EntityLivingBase) targetEntity);
+			    ((ISweepAttackOverride)item).doSweepAttack(player, (EntityLivingBase) targetEntity);
 			}
 
 			if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged)

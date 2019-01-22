@@ -3,7 +3,7 @@ package com.barribob.MaelstromMod.util.handlers;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
-import com.barribob.MaelstromMod.items.tools.ISweepAttackOverride;
+import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InGameGui;
@@ -40,10 +40,9 @@ public class ModEventHandler
     {
 	// Overrides the melee attack of the player if the item used is the sweep attack
 	// override interface
-	if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ISweepAttackOverride)
+	if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ToolSword)
 	{
-	    PlayerMeleeAttack.attackTargetEntityWithCurrentItem(event.getEntityPlayer(), event.getTarget(),
-		    (ISweepAttackOverride) event.getEntityPlayer().getHeldItemMainhand().getItem());
+	    PlayerMeleeAttack.attackTargetEntityWithCurrentItem(event.getEntityPlayer(), event.getTarget());
 	    event.setCanceled(true);
 	}
 	else
@@ -102,7 +101,6 @@ public class ModEventHandler
 	{
 	    event.setAmount((float)(event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity()))));
 	    event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
-	    System.out.print(event.getAmount());
 	    
 	    for (ItemStack equipment : event.getEntity().getArmorInventoryList())
 	    {
