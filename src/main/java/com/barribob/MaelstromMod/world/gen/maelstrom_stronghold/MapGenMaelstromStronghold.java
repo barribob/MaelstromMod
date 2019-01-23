@@ -70,14 +70,13 @@ public class MapGenMaelstromStronghold extends MapGenStructure
 
 	private void create(World worldIn, Random rnd, int chunkX, int chunkZ)
 	{
-//	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
-//	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-//	    int y = 95;
-//
-//	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
-//	    MaelstromStronghold.startStronghold(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, this.components);
-//	    this.updateBoundingBox();
-//	    System.out.println(blockpos);
+	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
+	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
+	    int y = 95;
+
+	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
+	    MaelstromStronghold.startStronghold(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, this.components);
+	    this.updateBoundingBox();
 	}
     }
 }

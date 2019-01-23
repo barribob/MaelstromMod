@@ -443,7 +443,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	net.minecraftforge.event.ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, flag);
 
 	this.fortressGenerator.generateStructure(this.world, this.rand, chunkpos);
-	this.strongholdGenerator.generateStructure(this.world, this.rand, chunkpos);
+//	this.strongholdGenerator.generateStructure(this.world, this.rand, chunkpos);
 	this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
 
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE);

@@ -17,6 +17,11 @@ public class WorldGenPlumTree extends WorldGenAbstractTree
 {
     private static final IBlockState LOG = ModBlocks.PLUM_LOG.getDefaultState();
     private static final IBlockState LEAF = ModBlocks.PLUM_LEAVES.getDefaultState().withProperty(BlockOldLeaf.CHECK_DECAY, Boolean.valueOf(false));
+    private static final IBlockState PLUM = ModBlocks.PLUM_FILLED_LEAVES.getDefaultState().withProperty(BlockOldLeaf.CHECK_DECAY, Boolean.valueOf(false));
+    
+    public static final int plumLeafChance = 15;
+    public static final int plumLeafDensity  = 10;
+    
     private final boolean useExtraRandomHeight;
 
     public WorldGenPlumTree(boolean notify, boolean useExtraRandomHeightIn)
@@ -28,6 +33,7 @@ public class WorldGenPlumTree extends WorldGenAbstractTree
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
         int i = rand.nextInt(3) + 5;
+        int generatePlums = rand.nextInt(plumLeafChance);
 
         if (this.useExtraRandomHeight)
         {
@@ -107,7 +113,14 @@ public class WorldGenPlumTree extends WorldGenAbstractTree
 
                                     if (state2.getBlock().isAir(state2, worldIn, blockpos) || state2.getBlock().isAir(state2, worldIn, blockpos))
                                     {
-                                        this.setBlockAndNotifyAdequately(worldIn, blockpos, LEAF);
+                                	if(generatePlums == 0 && rand.nextInt(plumLeafDensity) == 0)
+                                	{
+                                            this.setBlockAndNotifyAdequately(worldIn, blockpos, PLUM);
+                                	}
+                                	else
+                                	{
+                                            this.setBlockAndNotifyAdequately(worldIn, blockpos, LEAF);                                	    
+                                	}
                                     }
                                 }
                             }

@@ -55,6 +55,7 @@ public class ModItems
     public static final Item ELK_HIDE = new ItemBase("elk_hide", ModCreativeTabs.ALL);
     public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", ModCreativeTabs.ALL, 3, 0.3F, true);
     public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", ModCreativeTabs.ALL, 8, 1.0F, true);
+    public static final Item PLUM = new ItemFoodBase("plum", ModCreativeTabs.ALL, 4, 0.3F, true);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
     public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);

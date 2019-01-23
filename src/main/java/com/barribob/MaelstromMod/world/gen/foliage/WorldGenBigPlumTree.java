@@ -165,11 +165,17 @@ public class WorldGenBigPlumTree extends WorldGenAbstractTree
     /**
      * Generates the leaves surrounding an individual entry in the leafNodes list.
      */
-    void generateLeafNode(BlockPos pos)
+    void generateLeafNode(BlockPos pos, boolean generatePlumLeaves)
     {
         for (int i = 0; i < this.leafDistanceLimit; ++i)
         {
-            this.crosSection(pos.up(i), this.leafSize(i), ModBlocks.PLUM_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false)));
+            if(generatePlumLeaves && rand.nextInt(WorldGenPlumTree.plumLeafDensity) == 0) {
+                this.crosSection(pos.up(i), this.leafSize(i), ModBlocks.PLUM_FILLED_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false)));
+            }
+            else
+            {
+                this.crosSection(pos.up(i), this.leafSize(i), ModBlocks.PLUM_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false)));        	
+            }
         }
     }
 
@@ -233,11 +239,11 @@ public class WorldGenBigPlumTree extends WorldGenAbstractTree
     /**
      * Generates the leaf portion of the tree as specified by the leafNodes list.
      */
-    void generateLeaves()
+    void generateLeaves(boolean generatePlumLeaves)
     {
         for (WorldGenBigPlumTree.FoliageCoordinates worldgenbigtree$foliagecoordinates : this.foliageCoords)
         {
-            this.generateLeafNode(worldgenbigtree$foliagecoordinates);
+            this.generateLeafNode(worldgenbigtree$foliagecoordinates, generatePlumLeaves);
         }
     }
 
@@ -324,6 +330,7 @@ public class WorldGenBigPlumTree extends WorldGenAbstractTree
 
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
+	boolean generateLeaves = rand.nextInt(WorldGenPlumTree.plumLeafChance) == 0 ? true : false;
         this.world = worldIn;
         this.basePos = position;
         this.rand = new Random(rand.nextLong());
@@ -341,7 +348,7 @@ public class WorldGenBigPlumTree extends WorldGenAbstractTree
         else
         {
             this.generateLeafNodeList();
-            this.generateLeaves();
+            this.generateLeaves(generateLeaves);
             this.generateTrunk();
             this.generateLeafNodeBases();
             this.world = null; //Fix vanilla Mem leak, holds latest world
