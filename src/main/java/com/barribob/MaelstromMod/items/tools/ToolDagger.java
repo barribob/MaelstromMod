@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
+import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 

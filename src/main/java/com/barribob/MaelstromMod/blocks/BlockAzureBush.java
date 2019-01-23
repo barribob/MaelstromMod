@@ -30,121 +30,128 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class BlockAzureBush extends BlockBase implements IPlantable
 {
-    protected static final AxisAlignedBB BUSH_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
+    protected static final AxisAlignedBB BUSH_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D,
+	    0.699999988079071D);
 
-	public BlockAzureBush(String name, Material material, float hardness, float resistance, SoundType soundType) 
-	{
-		super(name, material, hardness, resistance, soundType);
-		this.setTickRandomly(true);
-	}
+    public BlockAzureBush(String name, Material material, float hardness, float resistance, SoundType soundType)
+    {
+	super(name, material, hardness, resistance, soundType);
+	this.setTickRandomly(true);
+    }
 
-	@Override
-	public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) 
-	{
-		return null;
-	}
+    @Override
+    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos)
+    {
+	return null;
+    }
 
-	@Override
-	public IBlockState getPlant(IBlockAccess world, BlockPos pos) 
-	{
-		IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() != this) return getDefaultState();
-        return state;
-	}
-	
+    @Override
+    public IBlockState getPlant(IBlockAccess world, BlockPos pos)
+    {
+	IBlockState state = world.getBlockState(pos);
+	if (state.getBlock() != this)
+	    return getDefaultState();
+	return state;
+    }
+
     /**
      * Checks if this block can be placed exactly at the given position.
      */
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        IBlockState soil = worldIn.getBlockState(pos.down());
-        return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == ModBlocks.AZURE_GRASS;
+	IBlockState soil = worldIn.getBlockState(pos.down());
+	return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == ModBlocks.AZURE_GRASS;
     }
 
     /**
-     * Called when a neighboring block was changed and marks that this state should perform any checks during a neighbor
-     * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
-     * block, etc.
+     * Called when a neighboring block was changed and marks that this state should
+     * perform any checks during a neighbor change. Cases may include when redstone
+     * power is updated, cactus blocks popping off due to a neighboring solid block,
+     * etc.
      */
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
-        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
-        this.checkAndDropBlock(worldIn, pos, state);
+	super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+	this.checkAndDropBlock(worldIn, pos, state);
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        this.checkAndDropBlock(worldIn, pos, state);
+	this.checkAndDropBlock(worldIn, pos, state);
     }
 
     protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!this.canBlockStay(worldIn, pos, state))
-        {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-        }
+	if (!this.canBlockStay(worldIn, pos, state))
+	{
+	    this.dropBlockAsItem(worldIn, pos, state, 0);
+	    worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+	}
     }
-    
+
     public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
-        {
-            IBlockState soil = worldIn.getBlockState(pos.down());
-            return soil.getBlock() == ModBlocks.AZURE_GRASS;
-        }
-        return this.canSustainBush(worldIn.getBlockState(pos.down()));
+	if (state.getBlock() == this) // Forge: This function is called during world gen and placement, before this
+				      // block is set, so if we are not 'here' then assume it's the pre-check.
+	{
+	    IBlockState soil = worldIn.getBlockState(pos.down());
+	    return soil.getBlock() == ModBlocks.AZURE_GRASS;
+	}
+	return this.canSustainBush(worldIn.getBlockState(pos.down()));
     }
-    
+
     /**
      * Return true if the block can sustain a Bush
      */
     protected boolean canSustainBush(IBlockState state)
     {
-        return state.getBlock() == ModBlocks.AZURE_GRASS;
+	return state.getBlock() == ModBlocks.AZURE_GRASS;
     }
-    
+
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-        return NULL_AABB;
+	return NULL_AABB;
     }
-    
+
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return BUSH_AABB;
+	return BUSH_AABB;
     }
-    
+
     /**
-     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     * Used to determine ambient occlusion and culling when rebuilding chunks for
+     * render
      */
     public boolean isOpaqueCube(IBlockState state)
     {
-        return false;
+	return false;
     }
 
     public boolean isFullCube(IBlockState state)
     {
-        return false;
+	return false;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer()
     {
-        return BlockRenderLayer.CUTOUT;
+	return BlockRenderLayer.CUTOUT;
     }
 
     /**
-     * Get the geometry of the queried face at the given position and state. This is used to decide whether things like
-     * buttons are allowed to be placed on the face, or how glass panes connect to the face, among other things.
+     * Get the geometry of the queried face at the given position and state. This is
+     * used to decide whether things like buttons are allowed to be placed on the
+     * face, or how glass panes connect to the face, among other things.
      * <p>
-     * Common values are {@code SOLID}, which is the default, and {@code UNDEFINED}, which represents something that
-     * does not fit the other descriptions and will generally cause other things not to connect to the face.
+     * Common values are {@code SOLID}, which is the default, and {@code UNDEFINED},
+     * which represents something that does not fit the other descriptions and will
+     * generally cause other things not to connect to the face.
      * 
      * @return an approximation of the form of the given face
      */
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
     {
-        return BlockFaceShape.UNDEFINED;
+	return BlockFaceShape.UNDEFINED;
     }
 }

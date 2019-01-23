@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.tools;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 

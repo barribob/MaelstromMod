@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.player;
 
-import com.barribob.MaelstromMod.items.tools.ISweepAttackOverride;
+import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 
 import net.minecraft.enchantment.EnchantmentHelper;

@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.items.tools;
+package com.barribob.MaelstromMod.items;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
