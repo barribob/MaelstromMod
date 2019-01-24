@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.blocks;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.util.AzureTeleporter;
@@ -63,9 +64,9 @@ public class BlockAzurePortal extends BlockBase
 
 	    if (player.dimension == 0)
 	    {
-		Teleport.teleportToDimension(player, ModDimensions.DIMENSION_AZURE_ID, new AzureTeleporter(server.getWorld(ModDimensions.DIMENSION_AZURE_ID)));
+		Teleport.teleportToDimension(player, ModConfig.fracture_dimension_id, new AzureTeleporter(server.getWorld(ModConfig.fracture_dimension_id)));
 	    }
-	    else if (player.dimension == ModDimensions.DIMENSION_AZURE_ID)
+	    else if (player.dimension == ModConfig.fracture_dimension_id)
 	    {
 		Teleport.teleportToDimension(player, 0, new AzureTeleporter(server.getWorld(0)));
 	    }

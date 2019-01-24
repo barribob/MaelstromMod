@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.world.gen;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -29,7 +30,7 @@ public class WorldGenOre implements IWorldGenerator
 	{
 	    generateOverworld(rand, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 	}
-	else if(world.provider.getDimension() == ModDimensions.DIMENSION_AZURE_ID)
+	else if(world.provider.getDimension() == ModConfig.fracture_dimension_id)
 	{
 	    this.generateAzure(rand, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 	}

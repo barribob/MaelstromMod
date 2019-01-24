@@ -45,7 +45,7 @@ public class Main
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
     public static SimpleNetworkWrapper network;
-
+    
     /**
      * 
      * Basically initializes the entire mod by calling all of the init methods in

@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.event_handlers;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.GuiModDownloadTerrain;
 import com.barribob.MaelstromMod.init.ModDimensions;
 
@@ -25,7 +26,7 @@ public class DimensionScreenHandler
     public static void onGuiOpenEvent(GuiOpenEvent event)
     {
 	Minecraft mc = FMLClientHandler.instance().getClient();
-	if(event.getGui() instanceof GuiDownloadTerrain && mc.player != null && mc.player.dimension == ModDimensions.DIMENSION_AZURE_ID)
+	if(event.getGui() instanceof GuiDownloadTerrain && mc.player != null && mc.player.dimension == ModConfig.fracture_dimension_id)
 	{
 	    event.setGui(new GuiModDownloadTerrain());
 	}

@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.gui;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
@@ -155,6 +156,10 @@ public class InGameGui
 
 	// Add 10 for the normal armor bar
 	startY -= player.getTotalArmorValue() > 0 ? 10 : 0;
+	
+	// Add config file
+	startX += ModConfig.gui.maelstrom_armor_bar_offset_x;
+	startY += ModConfig.gui.maelstrom_armor_bar_offset_y;
 
 	int maelstromArmor = ArmorHandler.getMaelstromArmorBars(player);
 
