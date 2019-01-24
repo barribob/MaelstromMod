@@ -138,28 +138,4 @@ public class ModEventHandler
 	    GlStateManager.disableBlend();
 	}
     }
-
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    public static void onFogDensityRender(EntityViewRenderEvent.FogDensity event)
-    {
-	// if (event.getEntity().dimension == DimensionInit.DIMENSION_AZURE_ID)
-	// {
-	// int fogStartY = 60;
-	// float maxFog = 0.1f;
-	// float fogDensity = 0.01f;
-	//
-	// /**
-	// * alters fog based on the height of the player
-	// */
-	// if (event.getEntity().posY < fogStartY)
-	// {
-	// fogDensity += (float) (fogStartY - event.getEntity().posY) * (maxFog /
-	// fogStartY);
-	// }
-	//
-	// event.setDensity(fogDensity);
-	// event.setCanceled(true);
-	// }
-    }
 }
