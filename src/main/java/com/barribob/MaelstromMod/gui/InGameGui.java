@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.renderer;
+package com.barribob.MaelstromMod.gui;
 
 import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.util.Reference;

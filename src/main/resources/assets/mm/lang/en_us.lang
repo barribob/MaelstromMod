@@ -106,3 +106,9 @@ enchantment.impact=Impact
 enchantment.gun_flame=Enflame
 enchantment.maelstrom_destroyer=Maelstrom Destroyer
 enchantment.maelstrom_protection=Maelstrom Protection
+
+//———————————————————————————————————————————————————————————
+// Loading Screens
+//———————————————————————————————————————————————————————————
+multiplayer.entering=Now Entering:
+multiplayer.azure_dimension=The Fracture

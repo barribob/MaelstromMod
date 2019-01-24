@@ -1,14 +1,15 @@
-package com.barribob.MaelstromMod.util.handlers;
+package com.barribob.MaelstromMod.event_handlers;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
-import com.barribob.MaelstromMod.renderer.InGameGui;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,7 +35,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @Mod.EventBusSubscriber()
 public class ModEventHandler
-{
+{    
     @SubscribeEvent(receiveCanceled = true)
     public static void onAttackEntityEvent(AttackEntityEvent event)
     {
@@ -81,7 +82,8 @@ public class ModEventHandler
 			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
 		    }
 
-		    // Because the actual animation is canceled as well, the methods below let the client animate properly
+		    // Because the actual animation is canceled as well, the methods below let the
+		    // client animate properly
 		    mc.player.resetCooldown();
 		    mc.player.swingArm(EnumHand.MAIN_HAND);
 		    event.setCanceled(true);// Prevents shorter reach swords from hitting with the event going through
@@ -99,9 +101,9 @@ public class ModEventHandler
 	// Factor in maelstrom armor into damage source
 	if (ModDamageSource.isMaelstromDamage(event.getSource()))
 	{
-	    event.setAmount((float)(event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity()))));
+	    event.setAmount((float) (event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity()))));
 	    event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
-	    
+
 	    for (ItemStack equipment : event.getEntity().getArmorInventoryList())
 	    {
 		if (equipment.getItem() instanceof ModArmorBase)
