@@ -101,9 +101,14 @@ public class ModEventHandler
 	// Factor in maelstrom armor into damage source
 	if (ModDamageSource.isMaelstromDamage(event.getSource()))
 	{
+	    System.out.println("Before armor: " + event.getAmount());
 	    event.setAmount((float) (event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity()))));
+	    
+	    System.out.println("Before ench: " + event.getAmount());
 	    event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
 
+	    System.out.println("Final: " + event.getAmount());
+	    
 	    for (ItemStack equipment : event.getEntity().getArmorInventoryList())
 	    {
 		if (equipment.getItem() instanceof ModArmorBase)

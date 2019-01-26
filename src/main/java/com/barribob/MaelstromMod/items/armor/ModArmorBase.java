@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -48,20 +49,21 @@ public class ModArmorBase extends ItemArmor implements IHasModel
     /**
      * Get the calculated reduction in armor based on the armor factor
      */
-    public double getMaelstromArmor(ItemStack stack)
+    public float getMaelstromArmor(ItemStack stack)
     {
-	double decimal_reduction = Math.pow(2, - this.maelstrom_armor_factor);
-	double total_armor_reduction = 1 - decimal_reduction;
-	double armor_type_fraction = this.armor_fractions[this.getEquipmentSlot().getIndex()] / (double)armor_total;
+	float total_armor_reduction = 1 - LevelHandler.getArmorFromLevel(this.maelstrom_armor_factor);
+	float armor_type_fraction = this.armor_fractions[this.getEquipmentSlot().getIndex()] / (float)armor_total;
 	return total_armor_reduction * armor_type_fraction;
     }
     
     /**
      * Gets the armor bars for display
+     * Directly calculates from the fraction of the maelstrom_armor_factor, which
+     * represents the total armor bars of any given armor set
      */
-    public double getMaelstromArmorBars()
+    public float getMaelstromArmorBars()
     {
-	double armor_type_fraction = this.armor_fractions[this.getEquipmentSlot().getIndex()] / (double)armor_total;
+	float armor_type_fraction = this.armor_fractions[this.getEquipmentSlot().getIndex()] / (float)armor_total;
 	return this.maelstrom_armor_factor * armor_type_fraction * 2;
     }
 

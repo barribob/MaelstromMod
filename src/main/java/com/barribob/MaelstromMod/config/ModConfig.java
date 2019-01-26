@@ -22,6 +22,10 @@ public class ModConfig
 
     @Name("Gui")
     public static GuiCat gui = new GuiCat(0, 0);
+    
+    @Config.RequiresMcRestart
+    @Name("Progression Scale")
+    public static float progression_scale = 2;
 
     public static class GuiCat
     {
