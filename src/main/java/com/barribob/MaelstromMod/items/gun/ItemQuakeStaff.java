@@ -20,9 +20,9 @@ import net.minecraft.world.World;
  */
 public class ItemQuakeStaff extends ItemGun
 {
-    public ItemQuakeStaff(String name, int cooldown, int maxDamage, CreativeTabs tab)
+    public ItemQuakeStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, null, tab);
+	super(name, cooldown, maxDamage, null, level, tab);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ItemQuakeStaff extends ItemGun
 	// Shoots projectiles in a small arc
 	for (int i = 0; i < 5; i++)
 	{
-	    ProjectileQuake projectile = new ProjectileQuake(world, player, damage, stack);
+	    ProjectileQuake projectile = new ProjectileQuake(world, player, damage * this.getMultiplier(), stack);
 	    projectile.setPosition(player.posX, player.posY, player.posZ);
 	    projectile.shoot(player, pitch, player.rotationYaw - 20 + (i * 10), 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(8f);

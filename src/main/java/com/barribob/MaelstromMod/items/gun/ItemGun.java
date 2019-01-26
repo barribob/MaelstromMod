@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -42,14 +43,21 @@ public class ItemGun extends ItemBase
     private int maxCooldown;
     private Item ammo;
     private static final int SMOKE_PARTICLES = 4;
+    private float level;
 
-    public ItemGun(String name, int cooldown, int maxDamage, Item ammo, CreativeTabs tab)
+    public ItemGun(String name, int cooldown, float useTime, Item ammo, float level, CreativeTabs tab)
     {
 	super(name, tab);
 	this.maxStackSize = 1;
 	this.ammo = ammo;
 	this.maxCooldown = cooldown;
-	this.setMaxDamage(maxDamage);
+	this.level = level;
+	this.setMaxDamage((int) (useTime/cooldown));
+    }
+    
+    public float getMultiplier()
+    {
+	return LevelHandler.getMultiplierFromLevel(this.level);
     }
 
     private float getEnchantedCooldown(ItemStack stack)

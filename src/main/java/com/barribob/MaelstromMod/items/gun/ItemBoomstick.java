@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,9 +25,9 @@ import net.minecraft.world.World;
  */
 public class ItemBoomstick extends ItemGun
 {
-    public ItemBoomstick(String name, int cooldown, int maxDamage, Item ammo, CreativeTabs tab)
+    public ItemBoomstick(String name, int cooldown, int maxDamage, Item ammo, float level, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, ammo, tab);
+	super(name, cooldown, maxDamage, ammo, level, tab);
     }
 
     /**
@@ -45,7 +46,7 @@ public class ItemBoomstick extends ItemGun
 	    float inaccuracy = 20.0f;
 	    float speed = 2f;
 
-	    ProjectileBullet projectile = new ProjectileBullet(world, player, 1, stack);
+	    ProjectileBullet projectile = new ProjectileBullet(world, player, this.getMultiplier(), stack);
 	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
 

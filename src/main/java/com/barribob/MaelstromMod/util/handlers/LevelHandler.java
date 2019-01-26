@@ -33,4 +33,13 @@ public class LevelHandler
     {
 	return 1 - (float) Math.pow(ModConfig.progression_scale, -1);
     }
+    
+    /**
+     * returns a simple multiplicative modifier based on the level
+     * Starts at level 1 (returns a multiplier of 1)
+     */
+    public static float getMultiplierFromLevel(float level)
+    {
+	return (float) Math.pow(ModConfig.progression_scale, level - 1);
+    }
 }

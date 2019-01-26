@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -29,10 +30,10 @@ public class ToolDagger extends ToolSword implements IExtendedReach, ISweepAttac
     private static final UUID REACH_MODIFIER = UUID.fromString("a6323e02-d8e9-44c6-b941-f5d7155bb406");
     private final float attackDamage;
 
-    public ToolDagger(String name, ToolMaterial material)
+    public ToolDagger(String name, ToolMaterial material, float level)
     {
-	super(name, material);
-	this.attackDamage = 3.0F + material.getAttackDamage() * 2;
+	super(name, material, level);
+	this.attackDamage = material.getAttackDamage() * 1.5f * LevelHandler.getMultiplierFromLevel(level);
     }
     
     /**

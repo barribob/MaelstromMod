@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.items.tools;
 import java.util.List;
 
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -31,10 +32,10 @@ public class ToolBattleaxe extends ToolSword implements ISweepAttackOverride
 {
     private final float attackDamage;
 
-    public ToolBattleaxe(String name, ToolMaterial material)
+    public ToolBattleaxe(String name, ToolMaterial material, float level)
     {
-	super(name, material);
-	this.attackDamage = 3.0F + (float)Math.floor(material.getAttackDamage() * 1.5f);
+	super(name, material, level);
+	this.attackDamage = material.getAttackDamage() * 1.25f * LevelHandler.getMultiplierFromLevel(level);
     }
 
     /**
@@ -74,7 +75,7 @@ public class ToolBattleaxe extends ToolSword implements ISweepAttackOverride
 	{
 	    // Change the attack damage and speed specific for the battleaxe
 	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.attackDamage, 0));
-	    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.0D, 0));
+	    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.1D, 0));
 	}
 
 	return multimap;

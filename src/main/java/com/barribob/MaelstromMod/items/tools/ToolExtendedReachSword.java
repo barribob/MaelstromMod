@@ -18,9 +18,9 @@ public class ToolExtendedReachSword extends ToolSword implements IExtendedReach
     private static final UUID REACH_MODIFIER = UUID.fromString("a6323e02-d8e9-44c6-b941-f5d7155bb406");
     private float reach;
 
-    public ToolExtendedReachSword(String name, float reach, ToolMaterial material)
+    public ToolExtendedReachSword(String name, float reach, ToolMaterial material, float level)
     {
-	super(name, material);
+	super(name, material, level);
 	this.reach = reach;
     }
 
