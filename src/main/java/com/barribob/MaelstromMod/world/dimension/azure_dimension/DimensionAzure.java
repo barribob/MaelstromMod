@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.world.dimension.azure_dimension;
 
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
+import com.barribob.MaelstromMod.renderer.AzureSkyRenderHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -59,9 +60,9 @@ public class DimensionAzure extends WorldProvider
     }
     
     @Override
-    public Vec3d getFogColor(float p_76562_1_, float p_76562_2_)
+    public Vec3d getFogColor(float time, float p_76562_2_)
     {
-        float f = MathHelper.cos(p_76562_1_ * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
+        float f = MathHelper.cos(time * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
         float f1 = 0.7529412F;
         float f2 = 0.84705883F;
@@ -70,5 +71,23 @@ public class DimensionAzure extends WorldProvider
         f2 = f2 * (f * 0.84F + 0.06F);
         f3 = f3 * (f * 0.70F + 0.09F);
         return new Vec3d((double)f1, (double)f2, (double)f3);
+    }
+    
+    @Override
+    public Vec3d getSkyColor(Entity cameraEntity, float partialTicks)
+    {
+	float f = cameraEntity.world.getCelestialAngle(partialTicks);
+        float f1 = MathHelper.cos(f * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
+        f1 = MathHelper.clamp(f1, 0.1F, 1.0F);
+        int i = MathHelper.floor(cameraEntity.posX);
+        int j = MathHelper.floor(cameraEntity.posY);
+        int k = MathHelper.floor(cameraEntity.posZ);
+        return new Vec3d(194/255f, 239/255f, 239/255f).scale(f1);
+    }
+    
+    @Override
+    public IRenderHandler getSkyRenderer()
+    {
+        return new AzureSkyRenderHandler();
     }
 }
