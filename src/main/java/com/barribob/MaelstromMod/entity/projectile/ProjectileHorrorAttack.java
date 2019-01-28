@@ -17,14 +17,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ProjectileHorrorAttack extends Projectile
 {
-    private static final float DAMAGE = 4.0f;
     private static final int PARTICLE_AMOUNT = 1;
     private static final int IMPACT_PARTICLE_AMOUNT = 20;
     private static final int EXPOSION_AREA_FACTOR = 2;
 
-    public ProjectileHorrorAttack(World worldIn, EntityLivingBase throwerIn)
+    public ProjectileHorrorAttack(World worldIn, EntityLivingBase throwerIn, float damage)
     {
-	super(worldIn, throwerIn);
+	super(worldIn, throwerIn, damage);
     }
 
     public ProjectileHorrorAttack(World worldIn)
@@ -76,7 +75,7 @@ public class ProjectileHorrorAttack extends Projectile
 	    {
 		if (entity instanceof EntityLivingBase && !(entity instanceof EntityMaelstromMob) && this.shootingEntity != null)
 		{
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase)this.shootingEntity), DAMAGE);
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase)this.shootingEntity), this.getDamage());
 		}
 	    }
 	}

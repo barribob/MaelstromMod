@@ -103,7 +103,7 @@ public class ProjectileQuake extends ProjectileGun
 		    int burnTime = this.isBurning() ? 5 : 0;
 		    ((EntityLivingBase) entity).setFire(burnTime);
 
-		    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getDamage(((EntityLivingBase) entity)));
+		    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getGunDamage(((EntityLivingBase) entity)));
 
 		    // Apply knockback enchantment
 		    if (this.getKnockback() > 0)

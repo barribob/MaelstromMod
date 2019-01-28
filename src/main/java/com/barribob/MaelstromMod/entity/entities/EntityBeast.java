@@ -113,14 +113,13 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	return this.isRanged;
     }
-
+    
     @Override
-    protected void applyEntityAttributes()
+    protected void updateAttributes()
     {
-	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D * this.getProgressionMultiplier());
     }
 
     /**
@@ -133,7 +132,7 @@ public class EntityBeast extends EntityMaelstromMob
 	{
 	    for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
 	    {
-		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this);
+		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, 4 * this.getProgressionMultiplier());
 		double d0 = target.posY + (double) target.getEyeHeight();
 		double d1 = target.posX - this.posX;
 		double d2 = d0 - projectile.posY;
@@ -150,7 +149,7 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	if (entityIn instanceof EntityLivingBase)
 	{
-	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), 2);
+	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), 2 * this.getProgressionMultiplier());
 	    return true;
 	}
 	return false;

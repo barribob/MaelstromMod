@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import javax.annotation.Nullable;
 
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
@@ -10,8 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackRanged;
 import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -19,23 +17,18 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -47,10 +40,12 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 {
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class, DataSerializers.BOOLEAN);
+    private float level;
 
     public EntityMaelstromMob(World worldIn)
     {
 	super(worldIn);
+	this.setLevel(1);
     }
 
     protected void initEntityAI()
@@ -72,6 +67,12 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 		return !(entity instanceof EntityMaelstromMob);
 	    }
 	}));
+    }
+    
+    @Override
+    protected void applyEntityAttributes()
+    {
+	super.applyEntityAttributes();
     }
 
     public SoundCategory getSoundCategory()
@@ -174,5 +175,47 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 	{
 	    this.world.setEntityState(this, (byte) 20);
 	}
+    }
+
+    public float getLevel()
+    {
+	return this.level;
+    }
+    
+    /**
+     * Sets the level, updates attributes, and set health to the updated max health
+     */
+    public void setLevel(float level)
+    {
+	this.level = level;
+	this.updateAttributes();
+	this.setHealth(this.getMaxHealth());
+    }
+    
+    protected abstract void updateAttributes();
+    
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound)
+    {
+	compound.setFloat("level", level);
+	super.writeEntityToNBT(compound);
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+	if (compound.hasKey("level"))
+	{
+	    this.setLevel(compound.getFloat("level"));
+	}
+	super.readEntityFromNBT(compound);
+    }
+
+    /**
+     * Get the progression multiplier based on the level of the entity
+     */
+    public float getProgressionMultiplier()
+    {
+	return LevelHandler.getMultiplierFromLevel(this.getLevel());
     }
 }

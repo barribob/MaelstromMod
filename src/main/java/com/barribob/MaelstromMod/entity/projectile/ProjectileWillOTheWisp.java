@@ -78,7 +78,7 @@ public class ProjectileWillOTheWisp extends ProjectileGun
 		    ((EntityLivingBase) entity).setFire(burnTime);
 
 		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity),
-			    this.getDamage(((EntityLivingBase) entity)));
+			    this.getGunDamage(((EntityLivingBase) entity)));
 		    ((EntityLivingBase) entity).addVelocity(0, 0.1D, 0);
 
 		    float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);

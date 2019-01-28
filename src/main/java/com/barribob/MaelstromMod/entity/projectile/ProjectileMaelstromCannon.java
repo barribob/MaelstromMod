@@ -85,7 +85,7 @@ public class ProjectileMaelstromCannon extends ProjectileGun
 			((EntityLivingBase) entity).setFire(5);
 		    }
 		    
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), this.getDamage(((EntityLivingBase) entity)));
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), this.getGunDamage(((EntityLivingBase) entity)));
 
 		    float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 		    if (f1 > 0.0F)

@@ -10,6 +10,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * 
  * The base projectile class for most projectiles in the mod
+ * 
+ * The other two constructors immediately cause the projectile to despawn (e.g. if the projectile is saved in midair, just despawn it)
+ * 
+ * This is intended for offensive projectiles, as there is damage included
  *
  */
 public class Projectile extends EntityModThrowable
@@ -18,11 +22,13 @@ public class Projectile extends EntityModThrowable
     private final Vec3d startPos;
     private static final byte IMPACT_PARTICLE_BYTE = 3;
     private static final byte PARTICLE_BYTE = 4;
+    private float damage = 0;
 
-    public Projectile(World worldIn, EntityLivingBase throwerIn)
+    public Projectile(World worldIn, EntityLivingBase throwerIn, float damage)
     {
 	super(worldIn, throwerIn);
 	this.travelRange = 20.0f;
+	this.setDamage(damage);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
     }
 
@@ -30,12 +36,14 @@ public class Projectile extends EntityModThrowable
     {
 	super(worldIn);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
+	this.setDead();
     }
 
     public Projectile(World worldIn, double x, double y, double z)
     {
 	super(worldIn, x, y, z);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
+	this.setDead();
     }
 
     /**
@@ -46,6 +54,22 @@ public class Projectile extends EntityModThrowable
     public void setTravelRange(float distance)
     {
 	this.travelRange = distance;
+    }
+    
+    /**
+     * Sets the damage for use by inherited projectiles
+     */
+    protected void setDamage(float damage)
+    {
+	this.damage = damage;
+    }
+    
+    /*
+     * For use of inhereted projectiles
+     */
+    protected float getDamage()
+    {
+	return this.damage;
     }
 
     @Override

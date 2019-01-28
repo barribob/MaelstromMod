@@ -43,14 +43,13 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(0.7f, 2.2f);
     }
-
+    
     @Override
-    protected void applyEntityAttributes()
+    protected void updateAttributes()
     {
-	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(75.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(75.0D * this.getProgressionMultiplier());
     }
 
     protected void initEntityAI()
@@ -229,6 +228,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		    }
 		    mob.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(mob)), (IEntityLivingData) null);
 		    mob.spawnExplosionParticle();
+		    mob.setLevel(this.getLevel());
 		    return true;
 		}
 	    }

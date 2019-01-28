@@ -28,14 +28,13 @@ public class EntityHorror extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(1.2F, 1.2F);
     }
-
+    
     @Override
-    protected void applyEntityAttributes()
+    protected void updateAttributes()
     {
-	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D * this.getProgressionMultiplier());
     }
 
     protected void initEntityAI()
@@ -68,7 +67,7 @@ public class EntityHorror extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
+	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this, 4f * this.getProgressionMultiplier());
 	    double xDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
 	    double yDir = 1;
 	    double zDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;

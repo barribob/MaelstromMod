@@ -59,7 +59,7 @@ public class ProjectileBullet extends ProjectileGun
 	    }
 	    
 	    result.entityHit.hurtResistantTime = 0;
-	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getDamage(result.entityHit));
+	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getGunDamage(result.entityHit));
 
 	    // Factor in knockback strength
 	    if (this.getKnockback() > 0)

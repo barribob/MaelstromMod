@@ -11,12 +11,11 @@ import net.minecraft.world.World;
 
 public class ProjectileShadeAttack extends Projectile
 {
-    private static final float DAMAGE = 3f;
     private static final int PARTICLE_AMOUNT = 10;
 
-    public ProjectileShadeAttack(World worldIn, EntityLivingBase throwerIn)
+    public ProjectileShadeAttack(World worldIn, EntityLivingBase throwerIn, float damage)
     {
-	super(worldIn, throwerIn);
+	super(worldIn, throwerIn, damage);
 	this.setNoGravity(true);
 	this.setSize(0.4f, 0.4f);
 	this.setTravelRange(2.0f);
@@ -55,7 +54,7 @@ public class ProjectileShadeAttack extends Projectile
 	{
 	    if (this.shootingEntity instanceof EntityLivingBase)
 	    {
-		result.entityHit.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage((EntityLivingBase)this.shootingEntity), DAMAGE);
+		result.entityHit.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage((EntityLivingBase)this.shootingEntity), this.getDamage());
 	    }
 	    super.onHit(result);
 	}

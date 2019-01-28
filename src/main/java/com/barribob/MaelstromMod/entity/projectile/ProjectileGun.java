@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 
@@ -17,12 +18,11 @@ import net.minecraft.world.World;
 public class ProjectileGun extends Projectile
 {
     private int knockbackStrength;
-    private float damage;
     private int maelstromDestroyer;
 
     public ProjectileGun(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)
     {
-	super(worldIn, throwerIn);
+	super(worldIn, throwerIn, baseDamage);
 
 	int power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
 	int knockback = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.impact, stack);
@@ -32,7 +32,8 @@ public class ProjectileGun extends Projectile
 	    this.setFire(100);
 	}
 
-	this.damage = (float) (baseDamage * (1 + power * 0.125f));
+	float maxPower = ModConfig.progression_scale / ModEnchantments.gun_power.getMaxLevel();
+	this.setDamage((float) (baseDamage * (1 + power * maxPower)));
 	this.knockbackStrength = knockback;
 	this.maelstromDestroyer = maelstromDestroyer;
     }
@@ -42,14 +43,15 @@ public class ProjectileGun extends Projectile
 	return this.knockbackStrength;
     }
     
-    protected float getDamage(Entity entity)
+    protected float getGunDamage(Entity entity)
     {
 	if(entity instanceof EntityMaelstromMob)
 	{
-	    return this.damage * (1 + this.maelstromDestroyer * 0.2f);
+	    float maxPower = ModConfig.progression_scale / ModEnchantments.maelstrom_destroyer.getMaxLevel();
+	    return super.getDamage() * (1 + this.maelstromDestroyer * maxPower);
 	}
 	
-	return this.damage;
+	return super.getDamage();
     }
 
     public ProjectileGun(World worldIn)
