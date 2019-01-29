@@ -1,85 +1,83 @@
 package com.barribob.MaelstromMod.world.gen.mineshaft;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
+import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityHorror;
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.google.common.collect.Lists;
+
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.gen.ChunkGeneratorEnd;
 import net.minecraft.world.gen.structure.MapGenStructure;
+import net.minecraft.world.gen.structure.StructureEndCityPieces;
 import net.minecraft.world.gen.structure.StructureStart;
 
 /**
  * 
- * uses some logic about the surrounding structures to determine whether to spawn or not.
+ * Determines where to spawn the maelstrom fortress
  *
  */
 public class MapGenAzureMineshaft extends MapGenStructure
 {
-    private double chance = 0.02D;
+    public MapGenAzureMineshaft()
+    {
+    }
 
     public String getStructureName()
     {
-        return "Azure Mineshaft";
-    }
-    
-    public MapGenAzureMineshaft() {}
-
-    public MapGenAzureMineshaft(Map<String, String> p_i2034_1_)
-    {
-        for (Entry<String, String> entry : p_i2034_1_.entrySet())
-        {
-            if (((String)entry.getKey()).equals("chance"))
-            {
-                this.chance = MathHelper.getDouble(entry.getValue(), this.chance);
-            }
-        }
+	return "Maelstrom Stronghold";
     }
 
+    /**
+     * Uses the same spawning logic as the nether fortress
+     */
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
     {
-        return this.rand.nextDouble() < this.chance && this.rand.nextInt(80) < Math.max(Math.abs(chunkX), Math.abs(chunkZ));
-    }
-
-    public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored)
-    {
-        int i = 1000;
-        int j = pos.getX() >> 4;
-        int k = pos.getZ() >> 4;
-
-        for (int l = 0; l <= 1000; ++l)
-        {
-            for (int i1 = -l; i1 <= l; ++i1)
-            {
-                boolean flag = i1 == -l || i1 == l;
-
-                for (int j1 = -l; j1 <= l; ++j1)
-                {
-                    boolean flag1 = j1 == -l || j1 == l;
-
-                    if (flag || flag1)
-                    {
-                        int k1 = j + i1;
-                        int l1 = k + j1;
-                        this.rand.setSeed((long)(k1 ^ l1) ^ worldIn.getSeed());
-                        this.rand.nextInt();
-
-                        if (this.canSpawnStructureAtCoords(k1, l1) && (!findUnexplored || !worldIn.isChunkGeneratedAt(k1, l1)))
-                        {
-                            return new BlockPos((k1 << 4) + 8, 64, (l1 << 4) + 8);
-                        }
-                    }
-                }
-            }
-        }
-
-        return null;
+	if(Math.abs(chunkX % 16) == 0 && Math.abs(chunkZ % 16) == 0)
+	{
+	    return true;
+	}
+	return false;
     }
 
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
-        Biome biome = this.world.getBiome(new BlockPos((chunkX << 4) + 8, 64, (chunkZ << 4) + 8));
-        return new StructureAzureMineshaftStart(this.world, this.rand, chunkX, chunkZ);
+	return new MapGenAzureMineshaft.Start(this.world, this.rand, chunkX, chunkZ);
+    }
+
+    public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored)
+    {
+	this.world = worldIn;
+	return findNearestStructurePosBySpacing(worldIn, this, pos, 20, 11, 10387313, true, 100, findUnexplored);
+    }
+
+    public static class Start extends StructureStart
+    {
+	public Start()
+	{
+	}
+
+	public Start(World worldIn, Random random, int chunkX, int chunkZ)
+	{
+	    super(chunkX, chunkZ);
+	    this.create(worldIn, random, chunkX, chunkZ);
+	}
+
+	private void create(World worldIn, Random rnd, int chunkX, int chunkZ)
+	{
+	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
+	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
+	    int y = 95;
+
+	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
+	    AzureMineshaft.startMineshaft(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, Rotation.NONE, this.components);
+	    this.updateBoundingBox();
+	    System.out.println(blockpos);
+	}
     }
 }

@@ -1,20 +1,15 @@
 package com.barribob.MaelstromMod.world.gen;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
-import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
-import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
+import com.barribob.MaelstromMod.world.gen.mineshaft.AzureMineshaftTemplate;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -134,5 +129,23 @@ public abstract class ModStructureTemplate extends StructureComponentTemplate
      */
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand, StructureBoundingBox sbb)
     {
+    }
+    
+    /**
+     * Discover if bounding box can fit within the current bounding box object.
+     */
+    public List<StructureComponent> findAllIntersecting(List<StructureComponent> listIn)
+    {
+	List<StructureComponent> list = new ArrayList<StructureComponent>();
+        for (StructureComponent structurecomponent : listIn)
+        {
+            StructureBoundingBox intersection = new StructureBoundingBox(this.boundingBox.minX + 1, this.boundingBox.minY + 1, this.boundingBox.minZ + 1, this.boundingBox.maxX - 1, this.boundingBox.maxY - 1, this.boundingBox.maxZ - 1);
+            if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(intersection))
+            {
+                list.add(structurecomponent);
+            }
+        }
+
+        return list;
     }
 }

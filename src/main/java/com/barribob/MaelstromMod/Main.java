@@ -34,6 +34,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * https://www.youtube.com/channel/UCUAawSqNFBEj-bxguJyJL9g Also thanks to
  * Julian Abelar for a bunch of modding tutorials and articles
  * https://jabelarminecraft.blogspot.com/
+ * 
+ * Also other tools that I used: World Edit from Single Player Commands, as well as MCEdit
  *
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
