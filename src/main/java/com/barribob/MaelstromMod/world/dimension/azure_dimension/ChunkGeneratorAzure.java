@@ -36,6 +36,9 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 {
     // The stone block
     protected static final IBlockState STONE = ModBlocks.DARK_AZURE_STONE.getDefaultState();
+    public static final int STRUCTURE_SPACING_CHUNKS = 32;
+    public static final int MINESHAFT_STRUCTURE_NUMBER = 0;
+    public static final int FORTRESS_STRUCTURE_NUMBER = 16;
 
     // The ocean block
     private IBlockState oceanBlock = Blocks.WATER.getDefaultState();
@@ -61,10 +64,9 @@ public class ChunkGeneratorAzure implements IChunkGenerator
     private MapGenBase ravineGenerator = new MapGenAzureRavine();
 
     // The maelstrom fortress
-    private MapGenMaelstromFortress fortressGenerator = new MapGenMaelstromFortress();
-    private MapGenMaelstromStronghold strongholdGenerator = new MapGenMaelstromStronghold();
+    private MapGenMaelstromFortress fortressGenerator = new MapGenMaelstromFortress(STRUCTURE_SPACING_CHUNKS, FORTRESS_STRUCTURE_NUMBER, 2);
 
-    private MapGenAzureMineshaft mineshaftGenerator = new MapGenAzureMineshaft();
+    private MapGenAzureMineshaft mineshaftGenerator = new MapGenAzureMineshaft(STRUCTURE_SPACING_CHUNKS, MINESHAFT_STRUCTURE_NUMBER, 2);
     private Biome[] biomesForGeneration;
     double[] mainNoiseRegion;
     double[] minLimitRegion;
@@ -81,8 +83,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.MINESHAFT);
 	    fortressGenerator = (MapGenMaelstromFortress) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(fortressGenerator,
 		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.NETHER_BRIDGE);
-	    strongholdGenerator = (MapGenMaelstromStronghold) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(strongholdGenerator,
-		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.STRONGHOLD);
 	}
 
 	this.world = worldIn;
@@ -277,17 +277,9 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	{
 	    this.ravineGenerator.generate(this.world, x, z, chunkprimer);
 	}
-
-	if (this.mapFeaturesEnabled)
-	{
-	    if (this.settings.useMineShafts)
-	    {
-		this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
-	    }
-
-	    this.fortressGenerator.generate(this.world, x, z, chunkprimer);
-	    this.strongholdGenerator.generate(this.world, x, z, chunkprimer);
-	}
+	
+	this.fortressGenerator.generate(this.world, x, z, chunkprimer);
+	this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
 
 	Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
 	byte[] abyte = chunk.getBiomeArray();
@@ -443,7 +435,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	net.minecraftforge.event.ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, flag);
 
 	this.fortressGenerator.generateStructure(this.world, this.rand, chunkpos);
-//	this.strongholdGenerator.generateStructure(this.world, this.rand, chunkpos);
 	this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
 
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE);
@@ -486,10 +477,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	{
 	    return this.fortressGenerator.isInsideStructure(pos);
 	}
-	else if ("Maelstrom Stronghold".equals(structureName) && this.strongholdGenerator != null)
-	{
-	    return this.strongholdGenerator.isInsideStructure(pos);
-	}
 	return false;
     }
 
@@ -507,10 +494,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	else if ("Maelstrom Fortress".equals(structureName) && this.fortressGenerator != null)
 	{
 	    return this.fortressGenerator.getNearestStructurePos(worldIn, position, findUnexplored);
-	}
-	else if ("Maelstrom Stronghold".equals(structureName) && this.strongholdGenerator != null)
-	{
-	    return this.strongholdGenerator.getNearestStructurePos(worldIn, position, findUnexplored);
 	}
 	return null;
     }
@@ -532,7 +515,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	}
 
 	this.fortressGenerator.generate(this.world, x, z, (ChunkPrimer) null);
-	this.strongholdGenerator.generate(this.world, x, z, (ChunkPrimer) null);
     }
 
     /**

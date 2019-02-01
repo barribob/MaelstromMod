@@ -36,14 +36,12 @@ public class Projectile extends EntityModThrowable
     {
 	super(worldIn);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
-	this.setDead();
     }
 
     public Projectile(World worldIn, double x, double y, double z)
     {
 	super(worldIn, x, y, z);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
-	this.setDead();
     }
 
     /**

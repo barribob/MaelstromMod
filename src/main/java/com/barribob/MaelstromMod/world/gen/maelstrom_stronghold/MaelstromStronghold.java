@@ -14,12 +14,7 @@ import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
 public class MaelstromStronghold
-{
-    public static void registerPieces()
-    {
-	MapGenStructureIO.registerStructureComponent(StrongholdTemplate.class, "MSP");
-    }
-    
+{    
     public static void startStronghold(World world, TemplateManager manager, BlockPos pos, Rotation rot, List<StructureComponent> components)
     {
 	StrongholdTemplate template = new StrongholdTemplate(manager, "cross", pos, Rotation.NONE, false);
