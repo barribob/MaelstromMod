@@ -52,7 +52,6 @@ public class MapGenAzureMineshaft extends MapGenModStructure
 	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
 	    AzureMineshaft.startMineshaft(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, Rotation.NONE, this.components);
 	    this.updateBoundingBox();
-	    System.out.println(blockpos);
 	}
     }
 }

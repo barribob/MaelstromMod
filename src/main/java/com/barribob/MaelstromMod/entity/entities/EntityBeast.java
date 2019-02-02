@@ -115,11 +115,17 @@ public class EntityBeast extends EntityMaelstromMob
     }
     
     @Override
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+    }
+    
+    @Override
     protected void updateAttributes()
     {
-	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D * this.getProgressionMultiplier());
+	this.setBaseMaxHealth(100);
+	this.setBaseAttack(2);
     }
 
     /**
@@ -132,7 +138,7 @@ public class EntityBeast extends EntityMaelstromMob
 	{
 	    for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
 	    {
-		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, 4 * this.getProgressionMultiplier());
+		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, this.getAttack() * 2f);
 		double d0 = target.posY + (double) target.getEyeHeight();
 		double d1 = target.posX - this.posX;
 		double d2 = d0 - projectile.posY;
@@ -149,7 +155,7 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	if (entityIn instanceof EntityLivingBase)
 	{
-	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), 2 * this.getProgressionMultiplier());
+	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), this.getAttack());
 	    return true;
 	}
 	return false;

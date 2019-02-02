@@ -4,11 +4,8 @@ import com.barribob.MaelstromMod.entity.ai.AIEatAzureGrass;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIEatGrass;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
@@ -26,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityDreamElk extends EntityCreature
+public class EntityDreamElk extends EntityLeveledMob
 {
     /**
      * Timers for animation
@@ -57,9 +54,15 @@ public class EntityDreamElk extends EntityCreature
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30D);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
+    }
+    
+    @Override
+    protected void updateAttributes()
+    {
+	this.setBaseMaxHealth(25);
+	this.setBaseAttack(4);
     }
 
     protected void updateAITasks()
@@ -158,7 +161,7 @@ public class EntityDreamElk extends EntityCreature
     public boolean attackEntityAsMob(Entity entityIn)
     {
 	this.world.setEntityState(this, (byte) 4);
-	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 4);
+	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getAttack());
 
 	if (flag)
 	{
