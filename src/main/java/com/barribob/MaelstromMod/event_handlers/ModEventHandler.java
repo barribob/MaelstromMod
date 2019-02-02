@@ -3,8 +3,8 @@ package com.barribob.MaelstromMod.event_handlers;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.items.IExtendedReach;
+import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
-import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
@@ -17,9 +17,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,13 +35,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @Mod.EventBusSubscriber()
 public class ModEventHandler
-{    
+{
     @SubscribeEvent(receiveCanceled = true)
     public static void onAttackEntityEvent(AttackEntityEvent event)
     {
 	// Overrides the melee attack of the player if the item used is the sweep attack
 	// override interface
-	if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ToolSword)
+	if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ISweepAttackOverride)
 	{
 	    PlayerMeleeAttack.attackTargetEntityWithCurrentItem(event.getEntityPlayer(), event.getTarget());
 	    event.setCanceled(true);
@@ -99,17 +99,13 @@ public class ModEventHandler
     public static void onLivingHurt(LivingHurtEvent event)
     {
 	// Factor in maelstrom armor into damage source
-	if (ModDamageSource.isMaelstromDamage(event.getSource()))
+	if (!event.getSource().isUnblockable())
 	{
 	    event.setAmount((float) (event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity()))));
-	    event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
-	    
-	    for (ItemStack equipment : event.getEntity().getArmorInventoryList())
+
+	    if (ModDamageSource.isMaelstromDamage(event.getSource()))
 	    {
-		if (equipment.getItem() instanceof ModArmorBase)
-		{
-		    equipment.damageItem(1, event.getEntityLiving());
-		}
+		event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
 	    }
 	}
     }

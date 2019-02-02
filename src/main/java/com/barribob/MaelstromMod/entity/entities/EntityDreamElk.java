@@ -62,7 +62,7 @@ public class EntityDreamElk extends EntityLeveledMob
     protected void updateAttributes()
     {
 	this.setBaseMaxHealth(25);
-	this.setBaseAttack(4);
+	this.setBaseAttack(6);
     }
 
     protected void updateAITasks()

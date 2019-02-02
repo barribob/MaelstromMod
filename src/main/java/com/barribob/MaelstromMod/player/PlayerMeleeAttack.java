@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.player;
 
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
-import com.barribob.MaelstromMod.util.ModDamageSource;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -16,7 +15,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
@@ -24,8 +22,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
 /**
  * 
@@ -124,7 +120,7 @@ public class PlayerMeleeAttack
 		    double mx = targetEntity.motionX;
 		    double my = targetEntity.motionY;
 		    double mz = targetEntity.motionZ;
-		    boolean attackSuccessful = targetEntity.attackEntityFrom(ModDamageSource.causeMalestromPlayerDamage(player), damage); // Actually attacks the entity
+		    boolean attackSuccessful = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage); // Actually attacks the entity
 
 		    if (attackSuccessful)
 		    {

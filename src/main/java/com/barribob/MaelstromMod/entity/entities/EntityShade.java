@@ -55,7 +55,7 @@ public class EntityShade extends EntityMaelstromMob
     protected void updateAttributes()
     {
 	this.setBaseMaxHealth(25);
-	this.setBaseAttack(3);
+	this.setBaseAttack(4);
     }
 
     protected void initEntityAI()

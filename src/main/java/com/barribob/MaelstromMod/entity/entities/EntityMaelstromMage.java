@@ -59,7 +59,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     @Override
     protected void updateAttributes()
     {
-	this.setBaseAttack(4);
+	this.setBaseAttack(6);
     }
 
     protected void initEntityAI()

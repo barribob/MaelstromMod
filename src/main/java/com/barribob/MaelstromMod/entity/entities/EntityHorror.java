@@ -35,7 +35,7 @@ public class EntityHorror extends EntityMaelstromMob
     protected void updateAttributes()
     {
 	this.setBaseMaxHealth(25);
-	this.setBaseAttack(5);
+	this.setBaseAttack(7f);
     }
 
     protected void initEntityAI()

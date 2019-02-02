@@ -42,7 +42,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setSize(0.7f, 2.2f);
-	this.setLevel(2);
     }
     
     @Override
