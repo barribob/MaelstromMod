@@ -7,44 +7,84 @@
                 {
                     "type": "item",
                     "name": "mm:maelstrom_battleaxe",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "mm:shadow_dagger",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "minecraft:diamond_sword",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "minecraft:diamond_axe",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "minecraft:diamond_shovel",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "minecraft:diamond_hoe",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "weight": 1,
                     "name": "mm:maelstrom_cannon",
-                    "functions": [
+                    "function": "enchant_randomly",
+                    "conditions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "condition": "random_chance",
+                            "chance": 0.3
                         }
                     ]
                 },
@@ -52,35 +92,61 @@
                     "type": "item",
                     "weight": 1,
                     "name": "mm:will-o-the-wisp_staff",
-                    "functions": [
+                    "function": "enchant_randomly",
+                    "conditions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "condition": "random_chance",
+                            "chance": 0.3
                         }
                     ]
                 },
                 {
                     "type": "item",
                     "name": "mm:maelstrom_helmet",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "mm:maelstrom_chestplate",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "mm:maelstrom_leggings",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "mm:maelstrom_boots",
-                    "weight": 1
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
                 },
                 {
                     "type": "item",
@@ -88,12 +154,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -103,12 +164,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -118,12 +174,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -133,12 +184,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -148,12 +194,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -163,12 +204,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -178,12 +214,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -193,12 +224,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 1,
-                                "max": 15
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 },
@@ -208,12 +234,7 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "treasure": true,
-                            "levels": {
-                                "min": 5,
-                                "max": 20
-                            }
+                            "function": "enchant_randomly"
                         }
                     ]
                 }

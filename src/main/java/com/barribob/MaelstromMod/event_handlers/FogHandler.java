@@ -34,7 +34,7 @@ public class FogHandler
 	if (event.getEntity().dimension == ModConfig.fracture_dimension_id)
 	{
 	    int fogStartY = 60;
-	    float maxFog = 0.1f;
+	    float maxFog = 0.085f;
 	    float fogDensity = 0.005f;
 
 	    /**

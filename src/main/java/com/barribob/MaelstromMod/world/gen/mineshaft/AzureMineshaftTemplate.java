@@ -24,24 +24,13 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
  */
 public class AzureMineshaftTemplate extends ModStructureTemplate
 {
-    private int distance;
-    private static int numTemplates = 0;
-    private int templateId;
-
     public AzureMineshaftTemplate()
     {
     }
 
     public AzureMineshaftTemplate(TemplateManager manager, String type, BlockPos pos, Rotation rotation, int distance, boolean overwriteIn)
     {
-	super(manager, type, pos, rotation, overwriteIn);
-	templateId = numTemplates++;
-	this.distance = distance;
-    }
-
-    public int getDistance()
-    {
-	return this.distance;
+	super(manager, type, pos, distance, rotation, overwriteIn);
     }
 
     /**
@@ -78,37 +67,6 @@ public class AzureMineshaftTemplate extends ModStructureTemplate
 	    minecart.setPosition((double) pos.getX() + 0.5D, (double) pos.getY() - 0.5D, (double) pos.getZ() + 0.5D);
 	    worldIn.spawnEntity(minecart);
 	}
-    }
-
-    public int getId()
-    {
-	return this.templateId;
-    }
-
-    /**
-     * Determines if the new template is overlapping with another template,
-     * excluding the parent
-     */
-    public boolean isCollidingExcParent(TemplateManager manager, AzureMineshaftTemplate parent, List<StructureComponent> structures)
-    {
-	List<StructureComponent> collisions = findAllIntersecting(structures);
-
-	boolean foundCollision = false;
-
-	for (StructureComponent collision : collisions)
-	{
-	    if (((AzureMineshaftTemplate) collision).getId() != parent.getId())
-	    {
-		foundCollision = true;
-	    }
-	}
-
-	return foundCollision;
-    }
-
-    public static void resetTemplateCount()
-    {
-	numTemplates = 0;
     }
 
     @Override

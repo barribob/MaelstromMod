@@ -34,6 +34,10 @@ public abstract class ModStructureTemplate extends StructureComponentTemplate
 
     private String pieceName;
     private Rotation rotation;
+    
+    private int distance;
+    private static int numTemplates = 0;
+    private int templateId;
 
     /**
      * Whether this template should overwrite existing blocks. Replaces only air if
@@ -52,7 +56,29 @@ public abstract class ModStructureTemplate extends StructureComponentTemplate
 	this.templatePosition = pos;
 	this.rotation = rotation;
 	this.overwrite = overwriteIn;
+	templateId = numTemplates++;
 	this.loadTemplate(manager);
+    }   
+    
+    public ModStructureTemplate(TemplateManager manager, String type, BlockPos pos, int distance, Rotation rotation, boolean overwriteIn)
+    {
+	this(manager, type, pos, rotation, overwriteIn);
+	this.distance = distance;
+    }
+    
+    public int getDistance()
+    {
+	return this.distance;
+    }
+    
+    public int getId()
+    {
+	return this.templateId;
+    }
+
+    public static void resetTemplateCount()
+    {
+	numTemplates = 0;
     }
     
     public abstract String templateLocation();
@@ -122,6 +148,27 @@ public abstract class ModStructureTemplate extends StructureComponentTemplate
 	this.rotation = Rotation.valueOf(tagCompound.getString("Rot"));
 	this.overwrite = tagCompound.getBoolean("OW");
 	this.loadTemplate(p_143011_2_);
+    }
+    
+    /**
+     * Determines if the new template is overlapping with another template,
+     * excluding the parent
+     */
+    public boolean isCollidingExcParent(TemplateManager manager, ModStructureTemplate parent, List<StructureComponent> structures)
+    {
+	List<StructureComponent> collisions = findAllIntersecting(structures);
+
+	boolean foundCollision = false;
+
+	for (StructureComponent collision : collisions)
+	{
+	    if (((ModStructureTemplate) collision).getId() != parent.getId())
+	    {
+		foundCollision = true;
+	    }
+	}
+
+	return foundCollision;
     }
 
     /**

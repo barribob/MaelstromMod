@@ -37,6 +37,7 @@ public class MaelstromFortress
 	generateTowerBase(manager, template, components, rand, new BlockPos(8, 0, 8), rotation);
 
 	generateMainTowerTowers(manager, template, components, rand);
+	FortressTemplate.resetTemplateCount();
     }
 
     /**

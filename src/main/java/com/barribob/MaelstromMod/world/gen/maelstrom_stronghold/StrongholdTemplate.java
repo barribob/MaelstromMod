@@ -3,6 +3,8 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 import java.util.List;
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
+import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
@@ -11,9 +13,7 @@ import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.entity.item.EntityMinecartEmpty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
@@ -22,8 +22,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
-import net.minecraft.world.gen.structure.template.PlacementSettings;
-import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
 /**
@@ -37,9 +35,9 @@ public class StrongholdTemplate extends ModStructureTemplate
     {
     }
 
-    public StrongholdTemplate(TemplateManager manager, String type, BlockPos pos, Rotation rotation, boolean overwriteIn)
+    public StrongholdTemplate(TemplateManager manager, String type, BlockPos pos, Rotation rotation, int distance, boolean overwriteIn)
     {
-	super(manager, type, pos, rotation, overwriteIn);
+	super(manager, type, pos, distance, rotation, overwriteIn);
     }
 
     /**
@@ -49,6 +47,7 @@ public class StrongholdTemplate extends ModStructureTemplate
     {
 	if (function.startsWith("chest"))
 	{
+	    worldIn.setBlockToAir(pos);
 	    BlockPos blockpos = pos.down();
 
 	    if (sbb.isVecInside(blockpos))
@@ -61,11 +60,20 @@ public class StrongholdTemplate extends ModStructureTemplate
 		}
 	    }
 	}
-	else if (function.startsWith("boss"))
+	else if (function.startsWith("final_chest"))
 	{
-	    EntityMaelstromIllager entity = new EntityMaelstromIllager(worldIn);
-	    entity.setPosition((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D);
-	    worldIn.spawnEntity(entity);
+	    worldIn.setBlockToAir(pos);
+	    BlockPos blockpos = pos.down();
+
+	    if (sbb.isVecInside(blockpos))
+	    {
+		TileEntity tileentity = worldIn.getTileEntity(blockpos);
+
+		if (tileentity instanceof TileEntityChest)
+		{
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
+		}
+	    }
 	}
 	else if (function.startsWith("enemy"))
 	{
@@ -74,11 +82,17 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityDisappearingSpawner)
 	    {
-		String[] entities = {"shade", "horror", "maelstrom_mage"};
+		String[] entities = { "shade", "horror", "maelstrom_mage" };
 		String entityName = ModRandom.choice(entities);
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 3);
+		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 2);
 	    }
-
+	}
+	else if (function.startsWith("boss"))
+	{
+	    worldIn.setBlockToAir(pos);
+	    EntityBeast entity = new EntityBeast(worldIn);
+	    entity.setPosition((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D);
+	    worldIn.spawnEntity(entity);
 	}
     }
 
