@@ -18,6 +18,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.entity.Entity;
@@ -71,6 +72,7 @@ public class ModEntities
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
+	registerTileEntity(TileEntityMegaStructure.class, "mega_structure");
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, int color1, int color2)

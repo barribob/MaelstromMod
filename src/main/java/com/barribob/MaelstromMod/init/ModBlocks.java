@@ -20,6 +20,7 @@ import com.barribob.MaelstromMod.blocks.BlockFenceBase;
 import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
+import com.barribob.MaelstromMod.blocks.BlockMegaStructure;
 import com.barribob.MaelstromMod.blocks.BlockPlumFilledLeaves;
 import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
 import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
@@ -99,4 +100,7 @@ public class ModBlocks
 	public static final Block AZURE_STONEBRICK_CARVED_2 = new BlockBase("azure_stonebrick_carved_2", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_STONEBRICK_CARVED_3 = new BlockBase("azure_stonebrick_carved_3", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_STONEBRICK_LIT = new BlockBase("azure_stonebrick_lit", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
+	
+	// Mega Structure Block
+	public static final Block MEGA_STRUCTURE_BLOCK = new BlockMegaStructure("mega_structure_block");
 }

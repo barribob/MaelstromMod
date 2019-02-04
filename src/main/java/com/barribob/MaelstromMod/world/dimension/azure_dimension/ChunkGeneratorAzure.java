@@ -70,7 +70,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
     private MapGenAzureMineshaft mineshaftGenerator = new MapGenAzureMineshaft(STRUCTURE_SPACING_CHUNKS, MINESHAFT_STRUCTURE_NUMBER, 2);
 
     private MapGenMaelstromStronghold strongholdGenerator = new MapGenMaelstromStronghold(STRUCTURE_SPACING_CHUNKS, STRONGHOLD_STRUCTURE_NUMBER, 2);
-
+    
     private Biome[] biomesForGeneration;
     double[] mainNoiseRegion;
     double[] minLimitRegion;
