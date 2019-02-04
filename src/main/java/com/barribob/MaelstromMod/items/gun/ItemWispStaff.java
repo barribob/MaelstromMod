@@ -41,7 +41,7 @@ public class ItemWispStaff extends ItemGun
 
 	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, 5 * this.getMultiplier(), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
-	projectile.setTravelRange(10f);
+	projectile.setTravelRange(9f);
 
 	world.spawnEntity(projectile);
     }

@@ -71,7 +71,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 		if (tileentity instanceof TileEntityChest)
 		{
-		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.STRONGHOLD_KEY_CHEST, rand.nextLong());
 		}
 	    }
 	}
@@ -84,15 +84,18 @@ public class StrongholdTemplate extends ModStructureTemplate
 	    {
 		String[] entities = { "shade", "horror", "maelstrom_mage" };
 		String entityName = ModRandom.choice(entities);
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 2);
+		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(1, 4));
 	    }
 	}
 	else if (function.startsWith("boss"))
 	{
-	    worldIn.setBlockToAir(pos);
-	    EntityBeast entity = new EntityBeast(worldIn);
-	    entity.setPosition((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D);
-	    worldIn.spawnEntity(entity);
+	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+	    TileEntity tileentity = worldIn.getTileEntity(pos);
+
+	    if (tileentity instanceof TileEntityDisappearingSpawner)
+	    {
+		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":beast"), 1);
+	    }
 	}
     }
 

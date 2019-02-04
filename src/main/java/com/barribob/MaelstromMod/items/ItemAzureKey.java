@@ -23,6 +23,6 @@ public class ItemAzureKey extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add(TextFormatting.GRAY + "Key to the next dimension, which is coming soon!");
+        tooltip.add(TextFormatting.GRAY + "A key to the next dimension, which is coming soon!");
     }
 }

@@ -37,7 +37,7 @@ public class EntityBeast extends EntityMaelstromMob
     private final static int AI_SWITCH_TIME = 100;
     private final static float RANGED_SWITCH_CHANCE = 0.5f;
     private final static float PROJECTILE_SPEED = 1.0f;
-    private final static float PROJECTILE_INACCURACY = 6.0f;
+    private final static float PROJECTILE_INACCURACY = 8.0f;
     private final static int PROJECTILE_AMOUNT = 5;
 
     private boolean isRanged; // Used for animation
@@ -107,7 +107,7 @@ public class EntityBeast extends EntityMaelstromMob
     @Override
     protected void updateAttributes()
     {
-	this.setBaseMaxHealth(100);
+	this.setBaseMaxHealth(200);
 	this.setBaseAttack(3);
     }
 
@@ -121,7 +121,7 @@ public class EntityBeast extends EntityMaelstromMob
 	{
 	    for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
 	    {
-		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, this.getAttack() * 2f);
+		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, this.getAttack());
 		double d0 = target.posY + (double) target.getEyeHeight();
 		double d1 = target.posX - this.posX;
 		double d2 = d0 - projectile.posY;

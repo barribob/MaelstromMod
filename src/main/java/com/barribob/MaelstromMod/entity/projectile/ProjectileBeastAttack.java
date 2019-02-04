@@ -77,6 +77,7 @@ public class ProjectileBeastAttack extends Projectile
 
 	if (result.entityHit != null && this.shootingEntity != null)
 	{
+	    result.entityHit.hurtResistantTime = 0;
 	    result.entityHit.attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), this.getDamage());
 	}
 

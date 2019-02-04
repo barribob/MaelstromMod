@@ -32,8 +32,10 @@ import net.minecraft.world.World;
  */
 public class EntityMaelstromIllager extends EntityMaelstromMob
 {
-    private boolean summonedBeast;
     private EntityAIRangedAttack rangedAttackAI;
+    private int[] easy_minion_spawning = { 2 };
+    private int[] hard_minion_spawning = { 1, 3, 1, 3 };
+    private int counter;
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -43,7 +45,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(0.7f, 2.2f);
     }
-    
+
     @Override
     protected void updateAttributes()
     {
@@ -131,27 +133,32 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	if (!summonedBeast && this.getHealth() < this.getMaxHealth() * 0.5 && this.spawnMinion(new EntityBeast(this.world)))
+	int spawnAmount;
+	if(this.getHealth() < this.getMaxHealth() * 0.5f)
 	{
-	    summonedBeast = true;
+	    spawnAmount = hard_minion_spawning[counter % this.hard_minion_spawning.length];
 	}
 	else
 	{
-	    for (int i = 0; i < 2; i++)
+	    spawnAmount = easy_minion_spawning[counter % this.easy_minion_spawning.length];
+	}
+	
+	counter++;
+	
+	for (int i = 0; i < spawnAmount; i++)
+	{
+	    int r = rand.nextInt(3);
+	    if (r == 0)
 	    {
-		int r = rand.nextInt(3);
-		if (r == 0)
-		{
-		    this.spawnMinion(new EntityShade(this.world));
-		}
-		else if (r == 1)
-		{
-		    this.spawnMinion(new EntityMaelstromMage(this.world));
-		}
-		else
-		{
-		    this.spawnMinion(new EntityHorror(this.world));
-		}
+		this.spawnMinion(new EntityShade(this.world));
+	    }
+	    else if (r == 1)
+	    {
+		this.spawnMinion(new EntityMaelstromMage(this.world));
+	    }
+	    else
+	    {
+		this.spawnMinion(new EntityHorror(this.world));
 	    }
 	}
     }
@@ -174,20 +181,8 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound)
-    {
-	compound.setBoolean("SummonedBeast", summonedBeast);
-	super.writeEntityToNBT(compound);
-    }
-
-    @Override
     public void readEntityFromNBT(NBTTagCompound compound)
     {
-	if (compound.hasKey("SummonedBeast"))
-	{
-	    summonedBeast = compound.getBoolean("SummonedBeast");
-	}
-
 	if (this.hasCustomName())
 	{
 	    this.bossInfo.setName(this.getDisplayName());

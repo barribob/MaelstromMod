@@ -84,7 +84,7 @@ public class FortressTemplate extends ModStructureTemplate
 	    {
 		String[] entities = {"shade", "horror", "maelstrom_mage"};
 		String entityName = ModRandom.choice(entities);
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 3);
+		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(2, 3));
 	    }
 
 	}

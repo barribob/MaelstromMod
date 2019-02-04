@@ -31,7 +31,7 @@ public class ItemQuakeStaff extends ItemGun
 	float inaccuracy = 0.0f;
 	float speed = 0.5f;
 	float pitch = 0; // Projectiles aim straight ahead always
-	float damage = 5.0f;
+	float damage = 6.0f;
 
 	// Shoots projectiles in a small arc
 	for (int i = 0; i < 5; i++)

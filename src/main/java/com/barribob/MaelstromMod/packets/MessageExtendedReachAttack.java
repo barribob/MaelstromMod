@@ -1,7 +1,7 @@
 package com.barribob.MaelstromMod.packets;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
-import com.barribob.MaelstromMod.items.tools.ToolExtendedReachSword;
+import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 
 import io.netty.buffer.ByteBuf;

@@ -153,7 +153,7 @@ public class MaelstromStronghold
 	if (!generateHall(template, new BlockPos(0, 2, 0), rot))
 	{
 	    components.remove(template);
-	    return generateEnd(parent, pos, rot);
+	    return generateEnd(parent, BlockPos.ORIGIN, rot);
 	}
 
 	return true;
