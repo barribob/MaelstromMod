@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.util.handlers;
 
+import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
@@ -7,6 +8,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.model.ModelAzureGolem;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
@@ -14,16 +16,13 @@ import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
 import com.barribob.MaelstromMod.entity.projectile.EntityModThrowable;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
+import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
+import com.barribob.MaelstromMod.entity.render.RenderScaledMob;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -38,7 +37,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class RenderHandler
-{
+{    
     public static void registerEntityRenderers()
     {
 	registerModEntityRenderer(EntityShade.class, ModelShade.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
@@ -46,32 +45,50 @@ public class RenderHandler
 	registerModEntityRenderer(EntityDreamElk.class, ModelDreamElk.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
 	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromMage.class, ModelMaelstromMage.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
-	
+
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
-	
-	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>() {
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>()
+	{
 	    @Override
 	    public Render<? super EntityAzureVillager> createRenderFor(RenderManager manager)
 	    {
-	        return new RenderAzureVillager(manager);
+		return new RenderAzureVillager(manager);
 	    }
 	});
-	
-	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromIllager.class, new IRenderFactory<EntityMaelstromIllager>() {
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromIllager.class, new IRenderFactory<EntityMaelstromIllager>()
+	{
 	    @Override
 	    public Render<? super EntityMaelstromIllager> createRenderFor(RenderManager manager)
 	    {
-	        return new RenderMaelstromIllager(manager);
+		return new RenderMaelstromIllager(manager);
+	    }
+	});
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityAzureGolem.class, new IRenderFactory<EntityAzureGolem>()
+	{
+	    @Override
+	    public Render<? super EntityAzureGolem> createRenderFor(RenderManager manager)
+	    {
+		try
+		{
+		    return new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_golem.png"), ModelAzureGolem.class);
+		}
+		catch (InstantiationException | IllegalAccessException e)
+		{
+		    e.printStackTrace();
+		}
+		return null;
 	    }
 	});
     }
 
-    /*
+    /**
      * Registers an entity with a model and sets it up for rendering
      */
-    private static <T extends EntityLiving, U extends ModelBase> void registerModEntityRenderer(Class<T> entityClass, Class<U> modelClass,
-	    ResourceLocation textures)
+    private static <T extends EntityLiving, U extends ModelBase> void registerModEntityRenderer(Class<T> entityClass, Class<U> modelClass, ResourceLocation textures)
     {
 	RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<T>()
 	{
@@ -81,6 +98,34 @@ public class RenderHandler
 		try
 		{
 		    return new RenderModEntity(manager, textures, modelClass);
+		}
+		catch (InstantiationException e)
+		{
+		    e.printStackTrace();
+		}
+		catch (IllegalAccessException e)
+		{
+		    e.printStackTrace();
+		}
+		return null;
+	    }
+	});
+    }
+
+    /**
+     * Registers an entity with a model and sets it up for rendering. Includes scale
+     */
+    private static <T extends EntityLiving, U extends ModelBase> void registerModEntityRenderer(Class<T> entityClass, Class<U> modelClass, float scale,
+	    ResourceLocation textures)
+    {
+	RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<T>()
+	{
+	    @Override
+	    public Render<? super T> createRenderFor(RenderManager manager)
+	    {
+		try
+		{
+		    return new RenderScaledMob(manager, textures, modelClass, scale);
 		}
 		catch (InstantiationException e)
 		{

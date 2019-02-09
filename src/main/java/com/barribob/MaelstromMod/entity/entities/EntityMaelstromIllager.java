@@ -55,7 +55,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	rangedAttackAI = new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 360, 15.0f);
+	rangedAttackAI = new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 360, 60, 15.0f, 0.5f);
 	this.tasks.addTask(4, rangedAttackAI);
     }
 

@@ -24,33 +24,36 @@ public class ProjectileGun extends Projectile
     {
 	super(worldIn, throwerIn, baseDamage);
 
-	int power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
-	int knockback = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.impact, stack);
-	int maelstromDestroyer = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.maelstrom_destroyer, stack);
-	if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_flame, stack) > 0)
+	int power = 0;
+	
+	if (stack != null)
 	{
-	    this.setFire(100);
+	    power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
+	    this.knockbackStrength = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.impact, stack);
+	    this.maelstromDestroyer = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.maelstrom_destroyer, stack);
+	    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_flame, stack) > 0)
+	    {
+		this.setFire(100);
+	    }
 	}
 
 	float maxPower = ModConfig.progression_scale / ModEnchantments.gun_power.getMaxLevel();
 	this.setDamage((float) (baseDamage * (1 + power * maxPower)));
-	this.knockbackStrength = knockback;
-	this.maelstromDestroyer = maelstromDestroyer;
     }
-    
+
     protected int getKnockback()
     {
 	return this.knockbackStrength;
     }
-    
+
     protected float getGunDamage(Entity entity)
     {
-	if(entity instanceof EntityMaelstromMob)
+	if (entity instanceof EntityMaelstromMob)
 	{
 	    float maxPower = ModConfig.progression_scale / ModEnchantments.maelstrom_destroyer.getMaxLevel();
 	    return super.getDamage() * (1 + this.maelstromDestroyer * maxPower);
 	}
-	
+
 	return super.getDamage();
     }
 

@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.init;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
@@ -41,6 +42,7 @@ public class ModEntities
     public static final int MAELSTROM_ILLAGER_ID = 104;
     public static final int AZURE_VILLAGER_ID = 105;
     public static final int MAELSTROM_MAGE_ID = 106;
+    public static final int AZURE_GOLEM_ID = 107;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -60,6 +62,7 @@ public class ModEntities
 	registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 30, 6433126, 3221816);
 	registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 30, 7248383, 7236306);
 	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 30, 6433126, 3221816);
+	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 30, 7248383, 7236306);
 
 	registerProjectile("projectile", Projectile.class, PROJECTILE_ID, 30);
 	registerProjectile("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);

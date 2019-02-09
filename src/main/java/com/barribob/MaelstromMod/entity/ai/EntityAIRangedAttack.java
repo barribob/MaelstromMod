@@ -25,6 +25,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     private boolean strafingBackwards;
     private int strafingTime = -1;
     private boolean active;
+    private final float strafeAmount;
 
     private static final float STRAFING_STOP_FACTOR = 0.75f;
     private static final float STRAFING_BACKWARDS_FACTOR = 0.25f;
@@ -32,15 +33,23 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     private static final float STRAFING_DIRECTION_CHANGE_CHANCE = 0.3f;
     private static final int SEE_TIME = 20;
     private static final int LOSE_SIGHT_TIME = 60;
-    protected float arms_raised_time_ratio = 0.3f;
+    protected float arms_raised_time;
 
-    public EntityAIRangedAttack(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance)
+    public EntityAIRangedAttack(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance, float strafeAmount)
     {
 	this.entity = entity;
 	this.moveSpeedAmp = moveSpeedAmp;
 	this.attackCooldown = attackCooldown;
 	this.maxAttackDistance = maxAttackDistance * maxAttackDistance;
+	this.strafeAmount = strafeAmount;
+	this.arms_raised_time = this.attackCooldown * 0.3f;
 	this.setMutexBits(3);
+    }
+
+    public EntityAIRangedAttack(T entity, double moveSpeedAmp, int attackCooldown, float raiseArmsTime, float maxAttackDistance, float strafeAmount)
+    {
+	this(entity, moveSpeedAmp, attackCooldown, maxAttackDistance, strafeAmount);
+	this.arms_raised_time = raiseArmsTime;
     }
 
     /**
@@ -70,6 +79,83 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 	this.attackTime = this.attackCooldown;
     }
 
+    protected void strafe(EntityLivingBase target, double distance)
+    {
+	if (distance <= (double) this.maxAttackDistance)
+	{
+	    this.entity.getNavigator().clearPath();
+	    ++this.strafingTime;
+	}
+	else
+	{
+	    this.entity.getNavigator().tryMoveToEntityLiving(target, this.moveSpeedAmp);
+	    this.strafingTime = -1;
+	}
+
+	// Handle strafing direction changes
+	if (this.strafingTime >= STRAFING_DIRECTION_TICK)
+	{
+	    if ((double) this.entity.getRNG().nextFloat() < STRAFING_DIRECTION_CHANGE_CHANCE)
+	    {
+		this.strafingClockwise = !this.strafingClockwise;
+	    }
+
+	    if ((double) this.entity.getRNG().nextFloat() < STRAFING_DIRECTION_CHANGE_CHANCE)
+	    {
+		this.strafingBackwards = !this.strafingBackwards;
+	    }
+
+	    this.strafingTime = 0;
+	}
+
+	// Strafe
+	if (this.strafingTime > -1)
+	{
+	    if (distance > (double) (this.maxAttackDistance * STRAFING_STOP_FACTOR))
+	    {
+		this.strafingBackwards = false;
+	    }
+	    else if (distance < (double) (this.maxAttackDistance * STRAFING_BACKWARDS_FACTOR))
+	    {
+		this.strafingBackwards = true;
+	    }
+
+	    this.entity.getMoveHelper().strafe((this.strafingBackwards ? -1 : 1) * this.strafeAmount, (this.strafingClockwise ? 1 : -1) * this.strafeAmount);
+	    this.entity.faceEntity(target, 30.0F, 30.0F);
+	}
+	else
+	{
+	    this.entity.getLookHelper().setLookPositionWithEntity(target, 30.0F, 30.0F);
+	}
+    }
+
+    protected void updateAttack(EntityLivingBase target, double distance)
+    {
+	boolean inRange = this.entity.getEntitySenses().canSee(target) && distance <= (double) this.maxAttackDistance;
+
+	// Handle the attacking
+	if (this.active)
+	{
+	    this.attackTime--;
+	    if (this.attackTime <= 0)
+	    {
+		this.active = false;
+		this.entity.attackEntityWithRangedAttack(target, 0);
+		this.entity.setSwingingArms(false);
+	    }
+	    // Right before the attack, raise arms
+	    else if (this.attackTime == this.arms_raised_time)
+	    {
+		this.entity.setSwingingArms(true);
+	    }
+	}
+	else if (inRange)
+	{
+	    this.active = true;
+	    this.attackTime = this.attackCooldown;
+	}
+    }
+
     /**
      * Keep ticking a continuous task that has already been started
      */
@@ -80,76 +166,10 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 	if (target != null)
 	{
 	    double d0 = this.entity.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ);
-	    boolean inRange = this.entity.getEntitySenses().canSee(target) && d0 <= (double) this.maxAttackDistance;
 
-	    if (d0 <= (double) this.maxAttackDistance)
-	    {
-		this.entity.getNavigator().clearPath();
-		++this.strafingTime;
-	    }
-	    else
-	    {
-		this.entity.getNavigator().tryMoveToEntityLiving(target, this.moveSpeedAmp);
-		this.strafingTime = -1;
-	    }
+	    strafe(target, d0);
 
-	    // Handle strafing direction changes
-	    if (this.strafingTime >= STRAFING_DIRECTION_TICK)
-	    {
-		if ((double) this.entity.getRNG().nextFloat() < STRAFING_DIRECTION_CHANGE_CHANCE)
-		{
-		    this.strafingClockwise = !this.strafingClockwise;
-		}
-
-		if ((double) this.entity.getRNG().nextFloat() < STRAFING_DIRECTION_CHANGE_CHANCE)
-		{
-		    this.strafingBackwards = !this.strafingBackwards;
-		}
-
-		this.strafingTime = 0;
-	    }
-
-	    // Strafe
-	    if (this.strafingTime > -1)
-	    {
-		if (d0 > (double) (this.maxAttackDistance * STRAFING_STOP_FACTOR))
-		{
-		    this.strafingBackwards = false;
-		}
-		else if (d0 < (double) (this.maxAttackDistance * STRAFING_BACKWARDS_FACTOR))
-		{
-		    this.strafingBackwards = true;
-		}
-
-		this.entity.getMoveHelper().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
-		this.entity.faceEntity(target, 30.0F, 30.0F);
-	    }
-	    else
-	    {
-		this.entity.getLookHelper().setLookPositionWithEntity(target, 30.0F, 30.0F);
-	    }
-
-	    // Handle the attacking
-	    if (this.active)
-	    {
-		this.attackTime--;
-		if (this.attackTime <= 0)
-		{
-		    this.active = false;
-		    ((IRangedAttackMob) this.entity).attackEntityWithRangedAttack(target, 0);
-		    ((IRangedAttackMob) this.entity).setSwingingArms(false);
-		}
-		// Right before the attack, raise arms
-		else if (this.attackTime <= this.attackCooldown * this.arms_raised_time_ratio)
-		{
-		    ((IRangedAttackMob) this.entity).setSwingingArms(true);
-		}
-	    }
-	    else if (inRange)
-	    {
-		this.active = true;
-		this.attackTime = this.attackCooldown;
-	    }
+	    updateAttack(target, d0);
 	}
     }
 }
