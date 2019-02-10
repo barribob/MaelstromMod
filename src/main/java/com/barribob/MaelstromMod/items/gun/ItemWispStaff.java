@@ -32,7 +32,6 @@ public class ItemWispStaff extends ItemGun
     @Override
     protected void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack)
     {
-
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 

@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderScaledMob<T extends EntityLiving>  extends RenderModEntity<T>
 {
     protected float scale;
-    public <U extends ModelBase> RenderScaledMob(RenderManager rendermanagerIn, ResourceLocation textures, Class<U> modelClass, float scale) throws InstantiationException, IllegalAccessException
+    public <U extends ModelBase> RenderScaledMob(RenderManager rendermanagerIn, ResourceLocation textures, U modelClass, float scale)
     {
 	super(rendermanagerIn, textures, modelClass);
 	this.scale = scale;

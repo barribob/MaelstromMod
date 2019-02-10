@@ -1,19 +1,19 @@
 package com.barribob.MaelstromMod.entity.render;
 
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
+import com.barribob.MaelstromMod.entity.model.ModelAzureGolem;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderAzureGolem extends RenderScaledMob<EntityAzureGolem>
 {
     public static final float AZURE_GOLEM_SIZE = 1.4f;
     
-    public RenderAzureGolem(RenderManager rendermanagerIn, ResourceLocation textures, Class modelClass) throws InstantiationException, IllegalAccessException
+    public RenderAzureGolem(RenderManager rendermanagerIn, ResourceLocation textures)
     {
-	super(rendermanagerIn, textures, modelClass, AZURE_GOLEM_SIZE);
+	super(rendermanagerIn, textures, new ModelAzureGolem(), AZURE_GOLEM_SIZE);
     }
 
     @Override

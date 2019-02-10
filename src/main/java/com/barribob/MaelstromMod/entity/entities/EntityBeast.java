@@ -108,7 +108,7 @@ public class EntityBeast extends EntityMaelstromMob
     protected void updateAttributes()
     {
 	this.setBaseMaxHealth(200);
-	this.setBaseAttack(3);
+	this.setBaseAttack(4);
     }
 
     /**

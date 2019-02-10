@@ -82,7 +82,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityDisappearingSpawner)
 	    {
-		String[] entities = { "shade", "horror", "maelstrom_mage" };
+		String[] entities = { "shade", "horror", "floating_skull" };
 		String entityName = ModRandom.choice(entities);
 		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(1, 4));
 	    }

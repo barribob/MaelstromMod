@@ -1,7 +1,7 @@
 {
     "pools": [
         {
-            "name": "maelstrom_mage",
+            "name": "floating_skull",
             "rolls": 1,
             "entries": [
                 {
@@ -19,7 +19,7 @@
             ]
         },
         {
-            "name": "maelstrom_mage",
+            "name": "floating_skull",
             "rolls": 1,
             "entries": [
                 {
