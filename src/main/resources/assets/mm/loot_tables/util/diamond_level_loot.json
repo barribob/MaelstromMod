@@ -1,12 +1,12 @@
 {
     "pools": [
         {
-            "name": "iron_level_loot",
+            "name": "diamond_level_loot",
             "rolls": 1,
             "entries": [
                 {
                     "type": "item",
-                    "name": "minecraft:iron_sword",
+                    "name": "mm:shadow_dagger",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -18,7 +18,31 @@
                 },
                 {
                     "type": "item",
-                    "name": "minecraft:iron_pickaxe",
+                    "weight": 1,
+                    "name": "mm:maelstrom_cannon",
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:will-o-the-wisp_staff",
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:diamond_sword",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -30,7 +54,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "minecraft:iron_shovel",
+                    "name": "minecraft:diamond_pickaxe",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -42,7 +66,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "minecraft:iron_axe",
+                    "name": "minecraft:diamond_shovel",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -54,7 +78,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "minecraft:iron_helmet",
+                    "name": "minecraft:diamond_axe",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -66,7 +90,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "minecraft:iron_chestplate",
+                    "name": "minecraft:diamond_helmet",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -78,7 +102,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "minecraft:iron_leggings",
+                    "name": "minecraft:diamond_chestplate",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -90,7 +114,19 @@
                 },
                 {
                     "type": "item",
-                    "name": "minecraft:iron_boots",
+                    "name": "minecraft:diamond_leggings",
+                    "weight": 1,
+                    "function": "enchant_randomly",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.3
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:diamond_boots",
                     "weight": 1,
                     "function": "enchant_randomly",
                     "conditions": [
@@ -106,7 +142,12 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly"
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 25,
+                                "max": 30
+                            },
+                            "treasure": "true"
                         }
                     ]
                 }

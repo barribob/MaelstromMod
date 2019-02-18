@@ -57,29 +57,33 @@ public class ModProfessions
 	{
 	    ItemStack sellStack;
 	    int requiredHide;
-	    int armor = random.nextInt(4);
+	    int armor = random.nextInt(5);
 
 	    switch (armor)
 	    {
 	    case 0:
-		sellStack = new ItemStack(ModItems.MAELSTROM_HELMET);
+		sellStack = new ItemStack(Items.DIAMOND_HELMET);
 		requiredHide = 5;
 		break;
 	    case 1:
-		sellStack = new ItemStack(ModItems.MAELSTROM_CHESTPLATE);
+		sellStack = new ItemStack(Items.DIAMOND_CHESTPLATE);
 		requiredHide = 8;
 		break;
 	    case 2:
-		sellStack = new ItemStack(ModItems.MAELSTROM_LEGGINGS);
+		sellStack = new ItemStack(Items.DIAMOND_LEGGINGS);
 		requiredHide = 7;
 		break;
+	    case 3:
+		sellStack = new ItemStack(Items.DIAMOND_SWORD);
+		requiredHide = 2;
+		break;
 	    default:
-		sellStack = new ItemStack(ModItems.MAELSTROM_BOOTS);
+		sellStack = new ItemStack(Items.DIAMOND_BOOTS);
 		requiredHide = 4;
 		break;
 	    }
 
-	    ItemStack material1 = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 1);
+	    ItemStack material1 = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2);
 	    ItemStack material2 = new ItemStack(ModItems.ELK_HIDE, requiredHide);
 
 	    recipeList.add(new MerchantRecipe(material1, material2, sellStack));

@@ -98,6 +98,7 @@ public class ModEventHandler
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event)
     {
+	//System.out.println("Initial: " + event.getAmount());
 	// Factor in maelstrom armor into damage source
 	if (!event.getSource().isUnblockable())
 	{
@@ -108,6 +109,7 @@ public class ModEventHandler
 		event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
 	    }
 	}
+	//System.out.println("Final: " + event.getAmount());
     }
 
     /**

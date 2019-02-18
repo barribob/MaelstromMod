@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber()
 public class DimensionScreenHandler
 {  
@@ -22,6 +21,7 @@ public class DimensionScreenHandler
      * Adds a new loading screen (credit to twilight forest mod for this idea) 
      * https://github.com/TeamTwilight/twilightforest/blob/1.12.x/src/main/java/twilightforest/client/LoadingScreenListener.java
      */
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public static void onGuiOpenEvent(GuiOpenEvent event)
     {

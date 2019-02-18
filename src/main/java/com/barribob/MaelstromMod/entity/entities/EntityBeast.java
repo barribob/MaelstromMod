@@ -57,12 +57,6 @@ public class EntityBeast extends EntityMaelstromMob
 	super.initEntityAI();
 	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE, 0.5f));
     }
-    
-    @Override
-    protected ResourceLocation getLootTable()
-    {
-	return LootTableHandler.BEAST;
-    }
 
     /**
      * Determines if an entity can be despawned, used on idle far away entities
@@ -107,7 +101,7 @@ public class EntityBeast extends EntityMaelstromMob
     @Override
     protected void updateAttributes()
     {
-	this.setBaseMaxHealth(200);
+	this.setBaseMaxHealth(250);
 	this.setBaseAttack(4);
     }
 

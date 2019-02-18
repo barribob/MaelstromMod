@@ -5,9 +5,15 @@ import java.util.UUID;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * 
@@ -42,7 +48,7 @@ public class ToolLongsword extends ToolSword implements IExtendedReach
 	{
 	    multimap.put("extended_reach", new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", this.reach - 3.0D, 0));
 	    multimap.removeAll(SharedMonsterAttributes.ATTACK_SPEED.getName());
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.7000000953674316D, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8000000953674316D, 0));
 	}
 	return multimap;
     }

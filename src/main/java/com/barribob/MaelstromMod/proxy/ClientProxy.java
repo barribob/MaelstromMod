@@ -40,12 +40,6 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
 	RenderHandler.registerEntityRenderers();
-		
-	// Register a network to communicate to the server for client stuff (e.g. client raycast rendering for extended melee reach)
-	Main.network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.NETWORK_CHANNEL_NAME);
-	
-	int packetId = 0;
-	
-	Main.network.registerMessage(MessageExtendedReachAttack.Handler.class, MessageExtendedReachAttack.class, packetId++, Side.SERVER);
+	super.init();
     }
 }

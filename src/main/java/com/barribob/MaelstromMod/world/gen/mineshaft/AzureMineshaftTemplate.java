@@ -49,7 +49,7 @@ public class AzureMineshaftTemplate extends ModStructureTemplate
 
 		if (tileentity instanceof TileEntityChest)
 		{
-		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_MINESHAFT, rand.nextLong());
 		}
 	    }
 	}

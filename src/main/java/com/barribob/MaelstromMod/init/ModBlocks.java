@@ -90,7 +90,6 @@ public class ModBlocks
 	public static final Block MAELSTROM_STONEBRICK_STAIRS = new BlockStairsBase("maelstrom_stonebrick_stairs", MAELSTROM_STONEBRICK.getDefaultState(), 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_STONEBRICK_FENCE = new BlockFenceBase("maelstrom_stonebrick_fence", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal", Material.ROCK, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block DISAPPEARING_SPAWNER = new BlockDisappearingSpawner("disappearing_spawner", Material.ROCK);
 	
 	// Maelstrom Fortress
 	public static final Block AZURE_STONEBRICK = new BlockBase("azure_stonebrick", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
@@ -101,6 +100,7 @@ public class ModBlocks
 	public static final Block AZURE_STONEBRICK_CARVED_3 = new BlockBase("azure_stonebrick_carved_3", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_STONEBRICK_LIT = new BlockBase("azure_stonebrick_lit", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
 	
-	// Mega Structure Block
+	// Util
 	public static final Block MEGA_STRUCTURE_BLOCK = new BlockMegaStructure("mega_structure_block");
+	public static final Block DISAPPEARING_SPAWNER = new BlockDisappearingSpawner("disappearing_spawner", Material.ROCK);
 }

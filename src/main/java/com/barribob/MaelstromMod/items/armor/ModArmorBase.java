@@ -19,6 +19,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -41,7 +43,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
 	setUnlocalizedName(name);
 	setRegistryName(name);
 	setCreativeTab(ModCreativeTabs.ALL);
-	this.maelstrom_armor_factor = maelstrom_armor;
+	this.maelstrom_armor_factor = maelstrom_armor - 1;
 
 	ModItems.ITEMS.add(this);
     }
@@ -52,7 +54,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
     public float getMaelstromArmor(ItemStack stack)
     {
 	float total_armor_reduction = 1 - LevelHandler.getArmorFromLevel(this.maelstrom_armor_factor);
-	float armor_type_fraction = this.armor_fractions[this.getEquipmentSlot().getIndex()] / (float)armor_total;
+	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float)armor_total;
 	return total_armor_reduction * armor_type_fraction;
     }
     
@@ -63,7 +65,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
      */
     public float getMaelstromArmorBars()
     {
-	float armor_type_fraction = this.armor_fractions[this.getEquipmentSlot().getIndex()] / (float)armor_total;
+	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float)armor_total;
 	return this.maelstrom_armor_factor * armor_type_fraction * 2;
     }
 

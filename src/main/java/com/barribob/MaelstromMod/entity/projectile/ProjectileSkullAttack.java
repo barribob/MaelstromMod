@@ -63,10 +63,8 @@ public class ProjectileSkullAttack extends Projectile
     }
 
     @Override
-    public void onUpdate()
+    protected void onHit(RayTraceResult result)
     {
-	super.onUpdate();
-
 	/*
 	 * Find all entities in a certain area and deal damage to them
 	 */
@@ -84,16 +82,6 @@ public class ProjectileSkullAttack extends Projectile
 		    ((EntityLivingBase) entity).addVelocity(0, 0.1D, 0);
 		}
 	    }
-	}
-    }
-
-    @Override
-    protected void onHit(RayTraceResult result)
-    {
-	// Only destroy if the collision is a block
-	if (result.entityHit != null)
-	{
-	    return;
 	}
 
 	super.onHit(result);

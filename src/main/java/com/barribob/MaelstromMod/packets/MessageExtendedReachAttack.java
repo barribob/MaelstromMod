@@ -55,7 +55,6 @@ public class MessageExtendedReachAttack implements IMessage
 	public IMessage onMessage(MessageExtendedReachAttack message, MessageContext ctx)
 	{
 	    final EntityPlayerMP player = ctx.getServerHandler().player;
-	    Minecraft mc = Minecraft.getMinecraft();
 
 	    player.getServer().addScheduledTask(new Runnable()
 	    {
@@ -72,8 +71,8 @@ public class MessageExtendedReachAttack implements IMessage
 		    if (entity == null) // Miss
 		    {
 			// On a miss, reset cooldown anyways
-			mc.player.resetCooldown();
-			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
+			player.resetCooldown();
+			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(player);
 		    }
 		    else // Hit
 		    {
@@ -81,16 +80,14 @@ public class MessageExtendedReachAttack implements IMessage
 
 			if (sword instanceof IExtendedReach)
 			{
-			    RayTraceResult result = InputOverrides.getMouseOver(1.0f, mc, ((IExtendedReach) sword).getReach());
-
-			    if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY)
+			    if (entity.getDistance(player) < ((IExtendedReach) sword).getReach())
 			    {
-				mc.playerController.attackEntity(player, entity);
+				player.attackTargetEntityWithCurrentItem(entity);
 			    }
 			}
 		    }
 
-		    mc.player.swingArm(EnumHand.MAIN_HAND);
+		    player.swingArm(EnumHand.MAIN_HAND);
 		}
 	    });
 

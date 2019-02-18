@@ -44,7 +44,7 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     @Override
     protected void updateAttributes()
     {
-	this.setBaseAttack(3);
+	this.setBaseAttack(4);
     }
 
     protected void initEntityAI()

@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
+import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.AnimationTimer;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -25,6 +26,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -76,6 +78,17 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	this.tasks.addTask(6, new EntityAILookIdle(this));
 	this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+    }
+    
+    /**
+     */
+    public boolean getCanSpawnHere()
+    {
+        int i = MathHelper.floor(this.posX);
+        int j = MathHelper.floor(this.getEntityBoundingBox().minY);
+        int k = MathHelper.floor(this.posZ);
+        BlockPos blockpos = new BlockPos(i, j, k);
+        return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)

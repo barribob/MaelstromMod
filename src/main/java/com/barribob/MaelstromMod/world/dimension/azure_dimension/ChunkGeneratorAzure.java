@@ -67,9 +67,9 @@ public class ChunkGeneratorAzure implements IChunkGenerator
     // The maelstrom fortress
     private MapGenMaelstromFortress fortressGenerator = new MapGenMaelstromFortress(STRUCTURE_SPACING_CHUNKS, FORTRESS_STRUCTURE_NUMBER, 2);
 
-    private MapGenAzureMineshaft mineshaftGenerator = new MapGenAzureMineshaft(STRUCTURE_SPACING_CHUNKS, MINESHAFT_STRUCTURE_NUMBER, 2);
+    private MapGenAzureMineshaft mineshaftGenerator = new MapGenAzureMineshaft(STRUCTURE_SPACING_CHUNKS, MINESHAFT_STRUCTURE_NUMBER, 1);
 
-    private MapGenMaelstromStronghold strongholdGenerator = new MapGenMaelstromStronghold(STRUCTURE_SPACING_CHUNKS, STRONGHOLD_STRUCTURE_NUMBER, 2);
+    private MapGenMaelstromStronghold strongholdGenerator = new MapGenMaelstromStronghold(STRUCTURE_SPACING_CHUNKS, STRONGHOLD_STRUCTURE_NUMBER, 1);
     
     private Biome[] biomesForGeneration;
     double[] mainNoiseRegion;
