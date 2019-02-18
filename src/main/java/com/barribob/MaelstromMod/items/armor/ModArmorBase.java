@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -18,6 +19,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -30,22 +33,40 @@ public class ModArmorBase extends ItemArmor implements IHasModel
 	    UUID.fromString("e2d1f056-f539-48c7-b353-30d7a367ebd0"), UUID.fromString("db13047a-bb47-4621-a025-65ed22ce461a"),
 	    UUID.fromString("abb5df20-361d-420a-8ec7-4bdba33378eb") };
 
-    private int maelstrom_armor;
+    private float maelstrom_armor_factor;
+    private static final int[] armor_fractions = {4, 7, 8, 5};
+    private static final int armor_total = 24;
 
-    public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, int maelstrom_armor)
+    public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, float maelstrom_armor)
     {
 	super(materialIn, renderIndexIn, equipmentSlotIn);
 	setUnlocalizedName(name);
 	setRegistryName(name);
 	setCreativeTab(ModCreativeTabs.ALL);
-	this.maelstrom_armor = maelstrom_armor;
+	this.maelstrom_armor_factor = maelstrom_armor - 1;
 
 	ModItems.ITEMS.add(this);
     }
 
-    public int getMaelstromArmor()
+    /**
+     * Get the calculated reduction in armor based on the armor factor
+     */
+    public float getMaelstromArmor(ItemStack stack)
     {
-	return this.maelstrom_armor;
+	float total_armor_reduction = 1 - LevelHandler.getArmorFromLevel(this.maelstrom_armor_factor);
+	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float)armor_total;
+	return total_armor_reduction * armor_type_fraction;
+    }
+    
+    /**
+     * Gets the armor bars for display
+     * Directly calculates from the fraction of the maelstrom_armor_factor, which
+     * represents the total armor bars of any given armor set
+     */
+    public float getMaelstromArmorBars()
+    {
+	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float)armor_total;
+	return this.maelstrom_armor_factor * armor_type_fraction * 2;
     }
 
     @Override
@@ -64,7 +85,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
 
 	if (equipmentSlot == this.armorType)
 	{
-	    multimap.put("maelstrom_armor", new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstrom Armor modifier", (double) this.maelstrom_armor, 0));
+	    multimap.put("maelstrom_armor", new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstrom Armor modifier", Math.round(this.getMaelstromArmorBars() * 100) / 100.0f, 0));
 	}
 
 	return multimap;

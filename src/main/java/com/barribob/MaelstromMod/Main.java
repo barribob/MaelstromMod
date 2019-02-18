@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -33,6 +34,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * https://www.youtube.com/channel/UCUAawSqNFBEj-bxguJyJL9g Also thanks to
  * Julian Abelar for a bunch of modding tutorials and articles
  * https://jabelarminecraft.blogspot.com/
+ * 
+ * Also other tools that I used: World Edit from Single Player Commands, as well as MCEdit
  *
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
@@ -43,7 +46,8 @@ public class Main
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
-
+    public static SimpleNetworkWrapper network;
+    
     /**
      * 
      * Basically initializes the entire mod by calling all of the init methods in

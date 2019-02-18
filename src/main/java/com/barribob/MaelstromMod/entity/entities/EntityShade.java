@@ -52,18 +52,16 @@ public class EntityShade extends EntityMaelstromMob
     }
 
     @Override
-    protected void applyEntityAttributes()
+    protected void updateAttributes()
     {
-	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
+	this.setBaseMaxHealth(25);
+	this.setBaseAttack(4);
     }
 
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 3.0f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 3.0f, 0.5f));
     }
 
     @Override
@@ -99,7 +97,7 @@ public class EntityShade extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    ProjectileShadeAttack projectile = new ProjectileShadeAttack(this.world, this);
+	    ProjectileShadeAttack projectile = new ProjectileShadeAttack(this.world, this, this.getAttack());
 	    double d0 = target.posY + (double) target.getEyeHeight() - 1.100000023841858D;
 	    double xDir = target.posX - this.posX;
 	    double yDir = d0 - projectile.posY;

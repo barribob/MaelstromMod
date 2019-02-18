@@ -1,37 +1,20 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import javax.annotation.Nullable;
-
 import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
-import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -54,7 +37,7 @@ public class EntityBeast extends EntityMaelstromMob
     private final static int AI_SWITCH_TIME = 100;
     private final static float RANGED_SWITCH_CHANCE = 0.5f;
     private final static float PROJECTILE_SPEED = 1.0f;
-    private final static float PROJECTILE_INACCURACY = 6.0f;
+    private final static float PROJECTILE_INACCURACY = 8.0f;
     private final static int PROJECTILE_AMOUNT = 5;
 
     private boolean isRanged; // Used for animation
@@ -72,13 +55,7 @@ public class EntityBeast extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE));
-    }
-    
-    @Override
-    protected ResourceLocation getLootTable()
-    {
-	return LootTableHandler.BEAST;
+	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE, 0.5f));
     }
 
     /**
@@ -113,14 +90,19 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	return this.isRanged;
     }
-
+    
     @Override
     protected void applyEntityAttributes()
     {
-	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+    }
+    
+    @Override
+    protected void updateAttributes()
+    {
+	this.setBaseMaxHealth(250);
+	this.setBaseAttack(4);
     }
 
     /**
@@ -133,7 +115,7 @@ public class EntityBeast extends EntityMaelstromMob
 	{
 	    for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
 	    {
-		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this);
+		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, this.getAttack());
 		double d0 = target.posY + (double) target.getEyeHeight();
 		double d1 = target.posX - this.posX;
 		double d2 = d0 - projectile.posY;
@@ -150,7 +132,7 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	if (entityIn instanceof EntityLivingBase)
 	{
-	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), 2);
+	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), this.getAttack());
 	    return true;
 	}
 	return false;

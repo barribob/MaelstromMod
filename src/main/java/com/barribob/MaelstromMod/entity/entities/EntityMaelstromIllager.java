@@ -32,8 +32,10 @@ import net.minecraft.world.World;
  */
 public class EntityMaelstromIllager extends EntityMaelstromMob
 {
-    private boolean summonedBeast;
     private EntityAIRangedAttack rangedAttackAI;
+    private int[] easy_minion_spawning = { 2 };
+    private int[] hard_minion_spawning = { 1, 3, 1, 3 };
+    private int counter;
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -45,18 +47,15 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     }
 
     @Override
-    protected void applyEntityAttributes()
+    protected void updateAttributes()
     {
-	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(75.0D);
+	this.setBaseMaxHealth(75);
     }
 
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	rangedAttackAI = new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 360, 15.0f);
+	rangedAttackAI = new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 360, 60, 15.0f, 0.5f);
 	this.tasks.addTask(4, rangedAttackAI);
     }
 
@@ -134,27 +133,32 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	if (!summonedBeast && this.getHealth() < this.getMaxHealth() * 0.5 && this.spawnMinion(new EntityBeast(this.world)))
+	int spawnAmount;
+	if(this.getHealth() < this.getMaxHealth() * 0.5f)
 	{
-	    summonedBeast = true;
+	    spawnAmount = hard_minion_spawning[counter % this.hard_minion_spawning.length];
 	}
 	else
 	{
-	    for (int i = 0; i < 2; i++)
+	    spawnAmount = easy_minion_spawning[counter % this.easy_minion_spawning.length];
+	}
+	
+	counter++;
+	
+	for (int i = 0; i < spawnAmount; i++)
+	{
+	    int r = rand.nextInt(3);
+	    if (r == 0)
 	    {
-		int r = rand.nextInt(3);
-		if (r == 0)
-		{
-		    this.spawnMinion(new EntityShade(this.world));
-		}
-		else if (r == 1)
-		{
-		    this.spawnMinion(new EntityMaelstromMage(this.world));
-		}
-		else
-		{
-		    this.spawnMinion(new EntityHorror(this.world));
-		}
+		this.spawnMinion(new EntityShade(this.world));
+	    }
+	    else if (r == 1)
+	    {
+		this.spawnMinion(new EntityMaelstromMage(this.world));
+	    }
+	    else
+	    {
+		this.spawnMinion(new EntityHorror(this.world));
 	    }
 	}
     }
@@ -177,20 +181,8 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound)
-    {
-	compound.setBoolean("SummonedBeast", summonedBeast);
-	super.writeEntityToNBT(compound);
-    }
-
-    @Override
     public void readEntityFromNBT(NBTTagCompound compound)
     {
-	if (compound.hasKey("SummonedBeast"))
-	{
-	    summonedBeast = compound.getBoolean("SummonedBeast");
-	}
-
 	if (this.hasCustomName())
 	{
 	    this.bossInfo.setName(this.getDisplayName());
@@ -229,6 +221,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		    }
 		    mob.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(mob)), (IEntityLivingData) null);
 		    mob.spawnExplosionParticle();
+		    mob.setLevel(this.getLevel());
 		    return true;
 		}
 	    }

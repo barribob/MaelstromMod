@@ -5,11 +5,11 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
+import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,32 +22,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
-import net.minecraft.world.gen.structure.StructureComponentTemplate;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
-import net.minecraft.world.storage.loot.LootTableList;
 
 /**
  * 
- * The template class that holds all placement positions and settings as well as the template itself
- * Used for generating the maelstrom fortress
+ * The specific template used for generating the maelstrom fortress
  *
  */
-public class FortressTemplate extends StructureComponentTemplate
+public class FortressTemplate extends ModStructureTemplate
 {
-    private static final PlacementSettings OVERWRITE = (new PlacementSettings()).setIgnoreEntities(true);
-    private static final PlacementSettings INSERT = (new PlacementSettings()).setIgnoreEntities(true).setReplacedBlock(Blocks.AIR);
-
-    private String pieceName;
-    private Rotation rotation;
     private int distance;
-
-    /**
-     * Whether this template should overwrite existing blocks. Replaces only air if
-     * false.
-     */
-    private boolean overwrite;
 
     public FortressTemplate()
     {
@@ -55,85 +41,13 @@ public class FortressTemplate extends StructureComponentTemplate
 
     public FortressTemplate(TemplateManager manager, String type, int distance, BlockPos pos, Rotation rotation, boolean overwriteIn)
     {
-	super(0);
-	this.pieceName = type;
-	this.templatePosition = pos;
-	this.rotation = rotation;
-	this.overwrite = overwriteIn;
-	this.loadTemplate(manager);
+	super(manager, type, pos, rotation, overwriteIn);
 	this.distance = distance;
     }
 
     public int getDistance()
     {
 	return this.distance;
-    }
-
-    public void setComponentType(int i)
-    {
-	this.componentType = i;
-    }
-
-    public PlacementSettings getPlacementSettings()
-    {
-	return this.placeSettings;
-    }
-
-    public BlockPos getTemplatePosition()
-    {
-	return this.templatePosition;
-    }
-
-    public Template getTemplate()
-    {
-	return this.template;
-    }
-
-    /**
-     * Discover if bounding box can fit within the current bounding box object.
-     * Excludes bounding boxes that touch each other and are not actually inside
-     */
-    public static StructureComponent findIntersectingExclusive(List<StructureComponent> listIn, StructureBoundingBox box)
-    {
-	for (StructureComponent structurecomponent : listIn)
-	{
-	    if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(box.minX + 1, box.minZ + 1, box.maxX - 1, box.maxZ - 1))
-	    {
-		return structurecomponent;
-	    }
-	}
-
-	return null;
-    }
-
-    private void loadTemplate(TemplateManager manager)
-    {
-	Template template = manager.getTemplate((MinecraftServer) null, new ResourceLocation(Reference.MOD_ID, "maelstrom_fortress/" + this.pieceName));
-	PlacementSettings placementsettings = (this.overwrite ? OVERWRITE : INSERT).copy().setRotation(this.rotation);
-	this.setup(template, this.templatePosition, placementsettings);
-    }
-
-    /**
-     * (abstract) Helper method to write subclass data to NBT
-     */
-    protected void writeStructureToNBT(NBTTagCompound tagCompound)
-    {
-	super.writeStructureToNBT(tagCompound);
-	tagCompound.setString("Template", this.pieceName);
-	tagCompound.setString("Rot", this.rotation.name());
-	tagCompound.setBoolean("OW", this.overwrite);
-    }
-
-    /**
-     * (abstract) Helper method to read subclass data from NBT
-     */
-    protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_)
-    {
-	super.readStructureFromNBT(tagCompound, p_143011_2_);
-	this.pieceName = tagCompound.getString("Template");
-	this.rotation = Rotation.valueOf(tagCompound.getString("Rot"));
-	this.overwrite = tagCompound.getBoolean("OW");
-	this.loadTemplate(p_143011_2_);
     }
 
     /**
@@ -170,11 +84,15 @@ public class FortressTemplate extends StructureComponentTemplate
 	    {
 		String[] entities = {"shade", "horror", "maelstrom_mage"};
 		String entityName = ModRandom.choice(entities);
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 3);
+		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(2, 3));
 	    }
 
 	}
     }
-    
-    
+
+    @Override
+    public String templateLocation()
+    {
+	return "maelstrom_fortress";
+    }
 }

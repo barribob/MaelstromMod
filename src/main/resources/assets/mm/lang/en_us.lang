@@ -1,18 +1,36 @@
 //———————————————————————————————————————————————————————————
-// Items
+// Key Items
+//———————————————————————————————————————————————————————————
+item.iron_pellet.name=Iron Pellet
+item.azure_maelstrom_core_crystal.name=Maelstrom Core
+item.azure_key.name=Fracture Dimensional Key
+item.beast_key.name=Fracture Stronghold Key
+item.invisible.name=Invisible
+
+//———————————————————————————————————————————————————————————
+// Food
 //———————————————————————————————————————————————————————————
 item.elk_hide.name=Elk Hide
 item.elk_strips.name=Elk Strips
 item.elk_jerky.name=Elk Jerky
-item.azure_maelstrom_core_crystal.name=Maelstrom Core
-item.azure_key.name=Fracture Dimensional Key
-item.iron_pellet.name=Iron Pellet
+item.plum.name=Plum
+
+//———————————————————————————————————————————————————————————
+// Guns and Staffs
+//———————————————————————————————————————————————————————————
 item.boomstick.name=Boomstick
+item.musket.name=Musket
+item.maelstrom_cannon.name=Maelstrom Cannon
+item.will-o-the-wisp_staff.name=Will-O-The-Wisp Staff
+item.quake_staff.name=Quake Staff
 
 //———————————————————————————————————————————————————————————
 // Tools
 //———————————————————————————————————————————————————————————
 item.beast_blade.name=Beast Blade
+item.sword_of_shades.name=Shadow Longsword
+item.shadow_dagger.name=Shadow Dagger
+item.maelstrom_battleaxe.name=Maelstrom Battleaxe
 
 //———————————————————————————————————————————————————————————
 // Armor
@@ -25,13 +43,18 @@ item.maelstrom_boots.name=Maelstrom Boots
 //———————————————————————————————————————————————————————————
 // Blocks
 //———————————————————————————————————————————————————————————
-tile.azure_grass.name=Fracture Grass
 tile.dark_azure_stone.name=Dark Fracture Stone
 tile.light_azure_stone.name=Light Fracture Stone
+
+//———————————————————————————————————————————————————————————
+// Plants
+//———————————————————————————————————————————————————————————
+tile.azure_grass.name=Fracture Grass
 tile.azure_log.name=Fracture Log
 tile.azure_leaves.name=Fracture Leaves
 tile.plum_log.name=Plum Log
 tile.plum_leaves.name=Plum Leaves
+tile.plum_filled_leaves.name=Plum Filled Leaves
 tile.azure_vines_block.name=Vines Block
 tile.azure_vines.name=Ravine Vines
 tile.browned_grass.name=Browned Grass
@@ -40,12 +63,20 @@ tile.ruby_orchid.name=Ruby Orchid
 tile.double_browned_grass.name=Tall Browned Grass
 tile.azure_planks.name=Planks
 tile.azure_fence.name=Fence
+
+//———————————————————————————————————————————————————————————
+// Maelstrom
+//———————————————————————————————————————————————————————————
 tile.azure_maelstrom.name=Maelstrom Block
 tile.azure_decaying_maelstrom.name=Decaying Maelstrom Block
 tile.azure_maelstrom_core.name=Fracture Maelstrom Core
 tile.maelstrom_bricks.name=Maelstrom Bricks
 tile.maelstrom_brick_fence.name=Maelstrom Brick Fence
 tile.maelstrom_brick_stairs.name=Maelstrom Brick Stairs
+
+//———————————————————————————————————————————————————————————
+// Ore
+//———————————————————————————————————————————————————————————
 tile.azure_coal_ore.name=Coal Ore
 tile.azure_diamond_ore.name=Diamond Ore
 tile.azure_emerald_ore.name=Emerald Ore
@@ -54,10 +85,30 @@ tile.azure_iron_ore.name=Iron Ore
 tile.azure_gold_ore.name=Gold Ore
 tile.azure_redstone_ore.name=Redstone Ore
 tile.azure_lit_redostone_ore.name=Lit Redstone Ore
+
+//———————————————————————————————————————————————————————————
+// Overworld
+//———————————————————————————————————————————————————————————
 tile.maelstrom_stonebrick.name=Maelstrom Stonebrick
 tile.maelstrom_stonebrick_stairs.name=Maelstrom Stonebrick Stairs
 tile.maelstrom_stonebrick_fence.name=Maelstrom Stonebrick Fence
 tile.azure_portal.name=Fracture Portal
+
+//———————————————————————————————————————————————————————————
+// Maelstrom Fortress Blocks
+//———————————————————————————————————————————————————————————
+tile.azure_stonebrick.name=Fracture Stonebrick
+tile.azure_stonebrick_stairs.name=Fracture Stonebrick Stairs
+tile.azure_stonebrick_cracked.name=Cracked Fracture Stonebrick
+tile.azure_stonebrick_carved.name=Carved Fracture Stonebrick
+tile.azure_stonebrick_carved_2.name=Carved Fracture Stonebrick
+tile.azure_stonebrick_carved_3.name=Carved Fracture Stonebrick
+tile.azure_stonebrick_lit.name=Fracture Stonebrick Lamp
+
+//———————————————————————————————————————————————————————————
+// Util
+//———————————————————————————————————————————————————————————
+tile.mega_structure_block.name=Mega Structure Block
 tile.disappearing_spawner.name=Disappearing Spawner
 
 //———————————————————————————————————————————————————————————
@@ -70,6 +121,8 @@ entity.beast.name=Maelstrom Beast
 entity.maelstrom_illager.name=Maelstrom Illager
 entity.azure_villager.name=Villager
 entity.maelstrom_mage.name=Maelstrom Mage
+entity.azure_golem.name=Fracture Golem
+entity.floating_skull.name=Floating Skull
 
 //———————————————————————————————————————————————————————————
 // Projectiles
@@ -79,6 +132,10 @@ entity.shade_attack.name=Shade Attack
 entity.horror_attack.name=Maelstrom Shrapnel
 entity.beast_attack.name=Beast Breath
 entity.bullet.name=Iron Pellet
+entity.maelstrom_cannon.name=Cannon Projectile
+entity.will-o-the-wisp.name=Will-O-The-Wisp
+entity.quake.name=Quake Projectile
+entity.skull_attack.name=Skull Attack
 
 //———————————————————————————————————————————————————————————
 // Damage Sources
@@ -95,3 +152,20 @@ death.attack.mm:explosionMaelstrom.player=%1$s was blown by the maelstrom while 
 // Item Attributes
 //———————————————————————————————————————————————————————————
 attribute.name.maelstrom_armor=Maelstrom Armor
+attribute.name.extended_reach=Extended Reach
+
+//———————————————————————————————————————————————————————————
+// Enchantments
+//———————————————————————————————————————————————————————————
+enchantment.reload=Recharge
+enchantment.gun_power=Damage
+enchantment.impact=Impact
+enchantment.gun_flame=Enflame
+enchantment.maelstrom_destroyer=Maelstrom Destroyer
+enchantment.maelstrom_protection=Maelstrom Protection
+
+//———————————————————————————————————————————————————————————
+// Loading Screens
+//———————————————————————————————————————————————————————————
+multiplayer.entering=Now Entering:
+multiplayer.azure_dimension=The Fracture

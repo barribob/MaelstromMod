@@ -19,9 +19,9 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 {
     public ResourceLocation TEXTURES;
 
-    public <U extends ModelBase> RenderModEntity(RenderManager rendermanagerIn, ResourceLocation textures, Class<U> modelClass) throws InstantiationException, IllegalAccessException
+    public <U extends ModelBase> RenderModEntity(RenderManager rendermanagerIn, ResourceLocation textures, U modelClass)
     {
-	super(rendermanagerIn, modelClass.newInstance(), 0.5f);
+	super(rendermanagerIn, modelClass, 0.5f);
 	this.TEXTURES = textures;
     }
 

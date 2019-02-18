@@ -35,9 +35,9 @@ public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extend
     private T entity;
 
     public AIMeleeAndRange(T mob, double speedIn, boolean useLongMemory, double moveSpeedAmp, int attackCooldown, float maxAttackDistance,
-	    int switchUpdateTime, float chanceForRanged)
+	    int switchUpdateTime, float chanceForRanged, float strafeAmount)
     {
-	rangedAttackAI = new EntityAIRangedAttack<T>(mob, moveSpeedAmp, attackCooldown, maxAttackDistance);
+	rangedAttackAI = new EntityAIRangedAttack<T>(mob, moveSpeedAmp, attackCooldown, maxAttackDistance, strafeAmount);
 	meleeAttackAI = new EntityAIAttackMelee(mob, speedIn, useLongMemory);
 	attackAI = meleeAttackAI;
 	this.switchUpdateTime = switchUpdateTime;

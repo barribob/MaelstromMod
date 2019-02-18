@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "stage=0": { "model": "mm:plum_sapling" },
+        "stage=1": { "model": "mm:plum_sapling" }
+    }
+}

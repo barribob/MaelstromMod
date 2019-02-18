@@ -78,5 +78,15 @@
                 "stream": true
             }
         ]
+    },
+    "item.gun.shoot": {
+        "category": "item",
+        "subtitle": "item.gun.shoot",
+        "sounds": [
+            {
+                "name": "mm:item/gun/shoot",
+                "stream": true
+            }
+        ]
     }
 }

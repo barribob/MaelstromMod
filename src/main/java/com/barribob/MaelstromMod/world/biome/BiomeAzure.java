@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.world.biome;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.blocks.BlockAzureBush;
+import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.gen.WorldGenAzureMinable;
@@ -67,6 +68,7 @@ public class BiomeAzure extends Biome
 
         // Add our mobs to spawn in the biome
 	this.spawnableCreatureList.add(new SpawnListEntry(EntityDreamElk.class, 10, 1, 5));
+	this.spawnableCreatureList.add(new SpawnListEntry(EntityAzureGolem.class, 1, 1, 1));
     }
 
     /**

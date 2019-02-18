@@ -25,13 +25,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ProjectileBeastAttack extends Projectile
 {
-    private static final float DAMAGE = 4.0f;
     private static final int PARTICLE_AMOUNT = 3;
     private static final int IMPACT_PARTICLE_AMOUNT = 20;
 
-    public ProjectileBeastAttack(World worldIn, EntityLivingBase throwerIn)
+    public ProjectileBeastAttack(World worldIn, EntityLivingBase throwerIn, float damage)
     {
-	super(worldIn, throwerIn);
+	super(worldIn, throwerIn, damage);
     }
 
     public ProjectileBeastAttack(World worldIn)
@@ -78,7 +77,8 @@ public class ProjectileBeastAttack extends Projectile
 
 	if (result.entityHit != null && this.shootingEntity != null)
 	{
-	    result.entityHit.attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), DAMAGE);
+	    result.entityHit.hurtResistantTime = 0;
+	    result.entityHit.attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), this.getDamage());
 	}
 
 	super.onHit(result);

@@ -1,14 +1,12 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.ai.AIEatAzureGrass;
+import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIEatGrass;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
@@ -21,12 +19,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityDreamElk extends EntityCreature
+public class EntityDreamElk extends EntityLeveledMob
 {
     /**
      * Timers for animation
@@ -57,9 +56,15 @@ public class EntityDreamElk extends EntityCreature
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30D);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
+    }
+    
+    @Override
+    protected void updateAttributes()
+    {
+	this.setBaseMaxHealth(25);
+	this.setBaseAttack(6);
     }
 
     protected void updateAITasks()
@@ -97,7 +102,18 @@ public class EntityDreamElk extends EntityCreature
 	{
 	    this.eatGrassTimer = Math.max(0, this.eatGrassTimer - 1);
 	}
-
+    }
+    
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
+    public boolean getCanSpawnHere()
+    {
+        int i = MathHelper.floor(this.posX);
+        int j = MathHelper.floor(this.getEntityBoundingBox().minY);
+        int k = MathHelper.floor(this.posZ);
+        BlockPos blockpos = new BlockPos(i, j, k);
+        return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
     /**
@@ -158,7 +174,7 @@ public class EntityDreamElk extends EntityCreature
     public boolean attackEntityAsMob(Entity entityIn)
     {
 	this.world.setEntityState(this, (byte) 4);
-	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 4);
+	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getAttack());
 
 	if (flag)
 	{

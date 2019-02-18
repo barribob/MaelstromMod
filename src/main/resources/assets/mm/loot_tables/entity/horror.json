@@ -11,7 +11,7 @@
                     "conditions": [
                         {
                             "condition": "random_chance_with_looting",
-                            "chance": 0.04,
+                            "chance": 0.01,
                             "looting_multiplier": 0.01
                         }
                     ]
@@ -25,11 +25,11 @@
                 {
                     "type": "item",
                     "weight": 1,
-                    "name": "mm:boomstick",
+                    "name": "mm:maelstrom_cannon",
                     "conditions": [
                         {
                             "condition": "random_chance_with_looting",
-                            "chance": 0.05,
+                            "chance": 0.01,
                             "looting_multiplier": 0.01
                         }
                     ]

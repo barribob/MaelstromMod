@@ -1,23 +1,24 @@
 package com.barribob.MaelstromMod.util.handlers;
 
+import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
+import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
+import com.barribob.MaelstromMod.entity.model.ModelFloatingSkull;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
 import com.barribob.MaelstromMod.entity.projectile.EntityModThrowable;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
@@ -39,39 +40,48 @@ public class RenderHandler
 {
     public static void registerEntityRenderers()
     {
-	registerModEntityRenderer(EntityShade.class, ModelShade.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
-	registerModEntityRenderer(EntityHorror.class, ModelHorror.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/horror.png"));
-	registerModEntityRenderer(EntityDreamElk.class, ModelDreamElk.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
-	registerModEntityRenderer(EntityBeast.class, ModelBeast.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
-	registerModEntityRenderer(EntityMaelstromMage.class, ModelMaelstromMage.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
-	
-	registerProjectileRenderer(ProjectileShadeAttack.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(ProjectileHorrorAttack.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(ProjectileBeastAttack.class, ModItems.INVISIBLE);
+	registerModEntityRenderer(EntityShade.class, new ModelShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
+	registerModEntityRenderer(EntityHorror.class, new ModelHorror(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/horror.png"));
+	registerModEntityRenderer(EntityDreamElk.class, new ModelDreamElk(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
+	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
+	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
+	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/floating_skull.png"));
+
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
-	
-	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>() {
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>()
+	{
 	    @Override
 	    public Render<? super EntityAzureVillager> createRenderFor(RenderManager manager)
 	    {
-	        return new RenderAzureVillager(manager);
+		return new RenderAzureVillager(manager);
 	    }
 	});
-	
-	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromIllager.class, new IRenderFactory<EntityMaelstromIllager>() {
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromIllager.class, new IRenderFactory<EntityMaelstromIllager>()
+	{
 	    @Override
 	    public Render<? super EntityMaelstromIllager> createRenderFor(RenderManager manager)
 	    {
-	        return new RenderMaelstromIllager(manager);
+		return new RenderMaelstromIllager(manager);
+	    }
+	});
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityAzureGolem.class, new IRenderFactory<EntityAzureGolem>()
+	{
+	    @Override
+	    public Render<? super EntityAzureGolem> createRenderFor(RenderManager manager)
+	    {
+		return new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_golem.png"));
 	    }
 	});
     }
 
-    /*
+    /**
      * Registers an entity with a model and sets it up for rendering
      */
-    private static <T extends EntityLiving, U extends ModelBase> void registerModEntityRenderer(Class<T> entityClass, Class<U> modelClass,
+    private static <T extends EntityLiving, U extends ModelBase, V extends RenderModEntity> void registerModEntityRenderer(Class<T> entityClass, U model,
 	    ResourceLocation textures)
     {
 	RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<T>()
@@ -79,19 +89,7 @@ public class RenderHandler
 	    @Override
 	    public Render<? super T> createRenderFor(RenderManager manager)
 	    {
-		try
-		{
-		    return new RenderModEntity(manager, textures, modelClass);
-		}
-		catch (InstantiationException e)
-		{
-		    e.printStackTrace();
-		}
-		catch (IllegalAccessException e)
-		{
-		    e.printStackTrace();
-		}
-		return null;
+		return new RenderModEntity(manager, textures, model);
 	    }
 	});
     }

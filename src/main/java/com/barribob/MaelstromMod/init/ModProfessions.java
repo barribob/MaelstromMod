@@ -40,7 +40,7 @@ public class ModProfessions
 	AZURE_VILLAGER = new VillagerProfession(Reference.MOD_ID + ":azure_villager", Reference.MOD_ID + ":textures/entity/azure_villager.png",
 		"minecraft:textures/entity/zombie_villager/zombie_farmer.png");
 
-	AZURE_WEAPONSMITH = (new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith")).addTrade(1, new ConstructArmor()).addTrade(1, new Boomstick())
+	AZURE_WEAPONSMITH = (new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith")).addTrade(1, new ConstructArmor()).addTrade(1, new RangedWeapons())
 		.addTrade(1, new CrystalsForEmeralds()).addTrade(1, new EntityVillager.ListEnchantedBookForEmeralds()).addTrade(1, new EnchantedIronForEmeralds());
     }
 
@@ -57,50 +57,64 @@ public class ModProfessions
 	{
 	    ItemStack sellStack;
 	    int requiredHide;
-	    int armor = random.nextInt(4);
+	    int armor = random.nextInt(5);
 
 	    switch (armor)
 	    {
 	    case 0:
-		sellStack = new ItemStack(ModItems.MAELSTROM_HELMET);
+		sellStack = new ItemStack(Items.DIAMOND_HELMET);
 		requiredHide = 5;
 		break;
 	    case 1:
-		sellStack = new ItemStack(ModItems.MAELSTROM_CHESTPLATE);
+		sellStack = new ItemStack(Items.DIAMOND_CHESTPLATE);
 		requiredHide = 8;
 		break;
 	    case 2:
-		sellStack = new ItemStack(ModItems.MAELSTROM_LEGGINGS);
+		sellStack = new ItemStack(Items.DIAMOND_LEGGINGS);
 		requiredHide = 7;
 		break;
+	    case 3:
+		sellStack = new ItemStack(Items.DIAMOND_SWORD);
+		requiredHide = 2;
+		break;
 	    default:
-		sellStack = new ItemStack(ModItems.MAELSTROM_BOOTS);
+		sellStack = new ItemStack(Items.DIAMOND_BOOTS);
 		requiredHide = 4;
 		break;
 	    }
 
-	    ItemStack material1 = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 1);
+	    ItemStack material1 = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2);
 	    ItemStack material2 = new ItemStack(ModItems.ELK_HIDE, requiredHide);
 
 	    recipeList.add(new MerchantRecipe(material1, material2, sellStack));
 	}
     }
 
-    public static class Boomstick implements ITradeList
+    public static class RangedWeapons implements ITradeList
     {
-	public ItemStack sellStack;
 	public PriceInfo priceInfo;
 
-	public Boomstick()
+	public RangedWeapons()
 	{
 	    priceInfo = new PriceInfo(5, 7);
-	    sellStack = new ItemStack(ModItems.BOOMSTICK);
 	}
 
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 	{
 	    int price = 1;
+	    ItemStack sellStack;
+	    switch (random.nextInt(3))
+	    {
+	    case 0:
+		sellStack = new ItemStack(ModItems.BOOMSTICK);
+		break;
+	    case 1:
+		sellStack = new ItemStack(ModItems.MUSKET);
+		break;
+	    default:
+		sellStack = new ItemStack(ModItems.QUAKE_STAFF);
+	    }
 
 	    if (priceInfo != null)
 	    {
@@ -157,8 +171,8 @@ public class ModProfessions
 	    }
 
 	    ItemStack itemstack = new ItemStack(Items.EMERALD, priceInfo.getPrice(random), 0);
-	    ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(sellStack.getItem(), 1, sellStack.getMetadata()),
-		    10 + random.nextInt(10), false);
+	    ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(sellStack.getItem(), 1, sellStack.getMetadata()), 10 + random.nextInt(10),
+		    false);
 	    recipeList.add(new MerchantRecipe(itemstack, itemstack1));
 	}
     }

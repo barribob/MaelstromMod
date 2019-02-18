@@ -55,20 +55,17 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     {
 	super(worldIn);
     }
-
+    
     @Override
-    protected void applyEntityAttributes()
+    protected void updateAttributes()
     {
-	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+	this.setBaseAttack(6);
     }
 
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 50, 15.0f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 50, 20, 15.0f, 0.5f));
     }
 
     @Override
@@ -92,7 +89,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.SHADE;
+	return LootTableHandler.HORROR;
     }
     
     /**
@@ -118,7 +115,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this);
+	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this, this.getAttack());
 	    projectile.posY = this.posY + this.getEyeHeight() + 1.0f; // Raise pos y to summon the projectile above the head
 	    double d0 = target.posY + (double) target.getEyeHeight() - 0.9f;
 	    double d1 = target.posX - this.posX;

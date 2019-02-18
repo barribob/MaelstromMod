@@ -2,16 +2,13 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import javax.annotation.Nullable;
 
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackRanged;
 import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -19,23 +16,17 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -43,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * are from the EntityMob class to make it behave similarly
  *
  */
-public abstract class EntityMaelstromMob extends EntityCreature implements IRangedAttackMob
+public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob
 {
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class, DataSerializers.BOOLEAN);
@@ -72,6 +63,14 @@ public abstract class EntityMaelstromMob extends EntityCreature implements IRang
 		return !(entity instanceof EntityMaelstromMob);
 	    }
 	}));
+    }
+
+    @Override
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
+	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
     }
 
     public SoundCategory getSoundCategory()

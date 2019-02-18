@@ -45,6 +45,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -66,7 +67,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * with combat and trading functionalties
  *
  */
-public class EntityAzureVillager extends EntityCreature implements IMerchant
+public class EntityAzureVillager extends EntityLeveledMob implements IMerchant
 {
     // Used in animation to determine if the entity should render in attack pose
     protected static final DataParameter<Byte> ATTACKING = EntityDataManager.<Byte>createKey(EntityAzureVillager.class, DataSerializers.BYTE);
@@ -115,16 +116,37 @@ public class EntityAzureVillager extends EntityCreature implements IMerchant
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3499999940395355D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(12.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+    }
+    
+    @Override
+    protected void updateAttributes()
+    {
+	this.setBaseAttack(1);
     }
 
     protected ResourceLocation getLootTable()
     {
 	return LootTableList.ENTITIES_VILLAGER;
+    }
+    
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+    {
+        return SoundEvents.ENTITY_VILLAGER_HURT;
+    }
+    
+    @Override
+    protected SoundEvent getAmbientSound()
+    {
+        return SoundEvents.ENTITY_VILLAGER_AMBIENT;
+    }
+    
+    @Override
+    protected SoundEvent getDeathSound()
+    {
+        return SoundEvents.ENTITY_VILLAGER_DEATH;
     }
     
     /**

@@ -26,11 +26,6 @@ public class MaelstromFortress
     private static String[] BRIDGES = { "bridge", "fat_bridge", "gate_bridge", "infected_bridge" };
     private static final int SIZE = 10;
 
-    public static void registerPieces()
-    {
-	MapGenStructureIO.registerStructureComponent(FortressTemplate.class, "MFP");
-    }
-    
     /**
      * Begin the fortress generation with the main boss tower
      */
@@ -42,6 +37,7 @@ public class MaelstromFortress
 	generateTowerBase(manager, template, components, rand, new BlockPos(8, 0, 8), rotation);
 
 	generateMainTowerTowers(manager, template, components, rand);
+	FortressTemplate.resetTemplateCount();
     }
 
     /**

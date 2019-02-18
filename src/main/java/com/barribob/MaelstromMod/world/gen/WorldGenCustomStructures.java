@@ -3,13 +3,11 @@ package com.barribob.MaelstromMod.world.gen;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.barribob.MaelstromMod.init.BiomeInit;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.world.gen.maelstrom_castle.WorldGenMaelstromCastle;
-import com.barribob.MaelstromMod.init.ModBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -34,9 +32,6 @@ public class WorldGenCustomStructures implements IWorldGenerator
     {
 	switch (world.provider.getDimension())
 	{
-	case ModDimensions.DIMENSION_AZURE_ID:
-	    break;
-
 	// The nether
 	case 1:
 	    break;

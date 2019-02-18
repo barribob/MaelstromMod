@@ -14,13 +14,13 @@ import net.minecraft.world.IBlockAccess;
  */
 public class BlockAzureFlower extends BlockAzureBush
 {
-	public BlockAzureFlower(String name, Material material, float hardness, float resistance, SoundType soundType) 
-	{
-		super(name, material, hardness, resistance, soundType);
-	}
+    public BlockAzureFlower(String name, Material material, float hardness, float resistance, SoundType soundType)
+    {
+	super(name, material, hardness, resistance, soundType);
+    }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return super.getBoundingBox(state, source, pos).offset(state.getOffset(source, pos));
+	return super.getBoundingBox(state, source, pos).offset(state.getOffset(source, pos));
     }
 }

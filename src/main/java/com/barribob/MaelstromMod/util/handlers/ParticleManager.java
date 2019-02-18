@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleExplosion;
 import net.minecraft.client.particle.ParticleExplosionLarge;
+import net.minecraft.client.particle.ParticleFlame;
 import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.client.particle.ParticleSpell;
 import net.minecraft.client.particle.ParticleSuspendedTown;
@@ -106,6 +107,19 @@ public class ParticleManager
 	{
 	    setMaelstromColor(particle);
 	}
+	
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+    
+    /**
+     * Spawns blackish-purplish flames
+     */
+    public static void spawnDarkFlames(World worldIn, Random rand, Vec3d pos)
+    {
+	Particle particle = new ParticleFlame.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
+	
+	float f = ModRandom.getFloat(0.2f);
+	particle.setRBGColorF(0.1f + f, 0, 0.1f + f);
 	
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }

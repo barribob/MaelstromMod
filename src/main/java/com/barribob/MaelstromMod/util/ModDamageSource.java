@@ -2,17 +2,13 @@ package com.barribob.MaelstromMod.util;
 
 import javax.annotation.Nullable;
 
-import com.barribob.MaelstromMod.Main;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.world.Explosion;
 
 /**
  * 
@@ -29,7 +25,7 @@ public class ModDamageSource
     private static final String EXPLOSION_MAELSTROM = Reference.MOD_ID + ":" + "explosionMaelstrom";
     private static final String EXPLOSION_MAELSTROM_ENTITY = Reference.MOD_ID + ":" + "explosionMaelstrom.player";
 
-    public static final DamageSource MAELSTROM_DAMAGE = (new DamageSource(MAELSTROM)).setDamageBypassesArmor().setDamageIsAbsolute();
+    public static final DamageSource MAELSTROM_DAMAGE = (new DamageSource(MAELSTROM));
 
     /**
      * Return whether a certain damage type is maelstrom damage
@@ -39,8 +35,8 @@ public class ModDamageSource
      */
     public static boolean isMaelstromDamage(DamageSource source)
     {
-	return source.damageType == MOB_MAELSTROM || source.damageType == PLAYER_MAELSTROM || source.damageType == ARROW_MAELSTROM
-		|| source.damageType == THROWN_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM_ENTITY || source.damageType == MAELSTROM;
+	return source.damageType == MOB_MAELSTROM || source.damageType == PLAYER_MAELSTROM || source.damageType == ARROW_MAELSTROM || source.damageType == THROWN_MAELSTROM
+		|| source.damageType == EXPLOSION_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM_ENTITY || source.damageType == MAELSTROM;
     }
 
     /**
@@ -48,7 +44,7 @@ public class ModDamageSource
      */
     public static DamageSource causeMaelstromMeleeDamage(EntityLivingBase mob)
     {
-	return new EntityDamageSource(MOB_MAELSTROM, mob).setDamageBypassesArmor().setDamageIsAbsolute();
+	return new EntityDamageSource(MOB_MAELSTROM, mob);
     }
 
     /**
@@ -57,7 +53,7 @@ public class ModDamageSource
      */
     public static DamageSource causeMalestromPlayerDamage(EntityPlayer player)
     {
-	return new EntityDamageSource(PLAYER_MAELSTROM, player).setDamageBypassesArmor().setDamageIsAbsolute();
+	return new EntityDamageSource(PLAYER_MAELSTROM, player);
     }
 
     /**
@@ -66,8 +62,7 @@ public class ModDamageSource
      */
     public static DamageSource causeMaelstromArrowDamage(EntityArrow arrow, @Nullable Entity indirectEntityIn)
     {
-	return (new EntityDamageSourceIndirect(ARROW_MAELSTROM, arrow, indirectEntityIn)).setDamageBypassesArmor().setDamageIsAbsolute()
-		.setProjectile();
+	return (new EntityDamageSourceIndirect(ARROW_MAELSTROM, arrow, indirectEntityIn)).setProjectile();
     }
 
     /**
@@ -76,8 +71,7 @@ public class ModDamageSource
      */
     public static DamageSource causeMalestromThrownDamage(Entity source, @Nullable Entity indirectEntityIn)
     {
-	return (new EntityDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn)).setDamageBypassesArmor().setDamageIsAbsolute()
-		.setProjectile();
+	return (new EntityDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn)).setProjectile();
     }
 
     /**
@@ -86,8 +80,7 @@ public class ModDamageSource
      */
     public static DamageSource causeMaelstromExplosionDamage(@Nullable EntityLivingBase entityLivingBaseIn)
     {
-	return entityLivingBaseIn != null ? (new EntityDamageSource(EXPLOSION_MAELSTROM_ENTITY, entityLivingBaseIn)).setDamageBypassesArmor()
-		.setDamageIsAbsolute().setExplosion()
-		: (new DamageSource(EXPLOSION_MAELSTROM)).setDamageBypassesArmor().setDamageIsAbsolute().setExplosion();
+	return entityLivingBaseIn != null ? (new EntityDamageSource(EXPLOSION_MAELSTROM_ENTITY, entityLivingBaseIn)).setExplosion()
+		: (new DamageSource(EXPLOSION_MAELSTROM)).setExplosion();
     }
 }

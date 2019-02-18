@@ -10,10 +10,9 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
  */
 public class EntityAIRangedAttackNoReset <T extends EntityCreature> extends EntityAIRangedAttack
 {
-    public EntityAIRangedAttackNoReset(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance)
+    public EntityAIRangedAttackNoReset(T entity, double moveSpeedAmp, int attackCooldown, float armsRaisedTime, float maxAttackDistance, float strafeAmount)
     {
-	super(entity, moveSpeedAmp, attackCooldown, maxAttackDistance);
-	this.arms_raised_time_ratio = 0.15f;
+	super(entity, moveSpeedAmp, attackCooldown, armsRaisedTime, maxAttackDistance, strafeAmount);
     }
 
     @Override

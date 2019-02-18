@@ -5,10 +5,17 @@ import java.util.List;
 
 import com.barribob.MaelstromMod.items.ItemAzureKey;
 import com.barribob.MaelstromMod.items.ItemBase;
-import com.barribob.MaelstromMod.items.ItemBoomstick;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
+import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
+import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
+import com.barribob.MaelstromMod.items.gun.ItemMusket;
+import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
+import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
+import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
+import com.barribob.MaelstromMod.items.tools.ToolDagger;
+import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
 import com.barribob.MaelstromMod.items.tools.ToolSpade;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
@@ -33,11 +40,20 @@ import net.minecraftforge.common.util.EnumHelper;
  */
 public class ModItems
 {
+    private static final float BASE_MELEE_DAMAGE = 6.0f;
+    
     // Tool materials
-    public static final ToolMaterial BEAST = EnumHelper.addToolMaterial("beast", 2, 2000, 8.0f, 4.0f, 10);
+    private static final ToolMaterial COMMON_DAGGER = EnumHelper.addToolMaterial("common_dagger", 2, 300, 8.0f, BASE_MELEE_DAMAGE, 14);
+    private static final ToolMaterial COMMON_BATTLEAXE = EnumHelper.addToolMaterial("common_battleaxe", 2, 200, 8.0f, BASE_MELEE_DAMAGE, 14);
+    private static final ToolMaterial COMMON_SWORD = EnumHelper.addToolMaterial("common_sword", 2, 250, 8.0f, BASE_MELEE_DAMAGE, 14);
+    
+    private static final ToolMaterial RARE_SWORD = EnumHelper.addToolMaterial("rare_sword", 2, 500, 8.0f, BASE_MELEE_DAMAGE, 20);
     
     // Armor materials
-    public static final ArmorMaterial ARMOR_MATERIAL_MAELSTROM = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 1, 3, 3, 1 }, 10,
+    private static final ArmorMaterial COMMON_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 3, 6, 8, 3 }, 12,
+	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f);
+    
+    private static final ArmorMaterial RARE_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16,
 	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
@@ -48,17 +64,28 @@ public class ModItems
     public static final Item ELK_HIDE = new ItemBase("elk_hide", ModCreativeTabs.ALL);
     public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", ModCreativeTabs.ALL, 3, 0.3F, true);
     public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", ModCreativeTabs.ALL, 8, 1.0F, true);
+    public static final Item PLUM = new ItemFoodBase("plum", ModCreativeTabs.ALL, 4, 0.3F, true);
+    public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
     public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
+    public static final Item BEASTS_KEY = new ItemAzureKey("beast_key", ModCreativeTabs.ALL);
 
-    public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
-    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, 250, IRON_PELLET, ModCreativeTabs.ALL);
+    private static final int COMMON_USE_TIME = 6000;
+    private static final int RARE_USE_TIME = 12000;
+    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1f, ModCreativeTabs.ALL);
+    public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1f, ModCreativeTabs.ALL);
+    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", 25, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
     
-    public static final Item BEAST_BLADE = new ToolSword("beast_blade", BEAST);
+    public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", 4.0f, COMMON_SWORD, 1f);
+    public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", COMMON_DAGGER, 1f);
+    public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", COMMON_BATTLEAXE, 1f);
+    public static final Item BEAST_BLADE = new ToolSword("beast_blade", RARE_SWORD, 1.5f);
 
-    public static final Item MAELSTROM_HELMET = new ModArmorBase("maelstrom_helmet", ARMOR_MATERIAL_MAELSTROM, 1, EntityEquipmentSlot.HEAD, 2);
-    public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", ARMOR_MATERIAL_MAELSTROM, 1, EntityEquipmentSlot.CHEST, 5);
-    public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", ARMOR_MATERIAL_MAELSTROM, 2, EntityEquipmentSlot.LEGS, 4);
-    public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", ARMOR_MATERIAL_MAELSTROM, 1, EntityEquipmentSlot.FEET, 2);
+    public static final Item MAELSTROM_HELMET = new ModArmorBase("maelstrom_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f);
+    public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f);
+    public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f);
+    public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f);
 }
