@@ -21,10 +21,13 @@ import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
 import com.barribob.MaelstromMod.blocks.BlockMegaStructure;
+import com.barribob.MaelstromMod.blocks.BlockNexusTeleporter;
 import com.barribob.MaelstromMod.blocks.BlockPlumFilledLeaves;
 import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
 import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockKey;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
@@ -103,4 +106,15 @@ public class ModBlocks
 	// Util
 	public static final Block MEGA_STRUCTURE_BLOCK = new BlockMegaStructure("mega_structure_block");
 	public static final Block DISAPPEARING_SPAWNER = new BlockDisappearingSpawner("disappearing_spawner", Material.ROCK);
+	
+	// Nexus
+	public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, 5, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
+//	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK
+//	public static final Block BROWN_KEY_BLOCK
+//	public static final Block RED_DUNGEON_KEY_BLOCK
+//	public static final Block ICE_KEY_BLOCK
+//	public static final Block ICE_DUNGEON_KEY_BLOCK
+//	public static final Block BLACK_DUNGEON_KEY_BLOCK
 }

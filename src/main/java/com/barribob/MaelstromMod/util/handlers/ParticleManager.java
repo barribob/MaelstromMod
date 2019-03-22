@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.util.handlers;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.particle.EffectParticle;
 import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.client.Minecraft;
@@ -121,6 +122,13 @@ public class ParticleManager
 	float f = ModRandom.getFloat(0.2f);
 	particle.setRBGColorF(0.1f + f, 0, 0.1f + f);
 	
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+    
+    public static void spawnFirework(World world, Vec3d pos, Vec3d color)
+    {
+	Particle particle = new EffectParticle.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);
+	particle.setRBGColorF((float)color.x, (float)color.y, (float)color.z);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
