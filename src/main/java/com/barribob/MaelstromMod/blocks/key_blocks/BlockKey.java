@@ -33,11 +33,11 @@ public abstract class BlockKey extends BlockBase
     {
 	if(playerIn.getHeldItemMainhand() != null && playerIn.getHeldItemMainhand().getItem() == this.activationItem)
 	{    
-	    worldIn.spawnEntity(this.getPortalSpawn(worldIn, pos));
+	    this.spawnPortalEntity(worldIn, pos);
 	    worldIn.setBlockToAir(pos);
 	}
 	return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
     
-    protected abstract EntityPortalSpawn getPortalSpawn(World world, BlockPos pos);
+    protected abstract void spawnPortalEntity(World world, BlockPos pos);
 }

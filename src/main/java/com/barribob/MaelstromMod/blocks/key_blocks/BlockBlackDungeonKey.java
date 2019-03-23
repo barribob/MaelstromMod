@@ -1,14 +1,15 @@
 package com.barribob.MaelstromMod.blocks.key_blocks;
 
 import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAzureKey extends BlockKey
+public class BlockBlackDungeonKey extends BlockKey
 {
-    public BlockAzureKey(String name, Item item)
+    public BlockBlackDungeonKey(String name, Item item)
     {
 	super(name, item);
     }
@@ -16,6 +17,6 @@ public class BlockAzureKey extends BlockKey
     @Override
     protected void spawnPortalEntity(World world, BlockPos pos)
     {
-	world.spawnEntity(new EntityAzurePortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
+	// Not yet implemented
     }
 }

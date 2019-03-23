@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.blocks;
 
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
 
 import net.minecraft.block.ITileEntityProvider;

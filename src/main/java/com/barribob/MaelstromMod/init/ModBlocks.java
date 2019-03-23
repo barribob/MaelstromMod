@@ -26,8 +26,13 @@ import com.barribob.MaelstromMod.blocks.BlockPlumFilledLeaves;
 import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
 import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureDungeonKey;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
-import com.barribob.MaelstromMod.blocks.key_blocks.BlockKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockBlackDungeonKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockBrownKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockIceDungeonKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockIceKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockRedDungeonKey;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
@@ -111,10 +116,10 @@ public class ModBlocks
 	public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, 5, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
-//	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK
-//	public static final Block BROWN_KEY_BLOCK
-//	public static final Block RED_DUNGEON_KEY_BLOCK
-//	public static final Block ICE_KEY_BLOCK
-//	public static final Block ICE_DUNGEON_KEY_BLOCK
-//	public static final Block BLACK_DUNGEON_KEY_BLOCK
+	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockAzureDungeonKey("azure_dungeon_key_block", ModItems.AZURE_MAELSTROM_CORE_CRYSTAL).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWN_KEY_BLOCK = new BlockBrownKey("brown_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block RED_DUNGEON_KEY_BLOCK = new BlockRedDungeonKey("red_dungeon_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block ICE_KEY_BLOCK = new BlockIceKey("ice_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockIceDungeonKey("ice_dungeon_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockBlackDungeonKey("black_dungeon_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
 }
