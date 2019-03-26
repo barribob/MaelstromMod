@@ -7,7 +7,6 @@ import com.barribob.MaelstromMod.blocks.BlockAzureFlower;
 import com.barribob.MaelstromMod.blocks.BlockAzureGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureLeaves;
 import com.barribob.MaelstromMod.blocks.BlockAzureOre;
-import com.barribob.MaelstromMod.blocks.BlockAzurePortal;
 import com.barribob.MaelstromMod.blocks.BlockAzureRedstoneOre;
 import com.barribob.MaelstromMod.blocks.BlockAzureTallGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureVines;
@@ -34,6 +33,8 @@ import com.barribob.MaelstromMod.blocks.key_blocks.BlockBrownKey;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockIceDungeonKey;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockIceKey;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockRedDungeonKey;
+import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
+import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
@@ -98,7 +99,7 @@ public class ModBlocks
 	public static final Block MAELSTROM_STONEBRICK = new BlockBase("maelstrom_stonebrick", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_STONEBRICK_STAIRS = new BlockStairsBase("maelstrom_stonebrick_stairs", MAELSTROM_STONEBRICK.getDefaultState(), 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_STONEBRICK_FENCE = new BlockFenceBase("maelstrom_stonebrick_fence", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal", Material.ROCK, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal").setCreativeTab(ModCreativeTabs.ALL);
 	
 	// Maelstrom Fortress
 	public static final Block AZURE_STONEBRICK = new BlockBase("azure_stonebrick", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
@@ -124,4 +125,5 @@ public class ModBlocks
 	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockNexusHerobrineSpawner("ice_dungeon_key_block").setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockNexusHerobrineSpawner("black_dungeon_key_block").setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block NEXUS_HEROBRINE_SPAWNER = new BlockNexusHerobrineSpawner("nexus_herobrine_spawner").setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block NEXUS_PORTAL = new BlockNexusPortal("nexus_portal").setCreativeTab(ModCreativeTabs.ALL);
 }

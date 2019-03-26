@@ -23,11 +23,11 @@ import net.minecraft.world.gen.ChunkGeneratorSettings;
 import net.minecraft.world.gen.IChunkGenerator;
 
 /*
- * The main job here is to generate the nexus structure every 32 chunks or so
+ * The main job here is to generate the nexus structure every 64 chunks
  */
 public class ChunkGeneratorNexus implements IChunkGenerator
 {
-    private static final int STRUCTURE_SPACING_CHUNKS = 32;
+    private static final int STRUCTURE_SPACING_CHUNKS = DimensionNexus.NexusStructureSpacing;
 
     private final Random rand;
     private final World world;
@@ -43,11 +43,6 @@ public class ChunkGeneratorNexus implements IChunkGenerator
 
     public ChunkGeneratorNexus(World worldIn, long seed, boolean mapFeaturesEnabledIn, String generatorOptions)
     {
-	{
-	    nexus = (MapGenNexus) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(nexus,
-		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.NETHER_BRIDGE);
-	}
-
 	this.world = worldIn;
 	this.mapFeaturesEnabled = mapFeaturesEnabledIn;
 	this.terrainType = worldIn.getWorldInfo().getTerrainType();
@@ -117,13 +112,9 @@ public class ChunkGeneratorNexus implements IChunkGenerator
 	boolean flag = false;
 	ChunkPos chunkpos = new ChunkPos(x, z);
 
-	net.minecraftforge.event.ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, flag);
-
 	this.nexus.generateStructure(this.world, this.rand, chunkpos);
 
 	biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
-
-	net.minecraftforge.event.ForgeEventFactory.onChunkPopulate(false, this, this.world, this.rand, x, z, flag);
 
 	BlockFalling.fallInstantly = false;
     }

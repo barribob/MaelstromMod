@@ -79,18 +79,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 
     public ChunkGeneratorAzure(World worldIn, long seed, boolean mapFeaturesEnabledIn, String generatorOptions)
     {
-	{
-	    caveGenerator = net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(caveGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.CAVE);
-	    ravineGenerator = net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(ravineGenerator,
-		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.RAVINE);
-	    mineshaftGenerator = (MapGenAzureMineshaft) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(mineshaftGenerator,
-		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.MINESHAFT);
-	    fortressGenerator = (MapGenMaelstromFortress) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(fortressGenerator,
-		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.NETHER_BRIDGE);
-	    strongholdGenerator = (MapGenMaelstromStronghold) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(strongholdGenerator,
-		    net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.NETHER_BRIDGE);
-	}
-
 	this.world = worldIn;
 	this.mapFeaturesEnabled = mapFeaturesEnabledIn;
 	this.terrainType = worldIn.getWorldInfo().getTerrainType();
@@ -238,8 +226,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
      */
     public void replaceBiomeBlocks(int x, int z, ChunkPrimer primer, Biome[] biomesIn)
     {
-	if (!net.minecraftforge.event.ForgeEventFactory.onReplaceBiomeBlocks(this, x, z, primer, this.world))
-	    return;
 	double d0 = 0.03125D;
 	this.depthBuffer = this.surfaceNoise.getRegion(this.depthBuffer, (double) (x * 16), (double) (z * 16), 16, 16, 0.0625D, 0.0625D, 1.0D);
 
@@ -439,8 +425,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	boolean flag = false;
 	ChunkPos chunkpos = new ChunkPos(x, z);
 
-	net.minecraftforge.event.ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, flag);
-
 	this.fortressGenerator.generateStructure(this.world, this.rand, chunkpos);
 	this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
 	this.strongholdGenerator.generateStructure(this.world, this.rand, chunkpos);
@@ -459,8 +443,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 		net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.ANIMALS))
 	    WorldEntitySpawner.performWorldGenSpawning(this.world, biome, i + 8, j + 8, 16, 16, this.rand);
 	blockpos = blockpos.add(8, 0, 8);
-
-	net.minecraftforge.event.ForgeEventFactory.onChunkPopulate(false, this, this.world, this.rand, x, z, flag);
 
 	BlockFalling.fallInstantly = false;
     }

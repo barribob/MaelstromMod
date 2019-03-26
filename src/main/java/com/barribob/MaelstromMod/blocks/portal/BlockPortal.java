@@ -1,19 +1,17 @@
-package com.barribob.MaelstromMod.blocks;
+package com.barribob.MaelstromMod.blocks.portal;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.blocks.BlockBase;
 import com.barribob.MaelstromMod.config.ModConfig;
-import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.init.ModDimensions;
-import com.barribob.MaelstromMod.util.AzureTeleporter;
-import com.barribob.MaelstromMod.util.Teleport;
+import com.barribob.MaelstromMod.util.teleporter.AzureTeleporter;
+import com.barribob.MaelstromMod.util.teleporter.Teleport;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockRenderLayer;
@@ -21,29 +19,36 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * The portal block for the azure dimension
+ * The base portal block class
  *
  */
-public class BlockAzurePortal extends BlockBase
+public abstract class BlockPortal extends BlockBase
 {
-    private final Block rimBlock = ModBlocks.LIGHT_AZURE_STONE;
-    private final Block portalBlock = ModBlocks.AZURE_PORTAL;
+    private final Block rimBlock;
+    private final Block portalBlock;
+    private int dim1;
+    private int dim2;
 
     protected static final AxisAlignedBB QUARTER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
 
-    public BlockAzurePortal(String name, Material material, SoundType soundType)
+    public BlockPortal(String name, Block rimBlock, Block portalBlock, int dim1, int dim2)
     {
-	super(name, material, 1000, 1000, soundType);
+	super(name, Material.ROCK, 1000, 1000, SoundType.STONE);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
-    }
+	this.rimBlock = rimBlock;
+	this.portalBlock = portalBlock;
+	this.dim1 = dim1;
+	this.dim2 = dim2;
+    }    
 
     /**
      * Teleport the player to the correct dimension on collision
@@ -62,18 +67,21 @@ public class BlockAzurePortal extends BlockBase
 		return;
 	    }
 
-	    if (player.dimension == 0)
+	    if (player.dimension == dim1)
 	    {
-		Teleport.teleportToDimension(player, ModConfig.fracture_dimension_id, new AzureTeleporter(server.getWorld(ModConfig.fracture_dimension_id)));
+		Teleport.teleportToDimension(player, dim2, getTeleporter2(worldIn));
 	    }
-	    else if (player.dimension == ModConfig.fracture_dimension_id)
+	    else if (player.dimension == dim2)
 	    {
-		Teleport.teleportToDimension(player, 0, new AzureTeleporter(server.getWorld(0)));
+		Teleport.teleportToDimension(player, dim1, getTeleporter1(worldIn));
 	    }
 
 	    player.timeUntilPortal = 100;
 	}
     }
+    
+    protected abstract Teleporter getTeleporter1(World world);
+    protected abstract Teleporter getTeleporter2(World world);
 
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)

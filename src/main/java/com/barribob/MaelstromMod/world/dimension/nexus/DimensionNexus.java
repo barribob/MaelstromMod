@@ -21,6 +21,7 @@ import net.minecraftforge.client.IRenderHandler;
  */
 public class DimensionNexus extends WorldProvider
 {
+    public static final int NexusStructureSpacing = 64;
     // Overridden to change the biome provider
     @Override
     protected void init()
