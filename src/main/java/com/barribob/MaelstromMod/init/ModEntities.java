@@ -22,6 +22,8 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
+import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.entity.Entity;
@@ -57,6 +59,7 @@ public class ModEntities
     public static final int WILL_O_THE_WISP_ID = 206;
     public static final int QUAKE_ID = 207;
     public static final int SKULL_ATTACK_ID = 208;
+    public static final int AZURE_PORTAL_SPAWN_ID = 209;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -72,29 +75,31 @@ public class ModEntities
 	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 30, maelstrom);
 	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 30, azure);
 	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 30, maelstrom);
-
-	registerProjectile("projectile", Projectile.class, PROJECTILE_ID, 30);
-	registerProjectile("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
-	registerProjectile("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
-	registerProjectile("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 30);
-	registerProjectile("bullet", ProjectileBullet.class, BULLET_ID, 30);
-	registerProjectile("maelstrom_cannon", ProjectileMaelstromCannon.class, MAELSTROM_CANNON_ID, 30);
-	registerProjectile("will-o-the-wisp", ProjectileWillOTheWisp.class, WILL_O_THE_WISP_ID, 30);
-	registerProjectile("quake", ProjectileQuake.class, QUAKE_ID, 30);
-	registerProjectile("skull_attack", ProjectileSkullAttack.class, SKULL_ATTACK_ID, 30);
+	
+	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 30);
+	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
+	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
+	registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 30);
+	registerEntity("bullet", ProjectileBullet.class, BULLET_ID, 30);
+	registerEntity("maelstrom_cannon", ProjectileMaelstromCannon.class, MAELSTROM_CANNON_ID, 30);
+	registerEntity("will-o-the-wisp", ProjectileWillOTheWisp.class, WILL_O_THE_WISP_ID, 30);
+	registerEntity("quake", ProjectileQuake.class, QUAKE_ID, 30);
+	registerEntity("skull_attack", ProjectileSkullAttack.class, SKULL_ATTACK_ID, 30);
+	registerEntity("azure_portal_spawn", EntityAzurePortalSpawn.class, AZURE_PORTAL_SPAWN_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
 	registerTileEntity(TileEntityMegaStructure.class, "mega_structure");
+	registerTileEntity(TileEntityTeleporter.class, "nexus_teleporter");
     }
-
+    
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)
     {
 	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(),
 		eggColor.getY());
     }
 
-    private static void registerProjectile(String name, Class<? extends Entity> entity, int id, int range)
+    private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range)
     {
 	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true);
     }

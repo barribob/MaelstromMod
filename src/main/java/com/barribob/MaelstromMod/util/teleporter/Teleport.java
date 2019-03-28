@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.util;
+package com.barribob.MaelstromMod.util.teleporter;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

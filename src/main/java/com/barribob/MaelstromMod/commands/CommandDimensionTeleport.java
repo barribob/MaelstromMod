@@ -3,7 +3,7 @@ package com.barribob.MaelstromMod.commands;
 import java.util.List;
 
 import com.barribob.MaelstromMod.util.Reference;
-import com.barribob.MaelstromMod.util.Teleport;
+import com.barribob.MaelstromMod.util.teleporter.Teleport;
 import com.google.common.collect.Lists;
 
 import net.minecraft.command.CommandBase;

@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.util;
+package com.barribob.MaelstromMod.util.teleporter;
 
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.init.ModDimensions;

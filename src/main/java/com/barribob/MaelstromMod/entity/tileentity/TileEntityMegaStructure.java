@@ -231,7 +231,7 @@ public class TileEntityMegaStructure extends TileEntityStructure
 
     public void setSize(BlockPos sizeIn)
     {
-	this.size = new BlockPos(100, 100, 100);
+	this.size = new BlockPos(50, 60, 50);
     }
 
     @SideOnly(Side.CLIENT)

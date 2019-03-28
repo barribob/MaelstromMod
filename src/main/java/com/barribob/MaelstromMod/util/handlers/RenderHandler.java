@@ -23,6 +23,7 @@ import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
+import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -30,6 +31,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -49,6 +51,7 @@ public class RenderHandler
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
+	registerProjectileRenderer(EntityPortalSpawn.class, ModItems.INVISIBLE);
 
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>()
 	{
@@ -99,7 +102,7 @@ public class RenderHandler
      * 
      * @param projectileClass
      */
-    private static <T extends EntityModThrowable> void registerProjectileRenderer(Class<T> projectileClass, Item item)
+    private static <T extends Entity> void registerProjectileRenderer(Class<T> projectileClass, Item item)
     {
 	RenderingRegistry.registerEntityRenderingHandler(projectileClass, new IRenderFactory<T>()
 	{

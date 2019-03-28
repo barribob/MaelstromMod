@@ -19,6 +19,10 @@ public class ModConfig
     @Config.RequiresMcRestart
     @Name("Fracture Dimension Id")
     public static int fracture_dimension_id = 125;
+    
+    @Config.RequiresMcRestart
+    @Name("Nexus Dimension Id")
+    public static int nexus_dimension_id = 126;
 
     @Name("Gui")
     public static GuiCat gui = new GuiCat(0, 0);
