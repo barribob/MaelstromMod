@@ -94,4 +94,5 @@ public class ModItems
      * Nexus Items
      */
     public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 180, RARE_USE_TIME, null, 1f, ModCreativeTabs.ALL);
+    public static final Item ELUCIDATOR = new ToolLongsword("elucidator", 4.0f, RARE_SWORD, 1.5f);
 }

@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.items.tools;
 import java.util.UUID;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
+import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -20,7 +21,7 @@ import net.minecraft.util.math.MathHelper;
  * Holds reach properties for an extended reach tool
  *
  */
-public class ToolLongsword extends ToolSword implements IExtendedReach
+public class ToolLongsword extends ToolSword implements IExtendedReach, ISweepAttackOverride
 {
     private static final UUID REACH_MODIFIER = UUID.fromString("a6323e02-d8e9-44c6-b941-f5d7155bb406");
     private float reach;
@@ -34,6 +35,31 @@ public class ToolLongsword extends ToolSword implements IExtendedReach
     public float getReach()
     {
 	return this.reach;
+    }
+    
+    /**
+     * Increased sweep attack
+     */
+    @Override
+    public void doSweepAttack(EntityPlayer player, EntityLivingBase target)
+    {
+	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
+	float maxDistanceSq = 16.0f;
+	float targetEntitySize = (float) 1.0D;
+
+	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(targetEntitySize, 0.25D, targetEntitySize)))
+	{
+	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
+	    {
+		entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F),
+			(double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+		entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(player), sweepDamage);
+	    }
+	}
+
+	player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 0.9F);
+	player.spawnSweepParticles();
     }
 
     /**
