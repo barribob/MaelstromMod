@@ -16,6 +16,7 @@ import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolDagger;
+import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
 import com.barribob.MaelstromMod.items.tools.ToolSpade;
@@ -80,7 +81,7 @@ public class ModItems
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
     
-    public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", 4.0f, COMMON_SWORD, 1f);
+    public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", COMMON_SWORD, 1f);
     public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", COMMON_DAGGER, 1f);
     public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", COMMON_BATTLEAXE, 1f);
     public static final Item BEAST_BLADE = new ToolSword("beast_blade", RARE_SWORD, 1.5f);
@@ -94,5 +95,6 @@ public class ModItems
      * Nexus Items
      */
     public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 180, RARE_USE_TIME, null, 1f, ModCreativeTabs.ALL);
-    public static final Item ELUCIDATOR = new ToolLongsword("elucidator", 4.0f, RARE_SWORD, 1.5f);
+    public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
+    public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
 }
