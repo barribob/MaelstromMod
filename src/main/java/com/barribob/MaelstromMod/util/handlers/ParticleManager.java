@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleExplosion;
 import net.minecraft.client.particle.ParticleExplosionLarge;
+import net.minecraft.client.particle.ParticleFirework;
 import net.minecraft.client.particle.ParticleFlame;
 import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.client.particle.ParticleSpell;
@@ -125,13 +126,27 @@ public class ParticleManager
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
     
-    public static void spawnFirework(World world, Vec3d pos, Vec3d color)
+    public static void spawnEffect(World world, Vec3d pos, Vec3d color)
     {
 	Particle particle = new EffectParticle.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);
 	particle.setRBGColorF((float)color.x, (float)color.y, (float)color.z);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
+    public static void spawnFirework(World world, Vec3d pos, Vec3d color)
+    {
+	Particle particle = new ParticleFirework.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);
+	particle.setRBGColorF((float)color.x, (float)color.y, (float)color.z);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+    
+    public static void spawnFirework(World world, Vec3d pos, Vec3d color, Vec3d vel)
+    {
+	Particle particle = new ParticleFirework.Factory().createParticle(0, world, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
+	particle.setRBGColorF((float)color.x, (float)color.y, (float)color.z);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+    
     /**
      * Helper function to vary and unify the colors
      * 

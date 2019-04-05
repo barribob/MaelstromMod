@@ -22,7 +22,6 @@ import net.minecraft.world.WorldServer;
  */
 public class NexusTeleporter extends Teleporter
 {
-    
     private BlockPos portalOffset;
     private int spacing;
     public NexusTeleporter(WorldServer worldIn)

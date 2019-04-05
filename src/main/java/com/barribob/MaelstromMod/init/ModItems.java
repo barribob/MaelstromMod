@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
+import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
@@ -88,4 +89,9 @@ public class ModItems
     public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f);
     public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f);
     public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f);
+    
+    /*
+     * Nexus Items
+     */
+    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 180, RARE_USE_TIME, null, 1f, ModCreativeTabs.ALL);
 }
