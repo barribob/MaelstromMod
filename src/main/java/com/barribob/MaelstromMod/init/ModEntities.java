@@ -17,6 +17,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
@@ -62,6 +63,7 @@ public class ModEntities
     public static final int SKULL_ATTACK_ID = 208;
     public static final int AZURE_PORTAL_SPAWN_ID = 209;
     public static final int PUMPKIN_ID = 210;
+    public static final int REPEATER_ID = 211;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -89,6 +91,7 @@ public class ModEntities
 	registerEntity("skull_attack", ProjectileSkullAttack.class, SKULL_ATTACK_ID, 30);
 	registerEntity("azure_portal_spawn", EntityAzurePortalSpawn.class, AZURE_PORTAL_SPAWN_ID, 100);
 	registerEntity("pumpkin", ProjectilePumpkin.class, PUMPKIN_ID, 1000);
+	registerEntity("repeater", ProjectileRepeater.class, REPEATER_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

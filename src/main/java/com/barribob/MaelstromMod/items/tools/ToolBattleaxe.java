@@ -84,6 +84,7 @@ public class ToolBattleaxe extends ToolSword implements ISweepAttackOverride
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
+	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + "Has large sweep attack");
     }
 }

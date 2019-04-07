@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.items.tools;
 
+import java.util.List;
+
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
@@ -8,17 +10,22 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraft.item.ItemSword;
 
 public class ToolSword extends ItemSword implements IHasModel
 {
     private final float attackDamage;
+    private float level;
 
     public ToolSword(String name, ToolMaterial material, float level)
     {
@@ -27,6 +34,7 @@ public class ToolSword extends ItemSword implements IHasModel
 	setRegistryName(name);
 	setCreativeTab(ModCreativeTabs.ALL);
 	ModItems.ITEMS.add(this);
+	this.level = level;
 
 	this.attackDamage = material.getAttackDamage() * LevelHandler.getMultiplierFromLevel(level);
     }
@@ -51,5 +59,11 @@ public class ToolSword extends ItemSword implements IHasModel
         }
 
         return multimap;
+    }
+    
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+	tooltip.add(TextFormatting.DARK_GREEN + "Level " + this.level);
     }
 }

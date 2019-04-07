@@ -12,15 +12,19 @@ import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
 import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
+import com.barribob.MaelstromMod.items.gun.ItemRepeater;
+import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.tools.ToolAxe;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolDagger;
 import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
+import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
 import com.barribob.MaelstromMod.items.tools.ToolSpade;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
+import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -94,7 +98,12 @@ public class ModItems
     /*
      * Nexus Items
      */
-    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 180, RARE_USE_TIME, null, 1f, ModCreativeTabs.ALL);
+    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 180, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
     public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
+    public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item REPEATER = new ItemRepeater("repeater", 70, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1f);
+    public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_SWORD, 1f);
+    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_SWORD, 1f);
 }

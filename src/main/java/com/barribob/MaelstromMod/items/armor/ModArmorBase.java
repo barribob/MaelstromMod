@@ -15,6 +15,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -89,5 +90,11 @@ public class ModArmorBase extends ItemArmor implements IHasModel
 	}
 
 	return multimap;
+    }
+    
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+	tooltip.add(TextFormatting.DARK_GREEN + "Level " + this.maelstrom_armor_factor + 1);
     }
 }

@@ -68,6 +68,7 @@ public class ToolDagger extends ToolSword implements IExtendedReach, ISweepAttac
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
+	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + "Has no sweep attack");
     }
 }

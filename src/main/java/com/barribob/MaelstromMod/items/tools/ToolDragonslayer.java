@@ -90,6 +90,7 @@ public class ToolDragonslayer extends ToolSword implements IExtendedReach, ISwee
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
+	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + "Has massive sweep attack");
     }
 }

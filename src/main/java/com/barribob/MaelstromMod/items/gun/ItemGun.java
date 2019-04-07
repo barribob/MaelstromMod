@@ -38,7 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * calls shoot() when the gun sucessfully shoots
  *
  */
-public class ItemGun extends ItemBase
+public abstract class ItemGun extends ItemBase
 {
     private int maxCooldown;
     private Item ammo;
@@ -55,6 +55,9 @@ public class ItemGun extends ItemBase
 	this.setMaxDamage((int) (useTime/cooldown));
     }
     
+    /**
+     * Returns the correct multiplier based on the level of the item stack
+     */
     public float getMultiplier()
     {
 	return LevelHandler.getMultiplierFromLevel(this.level);
@@ -229,6 +232,7 @@ public class ItemGun extends ItemBase
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	String ammoName = this.ammo == null ? "None" : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
+	tooltip.add(TextFormatting.DARK_GREEN + "Level " + this.level);
 	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + ammoName);
     }
 
@@ -250,7 +254,5 @@ public class ItemGun extends ItemBase
 	return true;
     }
 
-    protected void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack)
-    {
-    }
+    protected abstract void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack);
 }
