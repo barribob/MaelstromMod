@@ -44,7 +44,7 @@ public class ItemBoomstick extends ItemGun
 	for (int i = 0; i < pelletCount; i++)
 	{
 	    float inaccuracy = 20.0f;
-	    float speed = 2f;
+	    float speed = 3f;
 
 	    ProjectileBullet projectile = new ProjectileBullet(world, player, this.getMultiplier(), stack);
 	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);

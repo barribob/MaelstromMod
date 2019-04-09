@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
@@ -64,6 +65,7 @@ public class ModEntities
     public static final int AZURE_PORTAL_SPAWN_ID = 209;
     public static final int PUMPKIN_ID = 210;
     public static final int REPEATER_ID = 211;
+    public static final int FIREBALL_ID = 212;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -84,7 +86,7 @@ public class ModEntities
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
 	registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);
-	registerEntity("bullet", ProjectileBullet.class, BULLET_ID, 30);
+	registerEntity("bullet", ProjectileBullet.class, BULLET_ID, 100);
 	registerEntity("maelstrom_cannon", ProjectileMaelstromCannon.class, MAELSTROM_CANNON_ID, 30);
 	registerEntity("will-o-the-wisp", ProjectileWillOTheWisp.class, WILL_O_THE_WISP_ID, 30);
 	registerEntity("quake", ProjectileQuake.class, QUAKE_ID, 30);
@@ -92,6 +94,7 @@ public class ModEntities
 	registerEntity("azure_portal_spawn", EntityAzurePortalSpawn.class, AZURE_PORTAL_SPAWN_ID, 100);
 	registerEntity("pumpkin", ProjectilePumpkin.class, PUMPKIN_ID, 1000);
 	registerEntity("repeater", ProjectileRepeater.class, REPEATER_ID, 30);
+	registerEntity("fireball", ProjectileFireball.class, FIREBALL_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

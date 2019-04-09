@@ -8,35 +8,31 @@ import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
+import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
+import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
+import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
 import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
 import com.barribob.MaelstromMod.items.gun.ItemRepeater;
-import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
+import com.barribob.MaelstromMod.items.gun.ItemRifle;
+import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
-import com.barribob.MaelstromMod.items.tools.ToolAxe;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolDagger;
 import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
 import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
-import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
-import com.barribob.MaelstromMod.items.tools.ToolSpade;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Reference;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.util.EnumHelper;
 
 /**
@@ -102,8 +98,12 @@ public class ModItems
     public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
-    public static final Item REPEATER = new ItemRepeater("repeater", 70, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1f);
     public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_SWORD, 1f);
     public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_SWORD, 1f);
+    public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", 220, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
 }

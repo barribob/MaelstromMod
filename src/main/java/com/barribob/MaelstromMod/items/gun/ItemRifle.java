@@ -15,9 +15,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemFlintlock extends ItemGun
+public class ItemRifle extends ItemGun
 {    
-    public ItemFlintlock(String name, int cooldown, int useTime, float level, CreativeTabs tab)
+    public ItemRifle(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
 	super(name, cooldown, useTime, ModItems.IRON_PELLET, level, tab);
     }
@@ -28,13 +28,13 @@ public class ItemFlintlock extends ItemGun
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-	float inaccuracy = 2.0f;
-	float velocity = 5.0f;
-	float damage = 7;
+	float inaccuracy = 1.0f;
+	float velocity = 6.0f;
+	float damage = 8;
 
 	ProjectileBullet projectile = new ProjectileBullet(world, player, damage * this.getMultiplier(), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
-	projectile.setTravelRange(50);
+	projectile.setTravelRange(100);
 
 	world.spawnEntity(projectile);
     }
@@ -43,6 +43,6 @@ public class ItemFlintlock extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Medium Range");
+	tooltip.add(TextFormatting.GRAY + "Long Range");
     }
 }
