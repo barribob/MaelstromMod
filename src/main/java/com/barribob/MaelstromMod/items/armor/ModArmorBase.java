@@ -95,6 +95,6 @@ public class ModArmorBase extends ItemArmor implements IHasModel
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.DARK_GREEN + "Level " + this.maelstrom_armor_factor + 1);
+	tooltip.add(TextFormatting.DARK_GREEN + "Level " + (this.maelstrom_armor_factor + 1));
     }
 }

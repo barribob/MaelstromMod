@@ -109,7 +109,6 @@ public class ModEventHandler
 		event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
 	    }
 	}
-	//System.out.println("Final: " + event.getAmount());
     }
 
     /**

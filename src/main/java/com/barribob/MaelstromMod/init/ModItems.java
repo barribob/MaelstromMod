@@ -6,7 +6,9 @@ import java.util.List;
 import com.barribob.MaelstromMod.items.ItemAzureKey;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
+import com.barribob.MaelstromMod.items.armor.ModModeledArmor;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
+import com.barribob.MaelstromMod.items.armor.model.ModelStrawHat;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
 import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
 import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
@@ -94,16 +96,27 @@ public class ModItems
     /*
      * Nexus Items
      */
+    
+    // Special Items
     public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 180, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
     public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
+    
+    // Nexus Guns
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    
+    // Nexus Swords
     public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1f);
     public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_SWORD, 1f);
     public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_SWORD, 1f);
+    
+    // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", 220, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    
+    // Nexus Armors
+    public static final Item STRAW_HAT = new ModModeledArmor("straw_hat", RARE_ARMOR_MATERIAL, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png", new ModelStrawHat());
 }
