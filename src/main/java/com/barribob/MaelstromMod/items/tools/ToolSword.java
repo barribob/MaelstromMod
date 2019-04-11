@@ -64,6 +64,6 @@ public class ToolSword extends ItemSword implements IHasModel
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.DARK_GREEN + "Level " + this.level);
+	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + this.level);
     }
 }

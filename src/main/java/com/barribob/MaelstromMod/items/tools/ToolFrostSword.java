@@ -44,7 +44,7 @@ public class ToolFrostSword extends ToolSword implements ISweepAttackOverride
 		entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F),
 			(double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 		entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(player), sweepDamage);
-		entitylivingbase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 40, 1));
+		entitylivingbase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 1));
 	    }
 	}
 	

@@ -24,7 +24,7 @@ public class ItemPumpkin extends ItemGun
 {
     public ItemPumpkin(String name, int cooldown, float useTime, Item ammo, float level, CreativeTabs tab)
     {
-	super(name, cooldown, useTime, ammo, level, tab);
+	super(name, cooldown, 0.5f, useTime, ammo, level, tab);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ItemPumpkin extends ItemGun
 	float inaccuracy = 0.0f;
 	float velocity = 6.0f;
 
-	ProjectilePumpkin projectile = new ProjectilePumpkin(world, player, 0.5f * this.getMultiplier(), stack);
+	ProjectilePumpkin projectile = new ProjectilePumpkin(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(1000f);
 
@@ -52,5 +52,10 @@ public class ItemPumpkin extends ItemGun
 	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + "An accurate energy sniper rifle.");
 	tooltip.add(TextFormatting.GRAY + "Deals more damage the farther it travels.");
+    }
+    
+    protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+	tooltip.add(TextFormatting.GRAY + "Deals " + TextFormatting.BLUE + Math.round(this.getEnchantedDamage(stack) * 100) * 0.01f + TextFormatting.GRAY + " damage per meter.");
     }
 }

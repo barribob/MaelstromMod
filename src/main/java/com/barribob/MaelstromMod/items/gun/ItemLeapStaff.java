@@ -19,7 +19,7 @@ public class ItemLeapStaff extends ItemGun
 {
     public ItemLeapStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, null, level, tab);
+	super(name, cooldown, 0, maxDamage, null, level, tab);
     }
 
     @Override

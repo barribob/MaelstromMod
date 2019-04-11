@@ -25,9 +25,10 @@ import net.minecraft.world.World;
  */
 public class ItemBoomstick extends ItemGun
 {
+    protected float pelletCount = 15;
     public ItemBoomstick(String name, int cooldown, int maxDamage, Item ammo, float level, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, ammo, level, tab);
+	super(name, cooldown, 1, maxDamage, ammo, level, tab);
     }
 
     /**
@@ -36,8 +37,6 @@ public class ItemBoomstick extends ItemGun
     @Override
     protected void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack)
     {
-	int pelletCount = 15;
-
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 	
@@ -46,7 +45,7 @@ public class ItemBoomstick extends ItemGun
 	    float inaccuracy = 20.0f;
 	    float speed = 3f;
 
-	    ProjectileBullet projectile = new ProjectileBullet(world, player, this.getMultiplier(), stack);
+	    ProjectileBullet projectile = new ProjectileBullet(world, player, this.getEnchantedDamage(stack), stack);
 	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
 

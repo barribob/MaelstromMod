@@ -98,7 +98,7 @@ public class ModItems
      */
     
     // Special Items
-    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 180, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
+    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 160, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
     public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
     

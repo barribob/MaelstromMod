@@ -20,7 +20,7 @@ public class ItemFireballStaff extends ItemGun
 {    
     public ItemFireballStaff(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, useTime, ModItems.IRON_PELLET, level, tab);
+	super(name, cooldown, 7, useTime, ModItems.IRON_PELLET, level, tab);
     }
 
     @Override
@@ -31,9 +31,8 @@ public class ItemFireballStaff extends ItemGun
 
 	float inaccuracy = 2.0f;
 	float velocity = 1.3f;
-	float damage = 7;
 
-	ProjectileFireball projectile = new ProjectileFireball(world, player, damage * this.getMultiplier(), stack);
+	ProjectileFireball projectile = new ProjectileFireball(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25);
 

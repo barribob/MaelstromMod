@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ItemBase;
@@ -40,12 +41,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class ItemGun extends ItemBase
 {
-    private int maxCooldown;
+    private final int maxCooldown;
     private Item ammo;
     private static final int SMOKE_PARTICLES = 4;
     private float level;
+    private final float damage;
 
-    public ItemGun(String name, int cooldown, float useTime, Item ammo, float level, CreativeTabs tab)
+    public ItemGun(String name, int cooldown, float damage, float useTime, Item ammo, float level, CreativeTabs tab)
     {
 	super(name, tab);
 	this.maxStackSize = 1;
@@ -53,12 +55,13 @@ public abstract class ItemGun extends ItemBase
 	this.maxCooldown = cooldown;
 	this.level = level;
 	this.setMaxDamage((int) (useTime/cooldown));
+	this.damage = damage;
     }
     
     /**
      * Returns the correct multiplier based on the level of the item stack
      */
-    public float getMultiplier()
+    private float getMultiplier()
     {
 	return LevelHandler.getMultiplierFromLevel(this.level);
     }
@@ -67,6 +70,14 @@ public abstract class ItemGun extends ItemBase
     {
 	int reload = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.reload, stack);
 	return this.maxCooldown * (1 - reload * 0.1f);
+    }
+    
+    protected float getEnchantedDamage(ItemStack stack)
+    {
+	float maxPower = ModEnchantments.gun_power.getMaxLevel();
+	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
+	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.progression_scale - 1));
+	return this.damage * enchantmentBonus * this.getMultiplier();
     }
 
     /**
@@ -232,8 +243,20 @@ public abstract class ItemGun extends ItemBase
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	String ammoName = this.ammo == null ? "None" : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
-	tooltip.add(TextFormatting.DARK_GREEN + "Level " + this.level);
-	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + ammoName);
+	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + this.level);
+	
+	if(this.getEnchantedDamage(stack) > 0)
+	{
+		this.getDamageTooltip(stack, worldIn, tooltip, flagIn);
+	}
+	
+	tooltip.add(TextFormatting.BLUE + "" + Math.round(getEnchantedCooldown(stack) * 5) * 0.01f + TextFormatting.GRAY + " second reload time.");
+	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + TextFormatting.BLUE + ammoName);
+    }
+    
+    protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+	tooltip.add(TextFormatting.GRAY + "Deals " + TextFormatting.BLUE + Math.round(this.getEnchantedDamage(stack) * 100) * 0.01f + TextFormatting.GRAY + " damage per projectile.");
     }
 
     /**

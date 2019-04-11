@@ -23,12 +23,9 @@ public class ProjectileGun extends Projectile
     public ProjectileGun(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)
     {
 	super(worldIn, throwerIn, baseDamage);
-
-	int power = 0;
 	
 	if (stack != null)
 	{
-	    power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
 	    this.knockbackStrength = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.impact, stack);
 	    this.maelstromDestroyer = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.maelstrom_destroyer, stack);
 	    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_flame, stack) > 0)
@@ -36,11 +33,8 @@ public class ProjectileGun extends Projectile
 		this.setFire(100);
 	    }
 	}
-
-	float maxPower = ModConfig.progression_scale / ModEnchantments.gun_power.getMaxLevel();
-	this.setDamage((float) (baseDamage * (1 + power * maxPower)));
     }
-
+    
     protected int getKnockback()
     {
 	return this.knockbackStrength;

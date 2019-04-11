@@ -23,7 +23,7 @@ public class ItemWispStaff extends ItemGun
 {
     public ItemWispStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, null, level, tab);
+	super(name, cooldown, 5, maxDamage, null, level, tab);
     }
 
     /**
@@ -38,7 +38,7 @@ public class ItemWispStaff extends ItemGun
 	float inaccuracy = 0.0f;
 	float speed = 1f;
 
-	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, 5 * this.getMultiplier(), stack);
+	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	projectile.setTravelRange(9f);
 

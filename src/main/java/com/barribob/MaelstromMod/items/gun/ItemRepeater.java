@@ -25,7 +25,7 @@ public class ItemRepeater extends ItemGun
     
     public ItemRepeater(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, useTime, Items.REDSTONE, level, tab);
+	super(name, cooldown, 2, useTime, Items.REDSTONE, level, tab);
     }
     
     @Override
@@ -33,7 +33,7 @@ public class ItemRepeater extends ItemGun
     {
         super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
         
-        if(!worldIn.isRemote && this.repeating && entityIn instanceof EntityPlayer && entityIn.ticksExisted % 4 == 0)
+        if(!worldIn.isRemote && this.repeating && entityIn instanceof EntityPlayer && entityIn.ticksExisted % 5 == 0)
         {
             this.repeat(worldIn, (EntityPlayer)entityIn, stack);
             this.repeats++;
@@ -52,9 +52,8 @@ public class ItemRepeater extends ItemGun
 
 	float inaccuracy = 4.0f;
 	float velocity = 3.0f;
-	float damage = 2;
 
-	ProjectileRepeater projectile = new ProjectileRepeater(world, player, damage * this.getMultiplier(), stack);
+	ProjectileRepeater projectile = new ProjectileRepeater(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(30);
 
