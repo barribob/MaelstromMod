@@ -13,7 +13,10 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 public class ItemSpeedBoots extends ModArmorBase
@@ -42,6 +45,12 @@ public class ItemSpeedBoots extends ModArmorBase
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Adds " + TextFormatting.BLUE + "Speed 1");
+	
+	String potion = TextFormatting.BLUE + I18n.translateToLocal(wornEffect.getEffectName()).trim();
+	if (wornEffect.getAmplifier() > 0)
+        {
+	    potion = potion + " " + I18n.translateToLocal("potion.potency." + wornEffect.getAmplifier()).trim();
+        }
+	tooltip.add(TextFormatting.GRAY + "Adds " + potion);
     }
 }
