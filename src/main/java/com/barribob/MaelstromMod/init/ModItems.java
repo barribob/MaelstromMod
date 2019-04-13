@@ -6,7 +6,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.items.ItemAzureKey;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
-import com.barribob.MaelstromMod.items.armor.ModModeledArmor;
+import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.armor.model.ModelStrawHat;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
@@ -72,7 +72,7 @@ public class ModItems
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
-    public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
+    public static final Item BROWN_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
     public static final Item BEASTS_KEY = new ItemAzureKey("beast_key", ModCreativeTabs.ALL);
 
     private static final int COMMON_USE_TIME = 6000;
@@ -88,10 +88,10 @@ public class ModItems
     public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", COMMON_BATTLEAXE, 1f);
     public static final Item BEAST_BLADE = new ToolSword("beast_blade", RARE_SWORD, 1.5f);
 
-    public static final Item MAELSTROM_HELMET = new ModArmorBase("maelstrom_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f);
-    public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f);
-    public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f);
-    public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f);
+    public static final Item MAELSTROM_HELMET = new ModArmorBase("maelstrom_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "maelstrom");
+    public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "maelstrom");
+    public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "maelstrom");
+    public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "maelstrom");
     
     /*
      * Nexus Items
@@ -118,5 +118,6 @@ public class ModItems
     public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     
     // Nexus Armors
-    public static final Item STRAW_HAT = new ModModeledArmor("straw_hat", RARE_ARMOR_MATERIAL, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png", new ModelStrawHat());
+    public static final Item STRAW_HAT = new ModArmorBase("straw_hat", RARE_ARMOR_MATERIAL, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png", new ModelStrawHat());
+    public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.0f, "speed");
 }
