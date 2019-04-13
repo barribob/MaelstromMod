@@ -36,6 +36,7 @@ public class ItemSpeedBoots extends ModArmorBase
 	{
 	    if (boots.getItem() == this)
 	    {
+		wornEffect = new PotionEffect(MobEffects.SPEED, 20, 0);
 		player.addPotionEffect(wornEffect);
 	    }
 	}
