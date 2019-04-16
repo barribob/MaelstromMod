@@ -1,18 +1,12 @@
 package com.barribob.MaelstromMod.entity.model;
 
-import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
-import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
-
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
 
 /**
  * CrystalGolem - Barribob Created using Tabula 7.0.0
  */
-public class ModelAzureGolem extends ModelBase
+public class ModelAzureGolem extends ModelAnimated
 {
     public ModelRenderer waist;
     public ModelRenderer leftLeg;
@@ -29,7 +23,7 @@ public class ModelAzureGolem extends ModelBase
     public ModelRenderer rightHand;
     public ModelRenderer nose;
     
-    private float limbSwingFactor = 1.5f;
+    public float limbSwingFactor = 1.5f;
 
     public ModelAzureGolem() {
         this.textureWidth = 128;
@@ -108,37 +102,6 @@ public class ModelAzureGolem extends ModelBase
 	modelRenderer.rotateAngleX = x;
 	modelRenderer.rotateAngleY = y;
 	modelRenderer.rotateAngleZ = z;
-    }
-
-    /**
-     * Used for easily adding entity-dependent animations. The second and third
-     * float params here are the same second and third as in the setRotationAngles
-     * method.
-     */
-    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
-    {
-	float armsRotationX = ((EntityAzureGolem) entitylivingbaseIn).getArmsRotation();
-	float waistRotationX = ((EntityAzureGolem) entitylivingbaseIn).getWaistRotation();
-	
-	if (armsRotationX == 0)
-	{
-	    this.rightBicep.rotateAngleX = (-0.2F + limbSwingFactor * this.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-	    this.leftBicep.rotateAngleX = (-0.2F - limbSwingFactor * this.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-	}
-	else
-	{
-	    this.rightBicep.rotateAngleX = armsRotationX;
-	    this.leftBicep.rotateAngleX = armsRotationX;
-	}
-	
-	if(waistRotationX == 0)
-	{
-	    this.waist.rotateAngleX = 0;
-	}
-	else
-	{
-	    this.waist.rotateAngleX = waistRotationX;
-	}
     }
 
     /**

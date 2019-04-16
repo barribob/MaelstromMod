@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.entity.animation.Animation;
+import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.entity.EntityCreature;
@@ -16,11 +18,25 @@ import net.minecraft.world.World;
 public abstract class EntityLeveledMob extends EntityCreature
 {
     private float level;
+    protected Animation currentAnimation;
 
     public EntityLeveledMob(World worldIn)
     {
 	super(worldIn);
 	this.setLevel(1);
+	this.currentAnimation = new AnimationNone();
+    }
+    
+    @Override
+    public void onLivingUpdate()
+    {
+        super.onLivingUpdate();
+        currentAnimation.update();
+    }
+    
+    public Animation getCurrentAnimation()
+    {
+	return this.currentAnimation;
     }
 
     public float getLevel()

@@ -1,9 +1,8 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.animation.AnimationFloatingSkull;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
-import com.barribob.MaelstromMod.util.AnimationTimer;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -15,7 +14,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,14 +29,10 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 0.4f;
 
-    private float[] jawAnimation = { 0, 15, 25, 35, 35, 35, 35, 35, 35, 35, 35, 25, 15, 0 };
-
-    private AnimationTimer animation;
-
     public EntityFloatingSkull(World worldIn)
     {
 	super(worldIn);
-	animation = new AnimationTimer(jawAnimation.length);
+	this.currentAnimation = new AnimationFloatingSkull();
     }
 
     @Override
@@ -51,13 +45,6 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     {
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 60, 5, 7.5f, 0.5f));
-    }
-
-    @Override
-    public void onLivingUpdate()
-    {
-	super.onLivingUpdate();
-	animation.nextFrame();
     }
     
     @Override
@@ -99,13 +86,6 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     {
 	return LootTableHandler.FLOATING_SKULL;
     }
-    
-    @SideOnly(Side.CLIENT)
-    public float getJawRotation()
-    {
-	float degree = animation.getFrame(jawAnimation);
-	return (float) Math.toRadians(degree);
-    }
 
     @Override
     public void setSwingingArms(boolean swingingArms)
@@ -124,7 +104,7 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     {
 	if (id == 4)
 	{
-	    animation.startAnimation();
+	    this.currentAnimation.startAnimation();
 	}
 	else
 	{
