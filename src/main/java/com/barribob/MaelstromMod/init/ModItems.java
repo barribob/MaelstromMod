@@ -6,31 +6,35 @@ import java.util.List;
 import com.barribob.MaelstromMod.items.ItemAzureKey;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
+import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
+import com.barribob.MaelstromMod.items.armor.model.ModelStrawHat;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
+import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
+import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
+import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
+import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
+import com.barribob.MaelstromMod.items.gun.ItemRepeater;
+import com.barribob.MaelstromMod.items.gun.ItemRifle;
+import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
-import com.barribob.MaelstromMod.items.tools.ToolAxe;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolDagger;
+import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
+import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
-import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
-import com.barribob.MaelstromMod.items.tools.ToolSpade;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
+import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Reference;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.util.EnumHelper;
 
 /**
@@ -68,7 +72,7 @@ public class ModItems
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
-    public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
+    public static final Item BROWN_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
     public static final Item BEASTS_KEY = new ItemAzureKey("beast_key", ModCreativeTabs.ALL);
 
     private static final int COMMON_USE_TIME = 6000;
@@ -79,13 +83,41 @@ public class ModItems
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
     
-    public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", 4.0f, COMMON_SWORD, 1f);
+    public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", COMMON_SWORD, 1f);
     public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", COMMON_DAGGER, 1f);
     public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", COMMON_BATTLEAXE, 1f);
     public static final Item BEAST_BLADE = new ToolSword("beast_blade", RARE_SWORD, 1.5f);
 
-    public static final Item MAELSTROM_HELMET = new ModArmorBase("maelstrom_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f);
-    public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f);
-    public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f);
-    public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f);
+    public static final Item MAELSTROM_HELMET = new ModArmorBase("maelstrom_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "maelstrom");
+    public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "maelstrom");
+    public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "maelstrom");
+    public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "maelstrom");
+    
+    /*
+     * Nexus Items
+     */
+    
+    // Special Items
+    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 160, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
+    public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
+    public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
+    
+    // Nexus Guns
+    public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    
+    // Nexus Swords
+    public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1f);
+    public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_SWORD, 1f);
+    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_SWORD, 1f);
+    
+    // Nexus Magic
+    public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", 220, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    
+    // Nexus Armors
+    public static final Item STRAW_HAT = new ModArmorBase("straw_hat", RARE_ARMOR_MATERIAL, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png", new ModelStrawHat());
+    public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.0f, "speed");
 }

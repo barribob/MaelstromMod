@@ -43,6 +43,11 @@ public class Projectile extends EntityModThrowable
 	super(worldIn, x, y, z);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
     }
+    
+    protected double getDistanceTraveled()
+    {
+	return this.getDistance(startPos.x, startPos.y, startPos.z);
+    }
 
     /**
      * Set how far the projectile will be from its shooting entity before despawning
@@ -78,7 +83,7 @@ public class Projectile extends EntityModThrowable
 	this.world.setEntityState(this, this.PARTICLE_BYTE);
 
 	// Despawn if a certain distance away from its origin
-	if (this.shootingEntity != null && this.getDistance(startPos.x, startPos.y, startPos.z) > this.travelRange)
+	if (this.shootingEntity != null && getDistanceTraveled() > this.travelRange)
 	{
 	    this.world.setEntityState(this, this.IMPACT_PARTICLE_BYTE);
 	    this.setDead();

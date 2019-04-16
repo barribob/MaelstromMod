@@ -30,7 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class InGameGui
 {
     public static final ResourceLocation ICONS = new ResourceLocation(Reference.MOD_ID + ":textures/gui/mod_icons.png");
-    
+
     /*
      * Sourced from the render hotbar method in GuiIngame to display a cooldown bar
      */
@@ -38,51 +38,47 @@ public class InGameGui
     public static void renderGunReload(Minecraft mc, RenderGameOverlayEvent.Post event, EntityPlayer player)
     {
 	GameSettings gamesettings = mc.gameSettings;
-
-	if (gamesettings.thirdPersonView == 0)
+	if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !player.hasReducedDebug() && !gamesettings.reducedDebugInfo)
 	{
-	    if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !player.hasReducedDebug() && !gamesettings.reducedDebugInfo)
-	    {
-		return;
-	    }
-
-	    GlStateManager.enableRescaleNormal();
-	    GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-		    GlStateManager.DestFactor.ZERO);
-	    RenderHelper.enableGUIStandardItemLighting();
-
-	    int i = event.getResolution().getScaledWidth() / 2;
-
-	    // Render the 9 slots
-	    for (int l = 0; l < 9; ++l)
-	    {
-		int i1 = i - 90 + l * 20 + 2;
-		int j1 = event.getResolution().getScaledHeight() - 16 - 3;
-		renderItemAmmo(player.inventory.mainInventory.get(l), i1, j1, mc);
-	    }
-
-	    ItemStack itemstack = player.getHeldItemOffhand();
-	    EnumHandSide enumhandside = player.getPrimaryHand().opposite();
-
-	    // Render the offhand
-	    if (!itemstack.isEmpty())
-	    {
-		int j1 = event.getResolution().getScaledHeight() - 16 - 3;
-
-		if (enumhandside == EnumHandSide.LEFT)
-		{
-		    renderItemAmmo(itemstack, i - 91 - 26, j1, mc);
-		}
-		else
-		{
-		    renderItemAmmo(itemstack, i + 91 + 10, j1, mc);
-		}
-	    }
-
-	    RenderHelper.disableStandardItemLighting();
-	    GlStateManager.disableRescaleNormal();
-	    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+	    return;
 	}
+
+	GlStateManager.enableRescaleNormal();
+	GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+		GlStateManager.DestFactor.ZERO);
+	RenderHelper.enableGUIStandardItemLighting();
+
+	int i = event.getResolution().getScaledWidth() / 2;
+
+	// Render the 9 slots
+	for (int l = 0; l < 9; ++l)
+	{
+	    int i1 = i - 90 + l * 20 + 2;
+	    int j1 = event.getResolution().getScaledHeight() - 16 - 3;
+	    renderItemAmmo(player.inventory.mainInventory.get(l), i1, j1, mc);
+	}
+
+	ItemStack itemstack = player.getHeldItemOffhand();
+	EnumHandSide enumhandside = player.getPrimaryHand().opposite();
+
+	// Render the offhand
+	if (!itemstack.isEmpty())
+	{
+	    int j1 = event.getResolution().getScaledHeight() - 16 - 3;
+
+	    if (enumhandside == EnumHandSide.LEFT)
+	    {
+		renderItemAmmo(itemstack, i - 91 - 26, j1, mc);
+	    }
+	    else
+	    {
+		renderItemAmmo(itemstack, i + 91 + 10, j1, mc);
+	    }
+	}
+
+	RenderHelper.disableStandardItemLighting();
+	GlStateManager.disableRescaleNormal();
+	GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     /**
@@ -156,7 +152,7 @@ public class InGameGui
 
 	// Add 10 for the normal armor bar
 	startY -= player.getTotalArmorValue() > 0 ? 10 : 0;
-	
+
 	// Add config file
 	startX += ModConfig.gui.maelstrom_armor_bar_offset_x;
 	startY += ModConfig.gui.maelstrom_armor_bar_offset_y;

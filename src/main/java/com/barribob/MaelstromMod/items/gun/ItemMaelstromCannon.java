@@ -27,7 +27,7 @@ public class ItemMaelstromCannon extends ItemGun
 {
     public ItemMaelstromCannon(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, null, level, tab);
+	super(name, cooldown, 4, maxDamage, null, level, tab);
     }
 
     /**
@@ -45,7 +45,7 @@ public class ItemMaelstromCannon extends ItemGun
 	float inaccuracy = 3.0f;
 	float degreesUp = 20;
 
-	ProjectileMaelstromCannon projectile = new ProjectileMaelstromCannon(world, player, 4.0f * this.getMultiplier(), stack);
+	ProjectileMaelstromCannon projectile = new ProjectileMaelstromCannon(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.shoot(player, player.rotationPitch - degreesUp, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25f);
 	world.spawnEntity(projectile);

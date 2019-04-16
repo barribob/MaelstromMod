@@ -13,9 +13,12 @@ import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
+import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
@@ -60,32 +63,38 @@ public class ModEntities
     public static final int QUAKE_ID = 207;
     public static final int SKULL_ATTACK_ID = 208;
     public static final int AZURE_PORTAL_SPAWN_ID = 209;
+    public static final int PUMPKIN_ID = 210;
+    public static final int REPEATER_ID = 211;
+    public static final int FIREBALL_ID = 212;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
 
     public static void registerEntities()
     {
-	registerEntity("shade", EntityShade.class, SHADE_ID, 30, maelstrom);
-	registerEntity("horror", EntityHorror.class, HORROR_ID, 30, maelstrom);
-	registerEntity("dream_elk", EntityDreamElk.class, DREAM_ELK_ID, 30, azure);
-	registerEntity("beast", EntityBeast.class, BEAST_ID, 30, maelstrom);
-	registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 30, maelstrom);
-	registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 30, azure);
-	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 30, maelstrom);
-	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 30, azure);
-	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 30, maelstrom);
+	registerEntity("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
+	registerEntity("horror", EntityHorror.class, HORROR_ID, 50, maelstrom);
+	registerEntity("dream_elk", EntityDreamElk.class, DREAM_ELK_ID, 50, azure);
+	registerEntity("beast", EntityBeast.class, BEAST_ID, 100, maelstrom);
+	registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 50, maelstrom);
+	registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 100, azure);
+	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
+	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 70, azure);
+	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
 	
-	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 30);
+	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
-	registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 30);
-	registerEntity("bullet", ProjectileBullet.class, BULLET_ID, 30);
+	registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);
+	registerEntity("bullet", ProjectileBullet.class, BULLET_ID, 100);
 	registerEntity("maelstrom_cannon", ProjectileMaelstromCannon.class, MAELSTROM_CANNON_ID, 30);
 	registerEntity("will-o-the-wisp", ProjectileWillOTheWisp.class, WILL_O_THE_WISP_ID, 30);
 	registerEntity("quake", ProjectileQuake.class, QUAKE_ID, 30);
 	registerEntity("skull_attack", ProjectileSkullAttack.class, SKULL_ATTACK_ID, 30);
-	registerEntity("azure_portal_spawn", EntityAzurePortalSpawn.class, AZURE_PORTAL_SPAWN_ID, 30);
+	registerEntity("azure_portal_spawn", EntityAzurePortalSpawn.class, AZURE_PORTAL_SPAWN_ID, 100);
+	registerEntity("pumpkin", ProjectilePumpkin.class, PUMPKIN_ID, 1000);
+	registerEntity("repeater", ProjectileRepeater.class, REPEATER_ID, 30);
+	registerEntity("fireball", ProjectileFireball.class, FIREBALL_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

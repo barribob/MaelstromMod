@@ -34,7 +34,6 @@ public class ProjectileBullet extends ProjectileGun
     public ProjectileBullet(World worldIn, EntityLivingBase throwerIn, float damage, ItemStack stack)
     {
 	super(worldIn, throwerIn, damage, stack);
-	this.setNoGravity(true);
     }
 
     public ProjectileBullet(World worldIn)

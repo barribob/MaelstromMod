@@ -30,7 +30,7 @@ public class ItemMusket extends ItemGun
     
     public ItemMusket(String name, int cooldown, int maxDamage, float meleeDamage, Item ammo, float level, CreativeTabs tab)
     {
-	super(name, cooldown, maxDamage, ammo, level, tab);
+	super(name, cooldown, 7, maxDamage, ammo, level, tab);
 	this.meleeDamage = meleeDamage;
     }
 
@@ -43,12 +43,12 @@ public class ItemMusket extends ItemGun
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-	float inaccuracy = 4.0f;
-	float velocity = 4.0f;
+	float inaccuracy = 2.0f;
+	float velocity = 5.0f;
 
-	ProjectileBullet projectile = new ProjectileBullet(world, player, 7 * this.getMultiplier(), stack);
+	ProjectileBullet projectile = new ProjectileBullet(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
-	projectile.setTravelRange(40f);
+	projectile.setTravelRange(50);
 
 	world.spawnEntity(projectile);
     }

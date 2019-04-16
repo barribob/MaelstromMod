@@ -37,8 +37,8 @@ public class EntityAzurePortalSpawn extends EntityPortalSpawn
 	    double x = this.posX + 0.5 + Math.cos(i * degreesPerSector) * Math.sin(this.ticksExisted) * size + offset;
 	    double y = this.posY + 3.5 + Math.sin(i * degreesPerSector) * Math.cos(this.ticksExisted) * size + offset;
 	    double z = this.posZ + 0.5 + Math.cos(i * degreesPerSector) * Math.sin(this.ticksExisted) * size + offset;
-	    ParticleManager.spawnFirework(world, new Vec3d(x, y, this.posZ + 0.5), new Vec3d(0.3, 0.4, 1));
-	    ParticleManager.spawnFirework(world, new Vec3d(this.posX + 0.5, y, z), new Vec3d(0.3, 0.4, 1));
+	    ParticleManager.spawnEffect(world, new Vec3d(x, y, this.posZ + 0.5), new Vec3d(0.3, 0.4, 1));
+	    ParticleManager.spawnEffect(world, new Vec3d(this.posX + 0.5, y, z), new Vec3d(0.3, 0.4, 1));
 	}
     }
 
