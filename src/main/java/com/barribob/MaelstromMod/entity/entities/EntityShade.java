@@ -1,39 +1,14 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import javax.annotation.Nullable;
-
+import com.barribob.MaelstromMod.entity.action.ActionThrust;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
-import com.google.common.base.Predicate;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -97,16 +72,7 @@ public class EntityShade extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    ProjectileShadeAttack projectile = new ProjectileShadeAttack(this.world, this, this.getAttack());
-	    double d0 = target.posY + (double) target.getEyeHeight() - 1.100000023841858D;
-	    double xDir = target.posX - this.posX;
-	    double yDir = d0 - projectile.posY;
-	    double zDir = target.posZ - this.posZ;
-	    float f = MathHelper.sqrt(xDir * xDir + zDir * zDir) * 0.2F;
-	    yDir = Math.min(yDir + f, 0); // Keep the entity from aiming upward
-	    projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
-	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-	    this.world.spawnEntity(projectile);
+	    new ActionThrust().performAction(this, target);
 	}
     }
 }

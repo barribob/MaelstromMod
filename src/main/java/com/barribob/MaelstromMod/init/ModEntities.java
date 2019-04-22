@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
+import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
@@ -14,6 +15,7 @@ import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
@@ -52,6 +54,7 @@ public class ModEntities
     public static final int MAELSTROM_MAGE_ID = 106;
     public static final int AZURE_GOLEM_ID = 107;
     public static final int FLOATING_SKULL_ID = 108;
+    public static final int HEROBRINE_1_ID = 109;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -66,6 +69,7 @@ public class ModEntities
     public static final int PUMPKIN_ID = 210;
     public static final int REPEATER_ID = 211;
     public static final int FIREBALL_ID = 212;
+    public static final int HEROBRINE_SLASH_ID = 213;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -81,6 +85,7 @@ public class ModEntities
 	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
 	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 70, azure);
 	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
+	registerEntity("herobrine_1", EntityHerobrineOne.class, HEROBRINE_1_ID, 50, maelstrom);
 	
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
@@ -95,6 +100,7 @@ public class ModEntities
 	registerEntity("pumpkin", ProjectilePumpkin.class, PUMPKIN_ID, 1000);
 	registerEntity("repeater", ProjectileRepeater.class, REPEATER_ID, 30);
 	registerEntity("fireball", ProjectileFireball.class, FIREBALL_ID, 30);
+	registerEntity("herbrine_slash", ProjectileHerobrineQuake.class, HEROBRINE_SLASH_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

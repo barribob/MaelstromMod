@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.entity.animation;
 
-import com.barribob.MaelstromMod.entity.model.ModelAnimated;
-
+import net.minecraft.client.model.ModelBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -9,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * In charge of a single animation for an entity
  */
 @SideOnly(Side.CLIENT)
-public abstract class Animation<T extends ModelAnimated>
+public abstract class Animation<T extends ModelBase>
 {
     private int attackTimer;
     private int animationLength;

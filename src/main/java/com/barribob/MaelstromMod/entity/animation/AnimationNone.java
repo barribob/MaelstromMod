@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.animation;
 
-import com.barribob.MaelstromMod.entity.model.ModelAnimated;
+import net.minecraft.client.model.ModelBase;
 
 public class AnimationNone extends Animation
 {
@@ -10,7 +10,7 @@ public class AnimationNone extends Animation
     }
 
     @Override
-    public void setModelRotations(ModelAnimated model, float limbSwing, float limbSwingAmount, float partialTicks)
+    public void setModelRotations(ModelBase model, float limbSwing, float limbSwingAmount, float partialTicks)
     {	
     }
 }

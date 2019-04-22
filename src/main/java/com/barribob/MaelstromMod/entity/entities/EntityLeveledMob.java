@@ -7,6 +7,9 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 
 /**
@@ -17,6 +20,8 @@ import net.minecraft.world.World;
  */
 public abstract class EntityLeveledMob extends EntityCreature
 {
+    // Swinging arms is the animation for the attack
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
     private float level;
     protected Animation currentAnimation;
 
@@ -86,6 +91,22 @@ public abstract class EntityLeveledMob extends EntityCreature
 	}
 	super.readEntityFromNBT(compound);
     }
+    
+    protected void entityInit()
+    {
+	super.entityInit();
+	this.dataManager.register(SWINGING_ARMS, Boolean.valueOf(false));
+    }
+
+    public boolean isSwingingArms()
+    {
+	return ((Boolean) this.dataManager.get(SWINGING_ARMS)).booleanValue();
+    }
+
+    public void setSwingingArms(boolean swingingArms)
+    {
+	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
+    }
 
     /**
      * Get the progression multiplier based on the level of the entity
@@ -106,7 +127,7 @@ public abstract class EntityLeveledMob extends EntityCreature
     /**
      * Return the shared monster attribute attack
      */
-    protected float getAttack()
+    public float getAttack()
     {
 	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
     }

@@ -5,19 +5,21 @@ import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
+import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelFloatingSkull;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
-import com.barribob.MaelstromMod.entity.projectile.EntityModThrowable;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.entity.render.RenderAnimatedBiped;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
@@ -29,6 +31,7 @@ import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -48,6 +51,8 @@ public class RenderHandler
 	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
 	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/floating_skull.png"));
+	registerModBipedRenderer(EntityHerobrineOne.class, new ModelAnimatedBiped(0.0f, 0.0F, 64, 64),
+		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
@@ -93,6 +98,22 @@ public class RenderHandler
 	    public Render<? super T> createRenderFor(RenderManager manager)
 	    {
 		return new RenderModEntity(manager, textures, model);
+	    }
+	});
+    }
+
+    /**
+     * Registers a biped to render
+     */
+    private static <T extends EntityLiving, U extends ModelBiped, V extends RenderModEntity> void registerModBipedRenderer(Class<T> entityClass, U model,
+	    ResourceLocation textures, float shadowSize)
+    {
+	RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<T>()
+	{
+	    @Override
+	    public Render<? super T> createRenderFor(RenderManager manager)
+	    {
+		return new RenderAnimatedBiped(manager, model, shadowSize, textures);
 	    }
 	});
     }
