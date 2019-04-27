@@ -73,6 +73,8 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty)
     {
 	this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ModItems.SWORD_OF_SHADES));
+	this.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(ModItems.STRAW_HAT));
+	this.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
     }
     
     /**
@@ -96,8 +98,9 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	if (swingingArms)
 	{
 	    float distance = (float) this.getDistanceSq(this.getAttackTarget().posX, getAttackTarget().getEntityBoundingBox().minY, getAttackTarget().posZ);
+	    float melee_distance = 4;
 	    
-	    if(distance > Math.pow(4, 2))
+	    if(distance > Math.pow(melee_distance, 2))
 	    {
 		this.currentAttack = rand.nextInt(2) == 0 ? Attack.FIREBALL : Attack.GROUND_SLASH;
 	    }

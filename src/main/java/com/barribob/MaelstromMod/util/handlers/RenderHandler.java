@@ -51,7 +51,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
 	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/floating_skull.png"));
-	registerModBipedRenderer(EntityHerobrineOne.class, new ModelAnimatedBiped(0.0f, 0.0F, 64, 64),
+	registerModBipedRenderer(EntityHerobrineOne.class, new ModelAnimatedBiped(0.0f, 0.0F),
 		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
