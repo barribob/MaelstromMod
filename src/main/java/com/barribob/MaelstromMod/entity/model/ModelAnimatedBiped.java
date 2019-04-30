@@ -8,6 +8,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
@@ -19,13 +20,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ModelAnimatedBiped extends ModelBiped
 {
-    private static int textureWidth = 64;
-    private static int textureHeight = 64;
+    protected static int textureWidth = 64;
+    protected static int textureHeight = 64;
     public ModelRenderer centerPivot;
+    private float partialTicks = 0;
 
-    public ModelAnimatedBiped(float modelSize, float f)
+    public ModelAnimatedBiped()
     {
-	super(modelSize, f, textureWidth, textureHeight);
+	super(0, 0, textureWidth, textureHeight);
 	this.bipedHead = new ModelRenderer(this, 0, 0);
 	this.bipedHead.setRotationPoint(0.0F, -12.0F, 0.0F);
 	this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
@@ -61,30 +63,38 @@ public class ModelAnimatedBiped extends ModelBiped
 	this.centerPivot.render(f5);
     }
 
-    @Override
-    public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTickTime)
-    {
-	if (entity instanceof EntityLeveledMob)
-	{
-	    ((EntityLeveledMob) entity).getCurrentAnimation().setModelRotations(this, limbSwing, limbSwingAmount, partialTickTime);
-	}
-	else
-	{
-	    throw new IllegalArgumentException("The entity class " + entity.getClass().getName() + " was not an instance of EntityLeveledMob");
-	}
-    }
-
     public void postRenderArm(float scale, EnumHandSide side)
     {
 	// Translate because the postRender does not detect that the arm is a child of
 	// centerPivot
-	GlStateManager.translate(0.0F, 12 * scale, 0.0F);
+	this.centerPivot.postRender(scale);
+	this.bipedBody.postRender(scale);
 	this.getArmForSide(side).postRender(scale);
+    }
+    
+    @Override
+    public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTickTime)
+    {
+	// This function gets called right before setRotationAngles, so to keep the animations from being overwritten by
+	// the super.setRotationAngles, save partial tick time.
+	this.partialTicks = partialTickTime;
     }
 
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
 	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 	this.bipedHead.rotationPointY -= 12;
+	this.centerPivot.rotateAngleX = 0;
+	this.centerPivot.rotateAngleY = 0;
+	this.centerPivot.rotateAngleZ = 0;
+	
+	if (entityIn instanceof EntityLeveledMob)
+	{
+	    ((EntityLeveledMob) entityIn).getCurrentAnimation().setModelRotations(this, limbSwing, limbSwingAmount, this.partialTicks);
+	}
+	else
+	{
+	    throw new IllegalArgumentException("The entity class " + entityIn.getClass().getName() + " was not an instance of EntityLeveledMob");
+	}
     }
 }

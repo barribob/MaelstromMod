@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.items.armor.model;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class ModelStrawHat extends ModelBiped {
     public ModelRenderer hat4;
@@ -12,7 +11,7 @@ public class ModelStrawHat extends ModelBiped {
     public ModelRenderer hat3;
 
     public ModelStrawHat() {
-        this.textureWidth = 64;
+	this.textureWidth = 64;
         this.textureHeight = 128;
         this.strap = new ModelRenderer(this, 40, 64);
         this.strap.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -34,10 +33,5 @@ public class ModelStrawHat extends ModelBiped {
         this.bipedHead.addChild(this.hat3);
         this.bipedHead.addChild(this.hat2);
         this.bipedHead.addChild(this.hat1);
-    }
-
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        super.render(entity, f, f1, f2, f3, f4, f5);
     }
 }

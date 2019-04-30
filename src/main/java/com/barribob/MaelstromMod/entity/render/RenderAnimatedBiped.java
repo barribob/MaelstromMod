@@ -1,9 +1,9 @@
 package com.barribob.MaelstromMod.entity.render;
 
-import net.minecraft.client.model.ModelBiped;
+import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
+
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
@@ -11,11 +11,10 @@ public class RenderAnimatedBiped extends RenderBiped
 {
     private ResourceLocation textures;
 
-    public RenderAnimatedBiped(RenderManager renderManagerIn, ModelBiped modelBipedIn, float shadowSize, ResourceLocation textures)
+    public RenderAnimatedBiped(RenderManager renderManagerIn, ModelAnimatedBiped modelBipedIn, float shadowSize, ResourceLocation textures)
     {
 	super(renderManagerIn, modelBipedIn, shadowSize);
 	this.textures = textures;
-	this.addLayer(new LayerBipedArmor(this));
     }
 
     @Override

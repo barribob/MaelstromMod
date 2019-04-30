@@ -51,7 +51,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
 	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/floating_skull.png"));
-	registerModBipedRenderer(EntityHerobrineOne.class, new ModelAnimatedBiped(0.0f, 0.0F),
+	registerModBipedRenderer(EntityHerobrineOne.class, new ModelAnimatedBiped(),
 		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
@@ -105,7 +105,7 @@ public class RenderHandler
     /**
      * Registers a biped to render
      */
-    private static <T extends EntityLiving, U extends ModelBiped, V extends RenderModEntity> void registerModBipedRenderer(Class<T> entityClass, U model,
+    private static <T extends EntityLiving, U extends ModelAnimatedBiped, V extends RenderModEntity> void registerModBipedRenderer(Class<T> entityClass, U model,
 	    ResourceLocation textures, float shadowSize)
     {
 	RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<T>()

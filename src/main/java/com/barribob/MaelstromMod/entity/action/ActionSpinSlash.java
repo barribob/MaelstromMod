@@ -20,7 +20,8 @@ public class ActionSpinSlash extends Action
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target)
     {
-	List<EntityLivingBase> entities = ModUtils.getEntitiesInBox(actor, actor.getEntityBoundingBox().grow(2f, 0.5f, 2f));
+	float size = 2.0f;
+	List<EntityLivingBase> entities = ModUtils.getEntitiesInBox(actor, actor.getEntityBoundingBox().grow(size, 0.5f, size));
 	
 	Consumer<EntityLivingBase> attack = e -> e.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(actor), actor.getAttack());
 	
@@ -37,7 +38,7 @@ public class ActionSpinSlash extends Action
 	{
 	    for(float sector = 0; sector < 360; sector += 10)
 	    {
-		Vec3d pos = new Vec3d(Math.cos(sector) * r + actor.posX, actor.posY + 1, Math.sin(sector) * r + actor.posZ);
+		Vec3d pos = new Vec3d(Math.cos(sector) * r + actor.posX, actor.posY + 1.5f, Math.sin(sector) * r + actor.posZ);
 		ParticleManager.spawnMaelstromParticle(actor.world, actor.world.rand, pos);
 	    }
 	}

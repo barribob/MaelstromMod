@@ -7,9 +7,8 @@ import net.minecraft.client.model.ModelBase;
 public class AnimationAzureGolem extends Animation<ModelAzureGolem>
 {
     // Animation frames for the pound attack
-    private static float[] armFramesDegrees = { 0, -15, -30, -45, -60, -75, -90, -90, -90, -90, -90, -105, -135, -165, -180, -180, -180, -180, -165, -150, -135, -120,
-	    -105, -90, -75, -60, -45 };
-    private static float[] backFramesDegrees = { 0, 10, 20, 30, 40, 50, 65, 65, 65, 65, 65, 55, 45, 30, 15, 0, -15, -15, -15, -15, -15, -15, -5, 0, 0, 0, 0 };
+    private static float[] armFramesDegrees = { -45, -60, -75, -90, -105, -120, -135, -150, -165, -180, -180, -180, -180, -165, -135, -105, -90, -90, -90, -90, - 90, -75, -60, -45, -30, -15, 0 };
+    private static float[] backFramesDegrees = { 0, 0, 0, 0, -5, -15, -15, -15, -15, -15, -15, 0, 15, 30, 45, 55, 65, 65, 65, 65, 65, 50, 40, 30, 20, 10, 0};
 
     public AnimationAzureGolem()
     {

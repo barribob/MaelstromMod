@@ -16,6 +16,7 @@ public abstract class Animation<T extends ModelBase>
     public Animation(int animationLength)
     {
 	this.animationLength = animationLength;
+	this.attackTimer = animationLength - 1;
     }
 
     /*
@@ -23,7 +24,7 @@ public abstract class Animation<T extends ModelBase>
      */
     public void startAnimation()
     {
-	this.attackTimer = animationLength - 1;
+	this.attackTimer = 0;
     }
 
     /*
@@ -36,9 +37,9 @@ public abstract class Animation<T extends ModelBase>
      */
     public void update()
     {
-	if (this.attackTimer > 0)
+	if (this.attackTimer < this.animationLength - 1)
 	{
-	    this.attackTimer--;
+	    this.attackTimer++;
 	}
     }
     
@@ -60,7 +61,7 @@ public abstract class Animation<T extends ModelBase>
 	{
 	    throw new IllegalArgumentException("Animation is not the right length.");
 	}
-	int frame = Math.max(this.attackTimer - 1, 0);
+	int frame = Math.min(this.attackTimer + 1, this.animationLength - 1);
 	return animation[frame];
     }
     

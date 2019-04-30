@@ -9,7 +9,10 @@ import com.barribob.MaelstromMod.entity.action.ActionSpinSlash;
 import com.barribob.MaelstromMod.entity.action.ActionThrust;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.Animation;
-import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.entity.animation.AnimationBackflip;
+import com.barribob.MaelstromMod.entity.animation.AnimationFireballThrow;
+import com.barribob.MaelstromMod.entity.animation.AnimationHerobrineGroundSlash;
+import com.barribob.MaelstromMod.entity.animation.AnimationSpinSlash;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -27,7 +30,6 @@ import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
@@ -40,14 +42,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * The first herobrine boss
  */
 public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttackMob
-{        
-    private Attack currentAttack;
-    
+{
+    private HerobrineAttack currentAttack;
+
     public EntityHerobrineOne(World worldIn)
     {
 	super(worldIn);
+	currentAnimation = new AnimationBackflip();
     }
-    
+
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -64,19 +67,18 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	this.currentAttack.action.performAction(this, target);
+	this.currentAttack.attack.performAction(this, target);
     }
-    
+
     /**
      * Gives armor or weapon for entity based on given DifficultyInstance
      */
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty)
     {
 	this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ModItems.SWORD_OF_SHADES));
-	this.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(ModItems.STRAW_HAT));
-	this.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+	this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(ModItems.SWORD_OF_SHADES));
     }
-    
+
     /**
      * Called only once on an entity when first time spawned, via egg, mob spawner,
      * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
@@ -90,7 +92,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	this.setEnchantmentBasedOnDifficulty(difficulty);
 	return ientitylivingdata;
     }
-    
+
     @Override
     public void setSwingingArms(boolean swingingArms)
     {
@@ -99,36 +101,36 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	{
 	    float distance = (float) this.getDistanceSq(this.getAttackTarget().posX, getAttackTarget().getEntityBoundingBox().minY, getAttackTarget().posZ);
 	    float melee_distance = 4;
-	    
-	    if(distance > Math.pow(melee_distance, 2))
+
+	    if (distance > Math.pow(melee_distance, 2))
 	    {
-		this.currentAttack = rand.nextInt(2) == 0 ? Attack.FIREBALL : Attack.GROUND_SLASH;
+		this.currentAttack = rand.nextInt(2) == 0 ? HerobrineAttack.FIREBALL : HerobrineAttack.GROUND_SLASH;
 	    }
 	    else
 	    {
-		this.currentAttack = rand.nextInt(2) == 0 ? Attack.SPIN_SLASH : Attack.THRUST;
+		this.currentAttack = rand.nextInt(2) == 0 ? HerobrineAttack.SPIN_SLASH : HerobrineAttack.THRUST;
 	    }
-	    
-	    this.world.setEntityState(this, (byte)this.currentAttack.id);
-	    
-	    if(this.currentAttack == Attack.FIREBALL)
+
+	    this.world.setEntityState(this, (byte) this.currentAttack.id);
+
+	    if (this.currentAttack == HerobrineAttack.FIREBALL)
 	    {
 		this.motionY = 0.7f;
 		this.fallDistance = -4;
 	    }
 	}
     }
-    
+
     @Override
     public void onUpdate()
     {
-        super.onUpdate();
-        
-        int fireballParticles = 5;
-        
-	if (!this.world.isRemote && this.isSwingingArms() && this.currentAttack == Attack.FIREBALL)
+	super.onUpdate();
+
+	int fireballParticles = 5;
+
+	if (!this.world.isRemote && this.isSwingingArms() && this.currentAttack == HerobrineAttack.FIREBALL)
 	{
-	    for(int i = 0; i < fireballParticles; i++)
+	    for (int i = 0; i < fireballParticles; i++)
 	    {
 		Vec3d pos = new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + this.getEyeHeight() + 1.0f, this.posZ + ModRandom.getFloat(0.5f));
 		ParticleManager.spawnEffect(world, pos, ProjectileFireball.FIREBALL_COLOR);
@@ -144,7 +146,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
     }
-    
+
     /**
      * Handler for {@link World#setEntityState}
      */
@@ -153,12 +155,12 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     {
 	if (id >= 4 && id <= 7)
 	{
-	    for(Attack attack : Attack.values())
+	    for (HerobrineAttack attack : HerobrineAttack.values())
 	    {
-		if(attack.id == id)
+		if (attack.id == id)
 		{
-		    this.currentAnimation = attack.animation;
-		    this.currentAnimation.startAnimation();
+		    currentAnimation = attack.animation;
+		    currentAnimation.startAnimation();
 		}
 	    }
 	}
@@ -167,26 +169,28 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    super.handleStatusUpdate(id);
 	}
     }
-    
+
     /*
      * Represents the different attacks that herobrine can have
+     * 
+     * Couples animation and actions together
      */
-    private enum Attack
+    private enum HerobrineAttack
     {
-	SPIN_SLASH(4, new AnimationNone(), new ActionSpinSlash()),
-	THRUST(5, new AnimationNone(), new ActionThrust()),
-	GROUND_SLASH(6, new AnimationNone(), new ActionGroundSlash()),
-	FIREBALL(7, new AnimationNone(), new ActionFireball());
-	
-	int id;
-	Animation animation;
-	Action action;
-	
-	private Attack(int attack, Animation animation, Action action)
+	SPIN_SLASH(4, new ActionSpinSlash(), new AnimationSpinSlash()),
+	THRUST(5, new ActionThrust(), new AnimationBackflip()),
+	GROUND_SLASH(6, new ActionGroundSlash(), new AnimationHerobrineGroundSlash()),
+	FIREBALL(7, new ActionFireball(), new AnimationFireballThrow());
+
+	public final Action attack;
+	public final Animation animation;
+	public final byte id;
+
+	private HerobrineAttack(int id, Action attack, Animation animation)
 	{
-	    this.id = attack;
+	    this.attack = attack;
 	    this.animation = animation;
-	    this.action = action;
+	    this.id = (byte) id;
 	}
     }
 }
