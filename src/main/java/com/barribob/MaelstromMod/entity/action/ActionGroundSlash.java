@@ -12,7 +12,7 @@ public class ActionGroundSlash extends Action
     public void performAction(EntityLeveledMob actor, EntityLivingBase target)
     {
 	float inaccuracy = 0.0f;
-	float speed = 0.7f;
+	float speed = 0.8f;
 	float pitch = 0; // Projectiles aim straight ahead always
 	ProjectileHerobrineQuake projectile = new ProjectileHerobrineQuake(actor.world, actor, actor.getAttack());
 	projectile.setPosition(actor.posX, actor.posY, actor.posZ);

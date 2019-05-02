@@ -24,7 +24,7 @@ public class ProjectileFireball extends ProjectileGun
 {
     private static final int PARTICLE_AMOUNT = 15;
     private static final int IMPACT_PARTICLE_AMOUNT = 10;
-    private static final int EXPOSION_AREA_FACTOR = 3;
+    private static final int EXPOSION_AREA_FACTOR = 4;
     public static final Vec3d FIREBALL_COLOR = new Vec3d(1.0, 0.6, 0.5);
 
     public ProjectileFireball(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)

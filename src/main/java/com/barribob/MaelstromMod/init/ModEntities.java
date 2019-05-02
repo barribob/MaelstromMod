@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
@@ -70,6 +71,7 @@ public class ModEntities
     public static final int REPEATER_ID = 211;
     public static final int FIREBALL_ID = 212;
     public static final int HEROBRINE_SLASH_ID = 213;
+    public static final int BLACK_FIREBALL_ID = 214;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -101,6 +103,7 @@ public class ModEntities
 	registerEntity("repeater", ProjectileRepeater.class, REPEATER_ID, 30);
 	registerEntity("fireball", ProjectileFireball.class, FIREBALL_ID, 30);
 	registerEntity("herbrine_slash", ProjectileHerobrineQuake.class, HEROBRINE_SLASH_ID, 30);
+	registerEntity("black_fireball", ProjectileBlackFireball.class, BLACK_FIREBALL_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

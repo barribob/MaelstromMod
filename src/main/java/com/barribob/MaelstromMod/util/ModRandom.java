@@ -3,6 +3,8 @@ package com.barribob.MaelstromMod.util;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.util.math.Vec3d;
+
 public class ModRandom
 {
     private static Random rand = new Random();
@@ -26,6 +28,14 @@ public class ModRandom
     public static int range(int min, int max)
     {
 	return min + rand.nextInt(max);
+    }
+    
+    /**
+     * Returns a vector where each value is a random float between -0.5 and 0.5
+     */
+    public static Vec3d randVec()
+    {
+	return new Vec3d(getFloat(1), getFloat(1), getFloat(1));
     }
     
     /**

@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import java.util.function.Supplier;
+
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.action.Action;
@@ -16,6 +18,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationSpinSlash;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -44,6 +47,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttackMob
 {
     private HerobrineAttack currentAttack;
+    private byte passiveParticleByte = 7;
 
     public EntityHerobrineOne(World worldIn)
     {
@@ -108,7 +112,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    }
 	    else
 	    {
-		this.currentAttack = rand.nextInt(2) == 0 ? HerobrineAttack.SPIN_SLASH : HerobrineAttack.THRUST;
+		this.currentAttack = HerobrineAttack.SPIN_SLASH;
 	    }
 
 	    this.world.setEntityState(this, (byte) this.currentAttack.id);
@@ -132,16 +136,17 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	{
 	    for (int i = 0; i < fireballParticles; i++)
 	    {
-		Vec3d pos = new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + this.getEyeHeight() + 1.0f, this.posZ + ModRandom.getFloat(0.5f));
-		ParticleManager.spawnEffect(world, pos, ProjectileFireball.FIREBALL_COLOR);
+		Vec3d pos = new Vec3d(ModRandom.getFloat(0.5f), this.getEyeHeight() + 1.0f, ModRandom.getFloat(0.5f)).add(ModUtils.entityPos(this));
+		ParticleManager.spawnDarkFlames(world, rand, pos);
 	    }
 	}
+
+	this.world.setEntityState(this, this.passiveParticleByte);
     }
 
     @Override
     protected void updateAttributes()
     {
-	this.setBaseAttack(7);
 	this.setBaseMaxHealth(100);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
@@ -153,15 +158,23 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id >= 4 && id <= 7)
+	if (id >= 4 && id <= 6)
 	{
 	    for (HerobrineAttack attack : HerobrineAttack.values())
 	    {
 		if (attack.id == id)
 		{
-		    currentAnimation = attack.animation;
+		    currentAnimation = attack.getAnimation.get();
 		    currentAnimation.startAnimation();
 		}
+	    }
+	}
+	else if (id == 7)
+	{
+	    int particleAmount = 1;
+	    for (int i = 0; i < particleAmount; i++)
+	    {
+		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(1.5f)).add(new Vec3d(0, 1, 0)));
 	    }
 	}
 	else
@@ -177,20 +190,19 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
      */
     private enum HerobrineAttack
     {
-	SPIN_SLASH(4, new ActionSpinSlash(), new AnimationSpinSlash()),
-	THRUST(5, new ActionThrust(), new AnimationBackflip()),
-	GROUND_SLASH(6, new ActionGroundSlash(), new AnimationHerobrineGroundSlash()),
-	FIREBALL(7, new ActionFireball(), new AnimationFireballThrow());
+	SPIN_SLASH(4, new ActionSpinSlash(), () -> new AnimationSpinSlash()), 
+	GROUND_SLASH(5, new ActionGroundSlash(), () -> new AnimationHerobrineGroundSlash()),
+	FIREBALL(6, new ActionFireball(), () -> new AnimationFireballThrow());
 
 	public final Action attack;
-	public final Animation animation;
 	public final byte id;
+	public final Supplier<Animation> getAnimation;
 
-	private HerobrineAttack(int id, Action attack, Animation animation)
+	private HerobrineAttack(int id, Action attack, Supplier<Animation> getAnimation)
 	{
 	    this.attack = attack;
-	    this.animation = animation;
 	    this.id = (byte) id;
+	    this.getAnimation = getAnimation;
 	}
     }
 }

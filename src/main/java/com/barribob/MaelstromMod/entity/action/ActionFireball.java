@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.action;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 
@@ -18,7 +19,7 @@ public class ActionFireball extends Action
 	float inaccuracy = 2.0f;
 	float velocity = 0.5f;
 
-	ProjectileFireball projectile = new ProjectileFireball(actor.world, actor, actor.getAttack(), null);
+	ProjectileBlackFireball projectile = new ProjectileBlackFireball(actor.world, actor, actor.getAttack());
 	double d0 = target.posY + (double) target.getEyeHeight() - 2;
 	double xDir = target.posX - actor.posX;
 	double yDir = d0 - projectile.posY;
