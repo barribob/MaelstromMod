@@ -18,9 +18,6 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -36,9 +33,6 @@ import net.minecraft.world.World;
  */
 public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob
 {
-    // Swinging arms is the animation for the attack
-    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityMaelstromMob.class, DataSerializers.BOOLEAN);
-
     public EntityMaelstromMob(World worldIn)
     {
 	super(worldIn);
@@ -68,7 +62,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     @Override
     protected void applyEntityAttributes()
     {
-        super.applyEntityAttributes();
+	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
     }
@@ -131,22 +125,6 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     protected boolean canDropLoot()
     {
 	return true;
-    }
-
-    protected void entityInit()
-    {
-	super.entityInit();
-	this.dataManager.register(SWINGING_ARMS, Boolean.valueOf(false));
-    }
-
-    public boolean isSwingingArms()
-    {
-	return ((Boolean) this.dataManager.get(SWINGING_ARMS)).booleanValue();
-    }
-
-    public void setSwingingArms(boolean swingingArms)
-    {
-	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
     }
 
     /**

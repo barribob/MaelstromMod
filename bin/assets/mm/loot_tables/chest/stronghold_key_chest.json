@@ -1,0 +1,37 @@
+{
+    "pools": [
+        {
+            "name": "stronghold_key_chest",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:beast_key"
+                }
+            ]
+        },
+        {
+            "name": "stronghold_key_chest",
+            "rolls": 2,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/maelstrom_level_loot",
+                    "weight": 4
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:book",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "treasure": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

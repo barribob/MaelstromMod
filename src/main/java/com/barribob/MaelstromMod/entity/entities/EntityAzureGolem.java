@@ -3,10 +3,11 @@ package com.barribob.MaelstromMod.entity.entities;
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.animation.AnimationAzureGolem;
+import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.util.AnimationTimer;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
@@ -32,19 +33,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackMob
-{
-    private AnimationTimer animation;
-    
-    // Animation frames for the pound attack
-    private static float[] armFramesDegrees = { 0, -15, -30, -45, -60, -75, -90, -90, -90, -90, -90, -105, -135, -165, -180, -180, -180, -180, -165, -150, -135, -120,
-	    -105, -90, -75, -60, -45 };
-    private static float[] backFramesDegrees = { 0, 10, 20, 30, 40, 50, 65, 65, 65, 65, 65, 55, 45, 30, 15, 0, -15, -15, -15, -15, -15, -15, -5, 0, 0, 0, 0 };
-
+{    
     public EntityAzureGolem(World worldIn)
     {
 	super(worldIn);
+	this.currentAnimation = new AnimationAzureGolem();
 	this.setLevel(2);
-	animation = new AnimationTimer(armFramesDegrees.length);
         this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
     }
     
@@ -73,7 +67,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityAzureGolem>(this, 1f, 60, armFramesDegrees.length - 12, 7.0f, 0.1f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityAzureGolem>(this, 1f, 60, 15, 7.0f, 0.1f));
 	this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.6D));
 	this.tasks.addTask(6, new EntityAILookIdle(this));
 	this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -137,27 +131,6 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	}
     }
 
-    public void onLivingUpdate()
-    {
-	super.onLivingUpdate();
-
-	animation.nextFrame();
-    }
-
-    @SideOnly(Side.CLIENT)
-    public float getWaistRotation()
-    {
-	float degree = animation.getFrame(backFramesDegrees);
-	return (float) Math.toRadians(degree);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public float getArmsRotation()
-    {
-	float degree = animation.getFrame(armFramesDegrees);
-	return (float) Math.toRadians(degree);
-    }
-
     @Override
     public void swingArm(EnumHand hand)
     {
@@ -181,7 +154,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     {
 	if (id == 4)
 	{
-	    animation.startAnimation();
+	    this.currentAnimation.startAnimation();
 	    this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
 	}
 	else

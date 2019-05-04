@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 /**
  * FloatingSkull - by Daniel Yoshimura Created using Tabula 7.0.0
  */
-public class ModelFloatingSkull extends ModelBase
+public class ModelFloatingSkull extends ModelAnimated
 {
     public ModelRenderer headBase;
     public ModelRenderer jaw;
@@ -154,12 +154,6 @@ public class ModelFloatingSkull extends ModelBase
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
 	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-
-	// The jaw rotation when opening its mouth to spit
-	if (entityIn instanceof EntityFloatingSkull)
-	{
-	    this.jaw.rotateAngleX = ((EntityFloatingSkull) entityIn).getJawRotation();
-	}
 	
 	// The up and down bobbing motion of the skull
 	this.headBase.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 10)) * 0.2f;

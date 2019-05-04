@@ -118,7 +118,12 @@ public class ParticleManager
      */
     public static void spawnDarkFlames(World worldIn, Random rand, Vec3d pos)
     {
-	Particle particle = new ParticleFlame.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
+	spawnDarkFlames(worldIn, rand, pos, Vec3d.ZERO);
+    }
+    
+    public static void spawnDarkFlames(World worldIn, Random rand, Vec3d pos, Vec3d vel)
+    {
+	Particle particle = new ParticleFlame.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
 	
 	float f = ModRandom.getFloat(0.2f);
 	particle.setRBGColorF(0.1f + f, 0, 0.1f + f);
@@ -135,9 +140,7 @@ public class ParticleManager
 
     public static void spawnFirework(World world, Vec3d pos, Vec3d color)
     {
-	Particle particle = new ParticleFirework.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);
-	particle.setRBGColorF((float)color.x, (float)color.y, (float)color.z);
-	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+	spawnFirework(world, pos, color, Vec3d.ZERO);
     }
     
     public static void spawnFirework(World world, Vec3d pos, Vec3d color, Vec3d vel)

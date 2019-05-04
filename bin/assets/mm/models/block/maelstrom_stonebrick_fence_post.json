@@ -1,0 +1,6 @@
+{
+    "parent": "block/fence_post",
+    "textures": {
+        "texture": "mm:blocks/maelstrom_stonebrick"
+    }
+}

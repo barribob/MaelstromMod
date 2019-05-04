@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "mm:plum_log" },
+        "axis=z":   { "model": "mm:plum_log", "x": 90 },
+        "axis=x":   { "model": "mm:plum_log", "x": 90, "y": 90 },
+        "axis=none": { "model": "mm:plum_bark" }
+    }
+}

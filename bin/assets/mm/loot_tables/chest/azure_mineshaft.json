@@ -1,0 +1,80 @@
+{
+    "pools": [
+        {
+            "name": "azure_mineshaft",
+            "rolls": {
+                "min": 2,
+                "max": 4
+            },
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/minecraft_ores",
+                    "weight": 3
+                },
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/iron_level_loot",
+                    "weight": 2
+                },
+                {
+                    "type": "loot_table",
+                    "name": "minecraft:chests/stronghold_corridor",
+                    "weight": 1
+                },
+                {
+                    "type": "loot_table",
+                    "name": "minecraft:chests/abandoned_mineshaft",
+                    "weight": 1
+                },
+                {
+                    "type": "loot_table",
+                    "name": "minecraft:chests/simple_dungeon",
+                    "weight": 1
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:book",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 5,
+                                "max": 20
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:iron_pellet",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 16,
+                                "max": 32
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:arrow",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 5,
+                                "max": 10
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

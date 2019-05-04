@@ -1,0 +1,6 @@
+{
+   "parent": "mm:item/gun",
+   "textures": {
+       "layer0": "mm:items/maelstrom_cannon"
+   }
+}

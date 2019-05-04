@@ -1,0 +1,6 @@
+{
+    "parent": "block/fence_inventory",
+    "textures": {
+        "texture": "mm:blocks/maelstrom_stonebrick"
+    }
+}

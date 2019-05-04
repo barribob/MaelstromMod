@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
@@ -66,11 +67,11 @@ public class WorldGenMaelstrom extends WorldGenerator
 	worldIn.setBlockState(pos.down(), this.malestromCore.getDefaultState(), 2);
         TileEntity tileentity = worldIn.getTileEntity(pos.down());
 
-        if (tileentity instanceof TileEntityMalestromSpawner)
+        if (tileentity instanceof TileEntityMobSpawner)
         {
             String[] entities = {"shade", "horror", "maelstrom_mage"};
             String entityName = ModRandom.choice(entities);
-            ((TileEntityMalestromSpawner)tileentity).getSpawnerBaseLogic().setEntityId(new ResourceLocation(Reference.MOD_ID + ":" + entityName));
+            ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 4);
         }
 	
 	return true;

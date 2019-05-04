@@ -1,0 +1,11 @@
+{
+    "parent": "block/grass",
+    "textures": {
+        "particle": "mm:blocks/azure_grass_top",
+        "bottom": "mm:blocks/dark_azure_stone",
+        "top": "mm:blocks/azure_grass_top",
+        "side": "mm:blocks/azure_grass_side",
+        "overlay": "mm:blocks/azure_grass_side"
+    }
+}
+

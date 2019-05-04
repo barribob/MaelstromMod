@@ -140,7 +140,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 	    if (this.attackTime <= 0)
 	    {
 		this.active = false;
-		this.entity.attackEntityWithRangedAttack(target, 0);
+		this.entity.attackEntityWithRangedAttack(target, (float) distance);
 		this.entity.setSwingingArms(false);
 	    }
 	    // Right before the attack, raise arms
