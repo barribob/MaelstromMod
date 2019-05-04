@@ -1,10 +1,11 @@
 # eclipse
-bin
 *.launch
 .settings
 .metadata
 .classpath
 .project
+*.class
+*.info
 
 # idea
 out
@@ -19,4 +20,8 @@ build
 
 # other
 eclipse
-run
+!run/
+run/*
+!run/saves/
+run/saves/*
+!run/saves/BUILDING_WORLD/

@@ -1,0 +1,6 @@
+{
+   "parent": "block/leaves",
+   "textures": {
+       "all": "mm:blocks/plum_filled_leaves"
+   }
+}

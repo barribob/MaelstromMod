@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "mm:blocks/azure_log_top",
+        "side": "mm:blocks/azure_log_side"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "pools": [
+        {
+            "name" : "maelstrom_illager",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:azure_key"
+                }
+            ]
+        }
+    ]
+}

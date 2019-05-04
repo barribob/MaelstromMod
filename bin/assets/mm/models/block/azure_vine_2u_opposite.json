@@ -1,0 +1,7 @@
+{
+    "parent": "block/vine_2u_opposite",
+    "textures": {
+        "particle": "mm:blocks/azure_vines",
+        "vine": "mm:blocks/azure_vines"
+    }
+}
