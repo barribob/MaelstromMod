@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.init.ModItems;
@@ -10,12 +9,11 @@ import com.barribob.MaelstromMod.util.TimedMessager;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -116,12 +114,18 @@ public class HerobrineBossController extends EntityLeveledMob
     {
 	return false;
     }
+    
+    @Override
+    public boolean canRenderOnFire()
+    {
+	return false;
+    }
 
     @Override
     public void onUpdate()
     {
 	super.onUpdate();
-
+	
 	this.messager.Update(world, messageToPlayers);
 
 	if (herobrine != null)

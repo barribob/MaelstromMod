@@ -42,7 +42,7 @@ public class DisappearingSpawnerLogic extends MobSpawnerLogic
      * Returns true if there's a player close enough to this mob spawner to activate
      * it.
      */
-    private boolean isActivated()
+    protected boolean isActivated()
     {
 	BlockPos blockpos = this.pos.get();
 	return isAnyPlayerWithinRangeAt(this.world.get(), (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D,

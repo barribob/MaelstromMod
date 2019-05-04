@@ -14,6 +14,6 @@ public class TileEntityHerobrineSpawner extends TileEntityMobSpawner implements 
     @Override
     protected MobSpawnerLogic getSpawnerLogic()
     {
-	return new MaelstromMobSpawnerLogic(() -> world, () -> pos, ModBlocks.NEXUS_HEROBRINE_SPAWNER);
+	return new HerobrineSpawnerLogic(() -> world, () -> pos, ModBlocks.NEXUS_HEROBRINE_SPAWNER);
     }
 }

@@ -27,6 +27,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
@@ -112,6 +113,7 @@ public class ModEntities
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
 	registerTileEntity(TileEntityMegaStructure.class, "mega_structure");
 	registerTileEntity(TileEntityTeleporter.class, "nexus_teleporter");
+	registerTileEntity(TileEntityHerobrineSpawner.class, "nexus_spawner");
     }
     
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)

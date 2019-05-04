@@ -79,9 +79,7 @@ public class NexusTeleporter extends Teleporter
 	{
 	    return false;
 	}
-	
-	System.out.println(portalPos);
-	
+		
 	this.destinationCoordinateCache.put(l, new Teleporter.PortalPosition(portalPos, this.world.getTotalWorldTime()));
 	
 	if (entityIn instanceof EntityPlayerMP)
