@@ -8,14 +8,13 @@ import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionFireball;
 import com.barribob.MaelstromMod.entity.action.ActionGroundSlash;
 import com.barribob.MaelstromMod.entity.action.ActionSpinSlash;
-import com.barribob.MaelstromMod.entity.action.ActionThrust;
+import com.barribob.MaelstromMod.entity.action.ActionTeleport;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.Animation;
-import com.barribob.MaelstromMod.entity.animation.AnimationBackflip;
 import com.barribob.MaelstromMod.entity.animation.AnimationFireballThrow;
 import com.barribob.MaelstromMod.entity.animation.AnimationHerobrineGroundSlash;
+import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.animation.AnimationSpinSlash;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -35,6 +34,8 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -48,11 +49,15 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 {
     private HerobrineAttack currentAttack;
     private byte passiveParticleByte = 7;
+    private int maxHits = 3;
+    private int hits = 5;
+
+    private boolean markedToDespawn = false;
 
     public EntityHerobrineOne(World worldIn)
     {
 	super(worldIn);
-	currentAnimation = new AnimationBackflip();
+	currentAnimation = new AnimationNone();
     }
 
     protected void initEntityAI()
@@ -66,6 +71,45 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	this.tasks.addTask(6, new EntityAILookIdle(this));
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
 	this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+    }
+
+    @Override
+    protected void updateAttributes()
+    {
+	this.setBaseMaxHealth(20);
+	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
+	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount)
+    {
+	if (hits == 0)
+	{
+	    hits = maxHits;
+	    return super.attackEntityFrom(source, amount);
+	}
+	else if (source.getTrueSource() instanceof EntityLivingBase)
+	{
+	    new ActionTeleport().performAction(this, (EntityLivingBase) source.getTrueSource());
+	    hits--;
+	}
+
+	return false;
+    }
+
+    @Override
+    public void onDeath(DamageSource cause)
+    {
+	int particleAmount = 100;
+	for (int i = 0; i < particleAmount; i++)
+	{
+	    ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(2f)).add(new Vec3d(0, 1, 0)),
+		    ModRandom.randVec().scale(0.5f));
+	}
+
+	this.setPosition(0, 0, 0);
+	super.onDeath(cause);
     }
 
     @Override
@@ -130,6 +174,11 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     {
 	super.onUpdate();
 
+	if (this.markedToDespawn)
+	{
+	    this.setDead();
+	}
+
 	int fireballParticles = 5;
 
 	if (!this.world.isRemote && this.isSwingingArms() && this.currentAttack == HerobrineAttack.FIREBALL)
@@ -142,14 +191,6 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	}
 
 	this.world.setEntityState(this, this.passiveParticleByte);
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(100);
-	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
     }
 
     /**
@@ -171,8 +212,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	}
 	else if (id == 7)
 	{
-	    int particleAmount = 1;
-	    for (int i = 0; i < particleAmount; i++)
+	    if (rand.nextInt(2) == 0)
 	    {
 		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(1.5f)).add(new Vec3d(0, 1, 0)));
 	    }
@@ -183,6 +223,25 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	}
     }
 
+    @Override
+    protected boolean canDespawn()
+    {
+	return false;
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+	this.markedToDespawn = true;
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound)
+    {
+	// TODO Auto-generated method stub
+	return super.writeToNBT(compound);
+    }
+
     /*
      * Represents the different attacks that herobrine can have
      * 
@@ -190,9 +249,8 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
      */
     private enum HerobrineAttack
     {
-	SPIN_SLASH(4, new ActionSpinSlash(), () -> new AnimationSpinSlash()), 
-	GROUND_SLASH(5, new ActionGroundSlash(), () -> new AnimationHerobrineGroundSlash()),
-	FIREBALL(6, new ActionFireball(), () -> new AnimationFireballThrow());
+	SPIN_SLASH(4, new ActionSpinSlash(), () -> new AnimationSpinSlash()), GROUND_SLASH(5, new ActionGroundSlash(), () -> new AnimationHerobrineGroundSlash()), FIREBALL(6,
+		new ActionFireball(), () -> new AnimationFireballThrow());
 
 	public final Action attack;
 	public final byte id;

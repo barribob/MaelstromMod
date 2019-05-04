@@ -39,6 +39,14 @@ public class ModRandom
     }
     
     /**
+     * Produces 1 or -1 with equal probablity
+     */
+    public static int randSign()
+    {
+	return rand.nextInt(2) == 0 ? 1 : -1;
+    }
+    
+    /**
      * Choose a random element in the array
      * @param array
      * @return

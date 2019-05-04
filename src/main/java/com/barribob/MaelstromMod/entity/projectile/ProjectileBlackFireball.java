@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -56,14 +57,23 @@ public class ProjectileBlackFireball extends Projectile
     @Override
     protected void spawnImpactParticles()
     {
+	float size = (float) (EXPOSION_AREA_FACTOR * this.getEntityBoundingBox().grow(EXPOSION_AREA_FACTOR).getAverageEdgeLength() * 0.5f);
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{
-	    float size = (float) (EXPOSION_AREA_FACTOR * this.getEntityBoundingBox().grow(EXPOSION_AREA_FACTOR).getAverageEdgeLength() * 0.5f);
-	    Vec3d offset = ModRandom.randVec().scale(size);
-	    if (offset.lengthSquared() < Math.pow(size, 2))
+	    Vec3d pos = ModUtils.entityPos(this).add(ModRandom.randVec().scale(size));
+	    if (rand.nextInt(2) == 0)
 	    {
-		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(offset));
+		ParticleManager.spawnDarkFlames(this.world, rand, pos, ModRandom.randVec().scale(0.5f));
 	    }
+	    else
+	    {
+		this.world.spawnParticle(EnumParticleTypes.FLAME, pos.x, pos.y, pos.z, ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f));
+	    }
+	}
+	for (int i = 0; i < 10; i++)
+	{
+	    Vec3d pos = ModUtils.entityPos(this).add(ModRandom.randVec().scale(size));
+	    this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.x, pos.y, pos.z, ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f));
 	}
     }
 

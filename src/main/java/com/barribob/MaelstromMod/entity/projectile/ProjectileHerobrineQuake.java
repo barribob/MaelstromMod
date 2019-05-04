@@ -22,6 +22,7 @@ public class ProjectileHerobrineQuake extends ProjectileQuake
     public ProjectileHerobrineQuake(World worldIn, EntityLivingBase throwerIn, float baseDamage)
     {
 	super(worldIn, throwerIn, baseDamage, null);
+	this.setSize(0.25f, 1);
     }
 
     public ProjectileHerobrineQuake(World worldIn)
@@ -48,7 +49,7 @@ public class ProjectileHerobrineQuake extends ProjectileQuake
 	    Vec3d vel = new Vec3d(0, 0.1, 0);
 	    for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	    {
-		float height = 1 + ModRandom.getFloat(1);
+		float height = 2 + ModRandom.getFloat(1);
 		for (float y = 0; y < height; y += 0.2f)
 		{
 		    Vec3d pos = ModUtils.entityPos(this).add(new Vec3d(this.motionX * ModRandom.getFloat(0.5f), y, this.motionZ * ModRandom.getFloat(0.5f)));
