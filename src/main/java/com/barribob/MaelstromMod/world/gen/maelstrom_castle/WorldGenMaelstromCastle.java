@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_castle;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
@@ -61,9 +61,9 @@ public class WorldGenMaelstromCastle extends WorldGenStructure
 	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 
-	    if (tileentity instanceof TileEntityDisappearingSpawner)
+	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":shade"), 1);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":shade"), 1);
 	    }
 
 	}

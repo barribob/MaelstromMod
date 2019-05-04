@@ -17,7 +17,7 @@ public class ActionGroundSlash extends Action
 	ProjectileHerobrineQuake projectile = new ProjectileHerobrineQuake(actor.world, actor, actor.getAttack());
 	projectile.setPosition(actor.posX, actor.posY, actor.posZ);
 	projectile.shoot(actor, pitch, actor.rotationYaw, 0.0F, speed, inaccuracy);
-	projectile.setTravelRange(15f);
+	projectile.setTravelRange(20f);
 	actor.world.spawnEntity(projectile);
     }
 }

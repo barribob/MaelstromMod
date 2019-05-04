@@ -1,19 +1,14 @@
 package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 
-import java.util.List;
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
-import com.barribob.MaelstromMod.entity.entities.EntityBeast;
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 
-import net.minecraft.entity.item.EntityMinecartEmpty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +16,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
 /**
@@ -80,11 +74,11 @@ public class StrongholdTemplate extends ModStructureTemplate
 	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 
-	    if (tileentity instanceof TileEntityDisappearingSpawner)
+	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
 		String[] entities = { "shade", "horror", "floating_skull" };
 		String entityName = ModRandom.choice(entities);
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(1, 4));
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(1, 4));
 	    }
 	}
 	else if (function.startsWith("boss"))
@@ -92,9 +86,9 @@ public class StrongholdTemplate extends ModStructureTemplate
 	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 
-	    if (tileentity instanceof TileEntityDisappearingSpawner)
+	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityDisappearingSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":beast"), 1);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":beast"), 1);
 	    }
 	}
     }

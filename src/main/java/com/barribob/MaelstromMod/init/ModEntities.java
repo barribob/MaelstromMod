@@ -89,7 +89,7 @@ public class ModEntities
 	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
 	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 70, azure);
 	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
-	registerEntity("herobrine_1", EntityHerobrineOne.class, HEROBRINE_1_ID, 50, maelstrom);
+	registerEntity("herobrine_1", EntityHerobrineOne.class, HEROBRINE_1_ID, 50);
 	registerEntity("herobrine_controller", HerobrineBossController.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
 	
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
