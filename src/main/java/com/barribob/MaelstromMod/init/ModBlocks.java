@@ -117,7 +117,7 @@ public class ModBlocks
 	// Nexus
 	public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, 5, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.BROWN_KEY).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockBase("azure_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block BROWN_KEY_BLOCK = new BlockBase("brown_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block RED_DUNGEON_KEY_BLOCK = new BlockBase("red_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);

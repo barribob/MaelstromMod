@@ -116,7 +116,6 @@ public class ProjectilePumpkin extends ProjectileGun
 		    }
 		    
 		    float damage = (float) (this.getDistanceTraveled() * this.getGunDamage((EntityLivingBase) entity));
-		    System.out.println(this.getDistanceTraveled() + " " + damage);
 
 		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), damage);
 

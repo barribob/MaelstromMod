@@ -72,7 +72,8 @@ public class ModItems
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
-    public static final Item BROWN_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
+    public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
+    public static final Item BROWN_KEY = new ItemAzureKey("brown_key", ModCreativeTabs.ALL);
     public static final Item BEASTS_KEY = new ItemAzureKey("beast_key", ModCreativeTabs.ALL);
 
     private static final int COMMON_USE_TIME = 6000;

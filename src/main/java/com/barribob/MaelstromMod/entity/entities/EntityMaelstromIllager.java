@@ -36,6 +36,9 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     private int[] easy_minion_spawning = { 2 };
     private int[] hard_minion_spawning = { 1, 3, 1, 3 };
     private int counter;
+    
+    // For rendering purposes
+    private boolean blockedBlow;
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -57,6 +60,11 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	super.initEntityAI();
 	rangedAttackAI = new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 360, 60, 15.0f, 0.5f);
 	this.tasks.addTask(4, rangedAttackAI);
+    }
+    
+    public boolean blockedBlow()
+    {
+	return this.blockedBlow;
     }
 
     protected SoundEvent getAmbientSound()
@@ -95,6 +103,8 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	{
 	    amount = 0;
 	}
+	
+	this.blockedBlow = !this.isSwingingArms();
 
 	float prevHealth = this.getHealth();
 	boolean flag = super.attackEntityFrom(source, amount);

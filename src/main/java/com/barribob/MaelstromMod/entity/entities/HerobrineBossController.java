@@ -60,7 +60,7 @@ public class HerobrineBossController extends EntityLeveledMob
     };
 
     private Consumer<String> dropKey = (s) -> {
-	this.dropItem(ModItems.BROWN_KEY, 1);
+	this.dropItem(ModItems.AZURE_KEY, 1);
 	world.setEntityState(this, this.particles);
 	this.setDead();
     };
