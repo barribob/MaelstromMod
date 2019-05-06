@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.entity.EntityCreature;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -25,20 +27,40 @@ public abstract class EntityLeveledMob extends EntityCreature
     private float level;
     protected Animation currentAnimation;
 
+    protected boolean isImmovable = false;
+    private Vec3d initialPosition = null;
+
     public EntityLeveledMob(World worldIn)
     {
 	super(worldIn);
 	this.setLevel(1);
 	this.currentAnimation = new AnimationNone();
     }
-    
+
     @Override
     public void onLivingUpdate()
     {
-        super.onLivingUpdate();
-        currentAnimation.update();
+	super.onLivingUpdate();
+	currentAnimation.update();
     }
-    
+
+    // Hold the entity in the same position
+    public void setPosition(double x, double y, double z)
+    {
+	super.setPosition(x, y, z);
+	if (this.isImmovable)
+	{
+	    if (this.initialPosition == null)
+	    {
+		this.initialPosition = ModUtils.entityPos(this);
+	    }
+	    else
+	    {
+		super.setPosition(initialPosition.x, initialPosition.y, initialPosition.z);
+	    }
+	}
+    }
+
     public Animation getCurrentAnimation()
     {
 	return this.currentAnimation;
@@ -79,6 +101,13 @@ public abstract class EntityLeveledMob extends EntityCreature
     public void writeEntityToNBT(NBTTagCompound compound)
     {
 	compound.setFloat("level", level);
+	compound.setBoolean("isImmovable", this.isImmovable);
+	if(initialPosition != null)
+	{
+	    compound.setDouble("initialX", initialPosition.x);
+	    compound.setDouble("initialY", initialPosition.y);
+	    compound.setDouble("initialZ", initialPosition.z);
+	}
 	super.writeEntityToNBT(compound);
     }
 
@@ -89,9 +118,17 @@ public abstract class EntityLeveledMob extends EntityCreature
 	{
 	    this.setLevel(compound.getFloat("level"));
 	}
+	if(compound.hasKey("isImmovable"))
+	{
+	    this.isImmovable = compound.getBoolean("isImmovable");
+	}
+	if(compound.hasKey("initialX"))
+	{
+	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
+	}
 	super.readEntityFromNBT(compound);
     }
-    
+
     protected void entityInit()
     {
 	super.entityInit();

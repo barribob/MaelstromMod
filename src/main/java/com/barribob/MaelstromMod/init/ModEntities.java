@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
+import com.barribob.MaelstromMod.entity.entities.npc.NexusGunTrader;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
@@ -59,6 +60,7 @@ public class ModEntities
     public static final int FLOATING_SKULL_ID = 108;
     public static final int HEROBRINE_1_ID = 109;
     public static final int HEROBRINE_CONTROLLLER = 110;
+    public static final int NEXUS_GUNSMITH = 111;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -78,7 +80,8 @@ public class ModEntities
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
-
+    public static Vec3i nexus = new Vec3i(15724287, 12501453, 0);
+    
     public static void registerEntities()
     {
 	registerEntity("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
@@ -92,6 +95,7 @@ public class ModEntities
 	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
 	registerEntity("herobrine_1", EntityHerobrineOne.class, HEROBRINE_1_ID, 50);
 	registerEntity("herobrine_controller", HerobrineBossController.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
+	registerEntity("nexus_gunsmith", NexusGunTrader.class, NEXUS_GUNSMITH, 50, nexus);
 	
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);

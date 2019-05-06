@@ -41,7 +41,6 @@ public class HerobrineBossController extends EntityLeveledMob
     private TimedMessager messager;
     private EntityHerobrineOne herobrine;
     private byte particles = 7;
-    private Vec3d initialPosition = Vec3d.ZERO;
     private String uuidSave = "herobrine";
 
     /**
@@ -87,20 +86,7 @@ public class HerobrineBossController extends EntityLeveledMob
 	super(worldIn);
 	this.messager = new TimedMessager(INTRO_MESSAGES, INTRO_MESSAGE_TIMES, this.spawnHerobrine);
 	this.setSize(0.5f, 1.0f);
-    }
-
-    // Hold the entity in the same position
-    public void setPosition(double x, double y, double z)
-    {
-	super.setPosition(x, y, z);
-	if (this.initialPosition == Vec3d.ZERO)
-	{
-	    this.initialPosition = ModUtils.entityPos(this);
-	}
-	else if (this.initialPosition != null)
-	{
-	    super.setPosition(initialPosition.x, initialPosition.y, initialPosition.z);
-	}
+	this.isImmovable = true;
     }
     
     @Override
@@ -125,7 +111,7 @@ public class HerobrineBossController extends EntityLeveledMob
     public void onUpdate()
     {
 	super.onUpdate();
-	
+		
 	this.messager.Update(world, messageToPlayers);
 
 	if (herobrine != null)

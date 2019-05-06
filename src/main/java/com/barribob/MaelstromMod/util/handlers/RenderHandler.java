@@ -11,10 +11,12 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
+import com.barribob.MaelstromMod.entity.entities.npc.NexusGunTrader;
 import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelFloatingSkull;
+import com.barribob.MaelstromMod.entity.model.ModelGunTrader;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
@@ -35,7 +37,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -55,7 +56,8 @@ public class RenderHandler
 		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
 	registerModBipedRenderer(HerobrineBossController.class, new ModelAnimatedBiped(),
 		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
-	
+	registerModEntityRenderer(NexusGunTrader.class, new ModelGunTrader(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/gun_trader.png"));
+
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
 	registerProjectileRenderer(EntityPortalSpawn.class, ModItems.INVISIBLE);

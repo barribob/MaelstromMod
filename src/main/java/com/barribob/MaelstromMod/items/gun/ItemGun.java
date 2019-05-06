@@ -216,7 +216,7 @@ public abstract class ItemGun extends ItemBase
     {
 	// Add the fire and smoke effects when the gun goes off
 	Vec3d flameOffset = playerIn.getLookVec().scale(0.5f);
-
+	
 	if (handIn == EnumHand.MAIN_HAND)
 	{
 	    flameOffset = flameOffset.rotateYaw((float) Math.PI * -0.5f);
