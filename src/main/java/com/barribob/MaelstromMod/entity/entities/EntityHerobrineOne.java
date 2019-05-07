@@ -92,6 +92,8 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	else if (source.getTrueSource() instanceof EntityLivingBase)
 	{
 	    new ActionTeleport().performAction(this, (EntityLivingBase) source.getTrueSource());
+            this.setRevengeTarget((EntityLivingBase)source.getTrueSource());
+
 	    hits--;
 	}
 

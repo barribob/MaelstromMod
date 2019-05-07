@@ -40,6 +40,14 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
     {
 	super(worldIn);
     }
+    
+    /**
+     * Determines if an entity can be despawned, used on idle far away entities
+     */
+    protected boolean canDespawn()
+    {
+        return false;
+    }
 
     /**
      * Generate the buying list for the villager (the trades and items)
@@ -228,24 +236,4 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
      * The name displayed when the trading gui is up
      */
     protected abstract String getVillagerName();
-
-    public void writeEntityToNBT(NBTTagCompound compound)
-    {
-	super.writeEntityToNBT(compound);
-
-	if (this.buyingList != null)
-	{
-	    compound.setTag("Offers", this.buyingList.getRecipiesAsTags());
-	}
-    }
-
-    public void readEntityFromNBT(NBTTagCompound compound)
-    {
-	super.readEntityFromNBT(compound);
-	if (compound.hasKey("Offers", 10))
-	{
-	    NBTTagCompound nbttagcompound = compound.getCompoundTag("Offers");
-	    this.buyingList = new MerchantRecipeList(nbttagcompound);
-	}
-    }
 }

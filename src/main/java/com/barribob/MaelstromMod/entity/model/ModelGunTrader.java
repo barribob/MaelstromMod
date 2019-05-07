@@ -10,7 +10,7 @@ import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * ModelVillager(Edited) - Either Mojang and Daniel
+ * Author: Daniel Yoshimura
  * Created using Tabula 7.0.0
  */
 public class ModelGunTrader extends ModelBase {

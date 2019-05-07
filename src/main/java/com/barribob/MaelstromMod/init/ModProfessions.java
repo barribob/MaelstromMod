@@ -23,6 +23,7 @@ public class ModProfessions
 
     public static VillagerCareer AZURE_WEAPONSMITH;
     public static VillagerCareer NEXUS_GUNSMITH;
+    public static VillagerCareer NEXUS_MAGE;
 
     public static void associateCareersAndTrades()
     {
@@ -43,6 +44,11 @@ public class ModProfessions
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.Flintlock());
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.Repeater());
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.Rifle());
+	
+	NEXUS_MAGE = new VillagerCareer(NEXUS_VILLAGER, "nexus_mage");
+	NEXUS_MAGE.addTrade(1, new NexusTrades.LeapStaff());
+	NEXUS_MAGE.addTrade(1, new NexusTrades.SpeedStaff());
+	NEXUS_MAGE.addTrade(1, new NexusTrades.FireballStaff());
     }
 
 }

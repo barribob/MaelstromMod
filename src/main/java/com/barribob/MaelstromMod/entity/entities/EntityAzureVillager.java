@@ -141,14 +141,6 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     {
         return SoundEvents.ENTITY_VILLAGER_DEATH;
     }
-    
-    /**
-     * Determines if an entity can be despawned, used on idle far away entities
-     */
-    protected boolean canDespawn()
-    {
-        return false;
-    }
 
     @SideOnly(Side.CLIENT)
     protected boolean isAggressive(int mask)
@@ -296,5 +288,25 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     protected String getVillagerName()
     {
         return "Azure Villager";
+    }
+    
+    public void writeEntityToNBT(NBTTagCompound compound)
+    {
+	super.writeEntityToNBT(compound);
+
+	if (this.buyingList != null)
+	{
+	    compound.setTag("Offers", this.buyingList.getRecipiesAsTags());
+	}
+    }
+
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+	super.readEntityFromNBT(compound);
+	if (compound.hasKey("Offers", 10))
+	{
+	    NBTTagCompound nbttagcompound = compound.getCompoundTag("Offers");
+	    this.buyingList = new MerchantRecipeList(nbttagcompound);
+	}
     }
 }
