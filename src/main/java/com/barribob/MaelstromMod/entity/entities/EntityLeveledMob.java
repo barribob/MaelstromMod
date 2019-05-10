@@ -42,6 +42,11 @@ public abstract class EntityLeveledMob extends EntityCreature
     {
 	super.onLivingUpdate();
 	currentAnimation.update();
+	
+	if(this.isImmovable && this.initialPosition != null)
+	{
+	    this.setPosition(initialPosition.x, initialPosition.y, initialPosition.z);
+	}
     }
 
     // Hold the entity in the same position
@@ -112,7 +117,7 @@ public abstract class EntityLeveledMob extends EntityCreature
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound)
+    public void readFromNBT(NBTTagCompound compound)
     {
 	if (compound.hasKey("level"))
 	{
@@ -126,7 +131,7 @@ public abstract class EntityLeveledMob extends EntityCreature
 	{
 	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
 	}
-	super.readEntityFromNBT(compound);
+	super.readFromNBT(compound);
     }
 
     protected void entityInit()
