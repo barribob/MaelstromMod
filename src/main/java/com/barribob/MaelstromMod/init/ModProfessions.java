@@ -47,24 +47,29 @@ public class ModProfessions
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.Flintlock());
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.Repeater());
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.Rifle());
-	
+	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.MoreComing());
+
 	NEXUS_MAGE = new VillagerCareer(NEXUS_VILLAGER, "nexus_mage");
 	NEXUS_MAGE.addTrade(1, new NexusTrades.LeapStaff());
 	NEXUS_MAGE.addTrade(1, new NexusTrades.SpeedStaff());
 	NEXUS_MAGE.addTrade(1, new NexusTrades.FireballStaff());
+	NEXUS_MAGE.addTrade(1, new NexusTrades.MoreComing());
 	
 	NEXUS_ARMORER = new VillagerCareer(NEXUS_VILLAGER, "nexus_armorer");
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.StrawHat());
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.SpeedBoots());
+	NEXUS_ARMORER.addTrade(1, new NexusTrades.MoreComing());
 	
 	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.Elucidator());
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.Pumpkin());
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.DragonSlayer());
+	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.MoreComing());
 	
 	NEXUS_BLADESMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_bladesmith");
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.FrostSword());
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.VenomDagger());
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.NexusBattleaxe());
+	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.MoreComing());
     }
 }

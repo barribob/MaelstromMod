@@ -87,6 +87,7 @@ public class HerobrineBossController extends EntityLeveledMob
 	this.messager = new TimedMessager(INTRO_MESSAGES, INTRO_MESSAGE_TIMES, this.spawnHerobrine);
 	this.setSize(0.5f, 1.0f);
 	this.isImmovable = true;
+	this.setNoGravity(true);
     }
     
     @Override

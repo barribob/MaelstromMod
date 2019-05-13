@@ -180,4 +180,15 @@ public class NexusTrades
 	    recipeList.add(new MerchantRecipe(base, cost, reward));
 	}
     }
+    
+    public static class MoreComing implements ITradeList
+    {
+	private ItemStack base = new ItemStack(Item.getItemFromBlock(Blocks.BEDROCK), 1).setStackDisplayName("More Items Coming Soon!");
+	
+	@Override
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+	{
+	    recipeList.add(new MerchantRecipe(base, base));
+	}
+    }
 }

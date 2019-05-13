@@ -17,6 +17,7 @@ public class NexusBladesmith extends EntityTrader
     {
 	super(worldIn);
 	this.isImmovable = true;
+	this.setNoGravity(true);
     }
 
     @Override

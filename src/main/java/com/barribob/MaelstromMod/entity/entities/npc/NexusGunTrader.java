@@ -22,6 +22,7 @@ public class NexusGunTrader extends EntityTrader
     {
 	super(worldIn);
 	this.isImmovable = true;
+	this.setNoGravity(true);
     }
 
     @Override
