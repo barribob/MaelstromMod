@@ -6,6 +6,7 @@ item.azure_maelstrom_core_crystal.name=Maelstrom Core
 item.azure_key.name=Fracture Dimensional Key
 item.beast_key.name=Fracture Stronghold Key
 item.invisible.name=Invisible
+item.brown_key.name=Brown Dimensional Key
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -23,14 +24,26 @@ item.musket.name=Musket
 item.maelstrom_cannon.name=Maelstrom Cannon
 item.will-o-the-wisp_staff.name=Will-O-The-Wisp Staff
 item.quake_staff.name=Quake Staff
+item.pumpkin.name=Roman Artillery: Pumpkin
+item.flintlock_pistol.name=Flintlock Pistol
+item.repeater.name=Repeater Gun
+item.rifle.name=Rifle
+item.leap_staff.name=Staff of Leaping
+item.speed_staff.name=Staff of Speed
+item.fireball_staff.name=Fireball Staff
 
 //———————————————————————————————————————————————————————————
-// Tools
+// Weapons
 //———————————————————————————————————————————————————————————
 item.beast_blade.name=Beast Blade
 item.sword_of_shades.name=Shadow Longsword
 item.shadow_dagger.name=Shadow Dagger
 item.maelstrom_battleaxe.name=Maelstrom Battleaxe
+item.elucidator.name=Elucidator
+item.dragon_slayer.name=Dragon Slayer
+item.frost_sword.name=Frost Sword
+item.nexus_battleaxe.name=Nexus Battleaxe
+item.venom_dagger.name=Venom Dagger
 
 //———————————————————————————————————————————————————————————
 // Armor
@@ -39,6 +52,8 @@ item.maelstrom_helmet.name=Maelstrom Helmet
 item.maelstrom_chestplate.name=Maelstrom Chesplate
 item.maelstrom_leggings.name=Maelstrom Leggings
 item.maelstrom_boots.name=Maelstrom Boots
+item.straw_hat.name=Straw Hat
+item.speed_boots.name=Speed Boots
 
 //———————————————————————————————————————————————————————————
 // Blocks
@@ -63,6 +78,9 @@ tile.ruby_orchid.name=Ruby Orchid
 tile.double_browned_grass.name=Tall Browned Grass
 tile.azure_planks.name=Planks
 tile.azure_fence.name=Fence
+tile.azure_sapling.name=Fracture Sapling
+tile.plum_sapling.name=Plum Sapling
+tile.large_plum_sapling.name=Large Plum Sapling
 
 //———————————————————————————————————————————————————————————
 // Maelstrom
@@ -106,6 +124,21 @@ tile.azure_stonebrick_carved_3.name=Carved Fracture Stonebrick
 tile.azure_stonebrick_lit.name=Fracture Stonebrick Lamp
 
 //———————————————————————————————————————————————————————————
+// Nexus
+//———————————————————————————————————————————————————————————
+tile.nexus_teleporter.name=Nexus Teleporter
+tile.cracked_quartz.name=Cracked Quartz
+tile.azure_key_block.name=Fracture Key Block
+tile.azure_dungeon_key_block.name=Fracture Dungeon Key Block
+tile.brown_key_block.name=Brown Key Block
+tile.red_dungeon_key_block.name=Red Key Block
+tile.ice_key_block.name=Blue Key Block
+tile.ice_dungeon_key_block.name=Blue Dungeon Key Block
+tile.black_dungeon_key_block.name=Black Dungeon Key Block
+tile.nexus_herobrine_spawner.name=Mysterous Block
+tile.nexus_portal.name=Nexus Portal
+
+//———————————————————————————————————————————————————————————
 // Util
 //———————————————————————————————————————————————————————————
 tile.mega_structure_block.name=Mega Structure Block
@@ -123,6 +156,13 @@ entity.azure_villager.name=Villager
 entity.maelstrom_mage.name=Maelstrom Mage
 entity.azure_golem.name=Fracture Golem
 entity.floating_skull.name=Floating Skull
+entity.herobrine_1.name=Herobrine
+entity.herobrine_controller.name=Herobrine
+entity.nexus_gunsmith.name=Nexus Gunsmith
+entity.nexus_mage.name=Nexus Mage
+entity.nexus_armorer.name=Nexus Armorer
+entity.nexus_saiyan.name=Nexus Saiyan
+entity.nexus_bladesmith.name=Nexus Bladesmith
 
 //———————————————————————————————————————————————————————————
 // Projectiles
@@ -136,6 +176,12 @@ entity.maelstrom_cannon.name=Cannon Projectile
 entity.will-o-the-wisp.name=Will-O-The-Wisp
 entity.quake.name=Quake Projectile
 entity.skull_attack.name=Skull Attack
+entity.azure_portal_spawn.name=Azure Portal
+entity.pumpkin.name=Energy Shot
+entity.repeater.name=Redstone
+entity.fireball.name=Fireball
+entity.herobrine_slash.name=Black Slash
+entity.black_fireball=Black Fireball
 
 //———————————————————————————————————————————————————————————
 // Damage Sources
@@ -169,3 +215,9 @@ enchantment.maelstrom_protection=Maelstrom Protection
 //———————————————————————————————————————————————————————————
 multiplayer.entering=Now Entering:
 multiplayer.azure_dimension=The Fracture
+multiplayer.nexus_dimension=The Nexus
+
+//———————————————————————————————————————————————————————————
+// Creative Tabs
+//———————————————————————————————————————————————————————————
+itemGroup.all=Maelstrom Mod

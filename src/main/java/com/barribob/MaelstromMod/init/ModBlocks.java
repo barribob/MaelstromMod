@@ -62,12 +62,12 @@ public class ModBlocks
 	public static final Block AZURE_GRASS = new BlockAzureGrass("azure_grass", Material.GRASS, 0.7f, 1, SoundType.GROUND).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_LOG = new BlockLogBase("azure_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_LEAVES = new BlockAzureLeaves("azure_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenAzureTree(true));
+	public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenAzureTree(true)).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block PLUM_LOG = new BlockLogBase("plum_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block PLUM_LEAVES = new BlockPlumLeaves("plum_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block PLUM_FILLED_LEAVES = new BlockPlumFilledLeaves("plum_filled_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenPlumTree(true, true));
-	public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenBigPlumTree(true));
+	public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenPlumTree(true, true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenBigPlumTree(true)).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_VINES_BLOCK = new BlockAzureVinesBlock("azure_vines_block", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_VINES = new BlockAzureVines("azure_vines", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block BROWNED_GRASS = new BlockAzureTallGrass("browned_grass", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
@@ -115,7 +115,7 @@ public class ModBlocks
 	public static final Block DISAPPEARING_SPAWNER = new BlockDisappearingSpawner("disappearing_spawner", Material.ROCK);
 	
 	// Nexus
-	public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f);
 	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, 5, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockBase("azure_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
@@ -124,6 +124,6 @@ public class ModBlocks
 	public static final Block ICE_KEY_BLOCK = new BlockBase("ice_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockBase("ice_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockBase("black_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block NEXUS_HEROBRINE_SPAWNER = new BlockNexusHerobrineSpawner("nexus_herobrine_spawner").setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block NEXUS_HEROBRINE_SPAWNER = new BlockNexusHerobrineSpawner("nexus_herobrine_spawner");
 	public static final Block NEXUS_PORTAL = new BlockNexusPortal("nexus_portal").setCreativeTab(ModCreativeTabs.ALL);
 }

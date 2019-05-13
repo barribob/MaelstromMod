@@ -17,10 +17,4 @@ public class MaelstromCreativeTab extends CreativeTabs
     {
 	return new ItemStack(ModItems.AZURE_KEY);
     }
-    
-    @Override
-    public String getTranslatedTabLabel()
-    {
-        return "Maelstrom Mod";
-    }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.items.ItemAzureKey;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
+import com.barribob.MaelstromMod.items.ItemTBDKey;
 import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.armor.model.ModelStrawHat;
@@ -73,8 +74,8 @@ public class ModItems
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
     public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
-    public static final Item BROWN_KEY = new ItemAzureKey("brown_key", ModCreativeTabs.ALL);
-    public static final Item BEASTS_KEY = new ItemAzureKey("beast_key", ModCreativeTabs.ALL);
+    public static final Item BROWN_KEY = new ItemTBDKey("brown_key", ModCreativeTabs.ALL);
+    public static final Item BEASTS_KEY = new ItemTBDKey("beast_key", ModCreativeTabs.ALL);
 
     private static final int COMMON_USE_TIME = 6000;
     private static final int RARE_USE_TIME = 12000;

@@ -20,7 +20,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiModDownloadTerrain extends GuiDownloadTerrain
 {
-    public static final ResourceLocation AZURE_BACKGROUND = new ResourceLocation(Reference.MOD_ID + ":textures/gui/dark_azure_stone.png");
+    private ResourceLocation background = new ResourceLocation(Reference.MOD_ID + ":textures/gui/dark_azure_stone.png");
+    private String dimension;
+    public GuiModDownloadTerrain(ResourceLocation backgroundTile, String dimension)
+    {
+	this.background = backgroundTile;
+	this.dimension = dimension;
+    }
     
     /**
      * Draws the background (i is always 0 as of 1.2.2)
@@ -31,7 +37,7 @@ public class GuiModDownloadTerrain extends GuiDownloadTerrain
         GlStateManager.disableFog();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        this.mc.getTextureManager().bindTexture(AZURE_BACKGROUND);
+        this.mc.getTextureManager().bindTexture(background);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         float f = 32.0F;
         float color = 0.6f;
@@ -51,6 +57,6 @@ public class GuiModDownloadTerrain extends GuiDownloadTerrain
     {
         this.drawBackground(0);
         this.drawCenteredString(this.fontRenderer, I18n.format("multiplayer.entering"), this.width / 2, this.height / 2 - 50, 16777215);
-        this.drawCenteredString(this.fontRenderer, I18n.format("multiplayer.azure_dimension"), this.width / 2, this.height / 2 - 25, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("multiplayer." + dimension), this.width / 2, this.height / 2 - 25, 16777215);
     }
 }

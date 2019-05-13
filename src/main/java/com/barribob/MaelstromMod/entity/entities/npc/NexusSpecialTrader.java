@@ -68,7 +68,7 @@ public class NexusSpecialTrader extends EntityTrader
     @Override
     protected String getVillagerName()
     {
-	return "Specials Merchant";
+	return "Nexus Saiyan";
     }
 
     @Override

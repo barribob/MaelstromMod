@@ -122,7 +122,7 @@ public class ModEntities
 	registerEntity("pumpkin", ProjectilePumpkin.class, PUMPKIN_ID, 1000);
 	registerEntity("repeater", ProjectileRepeater.class, REPEATER_ID, 30);
 	registerEntity("fireball", ProjectileFireball.class, FIREBALL_ID, 30);
-	registerEntity("herbrine_slash", ProjectileHerobrineQuake.class, HEROBRINE_SLASH_ID, 30);
+	registerEntity("herobrine_slash", ProjectileHerobrineQuake.class, HEROBRINE_SLASH_ID, 30);
 	registerEntity("black_fireball", ProjectileBlackFireball.class, BLACK_FIREBALL_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");

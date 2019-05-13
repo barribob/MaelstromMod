@@ -6,5 +6,5 @@ import net.minecraft.creativetab.CreativeTabs;
 
 public class ModCreativeTabs
 {
-    public static CreativeTabs ALL = new MaelstromCreativeTab(CreativeTabs.getNextID(), "Maelstrom Mod");
+    public static CreativeTabs ALL = new MaelstromCreativeTab(CreativeTabs.getNextID(), "all");
 }
