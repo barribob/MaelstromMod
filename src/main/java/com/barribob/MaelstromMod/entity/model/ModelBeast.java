@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 /**
  * Beast - Barribob Created using Tabula 7.0.0
  */
-public class ModelBeast extends ModelBase
+public class ModelBeast extends ModelAnimated
 {
     public ModelRenderer backLeftThigh;
     public ModelRenderer backRightThigh;
@@ -47,8 +47,6 @@ public class ModelBeast extends ModelBase
     public ModelRenderer jaw;
     public ModelRenderer upperFrill;
     public ModelRenderer lowerFrill;
-
-    private float jawRotation;
 
     public ModelBeast()
     {
@@ -215,15 +213,6 @@ public class ModelBeast extends ModelBase
 	modelRenderer.rotateAngleZ = z;
     }
 
-    @Override
-    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
-    {
-	super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
-
-	// Whether the jaw is open or not for ranged attacks
-	this.jawRotation = ((EntityBeast) entitylivingbaseIn).isRanged() ? 0.40980330836826856F : 0.0F;
-    }
-
     /**
      * Sets the model's various rotation angles. For bipeds, par1 and par2 are used
      * for animating the movement of arms and legs, where par1 represents the
@@ -243,7 +232,5 @@ public class ModelBeast extends ModelBase
 
 	this.head.rotateAngleX = headPitch * 0.017453292F;
 	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-
-	this.jaw.rotateAngleX = this.jawRotation;
     }
 }

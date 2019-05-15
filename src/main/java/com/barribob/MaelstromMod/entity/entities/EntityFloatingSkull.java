@@ -32,7 +32,6 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     public EntityFloatingSkull(World worldIn)
     {
 	super(worldIn);
-	this.currentAnimation = new AnimationFloatingSkull();
     }
 
     @Override
@@ -46,14 +45,15 @@ public class EntityFloatingSkull extends EntityMaelstromMob
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 60, 5, 7.5f, 0.5f));
     }
-    
+
     @Override
     public void onUpdate()
     {
 	super.onUpdate();
 	if (world.isRemote)
 	{
-	    ParticleManager.spawnDarkFlames(world, rand, new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + 0.1f + ModRandom.getFloat(0.1f), this.posZ + ModRandom.getFloat(0.5f)));
+	    ParticleManager.spawnDarkFlames(world, rand,
+		    new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + 0.1f + ModRandom.getFloat(0.1f), this.posZ + ModRandom.getFloat(0.5f)));
 	}
     }
 
@@ -74,11 +74,11 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     {
 	return SoundEvents.ENTITY_SKELETON_DEATH;
     }
-    
+
     @Override
     protected float getSoundPitch()
     {
-        return 0.8f + ModRandom.getFloat(0.2f);
+	return 0.8f + ModRandom.getFloat(0.2f);
     }
 
     @Override
@@ -104,6 +104,7 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     {
 	if (id == 4)
 	{
+	    this.currentAnimation = new AnimationFloatingSkull();
 	    this.currentAnimation.startAnimation();
 	}
 	else

@@ -35,10 +35,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.ProjectileImpactEvent.Fireball;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -47,17 +51,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttackMob
 {
+    // Swinging arms is the animation for the attack
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
     private HerobrineAttack currentAttack;
     private byte passiveParticleByte = 7;
     private int maxHits = 3;
     private int hits = 5;
+    private byte deathParticleByte = 8;
+    public static final byte slashParticleByte = 9;
+    private byte fireballParticleByte = 10;
 
     private boolean markedToDespawn = false;
 
     public EntityHerobrineOne(World worldIn)
     {
 	super(worldIn);
-	currentAnimation = new AnimationNone();
     }
 
     protected void initEntityAI()
@@ -92,6 +100,8 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	else if (source.getTrueSource() instanceof EntityLivingBase)
 	{
 	    new ActionTeleport().performAction(this, (EntityLivingBase) source.getTrueSource());
+	    this.setRevengeTarget((EntityLivingBase) source.getTrueSource());
+
 	    hits--;
 	}
 
@@ -101,13 +111,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     @Override
     public void onDeath(DamageSource cause)
     {
-	int particleAmount = 100;
-	for (int i = 0; i < particleAmount; i++)
-	{
-	    ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(2f)).add(new Vec3d(0, 1, 0)),
-		    ModRandom.randVec().scale(0.5f));
-	}
-
+	world.setEntityState(this, this.deathParticleByte);
 	this.setPosition(0, 0, 0);
 	super.onDeath(cause);
     }
@@ -144,7 +148,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     @Override
     public void setSwingingArms(boolean swingingArms)
     {
-	super.setSwingingArms(swingingArms);
+	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
 	if (swingingArms)
 	{
 	    float distance = (float) this.getDistanceSq(this.getAttackTarget().posX, getAttackTarget().getEntityBoundingBox().minY, getAttackTarget().posZ);
@@ -179,18 +183,14 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    this.setDead();
 	}
 
-	int fireballParticles = 5;
-
 	if (!this.world.isRemote && this.isSwingingArms() && this.currentAttack == HerobrineAttack.FIREBALL)
 	{
-	    for (int i = 0; i < fireballParticles; i++)
-	    {
-		Vec3d pos = new Vec3d(ModRandom.getFloat(0.5f), this.getEyeHeight() + 1.0f, ModRandom.getFloat(0.5f)).add(ModUtils.entityPos(this));
-		ParticleManager.spawnDarkFlames(world, rand, pos);
-	    }
+	    this.world.setEntityState(this, this.fireballParticleByte);
 	}
-
-	this.world.setEntityState(this, this.passiveParticleByte);
+	else
+	{
+	    this.world.setEntityState(this, this.passiveParticleByte);
+	}
     }
 
     /**
@@ -201,20 +201,57 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     {
 	if (id >= 4 && id <= 6)
 	{
-	    for (HerobrineAttack attack : HerobrineAttack.values())
+	    if (id == HerobrineAttack.SPIN_SLASH.id)
 	    {
-		if (attack.id == id)
-		{
-		    currentAnimation = attack.getAnimation.get();
-		    currentAnimation.startAnimation();
-		}
+		this.currentAnimation = new AnimationSpinSlash();
 	    }
+	    else if (id == HerobrineAttack.GROUND_SLASH.id)
+	    {
+		this.currentAnimation = new AnimationHerobrineGroundSlash();
+	    }
+	    else if (id == HerobrineAttack.FIREBALL.id)
+	    {
+		this.currentAnimation = new AnimationFireballThrow();
+	    }
+
+	    currentAnimation.startAnimation();
 	}
-	else if (id == 7)
+	else if (id == this.passiveParticleByte)
 	{
 	    if (rand.nextInt(2) == 0)
 	    {
 		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(1.5f)).add(new Vec3d(0, 1, 0)));
+	    }
+	}
+	else if (id == this.deathParticleByte)
+	{
+	    int particleAmount = 100;
+	    for (int i = 0; i < particleAmount; i++)
+	    {
+		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(2f)).add(new Vec3d(0, 1, 0)),
+			ModRandom.randVec().scale(0.5f));
+	    }
+	}
+	else if (id == this.fireballParticleByte)
+	{
+	    int fireballParticles = 5;
+	    for (int i = 0; i < fireballParticles; i++)
+	    {
+		Vec3d pos = new Vec3d(ModRandom.getFloat(0.5f), this.getEyeHeight() + 1.0f, ModRandom.getFloat(0.5f)).add(ModUtils.entityPos(this));
+		ParticleManager.spawnDarkFlames(world, rand, pos);
+	    }
+	}
+	else if (id == this.slashParticleByte)
+	{
+	    Vec3d color = new Vec3d(0.5, 0.2, 0.3);
+	    float particleHeight = 1.2f;
+	    for (float r = 0.5f; r <= 2; r += 0.5f)
+	    {
+		for (float sector = 0; sector < 360; sector += 10)
+		{
+		    Vec3d pos = new Vec3d(Math.cos(sector) * r, particleHeight, Math.sin(sector) * r).add(ModUtils.entityPos(this));
+		    ParticleManager.spawnDarkFlames(world, world.rand, pos);
+		}
 	    }
 	}
 	else
@@ -235,13 +272,6 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	this.markedToDespawn = true;
     }
 
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
-	// TODO Auto-generated method stub
-	return super.writeToNBT(compound);
-    }
-
     /*
      * Represents the different attacks that herobrine can have
      * 
@@ -249,18 +279,26 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
      */
     private enum HerobrineAttack
     {
-	SPIN_SLASH(4, new ActionSpinSlash(), () -> new AnimationSpinSlash()), GROUND_SLASH(5, new ActionGroundSlash(), () -> new AnimationHerobrineGroundSlash()), FIREBALL(6,
-		new ActionFireball(), () -> new AnimationFireballThrow());
+	SPIN_SLASH(4, new ActionSpinSlash()), GROUND_SLASH(5, new ActionGroundSlash()), FIREBALL(6, new ActionFireball());
 
 	public final Action attack;
 	public final byte id;
-	public final Supplier<Animation> getAnimation;
 
-	private HerobrineAttack(int id, Action attack, Supplier<Animation> getAnimation)
+	private HerobrineAttack(int id, Action attack)
 	{
 	    this.attack = attack;
 	    this.id = (byte) id;
-	    this.getAnimation = getAnimation;
 	}
+    }
+
+    protected void entityInit()
+    {
+	super.entityInit();
+	this.dataManager.register(SWINGING_ARMS, Boolean.valueOf(false));
+    }
+
+    public boolean isSwingingArms()
+    {
+	return ((Boolean) this.dataManager.get(SWINGING_ARMS)).booleanValue();
     }
 }

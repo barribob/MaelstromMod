@@ -2,7 +2,10 @@ package com.barribob.MaelstromMod.items.armor.model;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ModelStrawHat extends ModelBiped {
     public ModelRenderer hat4;
     public ModelRenderer strap;

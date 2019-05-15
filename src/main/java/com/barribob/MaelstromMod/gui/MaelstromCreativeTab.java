@@ -15,12 +15,6 @@ public class MaelstromCreativeTab extends CreativeTabs
     @Override
     public ItemStack getTabIconItem()
     {
-	return new ItemStack(ModItems.BROWN_KEY);
-    }
-    
-    @Override
-    public String getTranslatedTabLabel()
-    {
-        return "Maelstrom Mod";
+	return new ItemStack(ModItems.AZURE_KEY);
     }
 }

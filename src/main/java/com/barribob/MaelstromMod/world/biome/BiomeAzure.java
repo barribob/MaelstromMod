@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.blocks.BlockAzureBush;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.world.gen.WorldGenAzureMinable;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;

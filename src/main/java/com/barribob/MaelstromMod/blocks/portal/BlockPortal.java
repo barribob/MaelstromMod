@@ -76,7 +76,7 @@ public abstract class BlockPortal extends BlockBase
 		Teleport.teleportToDimension(player, dim1, getTeleporter1(worldIn));
 	    }
 
-	    player.timeUntilPortal = 100;
+	    player.timeUntilPortal = 300;
 	}
     }
     

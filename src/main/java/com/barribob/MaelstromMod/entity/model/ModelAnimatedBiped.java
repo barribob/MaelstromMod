@@ -7,10 +7,13 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumHandSide;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /*
  * Adds built in animation manipulation via the Animation class
  */
+@SideOnly(Side.CLIENT)
 public class ModelAnimatedBiped extends ModelBiped
 {
     protected static int textureWidth = 64;
