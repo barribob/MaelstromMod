@@ -13,6 +13,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -22,9 +24,9 @@ import net.minecraft.world.World;
  */
 public abstract class EntityLeveledMob extends EntityCreature
 {
-    // Swinging arms is the animation for the attack
-    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
     private float level;
+    
+    @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
 
     protected boolean isImmovable = false;
@@ -34,16 +36,19 @@ public abstract class EntityLeveledMob extends EntityCreature
     {
 	super(worldIn);
 	this.setLevel(1);
-	this.currentAnimation = new AnimationNone();
     }
 
     @Override
     public void onLivingUpdate()
     {
 	super.onLivingUpdate();
-	currentAnimation.update();
 	
-	if(this.isImmovable && this.initialPosition != null)
+	if (world.isRemote && currentAnimation != null)
+	{
+	    currentAnimation.update();
+	}
+
+	if (this.isImmovable && this.initialPosition != null)
 	{
 	    this.setPosition(initialPosition.x, initialPosition.y, initialPosition.z);
 	}
@@ -65,10 +70,11 @@ public abstract class EntityLeveledMob extends EntityCreature
 	    }
 	}
     }
-
+    
+    @SideOnly(Side.CLIENT)
     public Animation getCurrentAnimation()
     {
-	return this.currentAnimation;
+	return this.currentAnimation == null ? new AnimationNone() : this.currentAnimation;
     }
 
     public float getLevel()
@@ -107,7 +113,7 @@ public abstract class EntityLeveledMob extends EntityCreature
     {
 	compound.setFloat("level", level);
 	compound.setBoolean("isImmovable", this.isImmovable);
-	if(initialPosition != null)
+	if (initialPosition != null)
 	{
 	    compound.setDouble("initialX", initialPosition.x);
 	    compound.setDouble("initialY", initialPosition.y);
@@ -123,31 +129,15 @@ public abstract class EntityLeveledMob extends EntityCreature
 	{
 	    this.setLevel(compound.getFloat("level"));
 	}
-	if(compound.hasKey("isImmovable"))
+	if (compound.hasKey("isImmovable"))
 	{
 	    this.isImmovable = compound.getBoolean("isImmovable");
 	}
-	if(compound.hasKey("initialX"))
+	if (compound.hasKey("initialX"))
 	{
 	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
 	}
 	super.readFromNBT(compound);
-    }
-
-    protected void entityInit()
-    {
-	super.entityInit();
-	this.dataManager.register(SWINGING_ARMS, Boolean.valueOf(false));
-    }
-
-    public boolean isSwingingArms()
-    {
-	return ((Boolean) this.dataManager.get(SWINGING_ARMS)).booleanValue();
-    }
-
-    public void setSwingingArms(boolean swingingArms)
-    {
-	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
     }
 
     /**

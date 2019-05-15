@@ -1,14 +1,11 @@
 package com.barribob.MaelstromMod.items.gun;
 
-import java.util.HashMap;
+import java.text.DecimalFormat;
 import java.util.List;
 
-import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModEnchantments;
-import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ItemBase;
-import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
@@ -18,11 +15,9 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -46,6 +41,7 @@ public abstract class ItemGun extends ItemBase
     private static final int SMOKE_PARTICLES = 4;
     private float level;
     private final float damage;
+    protected DecimalFormat df = new DecimalFormat("0.00");
 
     public ItemGun(String name, int cooldown, float damage, float useTime, Item ammo, float level, CreativeTabs tab)
     {
@@ -250,13 +246,13 @@ public abstract class ItemGun extends ItemBase
 		this.getDamageTooltip(stack, worldIn, tooltip, flagIn);
 	}
 	
-	tooltip.add(TextFormatting.BLUE + "" + Math.round(getEnchantedCooldown(stack) * 5) * 0.01f + TextFormatting.GRAY + " second reload time.");
+	tooltip.add(TextFormatting.BLUE + "" + df.format(getEnchantedCooldown(stack) * 0.05) + TextFormatting.GRAY + " second reload time.");
 	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + TextFormatting.BLUE + ammoName);
     }
     
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Deals " + TextFormatting.BLUE + Math.round(this.getEnchantedDamage(stack) * 100) * 0.01f + TextFormatting.GRAY + " damage per projectile.");
+	tooltip.add(TextFormatting.GRAY + "Deals " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY + " damage per projectile.");
     }
 
     /**

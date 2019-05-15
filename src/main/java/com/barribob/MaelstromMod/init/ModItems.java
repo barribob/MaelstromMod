@@ -7,9 +7,9 @@ import com.barribob.MaelstromMod.items.ItemAzureKey;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
+import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
 import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
-import com.barribob.MaelstromMod.items.armor.model.ModelStrawHat;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
 import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
 import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
@@ -120,6 +120,6 @@ public class ModItems
     public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     
     // Nexus Armors
-    public static final Item STRAW_HAT = new ModArmorBase("straw_hat", RARE_ARMOR_MATERIAL, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png", new ModelStrawHat());
+    public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png");
     public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.0f, "speed");
 }

@@ -33,7 +33,7 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	
 	// Spawn a line of particles indicating what direction the teleport is
 	player = this.world.getClosestPlayer(this.pos.getX() + 0.5f, this.pos.getY() + 0.5f, this.pos.getZ() + 0.5f, particleDistance, false);
-	if(!this.world.isRemote && player != null && this.relTeleportPos != null)
+	if(this.world.isRemote && player != null && this.relTeleportPos != null)
 	{
 	    double spacing = 4;
 	    Vec3d pos = new Vec3d(this.pos.getX() + 0.5, this.pos.getY() + 3, this.pos.getZ() + 0.5);

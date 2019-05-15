@@ -21,6 +21,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -43,7 +45,6 @@ public class ModArmorBase extends ItemArmor implements IHasModel
     private static final int[] armor_fractions = {4, 7, 8, 5};
     private static final int armor_total = 24;
     private String textureName;
-    private ModelBiped model;
 
     public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndex, EntityEquipmentSlot equipmentSlotIn, float maelstrom_armor, String textureName)
     {
@@ -53,15 +54,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
 	setCreativeTab(ModCreativeTabs.ALL);
 	this.maelstrom_armor_factor = maelstrom_armor - 1;
 	this.textureName = textureName;
-	this.model = null;
-
 	ModItems.ITEMS.add(this);
-    }
-    
-    public ModArmorBase(String name, ArmorMaterial materialIn, EntityEquipmentSlot equipmentSlotIn, float maelstrom_armor, String textureName, ModelBiped model)
-    {
-	this(name, materialIn, 1, equipmentSlotIn, maelstrom_armor, textureName);
-	this.model = model;
     }
 
     /**
@@ -113,10 +106,15 @@ public class ModArmorBase extends ItemArmor implements IHasModel
 	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + (this.maelstrom_armor_factor + 1));
     }
     
+    protected ModelBiped getCustomModel()
+    {
+	return null;
+    }
+    
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
     {
-	if(this.model != null)
+	if(this.getCustomModel() != null)
 	{
 	    return Reference.MOD_ID + ":textures/models/armor/" + this.textureName;
 	}
@@ -131,10 +129,12 @@ public class ModArmorBase extends ItemArmor implements IHasModel
      * Sets up a custom armor model
      */
     @Override
+    @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default)
     {
-        if(this.model != null && !itemStack.isEmpty() && itemStack.getItem() instanceof ModArmorBase)
+        if(this.getCustomModel() != null && !itemStack.isEmpty() && itemStack.getItem() instanceof ModArmorBase)
         {
+            ModelBiped model = getCustomModel();
             model.bipedHead.showModel = (armorSlot == EntityEquipmentSlot.HEAD);
             model.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST);
             model.bipedLeftArm.showModel = (armorSlot == EntityEquipmentSlot.CHEST);

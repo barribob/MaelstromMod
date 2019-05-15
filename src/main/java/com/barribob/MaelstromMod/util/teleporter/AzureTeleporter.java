@@ -107,7 +107,7 @@ public class AzureTeleporter extends Teleporter
 
         int j = world.getActualHeight() - 1;
         
-        while(!world.getBlockState(new BlockPos(i, j, k)).isFullBlock())
+        while(!world.getBlockState(new BlockPos(i, j, k)).isFullBlock() && j > 0)
         {
             j--;
         }

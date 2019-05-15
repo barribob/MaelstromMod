@@ -147,6 +147,50 @@ public class NexusTrades
 	}
     }
     
+    public static class MaelstromHelmet implements ITradeList
+    {
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5);
+	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_HELMET, 1);
+	@Override
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+	{
+	    recipeList.add(new MerchantRecipe(base, reward));
+	}
+    }
+    
+    public static class MaelstromChestplate implements ITradeList
+    {
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 8);
+	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_CHESTPLATE, 1);
+	@Override
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+	{
+	    recipeList.add(new MerchantRecipe(base, reward));
+	}
+    }
+    
+    public static class MaelstromLeggings implements ITradeList
+    {
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 7);
+	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_LEGGINGS, 1);
+	@Override
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+	{
+	    recipeList.add(new MerchantRecipe(base, reward));
+	}
+    }
+    
+    public static class MaelstromBoots implements ITradeList
+    {
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 4);
+	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_BOOTS, 1);
+	@Override
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+	{
+	    recipeList.add(new MerchantRecipe(base, reward));
+	}
+    }
+    
     public static class Pumpkin implements ITradeList
     {
 	private ItemStack base = new ItemStack(Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 1);

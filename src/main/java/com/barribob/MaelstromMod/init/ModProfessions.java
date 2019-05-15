@@ -58,8 +58,12 @@ public class ModProfessions
 	NEXUS_ARMORER = new VillagerCareer(NEXUS_VILLAGER, "nexus_armorer");
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.StrawHat());
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.SpeedBoots());
+	NEXUS_ARMORER.addTrade(1, new NexusTrades.MaelstromHelmet());
+	NEXUS_ARMORER.addTrade(1, new NexusTrades.MaelstromChestplate());
+	NEXUS_ARMORER.addTrade(1, new NexusTrades.MaelstromLeggings());
+	NEXUS_ARMORER.addTrade(1, new NexusTrades.MaelstromBoots());
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.MoreComing());
-	
+
 	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.Elucidator());
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.Pumpkin());

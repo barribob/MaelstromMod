@@ -33,19 +33,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackMob
-{    
+{
     public EntityAzureGolem(World worldIn)
     {
 	super(worldIn);
-	this.currentAnimation = new AnimationAzureGolem();
 	this.setLevel(2);
-        this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
+	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
     }
-    
+
     @Override
     public float getRenderSizeModifier()
     {
-        return RenderAzureGolem.AZURE_GOLEM_SIZE;
+	return RenderAzureGolem.AZURE_GOLEM_SIZE;
     }
 
     @Override
@@ -73,17 +72,18 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
     }
-    
+
     /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
+     * Checks if the entity's current position is a valid location to spawn this
+     * entity.
      */
     public boolean getCanSpawnHere()
     {
-        int i = MathHelper.floor(this.posX);
-        int j = MathHelper.floor(this.getEntityBoundingBox().minY);
-        int k = MathHelper.floor(this.posZ);
-        BlockPos blockpos = new BlockPos(i, j, k);
-        return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
+	int i = MathHelper.floor(this.posX);
+	int j = MathHelper.floor(this.getEntityBoundingBox().minY);
+	int k = MathHelper.floor(this.posZ);
+	BlockPos blockpos = new BlockPos(i, j, k);
+	return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
@@ -100,11 +100,11 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     {
 	this.playSound(SoundEvents.ENTITY_IRONGOLEM_STEP, 1.0F, 1.0F);
     }
-    
+
     @Override
     protected float getSoundPitch()
     {
-        return 0.9f + ModRandom.getFloat(0.2f);
+	return 0.9f + ModRandom.getFloat(0.2f);
     }
 
     @Nullable
@@ -154,6 +154,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     {
 	if (id == 4)
 	{
+	    this.currentAnimation = new AnimationAzureGolem();
 	    this.currentAnimation.startAnimation();
 	    this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
 	}

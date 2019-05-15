@@ -1,0 +1,15 @@
+{
+    "pools": [
+        {
+            "name" : "beast",
+            "rolls": 5,
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:azure_maelstrom_core_crystal"
+                }
+            ]
+        }
+    ]
+}

@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
+import com.barribob.MaelstromMod.entity.animation.AnimationBeastSpit;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -40,8 +41,6 @@ public class EntityBeast extends EntityMaelstromMob
     private final static float PROJECTILE_INACCURACY = 8.0f;
     private final static int PROJECTILE_AMOUNT = 5;
 
-    private boolean isRanged; // Used for animation
-    
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
 
@@ -55,7 +54,8 @@ public class EntityBeast extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE, 0.5f));
+	this.tasks.addTask(4,
+		new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE, 0.5f));
     }
 
     /**
@@ -66,38 +66,13 @@ public class EntityBeast extends EntityMaelstromMob
 	return false;
     }
 
-    /**
-     * Handler for {@link World#setEntityState}
-     */
-    @SideOnly(Side.CLIENT)
-    public void handleStatusUpdate(byte id)
-    {
-	if (id == 4) // Change to ranged mode
-	{
-	    this.isRanged = true;
-	}
-	else if (id == 5) // Change to melee mode
-	{
-	    this.isRanged = false;
-	}
-	else
-	{
-	    super.handleStatusUpdate(id);
-	}
-    }
-
-    public boolean isRanged()
-    {
-	return this.isRanged;
-    }
-    
     @Override
     protected void applyEntityAttributes()
     {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
     }
-    
+
     @Override
     protected void updateAttributes()
     {
@@ -137,7 +112,7 @@ public class EntityBeast extends EntityMaelstromMob
 	}
 	return false;
     }
-    
+
     @Override
     public void readEntityFromNBT(NBTTagCompound compound)
     {
@@ -148,7 +123,7 @@ public class EntityBeast extends EntityMaelstromMob
 
 	super.readEntityFromNBT(compound);
     }
-    
+
     /**
      * Sets the custom name tag for this entity
      */
@@ -157,14 +132,14 @@ public class EntityBeast extends EntityMaelstromMob
 	super.setCustomNameTag(name);
 	this.bossInfo.setName(this.getDisplayName());
     }
-    
+
     @Override
     protected void updateAITasks()
     {
 	this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	super.updateAITasks();
     }
-    
+
     /**
      * Add the given player to the list of players tracking this entity. For
      * instance, a player may track a boss in order to view its associated boss bar.
@@ -184,28 +159,60 @@ public class EntityBeast extends EntityMaelstromMob
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
     }
-    
+
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return SoundsHandler.ENTITY_BEAST_AMBIENT;
+	return SoundsHandler.ENTITY_BEAST_AMBIENT;
     }
-    
+
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
-        return SoundsHandler.ENTITY_BEAST_HURT;
+	return SoundsHandler.ENTITY_BEAST_HURT;
     }
-    
+
     @Override
     protected SoundEvent getDeathSound()
     {
-        return SoundsHandler.ENTITY_BEAST_HURT;
+	return SoundsHandler.ENTITY_BEAST_HURT;
     }
-    
+
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.BEAST;
+    }
+
     @Override
     protected float getSoundVolume()
     {
 	return 0.5f;
+    }
+
+    @Override
+    public void setSwingingArms(boolean swingingArms)
+    {
+	if (swingingArms)
+	{
+	    this.world.setEntityState(this, (byte) 4);
+	}
+    }
+
+    /**
+     * Handler for {@link World#setEntityState}
+     */
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == 4)
+	{
+	    this.currentAnimation = new AnimationBeastSpit();
+	    this.currentAnimation.startAnimation();
+	}
+	else
+	{
+	    super.handleStatusUpdate(id);
+	}
     }
 }

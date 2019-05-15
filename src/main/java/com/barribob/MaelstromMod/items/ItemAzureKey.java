@@ -23,6 +23,6 @@ public class ItemAzureKey extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add(TextFormatting.GRAY + "A key a block that unlocks the azure dimension.");
+        tooltip.add(TextFormatting.GRAY + "A key to a block that unlocks the azure dimension.");
     }
 }
