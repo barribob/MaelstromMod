@@ -1,4 +1,4 @@
-package com.barribob.MaelstromMod.world.dimension.azure_dimension;
+package com.barribob.MaelstromMod.world.dimension.cliff;
 
 import java.util.List;
 import java.util.Random;
@@ -32,14 +32,10 @@ import net.minecraft.world.gen.MapGenCaves;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 
-public class ChunkGeneratorAzure implements IChunkGenerator
+public class ChunkGeneratorCliff implements IChunkGenerator
 {
     // The stone block
     protected static final IBlockState STONE = ModBlocks.DARK_AZURE_STONE.getDefaultState();
-    private static final int STRUCTURE_SPACING_CHUNKS = 40;
-    private static final int MINESHAFT_STRUCTURE_NUMBER = 0;
-    private static final int FORTRESS_STRUCTURE_NUMBER = 13;
-    private static final int STRONGHOLD_STRUCTURE_NUMBER = 26;
 
     // The ocean block
     private IBlockState oceanBlock = Blocks.WATER.getDefaultState();
@@ -59,17 +55,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
     private final float[] biomeWeights;
     private ChunkGeneratorSettings settings;
     private double[] depthBuffer = new double[256];
-    private MapGenBase caveGenerator = new MapGenCaves();
-
-    // Custom ravine generator
-    private MapGenBase ravineGenerator = new MapGenAzureRavine();
-
-    // The maelstrom fortress
-    private MapGenMaelstromFortress fortressGenerator = new MapGenMaelstromFortress(STRUCTURE_SPACING_CHUNKS, FORTRESS_STRUCTURE_NUMBER, 2);
-
-    private MapGenAzureMineshaft mineshaftGenerator = new MapGenAzureMineshaft(STRUCTURE_SPACING_CHUNKS, MINESHAFT_STRUCTURE_NUMBER, 1);
-
-    private MapGenMaelstromStronghold strongholdGenerator = new MapGenMaelstromStronghold(STRUCTURE_SPACING_CHUNKS, STRONGHOLD_STRUCTURE_NUMBER, 1);
 
     private Biome[] biomesForGeneration;
     double[] mainNoiseRegion;
@@ -77,7 +62,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
     double[] maxLimitRegion;
     double[] depthRegion;
 
-    public ChunkGeneratorAzure(World worldIn, long seed, boolean mapFeaturesEnabledIn, String generatorOptions)
+    public ChunkGeneratorCliff(World worldIn, long seed, boolean mapFeaturesEnabledIn, String generatorOptions)
     {
 	this.world = worldIn;
 	this.mapFeaturesEnabled = mapFeaturesEnabledIn;
@@ -260,20 +245,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	// Place the blocks related to the biome
 	this.replaceBiomeBlocks(x, z, chunkprimer, this.biomesForGeneration);
 
-	if (this.settings.useCaves)
-	{
-	    this.caveGenerator.generate(this.world, x, z, chunkprimer);
-	}
-
-	if (this.settings.useRavines)
-	{
-	    this.ravineGenerator.generate(this.world, x, z, chunkprimer);
-	}
-
-	this.fortressGenerator.generate(this.world, x, z, chunkprimer);
-	this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
-	this.strongholdGenerator.generate(this.world, x, z, chunkprimer);
-
 	Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
 	byte[] abyte = chunk.getBiomeArray();
 
@@ -425,10 +396,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	boolean flag = false;
 	ChunkPos chunkpos = new ChunkPos(x, z);
 
-	this.fortressGenerator.generateStructure(this.world, this.rand, chunkpos);
-	this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
-	this.strongholdGenerator.generateStructure(this.world, this.rand, chunkpos);
-
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE);
 	if (rand.nextInt(15) == 0)
 	{
@@ -459,18 +426,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	{
 	    return false;
 	}
-	else if ("Azure Mineshaft".equals(structureName) && this.mineshaftGenerator != null)
-	{
-	    return this.mineshaftGenerator.isInsideStructure(pos);
-	}
-	else if ("Maelstrom Fortress".equals(structureName) && this.fortressGenerator != null)
-	{
-	    return this.fortressGenerator.isInsideStructure(pos);
-	}
-	else if ("Maelstrom Stronghold".equals(structureName) && this.strongholdGenerator != null)
-	{
-	    return this.strongholdGenerator.isInsideStructure(pos);
-	}
+
 	return false;
     }
 
@@ -481,18 +437,7 @@ public class ChunkGeneratorAzure implements IChunkGenerator
 	{
 	    return null;
 	}
-	else if ("Azure Mineshaft".equals(structureName) && this.mineshaftGenerator != null)
-	{
-	    return this.mineshaftGenerator.getNearestStructurePos(worldIn, position, findUnexplored);
-	}
-	else if ("Maelstrom Fortress".equals(structureName) && this.fortressGenerator != null)
-	{
-	    return this.fortressGenerator.getNearestStructurePos(worldIn, position, findUnexplored);
-	}
-	else if ("Maelstrom Stronghold".equals(structureName) && this.strongholdGenerator != null)
-	{
-	    return this.strongholdGenerator.getNearestStructurePos(worldIn, position, findUnexplored);
-	}
+
 	return null;
     }
 
@@ -504,9 +449,6 @@ public class ChunkGeneratorAzure implements IChunkGenerator
      */
     public void recreateStructures(Chunk chunkIn, int x, int z)
     {
-	this.mineshaftGenerator.generate(this.world, x, z, (ChunkPrimer) null);
-	this.fortressGenerator.generate(this.world, x, z, (ChunkPrimer) null);
-	this.strongholdGenerator.generate(this.world, x, z, (ChunkPrimer) null);
     }
 
     /**
