@@ -23,7 +23,7 @@ public class ChunkGeneratorCliff extends WorldChunkGenerator
 
     public ChunkGeneratorCliff(World worldIn, long seed, boolean mapFeaturesEnabledIn, String generatorOptions)
     {
-	super(worldIn, seed, mapFeaturesEnabledIn, generatorOptions, ModBlocks.DARK_AZURE_STONE, Blocks.WATER, structures);
+	super(worldIn, seed, mapFeaturesEnabledIn, generatorOptions, ModBlocks.CLIFF_STONE, Blocks.WATER, structures);
     }
 
     @Override

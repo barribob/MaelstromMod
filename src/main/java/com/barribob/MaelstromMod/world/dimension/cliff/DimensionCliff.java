@@ -14,7 +14,7 @@ import scala.actors.threadpool.Arrays;
 
 /**
  * 
- * The Azure dimension attributes are defined here
+ * The Cliff dimension attributes are defined here
  *
  */
 public class DimensionCliff extends WorldProvider

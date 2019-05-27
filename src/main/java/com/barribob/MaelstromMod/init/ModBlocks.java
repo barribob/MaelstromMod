@@ -120,4 +120,7 @@ public class ModBlocks
 	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockBase("black_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block NEXUS_HEROBRINE_SPAWNER = new BlockNexusHerobrineSpawner("nexus_herobrine_spawner");
 	public static final Block NEXUS_PORTAL = new BlockNexusPortal("nexus_portal").setCreativeTab(ModCreativeTabs.ALL);
+	
+	// Cliff Dimension
+	public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
 }
