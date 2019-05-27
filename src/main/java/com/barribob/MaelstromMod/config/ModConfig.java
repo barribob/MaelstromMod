@@ -24,6 +24,10 @@ public class ModConfig
     @Name("Nexus Dimension Id")
     public static int nexus_dimension_id = 126;
 
+    @Config.RequiresMcRestart
+    @Name("Cliff Dimension Id")
+    public static int cliff_dimension_id = 127;
+    
     @Name("Gui")
     public static GuiCat gui = new GuiCat(0, 0);
     
