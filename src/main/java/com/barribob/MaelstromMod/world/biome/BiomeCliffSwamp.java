@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.blocks.BlockAzureBush;
+import com.barribob.MaelstromMod.blocks.BlockModBush;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVineBridge;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampTree;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSand;
@@ -40,7 +41,7 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
 	super(new BiomeProperties("cliff_swamp").setBaseHeight(-0.2F).setHeightVariation(0.1F).setTemperature(0.8F).setRainfall(0.9F).setWaterColor(4864285), Blocks.GRASS,
 		Blocks.DIRT);
 
-        this.decorator.treesPerChunk = 2;
+        this.decorator.treesPerChunk = 6;
         this.decorator.flowersPerChunk = 1;
         this.decorator.deadBushPerChunk = 1;
         this.decorator.mushroomsPerChunk = 8;
@@ -50,6 +51,12 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
         this.decorator.sandPatchesPerChunk = 0;
         this.decorator.gravelPatchesPerChunk = 0;
         this.decorator.grassPerChunk = 5;
+    }
+    
+    @Override
+    public WorldGenAbstractTree getRandomTreeFeature(Random rand)
+    {
+        return new WorldGenSwampTree(true);
     }
     
     @Override

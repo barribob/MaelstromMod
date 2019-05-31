@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.blocks.BlockAzureBush;
+import com.barribob.MaelstromMod.blocks.BlockModBush;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
@@ -37,10 +37,10 @@ public class BiomeAzure extends BiomeDifferentStone
     protected static final WorldGenPlumTree SMALL_PLUM_TREE = new WorldGenPlumTree(false, true);
     protected static final WorldGenBigPlumTree LARGE_PLUM_TREE = new WorldGenBigPlumTree(false);
 
-    private final BlockAzureBush[] FLOWER_LIST = { (BlockAzureBush) ModBlocks.BLUE_DAISY, (BlockAzureBush) ModBlocks.RUBY_ORCHID };
+    private final BlockModBush[] FLOWER_LIST = { (BlockModBush) ModBlocks.BLUE_DAISY, (BlockModBush) ModBlocks.RUBY_ORCHID };
     protected final WorldGenAzureFoliage FLOWERS = new WorldGenAzureFoliage(FLOWER_LIST, 64);
 
-    private final BlockAzureBush[] TALL_GRASS_LIST = { (BlockAzureBush) ModBlocks.BROWNED_GRASS };
+    private final BlockModBush[] TALL_GRASS_LIST = { (BlockModBush) ModBlocks.BROWNED_GRASS };
 
     public BiomeAzure()
     {

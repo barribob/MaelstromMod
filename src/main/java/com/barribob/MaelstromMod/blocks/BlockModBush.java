@@ -25,18 +25,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * A base class for foliage in the azure dimension
+ * A base class for mod foliage
  *
  */
-public class BlockAzureBush extends BlockBase implements IPlantable
+public class BlockModBush extends BlockBase implements IPlantable
 {
     protected static final AxisAlignedBB BUSH_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D,
 	    0.699999988079071D);
+    private Block grassBlock;
 
-    public BlockAzureBush(String name, Material material, float hardness, float resistance, SoundType soundType)
+    public BlockModBush(String name, Material material, Block grassBlock, float hardness, float resistance, SoundType soundType)
     {
 	super(name, material, hardness, resistance, soundType);
 	this.setTickRandomly(true);
+	this.grassBlock = grassBlock;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class BlockAzureBush extends BlockBase implements IPlantable
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
 	IBlockState soil = worldIn.getBlockState(pos.down());
-	return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == ModBlocks.AZURE_GRASS;
+	return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == grassBlock;
     }
 
     /**
@@ -95,7 +97,7 @@ public class BlockAzureBush extends BlockBase implements IPlantable
 				      // block is set, so if we are not 'here' then assume it's the pre-check.
 	{
 	    IBlockState soil = worldIn.getBlockState(pos.down());
-	    return soil.getBlock() == ModBlocks.AZURE_GRASS;
+	    return soil.getBlock() == grassBlock;
 	}
 	return this.canSustainBush(worldIn.getBlockState(pos.down()));
     }
@@ -105,7 +107,7 @@ public class BlockAzureBush extends BlockBase implements IPlantable
      */
     protected boolean canSustainBush(IBlockState state)
     {
-	return state.getBlock() == ModBlocks.AZURE_GRASS;
+	return state.getBlock() == grassBlock;
     }
 
     @Nullable

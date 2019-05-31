@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.blocks;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -22,15 +23,15 @@ import net.minecraft.world.gen.feature.WorldGenerator;
  * Represents the simple saplings in the mod (huge trees may not work as well)
  *
  */
-public class BlockSaplingBase extends BlockAzureBush implements IGrowable
+public class BlockSaplingBase extends BlockModBush implements IGrowable
 {
     private static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
     protected static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
     private final WorldGenerator treeGenerator; 
     
-    public BlockSaplingBase(String name, float hardness, float resistance, SoundType soundType, WorldGenerator treeGenerator)
+    public BlockSaplingBase(String name, Block grassBlock, float hardness, float resistance, SoundType soundType, WorldGenerator treeGenerator)
     {
-	super(name, Material.PLANTS, hardness, resistance, soundType);
+	super(name, Material.PLANTS, grassBlock, hardness, resistance, soundType);
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
         this.setCreativeTab(CreativeTabs.DECORATIONS);
         this.treeGenerator = treeGenerator;

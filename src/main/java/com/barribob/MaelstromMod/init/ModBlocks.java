@@ -16,6 +16,7 @@ import com.barribob.MaelstromMod.blocks.BlockDecayingMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockDisappearingSpawner;
 import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
 import com.barribob.MaelstromMod.blocks.BlockFenceBase;
+import com.barribob.MaelstromMod.blocks.BlockFullLog;
 import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
@@ -26,16 +27,19 @@ import com.barribob.MaelstromMod.blocks.BlockPlumFilledLeaves;
 import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
 import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
+import com.barribob.MaelstromMod.blocks.BlockSwampLeaves;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
 import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampTree;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 
 /**
  * 
@@ -56,12 +60,12 @@ public class ModBlocks
 	public static final Block AZURE_GRASS = new BlockAzureGrass("azure_grass", Material.GRASS, 0.7f, 1, SoundType.GROUND).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_LOG = new BlockLogBase("azure_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_LEAVES = new BlockAzureLeaves("azure_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenAzureTree(true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", AZURE_GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenAzureTree(true)).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block PLUM_LOG = new BlockLogBase("plum_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block PLUM_LEAVES = new BlockPlumLeaves("plum_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block PLUM_FILLED_LEAVES = new BlockPlumFilledLeaves("plum_filled_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenPlumTree(true, true)).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", 0.5f, 0.5f, SoundType.PLANT, new WorldGenBigPlumTree(true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", AZURE_GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenPlumTree(true, true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", AZURE_GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenBigPlumTree(true)).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_VINES_BLOCK = new BlockAzureVinesBlock("azure_vines_block", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_VINES = new BlockAzureVines("azure_vines", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block BROWNED_GRASS = new BlockAzureTallGrass("browned_grass", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
@@ -123,4 +127,8 @@ public class ModBlocks
 	
 	// Cliff Dimension
 	public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_LOG = new BlockLogBase("swamp_log").setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block FULL_SWAMP_LOG = new BlockFullLog("full_swamp_log", SWAMP_LOG).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_LEAVES = new BlockSwampLeaves("swamp_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_SAPLING = new BlockSaplingBase("swamp_sapling", Blocks.GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenSwampTree(true)).setCreativeTab(ModCreativeTabs.ALL);
 }

@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.blocks.BlockAzureBush;
+import com.barribob.MaelstromMod.blocks.BlockModBush;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
