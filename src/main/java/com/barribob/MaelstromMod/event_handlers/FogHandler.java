@@ -24,8 +24,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class FogHandler
 {
     /**
-     * Altering the fog density through the render fog event because the fog density event is a pain because
-     * you have to override it for some reason
+     * Altering the fog density through the render fog event because the fog density
+     * event is a pain because you have to override it for some reason
      */
     @SideOnly(Side.CLIENT)
     @SubscribeEvent()
@@ -44,9 +44,17 @@ public class FogHandler
 	    {
 		fogDensity += (float) (fogStartY - event.getEntity().posY) * (maxFog / fogStartY);
 	    }
-	    
-            GlStateManager.setFog(GlStateManager.FogMode.EXP);
+
+	    GlStateManager.setFog(GlStateManager.FogMode.EXP);
 	    GlStateManager.setFogDensity(fogDensity);
+	}
+	else if (event.getEntity().dimension == ModConfig.cliff_dimension_id)
+	{
+	    if (event.getEntity().posY < 70)
+	    {
+		GlStateManager.setFog(GlStateManager.FogMode.EXP);
+		GlStateManager.setFogDensity(0.07f);
+	    }
 	}
     }
 }

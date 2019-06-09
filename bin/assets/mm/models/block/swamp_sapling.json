@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "mm:blocks/swamp_sapling"
+    }
+}

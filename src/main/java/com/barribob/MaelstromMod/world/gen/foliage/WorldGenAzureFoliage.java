@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.world.gen.foliage;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.blocks.BlockAzureBush;
+import com.barribob.MaelstromMod.blocks.BlockModBush;
 import com.barribob.MaelstromMod.blocks.BlockAzureTallGrass;
 
 import net.minecraft.block.BlockTallGrass;
@@ -20,10 +20,10 @@ import net.minecraft.world.gen.feature.WorldGenerator;
  */
 public class WorldGenAzureFoliage extends WorldGenerator
 {
-    private final BlockAzureBush[] foliage;
+    private final BlockModBush[] foliage;
     private final int amount;
 
-    public WorldGenAzureFoliage(BlockAzureBush[] tallGrass, int amount)
+    public WorldGenAzureFoliage(BlockModBush[] tallGrass, int amount)
     {
     	this.foliage = tallGrass;
     	this.amount = amount;
@@ -40,7 +40,7 @@ public class WorldGenAzureFoliage extends WorldGenerator
         for (int i = 0; i < this.amount; ++i)
         {
             BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
-            BlockAzureBush randomFoliage = foliage[rand.nextInt(foliage.length)];
+            BlockModBush randomFoliage = foliage[rand.nextInt(foliage.length)];
             
             if (worldIn.isAirBlock(blockpos) && randomFoliage.canBlockStay(worldIn, blockpos, randomFoliage.getDefaultState()))
             {

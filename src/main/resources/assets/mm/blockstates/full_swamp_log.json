@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "mm:swamp_bark" },
+        "axis=z":   { "model": "mm:swamp_bark", "x": 90 },
+        "axis=x":   { "model": "mm:swamp_bark", "x": 90, "y": 90 },
+        "axis=none": { "model": "mm:swamp_bark" }
+    }
+}

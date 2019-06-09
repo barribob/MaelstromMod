@@ -2,156 +2,129 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.blocks.BlockAzureBush;
-import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
-import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVineBridge;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
+import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffMushroom;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffShrub;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampVines;
 
-import net.minecraft.block.BlockSand;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.feature.WorldGenMegaJungle;
+import net.minecraft.world.gen.feature.WorldGenShrub;
+import net.minecraft.world.gen.feature.WorldGenTrees;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
  * Biome for the lower section of the cliff dimension
  *
  */
-public class BiomeCliffSwamp extends Biome
+public class BiomeCliffSwamp extends BiomeDifferentStone
 {
+    private final static IBlockState log = ModBlocks.SWAMP_LOG.getDefaultState();
+    private final static IBlockState leaf = ModBlocks.SWAMP_LEAVES.getDefaultState();
     public BiomeCliffSwamp()
     {
-	super(new BiomeProperties("cliff_swamp").setBaseHeight(-0.2F).setHeightVariation(0.1F).setTemperature(0.8F)
-		.setRainDisabled().setWaterColor(10252253));
+	super(new BiomeProperties("cliff_swamp").setBaseHeight(-0.2F).setHeightVariation(0.1F).setTemperature(0.8F).setRainfall(0.9F).setWaterColor(4864285), Blocks.GRASS,
+		Blocks.DIRT);
 
-	/**
-	 * Sets what in standard biomes is the grass (top block) and dirt (filler block)
-	 */
-	topBlock = ModBlocks.AZURE_GRASS.getDefaultState();
-	fillerBlock = ModBlocks.DARK_AZURE_STONE.getDefaultState();
+        this.decorator.treesPerChunk = 8;
+        this.decorator.flowersPerChunk = 1;
+        this.decorator.deadBushPerChunk = 1;
+        this.decorator.mushroomsPerChunk = 8;
+        this.decorator.bigMushroomsPerChunk = 1;
+        this.decorator.reedsPerChunk = 10;
+        this.decorator.clayPerChunk = 1;
+        this.decorator.waterlilyPerChunk = 4;
+        this.decorator.sandPatchesPerChunk = 0;
+        this.decorator.gravelPatchesPerChunk = 0;
+        this.decorator.grassPerChunk = 5;
+    }
+    
+    @Override
+    public WorldGenAbstractTree getRandomTreeFeature(Random rand)
+    {
+	WorldGenAbstractTree jungleTree = new WorldGenTrees(false, 4 + rand.nextInt(7), log, leaf, true);
+	WorldGenAbstractTree bigJungleTree = new WorldGenMegaJungle(false, 8, 18, log, leaf);
+	WorldGenAbstractTree swampTree = new WorldGenSwampTree(true);
+        WorldGenAbstractTree shrub = new WorldGenShrub(log, leaf);
+        if(rand.nextFloat() > 0.96)
+        {
+            return bigJungleTree;
+        }
+        else if(rand.nextFloat() > 0.96)
+        {
+            return jungleTree;
+        }
+        else if(rand.nextFloat() > 0.8)
+        {
+            return shrub;
+        }
+        return swampTree;
+    }
+    
+    @Override
+    public void generateTopBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal, Block stoneBlock)
+    {
+        double d0 = GRASS_COLOR_NOISE.getValue((double)x * 0.25D, (double)z * 0.25D);
 
-	// Clear all existing creatures
-	this.spawnableCaveCreatureList.clear();
-	this.spawnableCreatureList.clear();
-	this.spawnableMonsterList.clear();
-	this.spawnableWaterCreatureList.clear();
+        if (d0 > 0.0D)
+        {
+            int i = x & 15;
+            int j = z & 15;
 
-	this.decorator.treesPerChunk = 2;
-	this.decorator.grassPerChunk = 3;
+            for (int k = 255; k >= 0; --k)
+            {
+                if (chunkPrimerIn.getBlockState(j, k, i).getMaterial() != Material.AIR)
+                {
+                    if (k == 62 && chunkPrimerIn.getBlockState(j, k, i).getBlock() != Blocks.WATER)
+                    {
+                        chunkPrimerIn.setBlockState(j, k, i, WATER);
 
-	// Registers flowers when using bonemeal
-	this.addFlower(ModBlocks.BLUE_DAISY.getDefaultState(), 1);
-	this.addFlower(ModBlocks.RUBY_ORCHID.getDefaultState(), 1);
+                        if (d0 < 0.12D)
+                        {
+                            chunkPrimerIn.setBlockState(j, k + 1, i, Blocks.WATERLILY.getDefaultState());
+                        }
+                    }
 
-        // Add our mobs to spawn in the biome
-	this.spawnableCreatureList.add(new SpawnListEntry(EntityDreamElk.class, 10, 1, 5));
-	this.spawnableCreatureList.add(new SpawnListEntry(EntityAzureGolem.class, 1, 1, 1));
+                    break;
+                }
+            }
+        }
+	
+        super.generateTopBlocks(worldIn, rand, chunkPrimerIn, x, z, noiseVal, stoneBlock);
+    }
+    
+    @Override
+    public void decorate(World worldIn, Random rand, BlockPos pos)
+    {
+	super.decorate(worldIn, rand, pos);
+	// Generate vines, with less near the top
+	ModUtils.generateN(worldIn, rand, pos, 4, 70, 1, new WorldGenCliffMushroom(ModBlocks.CLIFF_STONE));
+	ModUtils.generateN(worldIn, rand, pos, 35, 65, 1, new WorldGenCliffShrub(log, leaf));
+	ModUtils.generateN(worldIn, rand, pos, 400, 60, 40, new WorldGenSwampVines());
+	ModUtils.generateN(worldIn, rand, pos, 200, 100, 40, new WorldGenSwampVines());
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public int getGrassColorAtPos(BlockPos pos)
+    {
+        double d0 = GRASS_COLOR_NOISE.getValue((double)pos.getX() * 0.0225D, (double)pos.getZ() * 0.0225D);
+        return d0 < -0.1D ? 4605755 : 5325610;
     }
 
-    /**
-     * Override so that we can have custom stone and have the biome fill in the top
-     * and filler blocks correctly Since we can't override directly, we have to hack
-     * around a bit in here and in the azure chunk generator
-     */
-    public void generateAzureTerrain(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal)
+    @SideOnly(Side.CLIENT)
+    public int getFoliageColorAtPos(BlockPos pos)
     {
-	int i = worldIn.getSeaLevel();
-	IBlockState iblockstate = this.topBlock;
-	IBlockState iblockstate1 = this.fillerBlock;
-	int j = -1;
-	int k = (int) (noiseVal / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
-	int l = x & 15;
-	int i1 = z & 15;
-	BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-
-	for (int j1 = 255; j1 >= 0; --j1)
-	{
-	    if (j1 <= rand.nextInt(5))
-	    {
-		chunkPrimerIn.setBlockState(i1, j1, l, BEDROCK);
-	    }
-	    else
-	    {
-		IBlockState iblockstate2 = chunkPrimerIn.getBlockState(i1, j1, l);
-
-		if (iblockstate2.getMaterial() == Material.AIR)
-		{
-		    j = -1;
-		}
-		/**
-		 * The line below is the block that needs to be match to the custom stone in
-		 * order to make the block replace correctly
-		 */
-		else if (iblockstate2.getBlock() == ModBlocks.DARK_AZURE_STONE)
-		{
-		    if (j == -1)
-		    {
-			if (k <= 0)
-			{
-			    iblockstate = AIR;
-			    iblockstate1 = STONE;
-			}
-			else if (j1 >= i - 4 && j1 <= i + 1)
-			{
-			    iblockstate = this.topBlock;
-			    iblockstate1 = this.fillerBlock;
-			}
-
-			if (j1 < i && (iblockstate == null || iblockstate.getMaterial() == Material.AIR))
-			{
-			    if (this.getTemperature(blockpos$mutableblockpos.setPos(x, j1, z)) < 0.15F)
-			    {
-				iblockstate = ICE;
-			    }
-			    else
-			    {
-				iblockstate = WATER;
-			    }
-			}
-
-			j = k;
-
-			if (j1 >= i - 1)
-			{
-			    chunkPrimerIn.setBlockState(i1, j1, l, iblockstate);
-			}
-			else if (j1 < i - 7 - k)
-			{
-			    iblockstate = AIR;
-			    iblockstate1 = STONE;
-			    chunkPrimerIn.setBlockState(i1, j1, l, GRAVEL);
-			}
-			else
-			{
-			    chunkPrimerIn.setBlockState(i1, j1, l, iblockstate1);
-			}
-		    }
-		    else if (j > 0)
-		    {
-			--j;
-			chunkPrimerIn.setBlockState(i1, j1, l, iblockstate1);
-
-			if (j == 0 && iblockstate1.getBlock() == Blocks.SAND && k > 1)
-			{
-			    j = rand.nextInt(4) + Math.max(0, j1 - 63);
-			    iblockstate1 = iblockstate1.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND ? RED_SANDSTONE : SANDSTONE;
-			}
-		    }
-		}
-	    }
-	}
+        return 6975545;
     }
 }

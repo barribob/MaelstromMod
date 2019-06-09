@@ -1,14 +1,21 @@
 package com.barribob.MaelstromMod.util;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.barribob.MaelstromMod.init.ModBlocks;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class ModUtils
 {
@@ -36,5 +43,20 @@ public class ModUtils
     public static Vec3d entityPos(Entity entity)
     {
 	return new Vec3d(entity.posX, entity.posY, entity.posZ);
+    }
+    
+    /*
+     * Generates a generator n times in a chunk
+     */
+    public static void generateN(World worldIn, Random rand, BlockPos pos, int n, int baseY, int randY, WorldGenerator gen)
+    {
+	randY = randY > 0 ? randY : 1;
+	for (int i = 0; i < n; ++i)
+	{
+	    int x = rand.nextInt(16) + 8;
+	    int y = rand.nextInt(randY) + baseY;
+	    int z = rand.nextInt(16) + 8;
+	    gen.generate(worldIn, rand, pos.add(x, y, z));
+	}
     }
 }
