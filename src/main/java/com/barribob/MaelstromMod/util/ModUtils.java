@@ -59,4 +59,9 @@ public class ModUtils
 	    gen.generate(worldIn, rand, pos.add(x, y, z));
 	}
     }
+    
+    public static BlockPos posToChunk(BlockPos pos)
+    {
+	return new BlockPos(pos.getX() / 16f, pos.getY(), pos.getZ() / 16f);
+    }
 }

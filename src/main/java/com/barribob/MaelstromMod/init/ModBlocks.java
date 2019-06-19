@@ -131,4 +131,11 @@ public class ModBlocks
 	public static final Block FULL_SWAMP_LOG = new BlockFullLog("full_swamp_log", SWAMP_LOG).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block SWAMP_LEAVES = new BlockSwampLeaves("swamp_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block SWAMP_SAPLING = new BlockSaplingBase("swamp_sapling", Blocks.GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenSwampTree(true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE = new BlockBase("gold_stone", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CRACKED_GOLD_STONE = new BlockBase("cracked_gold_stone", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_FENCE = new BlockFenceBase("gold_stone_fence", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_STAIRS = new BlockStairsBase("gold_stone_stairs", GOLD_STONE.getDefaultState(), 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWNED_PILLAR = new BlockBase("browned_pillar", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWNED_BLOCK = new BlockBase("browned_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_LAMP = new BlockBase("gold_stone_lamp", Material.ROCK).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
 }

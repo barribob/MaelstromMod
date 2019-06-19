@@ -25,17 +25,6 @@ public class WorldGenMaelstromCastle extends WorldGenStructure
     {
 	super(name);
     }
-    
-    @Override
-    public boolean generate(World worldIn, Random rand, BlockPos position)
-    {
-	if(position.getY() < 50)
-	{
-	    return false;
-	}
-	
-        return super.generate(worldIn, rand, position.add(new BlockPos(0, -25, 0)));
-    }
 
     @Override
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)

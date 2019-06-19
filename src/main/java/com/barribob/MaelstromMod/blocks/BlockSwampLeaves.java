@@ -18,6 +18,6 @@ public class BlockSwampLeaves extends BlockLeavesBase
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Item.getItemFromBlock(ModBlocks.AZURE_SAPLING);
+        return Item.getItemFromBlock(ModBlocks.SWAMP_SAPLING);
     }
 }
