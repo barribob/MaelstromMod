@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
@@ -26,6 +27,7 @@ import net.minecraft.world.World;
 public class ItemBoomstick extends ItemGun
 {
     protected float pelletCount = 15;
+
     public ItemBoomstick(String name, int cooldown, int maxDamage, Item ammo, float level, CreativeTabs tab)
     {
 	super(name, cooldown, 1, maxDamage, ammo, level, tab);
@@ -39,20 +41,20 @@ public class ItemBoomstick extends ItemGun
     {
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-	
+
 	for (int i = 0; i < pelletCount; i++)
 	{
 	    float inaccuracy = 20.0f;
 	    float speed = 3f;
 
-	    ProjectileBullet projectile = new ProjectileBullet(world, player, this.getEnchantedDamage(stack), stack);
+	    Projectile projectile = factory.get(world, player, stack, this);
 	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
 
 	    world.spawnEntity(projectile);
 	}
     }
-    
+
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {

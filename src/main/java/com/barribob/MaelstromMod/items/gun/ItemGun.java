@@ -6,6 +6,8 @@ import java.util.List;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.items.ItemBase;
+import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
+import com.barribob.MaelstromMod.items.gun.bullet.StandardBullet;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
@@ -42,7 +44,8 @@ public abstract class ItemGun extends ItemBase
     private float level;
     private final float damage;
     protected DecimalFormat df = new DecimalFormat("0.00");
-
+    protected BulletFactory factory;
+ 
     public ItemGun(String name, int cooldown, float damage, float useTime, Item ammo, float level, CreativeTabs tab)
     {
 	super(name, tab);
@@ -52,6 +55,13 @@ public abstract class ItemGun extends ItemBase
 	this.level = level;
 	this.setMaxDamage((int) (useTime/cooldown));
 	this.damage = damage;
+	this.factory = new StandardBullet();
+    }
+    
+    public ItemGun setBullet(BulletFactory factory)
+    {
+	this.factory = factory;
+	return this;
     }
     
     /**
@@ -68,7 +78,7 @@ public abstract class ItemGun extends ItemBase
 	return this.maxCooldown * (1 - reload * 0.1f);
     }
     
-    protected float getEnchantedDamage(ItemStack stack)
+    public float getEnchantedDamage(ItemStack stack)
     {
 	float maxPower = ModEnchantments.gun_power.getMaxLevel();
 	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);

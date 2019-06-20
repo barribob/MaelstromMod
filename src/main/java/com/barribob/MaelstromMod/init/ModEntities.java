@@ -22,6 +22,8 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
@@ -85,6 +87,8 @@ public class ModEntities
     public static final int FIREBALL_ID = 212;
     public static final int HEROBRINE_SLASH_ID = 213;
     public static final int BLACK_FIREBALL_ID = 214;
+    public static final int GOLDEN_BULLET_ID = 215;
+    public static final int GOLDEN_REPEATER_ID = 216;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -124,6 +128,8 @@ public class ModEntities
 	registerEntity("fireball", ProjectileFireball.class, FIREBALL_ID, 30);
 	registerEntity("herobrine_slash", ProjectileHerobrineQuake.class, HEROBRINE_SLASH_ID, 30);
 	registerEntity("black_fireball", ProjectileBlackFireball.class, BLACK_FIREBALL_ID, 30);
+	registerEntity("golden_bullet", ProjectileGoldenBullet.class, GOLDEN_BULLET_ID, 100);
+	registerEntity("golden_repeater", ProjectileGoldenRepeater.class, GOLDEN_REPEATER_ID, 100);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

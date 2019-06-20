@@ -22,7 +22,11 @@ import com.barribob.MaelstromMod.items.gun.ItemRepeater;
 import com.barribob.MaelstromMod.items.gun.ItemRifle;
 import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
+import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
+import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
+import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
+import com.barribob.MaelstromMod.items.tools.ToolBlackGoldSword;
 import com.barribob.MaelstromMod.items.tools.ToolDagger;
 import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
 import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
@@ -106,7 +110,7 @@ public class ModItems
     
     // Nexus Guns
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
-    public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setBullet(new RedstoneRepeater());
     public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     
     // Nexus Swords
@@ -122,4 +126,20 @@ public class ModItems
     // Nexus Armors
     public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png");
     public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.0f, "speed");
+    
+    /*
+     * Cliff Dimension Items
+     */
+    public static final Item GOLD_PELLET = new ItemBase("gold_pellet", null);
+    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, RARE_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, RARE_USE_TIME, 2, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
+    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, RARE_USE_TIME, IRON_PELLET, 2f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, RARE_USE_TIME, 2, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    
+    public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2f, "black_gold");
+    public static final Item BLACK_GOLD_CHESTPLATE = new ModArmorBase("black_gold_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2f, "black_gold");
+    public static final Item BLACK_GOLD_LEGGINGS = new ModArmorBase("black_gold_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2f, "black_gold");
+    public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2f, "black_gold");
+    
+    public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2f);
 }

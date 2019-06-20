@@ -30,6 +30,7 @@ import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
 import com.barribob.MaelstromMod.entity.render.RenderAnimatedBiped;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
@@ -73,6 +74,7 @@ public class RenderHandler
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
 	registerProjectileRenderer(EntityPortalSpawn.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(ProjectileGoldenBullet.class, ModItems.GOLD_PELLET);
 
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>()
 	{

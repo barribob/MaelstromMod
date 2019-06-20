@@ -50,7 +50,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 		if (tileentity instanceof TileEntityChest)
 		{
-		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.GOLDEN_RUINS, rand.nextLong());
 		}
 	    }
 	}
@@ -65,7 +65,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 		if (tileentity instanceof TileEntityChest)
 		{
-		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.STRONGHOLD_KEY_CHEST, rand.nextLong());
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.GOLDEN_RUINS, rand.nextLong());
 		}
 	    }
 	}

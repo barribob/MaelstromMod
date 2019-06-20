@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.google.common.collect.Multimap;
 
@@ -46,7 +47,7 @@ public class ItemMusket extends ItemGun
 	float inaccuracy = 2.0f;
 	float velocity = 5.0f;
 
-	ProjectileBullet projectile = new ProjectileBullet(world, player, this.getEnchantedDamage(stack), stack);
+	Projectile projectile = factory.get(world, player, stack, this);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(50);
 

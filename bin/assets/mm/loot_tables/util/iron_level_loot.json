@@ -8,11 +8,15 @@
                     "type": "item",
                     "name": "minecraft:iron_sword",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -20,11 +24,15 @@
                     "type": "item",
                     "name": "minecraft:iron_pickaxe",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -32,11 +40,15 @@
                     "type": "item",
                     "name": "minecraft:iron_shovel",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -44,11 +56,15 @@
                     "type": "item",
                     "name": "minecraft:iron_axe",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -56,11 +72,15 @@
                     "type": "item",
                     "name": "minecraft:iron_helmet",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -68,11 +88,15 @@
                     "type": "item",
                     "name": "minecraft:iron_chestplate",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -81,10 +105,15 @@
                     "name": "minecraft:iron_leggings",
                     "weight": 1,
                     "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -92,11 +121,15 @@
                     "type": "item",
                     "name": "minecraft:iron_boots",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
