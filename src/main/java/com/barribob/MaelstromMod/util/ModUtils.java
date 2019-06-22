@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -77,5 +78,18 @@ public class ModUtils
     public static BlockPos posToChunk(BlockPos pos)
     {
 	return new BlockPos(pos.getX() / 16f, pos.getY(), pos.getZ() / 16f);
+    }
+    
+    /**
+     * Creates a Vec3 using the pitch and yaw of the entities rotation.
+     * Taken from entity, so it can be used anywhere
+     */
+    public static Vec3d getVectorForRotation(float pitch, float yaw)
+    {
+        float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+        float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+        float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+        float f3 = MathHelper.sin(-pitch * 0.017453292F);
+        return new Vec3d((double)(f1 * f2), (double)f3, (double)(f * f2));
     }
 }

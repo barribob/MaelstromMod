@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
+import com.barribob.MaelstromMod.entity.entities.EntityGoldenMage;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
@@ -78,6 +79,7 @@ public class ModEntities
     public static final int NEXUS_BLADESMITH = 115;
     public static final int GOLDEN_PILLAR = 116;
     public static final int GOLDEN_SHADE = 117;
+    public static final int GOLDEN_MAGE = 118;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -124,6 +126,7 @@ public class ModEntities
 	registerEntity("nexus_bladesmith", NexusBladesmith.class, NEXUS_BLADESMITH, 50, nexus);
 	registerEntity("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, maelstrom);
 	registerEntity("golden_shade", EntityGoldenShade.class, GOLDEN_SHADE, 50, maelstrom);
+	registerEntity("golden_mage", EntityGoldenMage.class, GOLDEN_MAGE, 50, maelstrom);
 
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);

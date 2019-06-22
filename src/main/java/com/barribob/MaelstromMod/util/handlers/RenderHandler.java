@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
+import com.barribob.MaelstromMod.entity.entities.EntityGoldenMage;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
@@ -76,6 +77,7 @@ public class RenderHandler
 	registerModEntityRenderer(NexusSpecialTrader.class, new ModelNexusSaiyan(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/nexus_saiyan.png"));
 	registerModEntityRenderer(EntityGoldenPillar.class, new ModelGoldenPillar(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_pillar.png"));
 	registerModEntityRenderer(EntityGoldenShade.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_shade.png"));
+	registerModEntityRenderer(EntityGoldenMage.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_shade.png"));
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
