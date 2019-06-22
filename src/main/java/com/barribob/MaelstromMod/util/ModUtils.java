@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.util;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -19,6 +20,19 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class ModUtils
 {
+    /**
+     * Calls the function n times, passing in the ith iteration
+     * @param n
+     * @param func
+     */
+    public static void performNTimes(int n, Consumer<Integer> func)
+    {
+	for(int i = 0; i < n; i++)
+	{
+	    func.accept(i);
+	}
+    }
+    
     /**
      * Returns all EntityLivingBase entities in a certain bounding box
      */
