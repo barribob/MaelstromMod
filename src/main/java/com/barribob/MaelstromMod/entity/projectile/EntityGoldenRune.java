@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.projectile;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -73,7 +74,7 @@ public class EntityGoldenRune extends Projectile
 	{
 	    if (this.getDistanceSq(entity) < Math.pow(blastRadius, 2))
 	    {
-		if (this.shootingEntity != entity && this.shootingEntity != null && this.shootingEntity instanceof EntityLivingBase)
+		if (this.shootingEntity != entity && this.shootingEntity != null && this.shootingEntity instanceof EntityLivingBase && !(entity instanceof EntityMaelstromMob))
 		{
 		    entity.attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), this.getDamage());
 		    entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));

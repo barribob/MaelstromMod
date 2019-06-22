@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
+import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
@@ -26,6 +27,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenRepeater;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
@@ -75,6 +77,7 @@ public class ModEntities
     public static final int NEXUS_SAIYAN = 114;
     public static final int NEXUS_BLADESMITH = 115;
     public static final int GOLDEN_PILLAR = 116;
+    public static final int GOLDEN_SHADE = 117;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -95,6 +98,7 @@ public class ModEntities
     public static final int GOLDEN_REPEATER_ID = 216;
     public static final int PILLAR_FLAMES_ID = 217;
     public static final int GOLDEN_RUNE_ID = 218;
+    public static final int GOLDEN_SHADE_ATTACK_ID = 219;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -119,6 +123,7 @@ public class ModEntities
 	registerEntity("nexus_saiyan", NexusSpecialTrader.class, NEXUS_SAIYAN, 50, nexus);
 	registerEntity("nexus_bladesmith", NexusBladesmith.class, NEXUS_BLADESMITH, 50, nexus);
 	registerEntity("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, maelstrom);
+	registerEntity("golden_shade", EntityGoldenShade.class, GOLDEN_SHADE, 50, maelstrom);
 
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
@@ -139,6 +144,7 @@ public class ModEntities
 	registerEntity("golden_repeater", ProjectileGoldenRepeater.class, GOLDEN_REPEATER_ID, 30);
 	registerEntity("pillar_flames", ProjectilePillarFlames.class, PILLAR_FLAMES_ID, 30);
 	registerEntity("golden_rune", EntityGoldenRune.class, GOLDEN_RUNE_ID, 30);
+	registerEntity("golden_shade_attack", ProjectileGoldenThrust.class, GOLDEN_SHADE_ATTACK_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

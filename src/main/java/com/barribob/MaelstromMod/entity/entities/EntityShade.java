@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.action.ActionThrust;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
@@ -72,7 +73,7 @@ public class EntityShade extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    new ActionThrust().performAction(this, target);
+	    new ActionThrust(new ProjectileShadeAttack(world, this, this.getAttack())).performAction(this, target);
 	}
     }
 }

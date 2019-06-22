@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionFireballBurst;
 import com.barribob.MaelstromMod.entity.action.ActionGoldenRunes;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -57,7 +58,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob
 	{
 	    return;
 	}
-	Vec3d particleColor = this.currentAction == fireballBurst ? new Vec3d(0.8, 0.4, 0.4) : new Vec3d(0.8, 0.8, 0.4);
+	Vec3d particleColor = this.currentAction == fireballBurst ? new Vec3d(0.8, 0.4, 0.4) : ModColors.YELLOW;
 	
 	// Spawn particles as the eyes
 	ModUtils.performNTimes(3, (i) -> {
