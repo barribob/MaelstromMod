@@ -1,8 +1,7 @@
 package com.barribob.MaelstromMod.entity.action;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
-import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -10,6 +9,11 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * 
+ * Shoot two missiles originating from the side of the mob
+ *
+ */
 public class ActionGoldenMissles extends Action
 {
     public static final float PROJECTILE_INACCURACY = 4.0f;
@@ -27,7 +31,7 @@ public class ActionGoldenMissles extends Action
     
     private void launch(EntityLeveledMob actor, EntityLivingBase target, Vec3d offset)
     {
-	ProjectileGoldenBullet projectile = new ProjectileGoldenBullet(actor.world, actor, actor.getAttack(), null);
+	ProjectileGoldenMissile projectile = new ProjectileGoldenMissile(actor.world, actor, actor.getAttack());
 	projectile.posY = actor.posY + actor.getEyeHeight() - 0.5; // Raise pos y to summon the projectile above the head
 	projectile.posX += offset.x;
 	projectile.posZ += offset.z;

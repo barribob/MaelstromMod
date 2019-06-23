@@ -27,6 +27,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
@@ -101,6 +102,7 @@ public class ModEntities
     public static final int PILLAR_FLAMES_ID = 217;
     public static final int GOLDEN_RUNE_ID = 218;
     public static final int GOLDEN_SHADE_ATTACK_ID = 219;
+    public static final int GOLDEN_MAGE_ATTACK_ID = 220;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -148,6 +150,7 @@ public class ModEntities
 	registerEntity("pillar_flames", ProjectilePillarFlames.class, PILLAR_FLAMES_ID, 30);
 	registerEntity("golden_rune", EntityGoldenRune.class, GOLDEN_RUNE_ID, 30);
 	registerEntity("golden_shade_attack", ProjectileGoldenThrust.class, GOLDEN_SHADE_ATTACK_ID, 30);
+	registerEntity("golden_mage_attack", ProjectileGoldenMissile.class, GOLDEN_MAGE_ATTACK_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
