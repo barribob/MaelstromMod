@@ -11,6 +11,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
@@ -81,6 +82,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityGoldenShade.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_shade.png"));
 	registerModEntityRenderer(EntityGoldenMage.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_shade.png"));
 	registerModEntityRenderer(EntityGoldenBoss.class, new ModelGoldenBoss(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_boss.png"));
+	registerModEntityRenderer(EntityMaelstromGoldenBoss.class, new ModelGoldenBoss(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_golden_boss.png"));
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);

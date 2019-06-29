@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.projectile;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;

@@ -25,7 +25,6 @@ public class ActionGoldenFireball extends Action
 	double xDir = target.posX - actor.posX;
 	double yDir = d0 - projectile.posY;
 	double zDir = target.posZ - actor.posZ;
-	float f = MathHelper.sqrt(xDir * xDir + zDir * zDir) * 0.2F;
 	projectile.shoot(xDir, yDir, zDir, velocity, inaccuracy);
 	projectile.setTravelRange(25);
 	actor.world.spawnEntity(projectile);

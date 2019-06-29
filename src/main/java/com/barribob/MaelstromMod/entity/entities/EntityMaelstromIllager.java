@@ -1,5 +1,8 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import java.util.function.Supplier;
+
+import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -7,8 +10,6 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -16,7 +17,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
@@ -36,7 +36,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     private int[] easy_minion_spawning = { 2 };
     private int[] hard_minion_spawning = { 1, 3, 1, 3 };
     private int counter;
-    
+
     // For rendering purposes
     private boolean blockedBlow;
 
@@ -61,7 +61,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	rangedAttackAI = new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 360, 60, 15.0f, 0.5f);
 	this.tasks.addTask(4, rangedAttackAI);
     }
-    
+
     public boolean blockedBlow()
     {
 	return this.blockedBlow;
@@ -103,7 +103,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	{
 	    amount = 0;
 	}
-	
+
 	this.blockedBlow = !this.isSwingingArms();
 
 	float prevHealth = this.getHealth();
@@ -144,7 +144,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
 	int spawnAmount;
-	if(this.getHealth() < this.getMaxHealth() * 0.5f)
+	if (this.getHealth() < this.getMaxHealth() * 0.5f)
 	{
 	    spawnAmount = hard_minion_spawning[counter % this.hard_minion_spawning.length];
 	}
@@ -152,24 +152,28 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	{
 	    spawnAmount = easy_minion_spawning[counter % this.easy_minion_spawning.length];
 	}
-	
+
 	counter++;
-	
+
 	for (int i = 0; i < spawnAmount; i++)
 	{
-	    int r = rand.nextInt(3);
-	    if (r == 0)
-	    {
-		this.spawnMinion(new EntityShade(this.world));
-	    }
-	    else if (r == 1)
-	    {
-		this.spawnMinion(new EntityMaelstromMage(this.world));
-	    }
-	    else
-	    {
-		this.spawnMinion(new EntityHorror(this.world));
-	    }
+	    Supplier<EntityLeveledMob> mobSupplier = () -> {
+		int r = rand.nextInt(3);
+		if (r == 0)
+		{
+		    return new EntityShade(this.world);
+		}
+		else if (r == 1)
+		{
+		    return new EntityMaelstromMage(this.world);
+		}
+		else
+		{
+		    return new EntityHorror(this.world);
+		}
+	    };
+	    new ActionSpawnEnemy(mobSupplier).performAction(this, target);
+	    ;
 	}
     }
 
@@ -199,44 +203,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	}
 
 	super.readEntityFromNBT(compound);
-    }
-
-    /**
-     * Try to spawn a minion to aid in battle. Taken from the zombie spawn
-     * reinforcements code
-     */
-    private boolean spawnMinion(EntityMaelstromMob mob)
-    {
-	int tries = 100;
-	for (int i = 0; i < tries; i++)
-	{
-	    // Find a random position to spawn the enemy
-	    int i1 = (int) this.posX + MathHelper.getInt(this.rand, 2, 6) * MathHelper.getInt(this.rand, -1, 1);
-	    int j1 = (int) this.posY + MathHelper.getInt(this.rand, -2, 2) * MathHelper.getInt(this.rand, -1, 1);
-	    int k1 = (int) this.posZ + MathHelper.getInt(this.rand, 2, 6) * MathHelper.getInt(this.rand, -1, 1);
-
-	    if (this.world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(this.world, new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP))
-	    {
-		mob.setPosition((double) i1, (double) j1, (double) k1);
-
-		// Make sure that the position is a proper spawning position
-		if (!this.world.isAnyPlayerWithinRangeAt((double) i1, (double) j1, (double) k1, 3.0D)
-			&& this.world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(mob.getEntityBoundingBox()))
-		{
-		    // Spawn the entity
-		    this.world.spawnEntity(mob);
-		    if (this.getAttackTarget() != null)
-		    {
-			mob.setAttackTarget(this.getAttackTarget());
-		    }
-		    mob.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(mob)), (IEntityLivingData) null);
-		    mob.spawnExplosionParticle();
-		    mob.setLevel(this.getLevel());
-		    return true;
-		}
-	    }
-	}
-	return false;
     }
 
     /**

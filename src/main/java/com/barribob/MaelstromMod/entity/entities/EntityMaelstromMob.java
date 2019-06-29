@@ -35,9 +35,10 @@ import net.minecraft.world.World;
  *
  */
 public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob
-{    
+{
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
+
     public EntityMaelstromMob(World worldIn)
     {
 	super(worldIn);
@@ -157,7 +158,17 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	    this.world.setEntityState(this, (byte) 20);
 	}
     }
-    
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount)
+    {
+	if (source.getTrueSource() instanceof EntityMaelstromMob)
+	{
+	    return false;
+	}
+	return super.attackEntityFrom(source, amount);
+    }
+
     protected void entityInit()
     {
 	super.entityInit();
