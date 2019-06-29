@@ -18,21 +18,29 @@ public class ActionGoldenMissles extends Action
 {
     public static final float PROJECTILE_INACCURACY = 4.0f;
     public static final float PROJECTILE_SPEED = 1.2f;
-    
+    private float side;
+    private float height;
+
+    public ActionGoldenMissles(float side, float height)
+    {
+	this.side = side;
+	this.height = height;
+    }
+
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target)
     {
 	Vec3d look = ModUtils.getVectorForRotation(0, actor.renderYawOffset);
-	Vec3d right = look.rotateYaw((float) Math.PI * -0.5f).scale(0.5);
-	Vec3d left = look.rotateYaw((float) Math.PI * 0.5f).scale(0.5);
+	Vec3d right = look.rotateYaw((float) Math.PI * -0.5f).scale(side);
+	Vec3d left = look.rotateYaw((float) Math.PI * 0.5f).scale(side);
 	launch(actor, target, right);
 	launch(actor, target, left);
     }
-    
+
     private void launch(EntityLeveledMob actor, EntityLivingBase target, Vec3d offset)
     {
 	ProjectileGoldenMissile projectile = new ProjectileGoldenMissile(actor.world, actor, actor.getAttack());
-	projectile.posY = actor.posY + actor.getEyeHeight() - 0.5; // Raise pos y to summon the projectile above the head
+	projectile.posY = actor.posY + height; // Raise pos y to summon the projectile above the head
 	projectile.posX += offset.x;
 	projectile.posZ += offset.z;
 	double d0 = target.posY + (double) target.getEyeHeight() - 0.5;

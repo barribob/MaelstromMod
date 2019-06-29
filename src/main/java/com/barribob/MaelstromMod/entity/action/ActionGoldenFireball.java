@@ -3,13 +3,14 @@ package com.barribob.MaelstromMod.entity.action;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 
-public class ActionFireball extends Action
+public class ActionGoldenFireball extends Action
 {
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -19,7 +20,7 @@ public class ActionFireball extends Action
 	float inaccuracy = 2.0f;
 	float velocity = 0.5f;
 
-	ProjectileBlackFireball projectile = new ProjectileBlackFireball(actor.world, actor, actor.getAttack());
+	ProjectileGoldenFireball projectile = new ProjectileGoldenFireball(actor.world, actor, actor.getAttack(), null);
 	double d0 = target.posY + (double) target.getEyeHeight() - 2;
 	double xDir = target.posX - actor.posX;
 	double yDir = d0 - projectile.posY;

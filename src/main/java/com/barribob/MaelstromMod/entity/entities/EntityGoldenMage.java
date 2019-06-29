@@ -76,7 +76,7 @@ public class EntityGoldenMage extends EntityMaelstromMage
     {
 	if (!world.isRemote)
 	{
-	    new ActionGoldenMissles().performAction(this, target);
+	    new ActionGoldenMissles(0.5f, this.getEyeHeight() - 0.5f).performAction(this, target);
 	}
     }
 }
