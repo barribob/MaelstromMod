@@ -55,7 +55,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     {
 	super(worldIn);
     }
-    
+
     @Override
     protected void updateAttributes()
     {
@@ -91,7 +91,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     {
 	return LootTableHandler.HORROR;
     }
-    
+
     /**
      * Spawn summoning particles
      */
@@ -101,9 +101,14 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 
 	if (this.world.isRemote && this.isSwingingArms())
 	{
-	    float f = ModRandom.getFloat(0.5f);
-	    ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + f, this.posY + this.getEyeHeight() + 1.0f, this.posZ + f), true);
+	    this.prepareShoot();
 	}
+    }
+
+    protected void prepareShoot()
+    {
+	float f = ModRandom.getFloat(0.5f);
+	ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + f, this.posY + this.getEyeHeight() + 1.0f, this.posZ + f), true);
     }
 
     /**

@@ -1,0 +1,6 @@
+{
+   "parent": "item/handheld",
+   "textures": {
+       "layer0": "mm:items/golden_fireball_staff"
+   }
+}

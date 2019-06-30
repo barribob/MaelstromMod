@@ -49,12 +49,6 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     {
         return !(ench instanceof EnchantmentPower) && super.canApplyTogether(ench);
     }
-    
-    @Override
-    public int calcModifierDamage(int level, DamageSource source)
-    {
-        return super.calcModifierDamage(level, source);
-    }
 
     /**
      * Returns the maximum level that the enchantment can have.

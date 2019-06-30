@@ -8,11 +8,15 @@
                     "type": "item",
                     "name": "mm:shadow_dagger",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -20,11 +24,15 @@
                     "type": "item",
                     "weight": 1,
                     "name": "mm:maelstrom_cannon",
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -32,11 +40,15 @@
                     "type": "item",
                     "weight": 1,
                     "name": "mm:will-o-the-wisp_staff",
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -44,11 +56,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_sword",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -56,11 +72,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_pickaxe",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -68,11 +88,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_shovel",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -80,11 +104,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_axe",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -92,11 +120,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_helmet",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -104,11 +136,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_chestplate",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -116,11 +152,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_leggings",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -128,11 +168,15 @@
                     "type": "item",
                     "name": "minecraft:diamond_boots",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },

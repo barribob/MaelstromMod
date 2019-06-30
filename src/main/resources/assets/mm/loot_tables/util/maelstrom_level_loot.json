@@ -8,11 +8,15 @@
                     "type": "item",
                     "name": "mm:beast_blade",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -20,11 +24,15 @@
                     "type": "item",
                     "name": "mm:maelstrom_helmet",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -32,11 +40,15 @@
                     "type": "item",
                     "name": "mm:maelstrom_chestplate",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -44,11 +56,15 @@
                     "type": "item",
                     "name": "mm:maelstrom_leggings",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 },
@@ -56,11 +72,15 @@
                     "type": "item",
                     "name": "mm:maelstrom_boots",
                     "weight": 1,
-                    "function": "enchant_randomly",
-                    "conditions": [
+                    "functions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.3
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
                         }
                     ]
                 }

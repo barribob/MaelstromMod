@@ -166,7 +166,6 @@ public class ModelNexusSaiyan extends ModelBase {
 	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 	this.head.rotateAngleX = headPitch * 0.017453292F;
 	
-	// The up and down bobbing motion of the skull
 	this.body.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 2)) * 0.2f - 0.5f;
     }
 

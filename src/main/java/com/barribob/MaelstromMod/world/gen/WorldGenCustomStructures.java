@@ -105,6 +105,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 	    if (world.getWorldType() != WorldType.FLAT)
 	    {
+		System.out.println(new BlockPos(x, y, z));
 		generator.generate(world, rand, new BlockPos(x, y, z));
 	    }
 	}

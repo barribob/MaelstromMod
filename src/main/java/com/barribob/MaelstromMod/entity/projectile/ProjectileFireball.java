@@ -15,11 +15,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-/**
- * 
- * The projectile for the maelstrom cannon item
- *
- */
 public class ProjectileFireball extends ProjectileGun
 {
     private static final int PARTICLE_AMOUNT = 15;

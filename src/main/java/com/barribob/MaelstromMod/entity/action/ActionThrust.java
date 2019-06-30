@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.action;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -11,11 +12,15 @@ public class ActionThrust extends Action
 {
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 0.5f;
+    public final Projectile projectile;
+    
+    public ActionThrust(Projectile p) {
+	projectile = p;
+    }
     
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target)
     {
-	ProjectileShadeAttack projectile = new ProjectileShadeAttack(actor.world, actor, actor.getAttack());
 	double d0 = target.posY + (double) target.getEyeHeight() - 1.100000023841858D;
 	double xDir = target.posX - actor.posX;
 	double yDir = d0 - projectile.posY;

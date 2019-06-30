@@ -116,19 +116,26 @@ public class ModBlocks
 	public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f);
 	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, 5, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockBase("azure_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block BROWN_KEY_BLOCK = new BlockBase("brown_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block RED_DUNGEON_KEY_BLOCK = new BlockBase("red_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block ICE_KEY_BLOCK = new BlockBase("ice_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockBase("ice_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockBase("black_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockBase("azure_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
+	public static final Block BROWN_KEY_BLOCK = new BlockBase("brown_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
+	public static final Block RED_DUNGEON_KEY_BLOCK = new BlockBase("red_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
+	public static final Block ICE_KEY_BLOCK = new BlockBase("ice_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
+	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockBase("ice_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
+	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockBase("black_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
 	public static final Block NEXUS_HEROBRINE_SPAWNER = new BlockNexusHerobrineSpawner("nexus_herobrine_spawner");
 	public static final Block NEXUS_PORTAL = new BlockNexusPortal("nexus_portal").setCreativeTab(ModCreativeTabs.ALL);
 	
 	// Cliff Dimension
-	public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_LOG = new BlockLogBase("swamp_log").setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block FULL_SWAMP_LOG = new BlockFullLog("full_swamp_log", SWAMP_LOG).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_LOG = new BlockLogBase("swamp_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block FULL_SWAMP_LOG = new BlockFullLog("full_swamp_log", SWAMP_LOG).setHardness(1.0f).setResistance(10).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block SWAMP_LEAVES = new BlockSwampLeaves("swamp_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block SWAMP_SAPLING = new BlockSaplingBase("swamp_sapling", Blocks.GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenSwampTree(true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE = new BlockBase("gold_stone", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CRACKED_GOLD_STONE = new BlockBase("cracked_gold_stone", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_FENCE = new BlockFenceBase("gold_stone_fence", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_STAIRS = new BlockStairsBase("gold_stone_stairs", GOLD_STONE.getDefaultState(), 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWNED_PILLAR = new BlockBase("browned_pillar", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWNED_BLOCK = new BlockBase("browned_block", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_LAMP = new BlockBase("gold_stone_lamp", Material.ROCK, 2.0f, 40, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
 }

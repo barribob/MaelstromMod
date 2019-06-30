@@ -26,7 +26,6 @@ public class ActionFireball extends Action
 	double zDir = target.posZ - actor.posZ;
 	float f = MathHelper.sqrt(xDir * xDir + zDir * zDir) * 0.2F;
 	projectile.shoot(xDir, yDir, zDir, velocity, inaccuracy);
-	actor.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 	projectile.setTravelRange(25);
 	actor.world.spawnEntity(projectile);
     }
