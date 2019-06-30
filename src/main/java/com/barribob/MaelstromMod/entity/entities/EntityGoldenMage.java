@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.action.ActionGoldenMissles;
+import com.barribob.MaelstromMod.entity.animation.AnimationBeastSpit;
 import com.barribob.MaelstromMod.entity.animation.AnimationDualThrow;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -19,22 +20,23 @@ public class EntityGoldenMage extends EntityMaelstromMage
     {
 	super(worldIn);
 	this.setLevel(2);
+	currentAnimation = new AnimationDualThrow();
     }
-    
+
     @Override
     protected void updateAttributes()
     {
 	this.setBaseAttack(4);
     }
-    
+
     @Override
     public void onUpdate()
     {
-        super.onUpdate();
-        if(!world.isRemote && rand.nextBoolean())
-        {
-            ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
-        }
+	super.onUpdate();
+	if (!world.isRemote && rand.nextBoolean())
+	{
+	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
+	}
     }
 
     public void setSwingingArms(boolean swingingArms)
@@ -45,7 +47,7 @@ public class EntityGoldenMage extends EntityMaelstromMage
 	    this.world.setEntityState(this, (byte) 4);
 	}
     };
-    
+
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -59,7 +61,7 @@ public class EntityGoldenMage extends EntityMaelstromMage
 	    super.handleStatusUpdate(id);
 	}
     }
-    
+
     @Override
     protected void prepareShoot()
     {

@@ -10,11 +10,16 @@ import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -64,6 +69,12 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
 	this.attackHandler.getCurrentAttackAction().performAction(this, target);
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.GOLDEN_BOSS;
     }
 
     @Override
@@ -130,5 +141,17 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     {
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
+    }
+    
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+    {
+	return SoundEvents.BLOCK_METAL_PLACE;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound()
+    {
+	return SoundEvents.BLOCK_METAL_BREAK;
     }
 }

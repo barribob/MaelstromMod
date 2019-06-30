@@ -18,6 +18,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 public class MapGenGoldenRuins extends MapGenModStructure
 {
     ChunkGeneratorCliff provider;
+
     public MapGenGoldenRuins(int spacing, int offset, int odds, ChunkGeneratorCliff provider)
     {
 	super(spacing, offset, odds);
@@ -31,18 +32,20 @@ public class MapGenGoldenRuins extends MapGenModStructure
 
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
-	return new MapGenGoldenRuins.Start(this.world, this.rand, this.provider, chunkX, chunkZ);
+	return new MapGenGoldenRuins.Start(this.world, this.rand, chunkX, chunkZ, provider);
     }
 
-    public class Start extends StructureStart
+    public static class Start extends StructureStart
     {
+	ChunkGeneratorCliff provider;
 	public Start()
 	{
 	}
 
-	public Start(World worldIn, Random random, ChunkGeneratorCliff provider, int chunkX, int chunkZ)
+	public Start(World worldIn, Random random, int chunkX, int chunkZ, ChunkGeneratorCliff provider)
 	{
 	    super(chunkX, chunkZ);
+	    this.provider = provider;
 	    this.create(worldIn, random, chunkX, chunkZ);
 	}
 
@@ -56,7 +59,6 @@ public class MapGenGoldenRuins extends MapGenModStructure
 	    GoldenRuins stronghold = new GoldenRuins(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), provider, components);
 	    stronghold.startStronghold(blockpos, Rotation.NONE);
 	    this.updateBoundingBox();
-	    System.out.println(blockpos);
 	}
     }
 }

@@ -57,9 +57,13 @@ public class ProjectileGoldenFireball extends ProjectileGun
     @Override
     protected void spawnImpactParticles()
     {
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1000; i++)
 	{
-	    ParticleManager.spawnFirework(world, this.getPositionVector(), ModColors.YELLOW, ModRandom.randVec().normalize().scale(0.3));
+	    Vec3d unit = new Vec3d(1, 1, 1).scale(ModRandom.randSign());
+	    unit = unit.rotatePitch((float) (Math.PI * ModRandom.getFloat(1f)));
+	    unit = unit.rotateYaw((float) (Math.PI * ModRandom.getFloat(1f)));
+	    unit = unit.normalize().scale(EXPOSION_AREA_FACTOR);
+	    ParticleManager.spawnEffect(world, unit.add(getPositionVector()), ModColors.YELLOW);
 	}
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{

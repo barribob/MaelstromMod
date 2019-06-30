@@ -11,6 +11,9 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -23,7 +26,6 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     public EntityGoldenPillar(World worldIn)
     {
 	super(worldIn);
-	this.isImmovable = true;
 	this.setSize(1.3f, 3.0f);
 	this.setNoGravity(true);
 	this.setLevel(2);
@@ -41,6 +43,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(40.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
     }
 
     @Override
@@ -97,5 +100,17 @@ public class EntityGoldenPillar extends EntityMaelstromMob
 	{
 	    currentAction = goldenRune;
 	}
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+    {
+	return SoundEvents.BLOCK_METAL_PLACE;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound()
+    {
+	return SoundEvents.BLOCK_METAL_BREAK;
     }
 }

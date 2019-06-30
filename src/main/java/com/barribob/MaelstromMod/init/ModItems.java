@@ -22,7 +22,9 @@ import com.barribob.MaelstromMod.items.gun.ItemRepeater;
 import com.barribob.MaelstromMod.items.gun.ItemRifle;
 import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
+import com.barribob.MaelstromMod.items.gun.bullet.Fireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
+import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
 import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
@@ -121,7 +123,7 @@ public class ModItems
     // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", 220, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
-    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL).setBullet(new Fireball());
     
     // Nexus Armors
     public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png");
@@ -142,4 +144,5 @@ public class ModItems
     public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2f, "black_gold");
     
     public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2f);
+    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new GoldenFireball());
 }

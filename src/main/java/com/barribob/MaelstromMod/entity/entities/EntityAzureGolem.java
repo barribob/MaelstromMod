@@ -39,6 +39,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	super(worldIn);
 	this.setLevel(2);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
+	this.currentAnimation = new AnimationAzureGolem();
     }
 
     @Override

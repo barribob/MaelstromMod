@@ -76,9 +76,10 @@ public class RuinsTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		String[] entities = { "shade", "horror", "floating_skull" };
-		String entityName = ModRandom.choice(entities);
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(1, 4));
+		String[] entities = { "golden_mage", "golden_shade", "golden_pillar" };
+		int[] maxAmounts = { 3, 3, 1 };
+		int i = ModRandom.range(0, 3);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entities[i]), ModRandom.range(1, maxAmounts[i] + 1));
 	    }
 	}
 	else if (function.startsWith("boss"))
@@ -88,7 +89,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":beast"), 1);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":golden_boss"), 1);
 	    }
 	}
     }

@@ -1,9 +1,11 @@
 package com.barribob.MaelstromMod.entity.model;
 
+import java.util.List;
+
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.EntityLivingBase;
 
 public abstract class ModelAnimated extends ModelBase

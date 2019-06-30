@@ -19,6 +19,7 @@ public class EntityGoldenShade extends EntityShade
     {
 	super(worldIn);
 	this.setLevel(2);
+	this.currentAnimation = new AnimationShadeThrust();
     }
     
     @Override
@@ -45,7 +46,6 @@ public class EntityGoldenShade extends EntityShade
     {
 	if (id == 4)
 	{
-	    currentAnimation = new AnimationShadeThrust();
 	    currentAnimation.startAnimation();
 	}
 	else

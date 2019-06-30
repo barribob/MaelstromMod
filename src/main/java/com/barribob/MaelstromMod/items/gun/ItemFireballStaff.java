@@ -2,9 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
-import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,7 +30,7 @@ public class ItemFireballStaff extends ItemGun
 	float inaccuracy = 2.0f;
 	float velocity = 1.3f;
 
-	ProjectileFireball projectile = new ProjectileFireball(world, player, this.getEnchantedDamage(stack), stack);
+	Projectile projectile = factory.get(world, player, stack, this);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25);
 

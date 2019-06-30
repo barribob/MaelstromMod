@@ -48,6 +48,7 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setSize(1.8f, 1.8f);
+	this.currentAnimation = new AnimationBeastSpit();
     }
 
     // Init the melee and range ai
@@ -207,7 +208,6 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	if (id == 4)
 	{
-	    this.currentAnimation = new AnimationBeastSpit();
 	    this.currentAnimation.startAnimation();
 	}
 	else

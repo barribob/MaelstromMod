@@ -45,7 +45,7 @@ public class ProjectileGoldenMissile extends Projectile
 	    {
 		result.entityHit.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage((EntityLivingBase) this.shootingEntity), this.getDamage());
 	    }
-	    super.onHit(result);
 	}
+	super.onHit(result);
     }
 }
