@@ -133,16 +133,16 @@ public class ModItems
      * Cliff Dimension Items
      */
     public static final Item GOLD_PELLET = new ItemBase("gold_pellet", null);
-    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, RARE_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
-    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, RARE_USE_TIME, 2, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
-    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, RARE_USE_TIME, IRON_PELLET, 2f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
-    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, RARE_USE_TIME, 2, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
+    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, RARE_USE_TIME, IRON_PELLET, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
     
-    public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2f, "black_gold");
-    public static final Item BLACK_GOLD_CHESTPLATE = new ModArmorBase("black_gold_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2f, "black_gold");
-    public static final Item BLACK_GOLD_LEGGINGS = new ModArmorBase("black_gold_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2f, "black_gold");
-    public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2f, "black_gold");
+    public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2.5f, "black_gold");
+    public static final Item BLACK_GOLD_CHESTPLATE = new ModArmorBase("black_gold_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2.5f, "black_gold");
+    public static final Item BLACK_GOLD_LEGGINGS = new ModArmorBase("black_gold_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2.5f, "black_gold");
+    public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2.5f, "black_gold");
     
-    public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2f);
-    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new GoldenFireball());
+    public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2.5f);
+    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenFireball());
 }

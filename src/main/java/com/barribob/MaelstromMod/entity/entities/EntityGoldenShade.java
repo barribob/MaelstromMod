@@ -18,7 +18,7 @@ public class EntityGoldenShade extends EntityShade
     public EntityGoldenShade(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2);
+	this.setLevel(2.5f);
 	this.currentAnimation = new AnimationShadeThrust();
     }
     
