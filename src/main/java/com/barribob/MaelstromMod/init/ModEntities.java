@@ -15,6 +15,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusArmorer;
@@ -45,6 +46,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMissile;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
@@ -88,6 +90,7 @@ public class ModEntities
     public static final int GOLDEN_MAGE = 118;
     public static final int GOLDEN_BOSS = 119;
     public static final int MAELSTROM_GOLDEN_BOSS = 120;
+    public static final int MAELSTROM_WITCH = 121;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -113,6 +116,7 @@ public class ModEntities
     public static final int OCTO_MISSILES_ID = 221;
     public static final int GOLDEN_FIREBALL_ID = 222;
     public static final int MAELSTROM_QUAKE_ID = 223;
+    public static final int WOOD_ID = 224;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -141,6 +145,7 @@ public class ModEntities
 	registerEntity("golden_mage", EntityGoldenMage.class, GOLDEN_MAGE, 50, maelstrom);
 	registerEntity("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, maelstrom);
 	registerEntity("maelstrom_golden_boss", EntityMaelstromGoldenBoss.class, MAELSTROM_GOLDEN_BOSS, 70, maelstrom);
+	registerEntity("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, maelstrom);
 
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
@@ -166,6 +171,7 @@ public class ModEntities
 	registerEntity("octo_missiles", EntityOctoMissileLauncher.class, OCTO_MISSILES_ID, 30);
 	registerEntity("golden_fireball", ProjectileGoldenFireball.class, GOLDEN_FIREBALL_ID, 30);
 	registerEntity("maelstrom_quake", ProjectileMaelstromQuake.class, MAELSTROM_QUAKE_ID, 30);
+	registerEntity("wood", ProjectileMaelstromMissile.class, WOOD_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
