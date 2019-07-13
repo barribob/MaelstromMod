@@ -16,7 +16,7 @@ public class ModRandom
      */
     public static float getFloat(float range)
     {
-	return (rand.nextFloat() - rand.nextFloat()) * 0.5f * range;
+	return rand.nextFloat() * randSign() * range;
     }
     
     /**
