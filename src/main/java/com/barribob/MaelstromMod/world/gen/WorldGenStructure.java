@@ -25,7 +25,7 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
  */
 public class WorldGenStructure extends WorldGenerator implements IStructure
 {
-    public static String structureName;
+    public String structureName;
 
     /**
      * @param name
@@ -57,9 +57,9 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 	Template template = manager.get(mcServer, location);
 	if (template != null)
 	{
-	    template.addBlocksToWorldChunk(world, pos, settings);
-
-	    Map<BlockPos, String> dataBlocks = template.getDataBlocks(pos, new PlacementSettings());
+	    template.addBlocksToWorld(world, pos, settings, 18);
+	    
+	    Map<BlockPos, String> dataBlocks = template.getDataBlocks(pos, settings);
 	    for (Entry<BlockPos, String> entry : dataBlocks.entrySet())
 	    {
 		String s = entry.getValue();

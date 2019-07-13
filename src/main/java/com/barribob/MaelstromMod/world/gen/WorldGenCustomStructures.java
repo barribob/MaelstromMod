@@ -49,15 +49,35 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    }
 	};
     };
+    public static final WorldGenStructure CLIFF_TEMPLE = new WorldGenStructure("cliff/swamp_temple")
+    {
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    if (function.startsWith("enemy"))
+	    {
+		worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityMobSpawner)
+		{
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":cliff_golem"), 1);
+		}
+	    }
+	};
+    };
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
 	if (world.provider.getDimension() == ModConfig.cliff_dimension_id)
 	{
-	    if (chunkX % 7 == 0 || chunkZ % 7 == 0)
+	    if (chunkX % 10 == 0 && chunkZ % 10 == 0)
 	    {
-		generateBiomeSpecificStructure(WITCH_HUT, world, random, chunkX, chunkZ, 5, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		generateBiomeSpecificStructure(WITCH_HUT, world, random, chunkX, chunkZ, 3, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+	    }
+	    else if ((chunkX + 5) % 10 == 0 && (chunkZ + 5) % 10 == 0)
+	    {
+		generateBiomeSpecificStructure(CLIFF_TEMPLE, world, random, chunkX, chunkZ, 3, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
 	    }
 	}
     }
@@ -79,8 +99,8 @@ public class WorldGenCustomStructures implements IWorldGenerator
     {
 	ArrayList<Class<?>> classesList = new ArrayList<Class<?>>(Arrays.asList(classes));
 
-	int x = chunkX * 16 + rand.nextInt(15);
-	int z = chunkZ * 16 + rand.nextInt(15);
+	int x = chunkX * 16 + 8;
+	int z = chunkZ * 16 + 8;
 	int y = calculateGenerationHeight(world, x, z, topBlock);
 	BlockPos pos = new BlockPos(x, y, z);
 
