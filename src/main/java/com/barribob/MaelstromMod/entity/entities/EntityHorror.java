@@ -55,7 +55,7 @@ public class EntityHorror extends EntityMaelstromMob
 	{
 	    for (int i = 0; i < 5; i++)
 	    {
-		ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX + ModRandom.getFloat(0.7f), this.posY + 1, this.posZ + ModRandom.getFloat(0.7f)), true);
+		ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX + ModRandom.getFloat(0.4f), this.posY + 1, this.posZ + ModRandom.getFloat(0.4f)), true);
 	    }
 	}
     }

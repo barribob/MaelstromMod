@@ -43,7 +43,7 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	    for(int i = 0; i < particles; i++)
 	    {
 		Vec3d offset = this.relTeleportPos.normalize().scale(i * spacing);
-		float noiseFactor = 0.25f;
+		float noiseFactor = 0.125f;
 		Vec3d noise = new Vec3d(ModRandom.getFloat(noiseFactor), ModRandom.getFloat(noiseFactor), ModRandom.getFloat(noiseFactor));
 		ParticleManager.spawnEffect(this.world, pos.add(offset).add(timeOffset).add(noise), new Vec3d(1, 1, 1));
 	    }

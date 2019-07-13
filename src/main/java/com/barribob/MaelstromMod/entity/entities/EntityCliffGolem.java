@@ -97,7 +97,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
     @Override
     protected float getSoundPitch()
     {
-	return 0.9f + ModRandom.getFloat(0.2f);
+	return 0.9f + ModRandom.getFloat(0.1f);
     }
 
     @Nullable

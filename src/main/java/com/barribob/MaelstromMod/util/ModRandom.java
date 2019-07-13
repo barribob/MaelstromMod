@@ -35,7 +35,7 @@ public class ModRandom
      */
     public static Vec3d randVec()
     {
-	return new Vec3d(getFloat(1), getFloat(1), getFloat(1));
+	return new Vec3d(getFloat(0.5f), getFloat(0.5f), getFloat(0.5f));
     }
     
     /**

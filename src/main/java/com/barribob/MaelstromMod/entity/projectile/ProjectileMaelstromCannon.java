@@ -58,7 +58,7 @@ public class ProjectileMaelstromCannon extends ProjectileGun
     {
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{
-	    Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(1), this.posY + ModRandom.getFloat(1), this.posZ + ModRandom.getFloat(1));
+	    Vec3d vec1 = ModRandom.randVec().scale(EXPOSION_AREA_FACTOR * 0.25).add(getPositionVector()); 
 	    ParticleManager.spawnMaelstromExplosion(world, rand, vec1);
 	}
     }

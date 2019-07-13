@@ -86,7 +86,7 @@ public class ParticleManager
      */
     public static void spawnMaelstromExplosion(World worldIn, Random rand, Vec3d pos)
     {
-	Particle particle = new ParticleExplosionLarge.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.1f), 0.0f, ModRandom.getFloat(0.1f));
+	Particle particle = new ParticleExplosionLarge.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.05f), 0.0f, ModRandom.getFloat(0.05f));
 	setMaelstromColor(particle);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
@@ -100,7 +100,7 @@ public class ParticleManager
      */
     public static void spawnMaelstromLargeSmoke(World worldIn, Random rand, Vec3d pos)
     {
-	Particle particle = new ParticleExplosion.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.1f), 0.0f, ModRandom.getFloat(0.1f));
+	Particle particle = new ParticleExplosion.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.05f), 0.0f, ModRandom.getFloat(0.05f));
 	setMaelstromColor(particle);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
@@ -140,7 +140,7 @@ public class ParticleManager
     {
 	Particle particle = new ParticleFlame.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
 	
-	float f = ModRandom.getFloat(0.2f);
+	float f = ModRandom.getFloat(0.1f);
 	particle.setRBGColorF(0.1f + f, 0, 0.1f + f);
 	
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
@@ -172,7 +172,7 @@ public class ParticleManager
      */
     private static void setMaelstromColor(Particle particle)
     {
-	float f = ModRandom.getFloat(0.4f);
+	float f = ModRandom.getFloat(0.2f);
 	particle.setRBGColorF(0.3f + f, 0.2f + f, 0.4f + f);
     }
 
@@ -183,7 +183,7 @@ public class ParticleManager
      */
     private static void setMaelstromLightColor(Particle particle)
     {
-	float f = ModRandom.getFloat(0.4f);
+	float f = ModRandom.getFloat(0.2f);
 	particle.setRBGColorF(0.8f + f, 0.5f + f, 0.8f + f);
     }
 }

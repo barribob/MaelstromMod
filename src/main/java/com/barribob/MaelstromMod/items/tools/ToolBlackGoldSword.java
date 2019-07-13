@@ -54,7 +54,7 @@ public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverrid
 	
 	for(int i = 0; i < 5; i++)
 	{
-	    ParticleManager.spawnEffect(player.world, new Vec3d(target.posX, target.posY + 1, target.posZ).add(new Vec3d(ModRandom.getFloat(targetEntitySize * 2), ModRandom.getFloat(targetEntitySize * 2), ModRandom.getFloat(targetEntitySize * 2))), new Vec3d(0.8, 0.8, 0.4f));
+	    ParticleManager.spawnEffect(player.world, new Vec3d(target.posX, target.posY + 1, target.posZ).add(new Vec3d(ModRandom.getFloat(targetEntitySize), ModRandom.getFloat(targetEntitySize), ModRandom.getFloat(targetEntitySize))), new Vec3d(0.8, 0.8, 0.4f));
 	}
     }
     

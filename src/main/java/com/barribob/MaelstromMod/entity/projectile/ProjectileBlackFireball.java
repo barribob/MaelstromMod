@@ -68,13 +68,13 @@ public class ProjectileBlackFireball extends Projectile
 	    }
 	    else
 	    {
-		this.world.spawnParticle(EnumParticleTypes.FLAME, pos.x, pos.y, pos.z, ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f));
+		this.world.spawnParticle(EnumParticleTypes.FLAME, pos.x, pos.y, pos.z, ModRandom.getFloat(0.25f), ModRandom.getFloat(0.25f), ModRandom.getFloat(0.25f));
 	    }
 	}
 	for (int i = 0; i < 10; i++)
 	{
 	    Vec3d pos = ModUtils.entityPos(this).add(ModRandom.randVec().scale(size));
-	    this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.x, pos.y, pos.z, ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f), ModRandom.getFloat(0.5f));
+	    this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.x, pos.y, pos.z, ModRandom.getFloat(0.25f), ModRandom.getFloat(0.25f), ModRandom.getFloat(0.25f));
 	}
     }
 

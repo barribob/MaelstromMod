@@ -47,7 +47,7 @@ public class ProjectileFireball extends ProjectileGun
      */
     protected void spawnParticles()
     {
-	float size = 0.5f;
+	float size = 0.25f;
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
 	    ParticleManager.spawnEffect(this.world, new Vec3d(this.posX, this.posY, this.posZ).add(new Vec3d(ModRandom.getFloat(size), ModRandom.getFloat(size), ModRandom.getFloat(size))), FIREBALL_COLOR);
