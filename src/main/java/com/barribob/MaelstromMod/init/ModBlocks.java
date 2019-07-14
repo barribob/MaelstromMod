@@ -138,4 +138,10 @@ public class ModBlocks
 	public static final Block BROWNED_PILLAR = new BlockBase("browned_pillar", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block BROWNED_BLOCK = new BlockBase("browned_block", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block GOLD_STONE_LAMP = new BlockBase("gold_stone_lamp", Material.ROCK, 2.0f, 40, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_PLANKS = new BlockBase("swamp_planks", Material.WOOD, 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_PLANK_STAIRS = new BlockStairsBase("swamp_plank_stairs", SWAMP_PLANKS.getDefaultState(), 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_FENCE = new BlockFenceBase("swamp_fence", Material.WOOD, 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CHISELED_CLIFF_STONE = new BlockBase("chiseled_cliff_stone", Material.ROCK, 2.0f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_BRICK = new BlockBase("swamp_brick", Material.ROCK, 2.0f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CRACKED_SWAMP_BRICK = new BlockBase("cracked_swamp_brick", Material.ROCK, 2.0f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 }

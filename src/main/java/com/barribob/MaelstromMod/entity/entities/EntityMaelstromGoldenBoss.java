@@ -38,7 +38,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     public EntityMaelstromGoldenBoss(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2);
+	this.setLevel(2.5f);
 	this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(worldIn)), () -> new AnimationOctoMissiles());
 	this.attackHandler.addAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.addAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());

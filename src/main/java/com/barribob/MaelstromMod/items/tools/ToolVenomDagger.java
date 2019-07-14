@@ -28,10 +28,10 @@ public class ToolVenomDagger extends ToolDagger
     public void doSweepAttack(EntityPlayer player, EntityLivingBase target)
     {	
 	target.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
-	
+	float f = 0.5f;
 	for(int i = 0; i < 5; i++)
 	{
-	    ParticleManager.spawnEffect(player.world, new Vec3d(target.posX, target.posY + 1, target.posZ).add(new Vec3d(ModRandom.getFloat(1), ModRandom.getFloat(1), ModRandom.getFloat(1))), new Vec3d(0.2, 0.5, 0.2));
+	    ParticleManager.spawnEffect(player.world, new Vec3d(target.posX, target.posY + 1, target.posZ).add(new Vec3d(ModRandom.getFloat(f), ModRandom.getFloat(f), ModRandom.getFloat(f))), new Vec3d(0.2, 0.5, 0.2));
 	}
     }
     

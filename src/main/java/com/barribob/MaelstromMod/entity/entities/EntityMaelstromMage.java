@@ -107,7 +107,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 
     protected void prepareShoot()
     {
-	float f = ModRandom.getFloat(0.5f);
+	float f = ModRandom.getFloat(0.25f);
 	ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + f, this.posY + this.getEyeHeight() + 1.0f, this.posZ + f), true);
     }
 

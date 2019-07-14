@@ -1,13 +1,13 @@
 package com.barribob.MaelstromMod.entity.render;
 
-import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.model.ModelAzureGolem;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderAzureGolem extends RenderScaledMob<EntityAzureGolem>
+public class RenderAzureGolem extends RenderScaledMob<EntityLeveledMob>
 {
     public static final float AZURE_GOLEM_SIZE = 1.4f;
     
@@ -17,7 +17,7 @@ public class RenderAzureGolem extends RenderScaledMob<EntityAzureGolem>
     }
 
     @Override
-    protected void applyRotations(EntityAzureGolem entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
+    protected void applyRotations(EntityLeveledMob entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
     {
 	super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
 

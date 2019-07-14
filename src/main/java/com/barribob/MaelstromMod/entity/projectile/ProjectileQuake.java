@@ -26,8 +26,7 @@ import net.minecraft.world.World;
 public class ProjectileQuake extends ProjectileGun
 {
     private static final int PARTICLE_AMOUNT = 10;
-    private static final int EXPOSION_AREA_FACTOR = 2;
-    private static final float AREA_FACTOR = 0.5f;
+    protected static final float AREA_FACTOR = 0.5f;
 
     public ProjectileQuake(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)
     {

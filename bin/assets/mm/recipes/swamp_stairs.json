@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "swamp_fence",
+  "pattern": [
+    "W  ",
+    "WW ",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "mm:swamp_planks",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "mm:swamp_plank_stairs",
+    "count": 4
+  }
+}

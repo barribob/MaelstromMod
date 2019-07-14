@@ -1,0 +1,6 @@
+{
+    "parent": "block/fence_post",
+    "textures": {
+        "texture": "mm:blocks/swamp_planks"
+    }
+}

@@ -19,7 +19,7 @@ public class EntityGoldenMage extends EntityMaelstromMage
     public EntityGoldenMage(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2);
+	this.setLevel(2.5f);
 	currentAnimation = new AnimationDualThrow();
     }
 

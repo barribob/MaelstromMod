@@ -2,10 +2,9 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import javax.annotation.Nullable;
 
+import com.barribob.MaelstromMod.entity.action.ActionGolemSlam;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationAzureGolem;
-import com.barribob.MaelstromMod.entity.animation.Animation;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -21,7 +20,6 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -105,7 +103,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     @Override
     protected float getSoundPitch()
     {
-	return 0.9f + ModRandom.getFloat(0.2f);
+	return 0.9f + ModRandom.getFloat(0.1f);
     }
 
     @Nullable
@@ -117,19 +115,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	float inaccuracy = 0.0f;
-	float speed = 2f;
-	float pitch = 0; // Projectiles aim straight ahead always
-
-	// Shoots projectiles in a small arc
-	for (int i = 0; i < 5; i++)
-	{
-	    ProjectileQuake projectile = new ProjectileQuake(world, this, this.getAttack(), (ItemStack) null);
-	    projectile.setPosition(this.posX, this.posY, this.posZ);
-	    projectile.shoot(this, pitch, this.rotationYaw - 20 + (i * 10), 0.0F, speed, inaccuracy);
-	    projectile.setTravelRange(8f);
-	    world.spawnEntity(projectile);
-	}
+	new ActionGolemSlam().performAction(this, target);
     }
 
     @Override

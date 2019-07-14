@@ -52,8 +52,8 @@ public class ProjectileSkullAttack extends Projectile
      */
     protected void spawnParticles()
     {
-	float f1 = 2.0f;
-	float f2 = 0.3f;
+	float f1 = 1.25f;
+	float f2 = 0.15f;
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
 	    ParticleManager.spawnMaelstromSmoke(world, rand,

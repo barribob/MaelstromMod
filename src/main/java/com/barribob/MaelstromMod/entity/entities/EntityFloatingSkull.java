@@ -78,7 +78,7 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     @Override
     protected float getSoundPitch()
     {
-	return 0.8f + ModRandom.getFloat(0.2f);
+	return 0.8f + ModRandom.getFloat(0.1f);
     }
 
     @Override

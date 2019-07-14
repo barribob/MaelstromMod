@@ -16,7 +16,7 @@ public class ModRandom
      */
     public static float getFloat(float range)
     {
-	return (rand.nextFloat() - rand.nextFloat()) * 0.5f * range;
+	return rand.nextFloat() * randSign() * range;
     }
     
     /**
@@ -35,7 +35,7 @@ public class ModRandom
      */
     public static Vec3d randVec()
     {
-	return new Vec3d(getFloat(1), getFloat(1), getFloat(1));
+	return new Vec3d(getFloat(0.5f), getFloat(0.5f), getFloat(0.5f));
     }
     
     /**

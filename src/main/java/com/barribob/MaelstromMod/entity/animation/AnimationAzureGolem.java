@@ -41,6 +41,7 @@ public class AnimationAzureGolem extends Animation<ModelAzureGolem>
 	{
 	    model.waist.rotateAngleX = waistRotationX;
 	}
+	model.waist.rotateAngleZ = 0;
     }
     
     private float triangleWave(float p_78172_1_, float p_78172_2_)

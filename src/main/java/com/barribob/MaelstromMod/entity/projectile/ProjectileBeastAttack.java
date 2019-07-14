@@ -53,7 +53,7 @@ public class ProjectileBeastAttack extends Projectile
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
 	    ParticleManager.spawnMaelstromSmoke(world, rand,
-		    new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + ModRandom.getFloat(0.5f), this.posZ + ModRandom.getFloat(0.5f)), true);
+		    new Vec3d(this.posX + ModRandom.getFloat(0.25f), this.posY + ModRandom.getFloat(0.25f), this.posZ + ModRandom.getFloat(0.25f)), true);
 	}
     }
     
@@ -62,7 +62,7 @@ public class ProjectileBeastAttack extends Projectile
     {
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{
-	    Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(1), this.posY + ModRandom.getFloat(1), this.posZ + ModRandom.getFloat(1));
+	    Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + ModRandom.getFloat(0.5f), this.posZ + ModRandom.getFloat(0.5f));
 	    ParticleManager.spawnMaelstromSmoke(world, rand, vec1, true);
 	}
     }

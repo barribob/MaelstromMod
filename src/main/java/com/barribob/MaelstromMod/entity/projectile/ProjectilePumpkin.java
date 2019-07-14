@@ -51,7 +51,7 @@ public class ProjectilePumpkin extends ProjectileGun
     protected void spawnParticles()
     {
 
-	float tailWidth = 0.5f;
+	float tailWidth = 0.25f;
 	for (int i = 0; i < 5; i++)
 	{
 	    ParticleManager.spawnFirework(world,

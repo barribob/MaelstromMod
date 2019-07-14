@@ -239,8 +239,9 @@ public abstract class ItemGun extends ItemBase
 
 	for (int i = 0; i < SMOKE_PARTICLES; i++)
 	{
-	    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, playerIn.posX + flameOffset.x + ModRandom.getFloat(0.2f),
-		    playerIn.posY + playerIn.getEyeHeight() + flameOffset.y + ModRandom.getFloat(0.2f), playerIn.posZ + flameOffset.z + ModRandom.getFloat(0.2f), 0, 0, 0);
+	    float f = 0.1f;
+	    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, playerIn.posX + flameOffset.x + ModRandom.getFloat(f),
+		    playerIn.posY + playerIn.getEyeHeight() + flameOffset.y + ModRandom.getFloat(f), playerIn.posZ + flameOffset.z + ModRandom.getFloat(f), 0, 0, 0);
 	}
     }
     

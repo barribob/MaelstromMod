@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.util.handlers;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
+import com.barribob.MaelstromMod.entity.entities.EntityCliffGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenBoss;
@@ -14,6 +15,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusArmorer;
@@ -33,6 +35,7 @@ import com.barribob.MaelstromMod.entity.model.ModelGoldenShade;
 import com.barribob.MaelstromMod.entity.model.ModelGunTrader;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
+import com.barribob.MaelstromMod.entity.model.ModelMaelstromWitch;
 import com.barribob.MaelstromMod.entity.model.ModelMageTrader;
 import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
@@ -83,6 +86,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityGoldenMage.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_shade.png"));
 	registerModEntityRenderer(EntityGoldenBoss.class, new ModelGoldenBoss(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_boss.png"));
 	registerModEntityRenderer(EntityMaelstromGoldenBoss.class, new ModelGoldenBoss(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_golden_boss.png"));
+	registerModEntityRenderer(EntityMaelstromWitch.class, new ModelMaelstromWitch(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_witch.png"));
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
@@ -113,6 +117,15 @@ public class RenderHandler
 	    public Render<? super EntityAzureGolem> createRenderFor(RenderManager manager)
 	    {
 		return new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_golem.png"));
+	    }
+	});
+	
+	RenderingRegistry.registerEntityRenderingHandler(EntityCliffGolem.class, new IRenderFactory<EntityCliffGolem>()
+	{
+	    @Override
+	    public Render<? super EntityCliffGolem> createRenderFor(RenderManager manager)
+	    {
+		return new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/cliff_golem.png"));
 	    }
 	});
     }

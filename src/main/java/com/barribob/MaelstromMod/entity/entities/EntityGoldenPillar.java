@@ -28,7 +28,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(1.3f, 3.0f);
 	this.setNoGravity(true);
-	this.setLevel(2);
+	this.setLevel(2.5f);
     }
 
     @Override
