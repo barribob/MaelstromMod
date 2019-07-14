@@ -8,11 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-/**
- * 
- * The promo item for the next dimension
- *
- */
 public class ItemAzureKey extends ItemBase
 {
     public ItemAzureKey(String name, CreativeTabs tab)

@@ -17,11 +17,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class EntityPortalSpawn extends Entity
 {
     private List<BlockPosTuple> portal;
-    private int blockPlaceTime = 3;
+    protected int blockPlaceTime = 3;
     private int counter;
     private static final byte PARTICLE_BYTE = 3;
     
-    private static class BlockPosTuple
+    protected static class BlockPosTuple
     {
 	public Block block;
 	public BlockPos pos;

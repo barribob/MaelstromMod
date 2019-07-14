@@ -16,6 +16,7 @@ import net.minecraft.world.gen.structure.StructureStart;
  */
 public class MapGenNexusEntrance extends MapGenModStructure
 {
+    public static final int NEXUS_ISLAND_SPAWN_HEIGHT = 100;
     public MapGenNexusEntrance(int spacing, int offset, int odds)
     {
 	super(spacing, offset, odds);
@@ -47,9 +48,8 @@ public class MapGenNexusEntrance extends MapGenModStructure
 	{
 	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
 	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-	    int y = 100;
 
-	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
+	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, NEXUS_ISLAND_SPAWN_HEIGHT, chunkZ * 16 + 8);
 	    NexusTemplate theNexus = new NexusTemplate(worldIn.getSaveHandler().getStructureTemplateManager(), "nexus_entrance_island", blockpos, Rotation.NONE, false);
 	    this.components.add(theNexus);
 	    this.updateBoundingBox();

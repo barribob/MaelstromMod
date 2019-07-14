@@ -48,6 +48,7 @@ import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
+import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Reference;
@@ -92,6 +93,7 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
 	registerProjectileRenderer(EntityPortalSpawn.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileGoldenBullet.class, ModItems.GOLD_PELLET);
+	registerProjectileRenderer(EntityNexusParticleSpawner.class, ModItems.INVISIBLE);
 
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>()
 	{
