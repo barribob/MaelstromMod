@@ -126,7 +126,7 @@ public class NexusTrades
     public static class StrawHat implements ITradeList
     {
 	private ItemStack base = new ItemStack(Item.getItemFromBlock(Blocks.HAY_BLOCK), 2);
-	private ItemStack cost = new ItemStack(Items.DIAMOND, 3);
+	private ItemStack cost = new ItemStack(Items.DIAMOND, 2);
 	private ItemStack reward = new ItemStack(ModItems.STRAW_HAT, 1);
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
@@ -149,7 +149,7 @@ public class NexusTrades
     
     public static class MaelstromHelmet implements ITradeList
     {
-	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5);
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 3);
 	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_HELMET, 1);
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
@@ -160,7 +160,7 @@ public class NexusTrades
     
     public static class MaelstromChestplate implements ITradeList
     {
-	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 8);
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5);
 	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_CHESTPLATE, 1);
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
@@ -171,7 +171,7 @@ public class NexusTrades
     
     public static class MaelstromLeggings implements ITradeList
     {
-	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 7);
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 4);
 	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_LEGGINGS, 1);
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
@@ -182,7 +182,7 @@ public class NexusTrades
     
     public static class MaelstromBoots implements ITradeList
     {
-	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 4);
+	private ItemStack base = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2);
 	private ItemStack reward = new ItemStack(ModItems.MAELSTROM_BOOTS, 1);
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)

@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.init;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.items.ItemAzureKey;
 import com.barribob.MaelstromMod.items.ItemBase;
@@ -38,11 +39,13 @@ import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Reference;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.EnumHelper;
 
 /**
@@ -53,18 +56,18 @@ import net.minecraftforge.common.util.EnumHelper;
 public class ModItems
 {
     private static final float BASE_MELEE_DAMAGE = 6.0f;
-    
+
     // Tool materials
     private static final ToolMaterial COMMON_DAGGER = EnumHelper.addToolMaterial("common_dagger", 2, 300, 8.0f, BASE_MELEE_DAMAGE, 14);
     private static final ToolMaterial COMMON_BATTLEAXE = EnumHelper.addToolMaterial("common_battleaxe", 2, 200, 8.0f, BASE_MELEE_DAMAGE, 14);
     private static final ToolMaterial COMMON_SWORD = EnumHelper.addToolMaterial("common_sword", 2, 250, 8.0f, BASE_MELEE_DAMAGE, 14);
-    
+
     private static final ToolMaterial RARE_SWORD = EnumHelper.addToolMaterial("rare_sword", 2, 500, 8.0f, BASE_MELEE_DAMAGE, 20);
-    
+
     // Armor materials
     private static final ArmorMaterial COMMON_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 3, 6, 8, 3 }, 12,
 	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f);
-    
+
     private static final ArmorMaterial RARE_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16,
 	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f);
 
@@ -86,12 +89,12 @@ public class ModItems
 
     private static final int COMMON_USE_TIME = 6000;
     private static final int RARE_USE_TIME = 12000;
-    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1f, ModCreativeTabs.ALL);
-    public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1f, ModCreativeTabs.ALL);
+    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
+    public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
     public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", 25, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
-    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
-    
+    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
+
     public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", COMMON_SWORD, 1f);
     public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", COMMON_DAGGER, 1f);
     public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", COMMON_BATTLEAXE, 1f);
@@ -101,35 +104,46 @@ public class ModItems
     public static final Item MAELSTROM_CHESTPLATE = new ModArmorBase("maelstrom_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "maelstrom");
     public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "maelstrom");
     public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "maelstrom");
-    
+
+    public static final Item ELK_HIDE_HELMET = new ModArmorBase("elk_hide_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1, "elk_hide");
+    public static final Item ELK_HIDE_CHESTPLATE = new ModArmorBase("elk_hide_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1, "elk_hide");
+    public static final Item ELK_HIDE_LEGGINGS = new ModArmorBase("elk_hide_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1, "elk_hide");
+    public static final Item ELK_HIDE_BOOTS = new ModArmorBase("elk_hide_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1, "elk_hide");
+
     /*
      * Nexus Items
      */
-    
+
     // Special Items
     public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 160, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
     public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
     
+    static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
+	tooltip.add(TextFormatting.GRAY + "Wielding Kanshou and Bakuya together grants Strength II");
+    };
+    public static final Item KANSHOU = new ToolDagger("kanshou", RARE_SWORD, 2.5f).setInformation(kanshouBakuya);
+    public static final Item BAKUYA = new ToolDagger("bakuya", RARE_SWORD, 2.5f).setInformation(kanshouBakuya);;
+
     // Nexus Guns
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setBullet(new RedstoneRepeater());
     public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
-    
+
     // Nexus Swords
     public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1f);
     public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_SWORD, 1.5f);
     public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_SWORD, 1f);
-    
+
     // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", 220, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL).setBullet(new Fireball());
-    
+
     // Nexus Armors
     public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png");
     public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.0f, "speed");
-    
+
     public static final Item NEXUS_ISLAND_BUILDER = new ItemNexusIslandBuilder("nexus_island_builder", ModCreativeTabs.ALL);
 
     /*
@@ -140,12 +154,19 @@ public class ModItems
     public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
     public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, RARE_USE_TIME, IRON_PELLET, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
     public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
-    
+
     public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2.5f, "black_gold");
     public static final Item BLACK_GOLD_CHESTPLATE = new ModArmorBase("black_gold_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2.5f, "black_gold");
     public static final Item BLACK_GOLD_LEGGINGS = new ModArmorBase("black_gold_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2.5f, "black_gold");
     public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2.5f, "black_gold");
-    
+
+    public static final Item SWAMP_HELMET = new ModArmorBase("swamp_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2, "swamp");
+    public static final Item SWAMP_CHESTPLATE = new ModArmorBase("swamp_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2, "swamp");
+    public static final Item SWAMP_LEGGINGS = new ModArmorBase("swamp_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2, "swamp");
+    public static final Item SWAMP_BOOTS = new ModArmorBase("swamp_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2, "swamp");
+
     public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2.5f);
-    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenFireball());
+    public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", COMMON_SWORD, 2.0f);
+    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL)
+	    .setBullet(new GoldenFireball());
 }

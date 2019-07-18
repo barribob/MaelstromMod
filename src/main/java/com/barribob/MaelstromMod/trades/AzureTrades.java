@@ -34,31 +34,26 @@ public class AzureTrades
 	    switch (armor)
 	    {
 	    case 0:
-		sellStack = new ItemStack(Items.DIAMOND_HELMET);
-		requiredHide = 5;
+		sellStack = new ItemStack(ModItems.ELK_HIDE_HELMET);
+		requiredHide = 4;
 		break;
 	    case 1:
-		sellStack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-		requiredHide = 8;
-		break;
-	    case 2:
-		sellStack = new ItemStack(Items.DIAMOND_LEGGINGS);
+		sellStack = new ItemStack(ModItems.ELK_HIDE_CHESTPLATE);
 		requiredHide = 7;
 		break;
-	    case 3:
-		sellStack = new ItemStack(Items.DIAMOND_SWORD);
-		requiredHide = 2;
+	    case 2:
+		sellStack = new ItemStack(ModItems.ELK_HIDE_LEGGINGS);
+		requiredHide = 6;
 		break;
 	    default:
-		sellStack = new ItemStack(Items.DIAMOND_BOOTS);
-		requiredHide = 4;
+		sellStack = new ItemStack(ModItems.ELK_HIDE_BOOTS);
+		requiredHide = 3;
 		break;
 	    }
 
-	    ItemStack material1 = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2);
-	    ItemStack material2 = new ItemStack(ModItems.ELK_HIDE, requiredHide);
+	    ItemStack material = new ItemStack(ModItems.ELK_HIDE, requiredHide);
 
-	    recipeList.add(new MerchantRecipe(material1, material2, sellStack));
+	    recipeList.add(new MerchantRecipe(material, sellStack));
 	}
     }
 
@@ -76,7 +71,7 @@ public class AzureTrades
 	{
 	    int price = 1;
 	    ItemStack sellStack;
-	    switch (random.nextInt(3))
+	    switch (random.nextInt(5))
 	    {
 	    case 0:
 		sellStack = new ItemStack(ModItems.BOOMSTICK);
@@ -93,7 +88,7 @@ public class AzureTrades
 		price = priceInfo.getPrice(random);
 	    }
 
-	    recipeList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, price), sellStack));
+	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, price), sellStack));
 	}
     }
 
@@ -102,7 +97,7 @@ public class AzureTrades
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 	{
-	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL), new ItemStack(Items.EMERALD, 2)));
+	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL), new ItemStack(Items.EMERALD, 3)));
 	}
     }
 
@@ -117,32 +112,32 @@ public class AzureTrades
 	    switch (item)
 	    {
 	    case 0:
-		sellStack = new ItemStack(Items.IRON_PICKAXE);
-		priceInfo = new PriceInfo(6, 7);
+		sellStack = new ItemStack(Items.DIAMOND_BOOTS);
+		priceInfo = new PriceInfo(4, 5);
 		break;
 	    case 1:
-		sellStack = new ItemStack(Items.IRON_SWORD);
-		priceInfo = new PriceInfo(5, 6);
+		sellStack = new ItemStack(Items.DIAMOND_HELMET);
+		priceInfo = new PriceInfo(4, 5);
 		break;
 	    case 2:
-		sellStack = new ItemStack(Items.IRON_AXE);
-		priceInfo = new PriceInfo(4, 5);
+		sellStack = new ItemStack(Items.DIAMOND_AXE);
+		priceInfo = new PriceInfo(2, 3);
 		break;
 	    case 3:
 		sellStack = new ItemStack(Items.DIAMOND_PICKAXE);
-		priceInfo = new PriceInfo(12, 15);
+		priceInfo = new PriceInfo(2, 3);
 		break;
 	    case 4:
 		sellStack = new ItemStack(Items.DIAMOND_SWORD);
-		priceInfo = new PriceInfo(10, 13);
+		priceInfo = new PriceInfo(2, 3);
 		break;
 	    default:
-		sellStack = new ItemStack(Items.IRON_SHOVEL);
-		priceInfo = new PriceInfo(4, 5);
+		sellStack = new ItemStack(Items.DIAMOND_SHOVEL);
+		priceInfo = new PriceInfo(1, 2);
 		break;
 	    }
 
-	    ItemStack itemstack = new ItemStack(Items.EMERALD, priceInfo.getPrice(random), 0);
+	    ItemStack itemstack = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, priceInfo.getPrice(random), 0);
 	    ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(sellStack.getItem(), 1, sellStack.getMetadata()), 10 + random.nextInt(10),
 		    false);
 	    recipeList.add(new MerchantRecipe(itemstack, itemstack1));
