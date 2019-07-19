@@ -24,17 +24,17 @@
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/diamond_level_loot",
+                    "name": "mm:util/maelstrom_level_loot",
                     "weight": 2
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/maelstrom_level_loot",
+                    "name": "mm:util/level_2_loot",
                     "weight": 4
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/level_2_loot",
+                    "name": "mm:util/level_2.5_loot",
                     "weight": 4
                 },
                 {

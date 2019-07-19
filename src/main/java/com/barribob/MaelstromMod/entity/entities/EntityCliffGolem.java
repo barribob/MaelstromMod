@@ -103,7 +103,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
     @Nullable
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.AZURE_GOLEM;
+	return LootTableHandler.SWAMP_BOSS;
     }
 
     @Override

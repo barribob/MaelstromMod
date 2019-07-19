@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationWitchFlail;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -132,6 +134,12 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
     protected SoundEvent getDeathSound()
     {
 	return SoundEvents.ENTITY_WITCH_DEATH;
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+        return LootTableHandler.SWAMP_BOSS;
     }
     
     @Override

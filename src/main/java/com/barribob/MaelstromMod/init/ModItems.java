@@ -153,10 +153,10 @@ public class ModItems
      * Cliff Dimension Items
      */
     public static final Item GOLD_PELLET = new ItemBase("gold_pellet", null);
-    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
-    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
-    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, RARE_USE_TIME, IRON_PELLET, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
-    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, COMMON_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, COMMON_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
+    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, COMMON_USE_TIME, IRON_PELLET, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, COMMON_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
 
     public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2.5f, "black_gold");
     public static final Item BLACK_GOLD_CHESTPLATE = new ModArmorBase("black_gold_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2.5f, "black_gold");
