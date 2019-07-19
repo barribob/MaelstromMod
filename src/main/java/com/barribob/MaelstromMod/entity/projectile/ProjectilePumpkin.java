@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -77,60 +78,11 @@ public class ProjectilePumpkin extends ProjectileGun
     }
 
     @Override
-    protected void spawnImpactParticles()
-    {
-	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
-	{
-	    Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(EXPOSION_AREA_FACTOR), this.posY + ModRandom.getFloat(EXPOSION_AREA_FACTOR),
-		    this.posZ + ModRandom.getFloat(EXPOSION_AREA_FACTOR));
-	    ParticleManager.spawnFirework(world, vec1, new Vec3d(0.9, 0.9, 0.5));
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-	    Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(EXPOSION_AREA_FACTOR), this.posY + ModRandom.getFloat(EXPOSION_AREA_FACTOR),
-		    this.posZ + ModRandom.getFloat(EXPOSION_AREA_FACTOR));
-	    world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, vec1.x, vec1.y, vec1.z, 0, 0, 0);
-	}
-    }
-
-    @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit == this.shootingEntity)
-	    return;
-
-	/*
-	 * Find all entities in a certain area and deal damage to them
-	 */
-	List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(EXPOSION_AREA_FACTOR));
-	if (list != null)
-	{
-	    for (Object entity : list)
-	    {
-		if (entity instanceof EntityLivingBase && this.shootingEntity != null)
-		{
-		    if (this.isBurning())
-		    {
-			((EntityLivingBase) entity).setFire(5);
-		    }
-		    
-		    float damage = (float) (this.getDistanceTraveled() * this.getGunDamage((EntityLivingBase) entity));
-
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), damage);
-
-		    float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		    if (f1 > 0.0F)
-		    {
-			((EntityLivingBase) entity).addVelocity(this.motionX * (double) this.getKnockback() * 0.6000000238418579D / (double) f1, 0.1D,
-				this.motionZ * (double) this.getKnockback() * 0.6000000238418579D / (double) f1);
-		    }
-		}
-	    }
+	if(result.entityHit != null && result.entityHit != this.shootingEntity && result.entityHit instanceof EntityLivingBase) {
+	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, shootingEntity), (float) (this.getGunDamage(result.entityHit) * this.getDistanceTraveled()));
 	}
-
-	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-
 	super.onHit(result);
     }
 }

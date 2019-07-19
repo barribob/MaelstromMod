@@ -9,4 +9,5 @@ public class ModColors
     public static final Vec3d PURPLE = new Vec3d(0.8, 0.4, 0.8);
     public static final Vec3d CLIFF_STONE = new Vec3d(0.7, 0.7, 0.5);
     public static final Vec3d WHITE = new Vec3d(1, 1, 1);
+    public static final Vec3d BROWNSTONE = new Vec3d(0.8, 0.5, 0.0);
 }

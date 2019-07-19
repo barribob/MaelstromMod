@@ -24,10 +24,12 @@ import com.barribob.MaelstromMod.items.gun.ItemRepeater;
 import com.barribob.MaelstromMod.items.gun.ItemRifle;
 import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
+import com.barribob.MaelstromMod.items.gun.bullet.BrownstoneCannon;
 import com.barribob.MaelstromMod.items.gun.bullet.Fireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
+import com.barribob.MaelstromMod.items.gun.bullet.MaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolBlackGoldSword;
@@ -39,7 +41,6 @@ import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Reference;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -62,7 +63,9 @@ public class ModItems
     private static final ToolMaterial COMMON_BATTLEAXE = EnumHelper.addToolMaterial("common_battleaxe", 2, 200, 8.0f, BASE_MELEE_DAMAGE, 14);
     private static final ToolMaterial COMMON_SWORD = EnumHelper.addToolMaterial("common_sword", 2, 250, 8.0f, BASE_MELEE_DAMAGE, 14);
 
+    private static final ToolMaterial RARE_DAGGER = EnumHelper.addToolMaterial("rare_dagger", 2, 600, 8.0f, BASE_MELEE_DAMAGE, 20);
     private static final ToolMaterial RARE_SWORD = EnumHelper.addToolMaterial("rare_sword", 2, 500, 8.0f, BASE_MELEE_DAMAGE, 20);
+    private static final ToolMaterial RARE_BATTLEAXE = EnumHelper.addToolMaterial("rare_battleaxe", 2, 400, 8.0f, BASE_MELEE_DAMAGE, 20);
 
     // Armor materials
     private static final ArmorMaterial COMMON_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 3, 6, 8, 3 }, 12,
@@ -91,7 +94,7 @@ public class ModItems
     private static final int RARE_USE_TIME = 12000;
     public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
     public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
-    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", 25, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", COMMON_USE_TIME, 1f, ModCreativeTabs.ALL).setBullet(new MaelstromCannon());
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
 
@@ -115,15 +118,15 @@ public class ModItems
      */
 
     // Special Items
-    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 160, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
+    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 80, RARE_USE_TIME, null, 1.5f, ModCreativeTabs.ALL);
     public static final Item ELUCIDATOR = new ToolLongsword("elucidator", RARE_SWORD, 1.5f);
-    public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_SWORD, 1.5f);
-    
+    public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_BATTLEAXE, 1.5f);
+
     static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
 	tooltip.add(TextFormatting.GRAY + "Wielding Kanshou and Bakuya together grants Strength II");
     };
-    public static final Item KANSHOU = new ToolDagger("kanshou", RARE_SWORD, 2.5f).setInformation(kanshouBakuya);
-    public static final Item BAKUYA = new ToolDagger("bakuya", RARE_SWORD, 2.5f).setInformation(kanshouBakuya);;
+    public static final Item KANSHOU = new ToolDagger("kanshou", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);
+    public static final Item BAKUYA = new ToolDagger("bakuya", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);;
 
     // Nexus Guns
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
@@ -132,8 +135,8 @@ public class ModItems
 
     // Nexus Swords
     public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1f);
-    public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_SWORD, 1.5f);
-    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_SWORD, 1f);
+    public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_BATTLEAXE, 1.5f);
+    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_DAGGER, 1f);
 
     // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
@@ -167,6 +170,8 @@ public class ModItems
 
     public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2.5f);
     public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", COMMON_SWORD, 2.0f);
+    public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", COMMON_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new BrownstoneCannon());
     public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL)
 	    .setBullet(new GoldenFireball());
+    public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
 }

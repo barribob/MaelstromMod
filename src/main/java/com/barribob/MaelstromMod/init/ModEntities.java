@@ -30,6 +30,7 @@ import com.barribob.MaelstromMod.entity.projectile.EntityOctoMissileLauncher;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBrownstoneCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
@@ -121,6 +122,7 @@ public class ModEntities
     public static final int MAELSTROM_QUAKE_ID = 223;
     public static final int WOOD_ID = 224;
     public static final int GEYSER_ID = 225;
+    public static final int BROWNSTONE_CANNON_ID = 226;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -178,6 +180,7 @@ public class ModEntities
 	registerEntity("maelstrom_quake", ProjectileMaelstromQuake.class, MAELSTROM_QUAKE_ID, 30);
 	registerEntity("wood", ProjectileMaelstromMissile.class, WOOD_ID, 30);
 	registerEntity("geyser", EntityGeyser.class, GEYSER_ID, 30);
+	registerEntity("brownstone_cannon", ProjectileBrownstoneCannon.class, BROWNSTONE_CANNON_ID, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
