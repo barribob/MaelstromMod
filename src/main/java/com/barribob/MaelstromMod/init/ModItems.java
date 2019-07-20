@@ -77,6 +77,22 @@ public class ModItems
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
     public static final Item INVISIBLE = new ItemBase("invisible", null);
+    
+    /*
+     * Dimensional Items
+     */
+    public static final Item NEXUS_ISLAND_BUILDER = new ItemNexusIslandBuilder("nexus_island_builder", ModCreativeTabs.ALL);
+    public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
+    public static final Item BROWN_KEY = new ItemTBDKey("brown_key", ModCreativeTabs.ALL);
+    public static final Item BEASTS_KEY = new ItemTBDKey("beast_key", ModCreativeTabs.ALL);
+    public static final Item RED_KEY = new ItemTBDKey("red_key", ModCreativeTabs.ALL);
+    
+    public static final Item CLIFF_KEY_FRAGMENT = new ItemBase("cliff_key_fragment", ModCreativeTabs.ALL);
+    /*
+     * Both bosses drops key fragments
+     * Minibosses drop key fragments
+     */
+    public static final Item RED_KEY_FRAGMENT = new ItemBase("red_key_fragment", ModCreativeTabs.ALL);
 
     // The azure dimension's items
     public static final Item ELK_HIDE = new ItemBase("elk_hide", ModCreativeTabs.ALL);
@@ -86,9 +102,6 @@ public class ModItems
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
-    public static final Item AZURE_KEY = new ItemAzureKey("azure_key", ModCreativeTabs.ALL);
-    public static final Item BROWN_KEY = new ItemTBDKey("brown_key", ModCreativeTabs.ALL);
-    public static final Item BEASTS_KEY = new ItemTBDKey("beast_key", ModCreativeTabs.ALL);
 
     private static final int COMMON_USE_TIME = 6000;
     private static final int RARE_USE_TIME = 12000;
@@ -147,7 +160,6 @@ public class ModItems
     public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png");
     public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.0f, "speed");
 
-    public static final Item NEXUS_ISLAND_BUILDER = new ItemNexusIslandBuilder("nexus_island_builder", ModCreativeTabs.ALL);
 
     /*
      * Cliff Dimension Items
@@ -174,4 +186,6 @@ public class ModItems
     public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL)
 	    .setBullet(new GoldenFireball());
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
+    
+    
 }

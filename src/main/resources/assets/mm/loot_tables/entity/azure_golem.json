@@ -1,8 +1,8 @@
 {
     "pools": [
         {
-            "name": "azure_golem",
             "rolls": 1,
+            "name": "azure_golem",
             "entries": [
                 {
                     "type": "item",
@@ -17,6 +17,17 @@
                             }
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "rolls": 1,
+            "name": "azure_golem",
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:cliff_key_fragment"
                 }
             ]
         }

@@ -52,7 +52,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     @Override
     protected void updateAttributes()
     {
-	this.setBaseMaxHealth(75);
+	this.setBaseMaxHealth(150);
     }
 
     protected void initEntityAI()
@@ -136,10 +136,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	return flag;
     }
 
-    /**
-     * Shoots a projectile in a similar fashion to the snow golem (see
-     * EntitySnowman)
-     */
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
