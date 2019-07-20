@@ -1,15 +1,10 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.init.ModDimensions;
 
-import net.minecraft.block.BlockPortal;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,11 +17,16 @@ import net.minecraft.world.WorldServer;
  * Finds a portal in the azure dimension, or builds one
  *
  */
-public class AzureTeleporter extends Teleporter
+public class DimensionalTeleporter extends Teleporter
 {
-    public AzureTeleporter(WorldServer worldIn)
+    private Block rimBlock;
+    private Block portalBlock;
+    
+    public DimensionalTeleporter(WorldServer worldIn, Block rimBlock, Block portalBlock)
     {
 	super(worldIn);
+	this.rimBlock = rimBlock;
+	this.portalBlock = portalBlock;
     }
 
     public void placeInPortal(Entity entityIn, float rotationYaw)
@@ -69,7 +69,7 @@ public class AzureTeleporter extends Teleporter
 		    {
 			blockpos2 = blockpos1.down();
 
-			if (this.world.getBlockState(blockpos1).getBlock() == ModBlocks.AZURE_PORTAL)
+			if (this.world.getBlockState(blockpos1).getBlock() == portalBlock)
 			{
 			    portalPos = blockpos1;
 			}
@@ -130,7 +130,7 @@ public class AzureTeleporter extends Teleporter
         {
             for(int z = k - size; z < k + size; z++)
             {
-        	world.setBlockState(new BlockPos(x, j, z), ModBlocks.LIGHT_AZURE_STONE.getDefaultState());
+        	world.setBlockState(new BlockPos(x, j, z), rimBlock.getDefaultState());
             }   
         }
         
@@ -139,8 +139,8 @@ public class AzureTeleporter extends Teleporter
         {
             for(int z = k - size2; z < k + size2; z++)
             {
-        	world.setBlockState(new BlockPos(x, j + 1, z), ModBlocks.LIGHT_AZURE_STONE.getDefaultState());
-        	world.setBlockState(new BlockPos(x, j - 1, z), ModBlocks.LIGHT_AZURE_STONE.getDefaultState());
+        	world.setBlockState(new BlockPos(x, j + 1, z), rimBlock.getDefaultState());
+        	world.setBlockState(new BlockPos(x, j - 1, z), rimBlock.getDefaultState());
             }   
         }
         
@@ -149,7 +149,7 @@ public class AzureTeleporter extends Teleporter
         {
             for(int z = k - size3; z < k + size3; z++)
             {
-        	world.setBlockState(new BlockPos(x, j + 1, z), ModBlocks.AZURE_PORTAL.getDefaultState());
+        	world.setBlockState(new BlockPos(x, j + 1, z), portalBlock.getDefaultState());
             }
         }
         

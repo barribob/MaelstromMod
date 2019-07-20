@@ -194,11 +194,12 @@ public class NexusTrades
     public static class Pumpkin implements ITradeList
     {
 	private ItemStack base = new ItemStack(Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 1);
+	private ItemStack prank = new ItemStack(Item.getItemFromBlock(Blocks.PUMPKIN), 1);
 	private ItemStack reward = new ItemStack(ModItems.PUMPKIN, 1);
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 	{
-	    recipeList.add(new MerchantRecipe(base, reward));
+	    recipeList.add(new MerchantRecipe(base, prank, reward));
 	}
     }
     

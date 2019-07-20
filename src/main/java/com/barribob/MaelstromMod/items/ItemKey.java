@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemAzureKey extends ItemBase
+public class ItemKey extends ItemBase
 {
-    public ItemAzureKey(String name, CreativeTabs tab)
+    public ItemKey(String name, CreativeTabs tab)
     {
 	super(name, tab);
     }
@@ -18,6 +18,6 @@ public class ItemAzureKey extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add(TextFormatting.GRAY + "A key to a block that unlocks the azure dimension.");
+        tooltip.add(TextFormatting.GRAY + "Right click on a key block in the Nexus to activate");
     }
 }

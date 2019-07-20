@@ -20,12 +20,12 @@ import net.minecraft.world.WorldServer;
  * teleport precisely to the portal
  *
  */
-public class OverworldToNexusTeleporter extends Teleporter
+public class ToNexusTeleporter extends Teleporter
 {
     private BlockPos portalOffset;
     private int spacing;
 
-    public OverworldToNexusTeleporter(WorldServer worldIn)
+    public ToNexusTeleporter(WorldServer worldIn, BlockPos portalOffset)
     {
 	super(worldIn);
 	if (this.world.provider.getDimensionType().getId() != ModConfig.nexus_dimension_id)
@@ -33,7 +33,7 @@ public class OverworldToNexusTeleporter extends Teleporter
 	    System.err.println("The overworld to nexus teleporter is being used for the wrong dimension!");
 	    return;
 	}
-	this.portalOffset = new BlockPos(70, 80, 103);
+	this.portalOffset = portalOffset;
 	spacing = DimensionNexus.NexusStructureSpacing * 16;
     }
 

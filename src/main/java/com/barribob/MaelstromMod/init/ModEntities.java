@@ -56,6 +56,7 @@ import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
 import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.entity.Entity;
@@ -123,6 +124,7 @@ public class ModEntities
     public static final int WOOD_ID = 224;
     public static final int GEYSER_ID = 225;
     public static final int BROWNSTONE_CANNON_ID = 226;
+    public static final int CLIFF_PORTAL_SPAWN = 227;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -181,6 +183,7 @@ public class ModEntities
 	registerEntity("wood", ProjectileMaelstromMissile.class, WOOD_ID, 30);
 	registerEntity("geyser", EntityGeyser.class, GEYSER_ID, 30);
 	registerEntity("brownstone_cannon", ProjectileBrownstoneCannon.class, BROWNSTONE_CANNON_ID, 30);
+	registerEntity("cliff_portal_spawn", EntityCliffPortalSpawn.class, CLIFF_PORTAL_SPAWN, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

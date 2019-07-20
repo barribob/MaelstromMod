@@ -2,10 +2,10 @@ package com.barribob.MaelstromMod.blocks.portal;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.util.teleporter.AzureTeleporter;
+import com.barribob.MaelstromMod.util.teleporter.DimensionalTeleporter;
+import com.barribob.MaelstromMod.util.teleporter.ToNexusTeleporter;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 
@@ -18,7 +18,7 @@ public class BlockAzurePortal extends BlockPortal
 {
     public BlockAzurePortal(String name)
     {
-	super(name, ModBlocks.LIGHT_AZURE_STONE, ModBlocks.AZURE_PORTAL, ModConfig.nexus_dimension_id, ModConfig.fracture_dimension_id);
+	super(name, ModConfig.nexus_dimension_id, ModConfig.fracture_dimension_id);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
@@ -27,12 +27,12 @@ public class BlockAzurePortal extends BlockPortal
     @Override
     protected Teleporter getTeleporter1(World world)
     {
-        return new AzureTeleporter(world.getMinecraftServer().getWorld(ModConfig.nexus_dimension_id));
+        return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.nexus_dimension_id), new BlockPos(113, 129, 161));
     }
     
     @Override
     protected Teleporter getTeleporter2(World world)
     {
-	return new AzureTeleporter(world.getMinecraftServer().getWorld(ModConfig.fracture_dimension_id));
+	return new DimensionalTeleporter(world.getMinecraftServer().getWorld(ModConfig.fracture_dimension_id), ModBlocks.LIGHT_AZURE_STONE, ModBlocks.AZURE_PORTAL);
     }
 }

@@ -29,7 +29,9 @@ import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
 import com.barribob.MaelstromMod.blocks.BlockSwampLeaves;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockBrownKey;
 import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
+import com.barribob.MaelstromMod.blocks.portal.BlockCliffPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
@@ -125,7 +127,7 @@ public class ModBlocks
 	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockBase("azure_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
-	public static final Block BROWN_KEY_BLOCK = new BlockBase("brown_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
+	public static final Block BROWN_KEY_BLOCK = new BlockBrownKey("brown_key_block", ModItems.BROWN_KEY).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
 	public static final Block RED_DUNGEON_KEY_BLOCK = new BlockBase("red_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
 	public static final Block ICE_KEY_BLOCK = new BlockBase("ice_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
 	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockBase("ice_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
@@ -152,4 +154,5 @@ public class ModBlocks
 	public static final Block CHISELED_CLIFF_STONE = new BlockBase("chiseled_cliff_stone", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block SWAMP_BRICK = new BlockBase("swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block CRACKED_SWAMP_BRICK = new BlockBase("cracked_swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.ALL);
 }

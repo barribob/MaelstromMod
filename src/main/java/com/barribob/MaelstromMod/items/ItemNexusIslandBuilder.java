@@ -33,40 +33,45 @@ public class ItemNexusIslandBuilder extends ItemBase
 	super(name, tab);
 	this.setMaxStackSize(1);
     }
-    
+
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-	EntityNexusParticleSpawner entity = new EntityNexusParticleSpawner(worldIn);
-	entity.copyLocationAndAnglesFrom(playerIn);
-	worldIn.spawnEntity(entity);
-	WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
-	PlacementSettings settings = new PlacementSettings().setChunk(null).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
-	MinecraftServer mcServer = worldIn.getMinecraftServer();
-	TemplateManager manager = worldServer.getStructureTemplateManager();
-	ResourceLocation location = new ResourceLocation(Reference.MOD_ID, "nexus/nexus_entrance_island");
-	Template template = manager.get(mcServer, location);
-	BlockPos pos = new BlockPos(playerIn.posX - 15, MapGenNexusEntrance.NEXUS_ISLAND_SPAWN_HEIGHT, playerIn.posZ - 15);
-	if (template != null)
+	ItemStack itemstack = playerIn.getHeldItem(handIn);
+	if (worldIn.provider.getDimension() == 0)
 	{
-	    template.addBlocksToWorld(worldIn, pos, settings, 18);
+	    EntityNexusParticleSpawner entity = new EntityNexusParticleSpawner(worldIn);
+	    entity.copyLocationAndAnglesFrom(playerIn);
+	    worldIn.spawnEntity(entity);
+	    WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
+	    PlacementSettings settings = new PlacementSettings().setChunk(null).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE)
+		    .setRotation(Rotation.NONE);
+	    MinecraftServer mcServer = worldIn.getMinecraftServer();
+	    TemplateManager manager = worldServer.getStructureTemplateManager();
+	    ResourceLocation location = new ResourceLocation(Reference.MOD_ID, "nexus/nexus_entrance_island");
+	    Template template = manager.get(mcServer, location);
+	    BlockPos pos = new BlockPos(playerIn.posX - 15, MapGenNexusEntrance.NEXUS_ISLAND_SPAWN_HEIGHT, playerIn.posZ - 15);
+	    if (template != null)
+	    {
+		template.addBlocksToWorld(worldIn, pos, settings, 18);
+	    }
+	    else
+	    {
+		System.out.println("The template, " + location + " could not be loaded");
+	    }
+	    if (!playerIn.capabilities.isCreativeMode)
+	    {
+		itemstack.shrink(1);
+	    }
+	    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 	}
-	else
-	{
-	    System.out.println("The template, " + location + " could not be loaded");
-	}
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        if (!playerIn.capabilities.isCreativeMode)
-        {
-            itemstack.shrink(1);
-        }
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+	return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
     }
 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add(TextFormatting.GRAY + "Right-clicking builds a large island at y=100 that has a portal to the nexus dimension.");
-        tooltip.add(TextFormatting.RED + "Lag warning!");
+	tooltip.add(TextFormatting.GRAY + "Right-clicking builds a large island at y=100 that has a portal to the nexus dimension.");
+	tooltip.add(TextFormatting.RED + "Lag warning!");
     }
 }
