@@ -6,9 +6,11 @@ import com.barribob.MaelstromMod.entity.animation.AnimationDualThrow;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -80,5 +82,11 @@ public class EntityGoldenMage extends EntityMaelstromMage
 	{
 	    new ActionGoldenMissles(0.5f, this.getEyeHeight() - 0.5f).performAction(this, target);
 	}
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.GOLDEN_MAELSTROM;
     }
 }

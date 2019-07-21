@@ -24,7 +24,7 @@ public class ItemEventHandler
 	    Item offhandItem = player.getHeldItem(EnumHand.OFF_HAND).getItem();
 	    if ((heldItem.equals(ModItems.BAKUYA) && offhandItem.equals(ModItems.KANSHOU)) || (heldItem.equals(ModItems.KANSHOU) && offhandItem.equals(ModItems.BAKUYA)))
 	    {
-		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 1));
+		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 2));
 	    }
 	}
     }

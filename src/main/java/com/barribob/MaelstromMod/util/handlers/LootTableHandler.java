@@ -21,6 +21,7 @@ public class LootTableHandler
     public static final ResourceLocation BEAST = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/beast"));
     public static final ResourceLocation GOLDEN_BOSS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/golden_boss"));
     public static final ResourceLocation SWAMP_BOSS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/swamp_miniboss"));
+    public static final ResourceLocation GOLDEN_MAELSTROM = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/golden_maelstrom"));
 
     public static final ResourceLocation AZURE_FORTRESS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/azure_fortress"));
     public static final ResourceLocation AZURE_MINESHAFT = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/azure_mineshaft"));

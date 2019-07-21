@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModEnchantments;
@@ -45,7 +46,8 @@ public abstract class ItemGun extends ItemBase
     private final float damage;
     protected DecimalFormat df = new DecimalFormat("0.00");
     protected BulletFactory factory;
- 
+    private Consumer<List<String>> information = (info) -> {};
+
     public ItemGun(String name, int cooldown, float damage, float useTime, Item ammo, float level, CreativeTabs tab)
     {
 	super(name, tab);
@@ -245,6 +247,12 @@ public abstract class ItemGun extends ItemBase
 	}
     }
     
+    public ItemGun setInformation(Consumer<List<String>> information)
+    {
+	this.information = information;
+	return this;
+    }
+    
     // List the required ammo for the gun
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
@@ -259,6 +267,7 @@ public abstract class ItemGun extends ItemBase
 	
 	tooltip.add(TextFormatting.BLUE + "" + df.format(getEnchantedCooldown(stack) * 0.05) + TextFormatting.GRAY + " second reload time.");
 	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + TextFormatting.BLUE + ammoName);
+	information.accept(tooltip);
     }
     
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)

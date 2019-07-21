@@ -5,9 +5,11 @@ import com.barribob.MaelstromMod.entity.animation.AnimationShadeThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenThrust;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -61,5 +63,11 @@ public class EntityGoldenShade extends EntityShade
 	{
 	    new ActionThrust(new ProjectileGoldenThrust(world, this, this.getAttack())).performAction(this, target);
 	}
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.GOLDEN_MAELSTROM;
     }
 }

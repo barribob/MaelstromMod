@@ -7,12 +7,14 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -49,7 +51,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     @Override
     protected void updateAttributes()
     {
-	this.setBaseMaxHealth(30);
+	this.setBaseMaxHealth(40);
 	this.setBaseAttack(4);
     }
 
@@ -112,5 +114,11 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     protected SoundEvent getDeathSound()
     {
 	return SoundEvents.BLOCK_METAL_BREAK;
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.GOLDEN_MAELSTROM;
     }
 }

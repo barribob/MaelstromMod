@@ -28,10 +28,12 @@ import com.barribob.MaelstromMod.entity.projectile.EntityGeyser;
 import com.barribob.MaelstromMod.entity.projectile.EntityGoldenRune;
 import com.barribob.MaelstromMod.entity.projectile.EntityOctoMissileLauncher;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBrownstoneCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileExplosiveDrill;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenFireball;
@@ -125,6 +127,8 @@ public class ModEntities
     public static final int GEYSER_ID = 225;
     public static final int BROWNSTONE_CANNON_ID = 226;
     public static final int CLIFF_PORTAL_SPAWN = 227;
+    public static final int EXPLOSIVE_DRILL = 228;
+    public static final int AZURE_BULLET = 229;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
@@ -184,6 +188,8 @@ public class ModEntities
 	registerEntity("geyser", EntityGeyser.class, GEYSER_ID, 30);
 	registerEntity("brownstone_cannon", ProjectileBrownstoneCannon.class, BROWNSTONE_CANNON_ID, 30);
 	registerEntity("cliff_portal_spawn", EntityCliffPortalSpawn.class, CLIFF_PORTAL_SPAWN, 30);
+	registerEntity("explosive_drill", ProjectileExplosiveDrill.class, EXPLOSIVE_DRILL, 30);
+	registerEntity("azure_bullet", ProjectileAzureBullet.class, AZURE_BULLET, 100);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

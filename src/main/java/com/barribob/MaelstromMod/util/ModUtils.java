@@ -9,9 +9,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -97,5 +102,36 @@ public class ModUtils
     public static Vec3d yVec(float y)
     {
 	return new Vec3d(0, y, 0);
+    }
+
+    public static void makeExplosion(float radius, float maxDamage, EntityLivingBase source, Vec3d pos)
+    {
+	for (int i = 0; i < Math.floor(Math.pow(radius, 2)); i++)
+	{
+	    ParticleManager.spawnMaelstromExplosion(source.world, source.world.rand, pos.add(ModRandom.randVec().scale(radius)));
+	    ParticleManager.spawnMaelstromSmoke(source.world, source.world.rand, pos.add(ModRandom.randVec().scale(radius)), true);
+	}
+
+	source.world.playSound((EntityPlayer) null, source.posX, source.posY, source.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, source.getSoundCategory(), 1.0F, 0.9F);
+
+	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos, pos).grow(radius));
+
+	if (list != null)
+	{
+	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
+	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
+
+	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
+		double radiusSq = Math.pow(radius, 2);
+		float distanceFromExplosion = (float) entity.getDistanceSq(new BlockPos(pos));
+		float damage = (float) (maxDamage - distanceFromExplosion);
+		if (damage > 0 && distanceFromExplosion < radiusSq)
+		{
+		    entity.attackEntityFrom(DamageSource.causeExplosionDamage(source), damage);
+		    Vec3d velocity = entity.getPositionVector().subtract(pos).normalize().scale((radiusSq - distanceFromExplosion) / radiusSq);
+		    entity.addVelocity(velocity.x, velocity.y, velocity.z);
+		}
+	    });
+	}
     }
 }

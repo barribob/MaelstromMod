@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.barribob.MaelstromMod.items.ItemKey;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
+import com.barribob.MaelstromMod.items.ItemKey;
 import com.barribob.MaelstromMod.items.ItemNexusIslandBuilder;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
 import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
 import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
+import com.barribob.MaelstromMod.items.gun.ItemExplosiveStaff;
 import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
 import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
+import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
@@ -25,6 +29,7 @@ import com.barribob.MaelstromMod.items.gun.ItemRifle;
 import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.gun.bullet.BrownstoneCannon;
+import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.Fireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
@@ -33,20 +38,25 @@ import com.barribob.MaelstromMod.items.gun.bullet.MaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolBlackGoldSword;
+import com.barribob.MaelstromMod.items.tools.ToolCrusadeSword;
 import com.barribob.MaelstromMod.items.tools.ToolDagger;
 import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
+import com.barribob.MaelstromMod.items.tools.ToolExplosiveDagger;
 import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Reference;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 
 /**
@@ -77,7 +87,7 @@ public class ModItems
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
     public static final Item INVISIBLE = new ItemBase("invisible", null);
-    
+
     /*
      * Dimensional Items
      */
@@ -86,11 +96,10 @@ public class ModItems
     public static final Item BROWN_KEY = new ItemKey("brown_key", ModCreativeTabs.ALL);
     public static final Item BEASTS_KEY = new ItemTBDKey("beast_key", ModCreativeTabs.ALL);
     public static final Item RED_KEY = new ItemTBDKey("red_key", ModCreativeTabs.ALL);
-    
+
     public static final Item CLIFF_KEY_FRAGMENT = new ItemBase("cliff_key_fragment", ModCreativeTabs.ALL);
     /*
-     * Both bosses drops key fragments
-     * Minibosses drop key fragments
+     * Both bosses drops key fragments Minibosses drop key fragments
      */
     public static final Item RED_KEY_FRAGMENT = new ItemBase("red_key_fragment", ModCreativeTabs.ALL);
 
@@ -136,7 +145,7 @@ public class ModItems
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_BATTLEAXE, 1.5f);
 
     static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + "Wielding Kanshou and Bakuya together grants Strength II");
+	tooltip.add(TextFormatting.GRAY + "Wielding Kanshou and Bakuya together grants Strength III");
     };
     public static final Item KANSHOU = new ToolDagger("kanshou", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);
     public static final Item BAKUYA = new ToolDagger("bakuya", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);;
@@ -144,22 +153,41 @@ public class ModItems
     // Nexus Guns
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setBullet(new RedstoneRepeater());
-    public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
+    public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setInformation((tooltip) -> {
+	tooltip.add(TextFormatting.GRAY + "Long Range");
+    });
+    public static final Item ELK_BLASTER = new ItemRifle("elk_blaster", 60, RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL).setInformation((tooltip) -> {
+	tooltip.add(TextFormatting.GRAY + "Pierces through multiple enemies.");
+    }).setBullet(new BulletFactory()
+    {
+	@Override
+	public Projectile get(World world, EntityPlayer player, ItemStack stack, ItemGun item)
+	{
+	    return new ProjectileAzureBullet(world, player, item.getEnchantedDamage(stack), stack);
+	}
+    });
 
     // Nexus Swords
-    public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1f);
+    public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1.5f);
     public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_BATTLEAXE, 1.5f);
-    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_DAGGER, 1f);
+    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_DAGGER, 1.5f);
+    public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", RARE_SWORD, 2f);
+    public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", RARE_DAGGER, 2.5f);
 
     // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
     public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", 220, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
-    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL).setBullet(new Fireball());
+    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL).setBullet(new Fireball());
+    public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 80, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
 
     // Nexus Armors
-    public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.0f, "straw_hat.png");
-    public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.0f, "speed");
+    public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "straw_hat.png");
+    public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "speed");
 
+    public static final Item NEXUS_HELMET = new ModArmorBase("nexus_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "nexus");
+    public static final Item NEXUS_CHESTPLATE = new ModArmorBase("nexus_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "nexus");
+    public static final Item NEXUS_LEGGINGS = new ModArmorBase("nexus_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "nexus");
+    public static final Item NEXUS_BOOTS = new ModArmorBase("nexus_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "nexus");
 
     /*
      * Cliff Dimension Items
@@ -186,6 +214,6 @@ public class ModItems
     public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL)
 	    .setBullet(new GoldenFireball());
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
-    
-    
+
+    public static final Item GOLDEN_MAELSTROM_CORE = new ItemBase("golden_maelstrom_core", ModCreativeTabs.ALL);
 }

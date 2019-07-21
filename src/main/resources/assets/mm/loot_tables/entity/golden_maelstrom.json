@@ -1,0 +1,21 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "name":"golden_maelstrom",
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:golden_maelstrom_core",
+                    "conditions": [
+                        {
+                            "condition": "random_chance",
+                            "chance": 0.03
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
