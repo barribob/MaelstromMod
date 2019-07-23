@@ -54,6 +54,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     public EntityMaelstromMage(World worldIn)
     {
 	super(worldIn);
+	this.setLevel(1.5f);
     }
 
     @Override

@@ -49,6 +49,7 @@ public class EntityBeast extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(1.8f, 1.8f);
 	this.currentAnimation = new AnimationBeastSpit();
+	this.setLevel(1.5f);
     }
 
     // Init the melee and range ai

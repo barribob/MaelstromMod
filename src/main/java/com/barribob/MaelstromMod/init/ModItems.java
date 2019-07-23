@@ -79,10 +79,10 @@ public class ModItems
 
     // Armor materials
     private static final ArmorMaterial COMMON_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 3, 6, 8, 3 }, 12,
-	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f);
+	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 1.0f);
 
     private static final ArmorMaterial RARE_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16,
-	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0f);
+	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 1.0f);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
@@ -116,13 +116,13 @@ public class ModItems
     private static final int RARE_USE_TIME = 12000;
     public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
     public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
-    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", COMMON_USE_TIME, 1f, ModCreativeTabs.ALL).setBullet(new MaelstromCannon());
-    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL).setBullet(new MaelstromCannon());
+    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
     public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
 
-    public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", COMMON_SWORD, 1f);
-    public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", COMMON_DAGGER, 1f);
-    public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", COMMON_BATTLEAXE, 1f);
+    public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", COMMON_SWORD, 1.5f);
+    public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", COMMON_DAGGER, 1.5f);
+    public static final Item MAELSTROM_BATTLEAXE = new ToolBattleaxe("maelstrom_battleaxe", COMMON_BATTLEAXE, 1.5f);
     public static final Item BEAST_BLADE = new ToolSword("beast_blade", RARE_SWORD, 1.5f);
 
     public static final Item MAELSTROM_HELMET = new ModArmorBase("maelstrom_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "maelstrom");

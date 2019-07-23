@@ -32,6 +32,7 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     public EntityFloatingSkull(World worldIn)
     {
 	super(worldIn);
+	this.setLevel(1.5f);
     }
 
     @Override

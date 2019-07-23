@@ -38,6 +38,7 @@ public class EntityDreamElk extends EntityLeveledMob
     {
 	super(worldIn);
 	this.setSize(1.3964844F, 1.6F);
+	this.setLevel(1.5f);
     }
 
     protected void initEntityAI()

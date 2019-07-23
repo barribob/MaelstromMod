@@ -47,12 +47,13 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setSize(0.7f, 2.2f);
+	this.setLevel(1.5f);
     }
 
     @Override
     protected void updateAttributes()
     {
-	this.setBaseMaxHealth(150);
+	this.setBaseMaxHealth(100);
     }
 
     protected void initEntityAI()
