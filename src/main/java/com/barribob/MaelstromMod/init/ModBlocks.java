@@ -137,6 +137,7 @@ public class ModBlocks
 	
 	// Cliff Dimension
 	public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block RED_CLIFF_STONE = new BlockBase("red_cliff_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block SWAMP_LOG = new BlockLogBase("swamp_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block FULL_SWAMP_LOG = new BlockFullLog("full_swamp_log", SWAMP_LOG).setHardness(WOOD_HARDNESS).setResistance(WOOD_RESISTANCE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block SWAMP_LEAVES = new BlockSwampLeaves("swamp_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
