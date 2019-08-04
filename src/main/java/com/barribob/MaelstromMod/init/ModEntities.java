@@ -133,7 +133,9 @@ public class ModEntities
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
     public static Vec3i nexus = new Vec3i(15724287, 12501453, 0);
-    
+    public static Vec3i cliff = new Vec3i(0x999966, 0xe6e600, 0);
+    public static Vec3i cliff_maelstrom = new Vec3i(6433126, 0xe6e600, 0);
+
     public static void registerEntities()
     {
 	registerEntity("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
@@ -152,13 +154,13 @@ public class ModEntities
 	registerEntity("nexus_armorer", NexusArmorer.class, NEXUS_ARMORER, 50, nexus);
 	registerEntity("nexus_saiyan", NexusSpecialTrader.class, NEXUS_SAIYAN, 50, nexus);
 	registerEntity("nexus_bladesmith", NexusBladesmith.class, NEXUS_BLADESMITH, 50, nexus);
-	registerEntity("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, maelstrom);
-	registerEntity("golden_shade", EntityGoldenShade.class, GOLDEN_SHADE, 50, maelstrom);
-	registerEntity("golden_mage", EntityGoldenMage.class, GOLDEN_MAGE, 50, maelstrom);
-	registerEntity("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, maelstrom);
-	registerEntity("maelstrom_golden_boss", EntityMaelstromGoldenBoss.class, MAELSTROM_GOLDEN_BOSS, 70, maelstrom);
-	registerEntity("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, maelstrom);
-	registerEntity("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, maelstrom);
+	registerEntity("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, cliff_maelstrom);
+	registerEntity("golden_shade", EntityGoldenShade.class, GOLDEN_SHADE, 50, cliff_maelstrom);
+	registerEntity("golden_mage", EntityGoldenMage.class, GOLDEN_MAGE, 50, cliff_maelstrom);
+	registerEntity("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, cliff_maelstrom);
+	registerEntity("maelstrom_golden_boss", EntityMaelstromGoldenBoss.class, MAELSTROM_GOLDEN_BOSS, 70, cliff_maelstrom);
+	registerEntity("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, cliff_maelstrom);
+	registerEntity("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
 
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
