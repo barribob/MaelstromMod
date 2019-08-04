@@ -1,7 +1,7 @@
 {
     "pools": [
         {
-            "name": "level_2.5_loot",
+            "name": "level_2_half_loot",
             "rolls": 1,
             "entries": [
                 {

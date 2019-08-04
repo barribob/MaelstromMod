@@ -34,7 +34,7 @@
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/level_2.5_loot",
+                    "name": "mm:util/level_2_half_loot",
                     "weight": 4
                 },
                 {
