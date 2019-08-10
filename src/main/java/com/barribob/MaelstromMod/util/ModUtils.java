@@ -8,6 +8,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -133,5 +135,16 @@ public class ModUtils
 		}
 	    });
 	}
+    }
+    
+    public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile)
+    {
+        double d0 = target.posY + (double)target.getEyeHeight() - 1.100000023841858D;
+        double d1 = target.posX - actor.posX;
+        double d2 = d0 - projectile.posY;
+        double d3 = target.posZ - actor.posZ;
+        float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+        projectile.shoot(d1, d2 + (double)f, d3, 1.6F, 12.0F);
+        actor.world.spawnEntity(projectile);	
     }
 }

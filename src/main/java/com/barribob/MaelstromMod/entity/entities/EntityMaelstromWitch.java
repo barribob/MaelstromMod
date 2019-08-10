@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.entity.action.ActionDarkMissile;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationWitchFlail;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
@@ -42,6 +43,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	attackHandler.addAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
 	attackHandler.addAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
 	threshold = this.getMaxHealth() * 0.3f;
+	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
 
     @Override

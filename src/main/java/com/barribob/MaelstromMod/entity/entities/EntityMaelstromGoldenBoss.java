@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationMegaMissile;
 import com.barribob.MaelstromMod.entity.animation.AnimationOctoMissiles;
 import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -43,6 +44,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	this.attackHandler.addAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.addAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
 	this.setSize(1.5f, 3.2f);
+	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
     }
     
     @Override

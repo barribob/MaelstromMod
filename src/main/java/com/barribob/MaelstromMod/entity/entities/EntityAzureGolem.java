@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
@@ -38,6 +39,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	this.setLevel(2);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
 	this.currentAnimation = new AnimationAzureGolem();
+	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
 
     @Override

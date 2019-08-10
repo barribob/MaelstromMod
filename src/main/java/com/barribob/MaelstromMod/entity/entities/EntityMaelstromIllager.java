@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -47,6 +48,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setSize(0.7f, 2.2f);
+	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	this.setLevel(1.5f);
     }
 

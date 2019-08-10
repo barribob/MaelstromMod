@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.entities;
 import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
 import com.barribob.MaelstromMod.entity.animation.AnimationBeastSpit;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
@@ -49,6 +50,7 @@ public class EntityBeast extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(1.8f, 1.8f);
 	this.currentAnimation = new AnimationBeastSpit();
+	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	this.setLevel(1.5f);
     }
 

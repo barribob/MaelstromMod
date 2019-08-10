@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationAzureGolem;
 import com.barribob.MaelstromMod.entity.animation.AnimationGroundFistBump;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
@@ -45,6 +46,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	this.currentAnimation = new AnimationAzureGolem();
 	attackHandler.addAttack(groundPoundByte, new ActionGolemSlam(), () -> new AnimationAzureGolem());
 	attackHandler.addAttack(this.geyserByte, new ActionGeyser(), () -> new AnimationGroundFistBump());
+	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
 
     @Override

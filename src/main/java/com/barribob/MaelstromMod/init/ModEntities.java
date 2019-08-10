@@ -18,6 +18,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
 import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusArmorer;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusBladesmith;
@@ -51,6 +52,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
@@ -98,6 +100,8 @@ public class ModEntities
     public static final int MAELSTROM_GOLDEN_BOSS = 120;
     public static final int MAELSTROM_WITCH = 121;
     public static final int CLIFF_GOLEM = 122;
+    
+    private static int ENTITY_START_ID = 123;
 
     public static final int PROJECTILE_ID = 200;
     public static final int SHADE_ATTACK_ID = 201;
@@ -129,12 +133,17 @@ public class ModEntities
     public static final int CLIFF_PORTAL_SPAWN = 227;
     public static final int EXPLOSIVE_DRILL = 228;
     public static final int AZURE_BULLET = 229;
+    
+    private static int PROJECTILE_START_ID = 230;
 
     public static Vec3i maelstrom = new Vec3i(6433126, 3221816, 0);
     public static Vec3i azure = new Vec3i(7248383, 7236306, 0);
     public static Vec3i nexus = new Vec3i(15724287, 12501453, 0);
     public static Vec3i cliff = new Vec3i(0x999966, 0xe6e600, 0);
     public static Vec3i cliff_maelstrom = new Vec3i(6433126, 0xe6e600, 0);
+    
+    public static final int BOSS_EXPERIENCE = 100;
+    public static final int MINIBOSS_EXPERIENCE = 20;
 
     public static void registerEntities()
     {
@@ -161,6 +170,7 @@ public class ModEntities
 	registerEntity("maelstrom_golden_boss", EntityMaelstromGoldenBoss.class, MAELSTROM_GOLDEN_BOSS, 70, cliff_maelstrom);
 	registerEntity("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, cliff_maelstrom);
 	registerEntity("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
+	registerEntity("swamp_crawler", EntitySwampCrawler.class, ENTITY_START_ID++, 50, cliff);
 
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
@@ -192,6 +202,7 @@ public class ModEntities
 	registerEntity("cliff_portal_spawn", EntityCliffPortalSpawn.class, CLIFF_PORTAL_SPAWN, 30);
 	registerEntity("explosive_drill", ProjectileExplosiveDrill.class, EXPLOSIVE_DRILL, 30);
 	registerEntity("azure_bullet", ProjectileAzureBullet.class, AZURE_BULLET, 100);
+	registerEntity("swamp_spittle", ProjectileSwampSpittle.class, PROJECTILE_START_ID++, 30);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

@@ -36,6 +36,7 @@ public abstract class EntityLeveledMob extends EntityCreature
     {
 	super(worldIn);
 	this.setLevel(1);
+	this.experienceValue = 5;
     }
 
     @Override
