@@ -1,11 +1,9 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationOpenJaws;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.init.ModItems;
-import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
@@ -13,21 +11,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -71,7 +66,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 		super.startExecuting();
 	    }
 	});
-	this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.6D));
+	this.tasks.addTask(6, new EntityAIWander(this, 0.6D));
 	this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 	this.tasks.addTask(8, new EntityAILookIdle(this));
 	this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
@@ -94,6 +89,13 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30D);
+	this.getEntityAttribute(SWIM_SPEED).setBaseValue(1.0D);
+    }
+    
+    @Override
+    protected float getWaterSlowDown()
+    {
+        return 0.95f;
     }
 
     public float getEyeHeight()
@@ -143,7 +145,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     public void onUpdate()
     {
 	super.onUpdate();
-
+		
 	if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
 	{
 	    this.setDead();

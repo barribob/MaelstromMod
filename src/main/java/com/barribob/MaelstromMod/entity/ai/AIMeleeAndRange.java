@@ -100,12 +100,10 @@ public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extend
 		if (attackAI == this.meleeAttackAI)
 		{
 		    attackAI = this.rangedAttackAI;
-		    this.entity.world.setEntityState(this.entity, (byte) 4);
 		}
 		else
 		{
 		    attackAI = this.meleeAttackAI;
-		    this.entity.world.setEntityState(this.entity, (byte) 5);
 		}
 	    }
 	}
