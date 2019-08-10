@@ -2,6 +2,8 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
+import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffMushroom;
@@ -15,6 +17,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenMegaJungle;
@@ -48,6 +51,8 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
         this.decorator.sandPatchesPerChunk = 0;
         this.decorator.gravelPatchesPerChunk = 0;
         this.decorator.grassPerChunk = 5;
+        
+	this.spawnableCreatureList.add(new SpawnListEntry(EntitySwampCrawler.class, 10, 1, 5));
     }
     
     @Override

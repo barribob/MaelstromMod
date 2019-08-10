@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -43,7 +44,7 @@ public class ProjectileSwampSpittle extends Projectile
 	{
 	    if (this.shootingEntity instanceof EntityLivingBase)
 	    {
-		result.entityHit.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage((EntityLivingBase) this.shootingEntity), this.getDamage());
+		result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getDamage());
 	    }
 	}
 	super.onHit(result);

@@ -24,7 +24,7 @@ public class BiomeInit
     {
 	initBiome(AZURE, "azure", BiomeType.WARM, false, Type.HILLS);
 	initBiome(NEXUS, "nexus", BiomeType.WARM, false, Type.PLAINS);
-	initBiome(HIGH_CLIFF, "high_cliff", BiomeType.COOL, false, Type.PLAINS);
+	initBiome(HIGH_CLIFF, "high_cliff", BiomeType.WARM, false, Type.PLAINS);
 	initBiome(CLIFF_SWAMP, "cliff_swamp", BiomeType.WARM, false, Type.SWAMP);
     }
 

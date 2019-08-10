@@ -34,7 +34,7 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
 {
     public BiomeCliffPlateau()
     {
-	super(new BiomeProperties("cliff_plateau").setBaseHeight(11F).setHeightVariation(0.05F).setTemperature(0.2F).setRainfall(0.3F), ModBlocks.CLIFF_STONE, ModBlocks.CLIFF_STONE);
+	super(new BiomeProperties("cliff_plateau").setBaseHeight(11F).setHeightVariation(0.05F).setTemperature(0.6F).setRainfall(0.3F), ModBlocks.CLIFF_STONE, ModBlocks.CLIFF_STONE);
 	
 	this.decorator.treesPerChunk = 0;
 	this.decorator.grassPerChunk = 3;
