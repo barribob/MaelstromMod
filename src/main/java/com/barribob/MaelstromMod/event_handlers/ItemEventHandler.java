@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.event_handlers;
 
 import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -22,9 +23,15 @@ public class ItemEventHandler
 	    EntityPlayer player = (EntityPlayer) event.getEntity();
 	    Item heldItem = player.getHeldItem(EnumHand.MAIN_HAND).getItem();
 	    Item offhandItem = player.getHeldItem(EnumHand.OFF_HAND).getItem();
+	    
 	    if ((heldItem.equals(ModItems.BAKUYA) && offhandItem.equals(ModItems.KANSHOU)) || (heldItem.equals(ModItems.KANSHOU) && offhandItem.equals(ModItems.BAKUYA)))
 	    {
 		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 2));
+	    }
+	    
+	    if (heldItem.equals(ModItems.CROSS_OF_AQUA) || offhandItem.equals(ModItems.CROSS_OF_AQUA))
+	    {
+		ModUtils.walkOnWater(player, player.world);
 	    }
 	}
     }

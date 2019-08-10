@@ -16,6 +16,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -136,15 +137,37 @@ public class ModUtils
 	    });
 	}
     }
-    
+
     public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile)
     {
-        double d0 = target.posY + (double)target.getEyeHeight() - 1.100000023841858D;
-        double d1 = target.posX - actor.posX;
-        double d2 = d0 - projectile.posY;
-        double d3 = target.posZ - actor.posZ;
-        float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-        projectile.shoot(d1, d2 + (double)f, d3, 1.6F, 12.0F);
-        actor.world.spawnEntity(projectile);	
+	double d0 = target.posY + (double) target.getEyeHeight() - 1.100000023841858D;
+	double d1 = target.posX - actor.posX;
+	double d2 = d0 - projectile.posY;
+	double d3 = target.posZ - actor.posZ;
+	float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+	projectile.shoot(d1, d2 + (double) f, d3, 1.6F, 12.0F);
+	actor.world.spawnEntity(projectile);
+    }
+
+    /**
+     * Credit to coolAlias
+     * https://www.minecraftforge.net/forum/topic/22166-walking-on-water/
+     * 
+     * @param entity
+     * @param world
+     */
+    public static void walkOnWater(EntityLivingBase entity, World world)
+    {
+	BlockPos pos = new BlockPos(entity.posX, Math.floor(entity.getEntityBoundingBox().minY), entity.posZ);
+	if (world.getBlockState(pos).getBlock() == Blocks.WATER || world.getBlockState(pos).getBlock() == Blocks.FLOWING_WATER)
+	{
+	    if (entity.motionY < 0)
+	    {
+		entity.posY += -entity.motionY; // player is falling, so motionY is negative, but we want to reverse that
+		entity.motionY = 0.0D; // no longer falling
+	    }
+	    entity.fallDistance = 0.0F; // otherwise I believe it adds up, which may surprise you when you come down
+	    entity.onGround = true;
+	}
     }
 }

@@ -48,6 +48,7 @@ import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Reference;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -217,4 +218,9 @@ public class ModItems
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
 
     public static final Item GOLDEN_MAELSTROM_CORE = new ItemBase("golden_maelstrom_core", ModCreativeTabs.ALL);
+    public static final Item CROSS_OF_AQUA = new ItemBase("cross_of_aqua", ModCreativeTabs.ALL) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+	    tooltip.add(TextFormatting.BLUE + "When held, allows the player to walk on water");
+	};
+    };
 }
