@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.util;
 
 import net.minecraft.util.math.Vec3d;
-import scala.reflect.internal.Trees.New;
 
 public class ModColors
 {

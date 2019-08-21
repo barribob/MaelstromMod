@@ -18,6 +18,7 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -43,27 +44,34 @@ public class ItemNexusIslandBuilder extends ItemBase
 	    EntityNexusParticleSpawner entity = new EntityNexusParticleSpawner(worldIn);
 	    entity.copyLocationAndAnglesFrom(playerIn);
 	    worldIn.spawnEntity(entity);
-	    WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
-	    PlacementSettings settings = new PlacementSettings().setChunk(null).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE)
-		    .setRotation(Rotation.NONE);
-	    MinecraftServer mcServer = worldIn.getMinecraftServer();
-	    TemplateManager manager = worldServer.getStructureTemplateManager();
-	    ResourceLocation location = new ResourceLocation(Reference.MOD_ID, "nexus/nexus_entrance_island");
-	    Template template = manager.get(mcServer, location);
-	    BlockPos pos = new BlockPos(playerIn.posX - 15, MapGenNexusEntrance.NEXUS_ISLAND_SPAWN_HEIGHT, playerIn.posZ - 15);
-	    if (template != null)
+	    if (!worldIn.isRemote)
 	    {
-		template.addBlocksToWorld(worldIn, pos, settings, 18);
-	    }
-	    else
-	    {
-		System.out.println("The template, " + location + " could not be loaded");
-	    }
-	    if (!playerIn.capabilities.isCreativeMode)
-	    {
-		itemstack.shrink(1);
+		WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
+		PlacementSettings settings = new PlacementSettings().setChunk(null).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE)
+			.setRotation(Rotation.NONE);
+		MinecraftServer mcServer = worldIn.getMinecraftServer();
+		TemplateManager manager = worldServer.getStructureTemplateManager();
+		ResourceLocation location = new ResourceLocation(Reference.MOD_ID, "nexus/nexus_entrance_island");
+		Template template = manager.get(mcServer, location);
+		BlockPos pos = new BlockPos(playerIn.posX - 15, MapGenNexusEntrance.NEXUS_ISLAND_SPAWN_HEIGHT, playerIn.posZ - 15);
+		if (template != null)
+		{
+		    template.addBlocksToWorld(worldIn, pos, settings, 18);
+		}
+		else
+		{
+		    System.out.println("The template, " + location + " could not be loaded");
+		}
+		if (!playerIn.capabilities.isCreativeMode)
+		{
+		    itemstack.shrink(1);
+		}
 	    }
 	    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+	}
+	if (!worldIn.isRemote)
+	{
+	    playerIn.sendMessage(new TextComponentTranslation("islandbuilder.fail"));
 	}
 	return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
     }

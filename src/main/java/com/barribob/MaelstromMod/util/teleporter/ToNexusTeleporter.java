@@ -1,14 +1,11 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
 import com.barribob.MaelstromMod.config.ModConfig;
-import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
@@ -31,12 +28,12 @@ public class ToNexusTeleporter extends Teleporter
 	if (this.world.provider.getDimensionType().getId() != ModConfig.nexus_dimension_id)
 	{
 	    System.err.println("The overworld to nexus teleporter is being used for the wrong dimension!");
-	    return;
 	}
 	this.portalOffset = portalOffset;
 	spacing = DimensionNexus.NexusStructureSpacing * 16;
     }
 
+    @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
 	this.placeInExistingPortal(entityIn, rotationYaw);
@@ -45,6 +42,7 @@ public class ToNexusTeleporter extends Teleporter
     /**
      * Places the entity in the portal (of which we know the location beforehand)
      */
+    @Override
     public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
 	int x = MathHelper.floor(entityIn.posX / spacing) * spacing + portalOffset.getX();

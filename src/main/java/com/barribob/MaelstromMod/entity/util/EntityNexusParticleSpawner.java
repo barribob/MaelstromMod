@@ -1,19 +1,16 @@
 package com.barribob.MaelstromMod.entity.util;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn.BlockPosTuple;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityNexusParticleSpawner extends Entity
 {
@@ -30,10 +27,25 @@ public class EntityNexusParticleSpawner extends Entity
 	this.setPosition(x, y, z);
     }
 
+    @Override
     public void onUpdate()
     {
 	super.onUpdate();
 	if (this.ticksExisted % 10 == 0)
+	{
+	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+	}
+	if (this.ticksExisted > 600)
+	{
+	    this.setDead();
+	}
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    ModUtils.performNTimes(20, (i) -> {
 		ParticleManager.spawnParticlesInCircle(i * 2, 600 - this.ticksExisted, (pos) -> {
@@ -42,10 +54,7 @@ public class EntityNexusParticleSpawner extends Entity
 		});
 	    });
 	}
-	if (this.ticksExisted > 600)
-	{
-	    this.setDead();
-	}
+	super.handleStatusUpdate(id);
     }
 
     @Override

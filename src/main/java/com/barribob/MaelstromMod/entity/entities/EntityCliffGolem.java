@@ -43,10 +43,21 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	super(worldIn);
 	this.setLevel(2);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
+	if (!worldIn.isRemote)
+	{
+	    attackHandler.addAttack(groundPoundByte, new ActionGolemSlam());
+	    attackHandler.addAttack(this.geyserByte, new ActionGeyser());
+	}
+	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
 	this.currentAnimation = new AnimationAzureGolem();
 	attackHandler.addAttack(groundPoundByte, new ActionGolemSlam(), () -> new AnimationAzureGolem());
 	attackHandler.addAttack(this.geyserByte, new ActionGeyser(), () -> new AnimationGroundFistBump());
-	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
 
     @Override
@@ -71,6 +82,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -81,16 +93,19 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
 	return SoundEvents.ENTITY_IRONGOLEM_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound()
     {
 	return SoundEvents.ENTITY_IRONGOLEM_DEATH;
     }
 
+    @Override
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
 	this.playSound(SoundEvents.ENTITY_IRONGOLEM_STEP, 1.0F, 1.0F);
@@ -102,6 +117,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	return 0.9f + ModRandom.getFloat(0.1f);
     }
 
+    @Override
     @Nullable
     protected ResourceLocation getLootTable()
     {
@@ -140,6 +156,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	}
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {

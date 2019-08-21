@@ -1,13 +1,13 @@
 package com.barribob.MaelstromMod.world.gen;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -24,9 +24,7 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import scala.actors.threadpool.Arrays;
 
 /**
  * 
@@ -38,6 +36,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     public static final WorldGenStructure MAELSTROM_CASTLE = new WorldGenMaelstromCastle("maelstrom_castle/maelstrom_castle");
     public static final WorldGenStructure WITCH_HUT = new WorldGenStructure("cliff/maelstrom_witch_hut")
     {
+	@Override
 	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
 	{
 	    if (function.startsWith("witch"))
@@ -54,6 +53,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     };
     public static final WorldGenStructure CLIFF_TEMPLE = new WorldGenStructure("cliff/swamp_temple")
     {
+	@Override
 	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
 	{
 	    if (function.startsWith("enemy"))
@@ -70,6 +70,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     };
     private static final WorldGenStructure MAELSTROM_RUINS = new WorldGenStructure("cliff/maelstrom_ruins")
     {
+	@Override
 	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
 	{
 	    if (function.startsWith("enemy"))

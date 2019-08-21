@@ -19,7 +19,6 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
@@ -38,6 +37,12 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 	super(worldIn);
 	this.setSize(1.3f, 1.3f);
 	this.setLevel(2.0f);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
 	this.currentAnimation = new AnimationOpenJaws();
     }
 
@@ -48,6 +53,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 	this.setBaseAttack(5);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	this.tasks.addTask(0, new EntityAISwimming(this));
@@ -75,6 +81,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 	this.tasks.addTask(4, attackAI);
     }
 
+    @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
 	if (entityIn instanceof EntityLivingBase)
@@ -85,6 +92,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 	return false;
     }
 
+    @Override
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
@@ -98,16 +106,19 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
         return 0.95f;
     }
 
+    @Override
     public float getEyeHeight()
     {
 	return 0.65F;
     }
 
+    @Override
     protected SoundEvent getSwimSound()
     {
 	return SoundEvents.ENTITY_HOSTILE_SWIM;
     }
 
+    @Override
     protected SoundEvent getSplashSound()
     {
 	return SoundEvents.ENTITY_HOSTILE_SPLASH;
@@ -137,11 +148,13 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
         return ModItems.SWAMP_SLIME;
     }
 
+    @Override
     public boolean getCanSpawnHere()
     {
 	return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && super.getCanSpawnHere();
     }
 
+    @Override
     public void onUpdate()
     {
 	super.onUpdate();
@@ -167,6 +180,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 	}
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {

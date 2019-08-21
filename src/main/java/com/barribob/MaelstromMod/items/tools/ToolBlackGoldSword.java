@@ -41,8 +41,8 @@ public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverrid
 	{
 	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
 	    {
-		entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F),
-			(double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F),
+			(-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 		entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(player), sweepDamage);
 		entitylivingbase.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 100, 1));
 	    }

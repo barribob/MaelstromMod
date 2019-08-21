@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.action.ActionGoldenMissles;
-import com.barribob.MaelstromMod.entity.animation.AnimationBeastSpit;
 import com.barribob.MaelstromMod.entity.animation.AnimationDualThrow;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -22,6 +21,12 @@ public class EntityGoldenMage extends EntityMaelstromMage
     {
 	super(worldIn);
 	this.setLevel(2.5f);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
 	currentAnimation = new AnimationDualThrow();
     }
 
@@ -35,12 +40,13 @@ public class EntityGoldenMage extends EntityMaelstromMage
     public void onUpdate()
     {
 	super.onUpdate();
-	if (!world.isRemote && rand.nextBoolean())
+	if (rand.nextBoolean())
 	{
-	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
+	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	}
     }
 
+    @Override
     public void setSwingingArms(boolean swingingArms)
     {
 	super.setSwingingArms(swingingArms);
@@ -50,9 +56,14 @@ public class EntityGoldenMage extends EntityMaelstromMage
 	}
     };
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
+	if (id == ModUtils.PARTICLE_BYTE)
+	{
+	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
+	}
 	if (id == 4)
 	{
 	    currentAnimation = new AnimationDualThrow();
@@ -83,7 +94,7 @@ public class EntityGoldenMage extends EntityMaelstromMage
 	    new ActionGoldenMissles(0.5f, this.getEyeHeight() - 0.5f).performAction(this, target);
 	}
     }
-    
+
     @Override
     protected ResourceLocation getLootTable()
     {

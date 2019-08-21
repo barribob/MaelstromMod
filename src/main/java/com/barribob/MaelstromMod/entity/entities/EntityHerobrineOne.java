@@ -59,15 +59,28 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     private byte spinSlash = 4;
     private byte groundSlash = 5;
     private byte fireball = 6;
-    
+
     public EntityHerobrineOne(World worldIn)
     {
 	super(worldIn);
+	if (!world.isRemote)
+	{
+	    attackHandler.addAttack(spinSlash, new ActionSpinSlash());
+	    attackHandler.addAttack(groundSlash, new ActionGroundSlash());
+	    attackHandler.addAttack(fireball, new ActionFireball());
+	}
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
 	attackHandler.addAttack(spinSlash, new ActionSpinSlash(), () -> new AnimationSpinSlash());
 	attackHandler.addAttack(groundSlash, new ActionGroundSlash(), () -> new AnimationHerobrineGroundSlash());
 	attackHandler.addAttack(fireball, new ActionFireball(), () -> new AnimationFireballThrow());
     }
-    
+
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -119,12 +132,13 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	this.attackHandler.getCurrentAttackAction().performAction(this, target);;
+	this.attackHandler.getCurrentAttackAction().performAction(this, target);
     }
 
     /**
      * Gives armor or weapon for entity based on given DifficultyInstance
      */
+    @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty)
     {
 	this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ModItems.SWORD_OF_SHADES));
@@ -136,6 +150,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
      * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
      * used for initializing attributes and inventory
      */
+    @Override
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
@@ -196,6 +211,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     /**
      * Handler for {@link World#setEntityState}
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -260,6 +276,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	this.markedToDespawn = true;
     }
 
+    @Override
     protected void entityInit()
     {
 	super.entityInit();
@@ -268,6 +285,6 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 
     public boolean isSwingingArms()
     {
-	return ((Boolean) this.dataManager.get(SWINGING_ARMS)).booleanValue();
+	return this.dataManager.get(SWINGING_ARMS).booleanValue();
     }
 }

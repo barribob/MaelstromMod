@@ -43,18 +43,25 @@ public class EntityBeast extends EntityMaelstromMob
     private final static int PROJECTILE_AMOUNT = 5;
 
     // Responsible for the boss bar
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
+    private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
 
     public EntityBeast(World worldIn)
     {
 	super(worldIn);
 	this.setSize(1.8f, 1.8f);
-	this.currentAnimation = new AnimationBeastSpit();
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	this.setLevel(1.5f);
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
+	this.currentAnimation = new AnimationBeastSpit();
+    }
+
     // Init the melee and range ai
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -65,6 +72,7 @@ public class EntityBeast extends EntityMaelstromMob
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */
+    @Override
     protected boolean canDespawn()
     {
 	return false;
@@ -95,18 +103,19 @@ public class EntityBeast extends EntityMaelstromMob
 	    for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
 	    {
 		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, this.getAttack());
-		double d0 = target.posY + (double) target.getEyeHeight();
+		double d0 = target.posY + target.getEyeHeight();
 		double d1 = target.posX - this.posX;
 		double d2 = d0 - projectile.posY;
 		double d3 = target.posZ - this.posZ;
 		float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-		projectile.shoot(d1, d2 + (double) f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
+		projectile.shoot(d1, d2 + f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
 		this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 		this.world.spawnEntity(projectile);
 	    }
 	}
     }
 
+    @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
 	if (entityIn instanceof EntityLivingBase)
@@ -131,6 +140,7 @@ public class EntityBeast extends EntityMaelstromMob
     /**
      * Sets the custom name tag for this entity
      */
+    @Override
     public void setCustomNameTag(String name)
     {
 	super.setCustomNameTag(name);
@@ -148,6 +158,7 @@ public class EntityBeast extends EntityMaelstromMob
      * Add the given player to the list of players tracking this entity. For
      * instance, a player may track a boss in order to view its associated boss bar.
      */
+    @Override
     public void addTrackingPlayer(EntityPlayerMP player)
     {
 	super.addTrackingPlayer(player);
@@ -158,6 +169,7 @@ public class EntityBeast extends EntityMaelstromMob
      * Removes the given player from the list of players tracking this entity. See
      * {@link Entity#addTrackingPlayer} for more information on tracking.
      */
+    @Override
     public void removeTrackingPlayer(EntityPlayerMP player)
     {
 	super.removeTrackingPlayer(player);
@@ -206,6 +218,7 @@ public class EntityBeast extends EntityMaelstromMob
     /**
      * Handler for {@link World#setEntityState}
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {

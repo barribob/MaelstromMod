@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.world.dimension.cliff;
 
+import java.util.Arrays;
+
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.world.biome.BiomeProviderMultiple;
@@ -12,7 +14,6 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import scala.actors.threadpool.Arrays;
 
 /**
  * 
@@ -54,6 +55,7 @@ public class DimensionCliff extends WorldProvider
 	return true;
     }
 
+    @Override
     public WorldSleepResult canSleepAt(net.minecraft.entity.player.EntityPlayer player, BlockPos pos)
     {
 	return WorldSleepResult.DENY;
@@ -76,6 +78,6 @@ public class DimensionCliff extends WorldProvider
 	f1 = f1 * (f * 0.70F + 0.06F);
 	f2 = f2 * (f * 0.84F + 0.06F);
 	f3 = f3 * (f * 0.70F + 0.09F);
-	return new Vec3d((double) f1, (double) f2, (double) f3);
+	return new Vec3d(f1, f2, f3);
     }
 }

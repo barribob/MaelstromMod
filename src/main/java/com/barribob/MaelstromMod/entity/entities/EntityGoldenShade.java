@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationShadeThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenThrust;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -21,19 +22,26 @@ public class EntityGoldenShade extends EntityShade
     {
 	super(worldIn);
 	this.setLevel(2.5f);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
 	this.currentAnimation = new AnimationShadeThrust();
     }
-    
+
     @Override
     public void onUpdate()
     {
-        super.onUpdate();
-        if(!world.isRemote && rand.nextBoolean())
-        {
-            ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
-        }
+	super.onUpdate();
+	if (!world.isRemote && rand.nextBoolean())
+	{
+	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+	}
     }
 
+    @Override
     public void setSwingingArms(boolean swingingArms)
     {
 	super.setSwingingArms(swingingArms);
@@ -42,13 +50,18 @@ public class EntityGoldenShade extends EntityShade
 	    this.world.setEntityState(this, (byte) 4);
 	}
     };
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
 	if (id == 4)
 	{
 	    currentAnimation.startAnimation();
+	}
+	else if (id == ModUtils.PARTICLE_BYTE)
+	{
+	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
 	}
 	else
 	{
@@ -64,7 +77,7 @@ public class EntityGoldenShade extends EntityShade
 	    new ActionThrust(new ProjectileGoldenThrust(world, this, this.getAttack())).performAction(this, target);
 	}
     }
-    
+
     @Override
     protected ResourceLocation getLootTable()
     {

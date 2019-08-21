@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -17,7 +16,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenMegaJungle;
@@ -37,7 +35,7 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
     private final static IBlockState leaf = ModBlocks.SWAMP_LEAVES.getDefaultState();
     public BiomeCliffSwamp()
     {
-	super(new BiomeProperties("cliff_swamp").setBaseHeight(-0.2F).setHeightVariation(0.1F).setTemperature(0.8F).setRainfall(0.9F).setWaterColor(4864285), Blocks.GRASS,
+	super(new BiomeProperties("Cliff Swamp").setBaseHeight(-0.2F).setHeightVariation(0.1F).setTemperature(0.8F).setRainfall(0.9F).setWaterColor(4864285), Blocks.GRASS,
 		Blocks.DIRT);
 
         this.decorator.treesPerChunk = 8;
@@ -80,7 +78,7 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
     @Override
     public void generateTopBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal, Block stoneBlock)
     {
-        double d0 = GRASS_COLOR_NOISE.getValue((double)x * 0.25D, (double)z * 0.25D);
+        double d0 = GRASS_COLOR_NOISE.getValue(x * 0.25D, z * 0.25D);
 
         if (d0 > 0.0D)
         {
@@ -120,13 +118,15 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
 	ModUtils.generateN(worldIn, rand, pos, 200, 100, 40, new WorldGenSwampVines());
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
     public int getGrassColorAtPos(BlockPos pos)
     {
-        double d0 = GRASS_COLOR_NOISE.getValue((double)pos.getX() * 0.0225D, (double)pos.getZ() * 0.0225D);
+        double d0 = GRASS_COLOR_NOISE.getValue(pos.getX() * 0.0225D, pos.getZ() * 0.0225D);
         return d0 < -0.1D ? 4605755 : 5325610;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public int getFoliageColorAtPos(BlockPos pos)
     {

@@ -38,8 +38,14 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	super(worldIn);
 	this.setLevel(2);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
-	this.currentAnimation = new AnimationAzureGolem();
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
+	this.currentAnimation = new AnimationAzureGolem();
     }
 
     @Override
@@ -64,6 +70,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -78,6 +85,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
      * Checks if the entity's current position is a valid location to spawn this
      * entity.
      */
+    @Override
     public boolean getCanSpawnHere()
     {
 	int i = MathHelper.floor(this.posX);
@@ -87,16 +95,19 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
 	return SoundEvents.ENTITY_IRONGOLEM_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound()
     {
 	return SoundEvents.ENTITY_IRONGOLEM_DEATH;
     }
 
+    @Override
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
 	this.playSound(SoundEvents.ENTITY_IRONGOLEM_STEP, 1.0F, 1.0F);
@@ -108,6 +119,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	return 0.9f + ModRandom.getFloat(0.1f);
     }
 
+    @Override
     @Nullable
     protected ResourceLocation getLootTable()
     {
@@ -138,6 +150,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     /**
      * Handler for {@link World#setEntityState}
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
