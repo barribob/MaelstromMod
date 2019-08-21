@@ -22,7 +22,7 @@ public abstract class BlockKey extends BlockBase
     private Item activationItem;
     public BlockKey(String name, Item item)
     {
-	super(name, Material.ROCK, 1000, 1000, SoundType.STONE);
+	super(name, Material.ROCK, 1000, 10000, SoundType.STONE);
 	this.setBlockUnbreakable();
 	this.activationItem = item;
     }

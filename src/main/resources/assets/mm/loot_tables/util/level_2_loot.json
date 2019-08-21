@@ -6,7 +6,7 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "mm:black_gold_helmet",
+                    "name": "mm:swamp_helmet",
                     "weight": 1,
                     "functions": [
                         {
@@ -22,7 +22,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:black_gold_chestplate",
+                    "name": "mm:swamp_chestplate",
                     "weight": 1,
                     "functions": [
                         {
@@ -38,7 +38,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:black_gold_leggings",
+                    "name": "mm:swamp_leggings",
                     "weight": 1,
                     "functions": [
                         {
@@ -54,7 +54,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:black_gold_boots",
+                    "name": "mm:swamp_boots",
                     "weight": 1,
                     "functions": [
                         {
@@ -70,7 +70,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:black_gold_sword",
+                    "name": "mm:brownstone_sword",
                     "weight": 1,
                     "functions": [
                         {
@@ -86,7 +86,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:golden_rifle",
+                    "name": "mm:brownstone_cannon",
                     "weight": 1,
                     "functions": [
                         {
@@ -102,39 +102,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:golden_shotgun",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_randomly",
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.5
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "mm:golden_repeater",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_randomly",
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.5
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "mm:golden_pistol",
+                    "name": "mm:ancient_battleaxe",
                     "weight": 1,
                     "functions": [
                         {

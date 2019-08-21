@@ -20,6 +20,23 @@
                     ]
                 }
             ]
+        },
+        {
+            "rolls": 1,
+            "name": "golden_boss",
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:red_key_fragment",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": 4
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

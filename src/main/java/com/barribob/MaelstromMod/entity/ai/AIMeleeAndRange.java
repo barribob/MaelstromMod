@@ -16,14 +16,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Combines melee and ranged ai to create an ai that does both itermittently
+ * Combines melee and ranged ai to create an ai that does both intermittently
  *
- * @param <T> The entity getting the ai
+ * @param <T>
+ *            The entity getting the ai
  */
 public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extends EntityAIBase
 {
     private int switchUpdateTime;
-    private float chanceForRanged;
+    private float switchChance;
 
     private int switchTimer;
 
@@ -34,15 +35,19 @@ public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extend
 
     private T entity;
 
-    public AIMeleeAndRange(T mob, double speedIn, boolean useLongMemory, double moveSpeedAmp, int attackCooldown, float maxAttackDistance,
-	    int switchUpdateTime, float chanceForRanged, float strafeAmount)
+    public AIMeleeAndRange(T mob, double speedIn, boolean useLongMemory, double moveSpeedAmp, int attackCooldown, float maxAttackDistance, int switchUpdateTime,
+	    float switchChance, float strafeAmount)
     {
 	rangedAttackAI = new EntityAIRangedAttack<T>(mob, moveSpeedAmp, attackCooldown, maxAttackDistance, strafeAmount);
 	meleeAttackAI = new EntityAIAttackMelee(mob, speedIn, useLongMemory);
 	attackAI = meleeAttackAI;
 	this.switchUpdateTime = switchUpdateTime;
-	this.chanceForRanged = chanceForRanged;
+	this.switchChance = switchChance;
 	this.entity = mob;
+    }
+    
+    public boolean isRanged() {
+	return attackAI.equals(rangedAttackAI);
     }
 
     /**
@@ -89,16 +94,17 @@ public class AIMeleeAndRange<T extends EntityCreature & IRangedAttackMob> extend
 	{
 	    this.switchTimer = this.switchUpdateTime;
 
-	    // Switch ai's
-	    if (this.entity.world.rand.nextFloat() < this.chanceForRanged)
+	    if (this.entity.world.rand.nextFloat() < this.switchChance)
 	    {
-		attackAI = this.rangedAttackAI;
-		this.entity.world.setEntityState(this.entity, (byte) 4);
-	    }
-	    else
-	    {
-		attackAI = this.meleeAttackAI;
-		this.entity.world.setEntityState(this.entity, (byte) 5);
+		// Switch ai's
+		if (attackAI == this.meleeAttackAI)
+		{
+		    attackAI = this.rangedAttackAI;
+		}
+		else
+		{
+		    attackAI = this.meleeAttackAI;
+		}
 	    }
 	}
 

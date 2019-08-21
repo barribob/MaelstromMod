@@ -14,15 +14,8 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSand;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -44,7 +37,7 @@ public class BiomeAzure extends BiomeDifferentStone
 
     public BiomeAzure()
     {
-	super(new BiomeProperties("azure").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253),
+	super(new BiomeProperties("Fracture").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253),
 		ModBlocks.AZURE_GRASS, ModBlocks.DARK_AZURE_STONE);
 
 	this.decorator.treesPerChunk = 2;
@@ -129,6 +122,7 @@ public class BiomeAzure extends BiomeDifferentStone
     /**
      * Gets a WorldGen appropriate for this biome.
      */
+    @Override
     public WorldGenerator getRandomWorldGenForGrass(Random rand)
     {
 	return new WorldGenAzureFoliage(TALL_GRASS_LIST, 128);

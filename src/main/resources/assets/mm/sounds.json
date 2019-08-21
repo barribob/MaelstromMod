@@ -88,5 +88,25 @@
                 "stream": true
             }
         ]
+    },
+    "entity.swamp_crawler.ambient": {
+        "category": "entity",
+        "subtitle": "entity.swamp_crawler.ambient",
+        "sounds": [
+            {
+                "name": "mm:entity/swamp_crawler/ambient",
+                "stream": true
+            }
+        ]
+    },
+    "entity.swamp_crawler.hurt": {
+        "category": "entity",
+        "subtitle": "entity.swamp_crawler.hurt",
+        "sounds": [
+            {
+                "name": "mm:entity/swamp_crawler/hurt",
+                "stream": true
+            }
+        ]
     }
 }

@@ -1,11 +1,13 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.action.ActionThrowPotion;
 import com.barribob.MaelstromMod.entity.action.ActionDarkMissile;
+import com.barribob.MaelstromMod.entity.action.ActionThrowPotion;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationWitchFlail;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,6 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -22,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityMaelstromWitch extends EntityMaelstromMob
 {
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_12));
+    private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_12));
     private ComboAttack attackHandler = new ComboAttack();
     private byte lingeringPotions = 4;
     private byte rapidPotions = 5;
@@ -36,10 +39,23 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setLevel(2);
+	threshold = this.getMaxHealth() * 0.3f;
+	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
+	if (!worldIn.isRemote)
+	{
+	    attackHandler.addAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION));
+	    attackHandler.addAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION));
+	    attackHandler.addAttack(throwWood, new ActionDarkMissile());
+	}
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
 	attackHandler.addAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION), () -> new AnimationWitchFlail());
 	attackHandler.addAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
 	attackHandler.addAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
-	threshold = this.getMaxHealth() * 0.3f;
     }
 
     @Override
@@ -105,6 +121,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	}
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -119,39 +136,51 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	}
     }
 
+    @Override
     protected SoundEvent getAmbientSound()
     {
 	return SoundEvents.ENTITY_WITCH_AMBIENT;
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
 	return SoundEvents.ENTITY_WITCH_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound()
     {
 	return SoundEvents.ENTITY_WITCH_DEATH;
     }
-    
+
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.SWAMP_BOSS;
+    }
+
     @Override
     protected float getSoundPitch()
     {
-        return 0.6f;
+	return 0.6f;
     }
 
+    @Override
     public void setCustomNameTag(String name)
     {
 	super.setCustomNameTag(name);
 	this.bossInfo.setName(this.getDisplayName());
     }
 
+    @Override
     public void addTrackingPlayer(EntityPlayerMP player)
     {
 	super.addTrackingPlayer(player);
 	this.bossInfo.addPlayer(player);
     }
 
+    @Override
     public void removeTrackingPlayer(EntityPlayerMP player)
     {
 	super.removeTrackingPlayer(player);

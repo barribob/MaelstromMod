@@ -29,7 +29,9 @@ import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
 import com.barribob.MaelstromMod.blocks.BlockSwampLeaves;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockBrownKey;
 import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
+import com.barribob.MaelstromMod.blocks.portal.BlockCliffPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
@@ -49,64 +51,72 @@ import net.minecraft.init.Blocks;
 public class ModBlocks 
 {
 	public static final List<Block> BLOCKS = new ArrayList<Block>();
-	
+	public static final float STONE_HARDNESS = 1.7f;
+	public static final float STONE_RESISTANCE = 10f;
+	public static final float BRICK_HARDNESS = 2.0f;
+	public static final float WOOD_HARDNESS = 1.5f;
+	public static final float WOOD_RESISTANCE = 5.0f;
+	public static final float PLANTS_HARDNESS = 0.2f;
+	public static final float PLANTS_RESISTANCE = 2.0f;
+	public static final float ORE_HARDNESS = 3.0F;
+		
 	/**
 	 * Blocks for the azure dimension
 	 */
-	public static final Block DARK_AZURE_STONE = new BlockBase("dark_azure_stone", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block LIGHT_AZURE_STONE = new BlockBase("light_azure_stone", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL).setLightLevel(1.0f);
+	public static final Block DARK_AZURE_STONE = new BlockBase("dark_azure_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block LIGHT_AZURE_STONE = new BlockBase("light_azure_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL).setLightLevel(1.0f);
 	
 	// Plants
-	public static final Block AZURE_GRASS = new BlockAzureGrass("azure_grass", Material.GRASS, 0.7f, 1, SoundType.GROUND).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_LOG = new BlockLogBase("azure_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_LEAVES = new BlockAzureLeaves("azure_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", AZURE_GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenAzureTree(true)).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block PLUM_LOG = new BlockLogBase("plum_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block PLUM_LEAVES = new BlockPlumLeaves("plum_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block PLUM_FILLED_LEAVES = new BlockPlumFilledLeaves("plum_filled_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", AZURE_GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenPlumTree(true, true)).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", AZURE_GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenBigPlumTree(true)).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_VINES_BLOCK = new BlockAzureVinesBlock("azure_vines_block", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_VINES = new BlockAzureVines("azure_vines", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block BROWNED_GRASS = new BlockAzureTallGrass("browned_grass", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block BLUE_DAISY = new BlockAzureFlower("blue_daisy", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block RUBY_ORCHID = new BlockAzureFlower("ruby_orchid", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block DOUBLE_BROWNED_GRASS = new BlockDoubleBrownedGrass("double_browned_grass", Material.PLANTS, 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_PLANKS = new BlockBase("azure_planks", Material.WOOD, 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_FENCE = new BlockFenceBase("azure_fence", Material.WOOD, 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_GRASS = new BlockAzureGrass("azure_grass", Material.GRASS, 0.5f, PLANTS_RESISTANCE, SoundType.GROUND).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_LOG = new BlockLogBase("azure_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_LEAVES = new BlockAzureLeaves("azure_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", AZURE_GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT, new WorldGenAzureTree(true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block PLUM_LOG = new BlockLogBase("plum_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block PLUM_LEAVES = new BlockPlumLeaves("plum_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block PLUM_FILLED_LEAVES = new BlockPlumFilledLeaves("plum_filled_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", AZURE_GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT, new WorldGenPlumTree(true, true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", AZURE_GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT, new WorldGenBigPlumTree(true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_VINES_BLOCK = new BlockAzureVinesBlock("azure_vines_block", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_VINES = new BlockAzureVines("azure_vines", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWNED_GRASS = new BlockAzureTallGrass("browned_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BLUE_DAISY = new BlockAzureFlower("blue_daisy", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block RUBY_ORCHID = new BlockAzureFlower("ruby_orchid", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block DOUBLE_BROWNED_GRASS = new BlockDoubleBrownedGrass("double_browned_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_PLANKS = new BlockBase("azure_planks", Material.WOOD, WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_FENCE = new BlockFenceBase("azure_fence", Material.WOOD, WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
 	
 	// Maelstrom
-	public static final Block AZURE_MAELSTROM = new BlockMaelstrom("azure_maelstrom", Material.ROCK, 1.7f, 35, SoundType.STONE, 1).setLightLevel(0.5f).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block DECAYING_AZURE_MAELSTROM = new BlockDecayingMaelstrom("azure_decaying_maelstrom", 1.7f, 35, SoundType.STONE, 1).setLightLevel(0.5f);
-	public static final Block AZURE_MAELSTROM_CORE = new BlockMaelstromCore("azure_maelstrom_core", Material.ROCK, 2.7f, 35, SoundType.STONE);
-	public static final Block MAELSTROM_BRICKS = new BlockBase("maelstrom_bricks", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block MAELSTROM_BRICK_FENCE = new BlockFenceBase("maelstrom_brick_fence", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block MAELSTROM_BRICK_STAIRS = new BlockStairsBase("maelstrom_brick_stairs", MAELSTROM_BRICKS.getDefaultState(), 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_MAELSTROM = new BlockMaelstrom("azure_maelstrom", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1).setLightLevel(0.5f).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block DECAYING_AZURE_MAELSTROM = new BlockDecayingMaelstrom("azure_decaying_maelstrom", STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1).setLightLevel(0.5f);
+	public static final Block AZURE_MAELSTROM_CORE = new BlockMaelstromCore("azure_maelstrom_core", Material.ROCK, 2.7f, STONE_RESISTANCE, SoundType.STONE);
+	public static final Block MAELSTROM_BRICKS = new BlockBase("maelstrom_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block MAELSTROM_BRICK_FENCE = new BlockFenceBase("maelstrom_brick_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block MAELSTROM_BRICK_STAIRS = new BlockStairsBase("maelstrom_brick_stairs", MAELSTROM_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	
 	// Ore
-	public static final Block AZURE_COAL_ORE = new BlockAzureOre("azure_coal_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_DIAMOND_ORE = new BlockAzureOre("azure_diamond_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_EMERALD_ORE = new BlockAzureOre("azure_emerald_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_LAPIS_ORE = new BlockAzureOre("azure_lapis_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_IRON_ORE = new BlockAzureOre("azure_iron_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_GOLD_ORE = new BlockAzureOre("azure_gold_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_redstone_ore", 3.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_LIT_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_lit_redstone_ore", 3.0f, 40, SoundType.STONE).setLightLevel(0.3f);
+	public static final Block AZURE_COAL_ORE = new BlockAzureOre("azure_coal_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_DIAMOND_ORE = new BlockAzureOre("azure_diamond_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_EMERALD_ORE = new BlockAzureOre("azure_emerald_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_LAPIS_ORE = new BlockAzureOre("azure_lapis_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_IRON_ORE = new BlockAzureOre("azure_iron_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_GOLD_ORE = new BlockAzureOre("azure_gold_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_redstone_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_LIT_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_lit_redstone_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setLightLevel(0.3f);
 	
 	// Overworld
-	public static final Block MAELSTROM_STONEBRICK = new BlockBase("maelstrom_stonebrick", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block MAELSTROM_STONEBRICK_STAIRS = new BlockStairsBase("maelstrom_stonebrick_stairs", MAELSTROM_STONEBRICK.getDefaultState(), 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block MAELSTROM_STONEBRICK_FENCE = new BlockFenceBase("maelstrom_stonebrick_fence", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block MAELSTROM_STONEBRICK = new BlockBase("maelstrom_stonebrick", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block MAELSTROM_STONEBRICK_STAIRS = new BlockStairsBase("maelstrom_stonebrick_stairs", MAELSTROM_STONEBRICK.getDefaultState(), STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block MAELSTROM_STONEBRICK_FENCE = new BlockFenceBase("maelstrom_stonebrick_fence", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal").setCreativeTab(ModCreativeTabs.ALL);
 	
 	// Maelstrom Fortress
-	public static final Block AZURE_STONEBRICK = new BlockBase("azure_stonebrick", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_STONEBRICK_STAIRS = new BlockStairsBase("azure_stonebrick_stairs", AZURE_STONEBRICK.getDefaultState(), 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_STONEBRICK_CRACKED = new BlockBase("azure_stonebrick_cracked", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_STONEBRICK_CARVED = new BlockBase("azure_stonebrick_carved", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_STONEBRICK_CARVED_2 = new BlockBase("azure_stonebrick_carved_2", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_STONEBRICK_CARVED_3 = new BlockBase("azure_stonebrick_carved_3", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block AZURE_STONEBRICK_LIT = new BlockBase("azure_stonebrick_lit", Material.ROCK, 0f, 10000f, SoundType.STONE).setBlockUnbreakable().setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK = new BlockBase("azure_stonebrick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK_STAIRS = new BlockStairsBase("azure_stonebrick_stairs", AZURE_STONEBRICK.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK_CRACKED = new BlockBase("azure_stonebrick_cracked", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK_CARVED = new BlockBase("azure_stonebrick_carved", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK_CARVED_2 = new BlockBase("azure_stonebrick_carved_2", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK_CARVED_3 = new BlockBase("azure_stonebrick_carved_3", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block AZURE_STONEBRICK_LIT = new BlockBase("azure_stonebrick_lit", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
 	
 	// Util
 	public static final Block MEGA_STRUCTURE_BLOCK = new BlockMegaStructure("mega_structure_block");
@@ -114,34 +124,36 @@ public class ModBlocks
 	
 	// Nexus
 	public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f);
-	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, 5, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 	public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockBase("azure_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
-	public static final Block BROWN_KEY_BLOCK = new BlockBase("brown_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
-	public static final Block RED_DUNGEON_KEY_BLOCK = new BlockBase("red_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
-	public static final Block ICE_KEY_BLOCK = new BlockBase("ice_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
-	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockBase("ice_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
-	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockBase("black_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable();
+	public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockBase("azure_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
+	public static final Block BROWN_KEY_BLOCK = new BlockBrownKey("brown_key_block", ModItems.BROWN_KEY).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
+	public static final Block RED_DUNGEON_KEY_BLOCK = new BlockBase("red_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
+	public static final Block ICE_KEY_BLOCK = new BlockBase("ice_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
+	public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockBase("ice_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);;
+	public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockBase("black_dungeon_key_block", Material.ROCK).setCreativeTab(ModCreativeTabs.ALL).setBlockUnbreakable().setResistance(10000f);
 	public static final Block NEXUS_HEROBRINE_SPAWNER = new BlockNexusHerobrineSpawner("nexus_herobrine_spawner");
 	public static final Block NEXUS_PORTAL = new BlockNexusPortal("nexus_portal").setCreativeTab(ModCreativeTabs.ALL);
 	
 	// Cliff Dimension
-	public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK, 1.7f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_LOG = new BlockLogBase("swamp_log", 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block FULL_SWAMP_LOG = new BlockFullLog("full_swamp_log", SWAMP_LOG).setHardness(1.0f).setResistance(10).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_LEAVES = new BlockSwampLeaves("swamp_leaves", 0.5f, 0.5f, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_SAPLING = new BlockSaplingBase("swamp_sapling", Blocks.GRASS, 0.5f, 0.5f, SoundType.PLANT, new WorldGenSwampTree(true)).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block GOLD_STONE = new BlockBase("gold_stone", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block CRACKED_GOLD_STONE = new BlockBase("cracked_gold_stone", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block GOLD_STONE_FENCE = new BlockFenceBase("gold_stone_fence", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block GOLD_STONE_STAIRS = new BlockStairsBase("gold_stone_stairs", GOLD_STONE.getDefaultState(), 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block BROWNED_PILLAR = new BlockBase("browned_pillar", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block BROWNED_BLOCK = new BlockBase("browned_block", Material.ROCK, 2.0f, 40, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block GOLD_STONE_LAMP = new BlockBase("gold_stone_lamp", Material.ROCK, 2.0f, 40, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_PLANKS = new BlockBase("swamp_planks", Material.WOOD, 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_PLANK_STAIRS = new BlockStairsBase("swamp_plank_stairs", SWAMP_PLANKS.getDefaultState(), 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_FENCE = new BlockFenceBase("swamp_fence", Material.WOOD, 1.0f, 10, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block CHISELED_CLIFF_STONE = new BlockBase("chiseled_cliff_stone", Material.ROCK, 2.0f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block SWAMP_BRICK = new BlockBase("swamp_brick", Material.ROCK, 2.0f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
-	public static final Block CRACKED_SWAMP_BRICK = new BlockBase("cracked_swamp_brick", Material.ROCK, 2.0f, 35, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block RED_CLIFF_STONE = new BlockBase("red_cliff_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_LOG = new BlockLogBase("swamp_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block FULL_SWAMP_LOG = new BlockFullLog("full_swamp_log", SWAMP_LOG).setHardness(WOOD_HARDNESS).setResistance(WOOD_RESISTANCE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_LEAVES = new BlockSwampLeaves("swamp_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_SAPLING = new BlockSaplingBase("swamp_sapling", Blocks.GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT, new WorldGenSwampTree(true)).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE = new BlockBase("gold_stone", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CRACKED_GOLD_STONE = new BlockBase("cracked_gold_stone", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_FENCE = new BlockFenceBase("gold_stone_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_STAIRS = new BlockStairsBase("gold_stone_stairs", GOLD_STONE.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWNED_PILLAR = new BlockBase("browned_pillar", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block BROWNED_BLOCK = new BlockBase("browned_block", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block GOLD_STONE_LAMP = new BlockBase("gold_stone_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_PLANKS = new BlockBase("swamp_planks", Material.WOOD, WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_PLANK_STAIRS = new BlockStairsBase("swamp_plank_stairs", SWAMP_PLANKS.getDefaultState(), WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_FENCE = new BlockFenceBase("swamp_fence", Material.WOOD, WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CHISELED_CLIFF_STONE = new BlockBase("chiseled_cliff_stone", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block SWAMP_BRICK = new BlockBase("swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CRACKED_SWAMP_BRICK = new BlockBase("cracked_swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
+	public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.ALL);
 }

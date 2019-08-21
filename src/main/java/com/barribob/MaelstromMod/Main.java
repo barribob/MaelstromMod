@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod;
 
 import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
-import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.init.ModProfessions;
@@ -60,7 +59,6 @@ public class Main
 	ModEntities.registerEntities();
 	proxy.init();
 
-	BiomeInit.registerBiomes();
 	ModDimensions.registerDimensions();
     }
 

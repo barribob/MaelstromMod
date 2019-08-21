@@ -66,9 +66,6 @@ public class ProjectileMaelstromCannon extends ProjectileGun
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit == this.shootingEntity)
-	    return;
-
 	/*
 	 * Find all entities in a certain area and deal damage to them
 	 */
@@ -78,7 +75,7 @@ public class ProjectileMaelstromCannon extends ProjectileGun
 	{
 	    for (Object entity : list)
 	    {
-		if (entity instanceof EntityLivingBase && this.shootingEntity != null)
+		if (entity instanceof EntityLivingBase && this.shootingEntity != null && entity != this.shootingEntity)
 		{
 		    if (this.isBurning())
 		    {

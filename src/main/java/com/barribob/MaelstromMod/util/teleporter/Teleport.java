@@ -1,9 +1,7 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
@@ -37,8 +35,6 @@ public class Teleport extends Teleporter
 
     public static void teleportToDimension(EntityPlayerMP player, int dimension, Teleporter teleporter)
     {
-	MinecraftServer server = player.getEntityWorld().getMinecraftServer();
-	WorldServer worldServer = server.getWorld(dimension);
-	worldServer.getMinecraftServer().getPlayerList().transferPlayerToDimension(player, dimension, teleporter);
+	player.changeDimension(dimension, teleporter);
     }
 }

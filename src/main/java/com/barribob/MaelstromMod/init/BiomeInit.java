@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.init;
 
+import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.world.biome.BiomeAzure;
 import com.barribob.MaelstromMod.world.biome.BiomeCliffPlateau;
 import com.barribob.MaelstromMod.world.biome.BiomeCliffSwamp;
@@ -8,36 +9,44 @@ import com.barribob.MaelstromMod.world.biome.BiomeNexus;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraftforge.registries.IForgeRegistry;
 
+/**
+ * Credit for Jabelar for giving basic structure of biome init
+ * https://github.com/jabelar/ExampleMod-1.12/blob/master/src/main/java/com/blogspot/jabelarminecraft/examplemod/init/ModBiomes.java#L65
+ */
+@ObjectHolder(Reference.MOD_ID)
 public class BiomeInit
 {
-    public static final Biome AZURE = new BiomeAzure();
-    public static final Biome NEXUS = new BiomeNexus();
-    public static final Biome HIGH_CLIFF = new BiomeCliffPlateau();
-    public static final Biome CLIFF_SWAMP = new BiomeCliffSwamp();
+    public static final Biome AZURE = null;
+    public static final Biome NEXUS = null;
+    public static final Biome HIGH_CLIFF = null;
+    public static final Biome CLIFF_SWAMP = null;
 
-    public static void registerBiomes()
+    @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
+    public static class RegistrationHandler
     {
-	initBiome(AZURE, "azure", BiomeType.WARM, false, Type.HILLS);
-	initBiome(NEXUS, "nexus", BiomeType.WARM, false, Type.PLAINS);
-	initBiome(HIGH_CLIFF, "high_cliff", BiomeType.COOL, false, Type.PLAINS);
-	initBiome(CLIFF_SWAMP, "cliff_swamp", BiomeType.WARM, false, Type.SWAMP);
+	@SubscribeEvent
+	public static void onEvent(final RegistryEvent.Register<Biome> event)
+	{
+	    final IForgeRegistry<Biome> registry = event.getRegistry();
+
+	    initBiome(registry, new BiomeAzure(), "azure", BiomeType.WARM, Type.HILLS);
+	    initBiome(registry, new BiomeNexus(), "nexus", BiomeType.WARM, Type.PLAINS);
+	    initBiome(registry, new BiomeCliffPlateau(), "high_cliff", BiomeType.WARM, Type.PLAINS);
+	    initBiome(registry, new BiomeCliffSwamp(), "cliff_swamp", BiomeType.WARM, Type.SWAMP);
+	}
     }
 
-    private static void initBiome(Biome biome, String name, BiomeType biomeType, boolean addToOverworld, Type... types)
+    private static void initBiome(IForgeRegistry<Biome> registry, Biome biome, String name, BiomeType biomeType, Type... types)
     {
 	biome.setRegistryName(name);
-	ForgeRegistries.BIOMES.register(biome);
+	registry.register(biome);
 	BiomeDictionary.addTypes(biome, types);
-
-	if (addToOverworld)
-	{
-	    BiomeManager.addBiome(biomeType, new BiomeEntry(biome, 10));
-	    BiomeManager.addSpawnBiome(biome);
-	}
     }
 }

@@ -1,28 +1,23 @@
 package com.barribob.MaelstromMod.event_handlers;
 
-import org.lwjgl.opengl.GLContext;
-
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.renderer.CliffCloudRenderer;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod.EventBusSubscriber()
+@Mod.EventBusSubscriber(value = Side.CLIENT)
 public class FogHandler
 {
+    @SideOnly(Side.CLIENT)
+    private static net.minecraftforge.client.IRenderHandler fogRenderer = new CliffCloudRenderer();
+
     /**
      * Altering the fog density through the render fog event because the fog density
      * event is a pain because you have to override it for some reason
@@ -50,11 +45,21 @@ public class FogHandler
 	}
 	else if (event.getEntity().dimension == ModConfig.cliff_dimension_id)
 	{
-	    if (event.getEntity().posY < 70)
+	    if (event.getEntity().posY < CliffCloudRenderer.FOG_HEIGHT)
 	    {
 		GlStateManager.setFog(GlStateManager.FogMode.EXP);
 		GlStateManager.setFogDensity(0.07f);
 	    }
+	}
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent()
+    public static void onRenderWorldLastEvent(RenderWorldLastEvent event)
+    {
+	if (Minecraft.getMinecraft().getRenderViewEntity().dimension == ModConfig.cliff_dimension_id)
+	{
+	    fogRenderer.render(event.getPartialTicks(), Minecraft.getMinecraft().world, Minecraft.getMinecraft());
 	}
     }
 }

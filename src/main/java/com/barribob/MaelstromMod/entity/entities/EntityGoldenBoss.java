@@ -13,7 +13,6 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -30,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityGoldenBoss extends EntityMaelstromMob
 {
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.NOTCHED_6));
+    private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.NOTCHED_6));
     private ComboAttack attackHandler = new ComboAttack();
     private byte octoMissile = 4;
     private byte megaMissile = 5;
@@ -40,12 +39,24 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setLevel(2.5f);
+	this.setSize(1.5f, 3.2f);
+	if (!worldIn.isRemote)
+	{
+	    this.attackHandler.addAttack(octoMissile, new ActionOctoMissiles());
+	    this.attackHandler.addAttack(megaMissile, new ActionGoldenFireball());
+	    this.attackHandler.addAttack(runes, new ActionMultiGoldenRunes());
+	}
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
 	this.attackHandler.addAttack(octoMissile, new ActionOctoMissiles(), () -> new AnimationOctoMissiles());
 	this.attackHandler.addAttack(megaMissile, new ActionGoldenFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.addAttack(runes, new ActionMultiGoldenRunes(), () -> new AnimationRuneSummon());
-	this.setSize(1.5f, 3.2f);
     }
-    
+
     @Override
     protected boolean canDespawn()
     {
@@ -58,7 +69,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttack<EntityGoldenBoss>(this, 1.0f, 40, 20.0f, 0.4f));
     }
-    
+
     @Override
     protected void applyEntityAttributes()
     {
@@ -73,25 +84,15 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	this.bossInfo.setPercent(getHealth() / getMaxHealth());
 	if (!world.isRemote)
 	{
-	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 2, 0).scale(2)).add(this.getPositionVector()), ModColors.YELLOW);
-	    if (this.isSwingingArms() && attackHandler.getCurrentAttack() == megaMissile)
-	    {
-		Vec3d look = this.getVectorForRotation(0, this.rotationYaw);
-		ParticleManager.spawnEffect(world, this.getPositionVector().add(ModRandom.randVec().scale(0.5)).add(ModUtils.yVec(this.getEyeHeight())).add(look),
-			ModColors.YELLOW);
-	    }
+	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	}
     }
 
     @Override
     public void onDeath(DamageSource cause)
     {
-	ParticleManager.spawnParticlesInCircle(2, 30, (pos) -> {
-	    ModUtils.performNTimes(10, (y) -> {
-		ParticleManager.spawnDarkFlames(world, rand, pos.add(ModUtils.yVec(y * 0.5f).add(getPositionVector())));
-	    });
-	});
-	
+	world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
+
 	// Spawn the second half of the boss
 	EntityMaelstromGoldenBoss boss = new EntityMaelstromGoldenBoss(world);
 	boss.copyLocationAndAnglesFrom(this);
@@ -100,6 +101,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	{
 	    boss.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(this)), null);
 	    world.spawnEntity(boss);
+	    boss.setAttackTarget(this.getAttackTarget());
 	}
 	this.setPosition(0, 0, 0);
 	super.onDeath(cause);
@@ -123,6 +125,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	}
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -130,6 +133,24 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
 	    currentAnimation.startAnimation();
+	}
+	else if (id == ModUtils.PARTICLE_BYTE)
+	{
+	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 2, 0).scale(2)).add(this.getPositionVector()), ModColors.YELLOW);
+	    if (this.isSwingingArms() && attackHandler.getCurrentAttack() == megaMissile)
+	    {
+		Vec3d look = this.getVectorForRotation(0, this.rotationYaw);
+		ParticleManager.spawnEffect(world, this.getPositionVector().add(ModRandom.randVec().scale(0.5)).add(ModUtils.yVec(this.getEyeHeight())).add(look),
+			ModColors.YELLOW);
+	    }
+	}
+	else if (id == ModUtils.SECOND_PARTICLE_BYTE)
+	{
+	    ParticleManager.spawnParticlesInCircle(2, 30, (pos) -> {
+		ModUtils.performNTimes(10, (y) -> {
+		    ParticleManager.spawnDarkFlames(world, rand, pos.add(ModUtils.yVec(y * 0.5f).add(getPositionVector())));
+		});
+	    });
 	}
 	else
 	{
@@ -144,24 +165,27 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	this.setBaseAttack(5);
     }
 
+    @Override
     public void setCustomNameTag(String name)
     {
 	super.setCustomNameTag(name);
 	this.bossInfo.setName(this.getDisplayName());
     }
 
+    @Override
     public void addTrackingPlayer(EntityPlayerMP player)
     {
 	super.addTrackingPlayer(player);
 	this.bossInfo.addPlayer(player);
     }
 
+    @Override
     public void removeTrackingPlayer(EntityPlayerMP player)
     {
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
     }
-    
+
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {

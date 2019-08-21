@@ -1,9 +1,12 @@
 package com.barribob.MaelstromMod.world.dimension.cliff;
 
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.world.dimension.WorldChunkGenerator;
+import com.barribob.MaelstromMod.world.gen.WorldGenLongVein;
 import com.barribob.MaelstromMod.world.gen.golden_ruins.MapGenGoldenRuins;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -32,6 +35,10 @@ public class ChunkGeneratorCliff extends WorldChunkGenerator
     @Override
     protected void generateFeatures(BlockPos pos, Biome biome)
     {
-
+	WorldGenLongVein gen = new WorldGenLongVein();
+	int x1 = rand.nextInt(8) + 16;
+	int y = 256;
+	int z1 = rand.nextInt(8) + 16;
+	gen.generate(this.world, rand, pos.add(x1, y, z1));
     }
 }

@@ -43,15 +43,21 @@ public class RuinsTemplate extends ModStructureTemplate
 	{
 	    worldIn.setBlockToAir(pos);
 	    BlockPos blockpos = pos.down();
-
-	    if (sbb.isVecInside(blockpos))
+	    if (rand.nextFloat() > 0.5)
 	    {
-		TileEntity tileentity = worldIn.getTileEntity(blockpos);
-
-		if (tileentity instanceof TileEntityChest)
+		if (sbb.isVecInside(blockpos))
 		{
-		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.GOLDEN_RUINS, rand.nextLong());
+		    TileEntity tileentity = worldIn.getTileEntity(blockpos);
+
+		    if (tileentity instanceof TileEntityChest)
+		    {
+			((TileEntityChest) tileentity).setLootTable(LootTableHandler.GOLDEN_RUINS, rand.nextLong());
+		    }
 		}
+	    }
+	    else
+	    {
+		worldIn.setBlockToAir(blockpos);
 	    }
 	}
 	else if (function.startsWith("final_chest"))
@@ -71,15 +77,22 @@ public class RuinsTemplate extends ModStructureTemplate
 	}
 	else if (function.startsWith("mob"))
 	{
-	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
-	    TileEntity tileentity = worldIn.getTileEntity(pos);
-
-	    if (tileentity instanceof TileEntityMobSpawner)
+	    if (rand.nextFloat() > 0.3)
 	    {
-		String[] entities = { "golden_mage", "golden_shade", "golden_pillar" };
-		int[] maxAmounts = { 3, 3, 1 };
-		int i = ModRandom.range(0, 3);
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entities[i]), ModRandom.range(1, maxAmounts[i] + 1));
+		worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityMobSpawner)
+		{
+		    String[] entities = { "golden_mage", "golden_shade", "golden_pillar" };
+		    int[] maxAmounts = { 3, 3, 1 };
+		    int i = ModRandom.range(0, 3);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entities[i]),
+			    ModRandom.range(1, maxAmounts[i] + 1));
+		}
+	    }
+	    else {
+		worldIn.setBlockToAir(pos);
 	    }
 	}
 	else if (function.startsWith("boss"))

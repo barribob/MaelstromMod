@@ -1,12 +1,10 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -16,26 +14,19 @@ import net.minecraft.world.WorldServer;
 
 /**
  * 
- * Finds a portal in the nexus dimension, or builds one
- * Uses known offsets to teleport precisely to the portal
+ * Finds a portal in the azure dimension, or builds one
  *
  */
-public class NexusTeleporter extends Teleporter
+public class DimensionalTeleporter extends Teleporter
 {
-    private BlockPos portalOffset;
-    private int spacing;
-    public NexusTeleporter(WorldServer worldIn)
+    private Block rimBlock;
+    private Block portalBlock;
+    
+    public DimensionalTeleporter(WorldServer worldIn, Block rimBlock, Block portalBlock)
     {
 	super(worldIn);
-	if(this.world.provider.getDimensionType().getId() == ModConfig.nexus_dimension_id)
-	{
-	    this.portalOffset = new BlockPos(70, 80, 103);
-	}
-	else if(this.world.provider.getDimensionType().getId() == 0)
-	{
-	    this.portalOffset = new BlockPos(21, 139, 26);
-	}
-	spacing = DimensionNexus.NexusStructureSpacing * 16;
+	this.rimBlock = rimBlock;
+	this.portalBlock = portalBlock;
     }
 
     public void placeInPortal(Entity entityIn, float rotationYaw)
@@ -52,12 +43,11 @@ public class NexusTeleporter extends Teleporter
      */
     public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
-	int i = spacing / 2;
-	int x = MathHelper.floor(entityIn.posX / spacing) * spacing + portalOffset.getX();
-	int z = MathHelper.floor(entityIn.posZ / spacing) * spacing + portalOffset.getZ();
-	int y = portalOffset.getY();
+	int i = 64;
+	int j = MathHelper.floor(entityIn.posX);
+	int k = MathHelper.floor(entityIn.posZ);
 	BlockPos portalPos = BlockPos.ORIGIN;
-	long l = ChunkPos.asLong(x, z);
+	long l = ChunkPos.asLong(j, k);
 
 	if (this.destinationCoordinateCache.containsKey(l))
 	{
@@ -68,10 +58,23 @@ public class NexusTeleporter extends Teleporter
 	else
 	{
 	    BlockPos entityPos = new BlockPos(entityIn);
-	    BlockPos pos = new BlockPos(x, y, z);
-	    if (this.world.getBlockState(pos).getBlock() == ModBlocks.NEXUS_PORTAL)
+
+	    for (int i1 = -i; i1 <= i; ++i1)
 	    {
-		portalPos = pos;
+		BlockPos blockpos2;
+
+		for (int j1 = -i; j1 <= i; ++j1)
+		{
+		    for (BlockPos blockpos1 = entityPos.add(i1, this.world.getActualHeight() - 1 - entityPos.getY(), j1); blockpos1.getY() >= 0; blockpos1 = blockpos2)
+		    {
+			blockpos2 = blockpos1.down();
+
+			if (this.world.getBlockState(blockpos1).getBlock() == portalBlock)
+			{
+			    portalPos = blockpos1;
+			}
+		    }
+		}
 	    }
 	}
 
@@ -99,12 +102,18 @@ public class NexusTeleporter extends Teleporter
      */
     public boolean makePortal(Entity entity)
     {
-	int i = MathHelper.floor(entity.posX / spacing) * spacing + portalOffset.getX();
-	int k = MathHelper.floor(entity.posZ / spacing) * spacing + portalOffset.getZ();
-        int j = portalOffset.getY();
+        int i = MathHelper.floor(entity.posX);
+        int k = MathHelper.floor(entity.posZ);
 
+        int j = world.getActualHeight() - 1;
+        
+        while(!world.getBlockState(new BlockPos(i, j, k)).isFullBlock() && j > 0)
+        {
+            j--;
+        }
+                
         // Clear the area of air blocks
-        int size = 3;
+        int size = 4;
         for(int x = i - size; x < i + size; x++)
         {
             for(int z = k - size; z < k + size; z++)
@@ -121,20 +130,29 @@ public class NexusTeleporter extends Teleporter
         {
             for(int z = k - size; z < k + size; z++)
             {
-        	world.setBlockState(new BlockPos(x, j, z), Blocks.QUARTZ_BLOCK.getDefaultState());
-        	world.setBlockState(new BlockPos(x, j - 1, z), Blocks.QUARTZ_BLOCK.getDefaultState());
+        	world.setBlockState(new BlockPos(x, j, z), rimBlock.getDefaultState());
             }   
         }
         
-        int size3 = size - 1;
+        int size2 = size - 1;
+        for(int x = i - size2; x < i + size2; x++)
+        {
+            for(int z = k - size2; z < k + size2; z++)
+            {
+        	world.setBlockState(new BlockPos(x, j + 1, z), rimBlock.getDefaultState());
+        	world.setBlockState(new BlockPos(x, j - 1, z), rimBlock.getDefaultState());
+            }   
+        }
+        
+        int size3 = size2 - 1;
         for(int x = i - size3; x < i + size3; x++)
         {
             for(int z = k - size3; z < k + size3; z++)
             {
-        	world.setBlockState(new BlockPos(x, j, z), ModBlocks.NEXUS_PORTAL.getDefaultState());
+        	world.setBlockState(new BlockPos(x, j + 1, z), portalBlock.getDefaultState());
             }
         }
-                
+        
         return true;
     }
 

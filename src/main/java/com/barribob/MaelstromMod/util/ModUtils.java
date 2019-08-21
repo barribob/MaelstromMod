@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.util;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -8,10 +7,16 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -21,6 +26,10 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class ModUtils
 {
+    public static byte PARTICLE_BYTE = 12;
+    public static byte SECOND_PARTICLE_BYTE = 14;
+    public static byte THIRD_PARTICLE_BYTE = 15;
+
     /**
      * Calls the function n times, passing in the ith iteration
      * 
@@ -91,11 +100,75 @@ public class ModUtils
 	float f1 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
 	float f2 = -MathHelper.cos(-pitch * 0.017453292F);
 	float f3 = MathHelper.sin(-pitch * 0.017453292F);
-	return new Vec3d((double) (f1 * f2), (double) f3, (double) (f * f2));
+	return new Vec3d(f1 * f2, f3, f * f2);
     }
 
     public static Vec3d yVec(float y)
     {
 	return new Vec3d(0, y, 0);
+    }
+
+    public static void makeExplosion(float radius, float maxDamage, EntityLivingBase source, Vec3d pos)
+    {
+	source.world.playSound((EntityPlayer) null, source.posX, source.posY, source.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, source.getSoundCategory(), 1.0F, 0.9F);
+
+	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(new BlockPos(pos), new BlockPos(pos)).grow(radius));
+
+	if (list != null)
+	{
+	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
+	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
+
+	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
+		double radiusSq = Math.pow(radius, 2);
+		float distanceFromExplosion = (float) entity.getDistanceSq(new BlockPos(pos));
+		float damage = maxDamage - distanceFromExplosion;
+		if (damage > 0 && distanceFromExplosion < radiusSq)
+		{
+		    entity.attackEntityFrom(DamageSource.causeExplosionDamage(source), damage);
+		    Vec3d velocity = entity.getPositionVector().subtract(pos).normalize().scale((radiusSq - distanceFromExplosion) / radiusSq);
+		    entity.addVelocity(velocity.x, velocity.y, velocity.z);
+		}
+	    });
+	}
+
+	for (int i = 0; i < Math.floor(Math.pow(radius, 2)); i++)
+	{
+	    ParticleManager.spawnMaelstromExplosion(source.world, source.world.rand, pos.add(ModRandom.randVec().scale(radius)));
+	    ParticleManager.spawnMaelstromSmoke(source.world, source.world.rand, pos.add(ModRandom.randVec().scale(radius)), true);
+	}
+    }
+
+    public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile)
+    {
+	double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
+	double d1 = target.posX - actor.posX;
+	double d2 = d0 - projectile.posY;
+	double d3 = target.posZ - actor.posZ;
+	float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+	projectile.shoot(d1, d2 + f, d3, 1.6F, 12.0F);
+	actor.world.spawnEntity(projectile);
+    }
+
+    /**
+     * Credit to coolAlias
+     * https://www.minecraftforge.net/forum/topic/22166-walking-on-water/
+     * 
+     * @param entity
+     * @param world
+     */
+    public static void walkOnWater(EntityLivingBase entity, World world)
+    {
+	BlockPos pos = new BlockPos(entity.posX, Math.floor(entity.getEntityBoundingBox().minY), entity.posZ);
+	if (world.getBlockState(pos).getBlock() == Blocks.WATER || world.getBlockState(pos).getBlock() == Blocks.FLOWING_WATER)
+	{
+	    if (entity.motionY < 0)
+	    {
+		entity.posY += -entity.motionY; // player is falling, so motionY is negative, but we want to reverse that
+		entity.motionY = 0.0D; // no longer falling
+	    }
+	    entity.fallDistance = 0.0F; // otherwise I believe it adds up, which may surprise you when you come down
+	    entity.onGround = true;
+	}
     }
 }

@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.items.tools;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
@@ -14,6 +15,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.text.TextFormatting;
@@ -23,6 +25,7 @@ public class ToolSword extends ItemSword implements IHasModel
 {
     private final float attackDamage;
     private float level;
+    private Consumer<List<String>> information = (info) -> {};
 
     public ToolSword(String name, ToolMaterial material, float level)
     {
@@ -64,9 +67,16 @@ public class ToolSword extends ItemSword implements IHasModel
 	return multimap;
     }
 
+    public Item setInformation(Consumer<List<String>> information)
+    {
+	this.information = information;
+	return this;
+    }
+
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + this.level);
+	information.accept(tooltip);
     }
 }

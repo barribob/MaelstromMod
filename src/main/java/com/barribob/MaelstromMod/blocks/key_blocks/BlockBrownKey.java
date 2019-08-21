@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.blocks.key_blocks;
 
-import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
-import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
@@ -17,6 +16,6 @@ public class BlockBrownKey extends BlockKey
     @Override
     protected void spawnPortalEntity(World world, BlockPos pos)
     {
-	// Not yet implemented
+	world.spawnEntity(new EntityCliffPortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
     }
 }

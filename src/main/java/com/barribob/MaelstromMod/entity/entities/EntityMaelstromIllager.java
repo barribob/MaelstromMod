@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -47,12 +48,14 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setSize(0.7f, 2.2f);
+	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
+	this.setLevel(1.5f);
     }
 
     @Override
     protected void updateAttributes()
     {
-	this.setBaseMaxHealth(75);
+	this.setBaseMaxHealth(100);
     }
 
     protected void initEntityAI()
@@ -136,10 +139,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	return flag;
     }
 
-    /**
-     * Shoots a projectile in a similar fashion to the snow golem (see
-     * EntitySnowman)
-     */
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {

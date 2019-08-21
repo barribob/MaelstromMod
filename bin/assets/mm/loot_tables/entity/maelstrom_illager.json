@@ -1,13 +1,22 @@
 {
     "pools": [
         {
-            "name" : "maelstrom_illager",
+            "name": "maelstrom_illager",
             "rolls": 1,
             "entries": [
                 {
                     "type": "item",
                     "weight": 1,
-                    "name": "mm:brown_key"
+                    "name": "mm:cliff_key_fragment",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 3,
+                                "max": 4
+                            }
+                        }
+                    ]
                 }
             ]
         }

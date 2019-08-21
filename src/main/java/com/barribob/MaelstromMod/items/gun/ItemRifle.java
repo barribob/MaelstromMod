@@ -38,11 +38,4 @@ public class ItemRifle extends ItemGun
 
 	world.spawnEntity(projectile);
     }
-    
-    @Override
-    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Long Range");
-    }
 }

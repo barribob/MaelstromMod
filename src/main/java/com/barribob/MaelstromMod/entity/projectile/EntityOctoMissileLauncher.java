@@ -10,10 +10,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityOctoMissileLauncher extends Projectile
 {
-    private static final byte PARTICLE_BYTE = 3;
     private int endTime = 40;
     private MissileWrapper[] missiles = { new MissileWrapper(0.5f, 4.5f, 20), new MissileWrapper(1, 4, 25), new MissileWrapper(2, 3, 30), new MissileWrapper(2, 2, 35) };
     EntityLivingBase target;
@@ -44,9 +45,9 @@ public class EntityOctoMissileLauncher extends Projectile
 	for (MissileWrapper m : missiles)
 	{
 	    m.maybeSpawnMissile();
-	    m.maybeSpawnParticles();
 	}
-	
+	world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+
 	if (this.ticksExisted >= this.endTime)
 	{
 	    this.onHit(null);
@@ -61,6 +62,20 @@ public class EntityOctoMissileLauncher extends Projectile
 	    return;
 	}
 	super.onHit(result);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == ModUtils.PARTICLE_BYTE)
+	{
+	    for (MissileWrapper m : missiles)
+	    {
+		m.maybeSpawnParticles();
+	    }
+	}
+	super.handleStatusUpdate(id);
     }
 
     private class MissileWrapper
@@ -78,6 +93,7 @@ public class EntityOctoMissileLauncher extends Projectile
 	    this.parent = EntityOctoMissileLauncher.this;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public void maybeSpawnParticles()
 	{
 	    if (this.parent.ticksExisted < ticks && parent.shootingEntity != null)

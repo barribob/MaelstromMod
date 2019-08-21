@@ -17,6 +17,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
 import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusArmorer;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusBladesmith;
@@ -39,15 +40,18 @@ import com.barribob.MaelstromMod.entity.model.ModelMaelstromWitch;
 import com.barribob.MaelstromMod.entity.model.ModelMageTrader;
 import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
 import com.barribob.MaelstromMod.entity.model.ModelShade;
+import com.barribob.MaelstromMod.entity.model.ModelSwampCrawler;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.render.RenderAnimatedBiped;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
+import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Reference;
@@ -87,11 +91,14 @@ public class RenderHandler
 	registerModEntityRenderer(EntityGoldenBoss.class, new ModelGoldenBoss(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_boss.png"));
 	registerModEntityRenderer(EntityMaelstromGoldenBoss.class, new ModelGoldenBoss(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_golden_boss.png"));
 	registerModEntityRenderer(EntityMaelstromWitch.class, new ModelMaelstromWitch(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_witch.png"));
+	registerModEntityRenderer(EntitySwampCrawler.class, new ModelSwampCrawler(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/swamp_crawler.png"));
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
 	registerProjectileRenderer(EntityPortalSpawn.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileGoldenBullet.class, ModItems.GOLD_PELLET);
+	registerProjectileRenderer(EntityNexusParticleSpawner.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(ProjectileSwampSpittle.class, ModItems.SWAMP_SLIME);
 
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>()
 	{

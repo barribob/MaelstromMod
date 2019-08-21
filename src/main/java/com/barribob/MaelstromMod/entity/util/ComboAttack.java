@@ -5,25 +5,29 @@ import java.util.function.Supplier;
 
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.animation.Animation;
-import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * Designed to organize multiple attacks for a single entity
- * Uses bytes to handle the animations on the server side smoothly
+ * Designed to organize multiple attacks for a single entity Uses bytes to
+ * handle the animations on the server side smoothly
  *
  */
 public class ComboAttack
 {
     private HashMap<Byte, Action> actions = new HashMap<Byte, Action>();
-    private HashMap<Byte, Supplier<Animation>> animations = new HashMap<Byte, Supplier<Animation>>();
+
+    @SideOnly(Side.CLIENT)
+    private HashMap<Byte, Supplier<Animation>> animations;
     private Byte currentAttack;
 
     public void setCurrentAttack(Byte b)
     {
 	currentAttack = b;
     }
-    
+
     public Byte getCurrentAttack()
     {
 	return currentAttack;
@@ -34,21 +38,31 @@ public class ComboAttack
 	return getAction(currentAttack);
     }
 
+    @SideOnly(Side.CLIENT)
     public void addAttack(Byte b, Action action, Supplier<Animation> anim)
     {
+	if (animations == null)
+	{
+	    animations = new HashMap<Byte, Supplier<Animation>>();
+	}
 	if (actions.containsKey(b) || animations.containsKey(b))
 	{
 	    throw new IllegalArgumentException("The byte " + b + " was already registered.");
 	}
-	actions.put(b, action);
+	addAttack(b, action);
 	animations.put(b, anim);
     }
 
     public void addAttack(Byte b, Action action)
     {
-	addAttack(b, action, () -> new AnimationNone());
+	if (actions.containsKey(b))
+	{
+	    throw new IllegalArgumentException("The byte " + b + " was already registered.");
+	}
+	actions.put(b, action);
     }
 
+    @SideOnly(Side.CLIENT)
     public Animation getAnimation(Byte b)
     {
 	if (!animations.containsKey(b))

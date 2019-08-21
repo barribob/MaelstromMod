@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.blocks.BlockBase;
 import com.barribob.MaelstromMod.config.ModConfig;
-import com.barribob.MaelstromMod.util.teleporter.AzureTeleporter;
+import com.barribob.MaelstromMod.util.teleporter.DimensionalTeleporter;
 import com.barribob.MaelstromMod.util.teleporter.Teleport;
 
 import net.minecraft.block.Block;
@@ -31,21 +31,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class BlockPortal extends BlockBase
 {
-    private final Block rimBlock;
-    private final Block portalBlock;
     private int dim1;
     private int dim2;
 
     protected static final AxisAlignedBB QUARTER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
 
-    public BlockPortal(String name, Block rimBlock, Block portalBlock, int dim1, int dim2)
+    public BlockPortal(String name, int dim1, int dim2)
     {
 	super(name, Material.ROCK, 1000, 1000, SoundType.STONE);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
-	this.rimBlock = rimBlock;
-	this.portalBlock = portalBlock;
 	this.dim1 = dim1;
 	this.dim2 = dim2;
     }    

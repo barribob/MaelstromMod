@@ -36,6 +36,10 @@ public class DimensionScreenHandler
 	    {
 		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/gui/quartz_block_cracked.png"), "nexus_dimension"));
 	    }
+	    else if(mc.player.dimension == ModConfig.cliff_dimension_id)
+	    {
+		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/gui/chiseled_cliff_stone.png"), "cliff_dimension"));
+	    }
 	}
     }
 }

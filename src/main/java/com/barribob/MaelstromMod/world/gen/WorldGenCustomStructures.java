@@ -1,20 +1,22 @@
 package com.barribob.MaelstromMod.world.gen;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.maelstrom_castle.WorldGenMaelstromCastle;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -23,7 +25,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import scala.actors.threadpool.Arrays;
 
 /**
  * 
@@ -35,6 +36,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     public static final WorldGenStructure MAELSTROM_CASTLE = new WorldGenMaelstromCastle("maelstrom_castle/maelstrom_castle");
     public static final WorldGenStructure WITCH_HUT = new WorldGenStructure("cliff/maelstrom_witch_hut")
     {
+	@Override
 	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
 	{
 	    if (function.startsWith("witch"))
@@ -51,6 +53,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     };
     public static final WorldGenStructure CLIFF_TEMPLE = new WorldGenStructure("cliff/swamp_temple")
     {
+	@Override
 	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
 	{
 	    if (function.startsWith("enemy"))
@@ -65,19 +68,52 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    }
 	};
     };
+    private static final WorldGenStructure MAELSTROM_RUINS = new WorldGenStructure("cliff/maelstrom_ruins")
+    {
+	@Override
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    if (function.startsWith("enemy"))
+	    {
+		worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityMobSpawner)
+		{
+		    String[] enemies = { "golden_mage", "golden_shade" };
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + ModRandom.choice(enemies)), 5);
+		}
+	    }
+	    if (function.startsWith("chest"))
+	    {
+		worldIn.setBlockState(pos, Blocks.CHEST.getDefaultState());
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityChest)
+		{
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.MAELSTROM_RUINS, rand.nextLong());
+		}
+	    }
+	};
+    };
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
+	int i = 15;
 	if (world.provider.getDimension() == ModConfig.cliff_dimension_id)
 	{
-	    if (chunkX % 10 == 0 && chunkZ % 10 == 0)
+	    if (chunkX % i == 0 && chunkZ % i == 0)
 	    {
-		generateBiomeSpecificStructure(WITCH_HUT, world, random, chunkX, chunkZ, 3, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		generateBiomeSpecificStructure(WITCH_HUT, world, random, chunkX, chunkZ, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
 	    }
-	    else if ((chunkX + 5) % 10 == 0 && (chunkZ + 5) % 10 == 0)
+	    else if ((chunkX + 5) % i == 0 && (chunkZ + 5) % i == 0)
 	    {
-		generateBiomeSpecificStructure(CLIFF_TEMPLE, world, random, chunkX, chunkZ, 3, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		generateBiomeSpecificStructure(CLIFF_TEMPLE, world, random, chunkX, chunkZ, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+	    }
+	    else if ((chunkX + 10) % i == 0 && (chunkZ + 10) % i == 0)
+	    {
+		generateBiomeSpecificStructure(MAELSTROM_RUINS, world, random, chunkX, chunkZ, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
 	    }
 	}
     }

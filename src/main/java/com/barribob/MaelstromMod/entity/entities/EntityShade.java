@@ -25,6 +25,7 @@ public class EntityShade extends EntityMaelstromMob
     public EntityShade(World worldIn)
     {
 	super(worldIn);
+	this.setLevel(1.5f);
     }
 
     @Override

@@ -8,9 +8,6 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,27 +22,55 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class EntityLeveledMob extends EntityCreature
 {
     private float level;
-    
+
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
+    private byte animationByte = 13;
 
     protected boolean isImmovable = false;
     private Vec3d initialPosition = null;
+    private boolean animationsInit = false;
 
     public EntityLeveledMob(World worldIn)
     {
 	super(worldIn);
 	this.setLevel(1);
+	this.experienceValue = 5;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == animationByte)
+	{
+	    initAnimation();
+	}
+	else
+	{
+	    super.handleStatusUpdate(id);
+	}
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
     }
 
     @Override
     public void onLivingUpdate()
     {
 	super.onLivingUpdate();
-	
+
 	if (world.isRemote && currentAnimation != null)
 	{
 	    currentAnimation.update();
+	}
+
+	if (!animationsInit)
+	{
+	    world.setEntityState(this, animationByte);
+	    animationsInit = true;
 	}
 
 	if (this.isImmovable && this.initialPosition != null)
@@ -55,6 +80,7 @@ public abstract class EntityLeveledMob extends EntityCreature
     }
 
     // Hold the entity in the same position
+    @Override
     public void setPosition(double x, double y, double z)
     {
 	super.setPosition(x, y, z);
@@ -70,7 +96,7 @@ public abstract class EntityLeveledMob extends EntityCreature
 	    }
 	}
     }
-    
+
     @SideOnly(Side.CLIENT)
     public Animation getCurrentAnimation()
     {

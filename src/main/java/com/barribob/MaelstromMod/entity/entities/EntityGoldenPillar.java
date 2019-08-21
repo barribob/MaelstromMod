@@ -7,15 +7,19 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityGoldenPillar extends EntityMaelstromMob
 {
@@ -49,7 +53,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     @Override
     protected void updateAttributes()
     {
-	this.setBaseMaxHealth(30);
+	this.setBaseMaxHealth(40);
 	this.setBaseAttack(4);
     }
 
@@ -57,23 +61,30 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     public void onUpdate()
     {
 	super.onUpdate();
-	if (world.isRemote)
+	world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == ModUtils.PARTICLE_BYTE)
 	{
-	    return;
+	    Vec3d particleColor = this.currentAction == fireballBurst ? new Vec3d(0.8, 0.4, 0.4) : ModColors.YELLOW;
+
+	    // Spawn particles as the eyes
+	    ModUtils.performNTimes(3, (i) -> {
+		Vec3d look = this.getVectorForRotation(0, this.renderYawOffset + (i * 120)).scale(0.5f);
+		Vec3d pos = this.getPositionVector().add(new Vec3d(0, this.getEyeHeight(), 0));
+		ParticleManager.spawnEffect(world, pos.add(look), particleColor);
+	    });
+	    if (this.isSwingingArms())
+	    {
+		ParticleManager.spawnFirework(world, this.getPositionVector().add(new Vec3d(ModRandom.getFloat(0.25f), 1, ModRandom.getFloat(0.25f))), particleColor,
+			new Vec3d(0, 0.15, 0));
+	    }
 	}
-	Vec3d particleColor = this.currentAction == fireballBurst ? new Vec3d(0.8, 0.4, 0.4) : ModColors.YELLOW;
-	
-	// Spawn particles as the eyes
-	ModUtils.performNTimes(3, (i) -> {
-	    Vec3d look = this.getVectorForRotation(0, this.renderYawOffset + (i * 120)).scale(0.5f);
-	    Vec3d pos = this.getPositionVector().add(new Vec3d(0, this.getEyeHeight(), 0));
-	    ParticleManager.spawnEffect(world, pos.add(look), particleColor);
-	});
-	if (this.isSwingingArms())
-	{
-	    ParticleManager.spawnFirework(world, this.getPositionVector().add(new Vec3d(ModRandom.getFloat(0.25f), 1, ModRandom.getFloat(0.25f))), particleColor,
-		    new Vec3d(0, 0.15, 0));
-	}
+	super.handleStatusUpdate(id);
     }
 
     @Override
@@ -112,5 +123,11 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     protected SoundEvent getDeathSound()
     {
 	return SoundEvents.BLOCK_METAL_BREAK;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	return LootTableHandler.GOLDEN_MAELSTROM;
     }
 }

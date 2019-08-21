@@ -1,13 +1,16 @@
 //———————————————————————————————————————————————————————————
 // Key Items
 //———————————————————————————————————————————————————————————
+item.nexus_island_builder.name=Summon Nexus Island
 item.iron_pellet.name=Iron Pellet
 item.azure_maelstrom_core_crystal.name=Maelstrom Core
 item.azure_key.name=Fracture Dimensional Key
-item.beast_key.name=Fracture Stronghold Key
+item.beast_key.name=Purple Dimensional Key
 item.invisible.name=Invisible
-item.brown_key.name=Brown Dimensional Key
-
+item.brown_key.name=Golden Valley Dimensional Key
+item.red_key.name=Red Dimensional Key
+item.cliff_key_fragment.name=Key Fragment
+item.red_key_fragment.name=Key Fragment
 //———————————————————————————————————————————————————————————
 // Food
 //———————————————————————————————————————————————————————————
@@ -31,6 +34,11 @@ item.rifle.name=Rifle
 item.leap_staff.name=Staff of Leaping
 item.speed_staff.name=Staff of Speed
 item.fireball_staff.name=Fireball Staff
+item.elk_blaster.name=Elk Blaster
+item.explosive_staff.name=Explosive Staff
+item.brownstone_cannon.name=Brownstone Cannon
+item.golden_fireball_staff.name=Golden Fireball Staff
+item.cross_of_aqua.name=Cross of Aqua
 
 //———————————————————————————————————————————————————————————
 // Weapons
@@ -44,6 +52,13 @@ item.dragon_slayer.name=Dragon Slayer
 item.frost_sword.name=Frost Sword
 item.nexus_battleaxe.name=Nexus Battleaxe
 item.venom_dagger.name=Venom Dagger
+item.kanshou.name=Kanshou
+item.bakuya.name=Bakuya
+item.crusade_sword.name=Crusade Sword
+item.explosive_dagger.name=Explosive Dagger
+item.black_gold_sword.name=Black Gold Sword
+item.brownstone_sword.name=Brownstone Sword
+item.ancient_battleaxe.name=Ancient Battleaxe
 
 //———————————————————————————————————————————————————————————
 // Armor
@@ -54,6 +69,33 @@ item.maelstrom_leggings.name=Maelstrom Leggings
 item.maelstrom_boots.name=Maelstrom Boots
 item.straw_hat.name=Straw Hat
 item.speed_boots.name=Speed Boots
+item.elk_hide_helmet.name=Elk Hide Helmet
+item.elk_hide_chestplate.name=Elk Hide Chestplate
+item.elk_hide_leggings.name=Elk Hide Leggings
+item.elk_hide_boots.name=Elk Hide Boots
+item.nexus_helmet.name=Nexus Helmet
+item.nexus_chestplate.name=Nexus Chestplate
+item.nexus_leggings.name=Nexus Leggings
+item.nexus_boots.name=Nexus Boots
+item.swamp_helmet.name=Swamp Helmet
+item.swamp_chestplate.name=Swamp Chestplate
+item.swamp_leggings.name=Swamp Leggings
+item.swamp_boots.name=Swamp Boots
+item.black_gold_helmet.name=Black Gold Helmet
+item.black_gold_chestplate.name=Black Gold Chestplate
+item.black_gold_leggings.name=Black Gold Leggings
+item.black_gold_boots.name=Black Gold Boots
+
+//———————————————————————————————————————————————————————————
+// Cliff Dimension
+//———————————————————————————————————————————————————————————
+item.gold_pellet.name=Gold Pellet
+item.golden_pistol.name=Gold Pistol
+item.golden_repeater.name=Gold Repeater
+item.golden_shotgun.name=Gold Shotgun
+item.golden_rifle.name=Gold Rifle
+item.swamp_slime.name=Swamp Slime
+item.golden_maelstrom_core.name=Golden Maelstrom Core
 
 //———————————————————————————————————————————————————————————
 // Blocks
@@ -145,6 +187,29 @@ tile.mega_structure_block.name=Mega Structure Block
 tile.disappearing_spawner.name=Disappearing Spawner
 
 //———————————————————————————————————————————————————————————
+// Cliff Dimension
+//———————————————————————————————————————————————————————————
+tile.cliff_stone.name=Cliff Stone
+tile.red_cliff_stone.name=Red Cliff Stone
+tile.swamp_log.name=Swamp Wood
+tile.full_swamp_log.name=Swamp Wood
+tile.swamp_leaves.name=Swamp Leaves
+tile.swamp_sapling.name=Swamp Sapling
+tile.gold_stone.name=Gold Stone
+tile.cracked_gold_stone.name=Cracked Gold Stone
+tile.gold_stone_fence.name=Gold Stone Fence
+tile.gold_stone_stairs.name=Gold Stone Stairs
+tile.browned_pillar.name=Brownstone Pillar
+tile.browned_block.name=Polished Brownstone
+tile.gold_stone_lamp.name=Gold Stone Lamp
+tile.swamp_planks.name=Swamp Planks
+tile.chiseled_cliff_stone.name=Chiseled Cliff Stone
+tile.swamp_brick.name=Swamp Brick
+tile.cracked_swamp_brick.name=Cracked Swamp Brick 
+tile.cliff_portal.name=Golden Valley Portal
+tile.swamp_plank_stairs.name=Swamp Plank Stairs
+tile.swamp_fence.name=Swamp Plank Fence
+//———————————————————————————————————————————————————————————
 // Entities
 //———————————————————————————————————————————————————————————
 entity.shade.name=Maelstrom Shade
@@ -163,6 +228,14 @@ entity.nexus_mage.name=Nexus Mage
 entity.nexus_armorer.name=Nexus Armorer
 entity.nexus_saiyan.name=Nexus Saiyan
 entity.nexus_bladesmith.name=Nexus Bladesmith
+entity.golden_pillar.name=Golden Pillar
+entity.golden_shade.name=Golden Shade
+entity.golden_mage.name=Golden Mage
+entity.golden_boss.name=Statue of Nirvana
+entity.maelstrom_golden_boss.name=Maelstrom Statue of Nirvana
+entity.maelstrom_witch.name=Maelstrom Witch
+entity.cliff_golem.name=Cliff Stone Golem
+entity.swamp_crawler.name=Swamp Crawler
 
 //———————————————————————————————————————————————————————————
 // Projectiles
@@ -181,7 +254,23 @@ entity.pumpkin.name=Energy Shot
 entity.repeater.name=Redstone
 entity.fireball.name=Fireball
 entity.herobrine_slash.name=Black Slash
-entity.black_fireball=Black Fireball
+entity.black_fireball.name=Black Fireball
+entity.golden_bullet.name=Golden Bullet
+entity.golden_repeater.name=Golden Repeater
+entity.pillar_flames.name=Pillar Flames
+entity.golden_rune.name=Golden Rune
+entity.golden_shade_attack.name=Golden Shade Thrust
+entity.golden_mage_attack.name=Golden Projectile
+entity.octo_missiles.name=Golden Projectile
+entity.golden_fireball.name=Golden Fireball
+entity.maelstrom_quake.name=Maelstrom Quake
+entity.maelstrom_missile.name=Maelstrom Missile
+entity.geyser.name=Golem's Geyser
+entity.brownstone_cannon.name=Brownstone Bullet
+entity.cliff_portal_spawn.name=Cliff Portal
+entity.explosive_drill.name=Explosion
+entity.azure_bullet.name=Azure Bullet
+entity.swamp_spittle.name=Swamp Spittle
 
 //———————————————————————————————————————————————————————————
 // Damage Sources
@@ -192,7 +281,7 @@ death.attack.mm:playerMaelstrom=%1$s was pwned by another player using maelstrom
 death.attack.mm:arrowMaelstrom=%1$s was shot to death by a maelstrom mob
 death.attack.mm:thrownMaelstrom=%1$s was pummeled to death by a maelstrom mob
 death.attack.mm:explosionMaelstrom=%1$s was blown up by the maelstrom
-death.attack.mm:explosionMaelstrom.player=%1$s was blown by the maelstrom while fighting %2$s
+death.attack.mm:explosionMaelstrom.player=%1$s was blown up by the maelstrom while fighting %2$s
 
 //———————————————————————————————————————————————————————————
 // Item Attributes
@@ -210,6 +299,7 @@ enchantment.gun_flame=Enflame
 enchantment.maelstrom_destroyer=Maelstrom Destroyer
 enchantment.maelstrom_protection=Maelstrom Protection
 enchantment.sharpness_2=Golden Sharpness
+enchantment.critical_hit=Critical Hit
 
 //———————————————————————————————————————————————————————————
 // Loading Screens
@@ -217,8 +307,14 @@ enchantment.sharpness_2=Golden Sharpness
 multiplayer.entering=Now Entering:
 multiplayer.azure_dimension=The Fracture
 multiplayer.nexus_dimension=The Nexus
+multiplayer.cliff_dimension=The Golden Valley
 
 //———————————————————————————————————————————————————————————
 // Creative Tabs
 //———————————————————————————————————————————————————————————
 itemGroup.all=Maelstrom Mod
+
+//———————————————————————————————————————————————————————————
+// Misc.
+//———————————————————————————————————————————————————————————
+islandbuilder.fail=Nexus Island Builder only activates in the overworld

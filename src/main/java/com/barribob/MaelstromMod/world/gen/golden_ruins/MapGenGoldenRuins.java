@@ -53,7 +53,7 @@ public class MapGenGoldenRuins extends MapGenModStructure
 	{
 	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
 	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-	    int y = 130;
+	    int y = 135;
 
 	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
 	    GoldenRuins stronghold = new GoldenRuins(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), provider, components);

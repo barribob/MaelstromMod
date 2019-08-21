@@ -1,0 +1,26 @@
+{
+    "pools": [
+        {
+            "name": "swamp_miniboss",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "weight": 1,
+                    "name": "mm:util/level_2_loot"
+                }
+            ]
+        },
+        {
+            "name": "swamp_miniboss",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:red_key_fragment"
+                }
+            ]
+        }
+    ]
+}

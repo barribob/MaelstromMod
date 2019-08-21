@@ -42,6 +42,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     public EntityMaelstromMob(World worldIn)
     {
 	super(worldIn);
+	this.experienceValue = 7;
     }
 
     protected void initEntityAI()

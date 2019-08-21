@@ -182,6 +182,70 @@
                 },
                 {
                     "type": "item",
+                    "name": "mm:elk_hide_helmet",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:elk_hide_chestplate",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:elk_hide_leggings",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:elk_hide_boots",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "minecraft:bow",
                     "weight": 1,
                     "functions": [

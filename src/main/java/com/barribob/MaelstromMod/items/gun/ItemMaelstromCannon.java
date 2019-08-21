@@ -2,8 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,7 +10,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -25,9 +23,9 @@ import net.minecraft.world.World;
  */
 public class ItemMaelstromCannon extends ItemGun
 {
-    public ItemMaelstromCannon(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
+    public ItemMaelstromCannon(String name, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 4, maxDamage, null, level, tab);
+	super(name, 25, 4, maxDamage, null, level, tab);
     }
 
     /**
@@ -45,7 +43,7 @@ public class ItemMaelstromCannon extends ItemGun
 	float inaccuracy = 3.0f;
 	float degreesUp = 20;
 
-	ProjectileMaelstromCannon projectile = new ProjectileMaelstromCannon(world, player, this.getEnchantedDamage(stack), stack);
+	Projectile projectile = factory.get(world, player, stack, this);
 	projectile.shoot(player, player.rotationPitch - degreesUp, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25f);
 	world.spawnEntity(projectile);
