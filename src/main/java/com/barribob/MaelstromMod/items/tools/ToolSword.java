@@ -54,13 +54,14 @@ public class ToolSword extends ItemSword implements IHasModel
      * Gets a map of item attribute modifiers, used by ItemSword to increase hit
      * damage.
      */
+    @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
     {
 	Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 
 	if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 	{
-	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.attackDamage, 0));
+	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.attackDamage, 0));
 	    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
 	}
 

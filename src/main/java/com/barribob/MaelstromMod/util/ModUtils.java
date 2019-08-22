@@ -8,8 +8,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerExplosion;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -132,11 +132,9 @@ public class ModUtils
 	    });
 	}
 
-	for (int i = 0; i < Math.floor(Math.pow(radius, 2)); i++)
-	{
-	    ParticleManager.spawnMaelstromExplosion(source.world, source.world.rand, pos.add(ModRandom.randVec().scale(radius)));
-	    ParticleManager.spawnMaelstromSmoke(source.world, source.world.rand, pos.add(ModRandom.randVec().scale(radius)), true);
-	}
+	Entity particle = new ParticleSpawnerExplosion(source.world);
+	particle.setPosition(pos.x, pos.y, pos.z);
+	source.world.spawnEntity(particle);
     }
 
     public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile)

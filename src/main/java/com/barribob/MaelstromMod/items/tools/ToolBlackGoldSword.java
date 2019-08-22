@@ -2,12 +2,13 @@ package com.barribob.MaelstromMod.items.tools;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
-import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
+import com.barribob.MaelstromMod.items.ISweepAttackParticles;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,8 +22,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverride
+public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverride, ISweepAttackParticles
 {
+    private static final float targetEntitySize = 1.0f;
+    private static final Vec3d particleColor = new Vec3d(0.8, 0.8, 0.4f);
+
     public ToolBlackGoldSword(String name, ToolMaterial material, float level)
     {
 	super(name, material, level);
@@ -34,7 +38,6 @@ public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverrid
 	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
 	float maxDistanceSq = 9.0f;
-	float targetEntitySize = (float) 1.0D;
 	
 	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class,
 		target.getEntityBoundingBox().grow(targetEntitySize, 0.25D, targetEntitySize)))
@@ -52,10 +55,9 @@ public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverrid
 	player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 0.9F);
 	player.spawnSweepParticles();
 	
-	for(int i = 0; i < 5; i++)
-	{
-	    ParticleManager.spawnEffect(player.world, new Vec3d(target.posX, target.posY + 1, target.posZ).add(new Vec3d(ModRandom.getFloat(targetEntitySize), ModRandom.getFloat(targetEntitySize), ModRandom.getFloat(targetEntitySize))), new Vec3d(0.8, 0.8, 0.4f));
-	}
+	Entity particle = new ParticleSpawnerSwordSwing(player.world);
+	particle.copyLocationAndAnglesFrom(target);
+	player.world.spawnEntity(particle);
     }
     
     @Override
@@ -63,5 +65,17 @@ public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverrid
     {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + "Lights enemies on sweep attack");
+    }
+
+    @Override
+    public Vec3d getColor()
+    {
+	return new Vec3d(0.8, 0.8, 0.4f);
+    }
+
+    @Override
+    public float getSize()
+    {
+	return targetEntitySize;
     }
 }
