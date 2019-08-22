@@ -47,27 +47,12 @@ public class EntityGoldenMage extends EntityMaelstromMage
     }
 
     @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
-	super.setSwingingArms(swingingArms);
-	if (swingingArms)
-	{
-	    this.world.setEntityState(this, (byte) 4);
-	}
-    };
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
 	if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
-	}
-	if (id == 4)
-	{
-	    currentAnimation = new AnimationDualThrow();
-	    currentAnimation.startAnimation();
 	}
 	else
 	{

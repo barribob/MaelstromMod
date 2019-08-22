@@ -1,49 +1,33 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
 
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.entity.animation.AnimationClip;
+import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
+import com.barribob.MaelstromMod.entity.model.ModelGoldenShade;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
-import com.google.common.base.Predicate;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * The maelstro shade monster
+ * The maelstrom shade monster
  *
  */
 public class EntityMaelstromMage extends EntityMaelstromMob
@@ -63,6 +47,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 	this.setBaseAttack(6);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -96,6 +81,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     /**
      * Spawn summoning particles
      */
+    @Override
     public void onUpdate()
     {
 	super.onUpdate();
@@ -112,6 +98,30 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 	ParticleManager.spawnMaelstromPotionParticle(world, rand, new Vec3d(this.posX + f, this.posY + this.getEyeHeight() + 1.0f, this.posZ + f), true);
     }
 
+    @Override
+    public void setSwingingArms(boolean swingingArms)
+    {
+	super.setSwingingArms(swingingArms);
+	if (swingingArms)
+	{
+	    this.world.setEntityState(this, (byte) 4);
+	}
+    };
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == 4)
+	{
+	    currentAnimation.startAnimation();
+	}
+	else
+	{
+	    super.handleStatusUpdate(id);
+	}
+    }
+
     /**
      * Shoots a projectile in a similar fashion to the snow golem (see
      * EntitySnowman)
@@ -123,14 +133,53 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 	{
 	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this, this.getAttack());
 	    projectile.posY = this.posY + this.getEyeHeight() + 1.0f; // Raise pos y to summon the projectile above the head
-	    double d0 = target.posY + (double) target.getEyeHeight() - 0.9f;
+	    double d0 = target.posY + target.getEyeHeight() - 0.9f;
 	    double d1 = target.posX - this.posX;
 	    double d2 = d0 - projectile.posY;
 	    double d3 = target.posZ - this.posZ;
 	    float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-	    projectile.shoot(d1, d2 + (double) f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
+	    projectile.shoot(d1, d2 + f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
 	    this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 	    this.world.spawnEntity(projectile);
 	}
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected void initAnimation()
+    {
+	List<List<AnimationClip<ModelGoldenShade>>> animations = new ArrayList<List<AnimationClip<ModelGoldenShade>>>();
+	List<AnimationClip<ModelGoldenShade>> leftArm = new ArrayList<AnimationClip<ModelGoldenShade>>();
+	List<AnimationClip<ModelGoldenShade>> rightArm = new ArrayList<AnimationClip<ModelGoldenShade>>();
+	List<AnimationClip<ModelGoldenShade>> body = new ArrayList<AnimationClip<ModelGoldenShade>>();
+
+	BiConsumer<ModelGoldenShade, Float> rightArmMover = (model, f) -> {
+	    model.leftArm.rotateAngleX = f;
+	    model.leftArm.rotateAngleZ = f.floatValue() / -6;
+	};
+	rightArm.add(new AnimationClip(12, 0, -180, rightArmMover));
+	rightArm.add(new AnimationClip(12, -180, -180, rightArmMover));
+	rightArm.add(new AnimationClip(4, -180, 0, rightArmMover));
+
+	BiConsumer<ModelGoldenShade, Float> leftArmMover = (model, f) -> {
+	    model.rightArm.rotateAngleX = f;
+	    model.rightArm.rotateAngleZ = f.floatValue() / 6;
+	};
+	leftArm.add(new AnimationClip(12, 0, -180, leftArmMover));
+	leftArm.add(new AnimationClip(12, -180, -180, leftArmMover));
+	leftArm.add(new AnimationClip(4, -180, 0, leftArmMover));
+
+	BiConsumer<ModelGoldenShade, Float> bodyMover = (model, f) -> {
+	    model.body.rotateAngleX = f;
+	};
+	body.add(new AnimationClip(12, 0, 0, bodyMover));
+	body.add(new AnimationClip(8, 0, -10, bodyMover));
+	body.add(new AnimationClip(4, -10, 10, bodyMover));
+	body.add(new AnimationClip(8, 10, 0, bodyMover));
+
+	animations.add(leftArm);
+	animations.add(rightArm);
+	animations.add(body);
+	this.currentAnimation = new StreamAnimation<ModelGoldenShade>(animations);
     }
 }

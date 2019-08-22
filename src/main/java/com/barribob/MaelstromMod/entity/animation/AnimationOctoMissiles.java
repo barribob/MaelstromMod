@@ -3,7 +3,7 @@ package com.barribob.MaelstromMod.entity.animation;
 import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
 import com.barribob.MaelstromMod.entity.model.ModelGoldenBoss;
 
-public class AnimationOctoMissiles extends Animation<ModelGoldenBoss>
+public class AnimationOctoMissiles extends ArrayAnimation<ModelGoldenBoss>
 {
     private static float[] arm1X = 	{ 000, -15, -30, -45, -60, -75, -90,-105,-120,-135,-150,-165,-180,-180,-180,-180,-180,-180,-180,-180,-180,-180,-180,-180,-180,-180,-180,-150,-120, -90, -60, -30, 000 };
     private static float[] leftArm2Z = 	{ 000, -15, -30, -45, -60, -75, -90,-105,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120,-120, -90, -60, -30, 000 };

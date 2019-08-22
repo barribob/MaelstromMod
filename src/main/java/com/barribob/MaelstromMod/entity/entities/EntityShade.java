@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.action.ActionThrust;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.animation.AnimationShadeThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
@@ -11,6 +12,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -29,12 +32,19 @@ public class EntityShade extends EntityMaelstromMob
     }
 
     @Override
+    protected void initAnimation()
+    {
+	this.currentAnimation = new AnimationShadeThrust();
+    }
+
+    @Override
     protected void updateAttributes()
     {
 	this.setBaseMaxHealth(25);
 	this.setBaseAttack(4);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -65,10 +75,30 @@ public class EntityShade extends EntityMaelstromMob
 	return LootTableHandler.SHADE;
     }
 
-    /**
-     * Shoots a projectile in a similar fashion to the snow golem (see
-     * EntitySnowman)
-     */
+    @Override
+    public void setSwingingArms(boolean swingingArms)
+    {
+	super.setSwingingArms(swingingArms);
+	if (swingingArms)
+	{
+	    this.world.setEntityState(this, (byte) 4);
+	}
+    };
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == 4)
+	{
+	    currentAnimation.startAnimation();
+	}
+	else
+	{
+	    super.handleStatusUpdate(id);
+	}
+    }
+
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {

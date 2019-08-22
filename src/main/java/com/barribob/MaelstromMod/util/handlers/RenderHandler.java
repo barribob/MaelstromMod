@@ -35,11 +35,9 @@ import com.barribob.MaelstromMod.entity.model.ModelGoldenPillar;
 import com.barribob.MaelstromMod.entity.model.ModelGoldenShade;
 import com.barribob.MaelstromMod.entity.model.ModelGunTrader;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
-import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromWitch;
 import com.barribob.MaelstromMod.entity.model.ModelMageTrader;
 import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
-import com.barribob.MaelstromMod.entity.model.ModelShade;
 import com.barribob.MaelstromMod.entity.model.ModelSwampCrawler;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
@@ -70,11 +68,11 @@ public class RenderHandler
 {
     public static void registerEntityRenderers()
     {
-	registerModEntityRenderer(EntityShade.class, new ModelShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
+	registerModEntityRenderer(EntityShade.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_shade.png"));
 	registerModEntityRenderer(EntityHorror.class, new ModelHorror(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/horror.png"));
 	registerModEntityRenderer(EntityDreamElk.class, new ModelDreamElk(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
 	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
-	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/shade.png"));
+	registerModEntityRenderer(EntityMaelstromMage.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_shade.png"));
 	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/floating_skull.png"));
 	registerModBipedRenderer(EntityHerobrineOne.class, new ModelAnimatedBiped(),
 		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);

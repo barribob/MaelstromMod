@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
 
-public class AnimationHerobrineGroundSlash extends Animation<ModelAnimatedBiped>
+public class AnimationHerobrineGroundSlash extends ArrayAnimation<ModelAnimatedBiped>
 {
     private static float[] leftArmX =  {-10, -20, -30, -40, -50, -60, -70, -80, -90, -90, -90, -90, -90, -90, -60, -30, 000, 030, 045, 045, 030, 015, 000, 000};
     private static float[] leftArmZ =  {-05, -10, -15, -20, -25, -30, -35, -40, -45, -45, -45, -45, -45, -45, -30, -15, 000, 015, 015, 015, 015, 005, 000, 000};

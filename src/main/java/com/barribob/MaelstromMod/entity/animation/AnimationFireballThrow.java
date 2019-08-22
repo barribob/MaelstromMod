@@ -5,7 +5,7 @@ import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
 /*
  * Throw arms and body pack, then throw the fireball forward
  */
-public class AnimationFireballThrow extends Animation<ModelAnimatedBiped>
+public class AnimationFireballThrow extends ArrayAnimation<ModelAnimatedBiped>
 {
     private static float[] leftArmX =  {000, 000, 000, -30, -60, -90,-120,-150,-180,-180,-180,-180,-150,-120, -90, -60, -30, 000, 030, 015, 000};
     private static float[] leftArmZ =  {000, 000, 000, 000, 010, 020, 030, 030, 030, 030, 030, 030, 020, 010, 000, 000, 000, 000, 000, 000, 000};

@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
 
-public class AnimationSpinSlash extends Animation<ModelAnimatedBiped>
+public class AnimationSpinSlash extends ArrayAnimation<ModelAnimatedBiped>
 {
     private static float[] leftArmX =  {-15, -30, -60, -75, -90, -90, -90, -90, -90, -90, -90, -90, -90, -90, -90, -90, -90, -90, -60, -30, 000, 000, 000, 000, 000};
     private static float[] leftArmZ =  {010, 020, 030, 040, 050, 060, 070, 070, 070, 070, 070, 070, 070, 070, 070, 070, 070, 070, 060, 050, 040, 030, 020, 010, 000};

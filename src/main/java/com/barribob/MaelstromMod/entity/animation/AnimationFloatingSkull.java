@@ -5,7 +5,7 @@ import com.barribob.MaelstromMod.entity.model.ModelFloatingSkull;
 /*
  * Jaw opening animation for the floating skull
  */
-public class AnimationFloatingSkull extends Animation<ModelFloatingSkull>
+public class AnimationFloatingSkull extends ArrayAnimation<ModelFloatingSkull>
 {
     private static float[] jawAnimation = { 0, 15, 25, 35, 35, 35, 35, 35, 35, 35, 35, 25, 15, 0 };
 

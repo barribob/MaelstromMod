@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import com.barribob.MaelstromMod.entity.model.ModelGoldenShade;
 
-public class AnimationDualThrow extends Animation<ModelGoldenShade>
+public class AnimationDualThrow extends ArrayAnimation<ModelGoldenShade>
 {
     private static float[] armX = 	{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 015, 030, 030, 030, 030, 015, 000, -30, -60, -60, -60, -45, -30, -15, 000 };
     private static float[] leftArmZ = 	{ 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, -15, -30, -30, -30, -30, -30, -30, -30, -30, -15, 000, 000, 000, 000, 000 };

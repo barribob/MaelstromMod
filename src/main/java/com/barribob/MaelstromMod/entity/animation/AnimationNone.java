@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import net.minecraft.client.model.ModelBase;
 
-public class AnimationNone extends Animation
+public class AnimationNone extends ArrayAnimation
 {
     public AnimationNone()
     {

@@ -42,7 +42,7 @@ public abstract class EntityLeveledMob extends EntityCreature
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id == animationByte)
+	if (id == animationByte && currentAnimation == null)
 	{
 	    initAnimation();
 	}
@@ -67,10 +67,9 @@ public abstract class EntityLeveledMob extends EntityCreature
 	    currentAnimation.update();
 	}
 
-	if (!animationsInit)
+	if (this.ticksExisted % 20 == 0)
 	{
 	    world.setEntityState(this, animationByte);
-	    animationsInit = true;
 	}
 
 	if (this.isImmovable && this.initialPosition != null)
