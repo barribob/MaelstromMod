@@ -18,7 +18,7 @@ public class ItemFireballStaff extends ItemGun
 {    
     public ItemFireballStaff(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 7, useTime, null, level, tab);
+	super(name, cooldown, 8, useTime, null, level, tab);
     }
 
     @Override

@@ -1,8 +1,7 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModColors;
-import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -32,6 +31,7 @@ public class ProjectileSwampSpittle extends Projectile
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	ParticleManager.spawnEffect(world, this.getPositionVector(), ModColors.CLIFF_STONE);
@@ -40,13 +40,7 @@ public class ProjectileSwampSpittle extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit != null && this.shootingEntity != null)
-	{
-	    if (this.shootingEntity instanceof EntityLivingBase)
-	    {
-		result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getDamage());
-	    }
-	}
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), DamageSource.causeThrownDamage(this, this.shootingEntity));
 	super.onHit(result);
     }
 }

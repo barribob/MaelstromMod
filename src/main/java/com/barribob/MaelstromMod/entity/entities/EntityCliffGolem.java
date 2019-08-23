@@ -69,7 +69,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
     @Override
     protected void updateAttributes()
     {
-	this.setBaseAttack(14f);
+	this.setBaseAttack(16f);
 	this.setBaseMaxHealth(250);
     }
 

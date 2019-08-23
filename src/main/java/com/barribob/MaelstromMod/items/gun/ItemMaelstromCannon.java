@@ -25,7 +25,7 @@ public class ItemMaelstromCannon extends ItemGun
 {
     public ItemMaelstromCannon(String name, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, 25, 4, maxDamage, null, level, tab);
+	super(name, 25, 5, maxDamage, null, level, tab);
     }
 
     /**

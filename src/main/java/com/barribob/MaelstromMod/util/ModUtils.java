@@ -2,20 +2,19 @@ package com.barribob.MaelstromMod.util;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
-import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerExplosion;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -108,10 +107,18 @@ public class ModUtils
 	return new Vec3d(0, y, 0);
     }
 
-    public static void makeExplosion(float radius, float maxDamage, EntityLivingBase source, Vec3d pos)
+    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource)
     {
-	source.world.playSound((EntityPlayer) null, source.posX, source.posY, source.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, source.getSoundCategory(), 1.0F, 0.9F);
+	handleAreaImpact(radius, maxDamage, source, pos, damageSource, 1, 0);
+    }
 
+    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
+	    float knockbackFactor, int fireFactor)
+    {
+	if (source == null)
+	{
+	    return;
+	}
 	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(new BlockPos(pos), new BlockPos(pos)).grow(radius));
 
 	if (list != null)
@@ -120,21 +127,58 @@ public class ModUtils
 	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
 
 	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
-		double radiusSq = Math.pow(radius, 2);
-		float distanceFromExplosion = (float) entity.getDistanceSq(new BlockPos(pos));
-		float damage = maxDamage - distanceFromExplosion;
+		double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
+		double radiusSq = Math.pow(radius + avgEntitySize, 2);
+		double distanceFromExplosion = (float) entity.getEntityBoundingBox().getCenter().squareDistanceTo(pos);
+		double damageFactor = Math.max(0, Math.min(1, (radiusSq - distanceFromExplosion) / radiusSq));
+		double damage = maxDamage.apply(entity) * damageFactor;
 		if (damage > 0 && distanceFromExplosion < radiusSq)
 		{
-		    entity.attackEntityFrom(DamageSource.causeExplosionDamage(source), damage);
-		    Vec3d velocity = entity.getPositionVector().subtract(pos).normalize().scale((radiusSq - distanceFromExplosion) / radiusSq);
+		    entity.setFire(fireFactor);
+		    entity.attackEntityFrom(damageSource, (float) damage);
+		    double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
+		    Vec3d velocity = entity.getEntityBoundingBox().getCenter().subtract(pos).normalize().scale(damageFactor).scale(knockbackFactor).scale(entitySizeFactor);
 		    entity.addVelocity(velocity.x, velocity.y, velocity.z);
 		}
 	    });
 	}
+    }
 
-	Entity particle = new ParticleSpawnerExplosion(source.world);
-	particle.setPosition(pos.x, pos.y, pos.z);
-	source.world.spawnEntity(particle);
+    public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource)
+    {
+	handleBulletImpact(hitEntity, projectile, damage, damageSource, 0);
+    }
+
+    public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource, int knockback)
+    {
+	handleBulletImpact(hitEntity, projectile, damage, damageSource, knockback, (p, e) -> {
+	}, (p, e) -> {
+	});
+    }
+
+    public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource, int knockback,
+	    BiConsumer<Projectile, Entity> beforeHit, BiConsumer<Projectile, Entity> afterHit)
+    {
+	if (hitEntity != null && projectile != null && projectile.shootingEntity != null && hitEntity != projectile.shootingEntity)
+	{
+	    beforeHit.accept(projectile, hitEntity);
+	    if (projectile.isBurning() && !(hitEntity instanceof EntityEnderman))
+	    {
+		hitEntity.setFire(5);
+	    }
+	    hitEntity.hurtResistantTime = 0;
+	    hitEntity.attackEntityFrom(damageSource, damage);
+	    if (knockback > 0)
+	    {
+		float f1 = MathHelper.sqrt(projectile.motionX * projectile.motionX + projectile.motionZ * projectile.motionZ);
+
+		if (f1 > 0.0F)
+		{
+		    hitEntity.addVelocity(projectile.motionX * knockback * 0.6000000238418579D / f1, 0.1D, projectile.motionZ * knockback * 0.6000000238418579D / f1);
+		}
+	    }
+	    afterHit.accept(projectile, hitEntity);
+	}
     }
 
     public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile)

@@ -54,7 +54,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     protected void updateAttributes()
     {
 	this.setBaseMaxHealth(40);
-	this.setBaseAttack(4);
+	this.setBaseAttack(5);
     }
 
     @Override

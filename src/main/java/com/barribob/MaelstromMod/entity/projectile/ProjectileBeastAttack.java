@@ -1,22 +1,14 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -48,6 +40,7 @@ public class ProjectileBeastAttack extends Projectile
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
@@ -56,7 +49,7 @@ public class ProjectileBeastAttack extends Projectile
 		    new Vec3d(this.posX + ModRandom.getFloat(0.25f), this.posY + ModRandom.getFloat(0.25f), this.posZ + ModRandom.getFloat(0.25f)), true);
 	}
     }
-    
+
     @Override
     protected void spawnImpactParticles()
     {
@@ -70,17 +63,7 @@ public class ProjectileBeastAttack extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit instanceof EntityMaelstromMob)
-	{
-	    return;
-	}
-
-	if (result.entityHit != null && this.shootingEntity != null)
-	{
-	    result.entityHit.hurtResistantTime = 0;
-	    result.entityHit.attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), this.getDamage());
-	}
-
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity));
 	super.onHit(result);
     }
 }

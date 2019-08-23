@@ -2,13 +2,11 @@ package com.barribob.MaelstromMod.entity.projectile;
 
 import java.util.List;
 
-import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -49,6 +47,7 @@ public class ProjectileQuake extends ProjectileGun
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	IBlockState block = world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ));
@@ -111,8 +110,8 @@ public class ProjectileQuake extends ProjectileGun
 
 			if (f1 > 0.0F)
 			{
-			    ((EntityLivingBase) entity).addVelocity(this.motionX * (double) this.getKnockback() * 0.6000000238418579D / (double) f1, 0.1D,
-				    this.motionZ * (double) this.getKnockback() * 0.6000000238418579D / (double) f1);
+			    ((EntityLivingBase) entity).addVelocity(this.motionX * this.getKnockback() * 0.6000000238418579D / f1, 0.1D,
+				    this.motionZ * this.getKnockback() * 0.6000000238418579D / f1);
 			}
 		    }
 		}

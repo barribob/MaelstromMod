@@ -1,25 +1,16 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModColors;
-import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.advancements.critereon.EffectsChangedTrigger;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.GuiScreenEvent.PotionShiftEvent;
 
 public class EntityGeyser extends Projectile
 {
@@ -70,17 +61,7 @@ public class EntityGeyser extends Projectile
 	{
 	    return;
 	}
-	List<EntityLivingBase> entities = ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(this.blastRadius));
-	for (EntityLivingBase entity : entities)
-	{
-	    if (this.getDistanceSq(entity) < Math.pow(blastRadius, 2))
-	    {
-		if (this.shootingEntity != entity && this.shootingEntity != null && this.shootingEntity instanceof EntityLivingBase)
-		{
-		    entity.attackEntityFrom(DamageSource.causeExplosionDamage((EntityLivingBase)this.shootingEntity), this.getDamage());
-		}
-	    }
-	}
+	ModUtils.handleAreaImpact(blastRadius, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), DamageSource.causeExplosionDamage(this.shootingEntity));
 	this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);

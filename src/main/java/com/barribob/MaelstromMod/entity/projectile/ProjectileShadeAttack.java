@@ -1,7 +1,7 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -36,6 +36,7 @@ public class ProjectileShadeAttack extends Projectile
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
@@ -50,13 +51,8 @@ public class ProjectileShadeAttack extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit != null && !(result.entityHit instanceof EntityMaelstromMob) && this.shootingEntity != null)
-	{
-	    if (this.shootingEntity instanceof EntityLivingBase)
-	    {
-		result.entityHit.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage((EntityLivingBase)this.shootingEntity), this.getDamage());
-	    }
-	    super.onHit(result);
-	}
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMaelstromMeleeDamage(this.shootingEntity));
+	super.onHit(result);
+
     }
 }

@@ -73,6 +73,7 @@ public class ProjectileGun extends Projectile
 	}
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {

@@ -1,17 +1,12 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -49,6 +44,7 @@ public class ProjectilePumpkin extends ProjectileGun
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 
@@ -64,7 +60,7 @@ public class ProjectilePumpkin extends ProjectileGun
 	    Vec3d vel = new Vec3d(this.motionX, this.motionY, this.motionZ).normalize();
 	    int sectors = 60;
 	    int degreesPerSector = 360 / 60;
-	    float circleSize = (float) Math.max(0, ModRandom.getFloat(1.5f) + 1);
+	    float circleSize = Math.max(0, ModRandom.getFloat(1.5f) + 1);
 	    int completeness = ModRandom.range(40, sectors);
 	    float particleVelocity = 0.15f;
 	    for (int i = 0; i < completeness; i++)
@@ -80,9 +76,8 @@ public class ProjectilePumpkin extends ProjectileGun
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if(result.entityHit != null && result.entityHit != this.shootingEntity && result.entityHit instanceof EntityLivingBase) {
-	    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, shootingEntity), (float) (this.getGunDamage(result.entityHit) * this.getDistanceTraveled()));
-	}
+	ModUtils.handleBulletImpact(result.entityHit, this, (float) (this.getGunDamage(result.entityHit) * this.getDistanceTraveled()),
+		DamageSource.causeThrownDamage(this, this.shootingEntity), this.getKnockback());
 	super.onHit(result);
     }
 }

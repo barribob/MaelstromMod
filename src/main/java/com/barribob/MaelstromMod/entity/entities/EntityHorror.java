@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -36,9 +35,10 @@ public class EntityHorror extends EntityMaelstromMob
     protected void updateAttributes()
     {
 	this.setBaseMaxHealth(25);
-	this.setBaseAttack(7f);
+	this.setBaseAttack(9f);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
