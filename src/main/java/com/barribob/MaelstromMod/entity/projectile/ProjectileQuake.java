@@ -80,13 +80,7 @@ public class ProjectileQuake extends ProjectileGun
 	    }
 	}
 
-	// Play the block break sound
-	BlockPos pos = new BlockPos(this.posX, this.posY, this.posZ);
-	IBlockState state = world.getBlockState(pos);
-	if (state.isFullCube())
-	{
-	    world.playSound(this.posX, this.posY, this.posZ, state.getBlock().getSoundType(state, world, pos, this).getStepSound(), SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-	}
+	playQuakeSound();
 
 	/*
 	 * Find all entities in a certain area and deal damage to them
@@ -117,11 +111,22 @@ public class ProjectileQuake extends ProjectileGun
 		}
 	    }
 	}
-	
+
 	// If the projectile hits water and looses all of its velocity, despawn
-	if(!world.isRemote && Math.abs(this.motionX) + Math.abs(this.motionZ) < 0.01f)
+	if (!world.isRemote && Math.abs(this.motionX) + Math.abs(this.motionZ) < 0.01f)
 	{
 	    this.setDead();
+	}
+    }
+
+    protected void playQuakeSound()
+    {
+	// Play the block break sound
+	BlockPos pos = new BlockPos(this.posX, this.posY, this.posZ);
+	IBlockState state = world.getBlockState(pos);
+	if (state.isFullCube())
+	{
+	    world.playSound(this.posX, this.posY, this.posZ, state.getBlock().getSoundType(state, world, pos, this).getStepSound(), SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 	}
     }
 

@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -31,6 +30,7 @@ public class ProjectileMaelstromQuake extends ProjectileQuake
 	super(worldIn, x, y, z);
     }
 
+    @Override
     protected void spawnParticles()
     {
 	IBlockState block = world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ));
@@ -43,6 +43,15 @@ public class ProjectileMaelstromQuake extends ProjectileQuake
 		Vec3d pos = ModUtils.entityPos(this).add(new Vec3d(ModRandom.getFloat(AREA_FACTOR), 0.5, ModRandom.getFloat(AREA_FACTOR)));
 		ParticleManager.spawnDarkFlames(world, rand, pos, vel);
 	    }
+	}
+    }
+
+    @Override
+    protected void playQuakeSound()
+    {
+	if (rand.nextInt(10) == 0)
+	{
+	    super.playQuakeSound();
 	}
     }
 }
