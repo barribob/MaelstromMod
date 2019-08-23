@@ -4,7 +4,6 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.EnumHand;
 
 /**
  * 
@@ -58,6 +57,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
+    @Override
     public boolean shouldExecute()
     {
 	return this.entity.getAttackTarget() != null;
@@ -66,6 +66,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
+    @Override
     public boolean shouldContinueExecuting()
     {
 	return (this.shouldExecute() || !this.entity.getNavigator().noPath());
@@ -75,6 +76,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
      * Reset the task's internal state. Called when this task is interrupted by
      * another one
      */
+    @Override
     public void resetTask()
     {
 	super.resetTask();
@@ -86,6 +88,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
     /**
      * Keep ticking a continuous task that has already been started
      */
+    @Override
     public void updateTask()
     {
 	EntityLivingBase entitylivingbase = this.entity.getAttackTarget();
@@ -110,7 +113,7 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 		--this.seeTime;
 	    }
 
-	    if (d0 <= (double) this.maxAttackDistance && this.seeTime >= SEE_TIME)
+	    if (d0 <= this.maxAttackDistance && this.seeTime >= SEE_TIME)
 	    {
 		this.entity.getNavigator().clearPath();
 		++this.strafingTime;
@@ -138,11 +141,11 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 
 	    if (this.strafingTime > -1)
 	    {
-		if (d0 > (double) (this.maxAttackDistance * STRAFING_STOP_FACTOR))
+		if (d0 > this.maxAttackDistance * STRAFING_STOP_FACTOR)
 		{
 		    this.strafingBackwards = false;
 		}
-		else if (d0 < (double) (this.maxAttackDistance * STRAFING_BACKWARDS_FACTOR))
+		else if (d0 < this.maxAttackDistance * STRAFING_BACKWARDS_FACTOR)
 		{
 		    this.strafingBackwards = true;
 		}
@@ -157,18 +160,11 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 
 	    if (active)
 	    {
-		if (!flag && this.seeTime < -LOSE_SIGHT_TIME)
-		{
-		    active = false;
-		}
-		else if (flag)
-		{
-		    active = false;
-		    this.entity.attackEntityWithRangedAttack(entitylivingbase, (float) d0);
-		    this.attackTime = this.attackCooldown;
-		    entity.setSwingingArms(false);
-		    this.attackStarted = false;
-		}
+		active = false;
+		this.entity.attackEntityWithRangedAttack(entitylivingbase, (float) d0);
+		this.attackTime = this.attackCooldown;
+		entity.setSwingingArms(false);
+		this.attackStarted = false;
 	    }
 	    else if (attackStarted && --this.attackTime <= 0 && this.seeTime >= -LOSE_SIGHT_TIME)
 	    {
@@ -178,8 +174,9 @@ public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> e
 	    {
 		this.entity.setSwingingArms(true);
 	    }
-	    
-	    if(!attackStarted && d0 <= this.maxAttackDistance) {
+
+	    if (!attackStarted && d0 <= this.maxAttackDistance && flag)
+	    {
 		this.attackStarted = true;
 	    }
 	}
