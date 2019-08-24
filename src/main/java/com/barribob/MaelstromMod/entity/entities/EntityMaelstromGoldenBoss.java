@@ -10,9 +10,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,7 +19,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
@@ -57,6 +54,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(this.world)), () -> new AnimationOctoMissiles());
 	this.attackHandler.addAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.addAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
+	this.currentAnimation = new AnimationOctoMissiles();
     }
 
     @Override
@@ -96,10 +94,6 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     {
 	super.onUpdate();
 	this.bossInfo.setPercent(getHealth() / getMaxHealth());
-	if (!world.isRemote)
-	{
-	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
-	}
     }
 
     @Override
@@ -122,14 +116,6 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
 	    currentAnimation.startAnimation();
-	}
-	else if (id == ModUtils.PARTICLE_BYTE)
-	{
-	    if (this.isSwingingArms() && attackHandler.getCurrentAttack() == blackFireball)
-	    {
-		Vec3d look = this.getVectorForRotation(0, this.rotationYaw);
-		ParticleManager.spawnDarkFlames(world, rand, this.getPositionVector().add(ModRandom.randVec().scale(0.5)).add(ModUtils.yVec(this.getEyeHeight())).add(look));
-	    }
 	}
 	else
 	{

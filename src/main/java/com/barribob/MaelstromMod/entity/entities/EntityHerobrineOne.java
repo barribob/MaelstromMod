@@ -78,6 +78,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	attackHandler.addAttack(spinSlash, new ActionSpinSlash(), () -> new AnimationSpinSlash());
 	attackHandler.addAttack(groundSlash, new ActionGroundSlash(), () -> new AnimationHerobrineGroundSlash());
 	attackHandler.addAttack(fireball, new ActionFireball(), () -> new AnimationFireballThrow());
+	this.currentAnimation = new AnimationSpinSlash();
     }
 
     @Override
