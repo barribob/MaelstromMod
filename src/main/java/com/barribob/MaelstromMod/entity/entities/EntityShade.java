@@ -91,7 +91,7 @@ public class EntityShade extends EntityMaelstromMob
     {
 	if (id == 4)
 	{
-	    currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

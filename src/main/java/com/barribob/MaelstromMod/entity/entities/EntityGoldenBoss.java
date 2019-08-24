@@ -133,7 +133,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	if (id >= 4 && id <= 6)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
-	    currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else if (id == ModUtils.PARTICLE_BYTE)
 	{

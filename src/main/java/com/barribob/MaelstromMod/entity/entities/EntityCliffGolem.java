@@ -163,7 +163,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	if (id == this.groundPoundByte || id == this.geyserByte)
 	{
 	    this.currentAnimation = attackHandler.getAnimation(id);
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F);
 	}
 	else

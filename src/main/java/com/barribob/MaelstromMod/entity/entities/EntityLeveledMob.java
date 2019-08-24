@@ -67,6 +67,9 @@ public abstract class EntityLeveledMob extends EntityCreature
 	    currentAnimation.update();
 	}
 
+	/**
+	 * Periodically check if the animations need to be reinitialized
+	 */
 	if (this.ticksExisted % 20 == 0)
 	{
 	    world.setEntityState(this, animationByte);

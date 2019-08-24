@@ -41,6 +41,7 @@ public class EntityFloatingSkull extends EntityMaelstromMob
 	this.setBaseAttack(4);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -100,13 +101,14 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     /**
      * Handler for {@link World#setEntityState}
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
 	if (id == 4)
 	{
 	    this.currentAnimation = new AnimationFloatingSkull();
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

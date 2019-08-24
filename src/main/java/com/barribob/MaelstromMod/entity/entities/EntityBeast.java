@@ -224,7 +224,7 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	if (id == 4)
 	{
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

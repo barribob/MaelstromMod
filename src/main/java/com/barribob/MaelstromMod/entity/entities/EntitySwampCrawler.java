@@ -186,7 +186,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     {
 	if (id == 4)
 	{
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

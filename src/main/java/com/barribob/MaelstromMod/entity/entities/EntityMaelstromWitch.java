@@ -128,7 +128,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	if (id >= 4 && id <= 6)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
-	    currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

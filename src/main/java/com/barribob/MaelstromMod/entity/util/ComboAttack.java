@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.animation.Animation;
+import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -65,6 +66,10 @@ public class ComboAttack
     @SideOnly(Side.CLIENT)
     public Animation getAnimation(Byte b)
     {
+	if (animations == null)
+	{
+	    return new AnimationNone();
+	}
 	if (!animations.containsKey(b))
 	{
 	    throw new IllegalArgumentException("The byte " + b + " does not correspond to an attack");

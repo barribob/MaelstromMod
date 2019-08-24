@@ -157,7 +157,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	if (id == 4)
 	{
 	    this.currentAnimation = new AnimationAzureGolem();
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	    this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
 	}
 	else

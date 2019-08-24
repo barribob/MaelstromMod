@@ -114,7 +114,7 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     {
 	if (id == 4)
 	{
-	    currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{
