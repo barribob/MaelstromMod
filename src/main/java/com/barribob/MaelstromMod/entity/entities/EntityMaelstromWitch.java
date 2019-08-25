@@ -106,7 +106,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
     protected void updateAttributes()
     {
 	this.setBaseAttack(4);
-	this.setBaseMaxHealth(100);
+	this.setBaseMaxHealth(150);
     }
 
     @Override

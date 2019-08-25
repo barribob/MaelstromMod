@@ -96,6 +96,33 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    }
 	};
     };
+    public static final WorldGenStructure MAELSTROM_PIT = new WorldGenStructure("azure/maelstrom_pit")
+    {
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos position)
+	{
+	    if (position.getY() < 12)
+	    {
+		return false;
+	    }
+	    return super.generate(worldIn, rand, position.down(4));
+	};
+
+	@Override
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    if (function.startsWith("boss"))
+	    {
+		worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityMobSpawner)
+		{
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":iron_shade"), 1);
+		}
+	    }
+	};
+    };
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
@@ -114,6 +141,13 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    else if ((chunkX + 10) % i == 0 && (chunkZ + 10) % i == 0)
 	    {
 		generateBiomeSpecificStructure(MAELSTROM_RUINS, world, random, chunkX, chunkZ, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+	    }
+	}
+	if (world.provider.getDimension() == ModConfig.fracture_dimension_id)
+	{
+	    if (chunkX % 10 == 0 && chunkZ % 10 == 0)
+	    {
+		generateBiomeSpecificStructure(MAELSTROM_PIT, world, random, chunkX, chunkZ, 2, ModBlocks.DARK_AZURE_STONE, BiomeInit.AZURE.getClass());
 	    }
 	}
     }

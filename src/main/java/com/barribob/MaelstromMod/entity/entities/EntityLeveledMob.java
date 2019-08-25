@@ -165,6 +165,8 @@ public abstract class EntityLeveledMob extends EntityCreature
 	{
 	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
 	}
+	world.setEntityState(this, animationByte);
+
 	super.readFromNBT(compound);
     }
 

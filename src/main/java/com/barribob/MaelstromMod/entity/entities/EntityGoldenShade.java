@@ -52,7 +52,7 @@ public class EntityGoldenShade extends EntityShade
     {
 	if (!world.isRemote)
 	{
-	    new ActionThrust(new ProjectileGoldenThrust(world, this, this.getAttack())).performAction(this, target);
+	    new ActionThrust(() -> new ProjectileGoldenThrust(world, this, this.getAttack())).performAction(this, target);
 	}
     }
 

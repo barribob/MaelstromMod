@@ -9,6 +9,7 @@ public class AnimationClip<T extends ModelBase> extends ArrayAnimation<T>
     private float startValue;
     private float endValue;
     private BiConsumer<T, Float> setModelRotationsImpl;
+    boolean isEnded = false;
 
     public AnimationClip(int animationLength, float startValue, float endValue, BiConsumer<T, Float> setModelRotationsImpl)
     {
@@ -22,6 +23,7 @@ public class AnimationClip<T extends ModelBase> extends ArrayAnimation<T>
     public void startAnimation()
     {
 	this.attackTimer = 0;
+	isEnded = false;
     }
 
     @Override
@@ -34,10 +36,14 @@ public class AnimationClip<T extends ModelBase> extends ArrayAnimation<T>
 	}
 	float degrees = ((endValue - startValue) * progress) + startValue;
 	setModelRotationsImpl.accept(model, (float) Math.toRadians(degrees));
+	if (this.animationLength - 1 == this.attackTimer)
+	{
+	    isEnded = true;
+	}
     }
 
     public boolean isEnded()
     {
-	return this.attackTimer == this.animationLength - 1;
+	return isEnded;
     }
 }

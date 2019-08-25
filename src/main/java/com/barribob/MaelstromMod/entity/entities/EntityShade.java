@@ -104,7 +104,7 @@ public class EntityShade extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    new ActionThrust(new ProjectileShadeAttack(world, this, this.getAttack())).performAction(this, target);
+	    new ActionThrust(() -> new ProjectileShadeAttack(world, this, this.getAttack())).performAction(this, target);
 	}
     }
 }
