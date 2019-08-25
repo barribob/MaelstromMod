@@ -27,7 +27,7 @@ public class GoldenRuins
     private World world;
     private TemplateManager manager;
     private ChunkGeneratorCliff provider;
-    private static final int SIZE = 15;
+    private static final int SIZE = 10;
     private int requiredGroundHeight = 164;
 
     private static final List<Tuple<Rotation, BlockPos>> CROSS_POS = Lists.newArrayList(new Tuple(Rotation.NONE, new BlockPos(0, 0, 0)),

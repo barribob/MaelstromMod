@@ -25,11 +25,13 @@ public class MapGenGoldenRuins extends MapGenModStructure
 	this.provider = provider;
     }
 
+    @Override
     public String getStructureName()
     {
 	return "Golden Ruins";
     }
 
+    @Override
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
 	return new MapGenGoldenRuins.Start(this.world, this.rand, chunkX, chunkZ, provider);
@@ -51,9 +53,12 @@ public class MapGenGoldenRuins extends MapGenModStructure
 
 	private void create(World worldIn, Random rnd, int chunkX, int chunkZ)
 	{
-	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
+	    Random random = new Random(chunkX + chunkZ * 10387313);
 	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-	    int y = 135;
+	    int mod = (ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS + ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) * 2;
+	    boolean isXEven = ((((chunkX - ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) / ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS) % 2) & 1) == 0;
+	    boolean isZEven = ((((chunkZ - ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) / ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS) % 2) & 1) == 0;
+	    int y = isXEven ^ isZEven ? 135 : 170;
 
 	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
 	    GoldenRuins stronghold = new GoldenRuins(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), provider, components);
