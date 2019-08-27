@@ -181,14 +181,33 @@ public class ModUtils
 	}
     }
 
+    public static Vec3d getRelativeOffset(EntityLeveledMob actor, Vec3d offset)
+    {
+	Vec3d look = ModUtils.getVectorForRotation(0, actor.renderYawOffset);
+	Vec3d side = look.rotateYaw((float) Math.PI * 0.5f);
+	return look.scale(offset.x).add(yVec((float) offset.y)).add(side.scale(offset.z));
+    }
+
     public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile)
     {
+	throwProjectile(actor, target, projectile, 1.6f, 12.0f);
+    }
+
+    public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity, Vec3d offset)
+    {
+	Vec3d pos = projectile.getPositionVector().add(offset);
+	projectile.setPosition(pos.x, pos.y, pos.z);
+	throwProjectile(actor, target, projectile, inaccuracy, velocity);
+    }
+
+    public static void throwProjectile(EntityLeveledMob actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity)
+    {
 	double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
-	double d1 = target.posX - actor.posX;
+	double d1 = target.posX - projectile.posX;
 	double d2 = d0 - projectile.posY;
-	double d3 = target.posZ - actor.posZ;
+	double d3 = target.posZ - projectile.posZ;
 	float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-	projectile.shoot(d1, d2 + f, d3, 1.6F, 12.0F);
+	projectile.shoot(d1, d2 + f, d3, inaccuracy, velocity);
 	actor.world.spawnEntity(projectile);
     }
 
