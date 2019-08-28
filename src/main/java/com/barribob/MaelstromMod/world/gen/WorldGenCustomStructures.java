@@ -145,7 +145,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	}
 	if (world.provider.getDimension() == ModConfig.fracture_dimension_id)
 	{
-	    if (chunkX % 10 == 0 && chunkZ % 10 == 0)
+	    if (chunkX % i == 0 && chunkZ % i == 0)
 	    {
 		generateBiomeSpecificStructure(MAELSTROM_PIT, world, random, chunkX, chunkZ, 2, ModBlocks.DARK_AZURE_STONE, BiomeInit.AZURE.getClass());
 	    }

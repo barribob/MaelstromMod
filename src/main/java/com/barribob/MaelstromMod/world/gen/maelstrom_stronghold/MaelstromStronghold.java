@@ -24,7 +24,7 @@ public class MaelstromStronghold
     private World world;
     private TemplateManager manager;
     private int exitsGenerated;
-    private static final int MIN_EXITS = 4;
+    private static final int MIN_EXITS = 2;
     private static final int SIZE = 18;
     private static final int ARCHES = 6;
 
@@ -164,7 +164,7 @@ public class MaelstromStronghold
      */
     private boolean generateEnd(StrongholdTemplate parent, BlockPos pos, Rotation rot)
     {
-	String[] types = { "end_chest", "end", "start" };
+	String[] types = { "end", "end", "start" };
 	String type = types[world.rand.nextInt(types.length)];
 	type = this.exitsGenerated < MIN_EXITS ? "start" : type;
 	StrongholdTemplate template = addAdjustedPiece(parent, pos, type, rot);
