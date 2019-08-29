@@ -34,6 +34,7 @@ public class WorldGenCliffShrub extends WorldGenTrees
 	}
 
 	if (position.getY() > 240)
+	{
 	    return false;
 	}
 
