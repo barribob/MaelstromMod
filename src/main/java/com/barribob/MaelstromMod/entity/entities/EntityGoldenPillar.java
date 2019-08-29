@@ -36,6 +36,13 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     }
 
     @Override
+    public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch)
+    {
+	super.setLocationAndAngles(x, y, z, yaw, pitch);
+	this.isImmovable = true;
+    }
+
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
