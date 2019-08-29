@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.util;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.util.math.Vec3d;
@@ -54,6 +53,11 @@ public class ModRandom
     public static <T> T choice(T[] array)
     {
 	Random rand = new Random();
+	return choice(array, rand);
+    }
+
+    public static <T> T choice(T[] array, Random rand)
+    {
 	int i = rand.nextInt(array.length);
 	return array[i];
     }

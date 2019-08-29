@@ -123,6 +123,85 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    }
 	};
     };
+    public static final WorldGenStructure SMALL_LEDGE = new WorldGenStructure("cliff/small_ledge")
+    {
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos position)
+	{
+	    BlockPos center = position.add(new BlockPos(-2, -5, -2));
+	    if (canLedgeGenerate(worldIn, position))
+	    {
+		return super.generate(worldIn, rand, center);
+	    }
+	    return false;
+	};
+    };
+
+    public static final WorldGenStructure MEDIUM_LEDGE = new WorldGenStructure("cliff/medium_ledge")
+    {
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos position)
+	{
+	    BlockPos center = position.add(new BlockPos(-5, -10, -5));
+	    if (canLedgeGenerate(worldIn, position))
+	    {
+		return super.generate(worldIn, rand, center);
+	    }
+	    return false;
+	};
+    };
+
+    public static final WorldGenStructure MAELSTROM_LEDGE = new WorldGenStructure("cliff/maelstrom_ledge")
+    {
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos position)
+	{
+	    BlockPos center = position.add(new BlockPos(-6, -15, -6));
+	    if (canLedgeGenerate(worldIn, position))
+	    {
+		return super.generate(worldIn, rand, center);
+	    }
+	    return false;
+	};
+
+	@Override
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    if (function.startsWith("enemy"))
+	    {
+		worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityMobSpawner)
+		{
+		    String[] enemies = { "golden_pillar" };
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + ModRandom.choice(enemies)), 2);
+		}
+	    }
+	    if (function.startsWith("chest"))
+	    {
+		worldIn.setBlockToAir(pos);
+		pos = pos.down();
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityChest)
+		{
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.MAELSTROM_RUINS, rand.nextLong());
+		}
+	    }
+	};
+    };
+
+    private static final boolean canLedgeGenerate(World worldIn, BlockPos center)
+    {
+	if (center.getY() > 90 && center.getY() < 220
+		&& (worldIn.getBlockState(center).getBlock() == ModBlocks.CLIFF_STONE || worldIn.getBlockState(center).getBlock() == Blocks.GRASS)
+		&& worldIn.isAirBlock(center.up(5)) && worldIn.isAirBlock(center.up(40)))
+	{
+	    return true;
+	}
+	return false;
+    }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
@@ -142,6 +221,12 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    {
 		generateBiomeSpecificStructure(MAELSTROM_RUINS, world, random, chunkX, chunkZ, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
 	    }
+
+	    generateBiomeSpecificStructure(
+		    ModRandom.choice(new WorldGenerator[] { MEDIUM_LEDGE, MEDIUM_LEDGE, MEDIUM_LEDGE, MAELSTROM_LEDGE, SMALL_LEDGE, SMALL_LEDGE, SMALL_LEDGE, SMALL_LEDGE },
+			    random),
+		    world, random, chunkX, chunkZ, 1,
+		    ModBlocks.CLIFF_STONE, BiomeInit.HIGH_CLIFF.getClass(), BiomeInit.CLIFF_SWAMP.getClass());
 	}
 	if (world.provider.getDimension() == ModConfig.fracture_dimension_id)
 	{
