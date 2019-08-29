@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.blocks.BlockModBush;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
@@ -13,6 +14,7 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVineBridge;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenWaterfall;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -116,6 +118,11 @@ public class BiomeAzure extends BiomeDifferentStone
 	    int y = rand.nextInt(45) + 15;
 	    int z = rand.nextInt(16) + 8;
 	    worldgenvines.generate(worldIn, rand, pos.add(x, y, z));
+	}
+
+	if (rand.nextInt(2) == 0)
+	{
+	    ModUtils.generateN(worldIn, rand, pos, 1, 30, 70, new WorldGenWaterfall(ModBlocks.DARK_AZURE_STONE));
 	}
     }
 

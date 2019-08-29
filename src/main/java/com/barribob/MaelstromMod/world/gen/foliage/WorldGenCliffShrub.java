@@ -24,12 +24,22 @@ public class WorldGenCliffShrub extends WorldGenTrees
 	this.leavesMetadata = leaf;
     }
 
+    @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
 	// Move the generation until it is at the correct y position
 	while(worldIn.getBlockState(position).getBlock() != Blocks.AIR)
 	{
 	    position = position.up();
+	}
+
+	if (position.getY() > 240)
+	    return false;
+	}
+
+	if (position.getY() > 200 && rand.nextInt(2) == 0)
+	{
+	    return false;
 	}
 
 	IBlockState state = worldIn.getBlockState(position);
