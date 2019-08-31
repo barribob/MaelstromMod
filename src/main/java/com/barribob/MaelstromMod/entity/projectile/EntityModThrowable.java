@@ -86,14 +86,14 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
     @SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
-	double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
+	double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 10.0D;
 
 	if (Double.isNaN(d0))
 	{
-	    d0 = 4.0D;
+	    d0 = 1.0D;
 	}
 
-	d0 = d0 * 64.0D;
+	d0 = d0 * 64.0D * getRenderDistanceWeight();
 	return distance < d0 * d0;
     }
 
@@ -138,17 +138,6 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 	this.prevRotationYaw = this.rotationYaw;
 	this.prevRotationPitch = this.rotationPitch;
 	this.ticksInGround = 0;
-    }
-
-    /**
-     * Set the position and rotation values directly without any clamping.
-     */
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport)
-    {
-	this.setPosition(x, y, z);
-	this.setRotation(yaw, pitch);
     }
 
     /**

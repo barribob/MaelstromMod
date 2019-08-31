@@ -168,6 +168,7 @@ public abstract class ItemGun extends ItemBase
      * Called when the equipped item is right clicked. Calls the shoot function
      * after handling ammo and cooldown
      */
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
 	ItemStack itemstack = playerIn.getHeldItem(handIn);
@@ -279,6 +280,7 @@ public abstract class ItemGun extends ItemBase
      * Return the enchantability factor of the item, most of the time is based on
      * material.
      */
+    @Override
     public int getItemEnchantability()
     {
 	return 1;
@@ -287,6 +289,7 @@ public abstract class ItemGun extends ItemBase
     /**
      * Returns True is the item is renderer in full 3D when hold.
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {

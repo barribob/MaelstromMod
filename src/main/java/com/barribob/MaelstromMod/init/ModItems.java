@@ -219,6 +219,7 @@ public class ModItems
 
     public static final Item GOLDEN_MAELSTROM_CORE = new ItemBase("golden_maelstrom_core", ModCreativeTabs.ALL);
     public static final Item CROSS_OF_AQUA = new ItemBase("cross_of_aqua", ModCreativeTabs.ALL) {
+	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 	    tooltip.add(TextFormatting.BLUE + "When held, allows the player to walk on water");
 	};
