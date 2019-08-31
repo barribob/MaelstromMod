@@ -28,7 +28,7 @@ public class WorldGenCliffShrub extends WorldGenTrees
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
 	// Move the generation until it is at the correct y position
-	while(worldIn.getBlockState(position).getBlock() != Blocks.AIR)
+	while (worldIn.getBlockState(position).getBlock() != Blocks.AIR)
 	{
 	    position = position.up();
 	}
@@ -39,6 +39,11 @@ public class WorldGenCliffShrub extends WorldGenTrees
 	}
 
 	if (position.getY() > 200 && rand.nextInt(2) == 0)
+	{
+	    return false;
+	}
+
+	if (!worldIn.isAirBlock(position.up(40)))
 	{
 	    return false;
 	}

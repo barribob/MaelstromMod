@@ -4,11 +4,7 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffMushroom;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffShrub;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampTree;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampVines;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -106,17 +102,6 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
 	}
 
 	super.generateTopBlocks(worldIn, rand, chunkPrimerIn, x, z, noiseVal, stoneBlock);
-    }
-
-    @Override
-    public void decorate(World worldIn, Random rand, BlockPos pos)
-    {
-	super.decorate(worldIn, rand, pos);
-	// Generate vines, with less near the top
-	ModUtils.generateN(worldIn, rand, pos, 4, 70, 1, new WorldGenCliffMushroom(ModBlocks.CLIFF_STONE));
-	ModUtils.generateN(worldIn, rand, pos, 35, 65, 1, new WorldGenCliffShrub(log, leaf));
-	ModUtils.generateN(worldIn, rand, pos, 400, 60, 60, new WorldGenSwampVines());
-	ModUtils.generateN(worldIn, rand, pos, 200, 120, 60, new WorldGenSwampVines());
     }
 
     @Override

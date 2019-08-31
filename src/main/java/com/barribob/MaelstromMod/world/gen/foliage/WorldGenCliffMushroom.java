@@ -47,6 +47,11 @@ public class WorldGenCliffMushroom extends WorldGenerator
 	    return false;
 	}
 
+	if (!worldIn.isAirBlock(position.up(40)))
+	{
+	    return false;
+	}
+
 	if (worldIn.getBlockState(position).getBlock() == Blocks.AIR && this.isBlockNearby(worldIn, position))
 	{
 	    int k2 = position.getY();
