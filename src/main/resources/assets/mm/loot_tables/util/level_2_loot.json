@@ -102,6 +102,22 @@
                 },
                 {
                     "type": "item",
+                    "name": "mm:meteor_staff",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "mm:ancient_battleaxe",
                     "weight": 1,
                     "functions": [

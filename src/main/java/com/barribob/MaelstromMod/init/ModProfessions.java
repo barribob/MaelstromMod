@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.trades.AzureTrades;
 import com.barribob.MaelstromMod.trades.NexusTrades;
 import com.barribob.MaelstromMod.util.Reference;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
@@ -84,13 +83,18 @@ public class ModProfessions
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 32, null, 0, ModItems.DRAGON_SLAYER, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.BAKUYA, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.KANSHOU, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 3, null, 0, ModItems.NYAN_HELMET, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.NYAN_CHESTPLATE, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, null, 0, ModItems.NYAN_LEGGINGS, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, null, 0, ModItems.NYAN_BOOTS, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.MoreComing());
 
 	NEXUS_BLADESMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_bladesmith");
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(Items.DIAMOND_SWORD, 1, ModItems.ELK_HIDE, 32, ModItems.FROST_SWORD, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(Items.DIAMOND_SWORD, 1, Items.FERMENTED_SPIDER_EYE, 32, ModItems.VENOM_DAGGER, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(Items.EMERALD, 4, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5, ModItems.NEXUS_BATTLEAXE, 1));
-	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, Items.DIAMOND, 5, ModItems.CRUSADE_SWORD, 1));
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 16, Items.DIAMOND, 5, ModItems.CRUSADE_SWORD, 1));
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, Items.IRON_INGOT, 64, ModItems.MAGISTEEL_SWORD, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_DAGGER, 1));
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.MoreComing());
     }

@@ -25,7 +25,8 @@ public class ToolSword extends ItemSword implements IHasModel
 {
     private final float attackDamage;
     private float level;
-    private Consumer<List<String>> information = (info) -> {};
+    private Consumer<List<String>> information = (info) -> {
+    };
 
     public ToolSword(String name, ToolMaterial material, float level)
     {

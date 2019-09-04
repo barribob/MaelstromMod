@@ -25,6 +25,7 @@ public class EnchantmentDamage2 extends Enchantment
 	return level * ModConfig.progression_scale;
     }
 
+    @Override
     public boolean canApply(ItemStack stack)
     {
 	return canApplyAtEnchantingTable(stack);
@@ -43,21 +44,25 @@ public class EnchantmentDamage2 extends Enchantment
 	return false;
     }
 
+    @Override
     public int getMinEnchantability(int enchantmentLevel)
     {
 	return 1 + (enchantmentLevel - 1) * 10;
     }
 
+    @Override
     public int getMaxEnchantability(int enchantmentLevel)
     {
 	return this.getMinEnchantability(enchantmentLevel) + 15;
     }
 
+    @Override
     public int getMaxLevel()
     {
 	return 5;
     }
 
+    @Override
     public boolean canApplyTogether(Enchantment ench)
     {
 	return !(ench instanceof EnchantmentDamage) && super.canApplyTogether(ench);

@@ -11,6 +11,7 @@ import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
 import com.barribob.MaelstromMod.items.ItemNexusIslandBuilder;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
+import com.barribob.MaelstromMod.items.armor.ArmorNyanHelmet;
 import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
 import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
@@ -21,6 +22,7 @@ import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
 import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
+import com.barribob.MaelstromMod.items.gun.ItemMeteorStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
 import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
@@ -35,7 +37,9 @@ import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
 import com.barribob.MaelstromMod.items.gun.bullet.MaelstromCannon;
+import com.barribob.MaelstromMod.items.gun.bullet.Meteor;
 import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
+import com.barribob.MaelstromMod.items.tools.ItemMagisteelSword;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolBlackGoldSword;
 import com.barribob.MaelstromMod.items.tools.ToolCrusadeSword;
@@ -174,6 +178,7 @@ public class ModItems
     public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_DAGGER, 1.5f);
     public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", RARE_SWORD, 2f);
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", RARE_DAGGER, 2.5f);
+    public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", RARE_SWORD, 2f);
 
     // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
@@ -189,7 +194,10 @@ public class ModItems
     public static final Item NEXUS_CHESTPLATE = new ModArmorBase("nexus_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "nexus");
     public static final Item NEXUS_LEGGINGS = new ModArmorBase("nexus_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "nexus");
     public static final Item NEXUS_BOOTS = new ModArmorBase("nexus_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "nexus");
-
+    public static final Item NYAN_HELMET = new ArmorNyanHelmet("nyan_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2.5f, "nyan_helmet.png");
+    public static final Item NYAN_CHESTPLATE = new ModArmorBase("nyan_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2.5f, "nyan");
+    public static final Item NYAN_LEGGINGS = new ModArmorBase("nyan_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2.5f, "nyan");
+    public static final Item NYAN_BOOTS = new ModArmorBase("nyan_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2.5f, "nyan");
     /*
      * Cliff Dimension Items
      */
@@ -224,4 +232,6 @@ public class ModItems
 	    tooltip.add(TextFormatting.BLUE + "When held, allows the player to walk on water");
 	};
     };
+    public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", COMMON_SWORD, 2.5f);
+    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 80, RARE_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new Meteor());
 }

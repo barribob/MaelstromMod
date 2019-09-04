@@ -27,6 +27,7 @@ import com.barribob.MaelstromMod.entity.entities.npc.NexusGunTrader;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusMageTrader;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusSpecialTrader;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerExplosion;
+import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerRainbow;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.EntityGeyser;
 import com.barribob.MaelstromMod.entity.projectile.EntityGoldenRune;
@@ -51,6 +52,8 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMissile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromWisp;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMeteor;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMeteorSpawner;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePillarFlames;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
@@ -58,6 +61,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileSwordSlash;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
@@ -215,9 +219,13 @@ public class ModEntities
 	registerEntity("nexus_particle", EntityNexusParticleSpawner.class, PROJECTILE_START_ID++, 50);
 	registerEntity("iron_thrust", ProjectileIronShadeAttack.class, PROJECTILE_START_ID++, 50);
 	registerEntity("maelstrom_wisp", ProjectileMaelstromWisp.class, PROJECTILE_START_ID++, 50);
+	registerEntity("meteor", ProjectileMeteor.class, PROJECTILE_START_ID++, 100);
+	registerBullet("meteor_spawner", ProjectileMeteorSpawner.class, PROJECTILE_START_ID++, 50);
+	registerEntity("sword_slash", ProjectileSwordSlash.class, PROJECTILE_START_ID++, 50);
 
 	registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
 	registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);
+	registerEntity("rainbow_particle", ParticleSpawnerRainbow.class, PARTICLE_START_ID++, 20);
 
 	registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

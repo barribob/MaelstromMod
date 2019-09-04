@@ -86,6 +86,22 @@
                 },
                 {
                     "type": "item",
+                    "name": "mm:gold_stone_longsword",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "mm:golden_rifle",
                     "weight": 1,
                     "functions": [
