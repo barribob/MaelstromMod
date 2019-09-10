@@ -114,6 +114,12 @@ public class ModUtils
     public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
 	    float knockbackFactor, int fireFactor)
     {
+	handleAreaImpact(radius, maxDamage, source, pos, damageSource, knockbackFactor, fireFactor, true);
+    }
+
+    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
+	    float knockbackFactor, int fireFactor, boolean damageDecay)
+    {
 	if (source == null)
 	{
 	    return;
@@ -129,7 +135,7 @@ public class ModUtils
 		double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
 		double radiusSq = Math.pow(radius + avgEntitySize, 2);
 		double distanceFromExplosion = (float) entity.getEntityBoundingBox().getCenter().squareDistanceTo(pos);
-		double damageFactor = Math.max(0, Math.min(1, (radiusSq - distanceFromExplosion) / radiusSq));
+		double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - distanceFromExplosion) / radiusSq)) : 1;
 		double damage = maxDamage.apply(entity) * damageFactor;
 		if (damage > 0 && distanceFromExplosion < radiusSq)
 		{

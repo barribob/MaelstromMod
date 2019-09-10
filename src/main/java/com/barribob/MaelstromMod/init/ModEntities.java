@@ -14,6 +14,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
@@ -35,6 +36,7 @@ import com.barribob.MaelstromMod.entity.projectile.EntityOctoMissileLauncher;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBrownstoneCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
@@ -184,6 +186,7 @@ public class ModEntities
 	registerEntity("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
 	registerEntity("swamp_crawler", EntitySwampCrawler.class, ENTITY_START_ID++, 50, cliff);
 	registerEntity("iron_shade", EntityIronShade.class, ENTITY_START_ID++, 70, maelstrom);
+	registerEntity("maelstrom_beast", EntityMaelstromBeast.class, ENTITY_START_ID++, 70, maelstrom);
 
 	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
@@ -222,6 +225,7 @@ public class ModEntities
 	registerEntity("meteor", ProjectileMeteor.class, PROJECTILE_START_ID++, 100);
 	registerBullet("meteor_spawner", ProjectileMeteorSpawner.class, PROJECTILE_START_ID++, 50);
 	registerEntity("sword_slash", ProjectileSwordSlash.class, PROJECTILE_START_ID++, 50);
+	registerEntity("beast_quake", ProjectileBeastQuake.class, PROJECTILE_START_ID++, 50);
 
 	registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
 	registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

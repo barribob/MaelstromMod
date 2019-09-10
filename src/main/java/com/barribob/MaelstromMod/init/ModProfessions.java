@@ -79,7 +79,7 @@ public class ModProfessions
 
 	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 16, Item.getItemFromBlock(Blocks.OBSIDIAN), 16, ModItems.ELUCIDATOR, 1));
-	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(Items.DIAMOND, 8, Item.getItemFromBlock(Blocks.PUMPKIN), 16, ModItems.PUMPKIN, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 12, Item.getItemFromBlock(Blocks.PUMPKIN), 16, ModItems.PUMPKIN, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 32, null, 0, ModItems.DRAGON_SLAYER, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.BAKUYA, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.KANSHOU, 1));

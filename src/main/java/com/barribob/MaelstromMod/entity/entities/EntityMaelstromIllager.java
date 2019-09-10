@@ -271,7 +271,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	    message = "What a fine being we have here! I must investigate!";
 	}
 
-	if (prevHealth > this.getMaxHealth() * 0.85 && this.getHealth() <= this.getMaxHealth() * 0.75)
+	if (prevHealth > this.getMaxHealth() * 0.85 && this.getHealth() <= this.getMaxHealth() * 0.85)
 	{
 	    message = "Come join our empire as a maelstrom zombie!";
 	}

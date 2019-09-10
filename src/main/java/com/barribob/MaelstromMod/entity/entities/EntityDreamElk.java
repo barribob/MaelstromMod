@@ -41,6 +41,7 @@ public class EntityDreamElk extends EntityLeveledMob
 	this.setLevel(1.5f);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	grassAI = new AIEatAzureGrass(this);
@@ -54,6 +55,7 @@ public class EntityDreamElk extends EntityLeveledMob
 	this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
     }
 
+    @Override
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
@@ -68,6 +70,7 @@ public class EntityDreamElk extends EntityLeveledMob
 	this.setBaseAttack(6);
     }
 
+    @Override
     protected void updateAITasks()
     {
 	this.eatGrassTimer = this.grassAI.getEatingGrassTimer();
@@ -77,7 +80,7 @@ public class EntityDreamElk extends EntityLeveledMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.ELK;
+	return LootTableHandler.MAELSTROM_ILLAGER;
     }
 
     @Override
@@ -90,6 +93,7 @@ public class EntityDreamElk extends EntityLeveledMob
      * For example, zombies and skeletons use this to react to sunlight and start to
      * burn.
      */
+    @Override
     public void onLivingUpdate()
     {
 	super.onLivingUpdate();
@@ -108,6 +112,7 @@ public class EntityDreamElk extends EntityLeveledMob
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
+    @Override
     public boolean getCanSpawnHere()
     {
         int i = MathHelper.floor(this.posX);
@@ -120,6 +125,7 @@ public class EntityDreamElk extends EntityLeveledMob
     /**
      * Handler for {@link World#setEntityState}
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -148,11 +154,11 @@ public class EntityDreamElk extends EntityLeveledMob
     {
 	if (this.attackTimer > 0)
 	{
-	    return 0.6f * this.triangleWave((float)this.attackTimer - partialTickTime, 10.0F);
+	    return 0.6f * this.triangleWave(this.attackTimer - partialTickTime, 10.0F);
 	}
 	else if (this.eatGrassTimer > 4 && this.eatGrassTimer <= 36)
 	{
-	    float f = ((float) (this.eatGrassTimer - 4) - partialTickTime) / 32.0F;
+	    float f = (this.eatGrassTimer - 4 - partialTickTime) / 32.0F;
 	    return ((float) Math.PI / 5F) + ((float) Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
 	}
 	else
@@ -172,6 +178,7 @@ public class EntityDreamElk extends EntityLeveledMob
         return (Math.abs(x % f - f * 0.5F) - f * 0.25F) / (f * 0.25F);
     }
 
+    @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
 	this.world.setEntityState(this, (byte) 4);
@@ -187,18 +194,21 @@ public class EntityDreamElk extends EntityLeveledMob
 	return flag;
     }
     
+    @Override
     protected SoundEvent getAmbientSound()
     {
         super.getAmbientSound();
         return SoundEvents.ENTITY_HORSE_AMBIENT;
     }
 
+    @Override
     protected SoundEvent getDeathSound()
     {
         super.getDeathSound();
         return SoundEvents.ENTITY_HORSE_DEATH;
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
         super.getHurtSound(damageSourceIn);
