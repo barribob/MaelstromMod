@@ -204,7 +204,7 @@ public class ModUtils
 
     public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile)
     {
-	throwProjectile(actor, target, projectile, 1.6f, 12.0f);
+	throwProjectile(actor, target, projectile, 12.0f, 1.6f);
     }
 
     public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity, Vec3d offset)

@@ -82,7 +82,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
-		    ModUtils.throwProjectile(actor, target, new ProjectileHorrorAttack(world, actor, getAttack()), 1.2f, 6.0f,
+		    ModUtils.throwProjectile(actor, target, new ProjectileHorrorAttack(world, actor, getAttack()), 6.0f, 1.2f,
 			    ModUtils.getRelativeOffset(actor, new Vec3d(0, 0, 1)));
 		    actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		}
