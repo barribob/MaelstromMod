@@ -15,6 +15,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -42,9 +43,10 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseAttack(7.5f);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7.5);
     }
 
     @Override

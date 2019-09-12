@@ -318,3 +318,16 @@ itemGroup.all=Maelstrom Mod
 // Misc.
 //———————————————————————————————————————————————————————————
 islandbuilder.fail=Nexus Island Builder only activates in the overworld
+
+//———————————————————————————————————————————————————————————
+// Config
+//———————————————————————————————————————————————————————————
+mm.config.spawn_island=Naturally Spawn Nexus Island
+mm.config.fracture_dimension_id=Fracture Dimension Id
+mm.config.nexus_dimension_id=Nexus Dimension Id
+mm.config.cliff_dimension_id=Cliff Dimension Id
+mm.config.gui=Gui
+mm.config.scale=Progression Scale
+mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
+mm.config.armor_bar_y=Maelstrom Armor Bar Y Offset
+mm.config.show_cooldown_bar=Show Gun Cooldown Bar

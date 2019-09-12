@@ -61,13 +61,8 @@ public class EntityDreamElk extends EntityLeveledMob
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30D);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
-    }
-    
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(25);
-	this.setBaseAttack(6);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
 
     @Override

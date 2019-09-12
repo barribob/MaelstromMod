@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -115,6 +116,8 @@ public abstract class EntityLeveledMob extends EntityCreature
     {
 	super.applyEntityAttributes();
 	this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0);
     }
 
     /**
@@ -123,18 +126,7 @@ public abstract class EntityLeveledMob extends EntityCreature
     public void setLevel(float level)
     {
 	this.level = level;
-
-	// Default 20 base health and 0 attack
-	this.setBaseMaxHealth(20);
-	this.setBaseAttack(0);
-
-	this.updateAttributes();
-
-	// Completely heal the entity after setting the level
-	this.setHealth(this.getMaxHealth());
     }
-
-    protected abstract void updateAttributes();
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound)
@@ -179,26 +171,20 @@ public abstract class EntityLeveledMob extends EntityCreature
     }
 
     /**
-     * Sets the base attack, so that the leveling can affect it
-     */
-    protected void setBaseAttack(float attack)
-    {
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(attack * this.getProgressionMultiplier());
-    }
-
-    /**
      * Return the shared monster attribute attack
      */
     public float getAttack()
     {
-	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * this.getProgressionMultiplier();
     }
 
-    /*
-     * Set the base max health so that the leveling can affect it.
-     */
-    protected void setBaseMaxHealth(float health)
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount)
     {
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(health * this.getProgressionMultiplier());
+	if (!source.isUnblockable())
+	{
+	    amount = amount * LevelHandler.getArmorFromLevel(level - 1);
+	}
+	return super.attackEntityFrom(source, amount);
     }
 }

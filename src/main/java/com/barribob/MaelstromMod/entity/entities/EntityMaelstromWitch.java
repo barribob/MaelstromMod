@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -103,10 +104,11 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseAttack(4);
-	this.setBaseMaxHealth(150);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150);
     }
 
     @Override

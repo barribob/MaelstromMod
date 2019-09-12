@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 
 public class ToolSword extends ItemSword implements IHasModel
 {
-    private final float attackDamage;
     private float level;
     private Consumer<List<String>> information = (info) -> {
     };
@@ -36,8 +35,6 @@ public class ToolSword extends ItemSword implements IHasModel
 	setCreativeTab(ModCreativeTabs.ALL);
 	ModItems.ITEMS.add(this);
 	this.level = level;
-
-	this.attackDamage = material.getAttackDamage() * LevelHandler.getMultiplierFromLevel(level);
     }
 
     @Override
@@ -62,11 +59,22 @@ public class ToolSword extends ItemSword implements IHasModel
 
 	if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 	{
-	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.attackDamage, 0));
-	    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
+	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.getAttackDamage(), 0));
+	    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", getAttackSpeed(), 0));
 	}
 
 	return multimap;
+    }
+
+    @Override
+    public float getAttackDamage()
+    {
+	return super.getAttackDamage() * LevelHandler.getMultiplierFromLevel(level);
+    }
+
+    protected double getAttackSpeed()
+    {
+	return -2.4000000953674316D;
     }
 
     public Item setInformation(Consumer<List<String>> information)

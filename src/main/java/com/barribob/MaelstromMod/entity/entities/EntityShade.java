@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -38,10 +39,11 @@ public class EntityShade extends EntityMaelstromMob
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseMaxHealth(25);
-	this.setBaseAttack(4);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
 
     @Override

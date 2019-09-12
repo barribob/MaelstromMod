@@ -83,13 +83,8 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(250);
-	this.setBaseAttack(4);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
     }
 
     /**

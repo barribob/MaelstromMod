@@ -98,11 +98,12 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseMaxHealth(20);
+	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
     @Override

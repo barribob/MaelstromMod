@@ -27,6 +27,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -202,10 +203,11 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseMaxHealth(300);
-	this.setBaseAttack(12);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(12);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300);
     }
 
     @Override

@@ -10,10 +10,10 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -37,7 +37,7 @@ public class HerobrineBossController extends EntityLeveledMob
 	    "" };
     private static final int[] EXIT_MESSAGE_TIMES = { 80, 140, 200, 260 };
 
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
+    private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
     private TimedMessager messager;
     private EntityHerobrineOne herobrine;
     private byte particles = 7;
@@ -75,6 +75,13 @@ public class HerobrineBossController extends EntityLeveledMob
     };
 
     @Override
+    protected void applyEntityAttributes()
+    {
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
+    }
+
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -89,7 +96,7 @@ public class HerobrineBossController extends EntityLeveledMob
 	this.isImmovable = true;
 	this.setNoGravity(true);
     }
-    
+
     @Override
     protected boolean canDespawn()
     {
@@ -101,7 +108,7 @@ public class HerobrineBossController extends EntityLeveledMob
     {
 	return false;
     }
-    
+
     @Override
     public boolean canRenderOnFire()
     {
@@ -112,7 +119,7 @@ public class HerobrineBossController extends EntityLeveledMob
     public void onUpdate()
     {
 	super.onUpdate();
-		
+
 	this.messager.Update(world, messageToPlayers);
 
 	if (herobrine != null)
@@ -140,6 +147,7 @@ public class HerobrineBossController extends EntityLeveledMob
     /**
      * Sets the custom name tag for this entity
      */
+    @Override
     public void setCustomNameTag(String name)
     {
 	super.setCustomNameTag(name);
@@ -150,6 +158,7 @@ public class HerobrineBossController extends EntityLeveledMob
      * Add the given player to the list of players tracking this entity. For
      * instance, a player may track a boss in order to view its associated boss bar.
      */
+    @Override
     public void addTrackingPlayer(EntityPlayerMP player)
     {
 	super.addTrackingPlayer(player);
@@ -160,6 +169,7 @@ public class HerobrineBossController extends EntityLeveledMob
      * Removes the given player from the list of players tracking this entity. See
      * {@link Entity#addTrackingPlayer} for more information on tracking.
      */
+    @Override
     public void removeTrackingPlayer(EntityPlayerMP player)
     {
 	super.removeTrackingPlayer(player);
@@ -169,6 +179,7 @@ public class HerobrineBossController extends EntityLeveledMob
     /**
      * Handler for {@link World#setEntityState}
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -185,11 +196,5 @@ public class HerobrineBossController extends EntityLeveledMob
 	{
 	    super.handleStatusUpdate(id);
 	}
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(20);
     }
 }

@@ -245,13 +245,9 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-    }
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
 
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(400);
-	this.setBaseAttack(8);
     }
 
     @Override
@@ -346,7 +342,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 	if (prevHealth > this.getMaxHealth() * 0.25f && this.getHealth() <= this.getMaxHealth() * 0.25f)
 	{
 	    this.dataManager.set(RAGED, true);
-	    this.setBaseAttack(ragedAttackDamage);
+	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
 	}
 	return flag;
     }
@@ -364,7 +360,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 	    this.dataManager.set(RAGED, Boolean.valueOf(compound.getBoolean("rage")));
 	    if (this.isRaged())
 	    {
-		this.setBaseAttack(ragedAttackDamage);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
 	    }
 	}
 

@@ -1,10 +1,10 @@
 package com.barribob.MaelstromMod.event_handlers;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
-import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
@@ -19,14 +19,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 /**
  * 
  * Holds various important functionalities only accessible through the forge
@@ -98,11 +96,11 @@ public class ModEventHandler
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event)
     {
-	//System.out.println("Initial: " + event.getAmount());
+	// System.out.println("Initial: " + event.getAmount());
 	// Factor in maelstrom armor into damage source
 	if (!event.getSource().isUnblockable())
 	{
-	    event.setAmount((float) (event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity()))));
+	    event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity())));
 
 	    if (ModDamageSource.isMaelstromDamage(event.getSource()))
 	    {
@@ -130,7 +128,10 @@ public class ModEventHandler
 		InGameGui.renderArmorBar(mc, event, player);
 	    }
 
-	    InGameGui.renderGunReload(mc, event, player);
+	    if (ModConfig.gui.showGunCooldownBar)
+	    {
+		InGameGui.renderGunReload(mc, event, player);
+	    }
 
 	    GlStateManager.disableBlend();
 	}

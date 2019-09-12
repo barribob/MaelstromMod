@@ -76,6 +76,8 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200);
     }
 
     @Override
@@ -151,13 +153,6 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	{
 	    super.handleStatusUpdate(id);
 	}
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(200);
-	this.setBaseAttack(5);
     }
 
     @Override

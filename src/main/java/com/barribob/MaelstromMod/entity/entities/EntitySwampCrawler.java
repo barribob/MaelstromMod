@@ -47,13 +47,6 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     }
 
     @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(25);
-	this.setBaseAttack(5);
-    }
-
-    @Override
     protected void initEntityAI()
     {
 	this.tasks.addTask(0, new EntityAISwimming(this));
@@ -98,6 +91,8 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30D);
 	this.getEntityAttribute(SWIM_SPEED).setBaseValue(1.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
     
     @Override

@@ -24,8 +24,6 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -36,20 +34,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.scoreboard.Team;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -78,6 +68,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     
     private static int message_counter = 0;
 
+    @Override
     protected void entityInit()
     {
 	super.entityInit();
@@ -90,6 +81,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
 	this.setSize(0.6F, 1.95F);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -106,19 +98,17 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityAzureVillager.class }));
     }
 
+    @Override
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3499999940395355D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(12.0D);
-    }
-    
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseAttack(1);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
+    @Override
     protected ResourceLocation getLootTable()
     {
 	return LootTableList.ENTITIES_VILLAGER;
@@ -145,13 +135,13 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     @SideOnly(Side.CLIENT)
     protected boolean isAggressive(int mask)
     {
-	int i = ((Byte) this.dataManager.get(ATTACKING)).byteValue();
+	int i = this.dataManager.get(ATTACKING).byteValue();
 	return (i & mask) != 0;
     }
 
     protected void setAggressive(int mask, boolean value)
     {
-	int i = ((Byte) this.dataManager.get(ATTACKING)).byteValue();
+	int i = this.dataManager.get(ATTACKING).byteValue();
 
 	if (value)
 	{
@@ -176,6 +166,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
 	this.setAggressive(1, p_190636_1_);
     }
 
+    @Override
     protected void updateAITasks()
     {
 	super.updateAITasks();
@@ -185,6 +176,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     /**
      * Taken from the EntityMob class
      */
+    @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
 	float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
@@ -202,8 +194,8 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
 	{
 	    if (i > 0 && entityIn instanceof EntityLivingBase)
 	    {
-		((EntityLivingBase) entityIn).knockBack(this, (float) i * 0.5F, (double) MathHelper.sin(this.rotationYaw * 0.017453292F),
-			(double) (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+		((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+			(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
 		this.motionX *= 0.6D;
 		this.motionZ *= 0.6D;
 	    }
@@ -224,7 +216,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
 		if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
 			&& itemstack1.getItem().isShield(itemstack1, entityplayer))
 		{
-		    float f1 = 0.25F + (float) EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+		    float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
 		    if (this.rand.nextFloat() < f1)
 		    {
@@ -245,6 +237,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
      * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
      * used for initializing attributes and inventory
      */
+    @Override
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
@@ -257,6 +250,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     /**
      * Gives armor or weapon for entity based on given DifficultyInstance
      */
+    @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty)
     {
 	this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
@@ -290,6 +284,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
         return "Azure Villager";
     }
     
+    @Override
     public void writeEntityToNBT(NBTTagCompound compound)
     {
 	super.writeEntityToNBT(compound);
@@ -300,6 +295,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
 	}
     }
 
+    @Override
     public void readEntityFromNBT(NBTTagCompound compound)
     {
 	super.readEntityFromNBT(compound);

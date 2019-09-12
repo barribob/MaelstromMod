@@ -31,6 +31,7 @@ public class ToolLongsword extends ToolSword implements IExtendedReach, ISweepAt
 	super(name, material, level);
     }
 
+    @Override
     public float getReach()
     {
 	return this.reach;
@@ -51,8 +52,8 @@ public class ToolLongsword extends ToolSword implements IExtendedReach, ISweepAt
 	{
 	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
 	    {
-		entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F),
-			(double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F),
+			(-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 		entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(player), sweepDamage);
 	    }
 	}
@@ -65,6 +66,7 @@ public class ToolLongsword extends ToolSword implements IExtendedReach, ISweepAt
      * Gets a map of item attribute modifiers, used by ItemSword to increase hit
      * damage.
      */
+    @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
     {
 	Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
@@ -72,9 +74,13 @@ public class ToolLongsword extends ToolSword implements IExtendedReach, ISweepAt
 	if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 	{
 	    multimap.put("extended_reach", new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", this.reach - 3.0D, 0));
-	    multimap.removeAll(SharedMonsterAttributes.ATTACK_SPEED.getName());
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8000000953674316D, 0));
 	}
 	return multimap;
+    }
+
+    @Override
+    protected double getAttackSpeed()
+    {
+	return -2.8000000953674316D;
     }
 }

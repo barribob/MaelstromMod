@@ -36,7 +36,6 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     public EntityAzureGolem(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
@@ -55,16 +54,11 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     }
 
     @Override
-    protected void updateAttributes()
-    {
-	this.setBaseAttack(9f);
-	this.setBaseMaxHealth(125);
-    }
-
-    @Override
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(18);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);

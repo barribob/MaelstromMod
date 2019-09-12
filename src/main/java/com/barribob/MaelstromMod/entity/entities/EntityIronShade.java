@@ -204,13 +204,8 @@ public class EntityIronShade extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.24D);
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseAttack(9);
-	this.setBaseMaxHealth(200);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200);
     }
 
     @Override
