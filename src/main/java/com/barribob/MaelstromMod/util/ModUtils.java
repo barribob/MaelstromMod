@@ -22,6 +22,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public final class ModUtils
 {
@@ -39,6 +40,20 @@ public final class ModUtils
     public static String translateDialog(String key)
     {
 	return I18n.format(ModUtils.LANG_CHAT + key);
+    }
+
+    /**
+     * Determines if the chunk is already generated, in which case new structures
+     * cannot be placed
+     * 
+     * @param box
+     * @param world
+     * @return
+     */
+    public static boolean chunksGenerated(StructureBoundingBox box, World world)
+    {
+	return world.isChunkGeneratedAt(box.minX >> 4, box.minZ >> 4) || world.isChunkGeneratedAt(box.minX >> 4, box.maxZ >> 4)
+		|| world.isChunkGeneratedAt(box.maxX >> 4, box.minZ >> 4) || world.isChunkGeneratedAt(box.maxX >> 4, box.maxZ >> 4);
     }
 
     /**
