@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Multimap;
@@ -88,6 +89,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
      * Gets a map of item attribute modifiers, used by ItemSword to increase hit
      * damage.
      */
+    @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
     {
 	Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
@@ -103,7 +105,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + (this.maelstrom_armor_factor + 1));
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("level") + " " + TextFormatting.DARK_GREEN + (this.maelstrom_armor_factor + 1));
     }
     
     protected ModelBiped getCustomModel()

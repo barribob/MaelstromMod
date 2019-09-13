@@ -3,8 +3,8 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -43,6 +43,6 @@ public class ItemFlintlock extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Medium Range");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("flintlock"));
     }
 }

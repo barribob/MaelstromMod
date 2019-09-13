@@ -42,6 +42,6 @@ public class ToolExplosiveDagger extends ToolDagger
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Explodes on charged attack.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("explosive_dagger"));
     }
 }

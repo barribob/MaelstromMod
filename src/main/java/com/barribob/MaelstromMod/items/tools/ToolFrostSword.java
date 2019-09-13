@@ -5,6 +5,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.items.ISweepAttackParticles;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -64,7 +65,7 @@ public class ToolFrostSword extends ToolSword implements ISweepAttackOverride, I
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Slows enemies on sweep attack");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("frost_sword"));
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -22,11 +23,23 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class ModUtils
+public final class ModUtils
 {
     public static byte PARTICLE_BYTE = 12;
     public static byte SECOND_PARTICLE_BYTE = 14;
     public static byte THIRD_PARTICLE_BYTE = 15;
+    public static final String LANG_DESC = Reference.MOD_ID + ".desc.";
+    public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
+
+    public static String translateDesc(String key)
+    {
+	return I18n.format(ModUtils.LANG_DESC + key);
+    }
+
+    public static String translateDialog(String key)
+    {
+	return I18n.format(ModUtils.LANG_CHAT + key);
+    }
 
     /**
      * Calls the function n times, passing in the ith iteration

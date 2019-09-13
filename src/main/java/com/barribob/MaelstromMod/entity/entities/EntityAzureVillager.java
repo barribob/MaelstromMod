@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.init.ModProfessions;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -58,12 +59,8 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     // Used in animation to determine if the entity should render in attack pose
     protected static final DataParameter<Byte> ATTACKING = EntityDataManager.<Byte>createKey(EntityAzureVillager.class, DataSerializers.BYTE);
     private static final String[] CHAT_MESSAGES = {
-	    "We've been having a problem with the maelstrom that's invaded this dimension.",
-	    "You seem like a warrior, would you defeat the maelstrom invaders for us?",
-	    "We'll reward you handsomely for taking out the maelstrom.",
-	    "Have a look around the mineshaft for any useful gear and items.",
-	    "Under the maelstrom growths, there is a core that spawns the maelstrom. Remove those!",
-	    "Keep an eye out for the maelstrom fortress. That's where the boss is."
+	    ModUtils.translateDialog("azure_villager_1"), ModUtils.translateDialog("azure_villager_2"), ModUtils.translateDialog("azure_villager_3"),
+	    ModUtils.translateDialog("azure_villager_4"), ModUtils.translateDialog("azure_villager_5"), ModUtils.translateDialog("azure_villager_6")
     };
     
     private static int message_counter = 0;

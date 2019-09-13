@@ -50,6 +50,7 @@ import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -150,7 +151,7 @@ public class ModItems
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_BATTLEAXE, 1.5f);
 
     static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + "Wielding Kanshou and Bakuya together grants Strength III");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
     };
     public static final Item KANSHOU = new ToolDagger("kanshou", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);
     public static final Item BAKUYA = new ToolDagger("bakuya", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);;
@@ -159,10 +160,10 @@ public class ModItems
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setBullet(new RedstoneRepeater());
     public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setInformation((tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + "Long Range");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("rifle"));
     });
     public static final Item ELK_BLASTER = new ItemRifle("elk_blaster", 60, RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL).setInformation((tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + "Pierces through multiple enemies.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("elk_rifle"));
     }).setBullet(new BulletFactory()
     {
 	@Override

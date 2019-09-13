@@ -270,17 +270,17 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	String message = "";
 	if (prevHealth > this.getMaxHealth() * 0.95 && this.getHealth() <= this.getMaxHealth() * 0.95)
 	{
-	    message = "What a fine being we have here! I must investigate!";
+	    message = ModUtils.translateDialog("illager_1");
 	}
 
 	if (prevHealth > this.getMaxHealth() * 0.85 && this.getHealth() <= this.getMaxHealth() * 0.85)
 	{
-	    message = "Come join our empire as a maelstrom zombie!";
+	    message = ModUtils.translateDialog("illager_2");
 	}
 
 	if (prevHealth > this.getMaxHealth() * 0.5 && this.getHealth() <= this.getMaxHealth() * 0.5)
 	{
-	    message = "Die pesky specimen!";
+	    message = ModUtils.translateDialog("illager_3");
 	    this.tasks.removeTask(phase1AttackAI);
 	    this.tasks.addTask(4, phase2AttackAI);
 	    phase2Attack = true;

@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -55,7 +56,7 @@ public class ItemMusket extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Medium range and melee attack");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("musket"));
     }
     
     /**

@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -86,7 +87,7 @@ public class ToolSword extends ItemSword implements IHasModel
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + this.level);
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("level") + " " + TextFormatting.DARK_GREEN + this.level);
 	information.accept(tooltip);
     }
 }

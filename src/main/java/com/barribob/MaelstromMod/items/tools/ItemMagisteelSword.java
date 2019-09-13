@@ -5,6 +5,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwordSlash;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -80,6 +81,6 @@ public class ItemMagisteelSword extends ToolLongsword implements ISweepAttackOve
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Launches sweep attack");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("magisteel_sword"));
     }
 }

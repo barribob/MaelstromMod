@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.StandardBullet;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -258,22 +259,23 @@ public abstract class ItemGun extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	String ammoName = this.ammo == null ? "None" : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
-	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + this.level);
+	String ammoName = this.ammo == null ? ModUtils.translateDesc("no_ammo_required") : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("level") + " " + TextFormatting.DARK_GREEN + this.level);
 	
 	if(this.getEnchantedDamage(stack) > 0)
 	{
 		this.getDamageTooltip(stack, worldIn, tooltip, flagIn);
 	}
 	
-	tooltip.add(TextFormatting.BLUE + "" + df.format(getEnchantedCooldown(stack) * 0.05) + TextFormatting.GRAY + " second reload time.");
-	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + TextFormatting.BLUE + ammoName);
+	tooltip.add(TextFormatting.BLUE + "" + df.format(getEnchantedCooldown(stack) * 0.05) + TextFormatting.GRAY + " " + ModUtils.translateDesc("gun_reload_time"));
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("gun_ammo") + ": " + TextFormatting.BLUE + ammoName);
 	information.accept(tooltip);
     }
     
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Deals " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY + " damage per projectile.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY
+		+ " " + ModUtils.translateDesc("damage"));
     }
 
     /**

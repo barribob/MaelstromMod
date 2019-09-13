@@ -2,17 +2,13 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
-import com.google.common.collect.Multimap;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -50,12 +46,14 @@ public class ItemPumpkin extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "An accurate energy sniper rifle.");
-	tooltip.add(TextFormatting.GRAY + "Deals more damage the farther it travels.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("pumpkin"));
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("pumpkin_damage"));
     }
     
+    @Override
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Deals " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY + " damage per meter.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY + " "
+		+ ModUtils.translateDesc("damage_per_meter"));
     }
 }

@@ -30,10 +30,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class HerobrineBossController extends EntityLeveledMob
 {
-    private static final String[] INTRO_MESSAGES = { "Hello there adventurer.", "Before I allow you to begin your adventure,", "I'll have to make sure you are able to fight.",
-	    "If you don't impress me, you'll die.", "" };
+    private static final String[] INTRO_MESSAGES = { ModUtils.translateDialog("herobrine_1"), ModUtils.translateDialog("herobrine_2"), ModUtils.translateDialog("herobrine_3"),
+	    ModUtils.translateDialog("herobrine_4"), "" };
     private static final int[] INTRO_MESSAGE_TIMES = { 80, 140, 200, 260, 320 };
-    private static final String[] EXIT_MESSAGES = { "Good, you have the skill,", "I will give you the key to the first dimension,", "I will see you in the final dimension.",
+    private static final String[] EXIT_MESSAGES = { ModUtils.translateDialog("herobrine_5"), ModUtils.translateDialog("herobrine_6"), ModUtils.translateDialog("herobrine_7"),
 	    "" };
     private static final int[] EXIT_MESSAGE_TIMES = { 80, 140, 200, 260 };
 

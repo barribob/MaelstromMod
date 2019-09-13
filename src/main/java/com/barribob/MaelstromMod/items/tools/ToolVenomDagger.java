@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.items.ISweepAttackParticles;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -37,7 +38,7 @@ public class ToolVenomDagger extends ToolDagger implements ISweepAttackParticles
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Poisons on charged attack.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("venom_dagger"));
     }
 
     @Override
