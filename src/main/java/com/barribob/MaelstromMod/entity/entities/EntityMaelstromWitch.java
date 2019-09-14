@@ -57,6 +57,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	attackHandler.addAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION), () -> new AnimationWitchFlail());
 	attackHandler.addAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
 	attackHandler.addAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
+	this.currentAnimation = new AnimationWitchFlail();
     }
 
     @Override
