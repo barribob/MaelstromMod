@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.enchantments;
 
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 
 import net.minecraft.enchantment.Enchantment;
@@ -22,7 +21,7 @@ public class EnchantmentDamage2 extends Enchantment
     @Override
     public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType)
     {
-	return level * ModConfig.progression_scale;
+	return 0;
     }
 
     @Override
@@ -34,14 +33,7 @@ public class EnchantmentDamage2 extends Enchantment
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack)
     {
-	int minLevel = 2;
-	int maxLevel = 3;
-	if (stack.getItem() instanceof ToolSword)
-	{
-	    float level = ((ToolSword) stack.getItem()).getLevel();
-	    return level >= minLevel && level < maxLevel;
-	}
-	return false;
+	return stack.getItem() instanceof ToolSword;
     }
 
     @Override

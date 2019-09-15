@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.util;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -8,13 +9,21 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.init.ModEnchantments;
+import com.barribob.MaelstromMod.items.tools.ToolSword;
+import com.google.common.collect.Multimap;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -40,6 +49,23 @@ public final class ModUtils
     public static String translateDialog(String key)
     {
 	return I18n.format(ModUtils.LANG_CHAT + key);
+    }
+
+    public static double getSwordEnchantmentDamage(ItemStack stack)
+    {
+	int power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.sharpness_2, stack);
+	float maxPower = ModEnchantments.sharpness_2.getMaxLevel();
+	Multimap<String, AttributeModifier> multimap = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
+	for (Entry<String, AttributeModifier> entry : multimap.entries())
+	{
+	    AttributeModifier attributemodifier = entry.getValue();
+	    if (attributemodifier.getID() == ToolSword.getAttackDamageModifier())
+	    {
+		double multiplier = ((power / maxPower) * (ModConfig.progression_scale - 1));
+		return attributemodifier.getAmount() * multiplier;
+	    }
+	}
+	return 0;
     }
 
     /**

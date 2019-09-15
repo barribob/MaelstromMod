@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.player;
 
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -50,23 +51,25 @@ public class PlayerMeleeAttack
 	    if (!targetEntity.hitByEntity(player))
 	    {
 		float damage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-		float mainhandDamage;
+		float bonusDamage;
 
 		if (targetEntity instanceof EntityLivingBase)
 		{
-		    mainhandDamage = EnchantmentHelper.getModifierForCreature(player.getHeldItemMainhand(), ((EntityLivingBase) targetEntity).getCreatureAttribute());
+		    bonusDamage = EnchantmentHelper.getModifierForCreature(player.getHeldItemMainhand(), ((EntityLivingBase) targetEntity).getCreatureAttribute());
 		}
 		else
 		{
-		    mainhandDamage = EnchantmentHelper.getModifierForCreature(player.getHeldItemMainhand(), EnumCreatureAttribute.UNDEFINED);
+		    bonusDamage = EnchantmentHelper.getModifierForCreature(player.getHeldItemMainhand(), EnumCreatureAttribute.UNDEFINED);
 		}
+
+		bonusDamage += ModUtils.getSwordEnchantmentDamage(player.getHeldItemMainhand());
 
 		float atkCooldown = player.getCooledAttackStrength(0.5F);
 		damage = damage * (0.2F + atkCooldown * atkCooldown * 0.8F);
-		mainhandDamage = mainhandDamage * atkCooldown;
+		bonusDamage = bonusDamage * atkCooldown;
 		player.resetCooldown();
 
-		if (damage > 0.0F || mainhandDamage > 0.0F)
+		if (damage > 0.0F || bonusDamage > 0.0F)
 		{
 		    boolean cooldownCharged = atkCooldown > 0.9F;
 		    boolean sprintAtk = false;
@@ -93,11 +96,11 @@ public class PlayerMeleeAttack
 			damage *= hitResult.getDamageModifier();
 		    }
 
-		    damage = damage + mainhandDamage;
+		    damage = damage + bonusDamage;
 		    boolean sweepAttack = false;
-		    double d0 = (double) (player.distanceWalkedModified - player.prevDistanceWalkedModified);
+		    double d0 = player.distanceWalkedModified - player.prevDistanceWalkedModified;
 
-		    if (cooldownCharged && !critical && !sprintAtk && player.onGround && d0 < (double) player.getAIMoveSpeed())
+		    if (cooldownCharged && !critical && !sprintAtk && player.onGround && d0 < player.getAIMoveSpeed())
 		    {
 			sweepAttack = true;
 		    }
@@ -129,13 +132,13 @@ public class PlayerMeleeAttack
 			{
 			    if (targetEntity instanceof EntityLivingBase)
 			    {
-				((EntityLivingBase) targetEntity).knockBack(player, (float) knockback * 0.5F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F),
-					(double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+				((EntityLivingBase) targetEntity).knockBack(player, knockback * 0.5F, MathHelper.sin(player.rotationYaw * 0.017453292F),
+					(-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 			    }
 			    else
 			    {
-				targetEntity.addVelocity((double) (-MathHelper.sin(player.rotationYaw * 0.017453292F) * (float) knockback * 0.5F), 0.1D,
-					(double) (MathHelper.cos(player.rotationYaw * 0.017453292F) * (float) knockback * 0.5F));
+				targetEntity.addVelocity(-MathHelper.sin(player.rotationYaw * 0.017453292F) * knockback * 0.5F, 0.1D,
+					MathHelper.cos(player.rotationYaw * 0.017453292F) * knockback * 0.5F);
 			    }
 
 			    player.motionX *= 0.6D;
@@ -180,7 +183,7 @@ public class PlayerMeleeAttack
 			    }
 			}
 
-			if (mainhandDamage > 0.0F)
+			if (bonusDamage > 0.0F)
 			{
 			    player.onEnchantmentCritical(targetEntity);
 			}
@@ -231,9 +234,9 @@ public class PlayerMeleeAttack
 
 			    if (player.world instanceof WorldServer && f5 > 2.0F)
 			    {
-				int k = (int) ((double) f5 * 0.5D);
+				int k = (int) (f5 * 0.5D);
 				((WorldServer) player.world).spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, targetEntity.posX,
-					targetEntity.posY + (double) (targetEntity.height * 0.5F), targetEntity.posZ, k, 0.1D, 0.0D, 0.1D, 0.2D);
+					targetEntity.posY + targetEntity.height * 0.5F, targetEntity.posZ, k, 0.1D, 0.0D, 0.1D, 0.2D);
 			    }
 			}
 
