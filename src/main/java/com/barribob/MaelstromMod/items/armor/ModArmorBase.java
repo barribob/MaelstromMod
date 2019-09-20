@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
@@ -20,7 +21,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,7 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Also allows for textures independent of the armor material
  *
  */
-public class ModArmorBase extends ItemArmor implements IHasModel
+public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem
 {
     private static final UUID[] ARMOR_MODIFIERS = new UUID[] { UUID.fromString("a3578781-e4a8-4d70-9d32-cd952aeae1df"),
 	    UUID.fromString("e2d1f056-f539-48c7-b353-30d7a367ebd0"), UUID.fromString("db13047a-bb47-4621-a025-65ed22ce461a"),
@@ -105,7 +105,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("level") + " " + TextFormatting.DARK_GREEN + (this.maelstrom_armor_factor + 1));
+	tooltip.add(ModUtils.getDisplayLevel((this.maelstrom_armor_factor + 1)));
     }
     
     protected ModelBiped getCustomModel()
@@ -153,5 +153,11 @@ public class ModArmorBase extends ItemArmor implements IHasModel
             return model;
         }
         return null;
+    }
+
+    @Override
+    public float getLevel()
+    {
+	return this.maelstrom_armor_factor + 1;
     }
 }

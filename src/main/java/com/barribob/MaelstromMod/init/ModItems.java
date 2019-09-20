@@ -85,10 +85,10 @@ public class ModItems
 
     // Armor materials
     private static final ArmorMaterial COMMON_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 3, 6, 8, 3 }, 12,
-	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 1.0f);
+	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.0f);
 
     private static final ArmorMaterial RARE_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16,
-	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 1.0f);
+	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.0f);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
 

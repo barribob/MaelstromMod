@@ -29,6 +29,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -49,6 +50,11 @@ public final class ModUtils
     public static String translateDialog(String key)
     {
 	return I18n.format(ModUtils.LANG_CHAT + key);
+    }
+
+    public static String getDisplayLevel(float level)
+    {
+	return TextFormatting.GRAY + ModUtils.translateDesc("level") + ": " + TextFormatting.DARK_PURPLE + Math.round(level * 2 - 1);
     }
 
     public static double getSwordEnchantmentDamage(ItemStack stack)

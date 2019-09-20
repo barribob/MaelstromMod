@@ -77,7 +77,7 @@ public class ProjectileGoldenFireball extends ProjectileGun
     protected void onHit(RayTraceResult result)
     {
 	float knockbackFactor = 1.1f + this.getKnockback() * 0.4f;
-	int fireFactor = this.isBurning() ? 15 : 5;
+	int fireFactor = this.isBurning() ? 10 : 5;
 	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getGunDamage((e)), this.shootingEntity, this.getPositionVector(),
 		DamageSource.causeExplosionDamage(this.shootingEntity), knockbackFactor, fireFactor);
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));

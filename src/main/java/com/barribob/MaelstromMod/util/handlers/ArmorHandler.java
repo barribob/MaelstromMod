@@ -38,7 +38,7 @@ public class ArmorHandler
     public static float getMaelstromProtection(Entity entity)
     {
 	float damageReduction = 0;
-	int maxPossibleEnchantments = 20;
+	int maxPossibleEnchantments = 4 * ModEnchantments.maelstrom_protection.getMaxLevel();
 	float reductionPerLevel = LevelHandler.getMaxMaelstromProtection() / maxPossibleEnchantments;
 
 	for (ItemStack equipment : entity.getArmorInventoryList())
@@ -66,6 +66,6 @@ public class ArmorHandler
 	    }
 	}
 	
-	return (int)Math.round(totalArmor);
+	return (int) Math.round(totalArmor * 2);
     }
 }

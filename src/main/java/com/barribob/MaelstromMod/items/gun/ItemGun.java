@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModEnchantments;
+import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.StandardBullet;
@@ -38,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * calls shoot() when the gun sucessfully shoots
  *
  */
-public abstract class ItemGun extends ItemBase
+public abstract class ItemGun extends ItemBase implements ILeveledItem
 {
     private final int maxCooldown;
     private Item ammo;
@@ -260,7 +261,7 @@ public abstract class ItemGun extends ItemBase
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	String ammoName = this.ammo == null ? ModUtils.translateDesc("no_ammo_required") : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("level") + " " + TextFormatting.DARK_GREEN + this.level);
+	tooltip.add(ModUtils.getDisplayLevel(this.level));
 	
 	if(this.getEnchantedDamage(stack) > 0)
 	{
@@ -296,6 +297,12 @@ public abstract class ItemGun extends ItemBase
     public boolean isFull3D()
     {
 	return true;
+    }
+
+    @Override
+    public float getLevel()
+    {
+	return this.level;
     }
 
     protected abstract void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack);

@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -29,10 +30,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverride
+public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverride, ILeveledItem
 {
     private float level;
     private Consumer<List<String>> information = (info) -> {
@@ -54,6 +54,7 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
 	Main.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
+    @Override
     public float getLevel()
     {
 	return level;
@@ -97,7 +98,7 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("level") + " " + TextFormatting.DARK_GREEN + this.level);
+	tooltip.add(ModUtils.getDisplayLevel(level));
 	information.accept(tooltip);
     }
 

@@ -51,7 +51,7 @@ import net.minecraft.world.World;
 public class EntityMaelstromIllager extends EntityMaelstromMob
 {
     private int[] easy_minion_spawning = { 2 };
-    private int[] hard_minion_spawning = { 1, 3, 1, 3 };
+    private int[] hard_minion_spawning = { 1, 3, 2, 3 };
     private int counter;
     private byte summonMob = 4;
     private byte magicMissile = 5;
@@ -206,7 +206,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(12);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(14);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300);
     }
 

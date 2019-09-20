@@ -43,12 +43,12 @@ public class ActionGoldenMissles extends Action
 	projectile.posY = actor.posY + height; // Raise pos y to summon the projectile above the head
 	projectile.posX += offset.x;
 	projectile.posZ += offset.z;
-	double d0 = target.posY + (double) target.getEyeHeight() - 0.5;
+	double d0 = target.posY + target.getEyeHeight();
 	double x = target.posX - projectile.posX;
 	double y = d0 - projectile.posY;
 	double z = target.posZ - projectile.posZ;
 	float f = MathHelper.sqrt(x * x + z * z) * 0.2F;
-	projectile.shoot(x, y + (double) f, z, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
+	projectile.shoot(x, y + f, z, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
 	actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.3F / (actor.world.rand.nextFloat() * 0.4F + 0.8F));
 	actor.world.spawnEntity(projectile);
     }

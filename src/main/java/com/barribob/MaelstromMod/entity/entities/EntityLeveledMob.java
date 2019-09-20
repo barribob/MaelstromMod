@@ -68,6 +68,11 @@ public abstract class EntityLeveledMob extends EntityCreature
 	    currentAnimation.update();
 	}
 
+	if (!world.isRemote && this.getAttackTarget() == null && this.ticksExisted % 60 == 0)
+	{
+	    this.heal(1);
+	}
+
 	/**
 	 * Periodically check if the animations need to be reinitialized
 	 */

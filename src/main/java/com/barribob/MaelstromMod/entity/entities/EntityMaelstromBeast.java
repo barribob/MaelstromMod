@@ -50,7 +50,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     public static final byte explosionParticles = 8;
     private static final DataParameter<Boolean> RAGED = EntityDataManager.<Boolean>createKey(EntityMaelstromBeast.class, DataSerializers.BOOLEAN);
     private byte rageParticles = 9;
-    private int ragedAttackDamage = 13;
+    private int ragedAttackDamage = 14;
 
     public EntityMaelstromBeast(World worldIn)
     {
@@ -245,7 +245,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
 
     }
