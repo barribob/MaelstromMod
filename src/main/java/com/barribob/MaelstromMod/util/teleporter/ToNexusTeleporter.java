@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.util.teleporter;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
+import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -48,8 +49,18 @@ public class ToNexusTeleporter extends Teleporter
 	int x = MathHelper.floor(entityIn.posX / spacing) * spacing + portalOffset.getX();
 	int z = MathHelper.floor(entityIn.posZ / spacing) * spacing + portalOffset.getZ();
 	int y = portalOffset.getY();
+
 	if (entityIn instanceof EntityPlayerMP)
 	{
+	    BlockPos pos = new BlockPos(x, y, z);
+
+	    if (this.world.isAirBlock(pos))
+	    {
+		// Round the position to the nearest 64th chunk square
+		int chunkX = Math.floorDiv((x >> 4), DimensionNexus.NexusStructureSpacing) * DimensionNexus.NexusStructureSpacing;
+		int chunkZ = Math.floorDiv((z >> 4), DimensionNexus.NexusStructureSpacing) * DimensionNexus.NexusStructureSpacing;
+		WorldGenCustomStructures.NEXUS.generate(world, random, new BlockPos(chunkX * 16 + 8, 50, chunkZ * 16 + 8));
+	    }
 	    ((EntityPlayerMP) entityIn).connection.setPlayerLocation(x, y, z, entityIn.rotationYaw, entityIn.rotationPitch);
 	}
 	else

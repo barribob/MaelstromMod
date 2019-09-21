@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -21,10 +22,12 @@ import com.barribob.MaelstromMod.world.gen.maelstrom_castle.WorldGenMaelstromCas
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -280,6 +283,64 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	}
 	return false;
     }
+
+    public static final WorldGenStructure NEXUS = new WorldGenStructure("nexus/nexus_islands")
+    {
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos position)
+	{
+	    this.generateStructure(worldIn, position, false);
+	    return true;
+	};
+
+	@Override
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    worldIn.setBlockToAir(pos);
+	    if (function.startsWith("teleport"))
+	    {
+		worldIn.setBlockState(pos, ModBlocks.NEXUS_TELEPORTER.getDefaultState());
+		String[] params = function.split(" ");
+		Vec3d relTeleport = new Vec3d(Integer.parseInt(params[1]) + 0.5, Integer.parseInt(params[2]), Integer.parseInt(params[3]) + 0.5);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityTeleporter)
+		{
+		    ((TileEntityTeleporter) tileentity).setRelTeleportPos(relTeleport);
+		}
+	    }
+	    else if (function.startsWith("herobrine"))
+	    {
+		worldIn.setBlockState(pos, ModBlocks.NEXUS_HEROBRINE_SPAWNER.getDefaultState(), 2);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityMobSpawner)
+		{
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":herobrine_controller"), 1);
+		}
+	    }
+	    else if (function.startsWith("mage"))
+	    {
+		ItemMonsterPlacer.spawnCreature(worldIn, new ResourceLocation(Reference.MOD_ID + ":nexus_mage"), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+	    }
+	    else if (function.startsWith("saiyan"))
+	    {
+		ItemMonsterPlacer.spawnCreature(worldIn, new ResourceLocation(Reference.MOD_ID + ":nexus_saiyan"), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+	    }
+	    else if (function.startsWith("bladesmith"))
+	    {
+		ItemMonsterPlacer.spawnCreature(worldIn, new ResourceLocation(Reference.MOD_ID + ":nexus_bladesmith"), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+	    }
+	    else if (function.startsWith("armorer"))
+	    {
+		ItemMonsterPlacer.spawnCreature(worldIn, new ResourceLocation(Reference.MOD_ID + ":nexus_armorer"), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+	    }
+	    else if (function.startsWith("gunsmith"))
+	    {
+		ItemMonsterPlacer.spawnCreature(worldIn, new ResourceLocation(Reference.MOD_ID + ":nexus_gunsmith"), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+	    }
+	};
+    };
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)

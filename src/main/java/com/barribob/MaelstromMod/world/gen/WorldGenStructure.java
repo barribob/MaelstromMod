@@ -44,7 +44,7 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
     @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
-	this.generateStructure(worldIn, position, Rotation.NONE);
+	this.generateStructure(worldIn, position, true);
 	return true;
     }
 
@@ -54,7 +54,7 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
      * @param world
      * @param pos
      */
-    public void generateStructure(World world, BlockPos pos, Rotation rot)
+    public void generateStructure(World world, BlockPos pos, Boolean doRandomRotation)
     {
 	MinecraftServer mcServer = world.getMinecraftServer();
 	TemplateManager manager = worldServer.getStructureTemplateManager();
@@ -67,7 +67,7 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 		    new Tuple(Rotation.COUNTERCLOCKWISE_90, new BlockPos(0, 0, template.getSize().getZ() - 1)),
 		    new Tuple(Rotation.CLOCKWISE_180, new BlockPos(template.getSize().getX() - 1, 0, template.getSize().getZ() - 1)) };
 
-	    Tuple<Rotation, BlockPos> randomRotation = ModRandom.choice(rotations, world.rand);
+	    Tuple<Rotation, BlockPos> randomRotation = doRandomRotation ? ModRandom.choice(rotations, world.rand) : rotations[0];
 	    PlacementSettings rotatedSettings = settings.setRotation(randomRotation.getFirst());
 	    BlockPos rotatedPos = pos.add(randomRotation.getSecond());
 

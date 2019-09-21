@@ -54,6 +54,7 @@ public class DimensionNexus extends WorldProvider
 	return true;
     }
 
+    @Override
     public WorldSleepResult canSleepAt(net.minecraft.entity.player.EntityPlayer player, BlockPos pos)
     {
 	return WorldSleepResult.DENY;
@@ -70,7 +71,7 @@ public class DimensionNexus extends WorldProvider
 	f1 = f1 * (f * 0.70F + 0.06F);
 	f2 = f2 * (f * 0.84F + 0.06F);
 	f3 = f3 * (f * 0.70F + 0.09F);
-	return new Vec3d((double) f1, (double) f2, (double) f3);
+	return new Vec3d(f1, f2, f3);
     }
 
     @Override
@@ -89,5 +90,11 @@ public class DimensionNexus extends WorldProvider
     public IRenderHandler getSkyRenderer()
     {
 	return new AzureSkyRenderHandler();
+    }
+
+    @Override
+    public float getCloudHeight()
+    {
+	return super.getCloudHeight() + 50;
     }
 }
