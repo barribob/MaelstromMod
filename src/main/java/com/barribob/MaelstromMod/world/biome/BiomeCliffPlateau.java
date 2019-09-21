@@ -102,7 +102,7 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
 		 */
 		else if (iblockstate2.getBlock() == stoneBlock)
 		{
-		    if (j1 < 245)
+		    if (j1 < 243)
 		    {
 			iblockstate = AIR;
 		    }
