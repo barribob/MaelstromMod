@@ -131,8 +131,6 @@ public class ModEventHandler
 	    {
 		InGameGui.renderGunReload(mc, event, player);
 	    }
-
-	    GlStateManager.disableBlend();
 	}
     }
 }

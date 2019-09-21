@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class InGameGui
 {
-    public static final ResourceLocation ICONS = new ResourceLocation(Reference.MOD_ID + ":textures/gui/mod_icons.png");
+    public static final ResourceLocation ICONS = new ResourceLocation(Reference.MOD_ID + ":textures/gui/armor_icons.png");
 
     /*
      * Sourced from the render hotbar method in GuiIngame to display a cooldown bar
@@ -125,10 +125,10 @@ public class InGameGui
     private static void draw(BufferBuilder renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha)
     {
 	renderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-	renderer.pos((double) (x + 0), (double) (y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
-	renderer.pos((double) (x + 0), (double) (y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-	renderer.pos((double) (x + width), (double) (y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-	renderer.pos((double) (x + width), (double) (y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
+	renderer.pos(x + 0, y + 0, 0.0D).color(red, green, blue, alpha).endVertex();
+	renderer.pos(x + 0, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+	renderer.pos(x + width, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+	renderer.pos(x + width, y + 0, 0.0D).color(red, green, blue, alpha).endVertex();
 	Tessellator.getInstance().draw();
     }
 
@@ -146,7 +146,7 @@ public class InGameGui
 	// Factor in max health and aborbtion pushing the bars up
 	int absorbtion = MathHelper.ceil(player.getAbsorptionAmount());
 	float maxHealth = (float) player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue();
-	int l1 = MathHelper.ceil((maxHealth + (float) absorbtion) / 2.0F / 10.0F);
+	int l1 = MathHelper.ceil((maxHealth + absorbtion) / 2.0F / 10.0F);
 	int i2 = Math.max(10 - (l1 - 2), 3);
 	int startY = healthYPos - (l1 - 1) * i2 - 10;
 
@@ -168,19 +168,24 @@ public class InGameGui
 		int x = startX + i * 8;
 		int armorPos = i * 2 + 1;
 
+		// Calculate the animation cycles
+		int animationLength = 9;
+		int framesPerTick = 3;
+		int y = 9 * (Math.floorDiv(player.ticksExisted, framesPerTick) % animationLength);
+
 		if (armorPos < maelstromArmor)
 		{
-		    mc.ingameGUI.drawTexturedModalRect(x, startY, 18, 0, 9, 9);
+		    mc.ingameGUI.drawTexturedModalRect(x, startY, 0, y, 9, 9);
 		}
 
 		if (armorPos == maelstromArmor)
 		{
-		    mc.ingameGUI.drawTexturedModalRect(x, startY, 9, 0, 9, 9);
+		    mc.ingameGUI.drawTexturedModalRect(x, startY, 9, y, 9, 9);
 		}
 
 		if (armorPos > maelstromArmor)
 		{
-		    mc.ingameGUI.drawTexturedModalRect(x, startY, 0, 0, 9, 9);
+		    mc.ingameGUI.drawTexturedModalRect(x, startY, 18, 0, 9, 9);
 		}
 	    }
 	}
