@@ -70,6 +70,7 @@ import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityUpdater;
 import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
@@ -236,6 +237,7 @@ public class ModEntities
 	registerTileEntity(TileEntityMegaStructure.class, "mega_structure");
 	registerTileEntity(TileEntityTeleporter.class, "nexus_teleporter");
 	registerTileEntity(TileEntityHerobrineSpawner.class, "nexus_spawner");
+	registerTileEntity(TileEntityUpdater.class, "updater");
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)

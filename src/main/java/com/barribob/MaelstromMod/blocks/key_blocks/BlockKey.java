@@ -1,56 +1,100 @@
 package com.barribob.MaelstromMod.blocks.key_blocks;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.blocks.BlockBase;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityUpdater;
+import com.barribob.MaelstromMod.util.IBlockUpdater;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class BlockKey extends BlockBase
+public abstract class BlockKey extends BlockBase implements IBlockUpdater, ITileEntityProvider
 {
     private Item activationItem;
+    protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.25D, 1.0D);
+    int counter = 0;
 
     public BlockKey(String name, Item item)
     {
 	super(name, Material.ROCK, 1000, 10000, SoundType.STONE);
 	this.setBlockUnbreakable();
 	this.activationItem = item;
+	this.hasTileEntity = true;
     }
 
     @Override
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-	List<EntityPlayerSP> list = worldIn.<EntityPlayerSP>getPlayers(EntityPlayerSP.class, new Predicate<EntityPlayerSP>()
-	{
-	    @Override
-	    public boolean apply(@Nullable EntityPlayerSP player)
-	    {
-		return player.getHeldItem(EnumHand.MAIN_HAND).getItem() == activationItem;
-	    }
-	});
+	return AABB;
+    }
 
-	if (list.size() > 0)
+    @Override
+    public boolean isOpaqueCube(IBlockState state)
+    {
+	return false;
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state)
+    {
+	return false;
+    }
+
+    @Override
+    public void update(World world, BlockPos pos)
+    {
+	counter++;
+	if (counter % 5 == 0)
 	{
-	    ModUtils.performNTimes(50, (i) -> {
-		worldIn.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, pos.getX() + 0.5, pos.getY() + 1 + i, pos.getZ() + 0.5, 0, -0.1, 0);
+	    List<EntityPlayerSP> list = world.<EntityPlayerSP>getPlayers(EntityPlayerSP.class, new Predicate<EntityPlayerSP>()
+	    {
+		@Override
+		public boolean apply(@Nullable EntityPlayerSP player)
+		{
+		    return player.getHeldItem(EnumHand.MAIN_HAND).getItem() == activationItem;
+		}
 	    });
+
+	    if (list.size() > 0)
+	    {
+		ModUtils.performNTimes(50, (i) -> {
+		    ParticleManager.spawnFirework(world, new Vec3d(pos).add(new Vec3d(0.5, 1 + i, 0.5)), ModColors.WHITE, ModUtils.yVec(-0.1f));
+		});
+	    }
 	}
-	super.randomDisplayTick(stateIn, worldIn, pos, rand);
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta)
+    {
+	return new TileEntityUpdater();
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+	super.breakBlock(worldIn, pos, state);
+	worldIn.removeTileEntity(pos);
     }
 
     @Override
