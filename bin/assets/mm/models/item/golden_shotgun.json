@@ -1,6 +1,6 @@
 {
-   "parent": "mm:item/gun",
+   "parent": "mm:item/boomstick",
    "textures": {
-       "layer0": "mm:items/golden_shotgun"
+       "2": "mm:items/golden_shotgun"
    }
 }
