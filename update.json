@@ -1,0 +1,14 @@
+{
+  "homepage": "https://maelstrom-mod.fandom.com/wiki/Downloads",
+  "1.12.2": {
+    "0.3.1": "Completed the Cliff dimension",
+    "0.3": "Added the Cliff dimension",
+    "0.2": "Added the Nexus dimension",
+    "0.1.1": "Completed the Fracture dimension",
+    "0.1": "First version of mod: Adds the Fracture dimension"
+  },
+  "promos": {
+    "1.12.2-latest": "0.3.1",
+    "1.12.1-recommended": "0.3.1"
+  }
+}
