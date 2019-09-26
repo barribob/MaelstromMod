@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -41,11 +42,13 @@ public class ItemBoomstick extends ItemGun
 
 	for (int i = 0; i < pelletCount; i++)
 	{
-	    float inaccuracy = 20.0f;
+	    float inaccuracy = 0.0f;
 	    float speed = 3f;
+	    float pitch = player.rotationPitch + ModRandom.getFloat(15);
+	    float yaw = player.rotationYaw + ModRandom.getFloat(15);
 
 	    Projectile projectile = factory.get(world, player, stack, this);
-	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
+	    projectile.shoot(player, pitch, yaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
 
 	    world.spawnEntity(projectile);

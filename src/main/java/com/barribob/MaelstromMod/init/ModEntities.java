@@ -33,7 +33,6 @@ import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwi
 import com.barribob.MaelstromMod.entity.projectile.EntityGeyser;
 import com.barribob.MaelstromMod.entity.projectile.EntityGoldenRune;
 import com.barribob.MaelstromMod.entity.projectile.EntityOctoMissileLauncher;
-import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
@@ -189,22 +188,21 @@ public class ModEntities
 	registerEntity("iron_shade", EntityIronShade.class, ENTITY_START_ID++, 70, maelstrom);
 	registerEntity("maelstrom_beast", EntityMaelstromBeast.class, ENTITY_START_ID++, 70, maelstrom);
 
-	registerEntity("projectile", Projectile.class, PROJECTILE_ID, 100);
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
 	registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);
-	registerEntity("bullet", ProjectileBullet.class, BULLET_ID, 100);
+	registerFastProjectile("bullet", ProjectileBullet.class, BULLET_ID, 100);
 	registerEntity("maelstrom_cannon", ProjectileMaelstromCannon.class, MAELSTROM_CANNON_ID, 30);
 	registerEntity("will-o-the-wisp", ProjectileWillOTheWisp.class, WILL_O_THE_WISP_ID, 30);
 	registerEntity("quake", ProjectileQuake.class, QUAKE_ID, 30);
 	registerEntity("skull_attack", ProjectileSkullAttack.class, SKULL_ATTACK_ID, 30);
 	registerEntity("azure_portal_spawn", EntityAzurePortalSpawn.class, AZURE_PORTAL_SPAWN_ID, 100);
-	registerEntity("pumpkin", ProjectilePumpkin.class, PUMPKIN_ID, 1000);
+	registerFastProjectile("pumpkin", ProjectilePumpkin.class, PUMPKIN_ID, 1000);
 	registerEntity("repeater", ProjectileRepeater.class, REPEATER_ID, 30);
 	registerEntity("fireball", ProjectileFireball.class, FIREBALL_ID, 30);
 	registerEntity("herobrine_slash", ProjectileHerobrineQuake.class, HEROBRINE_SLASH_ID, 30);
 	registerEntity("black_fireball", ProjectileBlackFireball.class, BLACK_FIREBALL_ID, 30);
-	registerEntity("golden_bullet", ProjectileGoldenBullet.class, GOLDEN_BULLET_ID, 100);
+	registerFastProjectile("golden_bullet", ProjectileGoldenBullet.class, GOLDEN_BULLET_ID, 100);
 	registerEntity("golden_repeater", ProjectileGoldenRepeater.class, GOLDEN_REPEATER_ID, 30);
 	registerEntity("pillar_flames", ProjectilePillarFlames.class, PILLAR_FLAMES_ID, 30);
 	registerEntity("golden_rune", EntityGoldenRune.class, GOLDEN_RUNE_ID, 30);
@@ -218,7 +216,7 @@ public class ModEntities
 	registerEntity("brownstone_cannon", ProjectileBrownstoneCannon.class, BROWNSTONE_CANNON_ID, 30);
 	registerEntity("cliff_portal_spawn", EntityCliffPortalSpawn.class, CLIFF_PORTAL_SPAWN, 30);
 	registerEntity("explosive_drill", ProjectileExplosiveDrill.class, EXPLOSIVE_DRILL, 30);
-	registerEntity("azure_bullet", ProjectileAzureBullet.class, AZURE_BULLET, 100);
+	registerFastProjectile("azure_bullet", ProjectileAzureBullet.class, AZURE_BULLET, 100);
 	registerEntity("swamp_spittle", ProjectileSwampSpittle.class, PROJECTILE_START_ID++, 30);
 	registerEntity("nexus_particle", EntityNexusParticleSpawner.class, PROJECTILE_START_ID++, 50);
 	registerEntity("iron_thrust", ProjectileIronShadeAttack.class, PROJECTILE_START_ID++, 50);
@@ -249,6 +247,11 @@ public class ModEntities
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range)
     {
 	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true);
+    }
+
+    private static void registerFastProjectile(String name, Class<? extends Entity> entity, int id, int range)
+    {
+	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, false);
     }
 
     private static void registerTileEntity(Class<? extends TileEntity> entity, String name)

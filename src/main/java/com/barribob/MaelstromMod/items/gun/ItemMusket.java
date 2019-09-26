@@ -42,7 +42,7 @@ public class ItemMusket extends ItemGun
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-	float inaccuracy = 2.0f;
+	float inaccuracy = 0.0f;
 	float velocity = 5.0f;
 
 	Projectile projectile = factory.get(world, player, stack, this);

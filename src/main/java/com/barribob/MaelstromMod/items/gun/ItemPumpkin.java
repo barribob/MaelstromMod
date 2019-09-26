@@ -33,7 +33,7 @@ public class ItemPumpkin extends ItemGun
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 	float inaccuracy = 0.0f;
-	float velocity = 6.0f;
+	float velocity = 7.0f;
 
 	ProjectilePumpkin projectile = new ProjectilePumpkin(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
