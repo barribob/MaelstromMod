@@ -68,6 +68,12 @@ public class DimensionCliff extends WorldProvider
     }
     
     @Override
+    public float getCloudHeight()
+    {
+	return 300;
+    }
+
+    @Override
     public Vec3d getFogColor(float time, float p_76562_2_)
     {
 	float f = MathHelper.cos(time * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
