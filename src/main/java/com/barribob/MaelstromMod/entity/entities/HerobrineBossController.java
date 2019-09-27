@@ -69,7 +69,7 @@ public class HerobrineBossController extends EntityLeveledMob
 	{
 	    for (EntityPlayer player : this.bossInfo.getPlayers())
 	    {
-		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Herobrine: " + TextFormatting.WHITE + message));
+		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + this.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE + message));
 	    }
 	}
     };
@@ -140,6 +140,7 @@ public class HerobrineBossController extends EntityLeveledMob
 		this.bossInfo.setPercent(1);
 		this.herobrine = null;
 	    }
+
 
 	}
     }

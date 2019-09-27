@@ -246,7 +246,7 @@ entity.cliff_golem.name=Cliff Stone Golem
 entity.swamp_crawler.name=Swamp Crawler
 entity.iron_shade.name=Shade of Execution
 entity.maelstrom_beast.name=Maelstrom Minotaur
-
+entity.cliff_herobrine.name=Herobrine
 //———————————————————————————————————————————————————————————
 // Projectiles
 //———————————————————————————————————————————————————————————
@@ -399,7 +399,7 @@ mm.dialog.illager_1=What a fine being we have here! I must investigate!
 mm.dialog.illager_2=Come join our empire as a maelstrom zombie!
 mm.dialog.illager_3=Die pesky specimen!
 mm.dialog.herobrine_1=Hello there adventurer.
-mm.dialog.herobrine_2=Before I allow you to begin your adventure,
+mm.dialog.herobrine_2=Before I allow you to enter the maelstrom,
 mm.dialog.herobrine_3=I'll have to make sure you are able to fight.
 mm.dialog.herobrine_4=If you don't impress me, you'll die.
 mm.dialog.herobrine_5=Good, you have the skill,
@@ -411,3 +411,6 @@ mm.dialog.azure_villager_3=We'll reward you handsomely for taking out the maelst
 mm.dialog.azure_villager_4=Have a look around the mineshaft for any useful gear and items.
 mm.dialog.azure_villager_5=Under the maelstrom growths, there is a core that spawns the maelstrom. Remove those!
 mm.dialog.azure_villager_6=Keep an eye out for the maelstrom fortress. That's where the boss is.
+mm.dialog.herobrine_cliff_1=You have completed the first dimension? Not bad.
+mm.dialog.herobrine_cliff_2=You might be just what I'm looking for.
+mm.dialog.herobrine_cliff_3=Let's see how well you fare in this next dimension.
