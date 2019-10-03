@@ -104,6 +104,7 @@ item.swamp_slime.name=Swamp Slime
 item.golden_maelstrom_core.name=Golden Maelstrom Core
 item.gold_stone_longsword.name=Gold Stone Sword
 item.meteor_staff.name=Meteor Staff
+item.fly_wings.name=Fly Wings
 
 //———————————————————————————————————————————————————————————
 // Blocks
@@ -247,6 +248,8 @@ entity.swamp_crawler.name=Swamp Crawler
 entity.iron_shade.name=Shade of Execution
 entity.maelstrom_beast.name=Maelstrom Minotaur
 entity.cliff_herobrine.name=Herobrine
+entity.cliff_fly.name=Swamp Fly
+
 //———————————————————————————————————————————————————————————
 // Projectiles
 //———————————————————————————————————————————————————————————

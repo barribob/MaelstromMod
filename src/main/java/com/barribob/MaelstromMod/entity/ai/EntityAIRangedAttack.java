@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.ai;
 
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -13,7 +13,7 @@ import net.minecraft.entity.ai.EntityAIBase;
  * @param <T>
  *            The entity to aquire the ai
  */
-public class EntityAIRangedAttack<T extends EntityCreature & IRangedAttackMob> extends EntityAIBase
+public class EntityAIRangedAttack<T extends EntityLiving & IRangedAttackMob> extends EntityAIBase
 {
     private final T entity;
     private final double moveSpeedAmp;

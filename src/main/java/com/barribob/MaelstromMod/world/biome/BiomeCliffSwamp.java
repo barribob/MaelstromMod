@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityCliffFly;
 import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampTree;
@@ -47,7 +48,8 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
 	this.decorator.gravelPatchesPerChunk = 0;
 	this.decorator.grassPerChunk = 5;
 
-	this.spawnableCreatureList.add(new SpawnListEntry(EntitySwampCrawler.class, 10, 1, 5));
+	this.spawnableMonsterList.add(new SpawnListEntry(EntitySwampCrawler.class, 10, 1, 5));
+	this.spawnableMonsterList.add(new SpawnListEntry(EntityCliffFly.class, 1, 1, 1));
     }
 
     @Override

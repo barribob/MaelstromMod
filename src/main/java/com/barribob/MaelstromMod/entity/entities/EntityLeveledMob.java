@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.util.IAnimatedMob;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
@@ -20,13 +21,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * streamlines some of the attribute setting, namely attack and max health
  *
  */
-public abstract class EntityLeveledMob extends EntityCreature
+public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob
 {
     private float level;
 
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
-    private byte animationByte = 13;
 
     protected boolean isImmovable = false;
     private Vec3d initialPosition = null;
@@ -105,7 +105,7 @@ public abstract class EntityLeveledMob extends EntityCreature
 	}
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
     public Animation getCurrentAnimation()
     {
 	return this.currentAnimation == null ? new AnimationNone() : this.currentAnimation;

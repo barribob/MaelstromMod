@@ -218,6 +218,7 @@ public class ModItems
     public static final Item SWAMP_LEGGINGS = new ModArmorBase("swamp_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2, "swamp");
     public static final Item SWAMP_BOOTS = new ModArmorBase("swamp_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2, "swamp");
     public static final Item SWAMP_SLIME = new ItemBase("swamp_slime", ModCreativeTabs.ALL);
+    public static final Item FLY_WINGS = new ItemBase("fly_wings", ModCreativeTabs.ALL);
 
     public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2.5f);
     public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", COMMON_SWORD, 2.0f);

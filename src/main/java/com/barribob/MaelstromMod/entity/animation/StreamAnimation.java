@@ -14,6 +14,13 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
     // the order of the animations
     private final List<List<AnimationClip<T>>> animations;
     private int[] activeAnimations;
+    private boolean loop = false;;
+
+    public StreamAnimation<T> loop(boolean loop)
+    {
+	this.loop = loop;
+	return this;
+    }
 
     public StreamAnimation(List<List<AnimationClip<T>>> animations)
     {
@@ -49,9 +56,16 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
 		currentClip.update();
 
 		// Move on to the next clip if there is one
-		if (currentClip.isEnded() && activeAnimations[stream] < animations.get(stream).size() - 1)
+		if (currentClip.isEnded())
 		{
-		    activeAnimations[stream]++;
+		    if (activeAnimations[stream] < animations.get(stream).size() - 1)
+		    {
+			activeAnimations[stream]++;
+		    }
+		    else if (loop)
+		    {
+			startAnimation();
+		    }
 		}
 	    }
 	}
