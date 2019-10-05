@@ -177,6 +177,11 @@ public final class ModUtils
 	handleAreaImpact(radius, maxDamage, source, pos, damageSource, knockbackFactor, fireFactor, true);
     }
 
+    private static Vec3d getCenter(AxisAlignedBB box)
+    {
+	return new Vec3d(box.minX + (box.maxX - box.minX) * 0.5D, box.minY + (box.maxY - box.minY) * 0.5D, box.minZ + (box.maxZ - box.minZ) * 0.5D);
+    }
+
     public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
 	    float knockbackFactor, int fireFactor, boolean damageDecay)
     {
@@ -194,7 +199,7 @@ public final class ModUtils
 	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
 		double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
 		double radiusSq = Math.pow(radius + avgEntitySize, 2);
-		double distanceFromExplosion = (float) entity.getEntityBoundingBox().getCenter().squareDistanceTo(pos);
+		double distanceFromExplosion = (float) getCenter(entity.getEntityBoundingBox()).squareDistanceTo(pos);
 		double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - distanceFromExplosion) / radiusSq)) : 1;
 		double damage = maxDamage.apply(entity) * damageFactor;
 		if (damage > 0 && distanceFromExplosion < radiusSq)
@@ -202,7 +207,7 @@ public final class ModUtils
 		    entity.setFire(fireFactor);
 		    entity.attackEntityFrom(damageSource, (float) damage);
 		    double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
-		    Vec3d velocity = entity.getEntityBoundingBox().getCenter().subtract(pos).normalize().scale(damageFactor).scale(knockbackFactor).scale(entitySizeFactor);
+		    Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactor).scale(knockbackFactor).scale(entitySizeFactor);
 		    entity.addVelocity(velocity.x, velocity.y, velocity.z);
 		}
 	    });

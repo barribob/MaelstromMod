@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -30,11 +31,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class HerobrineBossController extends EntityLeveledMob
 {
-    private static final String[] INTRO_MESSAGES = { ModUtils.translateDialog("herobrine_1"), ModUtils.translateDialog("herobrine_2"), ModUtils.translateDialog("herobrine_3"),
-	    ModUtils.translateDialog("herobrine_4"), "" };
+    private static final String[] INTRO_MESSAGES = { "herobrine_1", "herobrine_2", "herobrine_3", "herobrine_4", "" };
     private static final int[] INTRO_MESSAGE_TIMES = { 80, 140, 200, 260, 320 };
-    private static final String[] EXIT_MESSAGES = { ModUtils.translateDialog("herobrine_5"), ModUtils.translateDialog("herobrine_6"), ModUtils.translateDialog("herobrine_7"),
-	    "" };
+    private static final String[] EXIT_MESSAGES = { "herobrine_5", "herobrine_6", "herobrine_7", "" };
     private static final int[] EXIT_MESSAGE_TIMES = { 80, 140, 200, 260 };
 
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -69,7 +68,8 @@ public class HerobrineBossController extends EntityLeveledMob
 	{
 	    for (EntityPlayer player : this.bossInfo.getPlayers())
 	    {
-		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + this.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE + message));
+		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + this.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE)
+			.appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + message)));
 	    }
 	}
     };
@@ -140,7 +140,6 @@ public class HerobrineBossController extends EntityLeveledMob
 		this.bossInfo.setPercent(1);
 		this.herobrine = null;
 	    }
-
 
 	}
     }

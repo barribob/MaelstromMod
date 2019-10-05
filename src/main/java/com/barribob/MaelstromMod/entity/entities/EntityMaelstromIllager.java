@@ -38,6 +38,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -270,17 +271,17 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	String message = "";
 	if (prevHealth > this.getMaxHealth() * 0.95 && this.getHealth() <= this.getMaxHealth() * 0.95)
 	{
-	    message = ModUtils.translateDialog("illager_1");
+	    message = "illager_1";
 	}
 
 	if (prevHealth > this.getMaxHealth() * 0.85 && this.getHealth() <= this.getMaxHealth() * 0.85)
 	{
-	    message = ModUtils.translateDialog("illager_2");
+	    message = "illager_2";
 	}
 
 	if (prevHealth > this.getMaxHealth() * 0.5 && this.getHealth() <= this.getMaxHealth() * 0.5)
 	{
-	    message = ModUtils.translateDialog("illager_3");
+	    message = "illager_3";
 	    this.tasks.removeTask(phase1AttackAI);
 	    this.tasks.addTask(4, phase2AttackAI);
 	    phase2Attack = true;
@@ -290,7 +291,8 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	{
 	    for (EntityPlayer player : this.bossInfo.getPlayers())
 	    {
-		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Maelstrom Illager: " + TextFormatting.WHITE + message));
+		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Maelstrom Illager: " + TextFormatting.WHITE)
+			.appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + message)));
 	    }
 	}
 

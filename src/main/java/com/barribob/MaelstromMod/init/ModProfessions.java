@@ -78,8 +78,8 @@ public class ModProfessions
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.FLY_WINGS, 32, null, 0, Items.ELYTRA, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 3, ModItems.FLY_WINGS, 2, ModItems.SWAMP_HELMET, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 5, ModItems.FLY_WINGS, 3, ModItems.SWAMP_CHESTPLATE, 1));
-	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_LEGGINGS, 4, ModItems.FLY_WINGS, 2, ModItems.SWAMP_LEGGINGS, 1));
-	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_BOOTS, 2, ModItems.FLY_WINGS, 1, ModItems.SWAMP_BOOTS, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 4, ModItems.FLY_WINGS, 2, ModItems.SWAMP_LEGGINGS, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 2, ModItems.FLY_WINGS, 1, ModItems.SWAMP_BOOTS, 1));
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.MoreComing());
 
 	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");

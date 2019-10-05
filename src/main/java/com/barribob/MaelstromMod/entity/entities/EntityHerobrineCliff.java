@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -20,8 +21,7 @@ import net.minecraft.world.World;
 
 public class EntityHerobrineCliff extends EntityLeveledMob
 {
-    private static final String[] INTRO_MESSAGES = { ModUtils.translateDialog("herobrine_cliff_1"), ModUtils.translateDialog("herobrine_cliff_2"),
-	    ModUtils.translateDialog("herobrine_cliff_3"), "" };
+    private static final String[] INTRO_MESSAGES = { "herobrine_cliff_1", "herobrine_cliff_2", "herobrine_cliff_3", "" };
     private static final int[] INTRO_MESSAGE_TIMES = { 120, 180, 240, 300 };
     private TimedMessager messager;
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -44,7 +44,8 @@ public class EntityHerobrineCliff extends EntityLeveledMob
 	{
 	    for (EntityPlayer player : this.bossInfo.getPlayers())
 	    {
-		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + this.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE + message));
+		player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + this.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE)
+			.appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + message)));
 	    }
 	}
     };

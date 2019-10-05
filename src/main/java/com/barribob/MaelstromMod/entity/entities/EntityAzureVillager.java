@@ -40,6 +40,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.DifficultyInstance;
@@ -50,19 +51,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * Closely sourced from the EntityMob, and EntityIllager to create a mob
- * with combat and trading functionalties
+ * Closely sourced from the EntityMob, and EntityIllager to create a mob with
+ * combat and trading functionalties
  *
  */
 public class EntityAzureVillager extends EntityTrader implements IMerchant
 {
     // Used in animation to determine if the entity should render in attack pose
     protected static final DataParameter<Byte> ATTACKING = EntityDataManager.<Byte>createKey(EntityAzureVillager.class, DataSerializers.BYTE);
-    private static final String[] CHAT_MESSAGES = {
-	    ModUtils.translateDialog("azure_villager_1"), ModUtils.translateDialog("azure_villager_2"), ModUtils.translateDialog("azure_villager_3"),
-	    ModUtils.translateDialog("azure_villager_4"), ModUtils.translateDialog("azure_villager_5"), ModUtils.translateDialog("azure_villager_6")
-    };
-    
+    private static final String[] CHAT_MESSAGES = { "azure_villager_1", "azure_villager_2", "azure_villager_3", "azure_villager_4", "azure_villager_5", "azure_villager_6" };
+
     private static int message_counter = 0;
 
     @Override
@@ -83,15 +81,15 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     {
 	super.initEntityAI();
 	this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
+	this.tasks.addTask(2, new EntityAIMoveIndoors(this));
+	this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
+	this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
 	this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0D, false));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+	this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
 	this.tasks.addTask(8, new EntityAIWander(this, 0.6D));
-        this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-        this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 0.6D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+	this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
+	this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 0.6D));
+	this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
 	this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityAzureVillager.class }));
     }
 
@@ -110,23 +108,23 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     {
 	return LootTableList.ENTITIES_VILLAGER;
     }
-    
+
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
-        return SoundEvents.ENTITY_VILLAGER_HURT;
+	return SoundEvents.ENTITY_VILLAGER_HURT;
     }
-    
+
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.ENTITY_VILLAGER_AMBIENT;
+	return SoundEvents.ENTITY_VILLAGER_AMBIENT;
     }
-    
+
     @Override
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_VILLAGER_DEATH;
+	return SoundEvents.ENTITY_VILLAGER_DEATH;
     }
 
     @SideOnly(Side.CLIENT)
@@ -191,8 +189,7 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
 	{
 	    if (i > 0 && entityIn instanceof EntityLivingBase)
 	    {
-		((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
-			(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+		((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
 		this.motionX *= 0.6D;
 		this.motionZ *= 0.6D;
 	    }
@@ -256,17 +253,18 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     @Override
     protected void onTraderInteract(EntityPlayer player)
     {
-        // Display chat messages
-        if(!player.world.isRemote)
-        {
-            player.sendMessage(new TextComponentString(TextFormatting.DARK_BLUE + "Villager: " + TextFormatting.WHITE + CHAT_MESSAGES[message_counter]));
-            
-            message_counter++;
-            if(message_counter >= CHAT_MESSAGES.length)
-            {
-        	message_counter = 0;	
-            }
-        }
+	// Display chat messages
+	if (!player.world.isRemote)
+	{
+	    player.sendMessage(new TextComponentString(TextFormatting.DARK_BLUE + "Villager: " + TextFormatting.WHITE)
+		    .appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + CHAT_MESSAGES[message_counter])));
+
+	    message_counter++;
+	    if (message_counter >= CHAT_MESSAGES.length)
+	    {
+		message_counter = 0;
+	    }
+	}
     }
 
     @Override
@@ -274,13 +272,13 @@ public class EntityAzureVillager extends EntityTrader implements IMerchant
     {
 	return ModProfessions.AZURE_WEAPONSMITH.getTrades(0);
     }
-    
+
     @Override
     protected String getVillagerName()
     {
-        return "Azure Villager";
+	return "Azure Villager";
     }
-    
+
     @Override
     public void writeEntityToNBT(NBTTagCompound compound)
     {
