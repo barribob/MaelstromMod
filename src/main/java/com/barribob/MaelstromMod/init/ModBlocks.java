@@ -65,6 +65,11 @@ public class ModBlocks
      */
     public static final Block DARK_AZURE_STONE = new BlockBase("dark_azure_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
 	    .setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block DARK_AZURE_STONE_1 = new BlockBase("azure_stone_1", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
+    public static final Block DARK_AZURE_STONE_2 = new BlockBase("azure_stone_2", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
+    public static final Block DARK_AZURE_STONE_3 = new BlockBase("azure_stone_3", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
+    public static final Block DARK_AZURE_STONE_4 = new BlockBase("azure_stone_4", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
+    public static final Block DARK_AZURE_STONE_5 = new BlockBase("azure_stone_5", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setLightLevel(1.0f);
     public static final Block LIGHT_AZURE_STONE = new BlockBase("light_azure_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
 	    .setCreativeTab(ModCreativeTabs.ALL).setLightLevel(1.0f);
 
