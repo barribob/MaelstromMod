@@ -25,6 +25,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 /**
  * 
  * Holds various important functionalities only accessible through the forge
@@ -71,26 +72,25 @@ public class ModEventHandler
 		    float reach = ((IExtendedReach) itemStack.getItem()).getReach();
 		    RayTraceResult result = InputOverrides.getMouseOver(1.0f, mc, reach);
 
-		    if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY)
+		    if (result != null)
 		    {
-			Main.network.sendToServer(new MessageExtendedReachAttack(result.entityHit.getEntityId()));
+			if (result.typeOfHit == RayTraceResult.Type.ENTITY)
+			{
+			    Main.network.sendToServer(new MessageExtendedReachAttack(result.entityHit.getEntityId()));
+			    mc.player.resetCooldown();
+			}
+			else if (result.typeOfHit == RayTraceResult.Type.MISS)
+			{
+			    mc.player.resetCooldown();
+			    net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
+			    event.setCanceled(true); // Prevents shorter reach swords from hitting with the event going through
+			}
+			// We let the block ray trace result be handled by the default event
+			mc.player.swingArm(EnumHand.MAIN_HAND);
 		    }
-		    else
-		    {
-			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
-		    }
-
-		    // Because the actual animation is canceled as well, the methods below let the
-		    // client animate properly
-		    mc.player.resetCooldown();
-		    mc.player.swingArm(EnumHand.MAIN_HAND);
-		    event.setCanceled(true);// Prevents shorter reach swords from hitting with the event going through
-		    return;
 		}
 	    }
 	}
-
-	event.setCanceled(false);
     }
 
     @SubscribeEvent
