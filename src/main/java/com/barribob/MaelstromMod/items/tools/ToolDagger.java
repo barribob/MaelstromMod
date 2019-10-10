@@ -42,7 +42,7 @@ public class ToolDagger extends ToolSword implements IExtendedReach, ISweepAttac
 
 	if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 	{
-	    multimap.put("extended_reach", new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", -1.0D, 0));
+	    multimap.put(EntityPlayer.REACH_DISTANCE.getName(), new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", -1.0D, 0).setSaved(false));
 	}
 	return multimap;
     }

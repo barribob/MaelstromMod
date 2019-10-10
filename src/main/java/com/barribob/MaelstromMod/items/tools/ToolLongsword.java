@@ -73,7 +73,7 @@ public class ToolLongsword extends ToolSword implements IExtendedReach, ISweepAt
 
 	if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 	{
-	    multimap.put("extended_reach", new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", this.reach - 3.0D, 0));
+	    multimap.put(EntityPlayer.REACH_DISTANCE.getName(), new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", this.reach - 3.0D, 0).setSaved(false));
 	}
 	return multimap;
     }
