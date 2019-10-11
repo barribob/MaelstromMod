@@ -21,6 +21,7 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	this.relTeleportPos = pos;
     }
     
+    @Override
     public void update()
     {
 	float activationDistance = 0.7f;
@@ -28,7 +29,7 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	EntityPlayer player = this.world.getClosestPlayer(this.pos.getX() + 0.5f, this.pos.getY() + 0.5f, this.pos.getZ() + 0.5f, activationDistance, false);
 	if(player != null && this.relTeleportPos != null)
 	{
-	    player.attemptTeleport(player.posX + this.relTeleportPos.x, player.posY + this.relTeleportPos.y, player.posZ + this.relTeleportPos.z);
+	    player.setPositionAndUpdate(player.posX + this.relTeleportPos.x, player.posY + this.relTeleportPos.y, player.posZ + this.relTeleportPos.z);
 	}
 	
 	// Spawn a line of particles indicating what direction the teleport is
@@ -50,6 +51,7 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	}
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound compound)
     {
 	super.readFromNBT(compound);
@@ -62,6 +64,7 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	}
     }
 
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
 	super.writeToNBT(compound);
@@ -74,12 +77,14 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	return compound;
     }
     
+    @Override
     @Nullable
     public SPacketUpdateTileEntity getUpdatePacket()
     {
 	return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
     }
 
+    @Override
     public NBTTagCompound getUpdateTag()
     {
 	NBTTagCompound nbttagcompound = this.writeToNBT(new NBTTagCompound());
