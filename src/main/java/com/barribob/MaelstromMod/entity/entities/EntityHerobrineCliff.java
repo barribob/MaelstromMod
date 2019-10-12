@@ -3,8 +3,10 @@ package com.barribob.MaelstromMod.entity.entities;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.TimedMessager;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,12 +14,15 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityHerobrineCliff extends EntityLeveledMob
 {
@@ -32,6 +37,7 @@ public class EntityHerobrineCliff extends EntityLeveledMob
 	spawner.copyLocationAndAnglesFrom(this);
 	spawner.setPosition(this.posX - 0.5, this.posY, this.posZ - 0.5);
 	spawner.setRotationYawHead(this.rotationYawHead);
+	world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	if (!world.isRemote)
 	{
 	    world.spawnEntity(spawner);
@@ -121,5 +127,24 @@ public class EntityHerobrineCliff extends EntityLeveledMob
     {
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == ModUtils.PARTICLE_BYTE)
+	{
+	    int particleAmount = 100;
+	    for (int i = 0; i < particleAmount; i++)
+	    {
+		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(2f)).add(new Vec3d(0, 1, 0)),
+			ModRandom.randVec().scale(0.5f));
+	    }
+	}
+	else
+	{
+	    super.handleStatusUpdate(id);
+	}
     }
 }
