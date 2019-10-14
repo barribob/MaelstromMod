@@ -1,10 +1,8 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -12,8 +10,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ProjectileHorrorAttack extends Projectile
 {
@@ -41,6 +37,7 @@ public class ProjectileHorrorAttack extends Projectile
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
@@ -62,26 +59,9 @@ public class ProjectileHorrorAttack extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit == this.shootingEntity)
-	    return;
-
-	/*
-	 * Find all entities in a certain area and deal damage to them
-	 */
-	List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(EXPOSION_AREA_FACTOR, EXPOSION_AREA_FACTOR, EXPOSION_AREA_FACTOR).expand(-EXPOSION_AREA_FACTOR, -EXPOSION_AREA_FACTOR, -EXPOSION_AREA_FACTOR));
-	if (list != null)
-	{
-	    for (Object entity : list)
-	    {
-		if (entity instanceof EntityLivingBase && !(entity instanceof EntityMaelstromMob) && this.shootingEntity != null)
-		{
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase)this.shootingEntity), this.getDamage());
-		}
-	    }
-	}
-
+	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(),
+		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-
 	super.onHit(result);
     }
 }

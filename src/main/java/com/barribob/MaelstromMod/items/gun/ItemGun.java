@@ -6,10 +6,12 @@ import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModEnchantments;
+import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.StandardBullet;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -37,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * calls shoot() when the gun sucessfully shoots
  *
  */
-public abstract class ItemGun extends ItemBase
+public abstract class ItemGun extends ItemBase implements ILeveledItem
 {
     private final int maxCooldown;
     private Item ammo;
@@ -84,7 +86,7 @@ public abstract class ItemGun extends ItemBase
     {
 	float maxPower = ModEnchantments.gun_power.getMaxLevel();
 	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
-	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.progression_scale - 1));
+	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
 	return this.damage * enchantmentBonus * this.getMultiplier();
     }
 
@@ -168,6 +170,7 @@ public abstract class ItemGun extends ItemBase
      * Called when the equipped item is right clicked. Calls the shoot function
      * after handling ammo and cooldown
      */
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
 	ItemStack itemstack = playerIn.getHeldItem(handIn);
@@ -257,28 +260,30 @@ public abstract class ItemGun extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	String ammoName = this.ammo == null ? "None" : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
-	tooltip.add(TextFormatting.GRAY + "Level " + TextFormatting.DARK_GREEN + this.level);
+	String ammoName = this.ammo == null ? ModUtils.translateDesc("no_ammo_required") : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
+	tooltip.add(ModUtils.getDisplayLevel(this.level));
 	
 	if(this.getEnchantedDamage(stack) > 0)
 	{
 		this.getDamageTooltip(stack, worldIn, tooltip, flagIn);
 	}
 	
-	tooltip.add(TextFormatting.BLUE + "" + df.format(getEnchantedCooldown(stack) * 0.05) + TextFormatting.GRAY + " second reload time.");
-	tooltip.add(TextFormatting.GRAY + "Required Ammo: " + TextFormatting.BLUE + ammoName);
+	tooltip.add(TextFormatting.BLUE + "" + df.format(getEnchantedCooldown(stack) * 0.05) + TextFormatting.GRAY + " " + ModUtils.translateDesc("gun_reload_time"));
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("gun_ammo") + ": " + TextFormatting.BLUE + ammoName);
 	information.accept(tooltip);
     }
     
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Deals " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY + " damage per projectile.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY
+		+ " " + ModUtils.translateDesc("damage"));
     }
 
     /**
      * Return the enchantability factor of the item, most of the time is based on
      * material.
      */
+    @Override
     public int getItemEnchantability()
     {
 	return 1;
@@ -287,10 +292,17 @@ public abstract class ItemGun extends ItemBase
     /**
      * Returns True is the item is renderer in full 3D when hold.
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {
 	return true;
+    }
+
+    @Override
+    public float getLevel()
+    {
+	return this.level;
     }
 
     protected abstract void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack);

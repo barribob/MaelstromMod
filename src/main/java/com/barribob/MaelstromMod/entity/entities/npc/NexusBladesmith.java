@@ -5,6 +5,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.entity.entities.EntityTrader;
 import com.barribob.MaelstromMod.init.ModProfessions;
 
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,8 +46,9 @@ public class NexusBladesmith extends EntityTrader
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseMaxHealth(20);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 }

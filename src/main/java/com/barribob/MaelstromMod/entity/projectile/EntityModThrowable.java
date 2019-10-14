@@ -10,23 +10,12 @@ import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SPacketChangeGameState;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -50,6 +39,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 {
     private static final Predicate<Entity> ARROW_TARGETS = Predicates.and(EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>()
     {
+	@Override
 	public boolean apply(@Nullable Entity p_apply_1_)
 	{
 	    return p_apply_1_.canBeCollidedWith();
@@ -64,7 +54,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
     /** Seems to be some sort of timer for animating an arrow. */
     public int throwableShake;
     /** The owner of this arrow. */
-    public Entity shootingEntity;
+    public EntityLivingBase shootingEntity;
     private int ticksInGround;
     private int ticksInAir;
 
@@ -85,24 +75,25 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 
     public EntityModThrowable(World worldIn, EntityLivingBase shooter)
     {
-	this(worldIn, shooter.posX, shooter.posY + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
+	this(worldIn, shooter.posX, shooter.posY + shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
 	this.shootingEntity = shooter;
     }
 
     /**
      * Checks if the entity is in range to render.
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
-	double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
+	double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 10.0D;
 
 	if (Double.isNaN(d0))
 	{
-	    d0 = 4.0D;
+	    d0 = 1.0D;
 	}
 
-	d0 = d0 * 64.0D;
+	d0 = d0 * 64.0D * getRenderDistanceWeight();
 	return distance < d0 * d0;
     }
 
@@ -111,7 +102,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 	float f = -MathHelper.sin(yaw * 0.017453292F) * MathHelper.cos(pitch * 0.017453292F);
 	float f1 = -MathHelper.sin(pitch * 0.017453292F);
 	float f2 = MathHelper.cos(yaw * 0.017453292F) * MathHelper.cos(pitch * 0.017453292F);
-	this.shoot((double) f, (double) f1, (double) f2, velocity, inaccuracy);
+	this.shoot(f, f1, f2, velocity, inaccuracy);
 	this.motionX += shooter.motionX;
 	this.motionZ += shooter.motionZ;
 
@@ -125,42 +116,34 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
      * Similar to setArrowHeading, it's point the throwable entity to a x, y, z
      * direction.
      */
+    @Override
     public void shoot(double x, double y, double z, float velocity, float inaccuracy)
     {
 	float f = MathHelper.sqrt(x * x + y * y + z * z);
-	x = x / (double) f;
-	y = y / (double) f;
-	z = z / (double) f;
-	x = x + this.rand.nextGaussian() * 0.007499999832361937D * (double) inaccuracy;
-	y = y + this.rand.nextGaussian() * 0.007499999832361937D * (double) inaccuracy;
-	z = z + this.rand.nextGaussian() * 0.007499999832361937D * (double) inaccuracy;
-	x = x * (double) velocity;
-	y = y * (double) velocity;
-	z = z * (double) velocity;
+	x = x / f;
+	y = y / f;
+	z = z / f;
+	x = x + this.rand.nextGaussian() * 0.007499999832361937D * inaccuracy;
+	y = y + this.rand.nextGaussian() * 0.007499999832361937D * inaccuracy;
+	z = z + this.rand.nextGaussian() * 0.007499999832361937D * inaccuracy;
+	x = x * velocity;
+	y = y * velocity;
+	z = z * velocity;
 	this.motionX = x;
 	this.motionY = y;
 	this.motionZ = z;
 	float f1 = MathHelper.sqrt(x * x + z * z);
 	this.rotationYaw = (float) (MathHelper.atan2(x, z) * (180D / Math.PI));
-	this.rotationPitch = (float) (MathHelper.atan2(y, (double) f1) * (180D / Math.PI));
+	this.rotationPitch = (float) (MathHelper.atan2(y, f1) * (180D / Math.PI));
 	this.prevRotationYaw = this.rotationYaw;
 	this.prevRotationPitch = this.rotationPitch;
 	this.ticksInGround = 0;
     }
 
     /**
-     * Set the position and rotation values directly without any clamping.
-     */
-    @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport)
-    {
-	this.setPosition(x, y, z);
-	this.setRotation(yaw, pitch);
-    }
-
-    /**
      * Updates the entity motion clientside, called by packets from the server
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void setVelocity(double x, double y, double z)
     {
@@ -171,7 +154,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 	if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
 	{
 	    float f = MathHelper.sqrt(x * x + z * z);
-	    this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * (180D / Math.PI));
+	    this.rotationPitch = (float) (MathHelper.atan2(y, f) * (180D / Math.PI));
 	    this.rotationYaw = (float) (MathHelper.atan2(x, z) * (180D / Math.PI));
 	    this.prevRotationPitch = this.rotationPitch;
 	    this.prevRotationYaw = this.rotationYaw;
@@ -182,6 +165,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate()
     {
 	super.onUpdate();
@@ -190,7 +174,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 	{
 	    float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 	    this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
-	    this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f) * (180D / Math.PI));
+	    this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f) * (180D / Math.PI));
 	    this.prevRotationYaw = this.rotationYaw;
 	    this.prevRotationPitch = this.rotationPitch;
 	}
@@ -229,9 +213,9 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 	    }
 
 	    this.inGround = false;
-	    this.motionX *= (double) (this.rand.nextFloat() * 0.2F);
-	    this.motionY *= (double) (this.rand.nextFloat() * 0.2F);
-	    this.motionZ *= (double) (this.rand.nextFloat() * 0.2F);
+	    this.motionX *= this.rand.nextFloat() * 0.2F;
+	    this.motionY *= this.rand.nextFloat() * 0.2F;
+	    this.motionZ *= this.rand.nextFloat() * 0.2F;
 	    this.ticksInGround = 0;
 	    this.ticksInAir = 0;
 	}
@@ -278,7 +262,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 	    float f4 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 	    this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
 
-	    for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f4) * (180D / Math.PI)); this.rotationPitch
+	    for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f4) * (180D / Math.PI)); this.rotationPitch
 		    - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
 	    {
 		;
@@ -321,9 +305,9 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
 		this.extinguish();
 	    }
 
-	    this.motionX *= (double) f1;
-	    this.motionY *= (double) f1;
-	    this.motionZ *= (double) f1;
+	    this.motionX *= f1;
+	    this.motionY *= f1;
+	    this.motionZ *= f1;
 
 	    if (!this.hasNoGravity())
 	    {
@@ -343,6 +327,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
     /**
      * Tries to move the entity towards the specified location.
      */
+    @Override
     public void move(MoverType type, double x, double y, double z)
     {
 	super.move(type, x, y, z);
@@ -400,6 +385,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound compound)
     {
 	compound.setInteger("xTile", this.xTile);
@@ -415,6 +401,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound compound)
     {
 	this.xTile = compound.getInteger("xTile");
@@ -439,6 +426,7 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk
      * on. used for spiders and wolves to prevent them from trampling crops
      */
+    @Override
     protected boolean canTriggerWalking()
     {
 	return false;
@@ -447,11 +435,13 @@ public abstract class EntityModThrowable extends Entity implements IProjectile
     /**
      * Returns true if it's possible to attack this entity with an item.
      */
+    @Override
     public boolean canBeAttackedWithItem()
     {
 	return false;
     }
 
+    @Override
     public float getEyeHeight()
     {
 	return 0.0F;

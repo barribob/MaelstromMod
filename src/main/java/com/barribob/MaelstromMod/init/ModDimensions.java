@@ -10,14 +10,14 @@ import net.minecraftforge.common.DimensionManager;
 
 public class ModDimensions
 {
-    public static final DimensionType AZURE = DimensionType.register("azure", "_azure", ModConfig.fracture_dimension_id, DimensionAzure.class, false);
-    public static final DimensionType NEXUS = DimensionType.register("nexus", "_nexus", ModConfig.nexus_dimension_id, DimensionNexus.class, false);
-    public static final DimensionType CLIFF = DimensionType.register("cliff", "_cliff", ModConfig.cliff_dimension_id, DimensionCliff.class, false);
+    public static final DimensionType AZURE = DimensionType.register("azure", "_azure", ModConfig.world.fracture_dimension_id, DimensionAzure.class, false);
+    public static final DimensionType NEXUS = DimensionType.register("nexus", "_nexus", ModConfig.world.nexus_dimension_id, DimensionNexus.class, false);
+    public static final DimensionType CLIFF = DimensionType.register("cliff", "_cliff", ModConfig.world.cliff_dimension_id, DimensionCliff.class, false);
 
     public static void registerDimensions()
     {
-	DimensionManager.registerDimension(ModConfig.fracture_dimension_id, AZURE);
-	DimensionManager.registerDimension(ModConfig.nexus_dimension_id, NEXUS);
-	DimensionManager.registerDimension(ModConfig.cliff_dimension_id, CLIFF);
+	DimensionManager.registerDimension(ModConfig.world.fracture_dimension_id, AZURE);
+	DimensionManager.registerDimension(ModConfig.world.nexus_dimension_id, NEXUS);
+	DimensionManager.registerDimension(ModConfig.world.cliff_dimension_id, CLIFF);
     }
 }

@@ -26,7 +26,7 @@ public class FogHandler
     @SubscribeEvent()
     public static void onFogDensityRender(EntityViewRenderEvent.RenderFogEvent event)
     {
-	if (event.getEntity().dimension == ModConfig.fracture_dimension_id)
+	if (event.getEntity().dimension == ModConfig.world.fracture_dimension_id)
 	{
 	    int fogStartY = 60;
 	    float maxFog = 0.085f;
@@ -43,7 +43,7 @@ public class FogHandler
 	    GlStateManager.setFog(GlStateManager.FogMode.EXP);
 	    GlStateManager.setFogDensity(fogDensity);
 	}
-	else if (event.getEntity().dimension == ModConfig.cliff_dimension_id)
+	else if (event.getEntity().dimension == ModConfig.world.cliff_dimension_id)
 	{
 	    if (event.getEntity().posY < CliffCloudRenderer.FOG_HEIGHT)
 	    {
@@ -57,7 +57,7 @@ public class FogHandler
     @SubscribeEvent()
     public static void onRenderWorldLastEvent(RenderWorldLastEvent event)
     {
-	if (Minecraft.getMinecraft().getRenderViewEntity().dimension == ModConfig.cliff_dimension_id)
+	if (Minecraft.getMinecraft().getRenderViewEntity().dimension == ModConfig.world.cliff_dimension_id)
 	{
 	    fogRenderer.render(event.getPartialTicks(), Minecraft.getMinecraft().world, Minecraft.getMinecraft());
 	}

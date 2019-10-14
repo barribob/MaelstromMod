@@ -67,16 +67,11 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
     }
 
     @Override
-    protected void updateAttributes()
-    {
-	this.setBaseAttack(14f);
-	this.setBaseMaxHealth(250);
-    }
-
-    @Override
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(18);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
@@ -163,7 +158,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	if (id == this.groundPoundByte || id == this.geyserByte)
 	{
 	    this.currentAnimation = attackHandler.getAnimation(id);
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	    this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F);
 	}
 	else

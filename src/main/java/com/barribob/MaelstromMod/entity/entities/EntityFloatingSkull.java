@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
@@ -36,11 +37,14 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseAttack(4);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -100,13 +104,14 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     /**
      * Handler for {@link World#setEntityState}
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
 	if (id == 4)
 	{
 	    this.currentAnimation = new AnimationFloatingSkull();
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.world.gen.maelstrom_stronghold.MapGenMaelstromS
 import com.barribob.MaelstromMod.world.gen.maelstrom_stronghold.StrongholdTemplate;
 import com.barribob.MaelstromMod.world.gen.mineshaft.AzureMineshaftTemplate;
 import com.barribob.MaelstromMod.world.gen.mineshaft.MapGenAzureMineshaft;
-import com.barribob.MaelstromMod.world.gen.nexus.MapGenNexus;
 import com.barribob.MaelstromMod.world.gen.nexus.MapGenNexusEntrance;
 import com.barribob.MaelstromMod.world.gen.nexus.NexusTemplate;
 
@@ -24,7 +23,6 @@ public class ModStructures
 	MapGenStructureIO.registerStructureComponent(FortressTemplate.class, "MFP");
 	MapGenStructureIO.registerStructure(MapGenMaelstromStronghold.Start.class, "Maelstrom Stronghold");
 	MapGenStructureIO.registerStructureComponent(StrongholdTemplate.class, "MSP");
-	MapGenStructureIO.registerStructure(MapGenNexus.Start.class, "Nexus");
 	MapGenStructureIO.registerStructureComponent(NexusTemplate.class, "Nexus Template");
 	MapGenStructureIO.registerStructure(MapGenNexusEntrance.Start.class, "Nexus Islands");
 	MapGenStructureIO.registerStructure(MapGenGoldenRuins.Start.class, "Golden Ruins");

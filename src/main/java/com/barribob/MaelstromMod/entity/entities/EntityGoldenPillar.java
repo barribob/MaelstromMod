@@ -36,6 +36,13 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     }
 
     @Override
+    public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch)
+    {
+	super.setLocationAndAngles(x, y, z, yaw, pitch);
+	this.isImmovable = true;
+    }
+
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -48,13 +55,8 @@ public class EntityGoldenPillar extends EntityMaelstromMob
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(40.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(40);
-	this.setBaseAttack(4);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
     }
 
     @Override

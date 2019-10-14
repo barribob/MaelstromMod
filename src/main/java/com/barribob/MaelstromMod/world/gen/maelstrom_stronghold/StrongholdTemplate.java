@@ -37,6 +37,7 @@ public class StrongholdTemplate extends ModStructureTemplate
     /**
      * Loads structure block data markers and handles them by their name
      */
+    @Override
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand, StructureBoundingBox sbb)
     {
 	if (function.startsWith("chest"))
@@ -52,6 +53,28 @@ public class StrongholdTemplate extends ModStructureTemplate
 		{
 		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
 		}
+	    }
+	}
+	else if (function.startsWith("random_chest"))
+	{
+	    worldIn.setBlockToAir(pos);
+	    BlockPos blockpos = pos.down();
+
+	    if (worldIn.rand.nextFloat() < 0.35f)
+	    {
+		if (sbb.isVecInside(blockpos))
+		{
+		    TileEntity tileentity = worldIn.getTileEntity(blockpos);
+
+		    if (tileentity instanceof TileEntityChest)
+		    {
+			((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
+		    }
+		}
+	    }
+	    else
+	    {
+		worldIn.setBlockToAir(blockpos);
 	    }
 	}
 	else if (function.startsWith("final_chest"))
@@ -88,7 +111,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":beast"), 1);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":maelstrom_beast"), 1);
 	    }
 	}
     }

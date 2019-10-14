@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -56,6 +57,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	attackHandler.addAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION), () -> new AnimationWitchFlail());
 	attackHandler.addAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
 	attackHandler.addAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
+	this.currentAnimation = new AnimationWitchFlail();
     }
 
     @Override
@@ -103,10 +105,11 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseAttack(4);
-	this.setBaseMaxHealth(100);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150);
     }
 
     @Override
@@ -128,7 +131,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	if (id >= 4 && id <= 6)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
-	    currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

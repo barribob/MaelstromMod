@@ -20,7 +20,7 @@ public class LevelHandler
      */
     public static float getArmorFromLevel(float level)
     {
-	return (float) Math.pow(ModConfig.progression_scale, -level);
+	return (float) Math.pow(ModConfig.balance.progression_scale, -level);
     }
 
     /**
@@ -31,7 +31,7 @@ public class LevelHandler
      */
     public static float getMaxMaelstromProtection()
     {
-	return 1 - (float) Math.pow(ModConfig.progression_scale, -1);
+	return 1 - (float) Math.pow(ModConfig.balance.progression_scale, -1);
     }
     
     /**
@@ -40,6 +40,6 @@ public class LevelHandler
      */
     public static float getMultiplierFromLevel(float level)
     {
-	return (float) Math.pow(ModConfig.progression_scale, level - 1);
+	return (float) Math.pow(ModConfig.balance.progression_scale, level - 1);
     }
 }

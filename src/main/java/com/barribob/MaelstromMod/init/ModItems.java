@@ -11,6 +11,8 @@ import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
 import com.barribob.MaelstromMod.items.ItemNexusIslandBuilder;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
+import com.barribob.MaelstromMod.items.ItemTradable;
+import com.barribob.MaelstromMod.items.armor.ArmorNyanHelmet;
 import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
 import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
@@ -21,6 +23,7 @@ import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
 import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
+import com.barribob.MaelstromMod.items.gun.ItemMeteorStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
 import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
@@ -35,7 +38,9 @@ import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
 import com.barribob.MaelstromMod.items.gun.bullet.MaelstromCannon;
+import com.barribob.MaelstromMod.items.gun.bullet.Meteor;
 import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
+import com.barribob.MaelstromMod.items.tools.ItemMagisteelSword;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolBlackGoldSword;
 import com.barribob.MaelstromMod.items.tools.ToolCrusadeSword;
@@ -46,6 +51,7 @@ import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -80,10 +86,10 @@ public class ModItems
 
     // Armor materials
     private static final ArmorMaterial COMMON_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 16, new int[] { 3, 6, 8, 3 }, 12,
-	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 1.0f);
+	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.0f);
 
     private static final ArmorMaterial RARE_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16,
-	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 1.0f);
+	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.0f);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
@@ -105,13 +111,13 @@ public class ModItems
     public static final Item RED_KEY_FRAGMENT = new ItemBase("red_key_fragment", ModCreativeTabs.ALL);
 
     // The azure dimension's items
-    public static final Item ELK_HIDE = new ItemBase("elk_hide", ModCreativeTabs.ALL);
+    public static final Item ELK_HIDE = new ItemTradable("elk_hide", ModCreativeTabs.ALL);
     public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", ModCreativeTabs.ALL, 3, 0.3F, true);
     public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", ModCreativeTabs.ALL, 8, 1.0F, true);
     public static final Item PLUM = new ItemFoodBase("plum", ModCreativeTabs.ALL, 4, 0.3F, true);
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
 
-    public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemBase("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
+    public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemTradable("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
 
     private static final int COMMON_USE_TIME = 6000;
     private static final int RARE_USE_TIME = 12000;
@@ -146,7 +152,7 @@ public class ModItems
     public static final Item DRAGON_SLAYER = new ToolDragonslayer("dragon_slayer", RARE_BATTLEAXE, 1.5f);
 
     static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + "Wielding Kanshou and Bakuya together grants Strength III");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
     };
     public static final Item KANSHOU = new ToolDagger("kanshou", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);
     public static final Item BAKUYA = new ToolDagger("bakuya", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);;
@@ -155,10 +161,10 @@ public class ModItems
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
     public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setBullet(new RedstoneRepeater());
     public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setInformation((tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + "Long Range");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("rifle"));
     });
     public static final Item ELK_BLASTER = new ItemRifle("elk_blaster", 60, RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL).setInformation((tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + "Pierces through multiple enemies.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("elk_rifle"));
     }).setBullet(new BulletFactory()
     {
 	@Override
@@ -174,6 +180,7 @@ public class ModItems
     public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_DAGGER, 1.5f);
     public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", RARE_SWORD, 2f);
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", RARE_DAGGER, 2.5f);
+    public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", RARE_SWORD, 2f);
 
     // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
@@ -189,7 +196,10 @@ public class ModItems
     public static final Item NEXUS_CHESTPLATE = new ModArmorBase("nexus_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "nexus");
     public static final Item NEXUS_LEGGINGS = new ModArmorBase("nexus_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "nexus");
     public static final Item NEXUS_BOOTS = new ModArmorBase("nexus_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "nexus");
-
+    public static final Item NYAN_HELMET = new ArmorNyanHelmet("nyan_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2.5f, "nyan_helmet.png");
+    public static final Item NYAN_CHESTPLATE = new ModArmorBase("nyan_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2.5f, "nyan");
+    public static final Item NYAN_LEGGINGS = new ModArmorBase("nyan_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2.5f, "nyan");
+    public static final Item NYAN_BOOTS = new ModArmorBase("nyan_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2.5f, "nyan");
     /*
      * Cliff Dimension Items
      */
@@ -208,7 +218,8 @@ public class ModItems
     public static final Item SWAMP_CHESTPLATE = new ModArmorBase("swamp_chestplate", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 2, "swamp");
     public static final Item SWAMP_LEGGINGS = new ModArmorBase("swamp_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 2, "swamp");
     public static final Item SWAMP_BOOTS = new ModArmorBase("swamp_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 2, "swamp");
-    public static final Item SWAMP_SLIME = new ItemBase("swamp_slime", ModCreativeTabs.ALL);
+    public static final Item SWAMP_SLIME = new ItemTradable("swamp_slime", ModCreativeTabs.ALL);
+    public static final Item FLY_WINGS = new ItemTradable("fly_wings", ModCreativeTabs.ALL);
 
     public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2.5f);
     public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", COMMON_SWORD, 2.0f);
@@ -217,10 +228,15 @@ public class ModItems
 	    .setBullet(new GoldenFireball());
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
 
-    public static final Item GOLDEN_MAELSTROM_CORE = new ItemBase("golden_maelstrom_core", ModCreativeTabs.ALL);
-    public static final Item CROSS_OF_AQUA = new ItemBase("cross_of_aqua", ModCreativeTabs.ALL) {
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    public static final Item GOLDEN_MAELSTROM_CORE = new ItemTradable("golden_maelstrom_core", ModCreativeTabs.ALL);
+    public static final Item CROSS_OF_AQUA = new ItemBase("cross_of_aqua", ModCreativeTabs.ALL)
+    {
+	@Override
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
 	    tooltip.add(TextFormatting.BLUE + "When held, allows the player to walk on water");
 	};
     };
+    public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", COMMON_SWORD, 2.5f);
+    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 80, RARE_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new Meteor());
 }

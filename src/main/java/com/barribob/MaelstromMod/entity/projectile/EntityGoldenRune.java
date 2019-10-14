@@ -1,23 +1,16 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
-import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.advancements.critereon.EffectsChangedTrigger;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.GuiScreenEvent.PotionShiftEvent;
 
 public class EntityGoldenRune extends Projectile
 {
@@ -69,18 +62,11 @@ public class EntityGoldenRune extends Projectile
 	{
 	    return;
 	}
-	List<EntityLivingBase> entities = ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(this.blastRadius));
-	for (EntityLivingBase entity : entities)
-	{
-	    if (this.getDistanceSq(entity) < Math.pow(blastRadius, 2))
-	    {
-		if (this.shootingEntity != entity && this.shootingEntity != null && this.shootingEntity instanceof EntityLivingBase && !(entity instanceof EntityMaelstromMob))
-		{
-		    entity.attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), this.getDamage());
-		    entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));
-		}
-	    }
-	}
+	ModUtils.handleAreaImpact(blastRadius, (e) -> {
+	    e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));
+	    return this.getDamage();
+	}, this.shootingEntity, this.getPositionVector(),
+		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity));
 	this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);
     }

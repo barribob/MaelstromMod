@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.items;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.world.gen.nexus.MapGenNexusEntrance;
 
@@ -79,7 +80,7 @@ public class ItemNexusIslandBuilder extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Right-clicking builds a large island at y=100 that has a portal to the nexus dimension.");
-	tooltip.add(TextFormatting.RED + "Lag warning!");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("island_builder"));
+	tooltip.add(TextFormatting.RED + ModUtils.translateDesc("lag"));
     }
 }

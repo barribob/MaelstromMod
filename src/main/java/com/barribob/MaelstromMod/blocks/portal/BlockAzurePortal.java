@@ -18,7 +18,7 @@ public class BlockAzurePortal extends BlockPortal
 {
     public BlockAzurePortal(String name)
     {
-	super(name, ModConfig.nexus_dimension_id, ModConfig.fracture_dimension_id);
+	super(name, ModConfig.world.nexus_dimension_id, ModConfig.world.fracture_dimension_id);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
@@ -27,12 +27,12 @@ public class BlockAzurePortal extends BlockPortal
     @Override
     protected Teleporter getTeleporter1(World world)
     {
-        return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.nexus_dimension_id), new BlockPos(113, 129, 161));
+	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(113, 129, 161));
     }
     
     @Override
     protected Teleporter getTeleporter2(World world)
     {
-	return new DimensionalTeleporter(world.getMinecraftServer().getWorld(ModConfig.fracture_dimension_id), ModBlocks.LIGHT_AZURE_STONE, ModBlocks.AZURE_PORTAL);
+	return new DimensionalTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.fracture_dimension_id), ModBlocks.LIGHT_AZURE_STONE, ModBlocks.AZURE_PORTAL);
     }
 }

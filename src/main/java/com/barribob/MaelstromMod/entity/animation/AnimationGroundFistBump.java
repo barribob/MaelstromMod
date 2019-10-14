@@ -4,7 +4,7 @@ import com.barribob.MaelstromMod.entity.model.ModelAzureGolem;
 
 import net.minecraft.client.model.ModelBase;
 
-public class AnimationGroundFistBump extends Animation<ModelAzureGolem>
+public class AnimationGroundFistBump extends ArrayAnimation<ModelAzureGolem>
 {
     // Animation frames for the pound attack
     private static float[] armFramesDegrees = 	{ 000, 000, 015, 030, 045, 060, 060, 060, 060, 060, 060, 030, 000, -30, -60, -60, -60, -60, -60, -60, -60, -60, -60, -60, -60, -60, -45, -30, -15, 000, 000, 000};

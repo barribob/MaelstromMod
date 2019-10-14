@@ -1,8 +1,5 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -10,9 +7,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -46,6 +41,7 @@ public class ProjectileBlackFireball extends Projectile
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	float size = 0.5f;
@@ -81,27 +77,9 @@ public class ProjectileBlackFireball extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit == this.shootingEntity)
-	    return;
-
-	/*
-	 * Find all entities in a certain area and deal damage to them
-	 */
-	List<EntityLivingBase> entities = ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(EXPOSION_AREA_FACTOR));
-	if (entities != null)
-	{
-	    for (EntityLivingBase entity : entities)
-	    {
-		if (this.shootingEntity != entity && this.shootingEntity != null && this.shootingEntity instanceof EntityLivingBase)
-		{
-		    entity.setFire(5);
-		    entity.attackEntityFrom(ModDamageSource.causeMaelstromExplosionDamage((EntityLivingBase) this.shootingEntity), this.getDamage());
-		}
-	    }
-	}
-
+	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(),
+		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity), 1, 5);
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-
 	super.onHit(result);
     }
 }

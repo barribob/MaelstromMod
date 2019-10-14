@@ -1,11 +1,9 @@
 package com.barribob.MaelstromMod.blocks.portal;
 
 import com.barribob.MaelstromMod.config.ModConfig;
-import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.teleporter.NexusToOverworldTeleporter;
 import com.barribob.MaelstromMod.util.teleporter.ToNexusTeleporter;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
@@ -19,7 +17,7 @@ public class BlockNexusPortal extends BlockPortal
 {
     public BlockNexusPortal(String name)
     {
-	super(name, 0, ModConfig.nexus_dimension_id);
+	super(name, 0, ModConfig.world.nexus_dimension_id);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
@@ -34,6 +32,6 @@ public class BlockNexusPortal extends BlockPortal
     @Override
     protected Teleporter getTeleporter2(World world)
     {
-	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.nexus_dimension_id), new BlockPos(70, 80, 103));
+	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(70, 80, 103));
     }
 }

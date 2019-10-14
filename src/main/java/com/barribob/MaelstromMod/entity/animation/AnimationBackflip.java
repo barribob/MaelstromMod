@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import com.barribob.MaelstromMod.entity.model.ModelAnimatedBiped;
 
-public class AnimationBackflip extends Animation<ModelAnimatedBiped>
+public class AnimationBackflip extends ArrayAnimation<ModelAnimatedBiped>
 {
     private static float[] leftArmX =  {010, 020, 030, 040, 050, 060, 060, 050, 040, 030, 020, 010, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000};
     private static float[] rightArmX = {010, 020, 030, 040, 050, 060, 060, 050, 040, 030, 020, 010, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000};

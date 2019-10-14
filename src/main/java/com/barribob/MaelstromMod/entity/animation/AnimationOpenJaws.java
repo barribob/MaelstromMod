@@ -2,7 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import com.barribob.MaelstromMod.entity.model.ModelSwampCrawler;
 
-public class AnimationOpenJaws extends Animation<ModelSwampCrawler>
+public class AnimationOpenJaws extends ArrayAnimation<ModelSwampCrawler>
 {
     private static float[] rightJawAnimation = { 0, 10, 15, 20, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 20, 15, 10, 0 };
     private static float[] leftJawAnimation =  { 0,-10,-15,-20,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25,-25, 20,-15,-10, 0 };

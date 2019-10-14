@@ -3,7 +3,6 @@ package com.barribob.MaelstromMod.entity.action;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.projectile.EntityGoldenRune;
 import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +24,7 @@ public class ActionGoldenRunes extends Action
 	    offset = new Vec3d(target.motionX, target.motionY, target.motionZ).scale(10);
 	    if (target instanceof EntityPlayer)
 	    {
-		offset = target.getForward().scale(target.getAIMoveSpeed() * 50);
+		offset = new Vec3d(target.getLookVec().x, 0, target.getLookVec().z).normalize().scale(target.getAIMoveSpeed() * 50);
 	    }
 	}
 

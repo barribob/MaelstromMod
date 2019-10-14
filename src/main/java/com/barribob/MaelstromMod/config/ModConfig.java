@@ -3,49 +3,96 @@ package com.barribob.MaelstromMod.config;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.LangKey;
-import net.minecraftforge.common.config.Config.Name;
 import net.minecraftforge.common.config.Config.Type;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * 
  * Configuration file for the mod
  *
  */
-@LangKey("config_test.config.types")
-@Config(modid = Reference.MOD_ID, type = Type.INSTANCE, name = Reference.MOD_ID)
+@Config(modid = Reference.MOD_ID, name = "MaelstromMod")
+@Mod.EventBusSubscriber()
 public class ModConfig
 {
-    @Config.RequiresMcRestart
-    @Name("Fracture Dimension Id")
-    public static int fracture_dimension_id = 125;
-    
-    @Config.RequiresMcRestart
-    @Name("Nexus Dimension Id")
-    public static int nexus_dimension_id = 126;
+    @Config.Ignore
+    private static final String config = Reference.MOD_ID + ".config.";
 
-    @Config.RequiresMcRestart
-    @Name("Cliff Dimension Id")
-    public static int cliff_dimension_id = 127;
-    
-    @Name("Gui")
-    public static GuiCat gui = new GuiCat(0, 0);
-    
-    @Config.RequiresMcRestart
-    @Name("Progression Scale")
-    public static float progression_scale = 2;
+    @Config.LangKey(config + "world")
+    public static WorldCat world = new WorldCat();
+
+    @Config.LangKey(config + "gui")
+    public static GuiCat gui = new GuiCat(0, 0, true);
+
+    @Config.LangKey(config + "balancing")
+    public static BalanceCat balance = new BalanceCat(2, 1);
 
     public static class GuiCat
     {
-	@Config.RequiresMcRestart
+	@Config.LangKey(config + "armor_bar_x")
 	public int maelstrom_armor_bar_offset_x;
-	@Config.RequiresMcRestart
+
+	@Config.LangKey(config + "armor_bar_y")
 	public int maelstrom_armor_bar_offset_y;
 
-	public GuiCat(int x, int y)
+	@Config.LangKey(config + "show_cooldown_bar")
+	public boolean showGunCooldownBar;
+
+	public GuiCat(int x, int y, boolean showCooldown)
 	{
 	    this.maelstrom_armor_bar_offset_x = x;
 	    this.maelstrom_armor_bar_offset_y = y;
+	    showGunCooldownBar = showCooldown;
+	}
+    }
+
+    public static class BalanceCat
+    {
+	@Config.LangKey(config + "scale")
+	@Config.RangeDouble(min = 1.1, max = 3)
+	@Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty.")
+	public float progression_scale;
+
+	@Config.LangKey(config + "mob_damage")
+	@Config.RangeDouble(min = 0.5, max = 3)
+	@Config.Comment("Scales the base damage of mobs in this mod.")
+	public float mob_damage;
+
+	public BalanceCat(float progression_scale, float mob_damage)
+	{
+	    this.progression_scale = progression_scale;
+	    this.mob_damage = mob_damage;
+	}
+    }
+
+    public static class WorldCat
+    {
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "fracture_dimension_id")
+	public int fracture_dimension_id = 125;
+
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "nexus_dimension_id")
+	public int nexus_dimension_id = 126;
+
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "cliff_dimension_id")
+	public int cliff_dimension_id = 127;
+
+	@Config.RequiresWorldRestart
+	@Config.LangKey(config + "spawn_island")
+	public boolean spawn_island = true;
+    }
+
+    @SubscribeEvent
+    public static void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
+    {
+	if (event.getModID().equals(Reference.MOD_ID))
+	{
+	    ConfigManager.sync(Reference.MOD_ID, Type.INSTANCE);
 	}
     }
 }

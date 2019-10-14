@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileExplosiveDrill;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -41,7 +42,7 @@ public class ItemExplosiveStaff extends ItemGun
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + "Made in honor of the gods of destruction.");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("explosive_staff"));
     }
     
     @Override

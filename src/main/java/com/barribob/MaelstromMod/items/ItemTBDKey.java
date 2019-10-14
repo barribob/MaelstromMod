@@ -2,6 +2,8 @@ package com.barribob.MaelstromMod.items;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.util.ModUtils;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -23,6 +25,6 @@ public class ItemTBDKey extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add(TextFormatting.GRAY + "A key to a dimension, coming soon!");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("tbd_key"));
     }
 }

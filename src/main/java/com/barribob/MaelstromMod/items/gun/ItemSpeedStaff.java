@@ -2,6 +2,8 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.util.ModUtils;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,7 +36,7 @@ public class ItemSpeedStaff extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Gives a short speed boost");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("speed_staff"));
     }
 
     @Override

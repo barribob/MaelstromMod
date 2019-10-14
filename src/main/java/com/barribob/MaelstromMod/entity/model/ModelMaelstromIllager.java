@@ -2,19 +2,16 @@ package com.barribob.MaelstromMod.entity.model;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.AbstractIllager;
-import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * ModelMaelstromIllager - Barribob
  * Created using Tabula 7.0.0
  */
-public class ModelMaelstromIllager extends ModelBase {
+public class ModelMaelstromIllager extends ModelAnimated
+{
     private static final String leftArm = null;
     public ModelRenderer head;
     public ModelRenderer bipedRightArm;
@@ -109,6 +106,7 @@ public class ModelMaelstromIllager extends ModelBase {
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
+    @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
@@ -120,20 +118,6 @@ public class ModelMaelstromIllager extends ModelBase {
         this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
         this.leftLeg.rotateAngleY = 0.0F;
         this.leftLeg.rotateAngleY = 0.0F;
-
-        if (((EntityMaelstromMob)entityIn).isSwingingArms())
-        {
-            this.bipedRightArm.rotationPointZ = 0.0F;
-            this.bipedRightArm.rotationPointX = -5.0F;
-            this.bipedLeftArm.rotationPointZ = 0.0F;
-            this.bipedLeftArm.rotationPointX = 5.0F;
-            this.bipedRightArm.rotateAngleX = MathHelper.cos(ageInTicks * 0.6662F) * 0.25F;
-            this.bipedLeftArm.rotateAngleX = MathHelper.cos(ageInTicks * 0.6662F) * 0.25F;
-            this.bipedRightArm.rotateAngleZ = 2.3561945F;
-            this.bipedLeftArm.rotateAngleZ = -2.3561945F;
-            this.bipedRightArm.rotateAngleY = 0.0F;
-            this.bipedLeftArm.rotateAngleY = 0.0F;
-        }
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.action.ActionThrust;
-import com.barribob.MaelstromMod.entity.animation.AnimationShadeThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenThrust;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -25,13 +24,6 @@ public class EntityGoldenShade extends EntityShade
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    protected void initAnimation()
-    {
-	this.currentAnimation = new AnimationShadeThrust();
-    }
-
-    @Override
     public void onUpdate()
     {
 	super.onUpdate();
@@ -42,24 +34,10 @@ public class EntityGoldenShade extends EntityShade
     }
 
     @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
-	super.setSwingingArms(swingingArms);
-	if (swingingArms)
-	{
-	    this.world.setEntityState(this, (byte) 4);
-	}
-    };
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id == 4)
-	{
-	    currentAnimation.startAnimation();
-	}
-	else if (id == ModUtils.PARTICLE_BYTE)
+	if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
 	}
@@ -74,7 +52,7 @@ public class EntityGoldenShade extends EntityShade
     {
 	if (!world.isRemote)
 	{
-	    new ActionThrust(new ProjectileGoldenThrust(world, this, this.getAttack())).performAction(this, target);
+	    new ActionThrust(() -> new ProjectileGoldenThrust(world, this, this.getAttack())).performAction(this, target);
 	}
     }
 

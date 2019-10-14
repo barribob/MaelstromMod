@@ -18,6 +18,7 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttackMob
+public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttackMob, IMob
 {
     private AIMeleeAndRange attackAI;
 
@@ -44,13 +45,6 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     protected void initAnimation()
     {
 	this.currentAnimation = new AnimationOpenJaws();
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(25);
-	this.setBaseAttack(5);
     }
 
     @Override
@@ -98,6 +92,8 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30D);
 	this.getEntityAttribute(SWIM_SPEED).setBaseValue(1.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
     
     @Override
@@ -186,7 +182,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     {
 	if (id == 4)
 	{
-	    this.currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else
 	{

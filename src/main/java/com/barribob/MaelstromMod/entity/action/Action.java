@@ -10,4 +10,12 @@ import net.minecraft.entity.EntityLivingBase;
 public abstract class Action
 {
     public abstract void performAction(EntityLeveledMob actor, EntityLivingBase target);
+
+    public static final Action NONE = new Action()
+    {
+	@Override
+	public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+	{
+	}
+    };
 }

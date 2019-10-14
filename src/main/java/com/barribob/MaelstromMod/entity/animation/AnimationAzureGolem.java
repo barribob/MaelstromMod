@@ -2,9 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import com.barribob.MaelstromMod.entity.model.ModelAzureGolem;
 
-import net.minecraft.client.model.ModelBase;
-
-public class AnimationAzureGolem extends Animation<ModelAzureGolem>
+public class AnimationAzureGolem extends ArrayAnimation<ModelAzureGolem>
 {
     // Animation frames for the pound attack
     private static float[] armFramesDegrees = { -45, -60, -75, -90, -105, -120, -135, -150, -165, -180, -180, -180, -180, -165, -135, -105, -90, -90, -90, -90, - 90, -75, -60, -45, -30, -15, 0 };

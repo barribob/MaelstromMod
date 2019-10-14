@@ -1,6 +1,6 @@
 {
-   "parent": "mm:item/gun",
+   "parent": "mm:item/flintlock_pistol",
    "textures": {
-       "layer0": "mm:items/golden_pistol"
+       "0": "mm:items/golden_pistol"
    }
 }

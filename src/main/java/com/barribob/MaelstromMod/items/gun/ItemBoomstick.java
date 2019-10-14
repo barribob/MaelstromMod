@@ -3,14 +3,12 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
-import com.barribob.MaelstromMod.util.handlers.LevelHandler;
+import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -44,11 +42,13 @@ public class ItemBoomstick extends ItemGun
 
 	for (int i = 0; i < pelletCount; i++)
 	{
-	    float inaccuracy = 20.0f;
+	    float inaccuracy = 0.0f;
 	    float speed = 3f;
+	    float pitch = player.rotationPitch + ModRandom.getFloat(15);
+	    float yaw = player.rotationYaw + ModRandom.getFloat(15);
 
 	    Projectile projectile = factory.get(world, player, stack, this);
-	    projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
+	    projectile.shoot(player, pitch, yaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
 
 	    world.spawnEntity(projectile);
@@ -59,6 +59,6 @@ public class ItemBoomstick extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Close range shotgun attack");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("boomstick"));
     }
 }

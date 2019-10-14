@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.animation.Animation;
+import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,14 +22,14 @@ public class ComboAttack
 
     @SideOnly(Side.CLIENT)
     private HashMap<Byte, Supplier<Animation>> animations;
-    private Byte currentAttack;
+    private byte currentAttack;
 
-    public void setCurrentAttack(Byte b)
+    public void setCurrentAttack(byte b)
     {
 	currentAttack = b;
     }
 
-    public Byte getCurrentAttack()
+    public byte getCurrentAttack()
     {
 	return currentAttack;
     }
@@ -39,7 +40,7 @@ public class ComboAttack
     }
 
     @SideOnly(Side.CLIENT)
-    public void addAttack(Byte b, Action action, Supplier<Animation> anim)
+    public void addAttack(byte b, Action action, Supplier<Animation> anim)
     {
 	if (animations == null)
 	{
@@ -53,7 +54,7 @@ public class ComboAttack
 	animations.put(b, anim);
     }
 
-    public void addAttack(Byte b, Action action)
+    public void addAttack(byte b, Action action)
     {
 	if (actions.containsKey(b))
 	{
@@ -63,8 +64,12 @@ public class ComboAttack
     }
 
     @SideOnly(Side.CLIENT)
-    public Animation getAnimation(Byte b)
+    public Animation getAnimation(byte b)
     {
+	if (animations == null)
+	{
+	    return new AnimationNone();
+	}
 	if (!animations.containsKey(b))
 	{
 	    throw new IllegalArgumentException("The byte " + b + " does not correspond to an attack");
@@ -72,7 +77,7 @@ public class ComboAttack
 	return animations.get(b).get();
     }
 
-    private Action getAction(Byte b)
+    private Action getAction(byte b)
     {
 	if (!actions.containsKey(b))
 	{

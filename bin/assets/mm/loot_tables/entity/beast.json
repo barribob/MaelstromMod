@@ -19,6 +19,23 @@
                     ]
                 }
             ]
+        },
+        {
+            "rolls": 1,
+            "name": "beast",
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:azure_maelstrom_core_crystal",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": 8
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

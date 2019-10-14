@@ -11,6 +11,7 @@ item.brown_key.name=Golden Valley Dimensional Key
 item.red_key.name=Red Dimensional Key
 item.cliff_key_fragment.name=Key Fragment
 item.red_key_fragment.name=Key Fragment
+
 //———————————————————————————————————————————————————————————
 // Food
 //———————————————————————————————————————————————————————————
@@ -59,6 +60,7 @@ item.explosive_dagger.name=Explosive Dagger
 item.black_gold_sword.name=Black Gold Sword
 item.brownstone_sword.name=Brownstone Sword
 item.ancient_battleaxe.name=Ancient Battleaxe
+item.magisteel_sword.name=Magisteel Sword
 
 //———————————————————————————————————————————————————————————
 // Armor
@@ -85,6 +87,10 @@ item.black_gold_helmet.name=Black Gold Helmet
 item.black_gold_chestplate.name=Black Gold Chestplate
 item.black_gold_leggings.name=Black Gold Leggings
 item.black_gold_boots.name=Black Gold Boots
+item.nyan_helmet.name=Nyan Helmet
+item.nyan_chestplate.name=Nyan Chestplate
+item.nyan_leggings.name=Nyan Leggings
+item.nyan_boots.name=Nyan Boots
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
@@ -96,6 +102,9 @@ item.golden_shotgun.name=Gold Shotgun
 item.golden_rifle.name=Gold Rifle
 item.swamp_slime.name=Swamp Slime
 item.golden_maelstrom_core.name=Golden Maelstrom Core
+item.gold_stone_longsword.name=Gold Stone Sword
+item.meteor_staff.name=Meteor Staff
+item.fly_wings.name=Fly Wings
 
 //———————————————————————————————————————————————————————————
 // Blocks
@@ -236,6 +245,10 @@ entity.maelstrom_golden_boss.name=Maelstrom Statue of Nirvana
 entity.maelstrom_witch.name=Maelstrom Witch
 entity.cliff_golem.name=Cliff Stone Golem
 entity.swamp_crawler.name=Swamp Crawler
+entity.iron_shade.name=Shade of Execution
+entity.maelstrom_beast.name=Maelstrom Minotaur
+entity.cliff_herobrine.name=Herobrine
+entity.cliff_fly.name=Swamp Fly
 
 //———————————————————————————————————————————————————————————
 // Projectiles
@@ -271,6 +284,12 @@ entity.cliff_portal_spawn.name=Cliff Portal
 entity.explosive_drill.name=Explosion
 entity.azure_bullet.name=Azure Bullet
 entity.swamp_spittle.name=Swamp Spittle
+entity.nexus_particle.name=Nexus Particle
+entity.iron_thrust.name=Iron Shade Attack
+entity.maelstrom_wisp.name=Maelstrom Wisp
+entity.meteor.name=Maelstrom Meteor
+entity.meteor_spawner.name=Meteor Summoner
+entity.beast_quake.name=Minotaur Fissure
 
 //———————————————————————————————————————————————————————————
 // Damage Sources
@@ -298,7 +317,7 @@ enchantment.impact=Impact
 enchantment.gun_flame=Enflame
 enchantment.maelstrom_destroyer=Maelstrom Destroyer
 enchantment.maelstrom_protection=Maelstrom Protection
-enchantment.sharpness_2=Golden Sharpness
+enchantment.sharpness_2=Maelstrom Sharpness
 enchantment.critical_hit=Critical Hit
 
 //———————————————————————————————————————————————————————————
@@ -318,3 +337,88 @@ itemGroup.all=Maelstrom Mod
 // Misc.
 //———————————————————————————————————————————————————————————
 islandbuilder.fail=Nexus Island Builder only activates in the overworld
+
+//———————————————————————————————————————————————————————————
+// Config
+//———————————————————————————————————————————————————————————
+mm.config.world=World
+mm.config.spawn_island=Naturally Spawn Nexus Island
+mm.config.fracture_dimension_id=Fracture Dimension Id
+mm.config.nexus_dimension_id=Nexus Dimension Id
+mm.config.cliff_dimension_id=Cliff Dimension Id
+
+mm.config.gui=Gui
+mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
+mm.config.armor_bar_y=Maelstrom Armor Bar Y Offset
+mm.config.show_cooldown_bar=Show Gun Cooldown Bar
+
+mm.config.balancing=Balancing
+mm.config.scale=Progression Scale
+mm.config.mob_damage=Mob Damage Scaling
+
+//———————————————————————————————————————————————————————————
+// Item and Block Descriptions
+//———————————————————————————————————————————————————————————
+mm.desc.island_builder=Right-clicking builds a large island at y=100 that has a portal to the nexus dimension.
+mm.desc.lag=Lag warning!
+mm.desc.dimensional_key=Right click on a key block in the Nexus to activate
+mm.desc.tbd_key=A key to a dimension, coming soon!
+mm.desc.boomstick=Close range shotgun attack
+mm.desc.musket=Medium range and melee attack
+mm.desc.maelstrom_cannon=Close range explosive attack
+mm.desc.wisp_staff=Short range piercing flame attack
+mm.desc.quake_staff=Short range ground attack
+mm.desc.level=Maelstrom Level
+mm.desc.pumpkin=An accurate energy sniper rifle
+mm.desc.pumpkin_damage=Deals more damage the farther it travels
+mm.desc.deals=Deals
+mm.desc.damage_per_meter=damage per meter
+mm.desc.damage=Damage
+mm.desc.gun_ammo=Required Ammo
+mm.desc.gun_reload_time=second reload time
+mm.desc.no_ammo_required=None
+mm.desc.dragonslayer=Has massive sweep attack
+mm.desc.dagger=Has no sweep attack
+mm.desc.flintlock=Medium range gun
+mm.desc.repeater=Short range repeating gun
+mm.desc.kanshou_bakuya=Wielding Kanshou and Bakuya together grants Strength III
+mm.desc.rifle=Long range gun
+mm.desc.elk_rifle=Pierces through multiple enemies
+mm.desc.frost_sword=Slows enemies on sweep attack
+mm.desc.large_sweep_attack=Has large sweep attack
+mm.desc.venom_dagger=Poisons on charged attack
+mm.desc.crusade_sword=Grants resistance on sweep attack
+mm.desc.explosive_dagger=Explodes on charged attack
+mm.desc.magisteel_sword=Launches sweep attack
+mm.desc.leap_staff=Gives a small upward boost
+mm.desc.fall_damage_reduction=Reduces falling damage
+mm.desc.speed_staff=Gives a short speed boost
+mm.desc.fireball_staff=Shoots short range fireball
+mm.desc.explosive_staff=Made in honor of the gods of destruction
+mm.desc.potion_add=Adds
+mm.desc.black_gold_sword=Lights enemies on sweep attack
+mm.desc.meteor_staff=Summons a meteor up to 50 blocks away
+mm.desc.nyan_helmet=Full set bonus: Rainbows upon sprinting
+
+//———————————————————————————————————————————————————————————
+// Entity Dialog
+//———————————————————————————————————————————————————————————
+mm.dialog.illager_1=What a fine being we have here! I must investigate!
+mm.dialog.illager_2=Come join our empire as a maelstrom zombie!
+mm.dialog.illager_3=Die pesky specimen!
+mm.dialog.herobrine_1=Hello there adventurer.
+mm.dialog.herobrine_2=Before I allow you to enter the maelstrom,
+mm.dialog.herobrine_3=I'll have to make sure you are able to fight.
+mm.dialog.herobrine_4=If you don't impress me, you'll die.
+mm.dialog.herobrine_5=Good, you have the skill,
+mm.dialog.herobrine_6=I will give you the key to the first dimension,
+mm.dialog.herobrine_7=We shall soon see how far you get.
+mm.dialog.azure_villager_1=We've been having a problem with the maelstrom that's invaded this dimension.
+mm.dialog.azure_villager_2=You seem like a warrior, would you defeat the maelstrom invaders for us?
+mm.dialog.azure_villager_3=We'll reward you handsomely for taking out the maelstrom.
+mm.dialog.azure_villager_4=Have a look around the mineshaft for any useful gear and items.
+mm.dialog.azure_villager_5=Under the maelstrom growths, there is a core that spawns the maelstrom. Remove those!
+mm.dialog.azure_villager_6=Keep an eye out for the maelstrom fortress. That's where the boss is.
+mm.dialog.herobrine_cliff_1=You have completed the first dimension? Not bad.
+mm.dialog.herobrine_cliff_2=You might be just what I'm looking for.
+mm.dialog.herobrine_cliff_3=Let's see how well you fare in this next dimension.

@@ -30,15 +30,15 @@ public class EntityHorror extends EntityMaelstromMob
 	this.setLevel(1.5f);
     }
     
-    
-    
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseMaxHealth(25);
-	this.setBaseAttack(7f);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
 
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();

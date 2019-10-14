@@ -2,8 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
-import com.barribob.MaelstromMod.config.ModConfig;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -35,8 +34,8 @@ public class ItemLeapStaff extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Gives a small upward boost");
-	tooltip.add(TextFormatting.GRAY + "Reduces falling damage");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("leap_staff"));
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("fall_damage_reduction"));
     }
 
     @Override

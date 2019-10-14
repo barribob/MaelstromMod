@@ -1,6 +1,6 @@
 {
-   "parent": "mm:item/gun",
+   "parent": "mm:item/repeater",
    "textures": {
-       "layer0": "mm:items/golden_repeater"
+       "0": "mm:items/golden_repeater"
    }
 }

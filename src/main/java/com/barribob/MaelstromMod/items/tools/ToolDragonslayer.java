@@ -5,8 +5,7 @@ import java.util.UUID;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
-import com.barribob.MaelstromMod.util.handlers.LevelHandler;
-import com.google.common.collect.HashMultimap;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -32,14 +31,13 @@ public class ToolDragonslayer extends ToolSword implements IExtendedReach, ISwee
 {
     private static final UUID REACH_MODIFIER = UUID.fromString("a6323e02-d8e9-44c6-b941-f5d7155bb406");
     private float reach = 5;
-    private float attackDamage;
 
     public ToolDragonslayer(String name, ToolMaterial material, float level)
     {
 	super(name, material, level);
-	this.attackDamage = material.getAttackDamage() * 1.25f * LevelHandler.getMultiplierFromLevel(level);
     }
 
+    @Override
     public float getReach()
     {
 	return this.reach;
@@ -60,8 +58,8 @@ public class ToolDragonslayer extends ToolSword implements IExtendedReach, ISwee
 	{
 	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
 	    {
-		entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F),
-			(double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F),
+			(-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 		entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(player), sweepDamage);
 	    }
 	}
@@ -70,27 +68,33 @@ public class ToolDragonslayer extends ToolSword implements IExtendedReach, ISwee
 	player.spawnSweepParticles();
     }
 
-    /**
-     * Gets a map of item attribute modifiers, used by ItemSword to increase hit
-     * damage.
-     */
+    @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
     {
-	Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
+	Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
 
 	if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 	{
-	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.attackDamage, 0));
-	    multimap.put("extended_reach", new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", this.reach - 3.0D, 0));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.2D, 0));
+	    multimap.put(EntityPlayer.REACH_DISTANCE.getName(), new AttributeModifier(REACH_MODIFIER, "Extended Reach Modifier", this.reach - 3.0D, 0).setSaved(false));
 	}
 	return multimap;
     }
-    
+    @Override
+    public float getAttackDamage()
+    {
+	return super.getAttackDamage() * 1.25f;
+    }
+
+    @Override
+    protected double getAttackSpeed()
+    {
+	return -3.2D;
+    }
+
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(TextFormatting.GRAY + "Has massive sweep attack");
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("dragonslayer"));
     }
 }

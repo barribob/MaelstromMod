@@ -55,6 +55,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	this.attackHandler.addAttack(octoMissile, new ActionOctoMissiles(), () -> new AnimationOctoMissiles());
 	this.attackHandler.addAttack(megaMissile, new ActionGoldenFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.addAttack(runes, new ActionMultiGoldenRunes(), () -> new AnimationRuneSummon());
+	this.currentAnimation = new AnimationOctoMissiles();
     }
 
     @Override
@@ -75,6 +76,8 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.5);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
     }
 
     @Override
@@ -132,17 +135,11 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	if (id >= 4 && id <= 6)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
-	    currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 2, 0).scale(2)).add(this.getPositionVector()), ModColors.YELLOW);
-	    if (this.isSwingingArms() && attackHandler.getCurrentAttack() == megaMissile)
-	    {
-		Vec3d look = this.getVectorForRotation(0, this.rotationYaw);
-		ParticleManager.spawnEffect(world, this.getPositionVector().add(ModRandom.randVec().scale(0.5)).add(ModUtils.yVec(this.getEyeHeight())).add(look),
-			ModColors.YELLOW);
-	    }
 	}
 	else if (id == ModUtils.SECOND_PARTICLE_BYTE)
 	{
@@ -156,13 +153,6 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	{
 	    super.handleStatusUpdate(id);
 	}
-    }
-
-    @Override
-    protected void updateAttributes()
-    {
-	this.setBaseMaxHealth(200);
-	this.setBaseAttack(5);
     }
 
     @Override

@@ -3,8 +3,6 @@ package com.barribob.MaelstromMod.world.gen.foliage;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.barribob.MaelstromMod.init.ModBlocks;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHugeMushroom;
 import net.minecraft.block.state.IBlockState;
@@ -27,6 +25,7 @@ public class WorldGenCliffMushroom extends WorldGenerator
 	this.cliffBlock = cliffBlock;
     }
 
+    @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
 
@@ -36,6 +35,21 @@ public class WorldGenCliffMushroom extends WorldGenerator
 	while (worldIn.getBlockState(position).getBlock() != Blocks.AIR)
 	{
 	    position = position.up();
+	}
+
+	if (position.getY() > 240)
+	{
+	    return false;
+	}
+
+	if (position.getY() > 200 && rand.nextInt(2) == 0)
+	{
+	    return false;
+	}
+
+	if (!worldIn.isAirBlock(position.up(40)))
+	{
+	    return false;
 	}
 
 	if (worldIn.getBlockState(position).getBlock() == Blocks.AIR && this.isBlockNearby(worldIn, position))

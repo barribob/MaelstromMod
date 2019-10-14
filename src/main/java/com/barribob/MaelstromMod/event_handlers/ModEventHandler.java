@@ -1,10 +1,10 @@
 package com.barribob.MaelstromMod.event_handlers;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
-import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
@@ -19,7 +19,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -73,36 +72,34 @@ public class ModEventHandler
 		    float reach = ((IExtendedReach) itemStack.getItem()).getReach();
 		    RayTraceResult result = InputOverrides.getMouseOver(1.0f, mc, reach);
 
-		    if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY)
+		    if (result != null)
 		    {
-			Main.network.sendToServer(new MessageExtendedReachAttack(result.entityHit.getEntityId()));
+			if (result.typeOfHit == RayTraceResult.Type.ENTITY)
+			{
+			    Main.network.sendToServer(new MessageExtendedReachAttack(result.entityHit.getEntityId()));
+			    mc.player.resetCooldown();
+			}
+			else if (result.typeOfHit == RayTraceResult.Type.MISS)
+			{
+			    mc.player.resetCooldown();
+			    net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
+			    event.setCanceled(true); // Prevents shorter reach swords from hitting with the event going through
+			}
+			// We let the block ray trace result be handled by the default event
+			mc.player.swingArm(EnumHand.MAIN_HAND);
 		    }
-		    else
-		    {
-			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player);
-		    }
-
-		    // Because the actual animation is canceled as well, the methods below let the
-		    // client animate properly
-		    mc.player.resetCooldown();
-		    mc.player.swingArm(EnumHand.MAIN_HAND);
-		    event.setCanceled(true);// Prevents shorter reach swords from hitting with the event going through
-		    return;
 		}
 	    }
 	}
-
-	event.setCanceled(false);
     }
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event)
     {
-	//System.out.println("Initial: " + event.getAmount());
 	// Factor in maelstrom armor into damage source
 	if (!event.getSource().isUnblockable())
 	{
-	    event.setAmount((float) (event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity()))));
+	    event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity())));
 
 	    if (ModDamageSource.isMaelstromDamage(event.getSource()))
 	    {
@@ -130,9 +127,10 @@ public class ModEventHandler
 		InGameGui.renderArmorBar(mc, event, player);
 	    }
 
-	    InGameGui.renderGunReload(mc, event, player);
-
-	    GlStateManager.disableBlend();
+	    if (ModConfig.gui.showGunCooldownBar)
+	    {
+		InGameGui.renderGunReload(mc, event, player);
+	    }
 	}
     }
 }

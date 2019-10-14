@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationFireballThrow;
 import com.barribob.MaelstromMod.entity.animation.AnimationHerobrineGroundSlash;
 import com.barribob.MaelstromMod.entity.animation.AnimationSpinSlash;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -66,7 +67,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	if (!world.isRemote)
 	{
 	    attackHandler.addAttack(spinSlash, new ActionSpinSlash());
-	    attackHandler.addAttack(groundSlash, new ActionGroundSlash());
+	    attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())));
 	    attackHandler.addAttack(fireball, new ActionFireball());
 	}
     }
@@ -76,8 +77,10 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     protected void initAnimation()
     {
 	attackHandler.addAttack(spinSlash, new ActionSpinSlash(), () -> new AnimationSpinSlash());
-	attackHandler.addAttack(groundSlash, new ActionGroundSlash(), () -> new AnimationHerobrineGroundSlash());
+	attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())),
+		() -> new AnimationHerobrineGroundSlash());
 	attackHandler.addAttack(fireball, new ActionFireball(), () -> new AnimationFireballThrow());
+	this.currentAnimation = new AnimationSpinSlash();
     }
 
     @Override
@@ -95,11 +98,12 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseMaxHealth(20);
+	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
     @Override
@@ -218,7 +222,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	if (id >= 4 && id <= 6)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
-	    currentAnimation.startAnimation();
+	    getCurrentAnimation().startAnimation();
 	}
 	else if (id == this.passiveParticleByte)
 	{

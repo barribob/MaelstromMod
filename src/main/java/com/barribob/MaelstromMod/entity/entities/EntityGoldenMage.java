@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -31,9 +32,10 @@ public class EntityGoldenMage extends EntityMaelstromMage
     }
 
     @Override
-    protected void updateAttributes()
+    protected void applyEntityAttributes()
     {
-	this.setBaseAttack(4);
+	super.applyEntityAttributes();
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
     }
 
     @Override
@@ -47,27 +49,12 @@ public class EntityGoldenMage extends EntityMaelstromMage
     }
 
     @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
-	super.setSwingingArms(swingingArms);
-	if (swingingArms)
-	{
-	    this.world.setEntityState(this, (byte) 4);
-	}
-    };
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
 	if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    ParticleManager.spawnEffect(world, ModRandom.randVec().add(new Vec3d(0, 1, 0)).add(this.getPositionVector()), ModColors.YELLOW);
-	}
-	if (id == 4)
-	{
-	    currentAnimation = new AnimationDualThrow();
-	    currentAnimation.startAnimation();
 	}
 	else
 	{

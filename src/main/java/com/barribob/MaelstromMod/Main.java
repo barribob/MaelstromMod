@@ -35,7 +35,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * Also other tools that I used: World Edit from Single Player Commands, as well as MCEdit
  *
  */
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, updateJSON = "https://raw.githubusercontent.com/miyo6032/MaelstromMod/LibraryIntegration/update.json")
 public class Main
 {
     @Instance

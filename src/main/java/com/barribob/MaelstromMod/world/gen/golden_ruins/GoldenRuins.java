@@ -27,7 +27,7 @@ public class GoldenRuins
     private World world;
     private TemplateManager manager;
     private ChunkGeneratorCliff provider;
-    private static final int SIZE = 15;
+    private static final int SIZE = 10;
     private int requiredGroundHeight = 164;
 
     private static final List<Tuple<Rotation, BlockPos>> CROSS_POS = Lists.newArrayList(new Tuple(Rotation.NONE, new BlockPos(0, 0, 0)),
@@ -44,7 +44,7 @@ public class GoldenRuins
     public void startStronghold(BlockPos pos, Rotation rot)
     {
 	RuinsTemplate template = new RuinsTemplate(manager, "boss", pos, rot, 0, true);
-	if (this.getGroundHeight(template, provider, rot) > requiredGroundHeight)
+	if (this.getGroundHeight(template, provider, rot) > requiredGroundHeight && !ModUtils.chunksGenerated(template.getBoundingBox(), world))
 	{
 	    components.add(template);
 	    generateCross(template, BlockPos.ORIGIN, rot);
@@ -57,7 +57,7 @@ public class GoldenRuins
 	String[] rooms = { "broken_four_way_bridge", "four_way_bridge", "stair_room", "entrance" };
 	RuinsTemplate template = addAdjustedPiece(parent, pos, ModRandom.choice(rooms), rot);
 
-	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE)
+	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE || ModUtils.chunksGenerated(template.getBoundingBox(), world))
 	{
 	    return false;
 	}
@@ -95,7 +95,7 @@ public class GoldenRuins
 	String[] rooms = { "bridge", "broken_bridge", "broken_column_platforms", "chandelier", "column_platforms", "pillar_bridge" };
 	RuinsTemplate template = addAdjustedPiece(parent, pos, ModRandom.choice(rooms), rot);
 
-	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE)
+	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE || ModUtils.chunksGenerated(template.getBoundingBox(), world))
 	{
 	    return false;
 	}
@@ -107,16 +107,16 @@ public class GoldenRuins
 
 	components.add(template);
 
-	int r = world.rand.nextInt(2);
+	int r = world.rand.nextInt(3);
 	boolean genSuccess;
 
 	if (r == 0)
 	{
-	    genSuccess = generateCross(template, BlockPos.ORIGIN, rot);
+	    genSuccess = generateHall(template, BlockPos.ORIGIN, rot);
 	}
 	else
 	{
-	    genSuccess = generateHall(template, BlockPos.ORIGIN, rot);
+	    genSuccess = generateCross(template, BlockPos.ORIGIN, rot);
 	}
 
 	/*
@@ -134,7 +134,7 @@ public class GoldenRuins
     private boolean generateEnd(RuinsTemplate parent, BlockPos pos, Rotation rot)
     {
 	RuinsTemplate template = addAdjustedPiece(parent, pos, "entrance", rot);
-	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE)
+	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE || ModUtils.chunksGenerated(template.getBoundingBox(), world))
 	{
 	    return false;
 	}

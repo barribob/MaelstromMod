@@ -1,10 +1,9 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -28,24 +27,18 @@ public class ProjectilePillarFlames extends Projectile
 	super(worldIn, x, y, z);
 	this.setNoGravity(true);
     }
-    
+
     @Override
     protected void spawnParticles()
     {
 	world.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY, this.posZ, 0, 0, 0);
     }
-    
+
     @Override
     protected void onHit(RayTraceResult result)
     {
-	if (result.entityHit != null && !(result.entityHit instanceof EntityMaelstromMob) && this.shootingEntity != null)
-	{
-	    if (this.shootingEntity instanceof EntityLivingBase)
-	    {
-		result.entityHit.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage((EntityLivingBase)this.shootingEntity), this.getDamage());
-		result.entityHit.setFire(5);
-	    }
-	    super.onHit(result);
-	}
+	this.setFire(1);
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMaelstromMeleeDamage(this.shootingEntity));
+	super.onHit(result);
     }
 }
