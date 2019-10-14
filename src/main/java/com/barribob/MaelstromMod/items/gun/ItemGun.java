@@ -86,7 +86,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem
     {
 	float maxPower = ModEnchantments.gun_power.getMaxLevel();
 	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
-	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.progression_scale - 1));
+	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
 	return this.damage * enchantmentBonus * this.getMultiplier();
     }
 

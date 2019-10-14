@@ -28,15 +28,15 @@ public class DimensionScreenHandler
 	Minecraft mc = FMLClientHandler.instance().getClient();
 	if (event.getGui() instanceof GuiDownloadTerrain && mc.player != null)
 	{
-	    if (mc.player.dimension == ModConfig.fracture_dimension_id)
+	    if (mc.player.dimension == ModConfig.world.fracture_dimension_id)
 	    {
 		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/gui/dark_azure_stone.png"), "azure_dimension"));
 	    }
-	    else if(mc.player.dimension == ModConfig.nexus_dimension_id)
+	    else if (mc.player.dimension == ModConfig.world.nexus_dimension_id)
 	    {
 		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/gui/quartz_block_cracked.png"), "nexus_dimension"));
 	    }
-	    else if(mc.player.dimension == ModConfig.cliff_dimension_id)
+	    else if (mc.player.dimension == ModConfig.world.cliff_dimension_id)
 	    {
 		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/gui/chiseled_cliff_stone.png"), "cliff_dimension"));
 	    }

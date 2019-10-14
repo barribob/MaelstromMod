@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.AIFlyingRangedAttack;
 import com.barribob.MaelstromMod.entity.ai.AILookAround;
 import com.barribob.MaelstromMod.entity.ai.AIRandomFly;
@@ -111,7 +112,8 @@ public class EntityCliffFly extends EntityFlying implements IMob, IRangedAttackM
 
     public float getAttack()
     {
-	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * LevelHandler.getMultiplierFromLevel(this.level);
+	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * LevelHandler.getMultiplierFromLevel(this.level)
+		* ModConfig.balance.mob_damage;
     }
 
     @Override

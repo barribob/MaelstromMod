@@ -56,7 +56,7 @@ public class ProjectileGun extends Projectile
     {
 	if (entity instanceof EntityMaelstromMob)
 	{
-	    float maxPower = ModConfig.progression_scale / ModEnchantments.maelstrom_destroyer.getMaxLevel();
+	    float maxPower = ModConfig.balance.progression_scale / ModEnchantments.maelstrom_destroyer.getMaxLevel();
 	    return super.getDamage() * (1 + this.maelstromDestroyer * maxPower);
 	}
 

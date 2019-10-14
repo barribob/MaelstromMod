@@ -21,7 +21,7 @@ public class StructureGenerator
     @SubscribeEvent()
     public static void onReplaceBiomeBlocks(ChunkGeneratorEvent.ReplaceBiomeBlocks event)
     {
-	if (ModConfig.spawn_island)
+	if (ModConfig.world.spawn_island)
 	{
 	    nexusIsland.generate(event.getWorld(), event.getX(), event.getZ(), event.getPrimer());
 	}
@@ -30,7 +30,7 @@ public class StructureGenerator
     @SubscribeEvent()
     public static void onPopulateChunk(PopulateChunkEvent.Pre event)
     {
-	if (ModConfig.spawn_island)
+	if (ModConfig.world.spawn_island)
 	{
 	    nexusIsland.generateStructure(event.getWorld(), event.getRand(), new ChunkPos(event.getChunkX(), event.getChunkZ()));
 	}

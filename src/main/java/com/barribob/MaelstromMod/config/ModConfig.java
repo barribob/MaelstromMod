@@ -21,29 +21,14 @@ public class ModConfig
     @Config.Ignore
     private static final String config = Reference.MOD_ID + ".config.";
 
-    @Config.RequiresMcRestart
-    @Config.LangKey(config + "fracture_dimension_id")
-    public static int fracture_dimension_id = 125;
-
-    @Config.RequiresMcRestart
-    @Config.LangKey(config + "nexus_dimension_id")
-    public static int nexus_dimension_id = 126;
-
-    @Config.RequiresMcRestart
-    @Config.LangKey(config + "cliff_dimension_id")
-    public static int cliff_dimension_id = 127;
-
-    @Config.RequiresWorldRestart
-    @Config.LangKey(config + "spawn_island")
-    public static boolean spawn_island = true;
+    @Config.LangKey(config + "world")
+    public static WorldCat world = new WorldCat();
 
     @Config.LangKey(config + "gui")
     public static GuiCat gui = new GuiCat(0, 0, true);
 
-    @Config.LangKey(config + "scale")
-    @Config.RangeDouble(min = 1.1, max = 3)
-    @Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty.")
-    public static float progression_scale = 2;
+    @Config.LangKey(config + "balancing")
+    public static BalanceCat balance = new BalanceCat(2, 1);
 
     public static class GuiCat
     {
@@ -62,6 +47,44 @@ public class ModConfig
 	    this.maelstrom_armor_bar_offset_y = y;
 	    showGunCooldownBar = showCooldown;
 	}
+    }
+
+    public static class BalanceCat
+    {
+	@Config.LangKey(config + "scale")
+	@Config.RangeDouble(min = 1.1, max = 3)
+	@Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty.")
+	public float progression_scale;
+
+	@Config.LangKey(config + "mob_damage")
+	@Config.RangeDouble(min = 0.5, max = 3)
+	@Config.Comment("Scales the base damage of mobs in this mod.")
+	public float mob_damage;
+
+	public BalanceCat(float progression_scale, float mob_damage)
+	{
+	    this.progression_scale = progression_scale;
+	    this.mob_damage = mob_damage;
+	}
+    }
+
+    public static class WorldCat
+    {
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "fracture_dimension_id")
+	public int fracture_dimension_id = 125;
+
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "nexus_dimension_id")
+	public int nexus_dimension_id = 126;
+
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "cliff_dimension_id")
+	public int cliff_dimension_id = 127;
+
+	@Config.RequiresWorldRestart
+	@Config.LangKey(config + "spawn_island")
+	public boolean spawn_island = true;
     }
 
     @SubscribeEvent

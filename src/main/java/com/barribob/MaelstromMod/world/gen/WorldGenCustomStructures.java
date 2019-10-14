@@ -346,7 +346,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
 	int i = 15;
-	if (world.provider.getDimension() == ModConfig.cliff_dimension_id)
+	if (world.provider.getDimension() == ModConfig.world.cliff_dimension_id)
 	{
 	    if (chunkX % i == 0 && chunkZ % i == 0)
 	    {
@@ -379,7 +379,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		ModUtils.generateN(world, random, pos, 1, 200, 50, new WorldGenWaterfall(ModBlocks.CLIFF_STONE));
 	    }
 	}
-	if (world.provider.getDimension() == ModConfig.fracture_dimension_id)
+	if (world.provider.getDimension() == ModConfig.world.fracture_dimension_id)
 	{
 	    if (chunkX % i == 0 && chunkZ % i == 0)
 	    {

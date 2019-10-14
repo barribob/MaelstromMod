@@ -26,7 +26,7 @@ public class ToNexusTeleporter extends Teleporter
     public ToNexusTeleporter(WorldServer worldIn, BlockPos portalOffset)
     {
 	super(worldIn);
-	if (this.world.provider.getDimensionType().getId() != ModConfig.nexus_dimension_id)
+	if (this.world.provider.getDimensionType().getId() != ModConfig.world.nexus_dimension_id)
 	{
 	    System.err.println("The overworld to nexus teleporter is being used for the wrong dimension!");
 	}

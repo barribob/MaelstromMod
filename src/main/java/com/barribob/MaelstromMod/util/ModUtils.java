@@ -67,7 +67,7 @@ public final class ModUtils
 	    AttributeModifier attributemodifier = entry.getValue();
 	    if (attributemodifier.getID() == ToolSword.getAttackDamageModifier())
 	    {
-		double multiplier = ((power / maxPower) * (ModConfig.progression_scale - 1));
+		double multiplier = ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
 		return attributemodifier.getAmount() * multiplier;
 	    }
 	}

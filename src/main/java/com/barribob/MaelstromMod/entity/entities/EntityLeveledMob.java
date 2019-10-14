@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
@@ -180,7 +181,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
      */
     public float getAttack()
     {
-	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * this.getProgressionMultiplier();
+	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * this.getProgressionMultiplier() * ModConfig.balance.mob_damage;
     }
 
     @Override
