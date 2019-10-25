@@ -15,14 +15,17 @@ import com.barribob.MaelstromMod.blocks.BlockBase;
 import com.barribob.MaelstromMod.blocks.BlockDecayingMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockDisappearingSpawner;
 import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
+import com.barribob.MaelstromMod.blocks.BlockFan;
 import com.barribob.MaelstromMod.blocks.BlockFenceBase;
 import com.barribob.MaelstromMod.blocks.BlockFullLog;
+import com.barribob.MaelstromMod.blocks.BlockGrate;
 import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
 import com.barribob.MaelstromMod.blocks.BlockMegaStructure;
 import com.barribob.MaelstromMod.blocks.BlockNexusHerobrineSpawner;
 import com.barribob.MaelstromMod.blocks.BlockNexusTeleporter;
+import com.barribob.MaelstromMod.blocks.BlockPillarBase;
 import com.barribob.MaelstromMod.blocks.BlockPlumFilledLeaves;
 import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
 import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
@@ -203,4 +206,27 @@ public class ModBlocks
     public static final Block CRACKED_SWAMP_BRICK = new BlockBase("cracked_swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.ALL);
+
+    // Crimson Dimension
+    public static final Block FURNACE_PILLAR = new BlockPillarBase("furnace_pillar", Material.ROCK).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE)
+	    .setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block REDSTONE_BRICK = new BlockBase("redstone_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
+    {
+	@Override
+	public boolean canProvidePower(net.minecraft.block.state.IBlockState state)
+	{
+	    return true;
+	};
+
+	@Override
+	public int getWeakPower(net.minecraft.block.state.IBlockState blockState, net.minecraft.world.IBlockAccess blockAccess, net.minecraft.util.math.BlockPos pos,
+		net.minecraft.util.EnumFacing side)
+	{
+	    return 15;
+	};
+    }.setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block IRON_GRATE = new BlockGrate("iron_grate", Material.IRON).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE)
+	    .setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block FAN = new BlockFan("fan", Material.IRON, STONE_HARDNESS, STONE_RESISTANCE, SoundType.METAL);
+
 }

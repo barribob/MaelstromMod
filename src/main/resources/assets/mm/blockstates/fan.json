@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "facing=down,triggered=true":  { "model": "mm:fan", "x": 180 },
+        "facing=up,triggered=true":    { "model": "mm:fan" },
+        "facing=north,triggered=true": { "model": "mm:fan", "x": 90 },
+        "facing=south,triggered=true": { "model": "mm:fan", "x": -90 },
+        "facing=west,triggered=true":  { "model": "mm:fan", "x": -90, "y": 90 },
+        "facing=east,triggered=true":  { "model": "mm:fan", "x": 90, "y":90 },
+        "facing=down,triggered=false":  { "model": "mm:fan_unpowered", "x": 180 },
+        "facing=up,triggered=false":    { "model": "mm:fan_unpowered" },
+        "facing=north,triggered=false": { "model": "mm:fan_unpowered", "x": 90 },
+        "facing=south,triggered=false": { "model": "mm:fan_unpowered", "x": -90 },
+        "facing=west,triggered=false":  { "model": "mm:fan_unpowered", "x": -90, "y": 90 },
+        "facing=east,triggered=false":  { "model": "mm:fan_unpowered", "x": 90, "y":90 }
+    }
+}
