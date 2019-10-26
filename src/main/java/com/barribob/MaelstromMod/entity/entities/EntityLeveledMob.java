@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
@@ -169,19 +168,11 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     }
 
     /**
-     * Get the progression multiplier based on the level of the entity
-     */
-    protected float getProgressionMultiplier()
-    {
-	return LevelHandler.getMultiplierFromLevel(this.getLevel());
-    }
-
-    /**
      * Return the shared monster attribute attack
      */
     public float getAttack()
     {
-	return (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * this.getProgressionMultiplier() * ModConfig.balance.mob_damage;
+	return ModUtils.getMobDamage(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue(), this.getLevel());
     }
 
     @Override

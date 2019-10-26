@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.resources.I18n;
@@ -310,5 +311,17 @@ public final class ModUtils
 	    entity.fallDistance = 0.0F; // otherwise I believe it adds up, which may surprise you when you come down
 	    entity.onGround = true;
 	}
+    }
+
+    /**
+     * The function that calculates the mob damage for any leveled mob
+     * 
+     * @param baseAttackDamage
+     * @param level
+     * @return
+     */
+    public static float getMobDamage(double baseAttackDamage, float level)
+    {
+	return (float) (baseAttackDamage * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.mob_damage);
     }
 }
