@@ -75,7 +75,7 @@ public class BlockFan extends BlockBase
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer()
     {
-	return BlockRenderLayer.TRANSLUCENT;
+	return BlockRenderLayer.CUTOUT;
     }
 
     @Override
