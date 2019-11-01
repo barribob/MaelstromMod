@@ -5,8 +5,6 @@ import java.util.Random;
 import com.barribob.MaelstromMod.init.ModBlocks;
 
 import net.minecraft.block.BlockOldLeaf;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -30,6 +28,7 @@ public class WorldGenPlumTree extends WorldGenAbstractTree
         this.useExtraRandomHeight = useExtraRandomHeightIn;
     }
 
+    @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
         int i = rand.nextInt(3) + 5;
@@ -87,7 +86,7 @@ public class WorldGenPlumTree extends WorldGenAbstractTree
             {
                 BlockPos down = position.down();
                 IBlockState state = worldIn.getBlockState(down);
-                boolean isSoil = state.getBlock() == ModBlocks.AZURE_GRASS;
+		boolean isSoil = state.getBlock() == Blocks.GRASS;
 
                 if (isSoil && position.getY() < worldIn.getHeight() - i - 1)
                 {

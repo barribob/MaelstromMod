@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.entity.action.ActionGolemSlam;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
-import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -20,6 +19,7 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -86,7 +86,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	int j = MathHelper.floor(this.getEntityBoundingBox().minY);
 	int k = MathHelper.floor(this.posZ);
 	BlockPos blockpos = new BlockPos(i, j, k);
-	return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
+	return this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
     @Override

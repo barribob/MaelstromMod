@@ -80,15 +80,15 @@ public class ModBlocks
     public static final Block AZURE_GRASS = new BlockAzureGrass("azure_grass", Material.GRASS, 0.5f, PLANTS_RESISTANCE, SoundType.GROUND).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block AZURE_LOG = new BlockLogBase("azure_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block AZURE_LEAVES = new BlockAzureLeaves("azure_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-    public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", AZURE_GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT,
+    public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", Blocks.GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT,
 	    new WorldGenAzureTree(true)).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block PLUM_LOG = new BlockLogBase("plum_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block PLUM_LEAVES = new BlockPlumLeaves("plum_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block PLUM_FILLED_LEAVES = new BlockPlumFilledLeaves("plum_filled_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL);
-    public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", AZURE_GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT,
+    public static final Block PLUM_SAPLING = new BlockSaplingBase("plum_sapling", Blocks.GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT,
 	    new WorldGenPlumTree(true, true)).setCreativeTab(ModCreativeTabs.ALL);
-    public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", AZURE_GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT,
+    public static final Block LARGE_PLUM_SAPLING = new BlockSaplingBase("large_plum_sapling", Blocks.GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT,
 	    new WorldGenBigPlumTree(true)).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block AZURE_VINES_BLOCK = new BlockAzureVinesBlock("azure_vines_block", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL);

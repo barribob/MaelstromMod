@@ -16,10 +16,18 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenWaterfall;
 
+import net.minecraft.block.BlockTallGrass;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.WorldGenBigTree;
+import net.minecraft.world.gen.feature.WorldGenTallGrass;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -39,11 +47,12 @@ public class BiomeAzure extends BiomeDifferentStone
 
     public BiomeAzure()
     {
-	super(new BiomeProperties("Fracture").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253),
-		ModBlocks.AZURE_GRASS, ModBlocks.DARK_AZURE_STONE);
+	super(new BiomeProperties("Fracture").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253), Blocks.GRASS,
+		ModBlocks.DARK_AZURE_STONE);
 
-	this.decorator.treesPerChunk = 2;
-	this.decorator.grassPerChunk = 3;
+	this.decorator.treesPerChunk = 10;
+	this.decorator.grassPerChunk = 4;
+	this.decorator.flowersPerChunk = 1;
 
 	// Registers flowers when using bonemeal
 	this.addFlower(ModBlocks.BLUE_DAISY.getDefaultState(), 1);
@@ -51,6 +60,8 @@ public class BiomeAzure extends BiomeDifferentStone
 
 	// Add our mobs to spawn in the biome
 	this.spawnableCreatureList.add(new SpawnListEntry(EntityDreamElk.class, 10, 1, 5));
+	this.spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 10, 1, 5));
+	this.spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 3, 1, 5));
 	this.spawnableCreatureList.add(new SpawnListEntry(EntityAzureGolem.class, 1, 1, 1));
     }
 
@@ -62,6 +73,7 @@ public class BiomeAzure extends BiomeDifferentStone
     {
 	int plumTreeOdds = 10;
 	int largePlumTreeOdds = 12;
+	int azureTreeOdds = 5;
 	if (rand.nextInt(plumTreeOdds) == 0)
 	{
 	    return SMALL_PLUM_TREE;
@@ -70,8 +82,12 @@ public class BiomeAzure extends BiomeDifferentStone
 	{
 	    return LARGE_PLUM_TREE;
 	}
+	else if (rand.nextInt(azureTreeOdds) == 0)
+	{
+	    return AZURE_TREE;
+	}
 
-	return AZURE_TREE;
+	return new WorldGenBigTree(false);
     }
 
     @Override
@@ -126,12 +142,28 @@ public class BiomeAzure extends BiomeDifferentStone
 	}
     }
 
-    /**
-     * Gets a WorldGen appropriate for this biome.
-     */
     @Override
     public WorldGenerator getRandomWorldGenForGrass(Random rand)
     {
+	if (rand.nextInt(2) == 0)
+	{
+	    return new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
+	}
 	return new WorldGenAzureFoliage(TALL_GRASS_LIST, 128);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getGrassColorAtPos(BlockPos pos)
+    {
+	double d0 = GRASS_COLOR_NOISE.getValue(pos.getX() * 0.0225D, pos.getZ() * 0.0225D);
+	return d0 < -0.1D ? 3109474 : 2837034;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getFoliageColorAtPos(BlockPos pos)
+    {
+	return 2837034;
     }
 }

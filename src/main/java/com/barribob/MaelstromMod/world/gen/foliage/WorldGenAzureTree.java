@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.init.ModBlocks;
 
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -44,6 +45,7 @@ public class WorldGenAzureTree extends WorldGenAbstractTree
 	}
     }
 
+    @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
 	int relativeHeight = rand.nextInt(5) + 7;
@@ -100,7 +102,7 @@ public class WorldGenAzureTree extends WorldGenAbstractTree
 	    {
 		BlockPos down = position.down();
 		IBlockState state = worldIn.getBlockState(down);
-		boolean isSoil = state.getBlock() == ModBlocks.AZURE_GRASS;
+		boolean isSoil = state.getBlock() == Blocks.GRASS;
 
 		// Make sure there is soil
 		if (isSoil && position.getY() < 256 - relativeHeight - 1)

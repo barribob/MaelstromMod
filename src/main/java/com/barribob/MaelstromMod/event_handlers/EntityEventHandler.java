@@ -1,12 +1,16 @@
 package com.barribob.MaelstromMod.event_handlers;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromBeast;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -23,6 +27,15 @@ public class EntityEventHandler
 	    beast.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
 	    beast.world.setEntityState(beast, beast.explosionParticles);
 	    ((EntityMaelstromBeast) event.getEntityLiving()).setLeaping(false);
+	}
+    }
+
+    @SubscribeEvent
+    public static void onEntitySpawnEvent(LivingSpawnEvent event)
+    {
+	if (event.getEntityLiving() instanceof EntitySheep && event.getEntityLiving().dimension == ModConfig.world.fracture_dimension_id)
+	{
+	    ((EntitySheep) event.getEntityLiving()).setFleeceColor(EnumDyeColor.CYAN);
 	}
     }
 }
