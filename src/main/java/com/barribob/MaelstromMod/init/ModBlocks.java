@@ -104,6 +104,8 @@ public class ModBlocks
     public static final Block AZURE_PLANKS = new BlockBase("azure_planks", Material.WOOD, WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block AZURE_FENCE = new BlockFenceBase("azure_fence", Material.WOOD, WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD)
 	    .setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block AZURE_PLANK_STAIRS = new BlockStairsBase("azure_plank_stairs", AZURE_PLANKS.getDefaultState(), WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD)
+	    .setCreativeTab(ModCreativeTabs.ALL);
 
     // Maelstrom
     public static final Block AZURE_MAELSTROM = new BlockMaelstrom("azure_maelstrom", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1).setLightLevel(0.5f)

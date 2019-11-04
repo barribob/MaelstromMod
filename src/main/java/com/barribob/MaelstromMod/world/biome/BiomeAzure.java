@@ -50,7 +50,7 @@ public class BiomeAzure extends BiomeDifferentStone
 	super(new BiomeProperties("Fracture").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253), Blocks.GRASS,
 		ModBlocks.DARK_AZURE_STONE);
 
-	this.decorator.treesPerChunk = 10;
+	this.decorator.treesPerChunk = 8;
 	this.decorator.grassPerChunk = 4;
 	this.decorator.flowersPerChunk = 1;
 
