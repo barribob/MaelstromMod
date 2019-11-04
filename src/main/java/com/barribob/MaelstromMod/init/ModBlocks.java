@@ -82,7 +82,7 @@ public class ModBlocks
     public static final Block AZURE_LEAVES = new BlockAzureLeaves("azure_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block AZURE_SAPLING = new BlockSaplingBase("azure_sapling", Blocks.GRASS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT,
 	    new WorldGenAzureTree(true)).setCreativeTab(ModCreativeTabs.ALL);
-    public static final Block PLUM_LOG = new BlockLogBase("plum_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block PLUM_LOG = new BlockLogBase("plum_log", WOOD_HARDNESS, WOOD_RESISTANCE, SoundType.WOOD).setLightLevel(0.3f).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block PLUM_LEAVES = new BlockPlumLeaves("plum_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block PLUM_FILLED_LEAVES = new BlockPlumFilledLeaves("plum_filled_leaves", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL);
