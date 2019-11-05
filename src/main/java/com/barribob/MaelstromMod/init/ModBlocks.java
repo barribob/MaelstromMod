@@ -131,6 +131,7 @@ public class ModBlocks
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block AZURE_LIT_REDSTONE_ORE = new BlockAzureRedstoneOre("azure_lit_redstone_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
 	    .setLightLevel(0.3f);
+    public static final Block CHASMIUM_ORE = new BlockAzureOre("chasmium_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);
 
     // Overworld
     public static final Block MAELSTROM_STONEBRICK = new BlockBase("maelstrom_stonebrick", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE)

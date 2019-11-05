@@ -6,7 +6,9 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModRandom;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -54,23 +56,32 @@ public class WorldGenOre implements IWorldGenerator
     private void generateAzure(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
 	int chunkSize = 16;
-	generateAzureOre(ModBlocks.AZURE_COAL_ORE.getDefaultState(), world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(4, 20), 20);
-	generateAzureOre(ModBlocks.AZURE_IRON_ORE.getDefaultState(), world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 64, ModRandom.range(3, 9), 20);
-	generateAzureOre(ModBlocks.AZURE_GOLD_ORE.getDefaultState(), world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 32, ModRandom.range(3, 9), 3);
-	generateAzureOre(ModBlocks.AZURE_REDSTONE_ORE.getDefaultState(), world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 16, ModRandom.range(3, 9), 8);
-	generateAzureOre(ModBlocks.AZURE_DIAMOND_ORE.getDefaultState(), world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 16, ModRandom.range(3, 9), 1);
-	generateAzureOre(ModBlocks.AZURE_LAPIS_ORE.getDefaultState(), world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 16, ModRandom.range(3, 9), 1);
-	generateAzureOre(ModBlocks.AZURE_EMERALD_ORE.getDefaultState(), world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 16, ModRandom.range(2, 6), 1);
+	generateAzureOre(ModBlocks.AZURE_COAL_ORE.getDefaultState(), ModBlocks.DARK_AZURE_STONE_1, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70,
+		ModRandom.range(8, 20), 40);
+	generateAzureOre(ModBlocks.AZURE_IRON_ORE.getDefaultState(), ModBlocks.DARK_AZURE_STONE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70,
+		ModRandom.range(6, 12), 40);
+	generateAzureOre(ModBlocks.AZURE_GOLD_ORE.getDefaultState(), ModBlocks.DARK_AZURE_STONE_2, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70,
+		ModRandom.range(6, 12), 9);
+	generateAzureOre(ModBlocks.AZURE_REDSTONE_ORE.getDefaultState(), ModBlocks.DARK_AZURE_STONE_2, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70,
+		ModRandom.range(6, 12), 24);
+	generateAzureOre(ModBlocks.AZURE_DIAMOND_ORE.getDefaultState(), Blocks.PRISMARINE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 30, ModRandom.range(6, 12),
+		2);
+	generateAzureOre(ModBlocks.AZURE_LAPIS_ORE.getDefaultState(), ModBlocks.DARK_AZURE_STONE_3, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70,
+		ModRandom.range(6, 12), 3);
+	generateAzureOre(ModBlocks.AZURE_EMERALD_ORE.getDefaultState(), ModBlocks.DARK_AZURE_STONE_4, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70,
+		ModRandom.range(4, 8),
+		3);
+	generateAzureOre(ModBlocks.CHASMIUM_ORE.getDefaultState(), Blocks.PRISMARINE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 30, ModRandom.range(6, 12), 3);
     }
     
-    private void generateAzureOre(IBlockState ore, World world, Random rand, int x, int z, int minY, int maxY, int size, int chances)
+    private void generateAzureOre(IBlockState ore, Block stone, World world, Random rand, int x, int z, int minY, int maxY, int size, int chances)
     {
 	int deltaY = maxY - minY;
 	for (int i = 0; i < chances; i++)
 	{
 	    BlockPos pos = new BlockPos(x + rand.nextInt(16), minY + rand.nextInt(deltaY), z + rand.nextInt(16));
 
-	    WorldGenAzureMinable generator = new WorldGenAzureMinable(ore, size);
+	    WorldGenModMinable generator = new WorldGenModMinable(ore, stone, size);
 	    generator.generate(world, rand, pos);
 	}
     }

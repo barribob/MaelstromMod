@@ -1,9 +1,6 @@
 package com.barribob.MaelstromMod.init;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -20,5 +17,6 @@ public class ModRecipes
 	GameRegistry.addSmelting(ModBlocks.AZURE_IRON_ORE, new ItemStack(Items.IRON_INGOT), 1);
 	GameRegistry.addSmelting(ModBlocks.AZURE_DIAMOND_ORE, new ItemStack(Items.DIAMOND), 1);
 	GameRegistry.addSmelting(ModBlocks.AZURE_EMERALD_ORE, new ItemStack(Items.EMERALD), 1);
+	GameRegistry.addSmelting(ModBlocks.CHASMIUM_ORE, new ItemStack(ModItems.CHASMIUM_INGOT), 1);
     }
 }

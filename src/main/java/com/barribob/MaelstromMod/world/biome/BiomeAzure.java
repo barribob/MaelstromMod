@@ -16,12 +16,16 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenWaterfall;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockTallGrass;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
 import net.minecraft.world.gen.feature.WorldGenTallGrass;
@@ -53,6 +57,7 @@ public class BiomeAzure extends BiomeDifferentStone
 	this.decorator.treesPerChunk = 8;
 	this.decorator.grassPerChunk = 4;
 	this.decorator.flowersPerChunk = 1;
+	this.decorator.mushroomsPerChunk = 1;
 
 	// Registers flowers when using bonemeal
 	this.addFlower(ModBlocks.BLUE_DAISY.getDefaultState(), 1);
@@ -165,5 +170,175 @@ public class BiomeAzure extends BiomeDifferentStone
     public int getFoliageColorAtPos(BlockPos pos)
     {
 	return 2837034;
+    }
+
+    @Override
+    public void generateTopBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal, Block stoneBlock)
+    {
+	int seaLevel = worldIn.getSeaLevel();
+	IBlockState topBlock = this.topBlock;
+	IBlockState fillerBlock = this.fillerBlock;
+	int j = -1;
+	int noise = (int) (noiseVal / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
+	int xPos = x & 15;
+	int zPos = z & 15;
+	int blockHeight = -1;
+	BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+
+	for (int y = 255; y >= 0; --y)
+	{
+	    if (y <= rand.nextInt(5))
+	    {
+		chunkPrimerIn.setBlockState(zPos, y, xPos, BEDROCK);
+	    }
+	    else
+	    {
+		IBlockState currentState = chunkPrimerIn.getBlockState(zPos, y, xPos);
+
+		if (currentState.getMaterial() == Material.AIR)
+		{
+		    j = -1;
+		}
+		/**
+		 * The line below is the block that needs to be match to the custom stone in
+		 * order to make the block replace correctly
+		 */
+		else if (currentState.getBlock() == stoneBlock)
+		{
+		    // Find the block height
+		    if (blockHeight == -1)
+		    {
+			blockHeight = y;
+		    }
+
+		    if (j == -1) // Only gets set intermittently
+		    {
+			if (noise <= 0)
+			{
+			    topBlock = AIR;
+			    fillerBlock = stoneBlock.getDefaultState();
+			}
+			else if (y >= seaLevel - 4 && y <= seaLevel + 1)
+			{
+			    topBlock = this.topBlock;
+			    fillerBlock = this.fillerBlock;
+			}
+
+			// Adding water
+			if (y < seaLevel && (topBlock == null || topBlock.getMaterial() == Material.AIR))
+			{
+			    if (this.getTemperature(blockpos$mutableblockpos.setPos(x, y, z)) < 0.15F)
+			    {
+				topBlock = ICE;
+			    }
+			    else
+			    {
+				topBlock = WATER;
+			    }
+			}
+
+			j = y;
+
+			// Only set the top block if we are above sea level
+			if (y >= seaLevel - 1)
+			{
+			    chunkPrimerIn.setBlockState(zPos, y, xPos, topBlock);
+			}
+			else if (y < seaLevel - 7 - noise) // When lower than a certain threshold, the top block is stone
+			{
+			    topBlock = AIR;
+			    fillerBlock = stoneBlock.getDefaultState();
+			}
+			else
+			{
+			    chunkPrimerIn.setBlockState(zPos, y, xPos, this.getStoneBlock(y, blockHeight).getDefaultState());
+			}
+		    }
+		    else if (j > 0)
+		    {
+			--j;
+			chunkPrimerIn.setBlockState(zPos, y, xPos, this.getStoneBlock(y, blockHeight).getDefaultState()); // Set the filler block
+		    }
+		}
+	    }
+	}
+    }
+
+    private Block getStoneBlock(int y, int blockHeight)
+    {
+	int heightBelow = blockHeight - y;
+	if (ModUtils.isBetween(0, 4, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE;
+	}
+	if (ModUtils.isBetween(4, 7, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_1;
+	}
+	if (ModUtils.isBetween(7, 9, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE;
+	}
+	if (ModUtils.isBetween(9, 12, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_1;
+	}
+	if (ModUtils.isBetween(12, 17, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_2;
+	}
+	if (ModUtils.isBetween(17, 20, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_3;
+	}
+	if (ModUtils.isBetween(20, 22, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_4;
+	}
+	if (ModUtils.isBetween(22, 25, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_2;
+	}
+	if (ModUtils.isBetween(25, 27, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_5;
+	}
+	if (ModUtils.isBetween(27, 31, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_2;
+	}
+	if (ModUtils.isBetween(31, 35, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE;
+	}
+	if (ModUtils.isBetween(35, 37, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_1;
+	}
+	if (ModUtils.isBetween(37, 41, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_3;
+	}
+	if (ModUtils.isBetween(41, 44, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_5;
+	}
+	if (ModUtils.isBetween(44, 48, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_4;
+	}
+	if (ModUtils.isBetween(48, 50, heightBelow))
+	{
+	    return Blocks.PRISMARINE;
+	}
+	if (ModUtils.isBetween(50, 53, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_2;
+	}
+	if (ModUtils.isBetween(53, 58, heightBelow))
+	{
+	    return ModBlocks.DARK_AZURE_STONE_3;
+	}
+	return Blocks.PRISMARINE;
     }
 }

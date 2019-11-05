@@ -4,9 +4,7 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.init.ModItems;
 
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.IMerchant;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
 import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.init.Items;
@@ -22,7 +20,7 @@ public class AzureTrades
      * overkill for my purposes, but it works nicely still
      *
      */
-    public static class ConstructArmor implements ITradeList
+    public static class ConstructElkArmor implements ITradeList
     {
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
@@ -54,6 +52,46 @@ public class AzureTrades
 	    ItemStack material = new ItemStack(ModItems.ELK_HIDE, requiredHide);
 
 	    recipeList.add(new MerchantRecipe(material, sellStack));
+	}
+    }
+    
+    public static class ConstructChasmiumArmor implements ITradeList
+    {
+	@Override
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+	{
+	    ItemStack sellStack;
+	    int requiredMaterial;
+	    int armor = random.nextInt(5);
+
+	    switch (armor)
+	    {
+	    case 0:
+		sellStack = new ItemStack(ModItems.CHASMIUM_HELMET);
+		requiredMaterial = 4;
+		break;
+	    case 1:
+		sellStack = new ItemStack(ModItems.CHASMIUM_CHESTPLATE);
+		requiredMaterial = 7;
+		break;
+	    case 2:
+		sellStack = new ItemStack(ModItems.CHASMIUM_LEGGINGS);
+		requiredMaterial = 6;
+		break;
+	    case 3:
+		sellStack = new ItemStack(ModItems.CHASMIUM_SWORD);
+		requiredMaterial = 2;
+		break;
+	    default:
+		sellStack = new ItemStack(ModItems.CHASMIUM_BOOTS);
+		requiredMaterial = 3;
+		break;
+	    }
+
+	    ItemStack material = new ItemStack(ModItems.CHASMIUM_INGOT, requiredMaterial);
+	    ItemStack material2 = new ItemStack(Items.IRON_INGOT, requiredMaterial);
+
+	    recipeList.add(new MerchantRecipe(material, material2, sellStack));
 	}
     }
 
@@ -98,49 +136,6 @@ public class AzureTrades
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 	{
 	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL), new ItemStack(Items.EMERALD, 3)));
-	}
-    }
-
-    public static class EnchantedIronForEmeralds implements EntityVillager.ITradeList
-    {
-	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
-	{
-	    ItemStack sellStack;
-	    PriceInfo priceInfo;
-	    int item = random.nextInt(6);
-
-	    switch (item)
-	    {
-	    case 0:
-		sellStack = new ItemStack(Items.DIAMOND_BOOTS);
-		priceInfo = new PriceInfo(4, 5);
-		break;
-	    case 1:
-		sellStack = new ItemStack(Items.DIAMOND_HELMET);
-		priceInfo = new PriceInfo(4, 5);
-		break;
-	    case 2:
-		sellStack = new ItemStack(Items.DIAMOND_AXE);
-		priceInfo = new PriceInfo(2, 3);
-		break;
-	    case 3:
-		sellStack = new ItemStack(Items.DIAMOND_PICKAXE);
-		priceInfo = new PriceInfo(2, 3);
-		break;
-	    case 4:
-		sellStack = new ItemStack(Items.DIAMOND_SWORD);
-		priceInfo = new PriceInfo(2, 3);
-		break;
-	    default:
-		sellStack = new ItemStack(Items.DIAMOND_SHOVEL);
-		priceInfo = new PriceInfo(1, 2);
-		break;
-	    }
-
-	    ItemStack itemstack = new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, priceInfo.getPrice(random), 0);
-	    ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(sellStack.getItem(), 1, sellStack.getMetadata()), 10 + random.nextInt(10),
-		    false);
-	    recipeList.add(new MerchantRecipe(itemstack, itemstack1));
 	}
     }
 }

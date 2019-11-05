@@ -47,11 +47,11 @@ public class ModProfessions
 		"minecraft:textures/entity/zombie_villager/zombie_farmer.png");
 
 	AZURE_WEAPONSMITH = new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith");
-	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.ConstructArmor());
+	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.ConstructElkArmor());
+	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.ConstructChasmiumArmor());
 	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.RangedWeapons());
 	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.CrystalsForEmeralds());
 	AZURE_WEAPONSMITH.addTrade(1, new EntityVillager.ListEnchantedBookForEmeralds());
-	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.EnchantedIronForEmeralds());
 
 	NEXUS_GUNSMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_weaponsmith");
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.GOLD_INGOT, 5, Items.IRON_INGOT, 6, ModItems.FLINTLOCK, 1));

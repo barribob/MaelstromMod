@@ -324,4 +324,23 @@ public final class ModUtils
     {
 	return (float) (baseAttackDamage * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.mob_damage);
     }
+
+    /**
+     * Determine if a >= v < b
+     * 
+     * @param a
+     * @param b
+     * @param v
+     * @return
+     */
+    public static boolean isBetween(int a, int b, int v)
+    {
+	if (a > b)
+	{
+	    int t = a;
+	    a = b;
+	    b = t;
+	}
+	return v >= a && v < b;
+    }
 }

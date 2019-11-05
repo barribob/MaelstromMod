@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-       "all": "mm:blocks/dark_azure_stone"
+       "all": "mm:blocks/azure_stone_0"
    }
 }

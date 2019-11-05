@@ -116,6 +116,7 @@ public class ModItems
     public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", ModCreativeTabs.ALL, 8, 1.0F, true);
     public static final Item PLUM = new ItemFoodBase("plum", ModCreativeTabs.ALL, 4, 0.3F, true);
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
+    public static final Item CHASMIUM_INGOT = new ItemTradable("chasmium_ingot", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemTradable("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
 
@@ -141,6 +142,12 @@ public class ModItems
     public static final Item ELK_HIDE_CHESTPLATE = new ModArmorBase("elk_hide_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1, "elk_hide");
     public static final Item ELK_HIDE_LEGGINGS = new ModArmorBase("elk_hide_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1, "elk_hide");
     public static final Item ELK_HIDE_BOOTS = new ModArmorBase("elk_hide_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1, "elk_hide");
+
+    public static final Item CHASMIUM_HELMET = new ModArmorBase("chasmium_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "chasmium");
+    public static final Item CHASMIUM_CHESTPLATE = new ModArmorBase("chasmium_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "chasmium");
+    public static final Item CHASMIUM_LEGGINGS = new ModArmorBase("chasmium_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "chasmium");
+    public static final Item CHASMIUM_BOOTS = new ModArmorBase("chasmium_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "chasmium");
+    public static final Item CHASMIUM_SWORD = new ToolSword("chasmium_sword", RARE_SWORD, 1.5f);
 
     /*
      * Nexus Items
