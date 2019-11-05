@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.MapGenBase;
-import net.minecraft.world.gen.MapGenCaves;
 import net.minecraft.world.gen.structure.MapGenStructure;
 
 public class ChunkGeneratorAzure extends WorldChunkGenerator
@@ -27,7 +26,7 @@ public class ChunkGeneratorAzure extends WorldChunkGenerator
 	    new MapGenAzureMineshaft(STRUCTURE_SPACING_CHUNKS, MINESHAFT_STRUCTURE_NUMBER, 1),
 	    new MapGenMaelstromStronghold(STRUCTURE_SPACING_CHUNKS, STRONGHOLD_STRUCTURE_NUMBER, 1) };
 
-    private MapGenBase caveGenerator = new MapGenCaves();
+    private MapGenBase caveGenerator = new MapGenAzureCaves();
     private MapGenBase ravineGenerator = new MapGenAzureRavine();
 
     public ChunkGeneratorAzure(World worldIn, long seed, boolean mapFeaturesEnabledIn, String generatorOptions)
