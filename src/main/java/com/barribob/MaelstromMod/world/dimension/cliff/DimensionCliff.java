@@ -26,7 +26,7 @@ public class DimensionCliff extends WorldProvider
     @Override
     protected void init()
     {
-	BiomeProvider provider = new BiomeProviderMultiple(this.world.getWorldInfo(), Arrays.asList(new Biome[] { BiomeInit.HIGH_CLIFF, BiomeInit.CLIFF_SWAMP }));
+	BiomeProvider provider = new BiomeProviderMultiple(this.world.getWorldInfo(), Arrays.asList(new Biome[] { BiomeInit.AZURE, BiomeInit.AZURE_LIGHT }));
 	this.biomeProvider = provider;
 	this.hasSkyLight = true;
     }

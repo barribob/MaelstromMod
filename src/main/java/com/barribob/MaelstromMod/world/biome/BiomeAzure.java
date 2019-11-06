@@ -48,8 +48,9 @@ public class BiomeAzure extends BiomeDifferentStone
     protected final WorldGenAzureFoliage FLOWERS = new WorldGenAzureFoliage(FLOWER_LIST, 64);
 
     private final BlockModBush[] TALL_GRASS_LIST = { (BlockModBush) ModBlocks.BROWNED_GRASS };
+    private final int azureTreeGen;
 
-    public BiomeAzure()
+    public BiomeAzure(int azureTreeOdds)
     {
 	super(new BiomeProperties("Fracture").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253), Blocks.GRASS,
 		ModBlocks.DARK_AZURE_STONE);
@@ -68,6 +69,8 @@ public class BiomeAzure extends BiomeDifferentStone
 	this.spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 10, 1, 5));
 	this.spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 3, 1, 5));
 	this.spawnableCreatureList.add(new SpawnListEntry(EntityAzureGolem.class, 1, 1, 1));
+
+	this.azureTreeGen = azureTreeOdds;
     }
 
     /**
@@ -78,7 +81,6 @@ public class BiomeAzure extends BiomeDifferentStone
     {
 	int plumTreeOdds = 10;
 	int largePlumTreeOdds = 12;
-	int azureTreeOdds = 5;
 	if (rand.nextInt(plumTreeOdds) == 0)
 	{
 	    return SMALL_PLUM_TREE;
@@ -87,7 +89,7 @@ public class BiomeAzure extends BiomeDifferentStone
 	{
 	    return LARGE_PLUM_TREE;
 	}
-	else if (rand.nextInt(azureTreeOdds) == 0)
+	else if (rand.nextInt(azureTreeGen) == 0)
 	{
 	    return AZURE_TREE;
 	}
@@ -303,11 +305,15 @@ public class BiomeAzure extends BiomeDifferentStone
 	{
 	    return ModBlocks.DARK_AZURE_STONE_5;
 	}
-	if (ModUtils.isBetween(27, 31, heightBelow))
+	if (ModUtils.isBetween(27, 29, heightBelow))
+	{
+	    return Blocks.PRISMARINE;
+	}
+	if (ModUtils.isBetween(29, 32, heightBelow))
 	{
 	    return ModBlocks.DARK_AZURE_STONE_2;
 	}
-	if (ModUtils.isBetween(31, 35, heightBelow))
+	if (ModUtils.isBetween(32, 35, heightBelow))
 	{
 	    return ModBlocks.DARK_AZURE_STONE;
 	}
@@ -339,6 +345,6 @@ public class BiomeAzure extends BiomeDifferentStone
 	{
 	    return ModBlocks.DARK_AZURE_STONE_3;
 	}
-	return Blocks.PRISMARINE;
+	return ModBlocks.DARK_AZURE_STONE_5;
     }
 }
