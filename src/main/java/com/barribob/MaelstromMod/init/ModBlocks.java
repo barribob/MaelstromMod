@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.blocks.BlockAzureGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureLeaves;
 import com.barribob.MaelstromMod.blocks.BlockAzureOre;
 import com.barribob.MaelstromMod.blocks.BlockAzureRedstoneOre;
-import com.barribob.MaelstromMod.blocks.BlockAzureTallGrass;
 import com.barribob.MaelstromMod.blocks.BlockAzureVines;
 import com.barribob.MaelstromMod.blocks.BlockAzureVinesBlock;
 import com.barribob.MaelstromMod.blocks.BlockBase;
@@ -23,6 +22,7 @@ import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
 import com.barribob.MaelstromMod.blocks.BlockMegaStructure;
+import com.barribob.MaelstromMod.blocks.BlockModTallGrass;
 import com.barribob.MaelstromMod.blocks.BlockNexusHerobrineSpawner;
 import com.barribob.MaelstromMod.blocks.BlockNexusTeleporter;
 import com.barribob.MaelstromMod.blocks.BlockPillarBase;
@@ -93,7 +93,7 @@ public class ModBlocks
     public static final Block AZURE_VINES_BLOCK = new BlockAzureVinesBlock("azure_vines_block", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block AZURE_VINES = new BlockAzureVines("azure_vines", PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT).setCreativeTab(ModCreativeTabs.ALL);
-    public static final Block BROWNED_GRASS = new BlockAzureTallGrass("browned_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
+    public static final Block BROWNED_GRASS = new BlockModTallGrass("browned_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block BLUE_DAISY = new BlockAzureFlower("blue_daisy", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL);
@@ -209,6 +209,8 @@ public class ModBlocks
     public static final Block CRACKED_SWAMP_BRICK = new BlockBase("cracked_swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block FIRE_GRASS = new BlockModTallGrass("fire_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
+	    .setCreativeTab(ModCreativeTabs.ALL);
 
     // Crimson Dimension
     public static final Block FURNACE_PILLAR = new BlockPillarBase("furnace_pillar", Material.ROCK).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE)

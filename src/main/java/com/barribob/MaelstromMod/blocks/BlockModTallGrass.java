@@ -16,9 +16,9 @@ import net.minecraft.world.IBlockAccess;
  * Represents a single-block-tall grass block
  *
  */
-public class BlockAzureTallGrass extends BlockModBush
+public class BlockModTallGrass extends BlockModBush
 {
-    public BlockAzureTallGrass(String name, Material material, float hardness, float resistance, SoundType soundType)
+    public BlockModTallGrass(String name, Material material, float hardness, float resistance, SoundType soundType)
     {
 	super(name, material, Blocks.GRASS, hardness, resistance, soundType);
     }

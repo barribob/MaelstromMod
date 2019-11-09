@@ -3,7 +3,7 @@ package com.barribob.MaelstromMod.world.gen.foliage;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.blocks.BlockModBush;
-import com.barribob.MaelstromMod.blocks.BlockAzureTallGrass;
+import com.barribob.MaelstromMod.blocks.BlockModTallGrass;
 
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
@@ -18,12 +18,12 @@ import net.minecraft.world.gen.feature.WorldGenerator;
  * generates foliage of type BlockAzureBush into the azure dimension
  *
  */
-public class WorldGenAzureFoliage extends WorldGenerator
+public class WorldGenModFoliage extends WorldGenerator
 {
     private final BlockModBush[] foliage;
     private final int amount;
 
-    public WorldGenAzureFoliage(BlockModBush[] tallGrass, int amount)
+    public WorldGenModFoliage(BlockModBush[] tallGrass, int amount)
     {
     	this.foliage = tallGrass;
     	this.amount = amount;

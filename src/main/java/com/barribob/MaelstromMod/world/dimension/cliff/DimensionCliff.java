@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.world.dimension.cliff;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
@@ -12,7 +13,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 
 /**
@@ -26,9 +26,14 @@ public class DimensionCliff extends WorldProvider
     @Override
     protected void init()
     {
-	BiomeProvider provider = new BiomeProviderMultiple(this.world.getWorldInfo(), Arrays.asList(new Biome[] { BiomeInit.AZURE, BiomeInit.AZURE_LIGHT }));
-	this.biomeProvider = provider;
 	this.hasSkyLight = true;
+	this.biomeProvider = new BiomeProviderMultiple(this.world.getWorldInfo()) {
+	    @Override
+	    public List<Biome> getBiomesToSpawnIn()
+	    {
+		return Arrays.asList(new Biome[] { BiomeInit.HIGH_CLIFF, BiomeInit.CLIFF_SWAMP });
+	    }
+	};
     }
 
     @Override

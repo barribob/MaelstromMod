@@ -8,7 +8,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureFoliage;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenModFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVineBridge;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
@@ -45,7 +45,7 @@ public class BiomeAzure extends BiomeDifferentStone
     protected static final WorldGenBigPlumTree LARGE_PLUM_TREE = new WorldGenBigPlumTree(false);
 
     private final BlockModBush[] FLOWER_LIST = { (BlockModBush) ModBlocks.BLUE_DAISY, (BlockModBush) ModBlocks.RUBY_ORCHID };
-    protected final WorldGenAzureFoliage FLOWERS = new WorldGenAzureFoliage(FLOWER_LIST, 64);
+    protected final WorldGenModFoliage FLOWERS = new WorldGenModFoliage(FLOWER_LIST, 64);
 
     private final BlockModBush[] TALL_GRASS_LIST = { (BlockModBush) ModBlocks.BROWNED_GRASS };
     private final int azureTreeGen;
@@ -156,7 +156,7 @@ public class BiomeAzure extends BiomeDifferentStone
 	{
 	    return new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
 	}
-	return new WorldGenAzureFoliage(TALL_GRASS_LIST, 128);
+	return new WorldGenModFoliage(TALL_GRASS_LIST, 128);
     }
 
     @Override
