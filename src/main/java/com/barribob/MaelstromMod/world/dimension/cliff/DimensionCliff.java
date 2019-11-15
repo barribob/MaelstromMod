@@ -75,7 +75,7 @@ public class DimensionCliff extends WorldProvider
     @Override
     public float getCloudHeight()
     {
-	return 300;
+	return 260;
     }
 
     @Override

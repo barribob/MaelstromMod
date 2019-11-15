@@ -50,6 +50,35 @@ public class FogHandler
 		GlStateManager.setFog(GlStateManager.FogMode.EXP);
 		GlStateManager.setFogDensity(0.07f);
 	    }
+	    else
+	    {
+		int fogStartY = 240;
+		float maxFog = 0.025f;
+		float fogDensity = 0.005f;
+
+		if (event.getEntity().posY > fogStartY && event.getEntity().posY < 260)
+		{
+		    fogDensity += (float) (event.getEntity().posY - fogStartY) / fogStartY;
+		}
+
+		GlStateManager.setFog(GlStateManager.FogMode.EXP);
+		GlStateManager.setFogDensity(fogDensity);
+	    }
+	}
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent()
+    public static void onFogColor(EntityViewRenderEvent.FogColors event)
+    {
+	if (event.getEntity().dimension == ModConfig.world.cliff_dimension_id && event.getEntity().posY > 240)
+	{
+	    float fadeY = 4;
+	    float alpha = (float) Math.min((event.getEntity().posY - 240) / fadeY, 1);
+	    float one_minus_alpha = 1 - alpha;
+	    event.setBlue(0.3f * alpha + event.getBlue() * one_minus_alpha);
+	    event.setRed(0.3f * alpha + event.getRed() * one_minus_alpha);
+	    event.setGreen(0.27f * alpha + event.getGreen() * one_minus_alpha);
 	}
     }
 

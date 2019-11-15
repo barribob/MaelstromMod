@@ -3,9 +3,7 @@ package com.barribob.MaelstromMod.world.gen;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
-import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -21,11 +19,13 @@ public class WorldGenMaelstrom extends WorldGenerator
 {
     private final Block maelstromBlock;
     private final Block malestromCore;
+    private final String[] entities;
     
-    public WorldGenMaelstrom(Block block, Block core)
+    public WorldGenMaelstrom(Block block, Block core, String[] entities)
     {
 	this.maelstromBlock = block;
 	this.malestromCore = core;
+	this.entities = entities;
     }
     
     /**
@@ -69,7 +69,6 @@ public class WorldGenMaelstrom extends WorldGenerator
 
         if (tileentity instanceof TileEntityMobSpawner)
         {
-            String[] entities = {"shade", "horror", "maelstrom_mage"};
             String entityName = ModRandom.choice(entities);
             ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 4);
         }

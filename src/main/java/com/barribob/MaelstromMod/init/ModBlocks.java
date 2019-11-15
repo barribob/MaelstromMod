@@ -112,7 +112,7 @@ public class ModBlocks
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block DECAYING_AZURE_MAELSTROM = new BlockDecayingMaelstrom("azure_decaying_maelstrom", STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1)
 	    .setLightLevel(0.5f);
-    public static final Block AZURE_MAELSTROM_CORE = new BlockMaelstromCore("azure_maelstrom_core", Material.ROCK, 2.7f, STONE_RESISTANCE, SoundType.STONE);
+    public static final Block AZURE_MAELSTROM_CORE = new BlockMaelstromCore("azure_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
     public static final Block MAELSTROM_BRICKS = new BlockBase("maelstrom_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block MAELSTROM_BRICK_FENCE = new BlockFenceBase("maelstrom_brick_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
@@ -211,6 +211,7 @@ public class ModBlocks
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.ALL);
     public static final Block FIRE_GRASS = new BlockModTallGrass("fire_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block CLIFF_MAELSTROM_CORE = new BlockMaelstromCore("cliff_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
 
     // Crimson Dimension
     public static final Block FURNACE_PILLAR = new BlockPillarBase("furnace_pillar", Material.ROCK).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE)

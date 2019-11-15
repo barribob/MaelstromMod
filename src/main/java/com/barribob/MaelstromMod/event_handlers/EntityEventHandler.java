@@ -33,9 +33,16 @@ public class EntityEventHandler
     @SubscribeEvent
     public static void onEntitySpawnEvent(LivingSpawnEvent event)
     {
-	if (event.getEntityLiving() instanceof EntitySheep && event.getEntityLiving().dimension == ModConfig.world.fracture_dimension_id)
+	if (event.getEntityLiving() instanceof EntitySheep)
 	{
-	    ((EntitySheep) event.getEntityLiving()).setFleeceColor(EnumDyeColor.CYAN);
+	    if (event.getEntityLiving().dimension == ModConfig.world.fracture_dimension_id)
+	    {
+		((EntitySheep) event.getEntityLiving()).setFleeceColor(EnumDyeColor.CYAN);
+	    }
+	    if (event.getEntityLiving().dimension == ModConfig.world.cliff_dimension_id)
+	    {
+		((EntitySheep) event.getEntityLiving()).setFleeceColor(EnumDyeColor.GRAY);
+	    }
 	}
     }
 }
