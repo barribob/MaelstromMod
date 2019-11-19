@@ -363,23 +363,92 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	};
     };
 
+    public static class CliffMaelstromStructure extends WorldGenStructure
+    {
+	public CliffMaelstromStructure(String name)
+	{
+	    super("cliff/" + name);
+	}
+
+	@Override
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    if (function.startsWith("maelstrom"))
+	    {
+		if (rand.nextInt(3) == 0)
+		{
+		    String[] enemies = { "golden_mage", "golden_shade", "golden_pillar" };
+		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, enemies).generate(worldIn, rand, pos);
+		}
+		else
+		{
+		    worldIn.setBlockToAir(pos);
+		}
+	    }
+	    if (function.startsWith("chest"))
+	    {
+		worldIn.setBlockToAir(pos);
+		if (rand.nextInt(3) == 0)
+		{
+		    pos = pos.down();
+		    TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		    if (tileentity instanceof TileEntityChest)
+		    {
+			((TileEntityChest) tileentity).setLootTable(LootTableHandler.MAELSTROM_RUINS, rand.nextLong());
+		    }
+		}
+		else
+		{
+		    worldIn.setBlockToAir(pos.down());
+		}
+	    }
+	};
+    };
+
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-	int i = 15;
+	int i = 2;
 	if (world.provider.getDimension() == ModConfig.world.cliff_dimension_id)
 	{
-	    if (chunkX % i == 0 && chunkZ % i == 0)
+	    if (chunkX % i == 0 && chunkZ % i == 0 && world.rand.nextInt(2) == 0)
 	    {
-		generateBiomeSpecificStructure(WITCH_HUT, world, random, chunkX, chunkZ, 5, 5, 4, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-	    }
-	    else if ((chunkX + 5) % i == 0 && (chunkZ + 5) % i == 0)
-	    {
-		generateBiomeSpecificStructure(CLIFF_TEMPLE, world, random, chunkX, chunkZ, 16, 16, 6, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-	    }
-	    else if ((chunkX + 10) % i == 0 && (chunkZ + 10) % i == 0)
-	    {
-		generateBiomeSpecificStructure(MAELSTROM_RUINS, world, random, chunkX, 16, 16, 6, chunkZ, 2, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		switch (world.rand.nextInt(3))
+		{
+		case 0:
+		    if (world.rand.nextInt(5) == 0)
+		    {
+			generateBiomeSpecificStructure(WITCH_HUT, world, random, chunkX, chunkZ, 5, 5, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		    }
+		    else
+		    {
+			String[] medium_structures = new String[] { "brazier", "gazebo", "holy_tower", "ruined_building", "statue_of_nirvana" };
+			WorldGenStructure structure = new CliffMaelstromStructure(ModRandom.choice(medium_structures, world.rand));
+			generateBiomeSpecificStructure(structure, world, random, chunkX, chunkZ, 8, 8, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		    }
+		    break;
+		case 1:
+		    String[] arches = new String[] { "broken_arch", "arch" };
+		    WorldGenStructure arch = new CliffMaelstromStructure(ModRandom.choice(arches, world.rand));
+		    generateBiomeSpecificStructure(arch, world, random, chunkX, chunkZ, 16, 4, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		    break;
+		case 2:
+		    int r = world.rand.nextInt(3);
+		    if (r == 0)
+		    {
+			generateBiomeSpecificStructure(MAELSTROM_RUINS, world, random, chunkX, chunkZ, 16, 16, 6, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		    }
+		    else if (r == 1)
+		    {
+			generateBiomeSpecificStructure(CLIFF_TEMPLE, world, random, chunkX, chunkZ, 16, 16, 6, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		    }
+		    else
+		    {
+			WorldGenStructure building = new CliffMaelstromStructure("ancient_houses");
+			generateBiomeSpecificStructure(building, world, random, chunkX, chunkZ, 14, 14, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
+		    }
+		}
 	    }
 
 	    int x = chunkX * 16;
@@ -405,7 +474,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	if (world.provider.getDimension() == ModConfig.world.fracture_dimension_id)
 	{
 	    boolean generated = false;
-	    if (chunkX % i == 0 && chunkZ % i == 0)
+	    if (chunkX % 15 == 0 && chunkZ % 15 == 0)
 	    {
 		generated = generateBiomeSpecificStructure(MAELSTROM_PIT, world, random, chunkX, chunkZ, 16, 16, 4, 1, ModBlocks.DARK_AZURE_STONE, BiomeInit.AZURE.getClass());
 	    }
@@ -456,9 +525,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
      * @param classes
      */
     private boolean generateBiomeSpecificStructure(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ, int sizeX, int sizeZ, int maxVariation,
-	    int chance,
-	    Block topBlock,
-	    Class<?>... classes)
+	    int chance, Block topBlock, Class<?>... classes)
     {
 	ArrayList<Class<?>> classesList = new ArrayList<Class<?>>(Arrays.asList(classes));
 

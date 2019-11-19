@@ -53,7 +53,7 @@ public class FogHandler
 	    else
 	    {
 		int fogStartY = 240;
-		float maxFog = 0.025f;
+		float maxFog = 0.045f;
 		float fogDensity = 0.005f;
 
 		if (event.getEntity().posY > fogStartY && event.getEntity().posY < 260)
