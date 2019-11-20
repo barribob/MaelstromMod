@@ -25,6 +25,7 @@ public class BiomeInit
 {
     public static final Biome AZURE = null;
     public static final Biome AZURE_LIGHT = null;
+    public static final Biome AZURE_PLAINS = null;
     public static final Biome NEXUS = null;
     public static final Biome HIGH_CLIFF = null;
     public static final Biome CLIFF_SWAMP = null;
@@ -37,8 +38,9 @@ public class BiomeInit
 	{
 	    final IForgeRegistry<Biome> registry = event.getRegistry();
 
-	    initBiome(registry, new BiomeAzure(5), "azure", BiomeType.WARM, Type.HILLS);
-	    initBiome(registry, new BiomeAzure(1), "azure_light", BiomeType.WARM, Type.HILLS);
+	    initBiome(registry, new BiomeAzure(5, 8), "azure", BiomeType.WARM, Type.HILLS);
+	    initBiome(registry, new BiomeAzure(1, 8), "azure_light", BiomeType.WARM, Type.HILLS);
+	    initBiome(registry, new BiomeAzure(1, 2), "azure_plains", BiomeType.WARM, Type.HILLS);
 	    initBiome(registry, new BiomeNexus(), "nexus", BiomeType.WARM, Type.PLAINS);
 	    initBiome(registry, new BiomeCliffPlateau(), "high_cliff", BiomeType.WARM, Type.PLAINS);
 	    initBiome(registry, new BiomeCliffSwamp(), "cliff_swamp", BiomeType.WARM, Type.SWAMP);

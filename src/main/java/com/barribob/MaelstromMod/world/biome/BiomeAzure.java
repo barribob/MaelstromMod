@@ -8,11 +8,11 @@ import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureDoublePlant;
-import com.barribob.MaelstromMod.world.gen.foliage.WorldGenModFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVineBridge;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenModFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenWaterfall;
 
@@ -50,12 +50,12 @@ public class BiomeAzure extends BiomeDifferentStone
     private final BlockModBush[] TALL_GRASS_LIST = { (BlockModBush) ModBlocks.BROWNED_GRASS };
     private final int azureTreeGen;
 
-    public BiomeAzure(int azureTreeOdds)
+    public BiomeAzure(int azureTreeOdds, int treesPerChunk)
     {
 	super(new BiomeProperties("Fracture").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F).setRainDisabled().setWaterColor(10252253), Blocks.GRASS,
 		ModBlocks.DARK_AZURE_STONE);
 
-	this.decorator.treesPerChunk = 8;
+	this.decorator.treesPerChunk = treesPerChunk;
 	this.decorator.grassPerChunk = 4;
 	this.decorator.flowersPerChunk = 1;
 	this.decorator.mushroomsPerChunk = 1;

@@ -35,7 +35,7 @@ public class DimensionAzure extends WorldProvider
 	    @Override
 	    public List<Biome> getBiomesToSpawnIn()
 	    {
-		return Arrays.asList(new Biome[] { BiomeInit.AZURE, BiomeInit.AZURE_LIGHT });
+		return Arrays.asList(new Biome[] { BiomeInit.AZURE, BiomeInit.AZURE_LIGHT, BiomeInit.AZURE_PLAINS });
 	    }
 	};
     }
