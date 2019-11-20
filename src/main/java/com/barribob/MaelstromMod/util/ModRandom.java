@@ -1,6 +1,8 @@
 package com.barribob.MaelstromMod.util;
 
+import java.util.NavigableMap;
 import java.util.Random;
+import java.util.TreeMap;
 
 import net.minecraft.util.math.Vec3d;
 
@@ -60,5 +62,57 @@ public class ModRandom
     {
 	int i = rand.nextInt(array.length);
 	return array[i];
+    }
+
+    public static <T> RandomCollection<T> choice(T[] array, Random rand, double[] weights)
+    {
+	if(array.length != weights.length)
+	{
+	    throw new IllegalArgumentException("Lengths of items and weights arrays inequal");
+	}
+	
+	RandomCollection<T> weightedRandom = new RandomCollection<T>(rand);
+	for(int i = 0; i < array.length; i++)
+	{
+	    weightedRandom.add(weights[i], array[i]);
+	}
+	
+	return weightedRandom;
+    }
+
+    /**
+     * Weighted random collection taken from
+     * https://stackoverflow.com/questions/6409652/random-weighted-selection-in-java
+     */
+    public static class RandomCollection<E>
+    {
+	private final NavigableMap<Double, E> map = new TreeMap<Double, E>();
+	private final Random random;
+	private double total = 0;
+
+	public RandomCollection()
+	{
+	    this(new Random());
+	}
+
+	public RandomCollection(Random random)
+	{
+	    this.random = random;
+	}
+
+	public RandomCollection<E> add(double weight, E result)
+	{
+	    if (weight <= 0)
+		return this;
+	    total += weight;
+	    map.put(total, result);
+	    return this;
+	}
+
+	public E next()
+	{
+	    double value = random.nextDouble() * total;
+	    return map.higherEntry(value).getValue();
+	}
     }
 }

@@ -406,49 +406,22 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	};
     };
 
+    private static WorldGenStructure[] cliffSwampRuins = { WITCH_HUT, MAELSTROM_RUINS, CLIFF_TEMPLE, new CliffMaelstromStructure("brazier"),
+	    new CliffMaelstromStructure("gazebo"), new CliffMaelstromStructure("holy_tower"), new CliffMaelstromStructure("ruined_building"),
+	    new CliffMaelstromStructure("statue_of_nirvana"), new CliffMaelstromStructure("broken_arch"), new CliffMaelstromStructure("arch"),
+	    new CliffMaelstromStructure("ancient_houses") };
+    private static double[] cliffRuinsWeights = { 0.1, 0.1, 0.1, 0.1, 0.2, 0.1, 0.1, 0.05, 0.1, 0.1, 0.3 };
+
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-	int i = 2;
 	if (world.provider.getDimension() == ModConfig.world.cliff_dimension_id)
 	{
-	    if (chunkX % i == 0 && chunkZ % i == 0 && world.rand.nextInt(2) == 0)
+	    int i = 2;
+	    if (chunkX % i == 0 && chunkZ % i == 0 && world.rand.nextInt(4) == 0)
 	    {
-		switch (world.rand.nextInt(3))
-		{
-		case 0:
-		    if (world.rand.nextInt(5) == 0)
-		    {
-			generateBiomeSpecificStructure(WITCH_HUT, world, random, chunkX, chunkZ, 5, 5, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-		    }
-		    else
-		    {
-			String[] medium_structures = new String[] { "brazier", "gazebo", "holy_tower", "ruined_building", "statue_of_nirvana" };
-			WorldGenStructure structure = new CliffMaelstromStructure(ModRandom.choice(medium_structures, world.rand));
-			generateBiomeSpecificStructure(structure, world, random, chunkX, chunkZ, 8, 8, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-		    }
-		    break;
-		case 1:
-		    String[] arches = new String[] { "broken_arch", "arch" };
-		    WorldGenStructure arch = new CliffMaelstromStructure(ModRandom.choice(arches, world.rand));
-		    generateBiomeSpecificStructure(arch, world, random, chunkX, chunkZ, 16, 4, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-		    break;
-		case 2:
-		    int r = world.rand.nextInt(3);
-		    if (r == 0)
-		    {
-			generateBiomeSpecificStructure(MAELSTROM_RUINS, world, random, chunkX, chunkZ, 16, 16, 6, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-		    }
-		    else if (r == 1)
-		    {
-			generateBiomeSpecificStructure(CLIFF_TEMPLE, world, random, chunkX, chunkZ, 16, 16, 6, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-		    }
-		    else
-		    {
-			WorldGenStructure building = new CliffMaelstromStructure("ancient_houses");
-			generateBiomeSpecificStructure(building, world, random, chunkX, chunkZ, 14, 14, 4, 1, ModBlocks.CLIFF_STONE, BiomeInit.CLIFF_SWAMP.getClass());
-		    }
-		}
+		generateBiomeSpecificStructure(ModRandom.choice(cliffSwampRuins, random, cliffRuinsWeights).next(), world, random, chunkX, chunkZ,
+			BiomeInit.CLIFF_SWAMP.getClass());
 	    }
 
 	    int x = chunkX * 16;
@@ -456,11 +429,12 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    BlockPos pos = new BlockPos(x, 0, z);
 	    ModUtils.generateN(world, random, pos, 4, 70, 1, new WorldGenCliffMushroom(ModBlocks.CLIFF_STONE));
 	    ModUtils.generateN(world, random, pos, 35, 65, 1, new WorldGenCliffShrub(BiomeCliffSwamp.log, BiomeCliffSwamp.leaf));
+	    WorldGenStructure cliffFeature = ModRandom.choice(
+		    new WorldGenStructure[] { MEDIUM_LEDGE, MEDIUM_LEDGE, MEDIUM_LEDGE, MAELSTROM_LEDGE, SMALL_LEDGE, SMALL_LEDGE, SMALL_LEDGE, SMALL_LEDGE, MAELSTROM_CAVE },
+		    random);
+	    cliffFeature.setMaxVariation(100);
 
-	    generateBiomeSpecificStructure(
-		    ModRandom.choice(new WorldGenerator[] { MEDIUM_LEDGE, MEDIUM_LEDGE, MEDIUM_LEDGE, MAELSTROM_LEDGE, SMALL_LEDGE, SMALL_LEDGE, SMALL_LEDGE, SMALL_LEDGE,
-			    MAELSTROM_CAVE }, random),
-		    world, random, chunkX, chunkZ, 1, 1, 100, 1, ModBlocks.CLIFF_STONE, BiomeInit.HIGH_CLIFF.getClass(), BiomeInit.CLIFF_SWAMP.getClass());
+	    generateBiomeSpecificStructure(cliffFeature, world, random, chunkX, chunkZ, BiomeInit.HIGH_CLIFF.getClass(), BiomeInit.CLIFF_SWAMP.getClass());
 
 	    ModUtils.generateN(world, random, pos, 400, 60, 40, new WorldGenSwampVines());
 	    ModUtils.generateN(world, random, pos, 200, 100, 40, new WorldGenSwampVines());
@@ -470,25 +444,16 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    }
 	}
 
-	int azure_structure_spacing = 3;
 	if (world.provider.getDimension() == ModConfig.world.fracture_dimension_id)
 	{
-	    boolean generated = false;
-	    if (chunkX % 15 == 0 && chunkZ % 15 == 0)
+	    WorldGenStructure[] azureStructures = { MAELSTROM_PIT, AZURE_HOUSE_1, new WorldGenStructure("azure/house_" + (random.nextInt(3) + 2)),
+		    new WorldGenStructure("azure/pillar_" + (random.nextInt(6) + 1)) };
+	    double[] azureWeights = { 0.1, 0.1, 0.3, 0.5 };
+	    int azure_structure_spacing = 3;
+	    if (chunkX % azure_structure_spacing == 0 && chunkZ % azure_structure_spacing == 0)
 	    {
-		generated = generateBiomeSpecificStructure(MAELSTROM_PIT, world, random, chunkX, chunkZ, 16, 16, 4, 1, ModBlocks.DARK_AZURE_STONE, BiomeInit.AZURE.getClass());
-	    }
-
-	    if (!generated && random.nextInt(2) == 0 && chunkX % azure_structure_spacing == 0 && chunkZ % azure_structure_spacing == 0)
-	    {
-		WorldGenerator house = random.nextInt(6) == 0 ? AZURE_HOUSE_1 : new WorldGenStructure("azure/house_" + (random.nextInt(3) + 2));
-		generated = generateBiomeSpecificStructure(house, world, random, chunkX, chunkZ, 8, 8, 3, 1, ModBlocks.DARK_AZURE_STONE, BiomeInit.AZURE.getClass());
-	    }
-
-	    if (!generated && chunkX % azure_structure_spacing == 0 && chunkZ % azure_structure_spacing == 0)
-	    {
-		WorldGenerator pillar = new WorldGenStructure("azure/pillar_" + (random.nextInt(6) + 1));
-		generateBiomeSpecificStructure(pillar, world, random, chunkX, chunkZ, 3, 3, 2, 1, ModBlocks.DARK_AZURE_STONE, BiomeInit.AZURE.getClass());
+		generateBiomeSpecificStructure(ModRandom.choice(azureStructures, random, azureWeights).next(), world, random, chunkX, chunkZ, BiomeInit.AZURE.getClass(),
+			BiomeInit.AZURE_LIGHT.getClass());
 	    }
 	}
     }
@@ -512,26 +477,24 @@ public class WorldGenCustomStructures implements IWorldGenerator
     }
 
     /**
-     * Generates a structure in the world, calculating floor height and only placing
-     * on the top block. Only places it in specified biome classes
+     * Generates a structure in the chunk based if in the specific biome
      * 
      * @param generator
      * @param world
      * @param rand
      * @param chunkX
      * @param chunkZ
-     * @param chance
-     * @param topBlock
      * @param classes
+     * @return
      */
-    private boolean generateBiomeSpecificStructure(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ, int sizeX, int sizeZ, int maxVariation,
-	    int chance, Block topBlock, Class<?>... classes)
+    private boolean generateBiomeSpecificStructure(WorldGenStructure generator, World world, Random rand, int chunkX, int chunkZ, Class<?>... classes)
     {
 	ArrayList<Class<?>> classesList = new ArrayList<Class<?>>(Arrays.asList(classes));
 
+	BlockPos templateSize = generator.getSize(world);
 	int x = chunkX * 16 + 8;
 	int z = chunkZ * 16 + 8;
-	int y = getAverageGroundHeight(world, x, z, sizeX, sizeZ, maxVariation);
+	int y = getAverageGroundHeight(world, x, z, templateSize.getX(), templateSize.getZ(), generator.getMaxVariation(world));
 	BlockPos pos = new BlockPos(x, y, z);
 
 	Class<?> biome = world.provider.getBiomeForCoords(pos).getClass();
@@ -540,7 +503,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	{
 	    if (classesList.contains(biome))
 	    {
-		if (rand.nextInt(chance) == 0)
+		if (rand.nextFloat() > generator.getChanceToFail())
 		{
 		    generator.generate(world, rand, pos);
 		    return true;
@@ -578,15 +541,6 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	}
     }
 
-    /**
-     * Calculates what the best height to put a structure is i.e. the top block
-     * 
-     * @param world
-     * @param x
-     * @param z
-     * @param topBlock
-     * @return
-     */
     private static int calculateGenerationHeight(World world, int x, int z)
     {
 	return world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();

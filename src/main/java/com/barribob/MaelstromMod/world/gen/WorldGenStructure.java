@@ -30,6 +30,9 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
     public String structureName;
     protected PlacementSettings placeSettings;
     private static final PlacementSettings DEFAULT_PLACE_SETTINGS = new PlacementSettings();
+    private Template template;
+    private float chanceToFail;
+    private int maxVariation;
 
     /**
      * @param name
@@ -41,11 +44,70 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 	this.placeSettings = DEFAULT_PLACE_SETTINGS.setIgnoreEntities(true).setReplacedBlock(Blocks.AIR);
     }
 
+    public float getChanceToFail()
+    {
+	return chanceToFail;
+    }
+
+    public void setChanceToFail(float chanceToFail)
+    {
+	this.chanceToFail = chanceToFail;
+    }
+
     @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
 	this.generateStructure(worldIn, position, true);
 	return true;
+    }
+
+    private Template getTemplate(World world)
+    {
+	if (template != null)
+	{
+	    return template;
+	}
+
+	MinecraftServer mcServer = world.getMinecraftServer();
+	TemplateManager manager = worldServer.getStructureTemplateManager();
+	ResourceLocation location = new ResourceLocation(Reference.MOD_ID, structureName);
+	template = manager.get(mcServer, location);
+	if (template == null)
+	{
+	    System.out.println("The template, " + location + " could not be loaded");
+	    return null;
+	}
+	return template;
+    }
+
+    public BlockPos getSize(World world)
+    {
+	if (getTemplate(world) == null)
+	{
+	    return BlockPos.ORIGIN;
+	}
+
+	return template.getSize();
+    }
+
+    public void setMaxVariation(int maxVariation)
+    {
+	this.maxVariation = maxVariation;
+    }
+
+    public int getMaxVariation(World world)
+    {
+	if (maxVariation != 0)
+	{
+	    return maxVariation;
+	}
+
+	if (getTemplate(world) == null)
+	{
+	    return 0;
+	}
+
+	return (int) Math.floor(template.getSize().getY() * 0.25);
     }
 
     /**
@@ -56,11 +118,7 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
      */
     public void generateStructure(World world, BlockPos pos, Boolean doRandomRotation)
     {
-	MinecraftServer mcServer = world.getMinecraftServer();
-	TemplateManager manager = worldServer.getStructureTemplateManager();
-	ResourceLocation location = new ResourceLocation(Reference.MOD_ID, structureName);
-	Template template = manager.get(mcServer, location);
-	if (template != null)
+	if (getTemplate(world) != null)
 	{
 	    Tuple<Rotation, BlockPos>[] rotations = new Tuple[] { new Tuple(Rotation.NONE, new BlockPos(0, 0, 0)),
 		    new Tuple(Rotation.CLOCKWISE_90, new BlockPos(template.getSize().getX() - 1, 0, 0)),
@@ -78,10 +136,6 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 		String s = entry.getValue();
 		this.handleDataMarker(s, entry.getKey(), world, world.rand);
 	    }
-	}
-	else
-	{
-	    System.out.println("The template, " + location + " could not be loaded");
 	}
     }
 
