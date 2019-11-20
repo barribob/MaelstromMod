@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.util.IStructure;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.init.Blocks;
@@ -90,6 +91,16 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 	return template.getSize();
     }
 
+    public BlockPos getCenter(World world)
+    {
+	if (getTemplate(world) == null)
+	{
+	    return BlockPos.ORIGIN;
+	}
+	
+	return new BlockPos(Math.floorDiv(template.getSize().getX(), 2), Math.floorDiv(template.getSize().getY(), 2), Math.floorDiv(template.getSize().getZ(), 2));
+    }
+
     public void setMaxVariation(int maxVariation)
     {
 	this.maxVariation = maxVariation;
@@ -108,6 +119,12 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 	}
 
 	return (int) Math.floor(template.getSize().getY() * 0.25);
+    }
+
+    public int getYGenHeight(World world, int x, int z)
+    {
+	BlockPos templateSize = this.getSize(world);
+	return ModUtils.getAverageGroundHeight(world, x, z, templateSize.getX(), templateSize.getZ(), this.getMaxVariation(world));
     }
 
     /**

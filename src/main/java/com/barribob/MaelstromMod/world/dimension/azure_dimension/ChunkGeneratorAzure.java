@@ -51,7 +51,7 @@ public class ChunkGeneratorAzure extends WorldChunkGenerator
     @Override
     protected void generateFeatures(BlockPos pos, Biome biome)
     {
-	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE,
+	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE,
 		new String[] { "shade", "horror", "maelstrom_mage" });
 	if (rand.nextInt(15) == 0)
 	{
