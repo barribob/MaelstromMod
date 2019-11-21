@@ -183,12 +183,50 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    }
 	};
     };
+    public static final WorldGenStructure CLIFF_RUIN_LEDGE = new WorldGenCliffLedge("cliff/xl_boardwalk", -5)
+    {
+	@Override
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    if (function.startsWith("maelstrom"))
+	    {
+		if (rand.nextInt(3) == 0)
+		{
+		    String[] enemies = { "golden_mage", "golden_shade", "golden_pillar" };
+		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, enemies).generate(worldIn, rand, pos);
+		}
+		else
+		{
+		    worldIn.setBlockToAir(pos);
+		}
+	    }
+	    if (function.startsWith("chest"))
+	    {
+		worldIn.setBlockToAir(pos);
+		if (rand.nextInt(5) == 0)
+		{
+		    pos = pos.down();
+		    TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		    if (tileentity instanceof TileEntityChest)
+		    {
+			((TileEntityChest) tileentity).setLootTable(LootTableHandler.MAELSTROM_RUINS, rand.nextLong());
+		    }
+		}
+		else
+		{
+		    worldIn.setBlockToAir(pos.down());
+		}
+	    }
+	}
+    };
 
     public static final WorldGenStructure MAELSTROM_CAVE = new WorldGenMaelstromCave();
 
     public static final boolean canLedgeGenerate(World worldIn, BlockPos center)
     {
-	if (center.getY() > 90 && center.getY() < 220 && worldIn.isAirBlock(center.up(5)) && worldIn.isAirBlock(center.up(40)))
+	if (center.getY() > 90 && center.getY() < 220 && worldIn.isAirBlock(center.up(5)) && worldIn.isAirBlock(center.up(40))
+		&& (worldIn.getBlockState(center.down()).getBlock() == ModBlocks.CLIFF_STONE || worldIn.getBlockState(center.down()).getBlock() == Blocks.GRASS))
 	{
 	    return true;
 	}
@@ -237,7 +275,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		    worldIn.setBlockToAir(pos.down());
 		}
 	    }
-	};
+	}
     };
 
     private static WorldGenStructure[] cliffSwampRuins = { WITCH_HUT, MAELSTROM_RUINS, CLIFF_TEMPLE, new CliffMaelstromStructure("brazier"),
@@ -259,15 +297,15 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		generateBiomeSpecificStructure(ModRandom.choice(cliffSwampRuins, random, cliffRuinsWeights).next(), world, random, x, z, BiomeInit.CLIFF_SWAMP.getClass());
 	    }
 
-	    // Generate more natural ledge features into the side of ruins
+	    // Generate more ledge features into the side of cliffs
 	    BlockPos pos = new BlockPos(x, 0, z);
 	    WorldGenStructure[] ledges = new WorldGenStructure[] { MEDIUM_LEDGE, MAELSTROM_LEDGE, SMALL_LEDGE, MAELSTROM_CAVE, new WorldGenCliffStructureLedge(),
-		    new WorldGenCliffLedge("cliff/xl_boardwalk", -5) };
+		    CLIFF_RUIN_LEDGE };
 	    double[] ledgeWeights = { 0.3, 0.1, 0.7, 0.1, 0.1, 0.15 };
 	    WorldGenStructure cliffLedgeFeature = ModRandom.choice(ledges, random, ledgeWeights).next();
 	    cliffLedgeFeature.setMaxVariation(200);
 
-	    for (int j = 0; j < 10; j++)
+	    for (int j = 0; j < 20; j++)
 	    {
 		if (generateBiomeSpecificStructure(cliffLedgeFeature, world, random, x + random.nextInt(8), z + random.nextInt(8), BiomeInit.HIGH_CLIFF.getClass(),
 			BiomeInit.CLIFF_SWAMP.getClass()))

@@ -14,7 +14,7 @@ public class WorldGenCliffStructureLedge extends WorldGenCliffLedge
 
     public WorldGenCliffStructureLedge()
     {
-	super("cliff/xxl_boardwalk", -10);
+	super("cliff/xxl_boardwalk", 10);
     }
 
     @Override
