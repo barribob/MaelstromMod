@@ -210,7 +210,7 @@ public class ModBlocks
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.ALL);
     public static final Block FIRE_GRASS = new BlockModTallGrass("fire_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
-	    .setCreativeTab(ModCreativeTabs.ALL);
+	    .setCreativeTab(ModCreativeTabs.ALL).setLightLevel(0.5f);
     public static final Block CLIFF_MAELSTROM_CORE = new BlockMaelstromCore("cliff_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
 
     // Crimson Dimension

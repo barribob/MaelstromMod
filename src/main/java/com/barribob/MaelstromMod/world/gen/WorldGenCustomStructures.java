@@ -16,6 +16,7 @@ import com.barribob.MaelstromMod.world.biome.BiomeCliffSwamp;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenCliffLedge;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenCliffStructureLedge;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenMaelstromCave;
+import com.barribob.MaelstromMod.world.gen.cliff.WorldGenSmallLedge;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffMushroom;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffShrub;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampVines;
@@ -226,7 +227,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     public static final boolean canLedgeGenerate(World worldIn, BlockPos center)
     {
 	if (center.getY() > 90 && center.getY() < 220 && worldIn.isAirBlock(center.up(5)) && worldIn.isAirBlock(center.up(40))
-		&& (worldIn.getBlockState(center.down()).getBlock() == ModBlocks.CLIFF_STONE || worldIn.getBlockState(center.down()).getBlock() == Blocks.GRASS))
+		&& worldIn.getBlockState(center.down()).getBlock() == ModBlocks.CLIFF_STONE)
 	{
 	    return true;
 	}
@@ -299,10 +300,24 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 	    // Generate more ledge features into the side of cliffs
 	    BlockPos pos = new BlockPos(x, 0, z);
-	    WorldGenStructure[] ledges = new WorldGenStructure[] { MEDIUM_LEDGE, MAELSTROM_LEDGE, SMALL_LEDGE, MAELSTROM_CAVE, new WorldGenCliffStructureLedge(),
-		    CLIFF_RUIN_LEDGE };
-	    double[] ledgeWeights = { 0.3, 0.1, 0.7, 0.1, 0.1, 0.15 };
+	    WorldGenStructure[] ledges = new WorldGenStructure[] { MEDIUM_LEDGE, MAELSTROM_LEDGE, SMALL_LEDGE, MAELSTROM_CAVE, };
+	    double[] ledgeWeights = { 0.3, 0.1, 0.7, 0.1 };
 	    WorldGenStructure cliffLedgeFeature = ModRandom.choice(ledges, random, ledgeWeights).next();
+	    cliffLedgeFeature.setMaxVariation(200);
+
+	    for (int j = 0; j < 20; j++)
+	    {
+		if (generateBiomeSpecificStructure(cliffLedgeFeature, world, random, x + random.nextInt(8), z + random.nextInt(8), BiomeInit.HIGH_CLIFF.getClass(),
+			BiomeInit.CLIFF_SWAMP.getClass()))
+		{
+		    break;
+		}
+	    }
+
+	    ledges = new WorldGenStructure[] { new WorldGenSmallLedge("cliff/boardwalk_pillars", 0), new WorldGenSmallLedge("cliff/boardwalk_totem", 0),
+		    new WorldGenSmallLedge("cliff/large_boardwalk", 0), new WorldGenSmallLedge("cliff/boardwalk", 0), new WorldGenCliffStructureLedge(), CLIFF_RUIN_LEDGE };
+	    ledgeWeights = new double[] { 0.1, 0.1, 0.2, 0.4, 0.1, 0.15 };
+	    cliffLedgeFeature = ModRandom.choice(ledges, random, ledgeWeights).next();
 	    cliffLedgeFeature.setMaxVariation(200);
 
 	    for (int j = 0; j < 20; j++)

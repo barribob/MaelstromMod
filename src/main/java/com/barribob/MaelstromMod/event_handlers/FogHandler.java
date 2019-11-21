@@ -76,9 +76,10 @@ public class FogHandler
 	    float fadeY = 4;
 	    float alpha = (float) Math.min((event.getEntity().posY - 240) / fadeY, 1);
 	    float one_minus_alpha = 1 - alpha;
-	    event.setBlue(0.3f * alpha + event.getBlue() * one_minus_alpha);
-	    event.setRed(0.3f * alpha + event.getRed() * one_minus_alpha);
-	    event.setGreen(0.27f * alpha + event.getGreen() * one_minus_alpha);
+	    float magnitude = (event.getBlue() + event.getRed() + event.getGreen()) / 3;
+	    event.setBlue(0.5f * magnitude * alpha + event.getBlue() * one_minus_alpha);
+	    event.setRed(0.5f * magnitude * alpha + event.getRed() * one_minus_alpha);
+	    event.setGreen(0.43f * magnitude * alpha + event.getGreen() * one_minus_alpha);
 	}
     }
 
