@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.init;
 
+import com.barribob.MaelstromMod.world.gen.cliff.HoleTempleTemplate;
+import com.barribob.MaelstromMod.world.gen.cliff.MapGenHoleTemple;
 import com.barribob.MaelstromMod.world.gen.golden_ruins.MapGenGoldenRuins;
 import com.barribob.MaelstromMod.world.gen.golden_ruins.RuinsTemplate;
 import com.barribob.MaelstromMod.world.gen.maelstrom_fortress.FortressTemplate;
@@ -27,5 +29,7 @@ public class ModStructures
 	MapGenStructureIO.registerStructure(MapGenNexusEntrance.Start.class, "Nexus Islands");
 	MapGenStructureIO.registerStructure(MapGenGoldenRuins.Start.class, "Golden Ruins");
 	MapGenStructureIO.registerStructureComponent(RuinsTemplate.class, "GRP");
+	MapGenStructureIO.registerStructure(MapGenHoleTemple.Start.class, "Hole Temple");
+	MapGenStructureIO.registerStructureComponent(HoleTempleTemplate.class, "HTP");
     }
 }

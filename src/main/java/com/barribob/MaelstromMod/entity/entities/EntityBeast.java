@@ -1,14 +1,24 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.ai.AIMeleeAndRange;
-import com.barribob.MaelstromMod.entity.animation.AnimationBeastSpit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+
+import com.barribob.MaelstromMod.entity.action.Action;
+import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
+import com.barribob.MaelstromMod.entity.animation.AnimationClip;
+import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
+import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
+import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,29 +28,19 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * The first boss of the mod
- * 
- * @author micha
- *
- */
-public class EntityBeast extends EntityMaelstromMob
+public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 {
-    private final static double SPEED = 1.5D;
-    private final static double SPEED_AMP = 1.0F;
-    private final static int RANGED_COOLDOWN = 40;
-    private final static float RANGED_DISTANCE = 8.0f;
-    private final static int AI_SWITCH_TIME = 100;
-    private final static float RANGED_SWITCH_CHANCE = 0.5f;
-    private final static float PROJECTILE_SPEED = 1.0f;
-    private final static float PROJECTILE_INACCURACY = 8.0f;
-    private final static int PROJECTILE_AMOUNT = 5;
+    private ComboAttack attackHandler = new ComboAttack();
+    private byte leap = 4;
+    private byte spit = 5;
+    boolean leaping = false;
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -50,23 +50,86 @@ public class EntityBeast extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(1.8f, 1.8f);
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
-	this.setLevel(1.5f);
+	this.setLevel(2.0f);
+	if (!worldIn.isRemote)
+	{
+	    attackHandler.addAttack(leap, new Action()
+	    {
+		@Override
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+		{
+		    Vec3d dir = target.getPositionVector().subtract(actor.getPositionVector()).normalize();
+		    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(1.0f).add(ModUtils.yVec(0.5f));
+		    actor.motionX = leap.x;
+		    actor.motionY = leap.y;
+		    actor.motionZ = leap.z;
+		}
+	    });
+	    attackHandler.addAttack(spit, new Action()
+	    {
+		@Override
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+		{
+		    for (int i = 0; i < 5; i++)
+		    {
+			ProjectileBeastAttack projectile = new ProjectileBeastAttack(actor.world, actor, actor.getAttack() * 0.5f);
+			double d0 = target.posY + target.getEyeHeight();
+			double d1 = target.posX - actor.posX;
+			double d2 = d0 - projectile.posY;
+			double d3 = target.posZ - actor.posZ;
+			float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+			projectile.shoot(d1, d2 + f, d3, 1, 8);
+			actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
+			actor.world.spawnEntity(projectile);
+		    }
+		}
+	    });
+	}
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	this.currentAnimation = new AnimationBeastSpit();
+	List<List<AnimationClip<ModelBeast>>> animationLeap = new ArrayList<List<AnimationClip<ModelBeast>>>();
+	List<AnimationClip<ModelBeast>> head = new ArrayList<AnimationClip<ModelBeast>>();
+
+	BiConsumer<ModelBeast, Float> headZ = (model, f) -> {
+	    model.head.rotateAngleZ = f;
+	    model.jaw.rotateAngleX = f / 2;
+	};
+
+	head.add(new AnimationClip(20, 0, 40, headZ));
+	head.add(new AnimationClip(8, 40, 40, headZ));
+	head.add(new AnimationClip(12, 40, 0, headZ));
+
+	animationLeap.add(head);
+
+	List<List<AnimationClip<ModelBeast>>> animationSpit = new ArrayList<List<AnimationClip<ModelBeast>>>();
+	List<AnimationClip<ModelBeast>> jaw = new ArrayList<AnimationClip<ModelBeast>>();
+
+	BiConsumer<ModelBeast, Float> jawX = (model, f) -> {
+	    model.head.rotateAngleZ = 0;
+	    model.jaw.rotateAngleX = f;
+	};
+
+	jaw.add(new AnimationClip(20, 0, 20, jawX));
+	jaw.add(new AnimationClip(8, 20, 20, jawX));
+	jaw.add(new AnimationClip(12, 20, 0, jawX));
+
+	animationSpit.add(jaw);
+
+	attackHandler.addAttack(leap, Action.NONE, () -> new StreamAnimation(animationLeap));
+	attackHandler.addAttack(spit, Action.NONE, () -> new StreamAnimation(animationSpit));
+
+	this.currentAnimation = new StreamAnimation(animationSpit);
     }
 
-    // Init the melee and range ai
     @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4,
-		new AIMeleeAndRange<EntityMaelstromMob>(this, SPEED, true, SPEED_AMP, RANGED_COOLDOWN, RANGED_DISTANCE, AI_SWITCH_TIME, RANGED_SWITCH_CHANCE, 0.5f));
+	this.tasks.addTask(4, new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.0f, 40, 24, 8.0f, 0.5f));
     }
 
     /**
@@ -83,42 +146,36 @@ public class EntityBeast extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
+	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.5);
+	this.getEntityAttribute(SWIM_SPEED).setBaseValue(1.0D);
     }
 
-    /**
-     * Attack the specified entity using a ranged attack.
-     */
+    @Override
+    protected float getWaterSlowDown()
+    {
+	return 0.95f;
+    }
+
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	if (!world.isRemote)
+	this.attackHandler.getCurrentAttackAction().performAction(this, target);
+	if (attackHandler.getCurrentAttack() == leap)
 	{
-	    for (int i = 0; i < this.PROJECTILE_AMOUNT; i++)
-	    {
-		ProjectileBeastAttack projectile = new ProjectileBeastAttack(this.world, this, this.getAttack());
-		double d0 = target.posY + target.getEyeHeight();
-		double d1 = target.posX - this.posX;
-		double d2 = d0 - projectile.posY;
-		double d3 = target.posZ - this.posZ;
-		float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-		projectile.shoot(d1, d2 + f, d3, this.PROJECTILE_SPEED, this.PROJECTILE_INACCURACY);
-		this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-		this.world.spawnEntity(projectile);
-	    }
+	    leaping = true;
 	}
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn)
+    public void onLivingUpdate()
     {
-	if (entityIn instanceof EntityLivingBase)
+	if (!world.isRemote && this.leaping)
 	{
-	    entityIn.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(this), this.getAttack());
-	    return true;
+	    ModUtils.handleAreaImpact(2.5f, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeMaelstromMeleeDamage(this), 0.3f, 0, false);
 	}
-	return false;
+	super.onLivingUpdate();
     }
 
     @Override
@@ -132,9 +189,6 @@ public class EntityBeast extends EntityMaelstromMob
 	super.readEntityFromNBT(compound);
     }
 
-    /**
-     * Sets the custom name tag for this entity
-     */
     @Override
     public void setCustomNameTag(String name)
     {
@@ -149,10 +203,6 @@ public class EntityBeast extends EntityMaelstromMob
 	super.updateAITasks();
     }
 
-    /**
-     * Add the given player to the list of players tracking this entity. For
-     * instance, a player may track a boss in order to view its associated boss bar.
-     */
     @Override
     public void addTrackingPlayer(EntityPlayerMP player)
     {
@@ -160,10 +210,6 @@ public class EntityBeast extends EntityMaelstromMob
 	this.bossInfo.addPlayer(player);
     }
 
-    /**
-     * Removes the given player from the list of players tracking this entity. See
-     * {@link Entity#addTrackingPlayer} for more information on tracking.
-     */
     @Override
     public void removeTrackingPlayer(EntityPlayerMP player)
     {
@@ -192,7 +238,7 @@ public class EntityBeast extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.BEAST;
+	return LootTableHandler.SWAMP_BOSS;
     }
 
     @Override
@@ -204,26 +250,40 @@ public class EntityBeast extends EntityMaelstromMob
     @Override
     public void setSwingingArms(boolean swingingArms)
     {
-	if (swingingArms)
+	super.setSwingingArms(swingingArms);
+	if (this.isSwingingArms())
 	{
-	    this.world.setEntityState(this, (byte) 4);
+	    attackHandler.setCurrentAttack(ModRandom.choice(new Byte[] { leap, spit }));
+	    world.setEntityState(this, attackHandler.getCurrentAttack());
 	}
     }
 
-    /**
-     * Handler for {@link World#setEntityState}
-     */
     @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id == 4)
+	if (id == 4 || id == 5)
 	{
+	    currentAnimation = attackHandler.getAnimation(id);
 	    getCurrentAnimation().startAnimation();
 	}
-	else
-	{
-	    super.handleStatusUpdate(id);
-	}
+	super.handleStatusUpdate(id);
+    }
+
+    @Override
+    public boolean isLeaping()
+    {
+	return this.leaping;
+    }
+
+    @Override
+    public void setLeaping(boolean leaping)
+    {
+	this.leaping = leaping;
+    }
+
+    @Override
+    public void onStopLeaping()
+    {
     }
 }

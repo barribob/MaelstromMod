@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationMaelstromBeast;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromBeast;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
@@ -38,7 +39,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-public class EntityMaelstromBeast extends EntityMaelstromMob
+public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingEntity
 {
     private ComboAttack attackHandler = new ComboAttack();
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -266,11 +267,13 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 	return false;
     }
 
+    @Override
     public boolean isLeaping()
     {
 	return leaping;
     }
 
+    @Override
     public void setLeaping(boolean leaping)
     {
 	this.leaping = leaping;
@@ -453,5 +456,13 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     protected float getSoundVolume()
     {
 	return 0.6F;
+    }
+
+    @Override
+    public void onStopLeaping()
+    {
+	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeMaelstromExplosionDamage(this));
+	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
+	this.world.setEntityState(this, this.explosionParticles);
     }
 }
