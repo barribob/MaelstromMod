@@ -1,7 +1,13 @@
 {
-  "minecraft:recipes/misc/orange_dye_from_red_yellow": {
+  "minecraft:recipes/tools/flint_and_steel": {
     "criteria": {
-      "has_yellow_dye": "2019-07-06 04:58:36 -0600"
+      "has_obsidian": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/stone_brick_slab": {
+    "criteria": {
+      "has_stonebrick": "2019-11-22 20:43:20 -0700"
     },
     "done": true
   },
@@ -11,9 +17,9 @@
     },
     "done": true
   },
-  "minecraft:recipes/misc/lime_dye": {
+  "minecraft:recipes/decorations/nether_brick_fence": {
     "criteria": {
-      "has_green_dye": "2019-07-06 04:58:36 -0600"
+      "has_nether_brick": "2019-11-22 20:43:20 -0700"
     },
     "done": true
   },
@@ -23,15 +29,93 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/quartz_stairs": {
+    "criteria": {
+      "has_quartz_block": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/quartz_slab": {
+    "criteria": {
+      "has_quartz_block": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/pillar_quartz_block": {
+    "criteria": {
+      "has_quartz_block": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/enchanting_table": {
+    "criteria": {
+      "has_obsidian": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/nether_brick_stairs": {
+    "criteria": {
+      "has_nether_brick": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:story/root": {
+    "criteria": {
+      "crafting_table": "2019-07-06 04:58:36 -0600"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/orange_dye_from_red_yellow": {
+    "criteria": {
+      "has_yellow_dye": "2019-07-06 04:58:36 -0600"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/nether_brick_slab": {
+    "criteria": {
+      "has_nether_brick": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/lime_dye": {
+    "criteria": {
+      "has_green_dye": "2019-07-06 04:58:36 -0600"
+    },
+    "done": true
+  },
+  "minecraft:recipes/redstone/redstone_lamp": {
+    "criteria": {
+      "has_glowstone": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/chiseled_stonebrick": {
+    "criteria": {
+      "has_stonebrick": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:story/form_obsidian": {
+    "criteria": {
+      "obsidian": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/stone_brick_stairs": {
+    "criteria": {
+      "has_stonebrick": "2019-11-22 20:43:20 -0700"
+    },
+    "done": true
+  },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
       "plains": "2019-07-06 04:58:36 -0600"
     },
     "done": false
   },
-  "minecraft:story/root": {
+  "minecraft:recipes/building_blocks/chiseled_quartz_block": {
     "criteria": {
-      "crafting_table": "2019-07-06 04:58:36 -0600"
+      "has_quartz_block": "2019-11-22 20:43:20 -0700"
     },
     "done": true
   }

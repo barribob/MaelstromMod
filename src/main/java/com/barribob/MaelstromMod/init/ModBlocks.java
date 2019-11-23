@@ -35,6 +35,7 @@ import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockBrownKey;
 import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockCliffPortal;
+import com.barribob.MaelstromMod.blocks.portal.BlockDarkNexusPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
@@ -174,6 +175,7 @@ public class ModBlocks
     public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockAzureKey("black_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.ALL);
     public static final Block NEXUS_HEROBRINE_SPAWNER = new BlockNexusHerobrineSpawner("nexus_herobrine_spawner");
     public static final Block NEXUS_PORTAL = new BlockNexusPortal("nexus_portal").setCreativeTab(ModCreativeTabs.ALL);
+    public static final Block DARK_NEXUS_PORTAL = new BlockDarkNexusPortal("dark_nexus_portal").setCreativeTab(ModCreativeTabs.ALL);
 
     // Cliff Dimension
     public static final Block CLIFF_STONE = new BlockBase("cliff_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.ALL);

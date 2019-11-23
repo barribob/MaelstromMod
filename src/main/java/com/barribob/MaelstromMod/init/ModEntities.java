@@ -23,7 +23,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
-import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
+import com.barribob.MaelstromMod.entity.entities.Herobrine;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusArmorer;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusBladesmith;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusGunTrader;
@@ -174,7 +174,7 @@ public class ModEntities
 	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 70, azure);
 	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
 	registerEntity("herobrine_1", EntityHerobrineOne.class, HEROBRINE_1_ID, 50);
-	registerEntity("herobrine_controller", HerobrineBossController.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
+	registerEntity("herobrine_controller", Herobrine.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
 	registerEntity("nexus_gunsmith", NexusGunTrader.class, NEXUS_GUNSMITH, 50, nexus);
 	registerEntity("nexus_mage", NexusMageTrader.class, NEXUS_MAGE, 50, nexus);
 	registerEntity("nexus_armorer", NexusArmorer.class, NEXUS_ARMORER, 50, nexus);

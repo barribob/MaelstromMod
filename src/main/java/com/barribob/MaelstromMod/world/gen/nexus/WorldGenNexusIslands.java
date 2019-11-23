@@ -27,7 +27,7 @@ public class WorldGenNexusIslands extends WorldGenStructure
     {
 	this.generateStructure(worldIn, position, false);
 	return true;
-    };
+    }
 
     @Override
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
@@ -75,5 +75,5 @@ public class WorldGenNexusIslands extends WorldGenStructure
 	{
 	    ItemMonsterPlacer.spawnCreature(worldIn, new ResourceLocation(Reference.MOD_ID + ":nexus_gunsmith"), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 	}
-    };
+    }
 }

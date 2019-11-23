@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.biome.BiomeCliffSwamp;
+import com.barribob.MaelstromMod.world.dimension.dark_nexus.WorldGenDarkNexus;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenCliffLedge;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenCliffStructureLedge;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenMaelstromCave;
@@ -235,6 +236,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
     }
 
     public static final WorldGenStructure NEXUS = new WorldGenNexusIslands();
+    public static final WorldGenStructure DARK_NEXUS = new WorldGenDarkNexus();
 
     public static class CliffMaelstromStructure extends WorldGenStructure
     {

@@ -42,9 +42,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/*
- * The first herobrine boss
- */
 public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttackMob
 {
     // Swinging arms is the animation for the attack
@@ -103,7 +100,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30);
     }
 
     @Override

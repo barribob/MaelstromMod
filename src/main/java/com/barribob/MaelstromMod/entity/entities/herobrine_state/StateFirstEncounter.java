@@ -1,0 +1,90 @@
+package com.barribob.MaelstromMod.entity.entities.herobrine_state;
+
+import java.util.function.Consumer;
+
+import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
+import com.barribob.MaelstromMod.entity.entities.Herobrine;
+import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.util.TimedMessager;
+
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+
+public class StateFirstEncounter extends HerobrineState
+{
+    private static final String[] INTRO_MESSAGES = { "herobrine_1", "herobrine_2", "herobrine_3", "herobrine_4", "" };
+    private static final int[] INTRO_MESSAGE_TIMES = { 80, 140, 200, 260, 320 };
+    private static final String[] EXIT_MESSAGES = { "herobrine_5", "herobrine_6", "herobrine_7", "" };
+    private static final int[] EXIT_MESSAGE_TIMES = { 80, 140, 200, 260 };
+    private EntityHerobrineOne herobrineBoss;
+    private TimedMessager messager;
+    private boolean leftClickMessage = false;
+
+    private Consumer<String> spawnHerobrine = (s) -> {
+	herobrineBoss = new EntityHerobrineOne(world);
+	herobrineBoss.setLocationAndAngles(herobrine.posX, herobrine.posY + 4, herobrine.posZ, herobrine.rotationYaw, herobrine.rotationPitch);
+	herobrineBoss.posY += 4;
+	herobrineBoss.setRotationYawHead(herobrine.rotationYawHead);
+	if (!world.isRemote)
+	{
+	    herobrineBoss.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(herobrineBoss)), (IEntityLivingData) null);
+	    world.spawnEntity(herobrineBoss);
+	}
+    };
+
+    private Consumer<String> dropKey = (s) -> {
+	EntityItem entityitem = new EntityItem(herobrine.world, herobrine.posX, herobrine.posY + 1, herobrine.posZ - 2, new ItemStack(ModItems.AZURE_KEY));
+	herobrine.world.spawnEntity(entityitem);
+	herobrine.state = new StateCliffKey(herobrine);
+    };
+
+    public StateFirstEncounter(Herobrine herobrine)
+    {
+	super(herobrine);
+	messager = new TimedMessager(INTRO_MESSAGES, INTRO_MESSAGE_TIMES, spawnHerobrine);
+    }
+
+    @Override
+    public void update()
+    {
+	messager.Update(world, messageToPlayers);
+
+	if (herobrineBoss != null)
+	{
+	    herobrine.bossInfo.setPercent(herobrineBoss.getHealth() / herobrineBoss.getMaxHealth());
+
+	    // If the herobrine falls off, teleport it back
+	    if (herobrineBoss.posY < 0)
+	    {
+		herobrineBoss.setLocationAndAngles(herobrine.posX, herobrine.posY + 4, herobrine.posZ, herobrine.rotationYaw, herobrine.rotationPitch);
+	    }
+
+	    // When herobrine is defeated
+	    if (herobrineBoss.getHealth() <= 0.0)
+	    {
+		messager = new TimedMessager(EXIT_MESSAGES, EXIT_MESSAGE_TIMES, dropKey);
+		herobrine.bossInfo.setPercent(1);
+		herobrineBoss = null;
+	    }
+	}
+    }
+
+    @Override
+    public void leftClick(Herobrine herobrine)
+    {
+	if (!this.leftClickMessage)
+	{
+	    messageToPlayers.accept("herobrine_8");
+	    leftClickMessage = true;
+	}
+	super.leftClick(herobrine);
+    }
+
+    @Override
+    public String getNbtString()
+    {
+	return "first_encounter";
+    }
+}

@@ -22,7 +22,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
-import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
+import com.barribob.MaelstromMod.entity.entities.Herobrine;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusArmorer;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusBladesmith;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusGunTrader;
@@ -53,6 +53,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.render.RenderAnimatedBiped;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
+import com.barribob.MaelstromMod.entity.render.RenderHerobrine;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
@@ -82,10 +83,8 @@ public class RenderHandler
 	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
 	registerModEntityRenderer(EntityMaelstromMage.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_shade.png"));
 	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/floating_skull.png"));
-	registerModBipedRenderer(EntityHerobrineOne.class, new ModelAnimatedBiped(),
-		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
-	registerModBipedRenderer(HerobrineBossController.class, new ModelAnimatedBiped(),
-		new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
+	registerHerobrineRenderer(Herobrine.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"));
+	registerHerobrineRenderer(EntityHerobrineOne.class, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shadow_clone.png"));
 	registerModEntityRenderer(NexusGunTrader.class, new ModelGunTrader(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/gun_trader.png"));
 	registerModEntityRenderer(NexusMageTrader.class, new ModelMageTrader(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/mage_trader.png"));
 	registerModEntityRenderer(NexusArmorer.class, new ModelArmorer(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/armorer.png"));
@@ -138,7 +137,7 @@ public class RenderHandler
 		return new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_golem.png"));
 	    }
 	});
-	
+
 	RenderingRegistry.registerEntityRenderingHandler(EntityCliffGolem.class, new IRenderFactory<EntityCliffGolem>()
 	{
 	    @Override
@@ -150,10 +149,24 @@ public class RenderHandler
     }
 
     /**
+     * Register an entity with herobrine eyes
+     */
+    private static <T extends Entity, V extends RenderModEntity> void registerHerobrineRenderer(Class<T> entityClass, ResourceLocation textures)
+    {
+	RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<T>()
+	{
+	    @Override
+	    public Render<? super T> createRenderFor(RenderManager manager)
+	    {
+		return new RenderHerobrine(manager, textures);
+	    }
+	});
+    }
+
+    /**
      * Registers an entity with a model and sets it up for rendering
      */
-    private static <T extends Entity, U extends ModelBase, V extends RenderModEntity> void registerModEntityRenderer(Class<T> entityClass, U model,
-	    ResourceLocation textures)
+    private static <T extends Entity, U extends ModelBase, V extends RenderModEntity> void registerModEntityRenderer(Class<T> entityClass, U model, ResourceLocation textures)
     {
 	RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<T>()
 	{

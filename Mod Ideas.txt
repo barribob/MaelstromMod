@@ -1,0 +1,165 @@
+||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
+
+Crimson Dungeon [85]
+    [DONE] Dungeon Blocks (6)
+    Dungeon Generation [35]
+        Connect dimension with portal (2)
+        Build the dungeon (30)
+        Basic generation to place dungeon in (3)
+    Mobs [32]
+        Engineer with advanced AI (6)
+        Knight (4)
+        Eyerock (9)
+        Maelstrom Knight (8)
+        Mage (3)
+    Items [12]
+        3 sets of armor (5)
+            common for level 3
+            common for level 3.5
+            rare for nexus trading 3.5
+        4 guns (4)
+            4 for chests
+            1 for nexus
+        3 swords (3)
+            2 for chests
+            1 for nexus
+
+New ways to progress through dungeons. Make dungeons more interesting to fight though. [14]
+    Environmental dangers to dungeons (4)
+        Lava
+        Void
+        Spikes
+    Maelstrom pearls (2)
+
+Invasion Events [15]
+    Where enemies significantly stronger than the level of the world invade in the overworld.
+    Overworld maelstrom that appear: 
+        Uncolored Shade (1)
+        Uncolored Mage (1)
+        Horror (1)
+    Mobs that build maelstrom fortresses gradually:
+        Builder mob + fortress (6)
+        Defeating a builder mob drops the craftable ingredient to the nexus
+    Wrap the event in a system that spawns many mobs and splotches around players (6)
+        This should also be configurable
+
+Other game polishing [19]
+    Fine tune enchantments for loot drops (3)
+    Dungeon loot should be centralized (3)
+    Maelstrom stronghold up to level 2.5 (1.5)
+    Remove key fragments (1)
+    Make saplings render naturally (3)
+    Name things to be sexier (2)
+    Rebalance nexus trades (3)
+    More nexus trades (5)
+    Maelstrom now drop fragments of cores (2)
+        To give some incentive to defeating maelstrom
+
+Boss Ampage [12]
+    AMP the first herobrine encounter (8)
+        Entrance into another dimension!!
+        Change story with Herobrine as trapped
+    AMP the minotaur (4)
+        Undead version?
+    AMP the statue of nirvana (3)
+        Pillars that shield?
+
+Creative tab organization (2)
+    Bosses should scale in damage dealt depending on their health (3)
+    Keeps the fight interesting because it gets more dangerous to not predict a boss's attacks
+
+Fix swamp fog cliff top fog problems
+
+Server Testing (2)
+Testing (6)
+Balacing (2)
+
+Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)
+Put out on curseforge and improve marketing (5)
+
+||||||||||||||||||||||||||||||||||||||||||||||| Completed
+[DONE] Azure Dimension rework [20]
+    Try Exploration -> Expansion -> Exploitation -> Execution
+        Mining -> Exploring the world for smaller dungeons -> Using items from those dungeons -> The bosses
+    [DONE] Make multiple shades of stone from light at the bottom to dark at the top. (3)
+        [DONE] Fix caves (1)
+        [DONE] Change loading screen texture (1)
+    [DONE] Change to normal grass and add varying grass texture (3)
+    [DONE]Add multiple biomes for minor variation (3)
+    [DONE] Add structures to create a story of ruin (5)
+    [DONE] Better trees (4)
+    [DONE] Add new ore and armor (3)
+    [DONE] Retexture brown grass (1)
+    [DONE] Plains biome (1)
+
+[DONE] Cliff Dimension enhancements and rebalance [23]
+    [DONE] Add structures to create a story of ancient ruin (5)
+        5 Different ruin templates of different sizes
+    [DONE] Add some new vegitation and magic ambience to match the azure dimension (3)
+        Firefly grass
+        Another type of tree
+        Ferns, flowers, and bushes
+        World gen mineable different stone
+    [DONE] Put something interesting on top (5)
+        Place maelstrom splotches down
+        Make the grass a different color
+        Make more desolate
+        Fog
+    [DONE] Maelstrom Beast miniboss ruins pit (2)
+    [DONE] Put massive ruins in the swamp (9)
+    [DONE] Slime mushrooms (2)
+
+||||||||||||||||||||||||||||||||||||||||||||||| Backlog
+
+More ruined houses for Fracture(5)
+Spawners with different spawn ranges
+Improve base spawner logic
+Fix maelstrom illager faceless when another illager exists (3)
+Add more variable chest placement in structures (3)
+More minibosses that the player can stumble across
+
+||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
+
+Theme: Black and red, nether hell inferno castle.
+
+LEVEL 1 THE MAELSTROM GENERATOR:
+    The player finds themselves in a massive cave, where in the center is a massive cylindrical contraption, which represents an engineering complex.
+        The story behind this is that the maelstrom have punctured though bedrock to get to the maelstrom energy source down below.
+    The void will be visible, and there will be bridges from the cylinder to islands, and rooms in the wall.
+    There will be towers that hang from the ceiling.
+    Include airships, drills, prisons (for villagers and maelstrom henchmen)
+    Most of this stuff will be static, but we could consider making the main gear shafts actual entities that move (we can model this)
+    We could consider adding other gadges, like lazers and stuff.
+    There will be a lot of redstone contraptions.
+    The mobs here will be engineers, maelstrom knights, and overseers. The goal here is to find the key fragments to unlock the next layer of the dungeon.
+    Most blocks will be minecraft blocks, but the door will be unblockable.
+    Takes about 100 Blocks
+    Level (3.0)
+
+Level 3 THE ROYAL CASTLE:
+    The castle holds the strongest knights and mages. Fight or sneak your way though the tower to encounter the main boss, which will take an 15-45 mins to defeat.
+
+First two levels will be a long hallway with a door at the end that requires three keys. The three keys will be rendered on a pedestal guarded by hordes of mob spawners.
+
+Second two levels will also have three keys but these are held by tough bosses. It will not be a bunch of hallways, but a bunch of similarly sized rooms that is closer
+to a maze.
+
+Final levels will be closer to a tower format where the player has to ascend 5 or more smaller levels, and at the top is the megaboss, which is a fight that hopefully takes 
+at least 10 - 15 mins. And the boss should have at least 8 unique attacks and two phases.
+
+This whole structure should take at least a few hours to clear, just like the previous two dimensions. We need to have really strong mobs (maybe have the same mobs but 
+with different levels)
+
+What the experience will be:
+I want it to feel like the player is making progress somehow. So use multiple levels that look slightly different.
+Dungeon blocks will be unbreakable.
+
+||||||||||||||||||||||||||||||||||||||||||||||| Story ideas
+
+Herobrine cares for Minecraft, although is excuse is that the maelstrom are more of a nusiance than he is, and that is
+unacceptable. He is also embarrased that he has to ask the player to help him because he doesn't have the freedom and
+artificial intelligence to do so. 
+
+||||||||||||||||||||||||||||||||||||||||||||| Far out ideas
+Final boss takes literally an entire hour to defeat - with a story that personally speaks to what minecraft means to me.
+Research minecraft village to see how they generate those villages

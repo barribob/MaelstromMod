@@ -82,6 +82,10 @@ public class ModConfig
 	@Config.LangKey(config + "cliff_dimension_id")
 	public int cliff_dimension_id = 127;
 
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "dark_nexus_dimension_id")
+	public int dark_nexus_dimension_id = 128;
+
 	@Config.RequiresWorldRestart
 	@Config.LangKey(config + "spawn_island")
 	public boolean spawn_island = true;

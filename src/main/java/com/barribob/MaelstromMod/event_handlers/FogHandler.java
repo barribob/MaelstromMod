@@ -65,6 +65,11 @@ public class FogHandler
 		GlStateManager.setFogDensity(fogDensity);
 	    }
 	}
+	else if (event.getEntity().dimension == ModConfig.world.dark_nexus_dimension_id)
+	{
+	    GlStateManager.setFog(GlStateManager.FogMode.EXP);
+	    GlStateManager.setFogDensity(0.07f);
+	}
     }
 
     @SideOnly(Side.CLIENT)
@@ -80,6 +85,12 @@ public class FogHandler
 	    event.setBlue(0.5f * magnitude * alpha + event.getBlue() * one_minus_alpha);
 	    event.setRed(0.5f * magnitude * alpha + event.getRed() * one_minus_alpha);
 	    event.setGreen(0.43f * magnitude * alpha + event.getGreen() * one_minus_alpha);
+	}
+	if (event.getEntity().dimension == ModConfig.world.dark_nexus_dimension_id)
+	{
+	    event.setBlue(0);
+	    event.setRed(0);
+	    event.setGreen(0);
 	}
     }
 
