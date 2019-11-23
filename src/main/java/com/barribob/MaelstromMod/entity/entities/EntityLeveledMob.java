@@ -31,6 +31,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     protected boolean isImmovable = false;
     private Vec3d initialPosition = null;
     private boolean animationsInit = false;
+    protected double healthScaledAttackFactor = 0.0; // Factor that determines how much attack is affected by health
 
     public EntityLeveledMob(World worldIn)
     {
@@ -172,7 +173,8 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
      */
     public float getAttack()
     {
-	return ModUtils.getMobDamage(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue(), this.getLevel());
+	return ModUtils.getMobDamage(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue(), healthScaledAttackFactor, this.getMaxHealth(),
+		this.getHealth(), this.getLevel());
     }
 
     @Override

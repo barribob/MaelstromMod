@@ -320,9 +320,11 @@ public final class ModUtils
      * @param level
      * @return
      */
-    public static float getMobDamage(double baseAttackDamage, float level)
+    public static float getMobDamage(double baseAttackDamage, double healthScaledAttackFactor, float maxHealth, float health, float level)
     {
-	return (float) (baseAttackDamage * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.mob_damage);
+	double leveledAttack = baseAttackDamage * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.mob_damage;
+	double healthScaledAttack = leveledAttack * healthScaledAttackFactor * (((maxHealth * 0.5) - health) / maxHealth);
+	return (float) (healthScaledAttack + leveledAttack);
     }
 
     /**

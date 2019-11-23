@@ -47,7 +47,6 @@ Other game polishing [19]
     Fine tune enchantments for loot drops (3)
     Dungeon loot should be centralized (3)
     Maelstrom stronghold up to level 2.5 (1.5)
-    Remove key fragments (1)
     Make saplings render naturally (3)
     Name things to be sexier (2)
     Rebalance nexus trades (3)
@@ -56,7 +55,7 @@ Other game polishing [19]
         To give some incentive to defeating maelstrom
 
 Boss Ampage [12]
-    AMP the first herobrine encounter (8)
+    [DONE] AMP the first herobrine encounter (6)
         Entrance into another dimension!!
         Change story with Herobrine as trapped
     AMP the minotaur (4)
@@ -65,10 +64,12 @@ Boss Ampage [12]
         Pillars that shield?
 
 Creative tab organization (2)
-    Bosses should scale in damage dealt depending on their health (3)
+Bosses should scale in damage dealt depending on their health (3)
     Keeps the fight interesting because it gets more dangerous to not predict a boss's attacks
 
-Fix swamp fog cliff top fog problems
+Remove herobrine from the cliff situation (1)
+Add blockage of wind in dark nexus dimension (1)
+Add rendering of fog above cliff as well (2)
 
 Server Testing (2)
 Testing (6)
@@ -111,6 +112,7 @@ Put out on curseforge and improve marketing (5)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Fix swamp fog cliff top fog problems
 More ruined houses for Fracture(5)
 Spawners with different spawn ranges
 Improve base spawner logic

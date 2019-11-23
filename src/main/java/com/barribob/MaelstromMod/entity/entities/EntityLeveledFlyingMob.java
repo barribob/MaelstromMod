@@ -79,7 +79,8 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
 
     public float getAttack()
     {
-	return ModUtils.getMobDamage(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue(), this.level);
+	return ModUtils.getMobDamage(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue(), 0.0, this.getMaxHealth(), this.getHealth(),
+		this.level);
     }
 
     @Override

@@ -76,6 +76,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	this.setSize(0.7f, 2.2f);
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	this.setLevel(1.5f);
+	this.healthScaledAttackFactor = 0.2;
 	if (!world.isRemote)
 	{
 	    attackHandler.addAttack(magicMissile, new Action()

@@ -50,6 +50,7 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 	super(worldIn);
 	this.setSize(1.8f, 1.8f);
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
+	this.healthScaledAttackFactor = 0.2;
 	this.setLevel(2.0f);
 	if (!worldIn.isRemote)
 	{

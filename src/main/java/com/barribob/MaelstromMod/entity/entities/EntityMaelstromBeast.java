@@ -56,6 +56,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
     public EntityMaelstromBeast(World worldIn)
     {
 	super(worldIn);
+	this.healthScaledAttackFactor = 0.2;
 	this.setSize(1.4f, 2.5f);
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	this.setLevel(1.5f);

@@ -38,6 +38,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	super(worldIn);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
+	this.healthScaledAttackFactor = 0.2;
     }
 
     @Override

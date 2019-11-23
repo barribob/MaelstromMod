@@ -48,6 +48,7 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 	    attackHandler.addAttack(groundPoundByte, new ActionGolemSlam());
 	    attackHandler.addAttack(this.geyserByte, new ActionGeyser());
 	}
+	this.healthScaledAttackFactor = 0.2;
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
 
