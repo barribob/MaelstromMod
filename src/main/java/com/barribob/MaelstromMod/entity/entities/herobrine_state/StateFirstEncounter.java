@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities.herobrine_state;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
@@ -9,8 +10,10 @@ import com.barribob.MaelstromMod.util.TimedMessager;
 
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class StateFirstEncounter extends HerobrineState
 {
@@ -24,8 +27,7 @@ public class StateFirstEncounter extends HerobrineState
 
     private Consumer<String> spawnHerobrine = (s) -> {
 	herobrineBoss = new EntityHerobrineOne(world);
-	herobrineBoss.setLocationAndAngles(herobrine.posX, herobrine.posY + 4, herobrine.posZ, herobrine.rotationYaw, herobrine.rotationPitch);
-	herobrineBoss.posY += 4;
+	herobrineBoss.setLocationAndAngles(herobrine.posX, herobrine.posY, herobrine.posZ - 5, herobrine.rotationYaw, herobrine.rotationPitch);
 	herobrineBoss.setRotationYawHead(herobrine.rotationYawHead);
 	if (!world.isRemote)
 	{
@@ -35,7 +37,15 @@ public class StateFirstEncounter extends HerobrineState
     };
 
     private Consumer<String> dropKey = (s) -> {
-	EntityItem entityitem = new EntityItem(herobrine.world, herobrine.posX, herobrine.posY + 1, herobrine.posZ - 2, new ItemStack(ModItems.AZURE_KEY));
+	// Default position
+	Vec3d pos = new Vec3d(herobrine.posX, herobrine.posY + 1, herobrine.posZ - 5);
+	Collection<EntityPlayerMP> players = herobrine.bossInfo.getPlayers();
+	for (EntityPlayerMP player : players)
+	{
+	    pos = player.getPositionVector(); // Set the item coords to any player
+	    break;
+	}
+	EntityItem entityitem = new EntityItem(herobrine.world, pos.x, pos.y, pos.z, new ItemStack(ModItems.AZURE_KEY));
 	herobrine.world.spawnEntity(entityitem);
 	herobrine.state = new StateCliffKey(herobrine);
     };

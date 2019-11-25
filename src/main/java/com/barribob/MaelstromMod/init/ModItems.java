@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
 import com.barribob.MaelstromMod.items.ItemNexusIslandBuilder;
+import com.barribob.MaelstromMod.items.ItemSingleDescription;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
 import com.barribob.MaelstromMod.items.ItemTradable;
 import com.barribob.MaelstromMod.items.armor.ArmorNyanHelmet;
@@ -74,6 +75,7 @@ import net.minecraftforge.common.util.EnumHelper;
 public class ModItems
 {
     private static final float BASE_MELEE_DAMAGE = 6.0f;
+    private static final String keyDesc = "Give to herobrine to craft";
 
     // Tool materials
     private static final ToolMaterial COMMON_DAGGER = EnumHelper.addToolMaterial("common_dagger", 2, 300, 8.0f, BASE_MELEE_DAMAGE, 14);
@@ -104,11 +106,8 @@ public class ModItems
     public static final Item BEASTS_KEY = new ItemTBDKey("beast_key", ModCreativeTabs.ALL);
     public static final Item RED_KEY = new ItemTBDKey("red_key", ModCreativeTabs.ALL);
 
-    public static final Item CLIFF_KEY_FRAGMENT = new ItemBase("cliff_key_fragment", ModCreativeTabs.ALL);
-    /*
-     * Both bosses drops key fragments Minibosses drop key fragments
-     */
-    public static final Item RED_KEY_FRAGMENT = new ItemBase("red_key_fragment", ModCreativeTabs.ALL);
+    public static final Item CLIFF_KEY_FRAGMENT = new ItemSingleDescription("cliff_key_fragment", keyDesc, ModCreativeTabs.ALL);
+    public static final Item RED_KEY_FRAGMENT = new ItemSingleDescription("red_key_fragment", keyDesc, ModCreativeTabs.ALL);
 
     // The azure dimension's items
     public static final Item ELK_HIDE = new ItemTradable("elk_hide", ModCreativeTabs.ALL);

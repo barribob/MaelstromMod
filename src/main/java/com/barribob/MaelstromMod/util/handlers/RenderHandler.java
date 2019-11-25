@@ -11,7 +11,6 @@ import com.barribob.MaelstromMod.entity.entities.EntityGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenMage;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
-import com.barribob.MaelstromMod.entity.entities.EntityHerobrineCliff;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
@@ -100,7 +99,6 @@ public class RenderHandler
 	registerModEntityRenderer(EntitySwampCrawler.class, new ModelSwampCrawler(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/swamp_crawler.png"));
 	registerModEntityRenderer(EntityIronShade.class, new ModelIronShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/iron_shade.png"));
 	registerModEntityRenderer(EntityMaelstromBeast.class, new ModelMaelstromBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_beast.png"));
-	registerModBipedRenderer(EntityHerobrineCliff.class, new ModelAnimatedBiped(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png"), 0.5f);
 	registerModEntityRenderer(EntityCliffFly.class, new ModelCliffFly(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/cliff_fly.png"));
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);

@@ -24,7 +24,7 @@ Crimson Dungeon [85]
             2 for chests
             1 for nexus
 
-New ways to progress through dungeons. Make dungeons more interesting to fight though. [14]
+New ways to progress through dungeons. Make dungeons more interesting to fight though. [6]
     Environmental dangers to dungeons (4)
         Lava
         Void
@@ -64,11 +64,7 @@ Boss Ampage [12]
         Pillars that shield?
 
 Creative tab organization (2)
-Bosses should scale in damage dealt depending on their health (3)
-    Keeps the fight interesting because it gets more dangerous to not predict a boss's attacks
 
-Remove herobrine from the cliff situation (1)
-Add blockage of wind in dark nexus dimension (1)
 Add rendering of fog above cliff as well (2)
 
 Server Testing (2)
@@ -79,6 +75,9 @@ Clean up wiki (update current pages, and make the general guide much more compre
 Put out on curseforge and improve marketing (5)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Completed
+[DONE] Bosses should scale in damage dealt depending on their health (3)
+    Keeps the fight interesting because it gets more dangerous to not predict a boss's attacks
+
 [DONE] Azure Dimension rework [20]
     Try Exploration -> Expansion -> Exploitation -> Execution
         Mining -> Exploring the world for smaller dungeons -> Using items from those dungeons -> The bosses

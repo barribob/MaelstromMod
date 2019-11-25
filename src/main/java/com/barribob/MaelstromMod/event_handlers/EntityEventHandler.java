@@ -5,10 +5,12 @@ import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -38,7 +40,27 @@ public class EntityEventHandler
 		Vec3d pos = event.getEntity().getPositionVector().add(new Vec3d(ModRandom.getFloat(8), ModRandom.getFloat(4), ModRandom.getFloat(4)));
 		event.getEntity().world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.x - 8, pos.y + 2, pos.z, 0.8, 0, 0);
 	    });
-	    event.getEntity().addVelocity(0.02, 0, 0);
+	    
+	    int[] blockage = { 0, 0 }; // Represents the two y values the wind could be blowing at the player
+	    
+	    // Find any blocks that block the path of the wind
+	    for(int x = 0; x < 4; x++)
+	    {
+		for (int y = 0; y < 2; y++)
+		{
+		    BlockPos pos = new BlockPos(event.getEntity().getPositionVector()).add(new BlockPos(x - 4, y, 0));
+		    IBlockState block = event.getEntity().world.getBlockState(pos);
+		    if (block.isFullBlock() || block.isFullCube() || block.isBlockNormalCube())
+		    {
+			blockage[y] = 1;
+		    }
+		}
+	    }
+	    
+	    // With 1 blockage, velocity is 0.01. With no blockage, velocity is 0.02, and
+	    // with all blockage, velocity is 0
+	    float windStrength = (2 - (blockage[0] + blockage[1])) * 0.5f * 0.02f;
+	    event.getEntity().addVelocity(windStrength, 0, 0);
 	}
     }
 

@@ -12,7 +12,6 @@ import com.barribob.MaelstromMod.entity.entities.EntityGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenMage;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
-import com.barribob.MaelstromMod.entity.entities.EntityHerobrineCliff;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
@@ -229,7 +228,6 @@ public class ModEntities
 	registerEntity("meteor_spawner", ProjectileMeteorSpawner.class, PROJECTILE_START_ID++, 50);
 	registerEntity("sword_slash", ProjectileSwordSlash.class, PROJECTILE_START_ID++, 50);
 	registerEntity("beast_quake", ProjectileBeastQuake.class, PROJECTILE_START_ID++, 50);
-	registerEntity("cliff_herobrine", EntityHerobrineCliff.class, PROJECTILE_START_ID++, 50);
 
 	registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
 	registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

@@ -247,7 +247,6 @@ entity.cliff_golem.name=Cliff Stone Golem
 entity.swamp_crawler.name=Swamp Crawler
 entity.iron_shade.name=Shade of Execution
 entity.maelstrom_beast.name=Maelstrom Minotaur
-entity.cliff_herobrine.name=Herobrine
 entity.cliff_fly.name=Swamp Fly
 
 //———————————————————————————————————————————————————————————
@@ -337,6 +336,7 @@ itemGroup.all=Maelstrom Mod
 // Misc.
 //———————————————————————————————————————————————————————————
 islandbuilder.fail=Nexus Island Builder only activates in the overworld
+herobrine_trading=Herobrine's Epic Crafts
 
 //———————————————————————————————————————————————————————————
 // Config
@@ -410,18 +410,17 @@ mm.dialog.herobrine_1=Hello there adventurer. Do you want a key to a new dimensi
 mm.dialog.herobrine_2=Prove to me that you can hold your own,
 mm.dialog.herobrine_3=and defeat this shadow clone.
 mm.dialog.herobrine_4=If you don't impress me, you'll die.
-mm.dialog.herobrine_5=Not bad.
+mm.dialog.herobrine_5=Fascinating. You survived
 mm.dialog.herobrine_6=I shall soon see how far you get.
 mm.dialog.herobrine_7=Maybe you will be the one to release me from this prison.
 mm.dialog.herobrine_8=Don't attack me you dweeb.
 mm.dialog.herobrine_9=Do you have fragments for the next key? If not, then GTFO.
 mm.dialog.herobrine_10=I may be trapped, but I'm still invincible, idiot.
+mm.dialog.herobrine_11=How about you go left click some maelstrom instead?
+mm.dialog.herobrine_12=Not bad. Let's see how well you fare in this next dimension.
 mm.dialog.azure_villager_1=We've been having a problem with the maelstrom that's invaded this dimension.
 mm.dialog.azure_villager_2=You seem like a warrior, would you defeat the maelstrom invaders for us?
 mm.dialog.azure_villager_3=We'll reward you handsomely for taking out the maelstrom.
 mm.dialog.azure_villager_4=Have a look around the mineshaft for any useful gear and items.
 mm.dialog.azure_villager_5=Under the maelstrom growths, there is a core that spawns the maelstrom. Remove those!
 mm.dialog.azure_villager_6=Keep an eye out for the maelstrom fortress. That's where the boss is.
-mm.dialog.herobrine_cliff_1=You have completed the first dimension? Not bad.
-mm.dialog.herobrine_cliff_2=You might be just what I'm looking for.
-mm.dialog.herobrine_cliff_3=Let's see how well you fare in this next dimension.

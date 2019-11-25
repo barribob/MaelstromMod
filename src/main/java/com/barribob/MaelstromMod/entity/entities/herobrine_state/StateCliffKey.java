@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class StateCliffKey extends HerobrineState implements IMerchant
 {
-    protected static final MerchantRecipeList buyingList = new MerchantRecipeList();;
+    protected final MerchantRecipeList buyingList = new MerchantRecipeList();
     protected EntityPlayer buyingPlayer;
     protected boolean gtfo = false;
     private boolean leftClickMessage = false;
@@ -88,6 +88,8 @@ public class StateCliffKey extends HerobrineState implements IMerchant
     @Override
     public void useRecipe(MerchantRecipe recipe)
     {
+	messageToPlayers.accept("herobrine_12");
+	herobrine.state = new StateCrimsonKey(herobrine);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class StateCliffKey extends HerobrineState implements IMerchant
     @Override
     public ITextComponent getDisplayName()
     {
-	ITextComponent itextcomponent = new TextComponentTranslation("herobrine", new Object[0]);
+	ITextComponent itextcomponent = new TextComponentTranslation("herobrine_trading", new Object[0]);
 	itextcomponent.getStyle().setInsertion(herobrine.getCachedUniqueIdString());
 	return itextcomponent;
     }

@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.HerobrineState;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateCliffKey;
+import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateCrimsonKey;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateFirstEncounter;
 
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -109,6 +110,10 @@ public class Herobrine extends EntityLeveledMob
 	    if (compound.getString(nbtState).equals(new StateCliffKey(this).getNbtString()))
 	    {
 		state = new StateCliffKey(this);
+	    }
+	    else if (compound.getString(nbtState).equals(new StateCrimsonKey(this).getNbtString()))
+	    {
+		state = new StateCrimsonKey(this);
 	    }
 	}
 	super.readEntityFromNBT(compound);

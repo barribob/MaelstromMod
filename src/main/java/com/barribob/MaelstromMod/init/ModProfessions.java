@@ -38,6 +38,7 @@ public class ModProfessions
     public static VillagerCareer NEXUS_SPECIAL_TRADER;
     public static VillagerCareer NEXUS_BLADESMITH;
     public static VillagerCareer HEROBRINE_CLIFF_KEY;
+    public static VillagerCareer HEROBRINE_CRIMSON_KEY;
 
     public static void associateCareersAndTrades()
     {
@@ -104,8 +105,11 @@ public class ModProfessions
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_DAGGER, 1));
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.MoreComing());
 
-	HEROBRINE_CLIFF_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine");
-	HEROBRINE_CLIFF_KEY.addTrade(1, new GeneralTrade(ModItems.CLIFF_KEY_FRAGMENT, 9, null, 0, ModItems.BROWN_KEY, 1));
+	HEROBRINE_CLIFF_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_cliff");
+	HEROBRINE_CLIFF_KEY.addTrade(1, new GeneralTrade(ModItems.CLIFF_KEY_FRAGMENT, 7, null, 0, ModItems.BROWN_KEY, 1));
+
+	HEROBRINE_CRIMSON_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_crimson");
+	HEROBRINE_CRIMSON_KEY.addTrade(1, new GeneralTrade(ModItems.RED_KEY_FRAGMENT, 7, null, 0, ModItems.RED_KEY, 1));
     }
 
     public static class GeneralTrade implements ITradeList

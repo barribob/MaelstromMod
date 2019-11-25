@@ -1,9 +1,7 @@
 package com.barribob.MaelstromMod.blocks.key_blocks;
 
-import com.barribob.MaelstromMod.entity.entities.EntityHerobrineCliff;
+import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,12 +16,6 @@ public class BlockBrownKey extends BlockKey
     @Override
     protected void spawnPortalEntity(World world, BlockPos pos)
     {
-	if (!world.isRemote)
-	{
-	    world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY() + 2, pos.getZ(), false));
-	    Entity herobrine = new EntityHerobrineCliff(world);
-	    herobrine.setPosition(pos.getX() + 0.5f, pos.getY(), pos.getZ() + 0.5f);
-	    world.spawnEntity(herobrine);
-	}
+	world.spawnEntity(new EntityCliffPortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
     }
 }
