@@ -42,7 +42,7 @@ public class EntityShade extends EntityMaelstromMob
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5f);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5f);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
 

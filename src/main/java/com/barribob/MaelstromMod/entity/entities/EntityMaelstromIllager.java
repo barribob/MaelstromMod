@@ -58,6 +58,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     private byte magicMissile = 5;
     private byte wisp = 6;
     private byte shield = 7;
+    private byte enemy = 8;
     private final float shieldSize = 4;
     private EntityAIRangedAttack phase1AttackAI;
     private EntityAIRangedAttack phase2AttackAI;
@@ -69,6 +70,22 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
+
+    Supplier<EntityLeveledMob> mobSupplier = () -> {
+	int r = rand.nextInt(3);
+	if (r == 0)
+	{
+	    return new EntityShade(this.world);
+	}
+	else if (r == 1)
+	{
+	    return new EntityMaelstromMage(this.world);
+	}
+	else
+	{
+	    return new EntityHorror(this.world);
+	}
+    };
 
     public EntityMaelstromIllager(World worldIn)
     {
@@ -108,6 +125,15 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		    ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack(), actor, getPositionVector(), ModDamageSource.causeMaelstromExplosionDamage(actor));
 		    actor.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 		    actor.world.setEntityState(actor, ModUtils.THIRD_PARTICLE_BYTE);
+		}
+	    });
+	    attackHandler.addAttack(enemy, new Action()
+	    {
+		@Override
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+		{
+		    new ActionSpawnEnemy(mobSupplier).performAction(actor, target);
+		    actor.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 		}
 	    });
 	}
@@ -200,6 +226,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	animationShield.add(leftArm);
 
 	attackHandler.addAttack(shield, Action.NONE, () -> new StreamAnimation(animationShield));
+	attackHandler.addAttack(enemy, Action.NONE, () -> new AnimationOscillateArms(60, this));
 
 	this.currentAnimation = new AnimationOscillateArms(60, this);
     }
@@ -329,21 +356,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 
 	for (int i = 0; i < spawnAmount; i++)
 	{
-	    Supplier<EntityLeveledMob> mobSupplier = () -> {
-		int r = rand.nextInt(3);
-		if (r == 0)
-		{
-		    return new EntityShade(this.world);
-		}
-		else if (r == 1)
-		{
-		    return new EntityMaelstromMage(this.world);
-		}
-		else
-		{
-		    return new EntityHorror(this.world);
-		}
-	    };
 	    new ActionSpawnEnemy(mobSupplier).performAction(this, null);
 	}
 	this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
@@ -354,7 +366,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	super.onUpdate();
 
-	if (!phase2Attack)
+	if (!phase2Attack || (phase2Attack && attackHandler.getCurrentAttack() == enemy))
 	{
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	}
@@ -375,8 +387,9 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	{
 	    if (phase2Attack)
 	    {
-		Byte[] attack = { wisp, magicMissile };
-		attackHandler.setCurrentAttack(ModRandom.choice(attack));
+		Byte[] attack = { wisp, magicMissile, enemy };
+		double[] weights = { 0.5, 0.5, 0.2 };
+		attackHandler.setCurrentAttack(ModRandom.choice(attack, this.getRNG(), weights).next());
 		if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) < 4)
 		{
 		    attackHandler.setCurrentAttack(shield);
@@ -397,7 +410,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	{
 	    currentAnimation.startAnimation();
 	}
-	else if (id >= 5 && id <= 7)
+	else if (id >= 5 && id <= 8)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
 	    getCurrentAnimation().startAnimation();

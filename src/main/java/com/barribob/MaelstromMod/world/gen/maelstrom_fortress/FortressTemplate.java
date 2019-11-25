@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.template.TemplateManager;
+import net.minecraft.world.storage.loot.LootTableList;
 
 /**
  * 
@@ -38,6 +39,7 @@ public class FortressTemplate extends ModStructureTemplate
 	this.distance = distance;
     }
 
+    @Override
     public int getDistance()
     {
 	return this.distance;
@@ -46,13 +48,13 @@ public class FortressTemplate extends ModStructureTemplate
     /**
      * Loads structure block data markers and handles them by their name
      */
+    @Override
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand, StructureBoundingBox sbb)
     {
+	BlockPos blockpos = pos.down();
 	if (function.startsWith("chest"))
 	{
-	    BlockPos blockpos = pos.down();
-
-	    if (sbb.isVecInside(blockpos))
+	    if (rand.nextInt(2) == 0)
 	    {
 		TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
@@ -61,11 +63,42 @@ public class FortressTemplate extends ModStructureTemplate
 		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
 		}
 	    }
+	    else
+	    {
+		worldIn.setBlockToAir(blockpos);
+	    }
+	}
+	else if (function.startsWith("boss_chest"))
+	{
+	    TileEntity tileentity = worldIn.getTileEntity(blockpos);
+
+	    if (tileentity instanceof TileEntityChest)
+	    {
+		((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
+	    }
+	}
+	else if (function.startsWith("book_chest"))
+	{
+	    TileEntity tileentity = worldIn.getTileEntity(blockpos);
+
+	    if (tileentity instanceof TileEntityChest)
+	    {
+		((TileEntityChest) tileentity).setLootTable(LootTableList.CHESTS_STRONGHOLD_LIBRARY, rand.nextLong());
+	    }
+	}
+	else if (function.startsWith("blacksmith_chest"))
+	{
+	    TileEntity tileentity = worldIn.getTileEntity(blockpos);
+
+	    if (tileentity instanceof TileEntityChest)
+	    {
+		((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS_FORGE, rand.nextLong());
+	    }
 	}
 	else if (function.startsWith("boss"))
 	{
 	    EntityMaelstromIllager entity = new EntityMaelstromIllager(worldIn);
-	    entity.setPosition((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D);
+	    entity.setPosition(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
 	    worldIn.spawnEntity(entity);
 	}
 	else if (function.startsWith("enemy"))
@@ -75,7 +108,7 @@ public class FortressTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		String[] entities = {"shade", "horror", "maelstrom_mage"};
+		String[] entities = { "shade", "horror", "maelstrom_mage" };
 		String entityName = ModRandom.choice(entities);
 		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(2, 3));
 	    }

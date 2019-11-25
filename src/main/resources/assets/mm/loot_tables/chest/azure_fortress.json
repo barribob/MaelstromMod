@@ -2,10 +2,7 @@
     "pools": [
         {
             "name": "azure_fortress",
-            "rolls": {
-                "min": 2,
-                "max": 3
-            },
+            "rolls": 3,
             "entries": [
                 {
                     "type": "loot_table",
@@ -14,28 +11,13 @@
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/iron_level_loot",
+                    "name": "mm:util/diamond_level_loot",
                     "weight": 3
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/diamond_level_loot",
-                    "weight": 4
-                },
-                {
-                    "type": "loot_table",
                     "name": "mm:util/maelstrom_level_loot",
-                    "weight": 1
-                },
-                {
-                    "type": "loot_table",
-                    "name": "minecraft:chests/stronghold_corridor",
-                    "weight": 1
-                },
-                {
-                    "type": "loot_table",
-                    "name": "minecraft:chests/simple_dungeon",
-                    "weight": 1
+                    "weight": 3
                 },
                 {
                     "type": "item",
@@ -62,20 +44,6 @@
                             "count": {
                                 "min": 16,
                                 "max": 48
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "minecraft:arrow",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 5,
-                                "max": 10
                             }
                         }
                     ]

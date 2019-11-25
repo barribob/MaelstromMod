@@ -6,54 +6,6 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "mm:shadow_dagger",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_randomly",
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.5
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "mm:maelstrom_cannon",
-                    "functions": [
-                        {
-                            "function": "enchant_randomly",
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.5
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "mm:will-o-the-wisp_staff",
-                    "functions": [
-                        {
-                            "function": "enchant_randomly",
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.5
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
                     "name": "minecraft:diamond_sword",
                     "weight": 1,
                     "functions": [
@@ -246,13 +198,29 @@
                 },
                 {
                     "type": "item",
+                    "name": "mm:flintlock_pistol",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "minecraft:bow",
                     "weight": 1,
                     "functions": [
                         {
                             "function": "enchant_with_levels",
                             "levels": {
-                                "min": 25,
+                                "min": 15,
                                 "max": 30
                             },
                             "treasure": "true"

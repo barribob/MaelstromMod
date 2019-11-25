@@ -24,13 +24,6 @@ Crimson Dungeon [85]
             2 for chests
             1 for nexus
 
-New ways to progress through dungeons. Make dungeons more interesting to fight though. [6]
-    Environmental dangers to dungeons (4)
-        Lava
-        Void
-        Spikes
-    Maelstrom pearls (2)
-
 Invasion Events [15]
     Where enemies significantly stronger than the level of the world invade in the overworld.
     Overworld maelstrom that appear: 
@@ -45,16 +38,14 @@ Invasion Events [15]
 
 Other game polishing [19]
     Fine tune enchantments for loot drops (3)
-    Dungeon loot should be centralized (3)
-    Maelstrom stronghold up to level 2.5 (1.5)
     Make saplings render naturally (3)
     Name things to be sexier (2)
     Rebalance nexus trades (3)
     More nexus trades (5)
     Maelstrom now drop fragments of cores (2)
-        To give some incentive to defeating maelstrom
+        To give some incentive to defeating maelstrom goons
 
-Boss Ampage [12]
+Dungeon AMPAGE [22]
     [DONE] AMP the first herobrine encounter (6)
         Entrance into another dimension!!
         Change story with Herobrine as trapped
@@ -62,9 +53,12 @@ Boss Ampage [12]
         Undead version?
     AMP the statue of nirvana (3)
         Pillars that shield?
+    AMP all of the dungeons with (9)
+        Environmental dangers
+        Centralized loot near boss
 
+Maelstrom pearls (2)
 Creative tab organization (2)
-
 Add rendering of fog above cliff as well (2)
 
 Server Testing (2)
@@ -111,10 +105,14 @@ Put out on curseforge and improve marketing (5)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Put actual illagers in the fortress
+Translations for some item descriptions
+Maelstrom Minotaur dungeon up to level 2.5
+Maelstrom health
+Combo attacks
 Fix swamp fog cliff top fog problems
 More ruined houses for Fracture(5)
 Spawners with different spawn ranges
-Improve base spawner logic
 Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across

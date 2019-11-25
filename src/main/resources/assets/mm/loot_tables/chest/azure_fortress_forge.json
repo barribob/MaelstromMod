@@ -1,0 +1,42 @@
+{
+    "pools": [
+        {
+            "name": "azure_fortress",
+            "rolls": {
+                "min": 2,
+                "max": 3
+            },
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/minecraft_ores",
+                    "weight": 2
+                },
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/iron_level_loot",
+                    "weight": 4
+                },
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/diamond_level_loot",
+                    "weight": 1
+                },
+                {
+                    "type": "item",
+                    "name": "mm:iron_pellet",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 16,
+                                "max": 48
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

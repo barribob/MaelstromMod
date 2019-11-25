@@ -6,6 +6,86 @@
             "entries": [
                 {
                     "type": "item",
+                    "name": "mm:shadow_dagger",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:maelstrom_cannon",
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:will-o-the-wisp_staff",
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:sword_of_shades",
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:maelstrom_battleaxe",
+                    "functions": [
+                        {
+                            "function": "enchant_randomly",
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "mm:beast_blade",
                     "weight": 1,
                     "functions": [
