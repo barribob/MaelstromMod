@@ -33,12 +33,6 @@ public class EntityGoldenPillar extends EntityMaelstromMob
 	this.setSize(1.3f, 3.0f);
 	this.setNoGravity(true);
 	this.setLevel(2.5f);
-    }
-
-    @Override
-    public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch)
-    {
-	super.setLocationAndAngles(x, y, z, yaw, pitch);
 	this.isImmovable = true;
     }
 

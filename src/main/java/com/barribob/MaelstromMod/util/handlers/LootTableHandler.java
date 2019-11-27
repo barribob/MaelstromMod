@@ -29,5 +29,6 @@ public class LootTableHandler
     public static final ResourceLocation AZURE_MINESHAFT = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/azure_mineshaft"));
     public static final ResourceLocation STRONGHOLD_KEY_CHEST = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/stronghold_key_chest"));
     public static final ResourceLocation GOLDEN_RUINS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/golden_ruins"));
+    public static final ResourceLocation GOLDEN_RUINS_BOSS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/golden_ruins_boss"));
     public static final ResourceLocation MAELSTROM_RUINS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/maelstrom_ruins"));
 }

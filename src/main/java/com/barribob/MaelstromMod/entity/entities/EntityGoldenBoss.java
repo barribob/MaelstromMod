@@ -1,12 +1,23 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+
+import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionGoldenFireball;
 import com.barribob.MaelstromMod.entity.action.ActionMultiGoldenRunes;
 import com.barribob.MaelstromMod.entity.action.ActionOctoMissiles;
+import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.animation.Animation;
+import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.AnimationMegaMissile;
 import com.barribob.MaelstromMod.entity.animation.AnimationOctoMissiles;
 import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
+import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
+import com.barribob.MaelstromMod.entity.model.ModelGoldenBoss;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -34,6 +45,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     private byte octoMissile = 4;
     private byte megaMissile = 5;
     private byte runes = 6;
+    private byte spawnPillar = 7;
 
     public EntityGoldenBoss(World worldIn)
     {
@@ -46,6 +58,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	    this.attackHandler.addAttack(octoMissile, new ActionOctoMissiles());
 	    this.attackHandler.addAttack(megaMissile, new ActionGoldenFireball());
 	    this.attackHandler.addAttack(runes, new ActionMultiGoldenRunes());
+	    this.attackHandler.addAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
 	}
     }
 
@@ -56,7 +69,49 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	this.attackHandler.addAttack(octoMissile, new ActionOctoMissiles(), () -> new AnimationOctoMissiles());
 	this.attackHandler.addAttack(megaMissile, new ActionGoldenFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.addAttack(runes, new ActionMultiGoldenRunes(), () -> new AnimationRuneSummon());
+	this.attackHandler.addAttack(spawnPillar, Action.NONE, this.getSpawnPillarAnimation());
 	this.currentAnimation = new AnimationOctoMissiles();
+    }
+
+    public static Supplier<Animation> getSpawnPillarAnimation()
+    {
+	List<List<AnimationClip<ModelGoldenBoss>>> animationPillar = new ArrayList<List<AnimationClip<ModelGoldenBoss>>>();
+	List<AnimationClip<ModelGoldenBoss>> arm = new ArrayList<AnimationClip<ModelGoldenBoss>>();
+
+	BiConsumer<ModelGoldenBoss, Float> armMover = (model, f) -> {
+	    model.leftArm1.rotateAngleX = 0;
+	    model.leftArm2.rotateAngleX = f * 0.11f;
+	    model.leftArm3.rotateAngleX = f * 0.27f;
+	    model.leftArm4.rotateAngleX = f * 0.44f;
+	    model.leftArm1.rotateAngleZ = -f * 1.5f;
+	    model.leftArm2.rotateAngleZ = -f * 1.33f;
+	    model.leftArm3.rotateAngleZ = -f * 1.16f;
+	    model.leftArm4.rotateAngleZ = -f;
+	    model.leftForearm1.rotateAngleZ = 0;
+	    model.leftForearm2.rotateAngleZ = 0;
+	    model.leftForearm3.rotateAngleZ = 0;
+	    model.leftForearm4.rotateAngleZ = 0;
+
+	    model.rightArm1.rotateAngleX = 0;
+	    model.rightArm2.rotateAngleX = f * 0.11f;
+	    model.rightArm3.rotateAngleX = f * 0.27f;
+	    model.rightArm4.rotateAngleX = f * 0.44f;
+	    model.rightArm1.rotateAngleZ = f * 1.5f;
+	    model.rightArm2.rotateAngleZ = f * 1.33f;
+	    model.rightArm3.rotateAngleZ = f * 1.16f;
+	    model.rightArm4.rotateAngleZ = f;
+	    model.rightForearm1.rotateAngleZ = 0;
+	    model.rightForearm2.rotateAngleZ = 0;
+	    model.rightForearm3.rotateAngleZ = 0;
+	    model.rightForearm4.rotateAngleZ = 0;
+	};
+
+	arm.add(new AnimationClip(12, 0, 90, armMover));
+	arm.add(new AnimationClip(8, 90, 90, armMover));
+	arm.add(new AnimationClip(12, 90, 0, armMover));
+
+	animationPillar.add(arm);
+	return () -> new StreamAnimation(animationPillar);
     }
 
     @Override
@@ -89,6 +144,18 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	if (!world.isRemote)
 	{
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+	    if (this.ticksExisted % 20 == 0)
+	    {
+		world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE);
+		for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+		{
+		    if (e instanceof EntityGoldenPillar)
+		    {
+			this.heal(1);
+			break;
+		    }
+		}
+	    }
 	}
     }
 
@@ -121,10 +188,11 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     public void setSwingingArms(boolean swingingArms)
     {
 	super.setSwingingArms(swingingArms);
-	if (swingingArms)
+	if (swingingArms && !world.isRemote)
 	{
-	    Byte[] attack = { octoMissile, megaMissile, runes };
-	    attackHandler.setCurrentAttack(ModRandom.choice(attack));
+	    Byte[] attack = { octoMissile, megaMissile, runes, spawnPillar };
+	    double[] weights = { 0.3, 0.3, 0.3, 0.1 };
+	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
 	}
     }
@@ -133,7 +201,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id >= 4 && id <= 6)
+	if (id >= 4 && id <= 7)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
 	    getCurrentAnimation().startAnimation();
@@ -149,6 +217,23 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 		    ParticleManager.spawnDarkFlames(world, rand, pos.add(ModUtils.yVec(y * 0.5f).add(getPositionVector())));
 		});
 	    });
+	}
+	else if (id == ModUtils.THIRD_PARTICLE_BYTE)
+	{
+	    for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+	    {
+		if (e instanceof EntityGoldenPillar)
+		{
+		    float numParticles = 20;
+		    Vec3d dir = e.getPositionVector().add(ModUtils.yVec(2)).subtract(this.getPositionVector().add(ModUtils.yVec(2))).scale(1 / numParticles);
+		    Vec3d currentPos = this.getPositionVector().add(ModUtils.yVec(2));
+		    for (int i = 0; i < numParticles; i++)
+		    {
+			ParticleManager.spawnEffect(world, currentPos, ModColors.YELLOW);
+			currentPos = currentPos.add(dir);
+		    }
+		}
+	    }
 	}
 	else
 	{

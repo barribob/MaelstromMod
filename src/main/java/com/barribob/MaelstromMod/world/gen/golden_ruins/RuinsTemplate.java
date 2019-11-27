@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
+import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -37,13 +38,14 @@ public class RuinsTemplate extends ModStructureTemplate
     /**
      * Loads structure block data markers and handles them by their name
      */
+    @Override
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand, StructureBoundingBox sbb)
     {
 	if (function.startsWith("chest"))
 	{
 	    worldIn.setBlockToAir(pos);
 	    BlockPos blockpos = pos.down();
-	    if (rand.nextFloat() > 0.5)
+	    if (rand.nextFloat() < 0.3)
 	    {
 		if (sbb.isVecInside(blockpos))
 		{
@@ -91,7 +93,8 @@ public class RuinsTemplate extends ModStructureTemplate
 			    ModRandom.range(1, maxAmounts[i] + 1));
 		}
 	    }
-	    else {
+	    else
+	    {
 		worldIn.setBlockToAir(pos);
 	    }
 	}
@@ -103,6 +106,18 @@ public class RuinsTemplate extends ModStructureTemplate
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
 		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":golden_boss"), 1);
+	    }
+	}
+	else if (function.startsWith("lava"))
+	{
+	    if (rand.nextInt(3) == 0)
+	    {
+		WorldGenStructure lavaPool = new WorldGenStructure("golden_ruins/" + ModRandom.choice(new String[] { "lava_fountain", "lava_pool", "lava_statue" }));
+		lavaPool.generate(worldIn, rand, pos.add(new BlockPos(-2, -2, -2)));
+	    }
+	    else
+	    {
+		worldIn.setBlockToAir(pos);
 	    }
 	}
     }

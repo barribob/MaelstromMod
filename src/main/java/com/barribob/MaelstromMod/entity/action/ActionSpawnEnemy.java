@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.action;
 import java.util.function.Supplier;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -26,16 +27,16 @@ public class ActionSpawnEnemy extends Action
 	for (int i = 0; i < tries; i++)
 	{
 	    // Find a random position to spawn the enemy
-	    int i1 = (int) actor.posX + MathHelper.getInt(actor.world.rand, 2, 6) * MathHelper.getInt(actor.world.rand, -1, 1);
-	    int j1 = (int) actor.posY + MathHelper.getInt(actor.world.rand, -2, 2) * MathHelper.getInt(actor.world.rand, -1, 1);
-	    int k1 = (int) actor.posZ + MathHelper.getInt(actor.world.rand, 2, 6) * MathHelper.getInt(actor.world.rand, -1, 1);
+	    int i1 = (int) actor.posX + MathHelper.getInt(actor.world.rand, 2, 8) * ModRandom.randSign();
+	    int j1 = (int) actor.posY + MathHelper.getInt(actor.world.rand, -1, 1);
+	    int k1 = (int) actor.posZ + MathHelper.getInt(actor.world.rand, 2, 8) * ModRandom.randSign();
 
 	    if (actor.world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(actor.world, new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP))
 	    {
-		mob.setPosition((double) i1, (double) j1, (double) k1);
+		mob.setPosition(i1, j1, k1);
 
 		// Make sure that the position is a proper spawning position
-		if (!actor.world.isAnyPlayerWithinRangeAt((double) i1, (double) j1, (double) k1, 3.0D)
+		if (!actor.world.isAnyPlayerWithinRangeAt(i1, j1, k1, 3.0D)
 			&& actor.world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !actor.world.containsAnyLiquid(mob.getEntityBoundingBox()))
 		{
 		    // Spawn the entity

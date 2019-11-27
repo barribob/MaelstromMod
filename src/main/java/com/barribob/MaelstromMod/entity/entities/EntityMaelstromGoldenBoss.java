@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionFireball;
 import com.barribob.MaelstromMod.entity.action.ActionMaelstromRing;
 import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
@@ -9,8 +10,11 @@ import com.barribob.MaelstromMod.entity.animation.AnimationOctoMissiles;
 import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,6 +23,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
@@ -32,6 +37,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     private byte spawnEnemy = 4;
     private byte blackFireball = 5;
     private byte runes = 6;
+    private byte spawnPillar = 7;
 
     public EntityMaelstromGoldenBoss(World worldIn)
     {
@@ -45,6 +51,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	    this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(worldIn)));
 	    this.attackHandler.addAttack(blackFireball, new ActionFireball());
 	    this.attackHandler.addAttack(runes, new ActionMaelstromRing());
+	    this.attackHandler.addAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
 	}
     }
 
@@ -55,6 +62,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(this.world)), () -> new AnimationOctoMissiles());
 	this.attackHandler.addAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.addAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
+	this.attackHandler.addAttack(spawnPillar, Action.NONE, EntityGoldenBoss.getSpawnPillarAnimation());
 	this.currentAnimation = new AnimationOctoMissiles();
     }
 
@@ -97,16 +105,29 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     {
 	super.onUpdate();
 	this.bossInfo.setPercent(getHealth() / getMaxHealth());
+	if (!world.isRemote && this.ticksExisted % 20 == 0)
+	{
+	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+	    for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+	    {
+		if (e instanceof EntityGoldenPillar)
+		{
+		    this.heal(1);
+		    break;
+		}
+	    }
+	}
     }
 
     @Override
     public void setSwingingArms(boolean swingingArms)
     {
 	super.setSwingingArms(swingingArms);
-	if (swingingArms)
+	if (swingingArms && !world.isRemote)
 	{
-	    Byte[] attack = { spawnEnemy, blackFireball, runes };
-	    attackHandler.setCurrentAttack(ModRandom.choice(attack));
+	    Byte[] attack = { spawnEnemy, blackFireball, runes, spawnPillar };
+	    double[] weights = { 0.3, 0.3, 0.3, 0.1 };
+	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
 	}
     }
@@ -115,10 +136,27 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id >= 4 && id <= 6)
+	if (id >= 4 && id <= 7)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
 	    getCurrentAnimation().startAnimation();
+	}
+	else if (id == ModUtils.PARTICLE_BYTE)
+	{
+	    for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+	    {
+		if (e instanceof EntityGoldenPillar)
+		{
+		    float numParticles = 20;
+		    Vec3d dir = e.getPositionVector().add(ModUtils.yVec(2)).subtract(this.getPositionVector().add(ModUtils.yVec(2))).scale(1 / numParticles);
+		    Vec3d currentPos = this.getPositionVector().add(ModUtils.yVec(2));
+		    for (int i = 0; i < numParticles; i++)
+		    {
+			ParticleManager.spawnEffect(world, currentPos, ModColors.YELLOW);
+			currentPos = currentPos.add(dir);
+		    }
+		}
+	    }
 	}
 	else
 	{

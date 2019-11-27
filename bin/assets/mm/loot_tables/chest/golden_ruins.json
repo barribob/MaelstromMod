@@ -14,16 +14,6 @@
                 },
                 {
                     "type": "loot_table",
-                    "name": "minecraft:chests/stronghold_corridor",
-                    "weight": 1
-                },
-                {
-                    "type": "loot_table",
-                    "name": "minecraft:chests/simple_dungeon",
-                    "weight": 1
-                },
-                {
-                    "type": "loot_table",
                     "name": "mm:util/maelstrom_level_loot",
                     "weight": 2
                 },

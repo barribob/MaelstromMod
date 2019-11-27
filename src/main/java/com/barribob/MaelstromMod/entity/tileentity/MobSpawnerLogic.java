@@ -5,12 +5,12 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import com.barribob.MaelstromMod.init.ModBlocks;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +23,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 
 public abstract class MobSpawnerLogic
 {
@@ -72,8 +71,8 @@ public abstract class MobSpawnerLogic
      */
     protected boolean tooManyEntities(World world, Entity entity, BlockPos blockpos)
     {
-	int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ(),
-		(double) (blockpos.getX() + 1), (double) (blockpos.getY() + 1), (double) (blockpos.getZ() + 1))).grow((double) this.spawnRange)).size();
+	int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(),
+		blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1)).grow(this.spawnRange)).size();
 
 	if (k >= this.maxNearbyEntities)
 	{
@@ -95,14 +94,14 @@ public abstract class MobSpawnerLogic
 	if (world.get().getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(world.get(), new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP))
 	{
 	    // Gets the entity data?
-	    Entity entity = AnvilChunkLoader.readWorldEntityPos(nbttagcompound, world.get(), i1, j1, k1, false);
+	    Entity entity = EntityList.createEntityByIDFromName(this.getEntityId(), world.get());
+	    entity.setLocationAndAngles(i1, j1, k1, world.get().rand.nextFloat() * 360.0F, 0.0F);
 
 	    if (entity != null && world.get().checkNoEntityCollision(entity.getEntityBoundingBox(), entity)
 		    && world.get().getCollisionBoxes(entity, entity.getEntityBoundingBox()).isEmpty() && !world.get().containsAnyLiquid(entity.getEntityBoundingBox())
 		    && !this.tooManyEntities(world.get(), entity, pos.get()))
 	    {
 		EntityLiving entityliving = entity instanceof EntityLiving ? (EntityLiving) entity : null;
-		entity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, world.get().rand.nextFloat() * 360.0F, 0.0F);
 
 		if (entityliving != null)
 		{
@@ -112,7 +111,7 @@ public abstract class MobSpawnerLogic
 		    }
 
 		    // A successful spawn of the entity
-		    AnvilChunkLoader.spawnEntity(entity, world.get());
+		    world.get().spawnEntity(entity);
 		    world.get().playEvent(2004, pos.get(), 0);
 		    entityliving.spawnExplosionParticle();
 		    return true;
@@ -144,7 +143,7 @@ public abstract class MobSpawnerLogic
 	}
 	else if (!this.potentialSpawns.isEmpty())
 	{
-	    this.setNextSpawnData((WeightedSpawnerEntity) WeightedRandom.getRandomItem(this.world.get().rand, this.potentialSpawns));
+	    this.setNextSpawnData(WeightedRandom.getRandomItem(this.world.get().rand, this.potentialSpawns));
 	}
 
 	if (nbt.hasKey("MaxNearbyEntities", 99))

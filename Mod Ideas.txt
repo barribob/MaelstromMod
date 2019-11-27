@@ -63,6 +63,7 @@ Add rendering of fog above cliff as well (2)
 
 Server Testing (2)
 Testing (6)
+    Test spawners because we changed the base spawner logic
 Balacing (2)
 
 Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)

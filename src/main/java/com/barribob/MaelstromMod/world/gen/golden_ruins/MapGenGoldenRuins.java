@@ -65,5 +65,11 @@ public class MapGenGoldenRuins extends MapGenModStructure
 	    stronghold.startStronghold(blockpos, Rotation.NONE);
 	    this.updateBoundingBox();
 	}
+
+	@Override
+	public boolean isSizeableStructure()
+	{
+	    return components.size() > 4;
+	}
     }
 }
