@@ -38,6 +38,8 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBoneQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBrownstoneCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileExplosiveDrill;
@@ -228,6 +230,8 @@ public class ModEntities
 	registerEntity("meteor_spawner", ProjectileMeteorSpawner.class, PROJECTILE_START_ID++, 50);
 	registerEntity("sword_slash", ProjectileSwordSlash.class, PROJECTILE_START_ID++, 50);
 	registerEntity("beast_quake", ProjectileBeastQuake.class, PROJECTILE_START_ID++, 50);
+	registerEntity("bone", ProjectileBone.class, PROJECTILE_START_ID++, 30);
+	registerEntity("bone_quake", ProjectileBoneQuake.class, PROJECTILE_START_ID++, 50);
 
 	registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
 	registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

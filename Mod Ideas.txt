@@ -36,30 +36,21 @@ Invasion Events [15]
     Wrap the event in a system that spawns many mobs and splotches around players (6)
         This should also be configurable
 
-Other game polishing [19]
-    Fine tune enchantments for loot drops (3)
-    Make saplings render naturally (3)
-    Name things to be sexier (2)
-    Rebalance nexus trades (3)
-    More nexus trades (5)
-    Maelstrom now drop fragments of cores (2)
-        To give some incentive to defeating maelstrom goons
-
-Dungeon AMPAGE [22]
-    [DONE] AMP the first herobrine encounter (6)
-        Entrance into another dimension!!
-        Change story with Herobrine as trapped
-    AMP the minotaur (4)
-        Undead version?
-    AMP the statue of nirvana (3)
-        Pillars that shield?
-    AMP all of the dungeons with (9)
-        Environmental dangers
-        Centralized loot near boss
-
+Fine tune enchantments for loot drops (3)
+Make saplings render naturally (3)
+Name things to be sexier (2)
+Rebalance nexus trades (3)
+More nexus trades (5)
+Maelstrom now drop fragments of cores (2)
+    To give some incentive to defeating maelstrom goons
+Incorperate maelstrom stronghold (3)
 Maelstrom pearls (2)
 Creative tab organization (2)
 Add rendering of fog above cliff as well (2)
+Fix bug where structures spawn waaaay underground (2)
+Port 1.14 nav ai to our ai (3)
+Guns only reload in hand (3)
+Staves use experience (2)
 
 Server Testing (2)
 Testing (6)
@@ -104,6 +95,18 @@ Put out on curseforge and improve marketing (5)
     [DONE] Put massive ruins in the swamp (9)
     [DONE] Slime mushrooms (2)
 
+[DONE] Dungeon AMPAGE [22]
+    [DONE] AMP the first herobrine encounter (6)
+        Entrance into another dimension!!
+        Change story with Herobrine as trapped
+    [DONE] AMP the minotaur (4)
+        Undead version?
+    [DONE] AMP the statue of nirvana (3)
+        Pillars that shield?
+    [DONE] AMP all of the dungeons with (9)
+        Environmental dangers
+        Centralized loot near boss
+        Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
 Put actual illagers in the fortress

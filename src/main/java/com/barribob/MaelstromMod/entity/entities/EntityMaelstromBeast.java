@@ -6,11 +6,14 @@ import java.util.function.BiConsumer;
 
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionGroundSlash;
+import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.AnimationMaelstromBeast;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromBeast;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBoneQuake;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModEntities;
@@ -67,8 +70,14 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
-		    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 0, 0))),
-			    ModDamageSource.causeMaelstromMeleeDamage(actor), 1, 0, false);
+		    Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 0, 0)));
+		    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeMaelstromMeleeDamage(actor), 1, 0, false);
+		    if (EntityMaelstromBeast.this.isRaged())
+		    {
+			ModUtils.performNTimes(8, (i) -> {
+			    spawnBone(worldIn, offset.add(ModRandom.randVec().scale(3)), EntityMaelstromBeast.this);
+			});
+		    }
 		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		}
 	    });
@@ -77,16 +86,33 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
-		    ModUtils.handleAreaImpact(20, (e) -> {
-			e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
-			return actor.getAttack() * 0.5f;
-		    }, actor, actor.getPositionVector(), ModDamageSource.causeMaelstromMeleeDamage(actor), 0, 0, false);
+		    if (EntityMaelstromBeast.this.isRaged())
+		    {
+			new ActionSpawnEnemy(() -> new EntityFloatingSkull(worldIn)).performAction(actor, target);
+		    }
+		    else
+		    {
+			ModUtils.handleAreaImpact(20, (e) -> {
+			    e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
+			    return actor.getAttack() * 0.5f;
+			}, actor, actor.getPositionVector(), ModDamageSource.causeMaelstromMeleeDamage(actor), 0, 0, false);
+		    }
 		    actor.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1.0F, 0.9F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		}
 	    });
-	    attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileBeastQuake(worldIn, this, this.getAttack())));
+	    attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> {
+		if (EntityMaelstromBeast.this.isRaged())
+		{
+		    return new ProjectileBoneQuake(worldIn, this, this.getAttack());
+		}
+		else
+		{
+		    return new ProjectileBeastQuake(worldIn, this, this.getAttack());
+		}
+	    }));
 	    attackHandler.addAttack(leap, new Action()
 	    {
+
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
@@ -96,7 +122,23 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 		    actor.motionY = leap.y;
 		    actor.motionZ = leap.z;
 		}
+
 	    });
+	}
+
+    }
+
+    public static void spawnBone(World world, Vec3d pos, EntityLeveledMob entity)
+    {
+	if (!world.isRemote)
+	{
+	    ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack());
+	    projectile.setPosition(pos.x, pos.y + 1.5, pos.z);
+	    double xDir = (world.rand.nextFloat() - world.rand.nextFloat()) * 0.5f;
+	    double yDir = 1;
+	    double zDir = (world.rand.nextFloat() - world.rand.nextFloat()) * 0.5f;
+	    projectile.shoot(xDir, yDir, zDir, 0.5f, 0.5f);
+	    world.spawnEntity(projectile);
 	}
     }
 
@@ -296,8 +338,9 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 	super.setSwingingArms(swingingArms);
 	if (this.isSwingingArms())
 	{
-	    Byte[] attack = { groundSlash, groundSlash, battleShout };
-	    attackHandler.setCurrentAttack(ModRandom.choice(attack));
+	    Byte[] attack = { groundSlash, battleShout };
+	    double[] weights = { 0.8, 0.2 };
+	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) > 8)
 	    {
 		attackHandler.setCurrentAttack(leap);
@@ -346,10 +389,11 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
     {
 	float prevHealth = this.getHealth();
 	boolean flag = super.attackEntityFrom(source, amount);
-	if (prevHealth > this.getMaxHealth() * 0.25f && this.getHealth() <= this.getMaxHealth() * 0.25f)
+	if (prevHealth > this.getMaxHealth() * 0.3f && this.getHealth() <= this.getMaxHealth() * 0.3f)
 	{
 	    this.dataManager.set(RAGED, true);
 	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
+	    this.isImmuneToFire = true;
 	}
 	return flag;
     }
@@ -368,6 +412,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 	    if (this.isRaged())
 	    {
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
+		this.isImmuneToFire = true;
 	    }
 	}
 
@@ -465,5 +510,11 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeMaelstromExplosionDamage(this));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
 	this.world.setEntityState(this, this.explosionParticles);
+	if (this.isRaged())
+	{
+	    ModUtils.performNTimes(9, (i) -> {
+		spawnBone(world, this.getPositionVector().add(ModRandom.randVec().scale(3)), this);
+	    });
+	}
     }
 }

@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.Rotation;
@@ -69,7 +70,7 @@ public class MaelstromStronghold
 
     private boolean generateCross(StrongholdTemplate parent, BlockPos pos, Rotation rot)
     {
-	StrongholdTemplate template = addAdjustedPiece(parent, pos, "cross", rot);
+	StrongholdTemplate template = addAdjustedPiece(parent, pos, ModRandom.choice(new String[] { "cross", "void_cross" }), rot);
 
 	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE)
 	{
@@ -99,7 +100,7 @@ public class MaelstromStronghold
 
     private boolean generateHall(StrongholdTemplate parent, BlockPos pos, Rotation rot)
     {
-	StrongholdTemplate template = addAdjustedPiece(parent, pos, "hall", rot);
+	StrongholdTemplate template = addAdjustedPiece(parent, pos, ModRandom.choice(new String[] { "hall", "void_hall" }), rot);
 
 	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE)
 	{
@@ -138,7 +139,7 @@ public class MaelstromStronghold
 
     private boolean generateArena(StrongholdTemplate parent, BlockPos pos, Rotation rot)
     {
-	StrongholdTemplate template = addAdjustedPiece(parent, pos, "arena_room", rot);
+	StrongholdTemplate template = addAdjustedPiece(parent, pos, ModRandom.choice(new String[] { "arena_room", "void_arena_room" }), rot);
 
 	if (template.isCollidingExcParent(manager, parent, components) || template.getDistance() > SIZE)
 	{

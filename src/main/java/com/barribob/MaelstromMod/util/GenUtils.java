@@ -1,10 +1,14 @@
 package com.barribob.MaelstromMod.util;
 
+import java.util.ArrayList;
+
+import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.dimension.WorldChunkGenerator;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
@@ -51,5 +55,44 @@ public class GenUtils
 	int j1 = chunkprimer.findGroundBlockIdx(7 + i, 7 + j);
 	int k1 = Math.min(Math.min(k, l), Math.min(i1, j1));
 	return k1;
+    }
+
+    /*
+     * Dig blocks in a blobby sort of way
+     */
+    public static void digBlockToVoid(int size, BlockPos pos, World world)
+    {
+	ArrayList<BlockPos> queue = new ArrayList<BlockPos>();
+	queue.add(pos);
+
+	for (int i = 0; i < size; i++)
+	{
+	    if (queue.size() == 0)
+		return;
+
+	    BlockPos randPos = queue.get(world.rand.nextInt(queue.size()));
+	    queue.remove(randPos);
+	    BlockPos[] adjacents = { randPos.north(), randPos.south(), randPos.east(), randPos.west() };
+
+	    for (int y = randPos.getY(); y >= 0; y--)
+	    {
+		world.setBlockToAir(new BlockPos(randPos.getX(), y, randPos.getZ()));
+		for (BlockPos adj : adjacents)
+		{
+		    if (!world.isAirBlock(new BlockPos(adj.getX(), y, adj.getZ())))
+		    {
+			world.setBlockState(new BlockPos(adj.getX(), y, adj.getZ()), ModBlocks.AZURE_STONEBRICK.getDefaultState());
+		    }
+		}
+	    }
+
+	    for (BlockPos adj : adjacents)
+	    {
+		if (!world.isAirBlock(adj))
+		{
+		    queue.add(adj);
+		}
+	    }
+	}
     }
 }

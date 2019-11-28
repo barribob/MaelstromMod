@@ -40,12 +40,12 @@ import com.barribob.MaelstromMod.entity.model.ModelGoldenShade;
 import com.barribob.MaelstromMod.entity.model.ModelGunTrader;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelIronShade;
-import com.barribob.MaelstromMod.entity.model.ModelMaelstromBeast;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromWitch;
 import com.barribob.MaelstromMod.entity.model.ModelMageTrader;
 import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
 import com.barribob.MaelstromMod.entity.model.ModelSwampCrawler;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
@@ -53,6 +53,7 @@ import com.barribob.MaelstromMod.entity.render.RenderAnimatedBiped;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderHerobrine;
+import com.barribob.MaelstromMod.entity.render.RenderMaelstromBeast;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
@@ -67,6 +68,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -98,7 +100,6 @@ public class RenderHandler
 	registerModEntityRenderer(EntityMaelstromWitch.class, new ModelMaelstromWitch(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_witch.png"));
 	registerModEntityRenderer(EntitySwampCrawler.class, new ModelSwampCrawler(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/swamp_crawler.png"));
 	registerModEntityRenderer(EntityIronShade.class, new ModelIronShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/iron_shade.png"));
-	registerModEntityRenderer(EntityMaelstromBeast.class, new ModelMaelstromBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_beast.png"));
 	registerModEntityRenderer(EntityCliffFly.class, new ModelCliffFly(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/cliff_fly.png"));
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
@@ -108,6 +109,7 @@ public class RenderHandler
 	registerProjectileRenderer(EntityNexusParticleSpawner.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileSwampSpittle.class, ModItems.SWAMP_SLIME);
 	registerProjectileRenderer(EntityParticleSpawner.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(ProjectileBone.class, Items.BONE);
 
 	RenderingRegistry.registerEntityRenderingHandler(EntityAzureVillager.class, new IRenderFactory<EntityAzureVillager>()
 	{
@@ -142,6 +144,15 @@ public class RenderHandler
 	    public Render<? super EntityCliffGolem> createRenderFor(RenderManager manager)
 	    {
 		return new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/cliff_golem.png"));
+	    }
+	});
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityMaelstromBeast.class, new IRenderFactory<EntityMaelstromBeast>()
+	{
+	    @Override
+	    public Render<? super EntityMaelstromBeast> createRenderFor(RenderManager manager)
+	    {
+		return new RenderMaelstromBeast(manager);
 	    }
 	});
     }

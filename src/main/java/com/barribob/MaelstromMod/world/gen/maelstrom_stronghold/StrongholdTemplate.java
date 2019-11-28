@@ -4,10 +4,12 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.GenUtils;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
+import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -54,6 +56,24 @@ public class StrongholdTemplate extends ModStructureTemplate
 		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS, rand.nextLong());
 		}
 	    }
+	}
+	else if (function.startsWith("void5x5"))
+	{
+	    GenUtils.digBlockToVoid(15, pos.down(), worldIn);
+	    worldIn.setBlockToAir(pos);
+	}
+	else if (function.startsWith("void7x7"))
+	{
+	    GenUtils.digBlockToVoid(40, pos.down(), worldIn);
+	    worldIn.setBlockToAir(pos);
+	}
+	else if (function.startsWith("maelstrom"))
+	{
+	    if (rand.nextInt(3) == 0)
+	    {
+		new WorldGenMaelstrom(ModBlocks.AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM, null).generate(worldIn, rand, pos);
+	    }
+	    worldIn.setBlockToAir(pos);
 	}
 	else if (function.startsWith("random_chest"))
 	{
