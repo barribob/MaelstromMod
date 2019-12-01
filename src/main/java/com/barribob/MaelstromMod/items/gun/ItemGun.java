@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.items.gun;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -39,16 +38,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * calls shoot() when the gun sucessfully shoots
  *
  */
-public abstract class ItemGun extends ItemBase implements ILeveledItem
+public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadable
 {
     private final int maxCooldown;
     private Item ammo;
     private static final int SMOKE_PARTICLES = 4;
     private float level;
     private final float damage;
-    protected DecimalFormat df = new DecimalFormat("0.00");
     protected BulletFactory factory;
-    private Consumer<List<String>> information = (info) -> {};
+    private Consumer<List<String>> information = (info) -> {
+    };
 
     public ItemGun(String name, int cooldown, float damage, float useTime, Item ammo, float level, CreativeTabs tab)
     {
@@ -57,17 +56,17 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem
 	this.ammo = ammo;
 	this.maxCooldown = cooldown;
 	this.level = level;
-	this.setMaxDamage((int) (useTime/cooldown));
+	this.setMaxDamage((int) (useTime / cooldown));
 	this.damage = damage;
 	this.factory = new StandardBullet();
     }
-    
+
     public ItemGun setBullet(BulletFactory factory)
     {
 	this.factory = factory;
 	return this;
     }
-    
+
     /**
      * Returns the correct multiplier based on the level of the item stack
      */
@@ -81,7 +80,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem
 	int reload = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.reload, stack);
 	return this.maxCooldown * (1 - reload * 0.1f);
     }
-    
+
     public float getEnchantedDamage(ItemStack stack)
     {
 	float maxPower = ModEnchantments.gun_power.getMaxLevel();
@@ -93,6 +92,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem
     /**
      * Returns a float between 0 and 1 to represent the cooldown of the gun
      */
+    @Override
     public float getCooldownForDisplay(ItemStack stack)
     {
 	if (stack.hasTagCompound() && stack.getTagCompound().hasKey("cooldown"))
@@ -150,8 +150,12 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem
 	    // Decrement the cooldown every tick
 	    if (compound.hasKey("cooldown"))
 	    {
-		int cooldown = compound.getInteger("cooldown") - 1;
-		compound.setInteger("cooldown", cooldown >= 0 ? cooldown : 0);
+		if (entityIn instanceof EntityPlayer && ((EntityPlayer) entityIn).getHeldItem(EnumHand.MAIN_HAND).equals(stack)
+			|| ((EntityPlayer) entityIn).getHeldItem(EnumHand.OFF_HAND).equals(stack))
+		{
+		    int cooldown = compound.getInteger("cooldown") - 1;
+		    compound.setInteger("cooldown", cooldown >= 0 ? cooldown : 0);
+		}
 	    }
 	    else
 	    {
@@ -227,7 +231,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem
     {
 	// Add the fire and smoke effects when the gun goes off
 	Vec3d flameOffset = playerIn.getLookVec().scale(0.5f);
-	
+
 	if (handIn == EnumHand.MAIN_HAND)
 	{
 	    flameOffset = flameOffset.rotateYaw((float) Math.PI * -0.5f);
@@ -249,34 +253,33 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem
 		    playerIn.posY + playerIn.getEyeHeight() + flameOffset.y + ModRandom.getFloat(f), playerIn.posZ + flameOffset.z + ModRandom.getFloat(f), 0, 0, 0);
 	}
     }
-    
+
     public ItemGun setInformation(Consumer<List<String>> information)
     {
 	this.information = information;
 	return this;
     }
-    
+
     // List the required ammo for the gun
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	String ammoName = this.ammo == null ? ModUtils.translateDesc("no_ammo_required") : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
 	tooltip.add(ModUtils.getDisplayLevel(this.level));
-	
-	if(this.getEnchantedDamage(stack) > 0)
+
+	if (this.getEnchantedDamage(stack) > 0)
 	{
-		this.getDamageTooltip(stack, worldIn, tooltip, flagIn);
+	    this.getDamageTooltip(stack, worldIn, tooltip, flagIn);
 	}
-	
-	tooltip.add(TextFormatting.BLUE + "" + df.format(getEnchantedCooldown(stack) * 0.05) + TextFormatting.GRAY + " " + ModUtils.translateDesc("gun_reload_time"));
+
+	tooltip.add(ModUtils.getCooldownTooltip(this.getEnchantedCooldown(stack)));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("gun_ammo") + ": " + TextFormatting.BLUE + ammoName);
 	information.accept(tooltip);
     }
-    
+
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY
-		+ " " + ModUtils.translateDesc("damage"));
+	tooltip.add(ModUtils.getDamageTooltip(this.getEnchantedDamage(stack)));
     }
 
     /**

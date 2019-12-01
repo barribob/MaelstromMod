@@ -25,7 +25,7 @@ public class ModConfig
     public static WorldCat world = new WorldCat();
 
     @Config.LangKey(config + "gui")
-    public static GuiCat gui = new GuiCat(0, 0, true);
+    public static GuiCat gui = new GuiCat(0, 0, 0, 0, true, true);
 
     @Config.LangKey(config + "balancing")
     public static BalanceCat balance = new BalanceCat(2, 1);
@@ -38,14 +38,26 @@ public class ModConfig
 	@Config.LangKey(config + "armor_bar_y")
 	public int maelstrom_armor_bar_offset_y;
 
+	@Config.LangKey(config + "mana_bar_x")
+	public int maelstrom_mana_bar_offset_x;
+
+	@Config.LangKey(config + "mana_bar_y")
+	public int maelstrom_mana_bar_offset_y;
+
 	@Config.LangKey(config + "show_cooldown_bar")
 	public boolean showGunCooldownBar;
 
-	public GuiCat(int x, int y, boolean showCooldown)
+	@Config.LangKey(config + "show_mana_bar")
+	public boolean showManaBar;
+
+	public GuiCat(int x, int y, int mana_x, int mana_y, boolean showCooldown, boolean showMana)
 	{
 	    this.maelstrom_armor_bar_offset_x = x;
 	    this.maelstrom_armor_bar_offset_y = y;
+	    this.maelstrom_mana_bar_offset_x = mana_x;
+	    this.maelstrom_mana_bar_offset_y = mana_y;
 	    showGunCooldownBar = showCooldown;
+	    showManaBar = showMana;
 	}
     }
 

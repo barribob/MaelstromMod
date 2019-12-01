@@ -1,7 +1,9 @@
 package com.barribob.MaelstromMod.gui;
 
 import com.barribob.MaelstromMod.config.ModConfig;
-import com.barribob.MaelstromMod.items.gun.ItemGun;
+import com.barribob.MaelstromMod.items.gun.Reloadable;
+import com.barribob.MaelstromMod.mana.Mana;
+import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
 
@@ -12,12 +14,11 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -90,7 +91,7 @@ public class InGameGui
     {
 	if (!stack.isEmpty())
 	{
-	    if (stack.getItem() instanceof ItemGun)
+	    if (stack.getItem() instanceof Reloadable)
 	    {
 		GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
@@ -100,7 +101,7 @@ public class InGameGui
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 
-		double ammo = ((ItemGun) stack.getItem()).getCooldownForDisplay(stack);
+		double ammo = ((Reloadable) stack.getItem()).getCooldownForDisplay(stack);
 
 		if (ammo != 0)
 		{
@@ -138,58 +139,87 @@ public class InGameGui
     @SideOnly(Side.CLIENT)
     public static void renderArmorBar(Minecraft mc, RenderGameOverlayEvent.Post event, EntityPlayer player)
     {
-	mc.getTextureManager().bindTexture(ICONS);
-
-	int startX = event.getResolution().getScaledWidth() / 2 - 91;
-	int healthYPos = event.getResolution().getScaledHeight() - 39;
-
-	// Factor in max health and aborbtion pushing the bars up
-	int absorbtion = MathHelper.ceil(player.getAbsorptionAmount());
-	float maxHealth = (float) player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue();
-	int l1 = MathHelper.ceil((maxHealth + absorbtion) / 2.0F / 10.0F);
-	int i2 = Math.max(10 - (l1 - 2), 3);
-	int startY = healthYPos - (l1 - 1) * i2 - 10;
-
-	// Add 10 for the normal armor bar
-	startY -= player.getTotalArmorValue() > 0 ? 10 : 0;
-
-	// Add config file
-	startX += ModConfig.gui.maelstrom_armor_bar_offset_x;
-	startY += ModConfig.gui.maelstrom_armor_bar_offset_y;
-
-	int maelstromArmor = ArmorHandler.getMaelstromArmorBars(player);
-
-	// Draw the maelstrom armor bar
-	// Specific numbers taken from the GuiIngame armor section
-	if (maelstromArmor > 0)
+	if (event.getType().equals(RenderGameOverlayEvent.ElementType.ARMOR))
 	{
-	    for (int i = 0; i < 10; i++)
+	    mc.getTextureManager().bindTexture(ICONS);
+
+	    int startX = event.getResolution().getScaledWidth() / 2 - 91;
+	    int startY = event.getResolution().getScaledHeight() - GuiIngameForge.left_height;
+
+	    // Add config file
+	    startX += ModConfig.gui.maelstrom_armor_bar_offset_x;
+	    startY += ModConfig.gui.maelstrom_armor_bar_offset_y;
+
+	    int maelstromArmor = ArmorHandler.getMaelstromArmorBars(player);
+
+	    // Draw the maelstrom armor bar
+	    // Specific numbers taken from the GuiIngame armor section
+	    if (maelstromArmor > 0)
 	    {
-		int x = startX + i * 8;
-		int armorPos = i * 2 + 1;
-
-		// Calculate the animation cycles
-		int animationLength = 9;
-		int framesPerTick = 3;
-		int y = 9 * (Math.floorDiv(player.ticksExisted, framesPerTick) % animationLength);
-
-		if (armorPos < maelstromArmor)
+		for (int i = 0; i < 10; i++)
 		{
-		    mc.ingameGUI.drawTexturedModalRect(x, startY, 0, y, 9, 9);
-		}
+		    int x = startX + i * 8;
+		    int armorPos = i * 2 + 1;
 
-		if (armorPos == maelstromArmor)
-		{
-		    mc.ingameGUI.drawTexturedModalRect(x, startY, 9, y, 9, 9);
-		}
+		    // Calculate the animation cycles
+		    int animationLength = 9;
+		    int framesPerTick = 3;
+		    int y = 9 * (Math.floorDiv(player.ticksExisted, framesPerTick) % animationLength);
 
-		if (armorPos > maelstromArmor)
-		{
-		    mc.ingameGUI.drawTexturedModalRect(x, startY, 18, 0, 9, 9);
+		    if (armorPos < maelstromArmor)
+		    {
+			mc.ingameGUI.drawTexturedModalRect(x, startY, 0, y, 9, 9);
+		    }
+
+		    if (armorPos == maelstromArmor)
+		    {
+			mc.ingameGUI.drawTexturedModalRect(x, startY, 9, y, 9, 9);
+		    }
+
+		    if (armorPos > maelstromArmor)
+		    {
+			mc.ingameGUI.drawTexturedModalRect(x, startY, 18, 0, 9, 9);
+		    }
 		}
 	    }
-	}
 
-	mc.getTextureManager().bindTexture(mc.ingameGUI.ICONS);
+	    GuiIngameForge.left_height += 10;
+
+	    mc.getTextureManager().bindTexture(mc.ingameGUI.ICONS);
+	}
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void renderManaBar(Minecraft mc, RenderGameOverlayEvent.Post event, EntityPlayer player)
+    {
+	if (event.getType().equals(RenderGameOverlayEvent.ElementType.AIR))
+	{
+	    mc.getTextureManager().bindTexture(ICONS);
+	    int width = event.getResolution().getScaledWidth();
+	    int height = event.getResolution().getScaledHeight();
+
+	    GlStateManager.enableBlend();
+	    int top = height - GuiIngameForge.right_height;
+
+	    float mana = player.getCapability(ManaProvider.MANA, null).getMana();
+	    int fullBarX = 8 * 10 + 1;
+	    int left = width / 2 + 91 - fullBarX - 6;
+	    int framesPerTick = 4;
+	    int[] frames = { 0, 1, 2, 3, 2, 1, 0 };
+	    int frame = Math.floorDiv(player.ticksExisted, framesPerTick) % frames.length;
+	    int animationY = 21 + frames[frame] * 5;
+
+	    left += ModConfig.gui.maelstrom_mana_bar_offset_x;
+	    top += ModConfig.gui.maelstrom_mana_bar_offset_y;
+
+	    // Draw the empty bar
+	    mc.ingameGUI.drawTexturedModalRect(left, top, 31, 10, 96, 9);
+	    // Draw the inner bar with mana
+	    mc.ingameGUI.drawTexturedModalRect(left + 6, top + 2, 37, animationY, Math.round(((mana / Mana.MAX_MANA) * fullBarX)), 5);
+	    GuiIngameForge.right_height += 10;
+
+	    GlStateManager.disableBlend();
+	    mc.getTextureManager().bindTexture(mc.ingameGUI.ICONS);
+	}
     }
 }

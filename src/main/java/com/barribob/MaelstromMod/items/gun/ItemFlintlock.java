@@ -20,7 +20,7 @@ public class ItemFlintlock extends ItemGun
 {
     public ItemFlintlock(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 7, useTime, ModItems.IRON_PELLET, level, tab);
+	super(name, cooldown, 8, useTime, ModItems.IRON_PELLET, level, tab);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ItemFlintlock extends ItemGun
 	float inaccuracy = 0.0f;
 	float velocity = 5.0f;
 
-	Projectile projectile = factory.get(world, player, stack, this);
+	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(50);
 

@@ -20,11 +20,12 @@ import net.minecraft.world.World;
  * A short range staff that burns enemies
  *
  */
-public class ItemWispStaff extends ItemGun
+public class ItemWispStaff extends ItemStaff
 {
+    private static final float baseDamage = 5;
     public ItemWispStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 5, maxDamage, null, level, tab);
+	super(name, 5, cooldown, maxDamage, level, tab);
     }
 
     /**
@@ -39,7 +40,7 @@ public class ItemWispStaff extends ItemGun
 	float inaccuracy = 0.0f;
 	float speed = 1f;
 
-	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, this.getEnchantedDamage(stack), stack);
+	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, ModUtils.getEnchantedDamage(stack, getLevel(), baseDamage), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	projectile.setTravelRange(9f);
 
@@ -50,11 +51,7 @@ public class ItemWispStaff extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("wisp_staff"));
-    }
-
-    @Override
-    protected void spawnShootParticles(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
     }
 }

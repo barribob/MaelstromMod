@@ -24,6 +24,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob
 {
     private float level;
+    private float regenStartTimer;
+    private static float regenStartTime = 60;
 
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
@@ -69,9 +71,19 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	    currentAnimation.update();
 	}
 
-	if (!world.isRemote && this.getAttackTarget() == null && this.ticksExisted % 60 == 0)
+	if (!world.isRemote && this.getAttackTarget() == null)
 	{
-	    this.heal(1);
+	    if (this.regenStartTimer > this.regenStartTime)
+	    {
+		if (this.ticksExisted % 20 == 0)
+		{
+		    this.heal(this.getMaxHealth() * 0.015f);
+		}
+	    }
+	    else
+	    {
+		this.regenStartTimer++;
+	    }
 	}
 
 	/**

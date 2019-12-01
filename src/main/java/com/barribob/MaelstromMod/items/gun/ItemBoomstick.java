@@ -47,7 +47,7 @@ public class ItemBoomstick extends ItemGun
 	    float pitch = player.rotationPitch + ModRandom.getFloat(15);
 	    float yaw = player.rotationYaw + ModRandom.getFloat(15);
 
-	    Projectile projectile = factory.get(world, player, stack, this);
+	    Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
 	    projectile.shoot(player, pitch, yaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
 

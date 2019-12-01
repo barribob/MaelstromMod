@@ -56,7 +56,7 @@ public class ItemRepeater extends ItemGun
 	float inaccuracy = 4.0f;
 	float velocity = 3.0f;
 
-	Projectile projectile = factory.get(world, player, stack, this);
+	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(30);
 

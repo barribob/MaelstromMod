@@ -5,20 +5,25 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
+import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,6 +40,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber()
 public class ModEventHandler
 {
+    public static final ResourceLocation MANA = new ResourceLocation(Reference.MOD_ID, "mana");
+
+    @SubscribeEvent
+    public static void attachCabability(AttachCapabilitiesEvent<Entity> event)
+    {
+	if (event.getObject() instanceof EntityPlayer)
+	{
+	    event.addCapability(MANA, new ManaProvider());
+	}
+    }
+
     @SubscribeEvent(receiveCanceled = true)
     public static void onAttackEntityEvent(AttackEntityEvent event)
     {
@@ -130,6 +146,11 @@ public class ModEventHandler
 	    if (ModConfig.gui.showGunCooldownBar)
 	    {
 		InGameGui.renderGunReload(mc, event, player);
+	    }
+
+	    if (ModConfig.gui.showManaBar)
+	    {
+		InGameGui.renderManaBar(mc, event, player);
 	    }
 	}
     }

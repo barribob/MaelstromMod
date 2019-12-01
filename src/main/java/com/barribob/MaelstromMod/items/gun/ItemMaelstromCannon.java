@@ -44,7 +44,7 @@ public class ItemMaelstromCannon extends ItemGun
 	float inaccuracy = 3.0f;
 	float degreesUp = 20;
 
-	Projectile projectile = factory.get(world, player, stack, this);
+	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
 	projectile.shoot(player, player.rotationPitch - degreesUp, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25f);
 	world.spawnEntity(projectile);

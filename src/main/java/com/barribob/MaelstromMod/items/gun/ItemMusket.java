@@ -29,7 +29,7 @@ public class ItemMusket extends ItemGun
     
     public ItemMusket(String name, int cooldown, int maxDamage, float meleeDamage, Item ammo, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 7, maxDamage, ammo, level, tab);
+	super(name, cooldown, 8, maxDamage, ammo, level, tab);
 	this.meleeDamage = meleeDamage;
     }
 
@@ -45,7 +45,7 @@ public class ItemMusket extends ItemGun
 	float inaccuracy = 0.0f;
 	float velocity = 5.0f;
 
-	Projectile projectile = factory.get(world, player, stack, this);
+	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(50);
 

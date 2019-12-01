@@ -40,7 +40,6 @@ Fine tune enchantments for loot drops (3)
 Make saplings render naturally (3)
 Name things to be sexier (2)
 Rebalance nexus trades (3)
-More nexus trades (5)
 Maelstrom now drop fragments of cores (2)
     To give some incentive to defeating maelstrom goons
 Incorperate maelstrom stronghold (3)
@@ -49,8 +48,11 @@ Creative tab organization (2)
 Add rendering of fog above cliff as well (2)
 Fix bug where structures spawn waaaay underground (2)
 Port 1.14 nav ai to our ai (3)
-Guns only reload in hand (3)
-Staves use experience (2)
+[DONE] Guns only reload in hand (3)
+Staves use mana bar (5)
+Ammo Clips (1.5)
+Fix bug where melee weapons only do a small amount of damage sometimes (3)
+Villagers explain gun, staff, and armor mechanics (3)
 
 Server Testing (2)
 Testing (6)
@@ -109,6 +111,8 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+More nexus trades (5)
+Fireflies
 Put actual illagers in the fortress
 Translations for some item descriptions
 Maelstrom Minotaur dungeon up to level 2.5

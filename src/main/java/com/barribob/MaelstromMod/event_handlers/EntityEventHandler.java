@@ -1,13 +1,18 @@
 package com.barribob.MaelstromMod.event_handlers;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
+import com.barribob.MaelstromMod.mana.IMana;
+import com.barribob.MaelstromMod.mana.ManaProvider;
+import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -61,6 +66,13 @@ public class EntityEventHandler
 	    // with all blockage, velocity is 0
 	    float windStrength = (2 - (blockage[0] + blockage[1])) * 0.5f * 0.02f;
 	    event.getEntity().addVelocity(windStrength, 0, 0);
+	}
+
+	if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer && event.getEntity().ticksExisted % 5 == 0)
+	{
+	    IMana currentMana = ((EntityPlayer) event.getEntity()).getCapability(ManaProvider.MANA, null);
+	    currentMana.replenish(0.111f);
+	    Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) event.getEntity());
 	}
     }
 

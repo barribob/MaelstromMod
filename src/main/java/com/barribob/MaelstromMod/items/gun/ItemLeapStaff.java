@@ -14,11 +14,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemLeapStaff extends ItemGun
+public class ItemLeapStaff extends ItemStaff
 {
     public ItemLeapStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 0, maxDamage, null, level, tab);
+	super(name, 3, cooldown, maxDamage, level, tab);
     }
 
     @Override
@@ -36,13 +36,5 @@ public class ItemLeapStaff extends ItemGun
 	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("leap_staff"));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("fall_damage_reduction"));
-    }
-
-    @Override
-    protected void spawnShootParticles(World worldIn, EntityPlayer player, EnumHand handIn)
-    {
-	float maxVelocityIncrease = 0.6f;
-	player.addVelocity(Math.min(Math.max(player.motionX, -maxVelocityIncrease), maxVelocityIncrease), 0.8f, Math.min(Math.max(player.motionZ, -maxVelocityIncrease), maxVelocityIncrease));
-	player.motionY = Math.min(1.0f, player.motionY);
     }
 }

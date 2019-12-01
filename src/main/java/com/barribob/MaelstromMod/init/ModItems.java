@@ -21,7 +21,6 @@ import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
 import com.barribob.MaelstromMod.items.gun.ItemExplosiveStaff;
 import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
 import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
-import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMeteorStaff;
@@ -34,12 +33,10 @@ import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.gun.bullet.BrownstoneCannon;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
-import com.barribob.MaelstromMod.items.gun.bullet.Fireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
 import com.barribob.MaelstromMod.items.gun.bullet.MaelstromCannon;
-import com.barribob.MaelstromMod.items.gun.bullet.Meteor;
 import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
 import com.barribob.MaelstromMod.items.tools.ItemMagisteelSword;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
@@ -124,8 +121,8 @@ public class ModItems
     public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
     public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
     public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL).setBullet(new MaelstromCannon());
-    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 60, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
-    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 40, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
+    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 40, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
+    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 25, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
 
     public static final Item SWORD_OF_SHADES = new ToolLongsword("sword_of_shades", COMMON_SWORD, 1.5f);
     public static final Item SHADOW_DAGGER = new ToolDagger("shadow_dagger", COMMON_DAGGER, 1.5f);
@@ -174,9 +171,9 @@ public class ModItems
     }).setBullet(new BulletFactory()
     {
 	@Override
-	public Projectile get(World world, EntityPlayer player, ItemStack stack, ItemGun item)
+	public Projectile get(World world, EntityPlayer player, ItemStack stack, float damage)
 	{
-	    return new ProjectileAzureBullet(world, player, item.getEnchantedDamage(stack), stack);
+	    return new ProjectileAzureBullet(world, player, damage, stack);
 	}
     });
 
@@ -189,10 +186,10 @@ public class ModItems
     public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", RARE_SWORD, 2f);
 
     // Nexus Magic
-    public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 40, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
-    public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", 220, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
-    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", 60, RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL).setBullet(new Fireball());
-    public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 80, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 20, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
+    public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL);
+    public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
 
     // Nexus Armors
     public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "straw_hat.png");
@@ -230,8 +227,7 @@ public class ModItems
     public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2.5f);
     public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", COMMON_SWORD, 2.0f);
     public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", COMMON_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new BrownstoneCannon());
-    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", 60, RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL)
-	    .setBullet(new GoldenFireball());
+    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setFactory(new GoldenFireball());
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
 
     public static final Item GOLDEN_MAELSTROM_CORE = new ItemTradable("golden_maelstrom_core", ModCreativeTabs.ALL);
@@ -244,5 +240,5 @@ public class ModItems
 	};
     };
     public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", COMMON_SWORD, 2.5f);
-    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 80, RARE_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new Meteor());
+    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 50, RARE_USE_TIME, 2f, ModCreativeTabs.ALL);
 }

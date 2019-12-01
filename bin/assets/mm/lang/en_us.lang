@@ -399,6 +399,7 @@ mm.desc.potion_add=Adds
 mm.desc.black_gold_sword=Lights enemies on sweep attack
 mm.desc.meteor_staff=Summons a meteor up to 50 blocks away
 mm.desc.nyan_helmet=Full set bonus: Rainbows upon sprinting
+mm.desc.mana_cost=Mana Cost
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

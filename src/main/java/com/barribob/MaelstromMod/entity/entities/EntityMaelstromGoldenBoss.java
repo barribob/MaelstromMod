@@ -126,7 +126,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	if (swingingArms && !world.isRemote)
 	{
 	    Byte[] attack = { spawnEnemy, blackFireball, runes, spawnPillar };
-	    double[] weights = { 0.3, 0.3, 0.3, 0.1 };
+	    double[] weights = { 0.2, 0.3, 0.3, 0.1 };
 	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
 	}

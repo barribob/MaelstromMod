@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.util;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -42,6 +43,7 @@ public final class ModUtils
     public static byte THIRD_PARTICLE_BYTE = 15;
     public static final String LANG_DESC = Reference.MOD_ID + ".desc.";
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
+    public static final DecimalFormat df = new DecimalFormat("0.00");
 
     public static String translateDesc(String key)
     {
@@ -369,4 +371,22 @@ public final class ModUtils
 	return min;
     }
 
+    public static String getDamageTooltip(float damage)
+    {
+	return TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + df.format(damage) + TextFormatting.GRAY + " "
+		+ ModUtils.translateDesc("damage");
+    }
+
+    public static String getCooldownTooltip(float cooldown)
+    {
+	return TextFormatting.BLUE + "" + df.format(cooldown * 0.05) + TextFormatting.GRAY + " " + ModUtils.translateDesc("gun_reload_time");
+    }
+
+    public static float getEnchantedDamage(ItemStack stack, float level, float damage)
+    {
+	float maxPower = ModEnchantments.gun_power.getMaxLevel();
+	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
+	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
+	return damage * enchantmentBonus * LevelHandler.getMultiplierFromLevel(level);
+    }
 }
