@@ -273,4 +273,10 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     {
 	return SoundEvents.BLOCK_METAL_BREAK;
     }
+
+    @Override
+    protected float getManaExp()
+    {
+	return 0;
+    }
 }

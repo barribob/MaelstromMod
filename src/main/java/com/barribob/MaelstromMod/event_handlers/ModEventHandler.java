@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
+import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
@@ -148,7 +149,9 @@ public class ModEventHandler
 		InGameGui.renderGunReload(mc, event, player);
 	    }
 
-	    if (ModConfig.gui.showManaBar)
+	    IMana mana = player.getCapability(ManaProvider.MANA, null);
+
+	    if (!mana.isLocked() && ModConfig.gui.showManaBar)
 	    {
 		InGameGui.renderManaBar(mc, event, player);
 	    }

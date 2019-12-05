@@ -2,6 +2,10 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import javax.annotation.Nullable;
 
+import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.mana.IMana;
+import com.barribob.MaelstromMod.mana.ManaProvider;
+import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
@@ -17,6 +21,7 @@ import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -159,10 +164,8 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 		double d0 = this.rand.nextGaussian() * 0.02D;
 		double d1 = this.rand.nextGaussian() * 0.02D;
 		double d2 = this.rand.nextGaussian() * 0.02D;
-		ParticleManager.spawnMaelstromLargeSmoke(world, rand,
-			new Vec3d(this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width - d0 * 10.0D,
-				this.posY + this.rand.nextFloat() * this.height - d1 * 10.0D,
-				this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width - d2 * 10.0D));
+		ParticleManager.spawnMaelstromLargeSmoke(world, rand, new Vec3d(this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width - d0 * 10.0D,
+			this.posY + this.rand.nextFloat() * this.height - d1 * 10.0D, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width - d2 * 10.0D));
 	    }
 	}
 	else
@@ -197,5 +200,25 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     public void setSwingingArms(boolean swingingArms)
     {
 	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
+    }
+
+    @Override
+    public void onDeath(DamageSource cause)
+    {
+	if (!world.isRemote && cause.getTrueSource() instanceof EntityPlayer)
+	{
+	    IMana mana = ((EntityPlayer) cause.getTrueSource()).getCapability(ManaProvider.MANA, null);
+	    if (!mana.isLocked())
+	    {
+		mana.replenish(getManaExp());
+		Main.network.sendTo(new MessageMana(mana.getMana()), (EntityPlayerMP) cause.getTrueSource());
+	    }
+	}
+	super.onDeath(cause);
+    }
+
+    protected float getManaExp()
+    {
+	return Math.round(this.getMaxHealth() * 0.05f);
     }
 }

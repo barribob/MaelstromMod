@@ -1,9 +1,12 @@
 package com.barribob.MaelstromMod.packets;
 
+import com.barribob.MaelstromMod.gui.InGameGui;
+import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -41,7 +44,25 @@ public class MessageMana implements IMessage
 	{
 	    if (Minecraft.getMinecraft().player != null)
 	    {
-		Minecraft.getMinecraft().player.getCapability(ManaProvider.MANA, null).set(message.mana);
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		IMana mana = player.getCapability(ManaProvider.MANA, null);
+
+		// Handle flash animation
+		if (message.mana - mana.getMana() >= 0.5)
+		{
+		    InGameGui.setManaFlashCounter(InGameGui.MAX_FLASH_COUNTER);
+		}
+		else if (message.mana - mana.getMana() <= -0.5)
+		{
+		    InGameGui.setManaFlashCounter(-InGameGui.MAX_FLASH_COUNTER);
+		}
+
+		mana.set(message.mana);
+
+		if (mana.isLocked())
+		{
+		    mana.setLocked(false);
+		}
 	    }
 	    return null;
 	}

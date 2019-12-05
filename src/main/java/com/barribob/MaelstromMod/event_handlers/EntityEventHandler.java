@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.event_handlers;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
+import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
@@ -20,6 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -45,11 +47,11 @@ public class EntityEventHandler
 		Vec3d pos = event.getEntity().getPositionVector().add(new Vec3d(ModRandom.getFloat(8), ModRandom.getFloat(4), ModRandom.getFloat(4)));
 		event.getEntity().world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.x - 8, pos.y + 2, pos.z, 0.8, 0, 0);
 	    });
-	    
+
 	    int[] blockage = { 0, 0 }; // Represents the two y values the wind could be blowing at the player
-	    
+
 	    // Find any blocks that block the path of the wind
-	    for(int x = 0; x < 4; x++)
+	    for (int x = 0; x < 4; x++)
 	    {
 		for (int y = 0; y < 2; y++)
 		{
@@ -61,19 +63,35 @@ public class EntityEventHandler
 		    }
 		}
 	    }
-	    
+
 	    // With 1 blockage, velocity is 0.01. With no blockage, velocity is 0.02, and
 	    // with all blockage, velocity is 0
 	    float windStrength = (2 - (blockage[0] + blockage[1])) * 0.5f * 0.02f;
 	    event.getEntity().addVelocity(windStrength, 0, 0);
 	}
 
-	if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer && event.getEntity().ticksExisted % 5 == 0)
+	if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer && event.getEntity().ticksExisted % 40 == 0)
 	{
 	    IMana currentMana = ((EntityPlayer) event.getEntity()).getCapability(ManaProvider.MANA, null);
-	    currentMana.replenish(0.111f);
-	    Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) event.getEntity());
+	    if (!currentMana.isLocked())
+	    {
+		currentMana.replenish(1f);
+		Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) event.getEntity());
+	    }
 	}
+	else if (event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer)
+	{
+	    InGameGui.updateCounter();
+	}
+    }
+
+    // Persist whether mana is locked across player respawning
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.Clone event)
+    {
+	IMana newMana = event.getEntityPlayer().getCapability(ManaProvider.MANA, null);
+	IMana oldMana = event.getOriginal().getCapability(ManaProvider.MANA, null);
+	newMana.setLocked(oldMana.isLocked());
     }
 
     @SubscribeEvent

@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.items.ItemBase;
+import com.barribob.MaelstromMod.items.ItemCatalyst;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
 import com.barribob.MaelstromMod.items.ItemNexusIslandBuilder;
@@ -36,7 +37,6 @@ import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
-import com.barribob.MaelstromMod.items.gun.bullet.MaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
 import com.barribob.MaelstromMod.items.tools.ItemMagisteelSword;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
@@ -113,6 +113,8 @@ public class ModItems
     public static final Item PLUM = new ItemFoodBase("plum", ModCreativeTabs.ALL, 4, 0.3F, true);
     public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
     public static final Item CHASMIUM_INGOT = new ItemTradable("chasmium_ingot", ModCreativeTabs.ALL);
+    public static final Item CATALYST = new ItemCatalyst("catalyst", ModCreativeTabs.ALL);
+    public static final Item MINOTAUR_HORN = new ItemTradable("minotaur_horn", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemTradable("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
 
@@ -120,7 +122,7 @@ public class ModItems
     private static final int RARE_USE_TIME = 12000;
     public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
     public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
-    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL).setBullet(new MaelstromCannon());
+    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 40, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
     public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 25, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
 
@@ -226,7 +228,7 @@ public class ModItems
 
     public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", COMMON_SWORD, 2.5f);
     public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", COMMON_SWORD, 2.0f);
-    public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", COMMON_USE_TIME, 2f, ModCreativeTabs.ALL).setBullet(new BrownstoneCannon());
+    public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", COMMON_USE_TIME, 2f, ModCreativeTabs.ALL).setFactory(new BrownstoneCannon());
     public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", RARE_USE_TIME, 2.5f, ModCreativeTabs.ALL).setFactory(new GoldenFireball());
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
 

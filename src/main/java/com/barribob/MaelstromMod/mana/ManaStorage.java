@@ -1,22 +1,36 @@
 package com.barribob.MaelstromMod.mana;
 
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class ManaStorage implements IStorage<IMana>
 {
+    private static final String locked = "locked";
+    private static final String mana = "mana";
+
     @Override
     public NBTBase writeNBT(Capability<IMana> capability, IMana instance, EnumFacing side)
     {
-	return new NBTTagFloat(instance.getMana());
+	NBTTagCompound nbt = new NBTTagCompound();
+	nbt.setFloat(mana, instance.getMana());
+	nbt.setBoolean(locked, instance.isLocked());
+	return nbt;
     }
 
     @Override
     public void readNBT(Capability<IMana> capability, IMana instance, EnumFacing side, NBTBase nbt)
     {
-	instance.set(((NBTTagFloat) nbt).getFloat());
+	if (nbt instanceof NBTTagCompound)
+	{
+	    NBTTagCompound compound = (NBTTagCompound) nbt;
+	    if (compound.hasKey(mana) && compound.hasKey(locked))
+	    {
+		instance.setLocked(compound.getBoolean(locked));
+		instance.set(compound.getFloat(mana));
+	    }
+	}
     }
 }

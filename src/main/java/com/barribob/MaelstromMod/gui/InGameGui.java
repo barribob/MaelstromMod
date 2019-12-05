@@ -28,9 +28,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Handles armor bar rendering, and gun reload rendering
  *
  */
+@SideOnly(Side.CLIENT)
 public class InGameGui
 {
     public static final ResourceLocation ICONS = new ResourceLocation(Reference.MOD_ID + ":textures/gui/armor_icons.png");
+    private static int manaFlashCounter;
+    public static final int MAX_FLASH_COUNTER = 7;
+
+    public static void setManaFlashCounter(int manaFlashCounter)
+    {
+	InGameGui.manaFlashCounter = manaFlashCounter;
+    }
 
     /*
      * Sourced from the render hotbar method in GuiIngame to display a cooldown bar
@@ -202,7 +210,7 @@ public class InGameGui
 	    int top = height - GuiIngameForge.right_height;
 
 	    float mana = player.getCapability(ManaProvider.MANA, null).getMana();
-	    int fullBarX = 8 * 10 + 1;
+	    int fullBarX = 8 * 10;
 	    int left = width / 2 + 91 - fullBarX - 6;
 	    int framesPerTick = 4;
 	    int[] frames = { 0, 1, 2, 3, 2, 1, 0 };
@@ -214,12 +222,39 @@ public class InGameGui
 
 	    // Draw the empty bar
 	    mc.ingameGUI.drawTexturedModalRect(left, top, 31, 10, 96, 9);
+
 	    // Draw the inner bar with mana
-	    mc.ingameGUI.drawTexturedModalRect(left + 6, top + 2, 37, animationY, Math.round(((mana / Mana.MAX_MANA) * fullBarX)), 5);
-	    GuiIngameForge.right_height += 10;
+	    mc.ingameGUI.drawTexturedModalRect(left + 7, top + 2, 38, animationY, Math.round(((mana / Mana.MAX_MANA) * fullBarX)), 5);
+
+	    // Draw the flash for mana intake/outake
+	    int[] whiteHighlightLocation = { 36, 56 };
+	    int[] redHighlightLocation = { 36, 61 };
+	    GlStateManager.color(1, 1, 1, 0.5f * ((float) Math.abs(manaFlashCounter) / MAX_FLASH_COUNTER));
+	    if (manaFlashCounter > 0)
+	    {
+		mc.ingameGUI.drawTexturedModalRect(left + 5, top + 2, whiteHighlightLocation[0], whiteHighlightLocation[1], fullBarX + 3, 5);
+	    }
+	    else if (manaFlashCounter < 0)
+	    {
+		mc.ingameGUI.drawTexturedModalRect(left + 5, top + 2, redHighlightLocation[0], redHighlightLocation[1], fullBarX + 3, 5);
+	    }
+	    GlStateManager.color(1, 1, 1, 1);
 
 	    GlStateManager.disableBlend();
 	    mc.getTextureManager().bindTexture(mc.ingameGUI.ICONS);
+	    GuiIngameForge.right_height += 10;
+	}
+    }
+
+    public static void updateCounter()
+    {
+	if (manaFlashCounter > 0)
+	{
+	    manaFlashCounter--;
+	}
+	else if (manaFlashCounter < 0)
+	{
+	    manaFlashCounter++;
 	}
     }
 }

@@ -39,25 +39,29 @@ Invasion Events [15]
 Fine tune enchantments for loot drops (3)
 Make saplings render naturally (3)
 Name things to be sexier (2)
-Rebalance nexus trades (3)
 Maelstrom now drop fragments of cores (2)
     To give some incentive to defeating maelstrom goons
 Incorperate maelstrom stronghold (3)
-Maelstrom pearls (2)
-Creative tab organization (2)
+Maelstrom pearls (1)
+Creative tab organization (1)
 Add rendering of fog above cliff as well (2)
 Fix bug where structures spawn waaaay underground (2)
 Port 1.14 nav ai to our ai (3)
 [DONE] Guns only reload in hand (3)
-Staves use mana bar (5)
+[DONE] Staves use mana bar (5)
 Ammo Clips (1.5)
 Fix bug where melee weapons only do a small amount of damage sometimes (3)
+Fix bug where herobrine teleport into pillar (2)
 Villagers explain gun, staff, and armor mechanics (3)
+Mana bar visual improvements
+    Split into 20 instead of 10?
+    Best way to fill up (incremental or continueous)
+    Fill up animation (like the heart fill up animation)
 
 Server Testing (2)
 Testing (6)
     Test spawners because we changed the base spawner logic
-Balacing (2)
+Balacing (4)
 
 Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)
 Put out on curseforge and improve marketing (5)

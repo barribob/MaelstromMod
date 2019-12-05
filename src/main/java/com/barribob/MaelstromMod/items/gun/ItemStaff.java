@@ -24,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -114,12 +115,18 @@ public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reload
     {
 	ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-	if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("cooldown"))
+	if (!worldIn.isRemote && itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("cooldown"))
 	{
 	    NBTTagCompound compound = itemstack.getTagCompound();
 	    IMana mana = playerIn.getCapability(ManaProvider.MANA, null);
 
-	    if (!worldIn.isRemote && compound.getInteger("cooldown") <= 0 && (playerIn.capabilities.isCreativeMode || mana.getMana() >= this.manaCost))
+	    if (mana.isLocked() && !playerIn.capabilities.isCreativeMode)
+	    {
+		playerIn.sendMessage(new TextComponentTranslation("mana_locked"));
+		return new ActionResult(EnumActionResult.FAIL, itemstack);
+	    }
+
+	    if (compound.getInteger("cooldown") <= 0 && (playerIn.capabilities.isCreativeMode || mana.getMana() >= this.manaCost))
 	    {
 		if (!playerIn.capabilities.isCreativeMode)
 		{

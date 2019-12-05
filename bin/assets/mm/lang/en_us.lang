@@ -337,6 +337,7 @@ itemGroup.all=Maelstrom Mod
 //———————————————————————————————————————————————————————————
 islandbuilder.fail=Nexus Island Builder only activates in the overworld
 herobrine_trading=Herobrine's Epic Crafts
+mana_locked=You haven't unlocked mana yet!
 
 //———————————————————————————————————————————————————————————
 // Config
@@ -400,6 +401,7 @@ mm.desc.black_gold_sword=Lights enemies on sweep attack
 mm.desc.meteor_staff=Summons a meteor up to 50 blocks away
 mm.desc.nyan_helmet=Full set bonus: Rainbows upon sprinting
 mm.desc.mana_cost=Mana Cost
+mm.desc.catalyst=Use to unlock mana
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

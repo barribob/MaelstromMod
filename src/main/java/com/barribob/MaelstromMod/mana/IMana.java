@@ -9,4 +9,8 @@ public interface IMana
     public void set(float amount);
 
     public float getMana();
+
+    public boolean isLocked();
+
+    public void setLocked(boolean locked);
 }

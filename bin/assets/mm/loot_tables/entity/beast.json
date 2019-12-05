@@ -7,14 +7,11 @@
                 {
                     "type": "item",
                     "weight": 1,
-                    "name": "mm:cliff_key_fragment",
+                    "name": "mm:minotaur_horn",
                     "functions": [
                         {
                             "function": "set_count",
-                            "count": {
-                                "min": 3,
-                                "max": 4
-                            }
+                            "count": 2
                         }
                     ]
                 }
