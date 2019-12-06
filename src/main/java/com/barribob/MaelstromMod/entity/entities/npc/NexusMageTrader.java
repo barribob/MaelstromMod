@@ -3,8 +3,11 @@ package com.barribob.MaelstromMod.entity.entities.npc;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.entities.EntityTrader;
+import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.init.ModProfessions;
+import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.TimedMessager;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -13,17 +16,49 @@ import net.minecraft.entity.passive.EntityVillager.ITradeList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.World;
 
 public class NexusMageTrader extends EntityTrader
 {
     private byte magic = 4;
+    private TimedMessager messager;
+    private static final String[] MAGIC_EXPLANATION = { "mage_1", "mage_2", "mage_3", "mage_4", "mage_5", "" };
+    private static final int[] MESSAGE_TIMES = { 50, 150, 250, 350, 450, 550 };
 
     public NexusMageTrader(World worldIn)
     {
 	super(worldIn);
 	this.isImmovable = true;
 	this.setNoGravity(true);
+    }
+
+    @Override
+    public void setCustomer(EntityPlayer player)
+    {
+	super.setCustomer(player);
+
+	// Players with mana will be scolded
+	if (player != null && !world.isRemote && player.getCapability(ManaProvider.MANA, null).isLocked())
+	{
+	    player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + this.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE)
+		    .appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + "no_mana")));
+	}
+    }
+
+    @Override
+    public void useRecipe(MerchantRecipe recipe)
+    {
+	super.useRecipe(recipe);
+	if (messager == null && recipe.getItemToSell().getItem().equals(ModItems.CATALYST))
+	{
+	    messager = new TimedMessager(MAGIC_EXPLANATION, MESSAGE_TIMES, (s) -> {
+		messager = null;
+	    });
+	}
     }
 
     @Override
@@ -36,6 +71,10 @@ public class NexusMageTrader extends EntityTrader
     public void onUpdate()
     {
 	super.onUpdate();
+	if (!world.isRemote && messager != null)
+	{
+	    messager.Update(world, ModUtils.getPlayerAreaMessager(this));
+	}
 	world.setEntityState(this, magic);
     }
 

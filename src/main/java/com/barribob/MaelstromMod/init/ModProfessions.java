@@ -63,10 +63,10 @@ public class ModProfessions
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.MoreComing());
 
 	NEXUS_MAGE = new VillagerCareer(NEXUS_VILLAGER, "nexus_mage");
-	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.MINOTAUR_HORN, 1, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 1, ModItems.CATALYST, 1));
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.MINOTAUR_HORN, 1, null, 0, ModItems.CATALYST, 1));
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.MINOTAUR_HORN, 1, null, 0, ModItems.FIREBALL_STAFF, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(Items.RABBIT_FOOT, 1, Items.DIAMOND, 1, ModItems.LEAP_STAFF, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(Item.getItemFromBlock(Blocks.LAPIS_BLOCK), 1, null, 0, ModItems.SPEED_STAFF, 1));
-	NEXUS_MAGE.addTrade(1, new GeneralTrade(Items.BLAZE_ROD, 16, null, 0, ModItems.FIREBALL_STAFF, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 32, null, 0, ModItems.CROSS_OF_AQUA, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_STAFF, 1));
 	NEXUS_MAGE.addTrade(1, new NexusTrades.MoreComing());

@@ -23,6 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -31,6 +32,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -44,6 +47,20 @@ public final class ModUtils
     public static final String LANG_DESC = Reference.MOD_ID + ".desc.";
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
     public static final DecimalFormat df = new DecimalFormat("0.00");
+
+    public static Consumer<String> getPlayerAreaMessager(Entity entity)
+    {
+	return (message) -> {
+	    if (message != "")
+	    {
+		for (EntityPlayer player : entity.world.getPlayers(EntityPlayer.class, (p) -> p.getDistanceSq(entity) < 100))
+		{
+		    player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + entity.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE)
+			    .appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + message)));
+		}
+	    }
+	};
+    }
 
     public static String translateDesc(String key)
     {
