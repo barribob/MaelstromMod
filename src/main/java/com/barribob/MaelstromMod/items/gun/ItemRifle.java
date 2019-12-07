@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.items.gun;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.init.ModItems;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +14,7 @@ public class ItemRifle extends ItemGun
 {    
     public ItemRifle(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 9, useTime, ModItems.IRON_PELLET, level, tab);
+	super(name, cooldown, 9, useTime, level, tab);
     }
 
     @Override

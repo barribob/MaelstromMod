@@ -89,7 +89,7 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.FLOATING_SKULL;
+	return LootTableHandler.AZURE_MAELSTROM;
     }
 
     @Override

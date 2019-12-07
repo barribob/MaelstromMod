@@ -18,6 +18,7 @@ import com.barribob.MaelstromMod.items.armor.ArmorNyanHelmet;
 import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
 import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
+import com.barribob.MaelstromMod.items.gun.ItemAmmoCase;
 import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
 import com.barribob.MaelstromMod.items.gun.ItemExplosiveStaff;
 import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
@@ -111,17 +112,18 @@ public class ModItems
     public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", ModCreativeTabs.ALL, 3, 0.3F, true);
     public static final Item ELK_JERKY = new ItemFoodBase("elk_jerky", ModCreativeTabs.ALL, 8, 1.0F, true);
     public static final Item PLUM = new ItemFoodBase("plum", ModCreativeTabs.ALL, 4, 0.3F, true);
-    public static final Item IRON_PELLET = new ItemBase("iron_pellet", ModCreativeTabs.ALL);
+    public static final Item IRON_PELLET = new ItemBase("iron_pellet", null);
     public static final Item CHASMIUM_INGOT = new ItemTradable("chasmium_ingot", ModCreativeTabs.ALL);
     public static final Item CATALYST = new ItemCatalyst("catalyst", ModCreativeTabs.ALL);
     public static final Item MINOTAUR_HORN = new ItemTradable("minotaur_horn", ModCreativeTabs.ALL);
 
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemTradable("azure_maelstrom_core_crystal", ModCreativeTabs.ALL);
+    public static final Item AZURE_MAELSTROM_FRAGMENT = new ItemBase("azure_maelstrom_fragment", ModCreativeTabs.ALL);
 
     private static final int COMMON_USE_TIME = 6000;
     private static final int RARE_USE_TIME = 12000;
-    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
-    public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, IRON_PELLET, 1.5f, ModCreativeTabs.ALL);
+    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL);
+    public static final Item MUSKET = new ItemMusket("musket", 40, RARE_USE_TIME, 5.0f, 1.5f, ModCreativeTabs.ALL);
     public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 40, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
     public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 25, COMMON_USE_TIME, 1.5f, ModCreativeTabs.ALL);
@@ -178,6 +180,9 @@ public class ModItems
 	    return new ProjectileAzureBullet(world, player, damage, stack);
 	}
     });
+    public static final Item AMMO_CASE = new ItemAmmoCase("ammo_case", 1);
+    public static final Item CHASMIUM_AMMO_CASE = new ItemAmmoCase("chasmium_ammo_case", 1.5f);
+    public static final Item BLACK_GOLD_AMMO_CASE = new ItemAmmoCase("black_gold_ammo_case", 2.5f);
 
     // Nexus Swords
     public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1.5f);
@@ -211,7 +216,7 @@ public class ModItems
     public static final Item GOLD_PELLET = new ItemBase("gold_pellet", null);
     public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, COMMON_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
     public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, COMMON_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
-    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, COMMON_USE_TIME, IRON_PELLET, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, COMMON_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
     public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, COMMON_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
 
     public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 2.5f, "black_gold");
@@ -233,6 +238,7 @@ public class ModItems
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", COMMON_BATTLEAXE, 2f);
 
     public static final Item GOLDEN_MAELSTROM_CORE = new ItemTradable("golden_maelstrom_core", ModCreativeTabs.ALL);
+    public static final Item GOLDEN_MAELSTROM_FRAGMENT = new ItemTradable("golden_maelstrom_fragment", ModCreativeTabs.ALL);
     public static final Item CROSS_OF_AQUA = new ItemBase("cross_of_aqua", ModCreativeTabs.ALL)
     {
 	@Override

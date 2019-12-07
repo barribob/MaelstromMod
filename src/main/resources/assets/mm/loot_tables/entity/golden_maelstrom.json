@@ -7,11 +7,12 @@
                 {
                     "type": "item",
                     "weight": 1,
-                    "name": "mm:golden_maelstrom_core",
+                    "name": "mm:golden_maelstrom_fragment",
                     "conditions": [
                         {
-                            "condition": "random_chance",
-                            "chance": 0.03
+                            "condition": "random_chance_with_looting",
+                            "chance": 0.25,
+                            "looting_multiplier": 0.1
                         }
                     ]
                 }

@@ -74,7 +74,7 @@ public class EntityShade extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.SHADE;
+	return LootTableHandler.AZURE_MAELSTROM;
     }
 
     @Override

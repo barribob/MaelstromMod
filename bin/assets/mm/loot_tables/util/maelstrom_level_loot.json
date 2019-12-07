@@ -163,6 +163,11 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:chasmium_ammo_case",
+                    "weight": 1
                 }
             ]
         }

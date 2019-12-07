@@ -3,7 +3,6 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -20,7 +19,7 @@ public class ItemFlintlock extends ItemGun
 {
     public ItemFlintlock(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 8, useTime, ModItems.IRON_PELLET, level, tab);
+	super(name, cooldown, 8, useTime, level, tab);
     }
 
     @Override

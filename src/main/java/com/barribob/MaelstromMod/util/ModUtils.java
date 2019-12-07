@@ -406,4 +406,9 @@ public final class ModUtils
 	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
 	return damage * enchantmentBonus * LevelHandler.getMultiplierFromLevel(level);
     }
+
+    public static int getGunAmmoUse(float level)
+    {
+	return Math.round(2 * LevelHandler.getMultiplierFromLevel(level));
+    }
 }

@@ -9,7 +9,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,7 +23,7 @@ public class ItemRepeater extends ItemGun
 
     public ItemRepeater(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 2, useTime, Items.REDSTONE, level, tab);
+	super(name, cooldown, 2, useTime, level, tab);
     }
 
     @Override

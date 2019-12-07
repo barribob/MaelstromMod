@@ -10,7 +10,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -26,9 +25,9 @@ public class ItemBoomstick extends ItemGun
 {
     protected float pelletCount = 15;
 
-    public ItemBoomstick(String name, int cooldown, int maxDamage, Item ammo, float level, CreativeTabs tab)
+    public ItemBoomstick(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 1, maxDamage, ammo, level, tab);
+	super(name, cooldown, 1, maxDamage, level, tab);
     }
 
     /**

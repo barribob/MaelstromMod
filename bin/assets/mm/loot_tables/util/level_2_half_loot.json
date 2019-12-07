@@ -163,6 +163,11 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:black_gold_ammo_case",
+                    "weight": 1
                 }
             ]
         }

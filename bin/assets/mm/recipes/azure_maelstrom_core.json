@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "mm:azure_maelstrom_fragment",
+        "data": 0
+      }
+    ]
+  },
+  "result": {
+    "item": "mm:azure_maelstrom_core_crystal"
+  }
+}

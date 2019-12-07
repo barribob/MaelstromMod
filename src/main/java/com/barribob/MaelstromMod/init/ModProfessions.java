@@ -56,10 +56,13 @@ public class ModProfessions
 	AZURE_WEAPONSMITH.addTrade(1, new EntityVillager.ListEnchantedBookForEmeralds());
 
 	NEXUS_GUNSMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_weaponsmith");
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 4, null, 0, ModItems.AMMO_CASE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.GOLD_INGOT, 5, Items.IRON_INGOT, 6, ModItems.FLINTLOCK, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.REDSTONE, 16, Items.IRON_INGOT, 6, ModItems.REPEATER, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 6, ModItems.ELK_JERKY, 4, ModItems.RIFLE, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CHASMIUM_INGOT, 2, null, 0, ModItems.CHASMIUM_AMMO_CASE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.ELK_HIDE, 32, null, 0, ModItems.ELK_BLASTER, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_FRAGMENT, 3, null, 0, ModItems.BLACK_GOLD_AMMO_CASE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.MoreComing());
 
 	NEXUS_MAGE = new VillagerCareer(NEXUS_VILLAGER, "nexus_mage");

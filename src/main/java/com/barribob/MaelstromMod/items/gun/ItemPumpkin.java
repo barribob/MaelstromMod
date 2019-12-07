@@ -20,7 +20,7 @@ public class ItemPumpkin extends ItemGun
 {
     public ItemPumpkin(String name, int cooldown, float useTime, Item ammo, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 0.5f, useTime, ammo, level, tab);
+	super(name, cooldown, 0.5f, useTime, level, tab);
     }
 
     /**

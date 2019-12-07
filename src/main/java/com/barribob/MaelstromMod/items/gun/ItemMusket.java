@@ -13,7 +13,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -27,9 +26,9 @@ public class ItemMusket extends ItemGun
 {
     private float meleeDamage;
     
-    public ItemMusket(String name, int cooldown, int maxDamage, float meleeDamage, Item ammo, float level, CreativeTabs tab)
+    public ItemMusket(String name, int cooldown, int maxDamage, float meleeDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 8, maxDamage, ammo, level, tab);
+	super(name, cooldown, 8, maxDamage, level, tab);
 	this.meleeDamage = meleeDamage;
     }
 

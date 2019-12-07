@@ -19,7 +19,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -41,7 +40,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadable
 {
     private final int maxCooldown;
-    private Item ammo;
     private static final int SMOKE_PARTICLES = 4;
     private float level;
     private final float damage;
@@ -49,11 +47,10 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
     private Consumer<List<String>> information = (info) -> {
     };
 
-    public ItemGun(String name, int cooldown, float damage, float useTime, Item ammo, float level, CreativeTabs tab)
+    public ItemGun(String name, int cooldown, float damage, float useTime, float level, CreativeTabs tab)
     {
 	super(name, tab);
 	this.maxStackSize = 1;
-	this.ammo = ammo;
 	this.maxCooldown = cooldown;
 	this.level = level;
 	this.setMaxDamage((int) (useTime / cooldown));
@@ -111,11 +108,11 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
      */
     private ItemStack findAmmo(EntityPlayer player)
     {
-	if (player.getHeldItem(EnumHand.OFF_HAND).getItem() == ammo)
+	if (player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemAmmoCase)
 	{
 	    return player.getHeldItem(EnumHand.OFF_HAND);
 	}
-	else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ammo)
+	else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemAmmoCase)
 	{
 	    return player.getHeldItem(EnumHand.MAIN_HAND);
 	}
@@ -125,7 +122,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	    {
 		ItemStack itemstack = player.inventory.getStackInSlot(i);
 
-		if (itemstack.getItem() == ammo)
+		if (itemstack.getItem() instanceof ItemAmmoCase)
 		{
 		    return itemstack;
 		}
@@ -184,24 +181,20 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	{
 	    NBTTagCompound compound = itemstack.getTagCompound();
 
-	    if ((playerIn.capabilities.isCreativeMode || !ammoStack.isEmpty() || this.ammo == null) && compound.getInteger("cooldown") <= 0)
+	    if ((playerIn.capabilities.isCreativeMode || !ammoStack.isEmpty()) && compound.getInteger("cooldown") <= 0)
 	    {
-		boolean dontConsumeAmmo = playerIn.capabilities.isCreativeMode || this.ammo == null
+		boolean dontConsumeAmmo = playerIn.capabilities.isCreativeMode
 			|| EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, itemstack) > 0;
 
 		if (!dontConsumeAmmo)
 		{
-		    ammoStack.shrink(1);
+		    ammoStack.damageItem(ModUtils.getGunAmmoUse(this.level), playerIn);
+		    System.out.println(ammoStack.getMaxDamage());
 
 		    if (ammoStack.isEmpty())
 		    {
 			playerIn.inventory.deleteStack(ammoStack);
 		    }
-		}
-
-		if (!playerIn.capabilities.isCreativeMode)
-		{
-		    itemstack.damageItem(1, playerIn);
 		}
 
 		// Only the server spawns the projectile, otherwise things get weird
@@ -260,11 +253,9 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	return this;
     }
 
-    // List the required ammo for the gun
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	String ammoName = this.ammo == null ? ModUtils.translateDesc("no_ammo_required") : this.ammo.getItemStackDisplayName(new ItemStack(this.ammo));
 	tooltip.add(ModUtils.getDisplayLevel(this.level));
 
 	if (this.getEnchantedDamage(stack) > 0)
@@ -272,8 +263,8 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	    this.getDamageTooltip(stack, worldIn, tooltip, flagIn);
 	}
 
+	tooltip.add(ModUtils.translateDesc("gun_ammo") + ": " + TextFormatting.DARK_PURPLE + ModUtils.getGunAmmoUse(this.level));
 	tooltip.add(ModUtils.getCooldownTooltip(this.getEnchantedCooldown(stack)));
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("gun_ammo") + ": " + TextFormatting.BLUE + ammoName);
 	information.accept(tooltip);
     }
 

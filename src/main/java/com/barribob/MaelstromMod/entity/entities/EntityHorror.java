@@ -100,7 +100,7 @@ public class EntityHorror extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.HORROR;
+	return LootTableHandler.AZURE_MAELSTROM;
     }
 
     @Override
