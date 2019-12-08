@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.gui.InGameGui;
+import com.barribob.MaelstromMod.init.ModPotions;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
@@ -41,6 +42,11 @@ public class EntityEventHandler
     @SubscribeEvent
     public static void onEntityUpdateEvent(LivingUpdateEvent event)
     {
+	if (event.getEntityLiving() != null && event.getEntityLiving().isPotionActive(ModPotions.water_strider))
+	{
+	    ModUtils.walkOnWater(event.getEntityLiving(), event.getEntityLiving().world);
+	}
+
 	if (event.getEntity().dimension == ModConfig.world.dark_nexus_dimension_id && event.getEntity() instanceof EntityPlayer)
 	{
 	    ModUtils.performNTimes(15, (i) -> {
@@ -70,13 +76,20 @@ public class EntityEventHandler
 	    event.getEntity().addVelocity(windStrength, 0, 0);
 	}
 
-	if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer && event.getEntity().ticksExisted % 40 == 0)
+	if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer && event.getEntity().ticksExisted % 35 == 0)
 	{
 	    IMana currentMana = ((EntityPlayer) event.getEntity()).getCapability(ManaProvider.MANA, null);
 	    if (!currentMana.isLocked())
 	    {
-		currentMana.replenish(1f);
-		Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) event.getEntity());
+		if (currentMana.isRecentlyConsumed())
+		{
+		    currentMana.setRecentlyConsumed(false);
+		}
+		else
+		{
+		    currentMana.replenish(1f);
+		    Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) event.getEntity());
+		}
 	    }
 	}
 	else if (event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer)

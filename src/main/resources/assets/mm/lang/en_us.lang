@@ -320,6 +320,11 @@ enchantment.sharpness_2=Maelstrom Sharpness
 enchantment.critical_hit=Critical Hit
 
 //———————————————————————————————————————————————————————————
+// Potion
+//———————————————————————————————————————————————————————————
+mm.effect.water_strider=Water Walker
+
+//———————————————————————————————————————————————————————————
 // Loading Screens
 //———————————————————————————————————————————————————————————
 multiplayer.entering=Now Entering:

@@ -58,6 +58,7 @@ Add enchantments to staves (1)
 Server Testing (2)
 Testing (6)
     Test spawners because we changed the base spawner logic
+    Test dungeon loots
 Balacing (4)
 
 Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)

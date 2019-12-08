@@ -1,15 +1,12 @@
 package com.barribob.MaelstromMod.enchantments;
 
 import com.barribob.MaelstromMod.items.gun.ItemGun;
+import com.barribob.MaelstromMod.items.gun.ItemStaff;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentDamage;
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.enchantment.Enchantment.Rarity;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 
 /**
  * 
@@ -29,6 +26,7 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     /**
      * Returns the minimal value of enchantability needed on the enchantment level passed.
      */
+    @Override
     public int getMinEnchantability(int enchantmentLevel)
     {
         return 5 + (enchantmentLevel - 1) * 8;
@@ -37,6 +35,7 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     /**
      * Returns the maximum value of enchantability needed on the enchantment level passed.
      */
+    @Override
     public int getMaxEnchantability(int enchantmentLevel)
     {
         return this.getMinEnchantability(enchantmentLevel) + 20;
@@ -45,6 +44,7 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     /**
      * Determines if the enchantment passed can be applied together with this enchantment.
      */
+    @Override
     public boolean canApplyTogether(Enchantment ench)
     {
         return !(ench instanceof EnchantmentPower) && super.canApplyTogether(ench);
@@ -53,6 +53,7 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     /**
      * Returns the maximum level that the enchantment can have.
      */
+    @Override
     public int getMaxLevel()
     {
         return 5;
@@ -61,6 +62,6 @@ public class EnchantmentMaelstromDestroyer extends Enchantment
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack)
     {
-	return stack.getItem() instanceof ItemGun;
+	return stack.getItem() instanceof ItemGun || (stack.getItem() instanceof ItemStaff && ((ItemStaff) stack.getItem()).doesDamage());
     }
 }

@@ -245,6 +245,7 @@ public class ModItems
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 	{
 	    tooltip.add(TextFormatting.BLUE + "When held, allows the player to walk on water");
+	    tooltip.add(TextFormatting.GRAY + "Mana cost: " + TextFormatting.DARK_PURPLE + "0.5" + TextFormatting.GRAY + " per second");
 	};
     };
     public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", COMMON_SWORD, 2.5f);

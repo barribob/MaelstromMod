@@ -43,4 +43,10 @@ public class ItemMeteorStaff extends ItemStaff
 	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("meteor_staff"));
     }
+
+    @Override
+    public boolean doesDamage()
+    {
+	return true;
+    }
 }

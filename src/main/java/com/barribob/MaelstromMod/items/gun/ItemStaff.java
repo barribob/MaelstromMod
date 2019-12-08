@@ -55,6 +55,14 @@ public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reload
 	this.setMaxDamage((int) (useTime / cooldown));
     }
 
+    /**
+     * If true, this item can be enchanted with damage enchantments like guns
+     */
+    public boolean doesDamage()
+    {
+	return false;
+    }
+
     private float getEnchantedCooldown(ItemStack stack)
     {
 	int reload = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.reload, stack);

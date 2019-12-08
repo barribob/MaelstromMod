@@ -58,4 +58,10 @@ public class ItemFireballStaff extends ItemStaff
 	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("fireball_staff"));
     }
+
+    @Override
+    public boolean doesDamage()
+    {
+	return true;
+    }
 }

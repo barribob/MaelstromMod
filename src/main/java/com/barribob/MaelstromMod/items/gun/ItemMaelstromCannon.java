@@ -69,4 +69,10 @@ public class ItemMaelstromCannon extends ItemStaff
 	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("maelstrom_cannon"));
     }
+
+    @Override
+    public boolean doesDamage()
+    {
+	return true;
+    }
 }

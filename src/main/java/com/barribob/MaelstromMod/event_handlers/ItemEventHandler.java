@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerRainbow;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.init.ModPotions;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
+import com.barribob.MaelstromMod.mana.IMana;
+import com.barribob.MaelstromMod.mana.ManaProvider;
+import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.google.common.collect.Multimap;
 
@@ -18,6 +23,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -93,9 +99,18 @@ public class ItemEventHandler
 		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 2));
 	    }
 
-	    if (heldItem.equals(ModItems.CROSS_OF_AQUA) || offhandItem.equals(ModItems.CROSS_OF_AQUA))
+	    if (!player.world.isRemote && (heldItem.equals(ModItems.CROSS_OF_AQUA) || offhandItem.equals(ModItems.CROSS_OF_AQUA)))
 	    {
-		ModUtils.walkOnWater(player, player.world);
+		IMana mana = player.getCapability(ManaProvider.MANA, null);
+		if (!mana.isLocked() && mana.getMana() > 0)
+		{
+		    if (!player.capabilities.isCreativeMode && player.ticksExisted % 40 == 0)
+		    {
+			mana.consume(1);
+			Main.network.sendTo(new MessageMana(mana.getMana()), (EntityPlayerMP) player);
+		    }
+		    player.addPotionEffect(new PotionEffect(ModPotions.water_strider, 40));
+		}
 	    }
 
 	    if (helmet.equals(ModItems.NYAN_HELMET) && chestplate.equals(ModItems.NYAN_CHESTPLATE) && leggings.equals(ModItems.NYAN_LEGGINGS)

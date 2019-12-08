@@ -10,6 +10,7 @@ public class ManaStorage implements IStorage<IMana>
 {
     private static final String locked = "locked";
     private static final String mana = "mana";
+    private static final String recentlyConsumed = "recentlyConsumed";
 
     @Override
     public NBTBase writeNBT(Capability<IMana> capability, IMana instance, EnumFacing side)
@@ -17,6 +18,7 @@ public class ManaStorage implements IStorage<IMana>
 	NBTTagCompound nbt = new NBTTagCompound();
 	nbt.setFloat(mana, instance.getMana());
 	nbt.setBoolean(locked, instance.isLocked());
+	nbt.setBoolean(recentlyConsumed, instance.isRecentlyConsumed());
 	return nbt;
     }
 
@@ -30,6 +32,7 @@ public class ManaStorage implements IStorage<IMana>
 	    {
 		instance.setLocked(compound.getBoolean(locked));
 		instance.set(compound.getFloat(mana));
+		instance.setRecentlyConsumed(compound.getBoolean(recentlyConsumed));
 	    }
 	}
     }
