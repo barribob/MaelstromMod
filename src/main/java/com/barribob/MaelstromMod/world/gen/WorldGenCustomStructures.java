@@ -375,10 +375,11 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	z += 8;
 	int y = generator.getYGenHeight(world, x, z);
 	BlockPos pos = new BlockPos(x, y, z);
+	System.out.println(y);
 
 	Class<?> biome = world.provider.getBiomeForCoords(pos).getClass();
 
-	if (y > -1 && world.getWorldType() != WorldType.FLAT || world.provider.getDimension() != 0)
+	if (y > -1 && (world.getWorldType() != WorldType.FLAT || world.provider.getDimension() != 0))
 	{
 	    if (classesList.contains(biome))
 	    {

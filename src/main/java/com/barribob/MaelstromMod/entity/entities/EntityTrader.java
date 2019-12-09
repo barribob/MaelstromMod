@@ -10,6 +10,8 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.stats.StatList;
@@ -39,6 +41,12 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
 	super(worldIn);
     }
     
+    @Override
+    protected PathNavigate createNavigator(World worldIn)
+    {
+	return new PathNavigateGround(this, worldIn);
+    }
+
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */

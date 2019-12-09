@@ -25,7 +25,6 @@ import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
@@ -87,7 +86,6 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttack<EntityHerobrineOne>(this, 1.0f, 40, 10.0f, 0.2f));
 	this.tasks.addTask(1, new EntityAISwimming(this));
-	this.tasks.addTask(2, new EntityAIRestrictSun(this));
 	this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
 	this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 	this.tasks.addTask(6, new EntityAILookIdle(this));

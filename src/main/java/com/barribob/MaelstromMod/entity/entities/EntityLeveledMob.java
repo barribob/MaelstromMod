@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
@@ -9,6 +10,7 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -40,6 +42,14 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	super(worldIn);
 	this.setLevel(1);
 	this.experienceValue = 5;
+    }
+
+    // Because for some reason the default entity ai for 1.12 sends entities
+    // off cliffs and holes instead of going around them
+    @Override
+    protected PathNavigate createNavigator(World worldIn)
+    {
+	return new ModGroundNavigator(this, worldIn);
     }
 
     @Override

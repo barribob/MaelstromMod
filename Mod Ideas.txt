@@ -42,12 +42,14 @@ Name things to be sexier (2)
 Maelstrom pearls (1)
 Creative tab organization (1)
 Add rendering of fog above cliff as well (2)
-Port 1.14 nav ai to our ai (3)
-Fix bug where structures spawn waaaay underground (2)
+[DONE] Fix bug where structures spawn waaaay underground (2)
 Fix bug where melee weapons only do a small amount of damage sometimes (3)
 Fix bug where herobrine teleport into pillar (2)
-Cross of aqua take mana (1)
-Add enchantments to staves (1)
+Weapons and animations for maelstrom shades and mages (5)
+Golden Dungeon - links between pillars and move lava fountains back so they don't spill (1)
+[DONE] Port 1.14 nav ai to our ai (3)
+[DONE] Cross of aqua take mana (1)
+[DONE] Add enchantments to staves (1)
 [DONE] Maelstrom now drop fragments of cores (1)
 [DONE] Villagers explain gun, staff, and armor mechanics (2)
 [DONE] Reimagine guns and how their ammo should work (5)
@@ -59,6 +61,7 @@ Server Testing (2)
 Testing (6)
     Test spawners because we changed the base spawner logic
     Test dungeon loots
+    Test all mob pathfinding to make sure it is compatible with our ground mob pathfinder
 Balacing (4)
 
 Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)
@@ -113,6 +116,7 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Golden Ruins spawn more consistently (2)
 More nexus trades (5)
 Fireflies
 Put actual illagers in the fortress
