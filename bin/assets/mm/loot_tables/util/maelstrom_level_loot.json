@@ -168,6 +168,20 @@
                     "type": "item",
                     "name": "mm:chasmium_ammo_case",
                     "weight": 1
+                },
+                {
+                    "type": "item",
+                    "name": "mm:azure_maelstrom_fragment",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 3,
+                                "max": 4
+                            }
+                        }
+                    ]
                 }
             ]
         }

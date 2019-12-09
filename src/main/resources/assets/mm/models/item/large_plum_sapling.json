@@ -1,3 +1,6 @@
 {
-   "parent": "mm:block/plum_sapling"
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "mm:blocks/plum_sapling"
+    }
 }

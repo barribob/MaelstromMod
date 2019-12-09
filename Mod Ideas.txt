@@ -37,16 +37,12 @@ Invasion Events [15]
         This should also be configurable
 
 Fine tune enchantments for loot drops (3)
-Make saplings render naturally (1)
-Name things to be sexier (2)
-Maelstrom pearls (1)
-Creative tab organization (1)
 Add rendering of fog above cliff as well (2)
-[DONE] Fix bug where structures spawn waaaay underground (2)
 Fix bug where melee weapons only do a small amount of damage sometimes (3)
-Fix bug where herobrine teleport into pillar (2)
-Weapons and animations for maelstrom shades and mages (5)
+Fix bug where herobrine teleports into pillar (2)
 Golden Dungeon - links between pillars and move lava fountains back so they don't spill (1)
+[DONE] Bugfix Make saplings render naturally (1)
+[DONE] Fix bug where structures spawn waaaay underground (2)
 [DONE] Port 1.14 nav ai to our ai (3)
 [DONE] Cross of aqua take mana (1)
 [DONE] Add enchantments to staves (1)
@@ -56,6 +52,17 @@ Golden Dungeon - links between pillars and move lava fountains back so they don'
 [DONE] Incorperate maelstrom stronghold (3)
 [DONE] Guns only reload in hand (3)
 [DONE] Staves use mana bar (5)
+
+||| After adding the crimson dimension
+
+Creative tab organization (1)
+Name things to be sexier (2)
+System for maelstrom goons appearance (10)
+    Color -> strength
+    Model/weapons -> attack pattern
+    Weapons and animations for maelstrom shades and mages
+    Allows for enemies to resurface at higher levels and more diverse enemy attacks
+    We can also include the level in their names
 
 Server Testing (2)
 Testing (6)
@@ -116,6 +123,7 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Maelstrom pearls (1)
 Golden Ruins spawn more consistently (2)
 More nexus trades (5)
 Fireflies
