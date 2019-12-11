@@ -40,6 +40,12 @@ Fine tune enchantments for loot drops (3)
 Add rendering of fog above cliff as well (2)
 Fix bug where melee weapons only do a small amount of damage sometimes (3)
 Fix bug where herobrine teleports into pillar (2)
+System for maelstrom goons appearance (10)
+    Color -> strength
+    Model/weapons -> attack pattern
+    Weapons and animations for maelstrom shades and mages
+    Allows for enemies to resurface at higher levels and more diverse enemy attacks
+    We can also include the level in their names
 [DONE] Golden Dungeon - links between pillars and move lava fountains back so they don't spill (1)
 [DONE] Bugfix Make saplings render naturally (1)
 [DONE] Fix bug where structures spawn waaaay underground (2)
@@ -57,12 +63,6 @@ Fix bug where herobrine teleports into pillar (2)
 
 Creative tab organization (1)
 Name things to be sexier (2)
-System for maelstrom goons appearance (10)
-    Color -> strength
-    Model/weapons -> attack pattern
-    Weapons and animations for maelstrom shades and mages
-    Allows for enemies to resurface at higher levels and more diverse enemy attacks
-    We can also include the level in their names
 
 Server Testing (2)
 Testing (6)
@@ -129,7 +129,6 @@ More nexus trades (5)
 Fireflies
 Put actual illagers in the fortress
 Translations for some item descriptions
-Maelstrom Minotaur dungeon up to level 2.5
 Maelstrom health
 Combo attacks
 Fix swamp fog cliff top fog problems
@@ -138,6 +137,7 @@ Spawners with different spawn ranges
 Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
+Fix the smearing and unclearness behind the rare and common durabilities
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 

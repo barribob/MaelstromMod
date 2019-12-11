@@ -73,7 +73,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 		if (tileentity instanceof TileEntityChest)
 		{
-		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.GOLDEN_RUINS, rand.nextLong());
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.GOLDEN_RUINS_BOSS, rand.nextLong());
 		}
 	    }
 	}

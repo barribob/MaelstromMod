@@ -41,7 +41,7 @@ public class BiomeCliffSwamp extends BiomeDifferentStone
 
     public BiomeCliffSwamp()
     {
-	super(new BiomeProperties("Cliff Swamp").setBaseHeight(-0.2F).setHeightVariation(0.1F).setTemperature(0.8F).setRainfall(0.9F).setWaterColor(4864285), Blocks.GRASS,
+	super(new BiomeProperties("Cliff Swamp").setBaseHeight(-1.5F).setHeightVariation(0.1F).setTemperature(0.8F).setRainfall(0.9F).setWaterColor(4864285), Blocks.GRASS,
 		Blocks.DIRT);
 
 	this.decorator.treesPerChunk = 8;

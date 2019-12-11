@@ -227,7 +227,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
     public static final boolean canLedgeGenerate(World worldIn, BlockPos center)
     {
-	if (center.getY() > 90 && center.getY() < 220 && worldIn.isAirBlock(center.up(5)) && worldIn.isAirBlock(center.up(40))
+	if (center.getY() > 70 && center.getY() < 220 && worldIn.isAirBlock(center.up(5)) && worldIn.isAirBlock(center.up(40))
 		&& worldIn.getBlockState(center.down()).getBlock() == ModBlocks.CLIFF_STONE)
 	{
 	    return true;
@@ -332,9 +332,9 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    }
 
 	    // Generate smaller features like shrubs
-	    ModUtils.generateN(world, random, pos, 4, 70, 1, new WorldGenCliffMushroom(ModBlocks.CLIFF_STONE));
-	    ModUtils.generateN(world, random, pos, 35, 65, 1, new WorldGenCliffShrub(BiomeCliffSwamp.log, BiomeCliffSwamp.leaf));
-	    ModUtils.generateN(world, random, pos, 400, 60, 40, new WorldGenSwampVines());
+	    ModUtils.generateN(world, random, pos, 4, 40, 1, new WorldGenCliffMushroom(ModBlocks.CLIFF_STONE));
+	    ModUtils.generateN(world, random, pos, 35, 35, 1, new WorldGenCliffShrub(BiomeCliffSwamp.log, BiomeCliffSwamp.leaf));
+	    ModUtils.generateN(world, random, pos, 600, 30, 70, new WorldGenSwampVines());
 	    ModUtils.generateN(world, random, pos, 200, 100, 40, new WorldGenSwampVines());
 	    if (random.nextInt(15) == 0)
 	    {

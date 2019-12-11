@@ -24,6 +24,9 @@ public class ChunkGeneratorCliff extends WorldChunkGenerator
 	MapGenStructure[] structures = { new MapGenGoldenRuins(STRUCTURE_SPACING_CHUNKS, GOLDEN_RUINS_NUMBER, 1, this),
 		new MapGenHoleTemple(STRUCTURE_SPACING_CHUNKS, 10, 1, this) };
 	this.structures = structures;
+
+	worldIn.setSeaLevel(39);
+
     }
 
     @Override
