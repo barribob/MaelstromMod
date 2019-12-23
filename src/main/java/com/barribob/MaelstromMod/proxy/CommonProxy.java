@@ -2,6 +2,9 @@ package com.barribob.MaelstromMod.proxy;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
+import com.barribob.MaelstromMod.invasion.IInvasion;
+import com.barribob.MaelstromMod.invasion.Invasion;
+import com.barribob.MaelstromMod.invasion.InvasionStorage;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.Mana;
 import com.barribob.MaelstromMod.mana.ManaStorage;
@@ -46,5 +49,6 @@ public class CommonProxy
 	Main.network.registerMessage(MessageManaUnlock.MessageHandler.class, MessageManaUnlock.class, packetId++, Side.CLIENT);
 
 	CapabilityManager.INSTANCE.register(IMana.class, new ManaStorage(), Mana.class);
+	CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(), Invasion.class);
     }
 }

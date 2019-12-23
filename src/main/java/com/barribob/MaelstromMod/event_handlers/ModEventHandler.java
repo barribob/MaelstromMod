@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.event_handlers;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
+import com.barribob.MaelstromMod.invasion.InvasionProvider;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.mana.IMana;
@@ -42,6 +43,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModEventHandler
 {
     public static final ResourceLocation MANA = new ResourceLocation(Reference.MOD_ID, "mana");
+    public static final ResourceLocation INVASION = new ResourceLocation(Reference.MOD_ID, "invasion");
 
     @SubscribeEvent
     public static void attachCabability(AttachCapabilitiesEvent<Entity> event)
@@ -49,6 +51,7 @@ public class ModEventHandler
 	if (event.getObject() instanceof EntityPlayer)
 	{
 	    event.addCapability(MANA, new ManaProvider());
+	    event.addCapability(INVASION, new InvasionProvider());
 	}
     }
 

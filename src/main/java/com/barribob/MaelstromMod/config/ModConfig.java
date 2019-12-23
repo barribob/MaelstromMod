@@ -101,6 +101,9 @@ public class ModConfig
 	@Config.RequiresWorldRestart
 	@Config.LangKey(config + "spawn_island")
 	public boolean spawn_island = true;
+
+	@Config.LangKey(config + "spawn_island")
+	public int invasionTime = 200;
     }
 
     @SubscribeEvent
