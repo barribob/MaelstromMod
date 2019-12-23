@@ -52,7 +52,7 @@ public class ItemNexusIslandBuilder extends ItemBase
 			.setRotation(Rotation.NONE);
 		MinecraftServer mcServer = worldIn.getMinecraftServer();
 		TemplateManager manager = worldServer.getStructureTemplateManager();
-		ResourceLocation location = new ResourceLocation(Reference.MOD_ID, "nexus/nexus_entrance_island");
+		ResourceLocation location = new ResourceLocation(Reference.MOD_ID, "invasion/invasion_tower");
 		Template template = manager.get(mcServer, location);
 		BlockPos pos = new BlockPos(playerIn.posX - 15, MapGenNexusEntrance.NEXUS_ISLAND_SPAWN_HEIGHT, playerIn.posZ - 15);
 		if (template != null)

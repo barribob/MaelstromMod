@@ -243,7 +243,7 @@ public class TileEntityMegaStructure extends TileEntityStructure
     @Override
     public void setSize(BlockPos sizeIn)
     {
-	this.size = new BlockPos(250, 150, 250);
+	this.size = new BlockPos(27, 55, 27);
     }
 
     @Override
@@ -535,7 +535,7 @@ public class TileEntityMegaStructure extends TileEntityStructure
             MinecraftServer minecraftserver = this.world.getMinecraftServer();
             TemplateManager templatemanager = worldserver.getStructureTemplateManager();
             Template template = templatemanager.getTemplate(minecraftserver, new ResourceLocation(this.name));
-	    template.takeBlocksFromWorld(this.world, blockpos, this.size, !this.ignoreEntities, Blocks.AIR);
+	    template.takeBlocksFromWorld(this.world, blockpos, this.size, !this.ignoreEntities, Blocks.STRUCTURE_VOID);
             template.setAuthor(this.author);
             return !writeToDisk || templatemanager.writeTemplate(minecraftserver, new ResourceLocation(this.name));
         }

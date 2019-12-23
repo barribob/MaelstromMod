@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntitySheep;
@@ -80,9 +81,10 @@ public class EntityEventHandler
 
 	if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer)
 	{
+	    EntityPlayer player = ((EntityPlayer) event.getEntity());
 	    if (event.getEntity().ticksExisted % 35 == 0)
 	    {
-		IMana currentMana = ((EntityPlayer) event.getEntity()).getCapability(ManaProvider.MANA, null);
+		IMana currentMana = player.getCapability(ManaProvider.MANA, null);
 		if (!currentMana.isLocked())
 		{
 		    if (currentMana.isRecentlyConsumed())
@@ -92,17 +94,19 @@ public class EntityEventHandler
 		    else
 		    {
 			currentMana.replenish(1f);
-			Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) event.getEntity());
+			Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) player);
 		    }
 		}
 	    }
 
-	    IInvasion invasionCounter = ((EntityPlayer) event.getEntity()).getCapability(InvasionProvider.INVASION, null);
+	    IInvasion invasionCounter = player.getCapability(InvasionProvider.INVASION, null);
 	    invasionCounter.update();
 	    if (invasionCounter.shouldDoInvasion())
 	    {
 		invasionCounter.setInvaded(true);
-		System.out.println("Invaded!");
+		WorldGenStructure tower = new WorldGenStructure("invasion/invasion_tower");
+		tower.generate(player.world, player.world.rand,
+			new BlockPos(player.posX, tower.getYGenHeight(player.world, (int) player.posX, (int) player.posZ), player.posZ));
 	    }
 	}
 	else if (event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer)
@@ -111,13 +115,19 @@ public class EntityEventHandler
 	}
     }
 
-    // Persist whether mana is locked across player respawning
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.Clone event)
     {
+	// Persist whether mana is locked across player respawning
 	IMana newMana = event.getEntityPlayer().getCapability(ManaProvider.MANA, null);
 	IMana oldMana = event.getOriginal().getCapability(ManaProvider.MANA, null);
 	newMana.setLocked(oldMana.isLocked());
+
+	// Persist the invasion information across player deaths
+	IInvasion newInvasion = event.getEntityPlayer().getCapability(InvasionProvider.INVASION, null);
+	IInvasion oldInvasion = event.getOriginal().getCapability(InvasionProvider.INVASION, null);
+	newInvasion.setInvaded(oldInvasion.isInvaded());
+	newInvasion.setInvasionTime(oldInvasion.getInvasionTime());
     }
 
     @SubscribeEvent
