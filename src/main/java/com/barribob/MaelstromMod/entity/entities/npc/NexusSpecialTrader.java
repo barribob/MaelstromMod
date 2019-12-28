@@ -22,7 +22,7 @@ public class NexusSpecialTrader extends EntityTrader
     public NexusSpecialTrader(World worldIn)
     {
 	super(worldIn);
-	this.isImmovable = true;
+	this.setImmovable(true);
 	this.setSize(0.8f, 3.0f);
 	this.setNoGravity(true);
     }

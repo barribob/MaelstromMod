@@ -30,6 +30,7 @@ public class EntityShade extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setLevel(1.5f);
+	this.setSize(1, 1.8f);
     }
 
     @Override

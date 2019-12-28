@@ -96,7 +96,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	this.healthScaledAttackFactor = 0.2;
 	if (!world.isRemote)
 	{
-	    attackHandler.addAttack(magicMissile, new Action()
+	    attackHandler.setAttack(magicMissile, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -106,7 +106,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		    actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		}
 	    });
-	    attackHandler.addAttack(wisp, new Action()
+	    attackHandler.setAttack(wisp, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -117,7 +117,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		    actor.playSound(SoundEvents.ENTITY_BLAZE_AMBIENT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		}
 	    });
-	    attackHandler.addAttack(shield, new Action()
+	    attackHandler.setAttack(shield, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -127,7 +127,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		    actor.world.setEntityState(actor, ModUtils.THIRD_PARTICLE_BYTE);
 		}
 	    });
-	    attackHandler.addAttack(enemy, new Action()
+	    attackHandler.setAttack(enemy, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -168,7 +168,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	animationMissile.add(rightArm);
 	animationMissile.add(leftArm);
 
-	attackHandler.addAttack(magicMissile, Action.NONE, () -> new StreamAnimation(animationMissile));
+	attackHandler.setAttack(magicMissile, Action.NONE, () -> new StreamAnimation(animationMissile));
 
 	List<List<AnimationClip<ModelMaelstromIllager>>> animationWisp = new ArrayList<List<AnimationClip<ModelMaelstromIllager>>>();
 	rightArm = new ArrayList<AnimationClip<ModelMaelstromIllager>>();
@@ -196,7 +196,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	animationWisp.add(rightArm);
 	animationWisp.add(leftArm);
 
-	attackHandler.addAttack(wisp, Action.NONE, () -> new StreamAnimation(animationWisp));
+	attackHandler.setAttack(wisp, Action.NONE, () -> new StreamAnimation(animationWisp));
 
 	List<List<AnimationClip<ModelMaelstromIllager>>> animationShield = new ArrayList<List<AnimationClip<ModelMaelstromIllager>>>();
 
@@ -225,8 +225,8 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	animationShield.add(rightArm);
 	animationShield.add(leftArm);
 
-	attackHandler.addAttack(shield, Action.NONE, () -> new StreamAnimation(animationShield));
-	attackHandler.addAttack(enemy, Action.NONE, () -> new AnimationOscillateArms(60, this));
+	attackHandler.setAttack(shield, Action.NONE, () -> new StreamAnimation(animationShield));
+	attackHandler.setAttack(enemy, Action.NONE, () -> new AnimationOscillateArms(60, this));
 
 	this.currentAnimation = new AnimationOscillateArms(60, this);
     }

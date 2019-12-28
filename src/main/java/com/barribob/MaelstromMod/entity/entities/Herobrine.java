@@ -44,7 +44,7 @@ public class Herobrine extends EntityLeveledMob
 	super(worldIn);
 	state = new StateFirstEncounter(this);
 	this.setSize(0.5f, 2.0f);
-	this.isImmovable = true;
+	this.setImmovable(true);
 	this.setNoGravity(true);
     }
 

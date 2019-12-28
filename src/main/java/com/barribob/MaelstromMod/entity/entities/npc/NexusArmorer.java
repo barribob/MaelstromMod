@@ -25,7 +25,7 @@ public class NexusArmorer extends EntityTrader
     public NexusArmorer(World worldIn)
     {
 	super(worldIn);
-	this.isImmovable = true;
+	this.setImmovable(true);
 	this.setSize(0.8f, 1.2f);
 	this.setNoGravity(true);
     }

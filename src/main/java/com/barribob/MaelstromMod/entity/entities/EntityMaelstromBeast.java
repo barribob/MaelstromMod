@@ -65,7 +65,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 	this.setLevel(1.5f);
 	if (!world.isRemote)
 	{
-	    attackHandler.addAttack(hammerSwing, new Action()
+	    attackHandler.setAttack(hammerSwing, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -81,7 +81,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		}
 	    });
-	    attackHandler.addAttack(battleShout, new Action()
+	    attackHandler.setAttack(battleShout, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -100,7 +100,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 		    actor.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1.0F, 0.9F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		}
 	    });
-	    attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> {
+	    attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> {
 		if (EntityMaelstromBeast.this.isRaged())
 		{
 		    return new ProjectileBoneQuake(worldIn, this, this.getAttack());
@@ -110,7 +110,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 		    return new ProjectileBeastQuake(worldIn, this, this.getAttack());
 		}
 	    }));
-	    attackHandler.addAttack(leap, new Action()
+	    attackHandler.setAttack(leap, new Action()
 	    {
 
 		@Override
@@ -279,10 +279,10 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 	animationLeap.add(rightArmZStream);
 	animationLeap.add(bodyXStream);
 
-	attackHandler.addAttack(hammerSwing, Action.NONE, () -> new AnimationMaelstromBeast(animationHammer));
-	attackHandler.addAttack(battleShout, Action.NONE, () -> new AnimationMaelstromBeast(animationShout));
-	attackHandler.addAttack(groundSlash, Action.NONE, () -> new AnimationMaelstromBeast(animationGroundSlash));
-	attackHandler.addAttack(leap, Action.NONE, () -> new AnimationMaelstromBeast(animationLeap));
+	attackHandler.setAttack(hammerSwing, Action.NONE, () -> new AnimationMaelstromBeast(animationHammer));
+	attackHandler.setAttack(battleShout, Action.NONE, () -> new AnimationMaelstromBeast(animationShout));
+	attackHandler.setAttack(groundSlash, Action.NONE, () -> new AnimationMaelstromBeast(animationGroundSlash));
+	attackHandler.setAttack(leap, Action.NONE, () -> new AnimationMaelstromBeast(animationLeap));
 
 	currentAnimation = new AnimationMaelstromBeast(new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>());
     }
@@ -294,7 +294,6 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
-
     }
 
     @Override

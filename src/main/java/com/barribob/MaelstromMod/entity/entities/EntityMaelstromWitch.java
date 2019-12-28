@@ -45,9 +45,9 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
 	if (!worldIn.isRemote)
 	{
-	    attackHandler.addAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION));
-	    attackHandler.addAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION));
-	    attackHandler.addAttack(throwWood, new ActionDarkMissile());
+	    attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION));
+	    attackHandler.setAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION));
+	    attackHandler.setAttack(throwWood, new ActionDarkMissile());
 	}
     }
 
@@ -55,9 +55,9 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	attackHandler.addAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION), () -> new AnimationWitchFlail());
-	attackHandler.addAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
-	attackHandler.addAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
+	attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION), () -> new AnimationWitchFlail());
+	attackHandler.setAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
+	attackHandler.setAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
 	this.currentAnimation = new AnimationWitchFlail();
     }
 

@@ -48,10 +48,10 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	if (!worldIn.isRemote)
 	{
-	    this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(worldIn)));
-	    this.attackHandler.addAttack(blackFireball, new ActionFireball());
-	    this.attackHandler.addAttack(runes, new ActionMaelstromRing());
-	    this.attackHandler.addAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
+	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(worldIn)));
+	    this.attackHandler.setAttack(blackFireball, new ActionFireball());
+	    this.attackHandler.setAttack(runes, new ActionMaelstromRing());
+	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
 	}
     }
 
@@ -59,10 +59,10 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(this.world)), () -> new AnimationOctoMissiles());
-	this.attackHandler.addAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
-	this.attackHandler.addAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
-	this.attackHandler.addAttack(spawnPillar, Action.NONE, EntityGoldenBoss.getSpawnPillarAnimation());
+	this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(this.world)), () -> new AnimationOctoMissiles());
+	this.attackHandler.setAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
+	this.attackHandler.setAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
+	this.attackHandler.setAttack(spawnPillar, Action.NONE, EntityGoldenBoss.getSpawnPillarAnimation());
 	this.currentAnimation = new AnimationOctoMissiles();
     }
 

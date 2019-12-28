@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModBlocks;
@@ -286,6 +287,28 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    new CliffMaelstromStructure("statue_of_nirvana"), new CliffMaelstromStructure("broken_arch"), new CliffMaelstromStructure("arch"),
 	    new CliffMaelstromStructure("ancient_houses") };
     private static double[] cliffRuinsWeights = { 0.1, 0.1, 0.1, 0.1, 0.2, 0.1, 0.1, 0.05, 0.1, 0.1, 0.3 };
+
+    public static final WorldGenStructure invasionTower = new WorldGenStructure("invasion/invasion_tower")
+    {
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos position)
+	{
+	    this.generateStructure(worldIn, position, false);
+	    return true;
+	}
+
+	@Override
+	protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
+	{
+	    if (function.startsWith("boss"))
+	    {
+		worldIn.setBlockToAir(pos);
+		EntityMonolith entity = new EntityMonolith(worldIn);
+		entity.setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+		worldIn.spawnEntity(entity);
+	    }
+	}
+    };
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)

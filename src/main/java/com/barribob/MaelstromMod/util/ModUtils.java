@@ -44,6 +44,7 @@ public final class ModUtils
     public static byte PARTICLE_BYTE = 12;
     public static byte SECOND_PARTICLE_BYTE = 14;
     public static byte THIRD_PARTICLE_BYTE = 15;
+    public static byte FOURTH_PARTICLE_BYTE = 16;
     public static final String LANG_DESC = Reference.MOD_ID + ".desc.";
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
     public static final DecimalFormat df = new DecimalFormat("0.00");

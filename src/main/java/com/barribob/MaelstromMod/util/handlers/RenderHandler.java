@@ -19,6 +19,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
+import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
 import com.barribob.MaelstromMod.entity.entities.Herobrine;
@@ -56,6 +57,7 @@ import com.barribob.MaelstromMod.entity.render.RenderHerobrine;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromBeast;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
+import com.barribob.MaelstromMod.entity.render.RenderMonolith;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
 import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityParticleSpawner;
@@ -153,6 +155,15 @@ public class RenderHandler
 	    public Render<? super EntityMaelstromBeast> createRenderFor(RenderManager manager)
 	    {
 		return new RenderMaelstromBeast(manager);
+	    }
+	});
+
+	RenderingRegistry.registerEntityRenderingHandler(EntityMonolith.class, new IRenderFactory<EntityMonolith>()
+	{
+	    @Override
+	    public Render<? super EntityMonolith> createRenderFor(RenderManager manager)
+	    {
+		return new RenderMonolith(manager);
 	    }
 	});
     }

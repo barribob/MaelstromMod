@@ -31,7 +31,23 @@ Invasion Events [15]
         Uncolored Mage (1)
         Horror (1)
     Mobs that build maelstrom fortresses gradually:
-        Builder mob + fortress (6)
+        Boss + fortress + builder mob (10)
+
+            Monolith
+                Stage 1 (the immobile stage):
+                    Purple (no attack in progress)
+                    Blue (Summon maelstrom)
+                    Red (Flaming meteor attack)
+                    Yellow (Repulse to send back melee)
+                Stage 2 (the mobile stage):
+                    Purple (no attack in progress)
+                    Blue (Summon maelstrom)
+                    Red (Fire rift)
+                    Yellow (Anvil teleportation attack)
+
+        Figure out system so that multiple do not spawn because of multiple players
+        Figure out what happens when in a different dimension
+
         Defeating a builder mob drops the craftable ingredient to the nexus
     Wrap the event in a system that spawns many mobs and splotches around players (6)
         This should also be configurable
@@ -40,6 +56,8 @@ Fine tune enchantments for loot drops (3)
 Add rendering of fog above cliff as well (2)
 Fix bug where melee weapons only do a small amount of damage sometimes (3)
 Fix bug where herobrine teleports into pillar (2)
+Make Azure stone at bottom not blindingly bright (1)
+Make Herobrine's particles something other than black(1)
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]
@@ -90,6 +108,7 @@ Elemental System Overhaul [21]
         Change for all items and mobs
 
 Gargoyles (3)
+Align all hitboxes (2)
 [DONE] Golden Dungeon - links between pillars and move lava fountains back so they don't spill (1)
 [DONE] Bugfix Make saplings render naturally (1)
 [DONE] Fix bug where structures spawn waaaay underground (2)

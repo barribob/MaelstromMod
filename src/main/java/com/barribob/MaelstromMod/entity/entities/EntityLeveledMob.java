@@ -10,6 +10,9 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
@@ -32,7 +35,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
 
-    protected boolean isImmovable = false;
+    protected static final DataParameter<Boolean> IMMOVABLE = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
     private Vec3d initialPosition = null;
     private boolean animationsInit = false;
     protected double healthScaledAttackFactor = 0.0; // Factor that determines how much attack is affected by health
@@ -104,10 +107,20 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	    world.setEntityState(this, animationByte);
 	}
 
-	if (this.isImmovable && this.initialPosition != null)
+	if (this.isImmovable() && this.initialPosition != null)
 	{
 	    this.setPosition(initialPosition.x, initialPosition.y, initialPosition.z);
 	}
+    }
+
+    protected boolean isImmovable()
+    {
+	return this.dataManager == null ? false : this.dataManager.get(IMMOVABLE);
+    }
+
+    protected void setImmovable(boolean immovable)
+    {
+	this.dataManager.set(IMMOVABLE, immovable);
     }
 
     // Hold the entity in the same position
@@ -115,7 +128,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     public void setPosition(double x, double y, double z)
     {
 	super.setPosition(x, y, z);
-	if (this.isImmovable)
+	if (this.isImmovable())
 	{
 	    if (this.initialPosition == null)
 	    {
@@ -160,7 +173,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     public void writeEntityToNBT(NBTTagCompound compound)
     {
 	compound.setFloat("level", level);
-	compound.setBoolean("isImmovable", this.isImmovable);
+	compound.setBoolean("isImmovable", this.isImmovable());
 	if (initialPosition != null)
 	{
 	    compound.setDouble("initialX", initialPosition.x);
@@ -179,7 +192,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	}
 	if (compound.hasKey("isImmovable"))
 	{
-	    this.isImmovable = compound.getBoolean("isImmovable");
+	    this.dataManager.set(IMMOVABLE, compound.getBoolean("isImmovable"));
 	}
 	if (compound.hasKey("initialX"))
 	{
@@ -207,5 +220,12 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	    amount = amount * LevelHandler.getArmorFromLevel(level - 1);
 	}
 	return super.attackEntityFrom(source, amount);
+    }
+
+    @Override
+    protected void entityInit()
+    {
+	super.entityInit();
+	this.dataManager.register(IMMOVABLE, Boolean.valueOf(false));
     }
 }

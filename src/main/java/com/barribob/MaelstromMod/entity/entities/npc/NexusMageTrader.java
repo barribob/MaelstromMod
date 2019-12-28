@@ -32,7 +32,7 @@ public class NexusMageTrader extends EntityTrader
     public NexusMageTrader(World worldIn)
     {
 	super(worldIn);
-	this.isImmovable = true;
+	this.setImmovable(true);
 	this.setNoGravity(true);
     }
 

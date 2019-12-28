@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.packets.MessageLeap;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.packets.MessageManaUnlock;
+import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.block.Block;
@@ -47,6 +48,7 @@ public class CommonProxy
 	Main.network.registerMessage(MessageMana.MessageHandler.class, MessageMana.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageLeap.MessageHandler.class, MessageLeap.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageManaUnlock.MessageHandler.class, MessageManaUnlock.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageMonolithLazer.Handler.class, MessageMonolithLazer.class, packetId++, Side.CLIENT);
 
 	CapabilityManager.INSTANCE.register(IMana.class, new ManaStorage(), Mana.class);
 	CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(), Invasion.class);

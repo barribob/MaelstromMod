@@ -28,7 +28,7 @@ public class NexusGunTrader extends EntityTrader
     public NexusGunTrader(World worldIn)
     {
 	super(worldIn);
-	this.isImmovable = true;
+	this.setImmovable(true);
 	this.setNoGravity(true);
     }
 

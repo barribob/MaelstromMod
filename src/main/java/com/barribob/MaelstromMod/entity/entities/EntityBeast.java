@@ -54,7 +54,7 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 	this.setLevel(2.0f);
 	if (!worldIn.isRemote)
 	{
-	    attackHandler.addAttack(leap, new Action()
+	    attackHandler.setAttack(leap, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -66,7 +66,7 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 		    actor.motionZ = leap.z;
 		}
 	    });
-	    attackHandler.addAttack(spit, new Action()
+	    attackHandler.setAttack(spit, new Action()
 	    {
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
@@ -120,8 +120,8 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 
 	animationSpit.add(jaw);
 
-	attackHandler.addAttack(leap, Action.NONE, () -> new StreamAnimation(animationLeap));
-	attackHandler.addAttack(spit, Action.NONE, () -> new StreamAnimation(animationSpit));
+	attackHandler.setAttack(leap, Action.NONE, () -> new StreamAnimation(animationLeap));
+	attackHandler.setAttack(spit, Action.NONE, () -> new StreamAnimation(animationSpit));
 
 	this.currentAnimation = new StreamAnimation(animationSpit);
     }

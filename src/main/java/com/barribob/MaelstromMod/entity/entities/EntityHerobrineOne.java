@@ -63,9 +63,9 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	this.healthScaledAttackFactor = 0.2;
 	if (!world.isRemote)
 	{
-	    attackHandler.addAttack(spinSlash, new ActionSpinSlash());
-	    attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())));
-	    attackHandler.addAttack(fireball, new ActionFireball());
+	    attackHandler.setAttack(spinSlash, new ActionSpinSlash());
+	    attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())));
+	    attackHandler.setAttack(fireball, new ActionFireball());
 	}
     }
 
@@ -73,10 +73,10 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	attackHandler.addAttack(spinSlash, new ActionSpinSlash(), () -> new AnimationSpinSlash());
-	attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())),
+	attackHandler.setAttack(spinSlash, new ActionSpinSlash(), () -> new AnimationSpinSlash());
+	attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())),
 		() -> new AnimationHerobrineGroundSlash());
-	attackHandler.addAttack(fireball, new ActionFireball(), () -> new AnimationFireballThrow());
+	attackHandler.setAttack(fireball, new ActionFireball(), () -> new AnimationFireballThrow());
 	this.currentAnimation = new AnimationSpinSlash();
     }
 

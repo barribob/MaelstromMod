@@ -55,10 +55,10 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	this.healthScaledAttackFactor = 0.2;
 	if (!worldIn.isRemote)
 	{
-	    this.attackHandler.addAttack(octoMissile, new ActionOctoMissiles());
-	    this.attackHandler.addAttack(megaMissile, new ActionGoldenFireball());
-	    this.attackHandler.addAttack(runes, new ActionMultiGoldenRunes());
-	    this.attackHandler.addAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
+	    this.attackHandler.setAttack(octoMissile, new ActionOctoMissiles());
+	    this.attackHandler.setAttack(megaMissile, new ActionGoldenFireball());
+	    this.attackHandler.setAttack(runes, new ActionMultiGoldenRunes());
+	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
 	}
     }
 
@@ -66,10 +66,10 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	this.attackHandler.addAttack(octoMissile, new ActionOctoMissiles(), () -> new AnimationOctoMissiles());
-	this.attackHandler.addAttack(megaMissile, new ActionGoldenFireball(), () -> new AnimationMegaMissile());
-	this.attackHandler.addAttack(runes, new ActionMultiGoldenRunes(), () -> new AnimationRuneSummon());
-	this.attackHandler.addAttack(spawnPillar, Action.NONE, this.getSpawnPillarAnimation());
+	this.attackHandler.setAttack(octoMissile, new ActionOctoMissiles(), () -> new AnimationOctoMissiles());
+	this.attackHandler.setAttack(megaMissile, new ActionGoldenFireball(), () -> new AnimationMegaMissile());
+	this.attackHandler.setAttack(runes, new ActionMultiGoldenRunes(), () -> new AnimationRuneSummon());
+	this.attackHandler.setAttack(spawnPillar, Action.NONE, this.getSpawnPillarAnimation());
 	this.currentAnimation = new AnimationOctoMissiles();
     }
 

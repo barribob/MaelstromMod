@@ -47,8 +47,8 @@ public class EntityIronShade extends EntityMaelstromMob
 	this.healthScaledAttackFactor = 0.2;
 	if (!worldIn.isRemote)
 	{
-	    attackHandler.addAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack()), 1));
-	    attackHandler.addAttack(spin, new ActionSpinSlash(3.0f));
+	    attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack()), 1));
+	    attackHandler.setAttack(spin, new ActionSpinSlash(3.0f));
 	}
     }
 
@@ -145,7 +145,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	flipAnimations.add(body);
 	flipAnimations.add(lowerChains);
 	flipAnimations.add(upperChains);
-	attackHandler.addAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack())), () -> new StreamAnimation(flipAnimations));
+	attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack())), () -> new StreamAnimation(flipAnimations));
 
 	List<List<AnimationClip<ModelIronShade>>> spinAnimations = new ArrayList<List<AnimationClip<ModelIronShade>>>();
 	wisps = new ArrayList<AnimationClip<ModelIronShade>>();
@@ -189,7 +189,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	spinAnimations.add(body);
 	spinAnimations.add(lowerChains);
 	spinAnimations.add(upperChains);
-	attackHandler.addAttack(spin, new ActionSpinSlash(3.0f), () -> new StreamAnimation(spinAnimations));
+	attackHandler.setAttack(spin, new ActionSpinSlash(3.0f), () -> new StreamAnimation(spinAnimations));
 	this.currentAnimation = new StreamAnimation(flipAnimations);
     }
 
