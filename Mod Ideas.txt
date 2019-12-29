@@ -30,11 +30,9 @@ Invasion Events [15]
         Uncolored Shade (1)
         Uncolored Mage (1)
         Horror (1)
-    Mobs that build maelstrom fortresses gradually:
-        [DONE] Boss + fortress + builder mob (10)
-        [DONE] Figure out system so that multiple do not spawn because of multiple players
-        [DONE] Figure out what happens when in a different dimension
-    Defeating a builder mob drops the craftable ingredient to the nexus
+    [DONE] Boss + fortress + builder mob (10)
+    [DONE] Figure out system so that multiple do not spawn because of multiple players
+    [DONE] Figure out what happens when in a different dimension
     Wrap the event in a system that spawns many mobs and splotches around players (6)
         This should also be configurable
     Fix disappearing of monolith under certain conditions

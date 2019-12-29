@@ -95,4 +95,18 @@ public class GenUtils
 	    }
 	}
     }
+
+    public static int getTerrainVariation(World world, int x, int z, int sizeX, int sizeZ)
+    {
+	sizeX = x + sizeX;
+	sizeZ = z + sizeZ;
+	int corner1 = ModUtils.calculateGenerationHeight(world, x, z);
+	int corner2 = ModUtils.calculateGenerationHeight(world, sizeX, z);
+	int corner3 = ModUtils.calculateGenerationHeight(world, x, sizeZ);
+	int corner4 = ModUtils.calculateGenerationHeight(world, sizeX, sizeZ);
+
+	int max = Math.max(Math.max(corner3, corner4), Math.max(corner1, corner2));
+	int min = Math.min(Math.min(corner3, corner4), Math.min(corner1, corner2));
+	return max - min;
+    }
 }

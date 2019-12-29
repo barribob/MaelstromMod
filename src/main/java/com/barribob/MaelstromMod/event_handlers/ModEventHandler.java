@@ -1,5 +1,9 @@
 package com.barribob.MaelstromMod.event_handlers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
@@ -11,10 +15,12 @@ import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
+import com.barribob.MaelstromMod.util.GenUtils;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.client.Minecraft;
@@ -24,6 +30,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
@@ -66,9 +73,71 @@ public class ModEventHandler
 		    EntityPlayer player = event.world.playerEntities.stream().reduce(event.world.playerEntities.get(0),
 			    (p1, p2) -> p1.getDistance(0, 0, 0) < p2.getDistance(0, 0, 0) ? p1 : p2);
 
-		    invasionCounter.setInvaded(true);
-		    WorldGenCustomStructures.invasionTower.generate(event.world, event.world.rand,
-			    new BlockPos(player.posX, WorldGenCustomStructures.invasionTower.getYGenHeight(event.world, (int) player.posX, (int) player.posZ), player.posZ));
+		    List<BlockPos> positions = new ArrayList<BlockPos>();
+		    List<Integer> variations = new ArrayList<Integer>();
+
+		    // Find the flattest area
+		    ParticleManager.spawnParticlesInCircle(50, 16, (pos) -> {
+			BlockPos structureSize = WorldGenCustomStructures.invasionTower.getSize(event.world);
+			BlockPos structurePos = new BlockPos(player.getPositionVector().x, 0, player.getPositionVector().z); // Start with player xz position
+			BlockPos mainTowerSize = new BlockPos(structureSize.getX() * 0.5f, 0, structureSize.getZ() * 0.5f);
+
+			structurePos = structurePos.add(new BlockPos(pos.x, 0, pos.y)); // Add the circle position
+			structurePos = structurePos.subtract(new BlockPos(mainTowerSize)); // Center the structure
+
+			// The tower template edges are not very good indicators for what the height
+			// should be.
+			// This adjusts so that the height is based more on the center of the tower
+			int y = ModUtils.getAverageGroundHeight(event.world, structurePos.getX() + (int) (mainTowerSize.getX() * 0.5f),
+				structurePos.getZ() + (int) (mainTowerSize.getZ() * 0.5f), mainTowerSize.getX(), mainTowerSize.getZ(), 8);
+
+			// There is too much terrain variation for the tower to be here
+			if (y == -1)
+			{
+			    return;
+			}
+
+			// Add the y height
+			final BlockPos finalPos = structurePos.add(new BlockPos(0, y, 0));
+
+			// Avoid spawning in water (mostly for oceans because they can be very deep)
+			if (event.world.containsAnyLiquid(new AxisAlignedBB(finalPos, structureSize.add(finalPos))))
+			{
+			    return;
+			}
+
+			// Try to avoid bases with beds (spawnpoints) in them
+			boolean baseNearby = event.world.playerEntities.stream().anyMatch((p) -> {
+			    if (event.world.getSpawnPoint().equals(p.getBedLocation()) || p.getBedLocation() == null)
+			    {
+				return false;
+			    }
+			    return finalPos.distanceSq(p.getBedLocation().getX(), 0, p.getBedLocation().getZ()) < Math.pow(50, 2);
+			});
+
+			if (!baseNearby)
+			{
+			    int terrainVariation = GenUtils.getTerrainVariation(event.world, finalPos.getX(), finalPos.getZ(), finalPos.getX(),
+				    structureSize.getZ());
+			    positions.add(finalPos);
+			    variations.add(terrainVariation);
+			}
+		    });
+
+		    if (positions.size() > 0)
+		    {
+			invasionCounter.setInvaded(true);
+			BlockPos structurePos = positions.get(variations.indexOf(Collections.min(variations)));
+			WorldGenCustomStructures.invasionTower.generateStructure(event.world, structurePos, false);
+		    }
+		    else
+		    {
+			// If we don't find any good place to put the tower, put a cooldown because
+			// chances are there may be a lot of bad areas, so don't spend too much
+			// computing power
+			// every tick. Instead wait a second and try again
+			invasionCounter.setInvasionTime(200);
+		    }
 		}
 		else
 		{

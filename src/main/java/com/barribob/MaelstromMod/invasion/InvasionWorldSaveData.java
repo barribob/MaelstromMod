@@ -55,6 +55,11 @@ public class InvasionWorldSaveData extends WorldSavedData
 	this.timeUntilInvasion = Math.max(dimensionTime, this.timeUntilInvasion);
     }
 
+    public void setInvasionTime(int time)
+    {
+	this.timeUntilInvasion = time;
+    }
+
     public boolean isInvaded()
     {
 	return invaded;

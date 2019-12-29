@@ -373,6 +373,9 @@ public final class ModUtils
 	return world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();
     }
 
+    /**
+     * Returns -1 if the variation is too much
+     */
     public static int getAverageGroundHeight(World world, int x, int z, int sizeX, int sizeZ, int maxVariation)
     {
 	sizeX = x + sizeX;

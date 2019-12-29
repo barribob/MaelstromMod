@@ -52,7 +52,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
     private static final int maxShades = 5;
     private List<CommandMob> commandMobs = new ArrayList<CommandMob>();
     private Vec3d[] movementsDownTower = { new Vec3d(-11, -3, 0), new Vec3d(-5, -7, 0), new Vec3d(-11, -11, 0), new Vec3d(-5, -15, 0), new Vec3d(-11, -19, 0),
-	    new Vec3d(0, -23, 0), new Vec3d(-11, -27, 0), new Vec3d(-5, -31, 0), new Vec3d(-11, -35, 0), new Vec3d(-5, -39, 0), new Vec3d(-21, -42, 0) };
+	    new Vec3d(-5, -23, 0), new Vec3d(-11, -27, 0), new Vec3d(-5, -31, 0), new Vec3d(-11, -35, 0), new Vec3d(-5, -39, 0), new Vec3d(-21, -42, 0) };
 
     private ComboAttack attackHandler = new ComboAttack();
     public static final byte noAttack = 0;
