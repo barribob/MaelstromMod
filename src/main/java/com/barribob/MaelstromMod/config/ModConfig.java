@@ -102,7 +102,7 @@ public class ModConfig
 	@Config.LangKey(config + "spawn_island")
 	public boolean spawn_island = true;
 
-	@Config.LangKey(config + "spawn_island")
+	@Config.LangKey(config + "invasion_time")
 	public int invasionTime = 200;
     }
 

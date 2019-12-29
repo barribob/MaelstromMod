@@ -12,7 +12,6 @@ import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntitySheep;
@@ -97,15 +96,6 @@ public class EntityEventHandler
 			Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) player);
 		    }
 		}
-	    }
-
-	    IInvasion invasionCounter = player.getCapability(InvasionProvider.INVASION, null);
-	    invasionCounter.update();
-	    if (invasionCounter.shouldDoInvasion())
-	    {
-		invasionCounter.setInvaded(true);
-		WorldGenCustomStructures.invasionTower.generate(player.world, player.world.rand,
-			new BlockPos(player.posX, WorldGenCustomStructures.invasionTower.getYGenHeight(player.world, (int) player.posX, (int) player.posZ), player.posZ));
 	    }
 	}
 	else if (event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer)

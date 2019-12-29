@@ -31,26 +31,13 @@ Invasion Events [15]
         Uncolored Mage (1)
         Horror (1)
     Mobs that build maelstrom fortresses gradually:
-        Boss + fortress + builder mob (10)
-
-            Monolith
-                Stage 1 (the immobile stage):
-                    Purple (no attack in progress)
-                    Blue (Summon maelstrom)
-                    Red (Flaming meteor attack)
-                    Yellow (Repulse to send back melee)
-                Stage 2 (the mobile stage):
-                    Purple (no attack in progress)
-                    Blue (Summon maelstrom)
-                    Red (Fire rift)
-                    Yellow (Anvil teleportation attack)
-
-        Figure out system so that multiple do not spawn because of multiple players
-        Figure out what happens when in a different dimension
-
-        Defeating a builder mob drops the craftable ingredient to the nexus
+        [DONE] Boss + fortress + builder mob (10)
+        [DONE] Figure out system so that multiple do not spawn because of multiple players
+        [DONE] Figure out what happens when in a different dimension
+    Defeating a builder mob drops the craftable ingredient to the nexus
     Wrap the event in a system that spawns many mobs and splotches around players (6)
         This should also be configurable
+    Fix disappearing of monolith under certain conditions
 
 Fine tune enchantments for loot drops (3)
 Add rendering of fog above cliff as well (2)

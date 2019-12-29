@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.init.ModEnchantments;
+import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Multimap;
@@ -38,6 +39,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.storage.MapStorage;
 
 public final class ModUtils
 {
@@ -411,5 +413,18 @@ public final class ModUtils
     public static int getGunAmmoUse(float level)
     {
 	return Math.round(2 * LevelHandler.getMultiplierFromLevel(level));
+    }
+
+    public static InvasionWorldSaveData getInvasionData(World world)
+    {
+	MapStorage storage = world.getMapStorage();
+	InvasionWorldSaveData instance = (InvasionWorldSaveData) storage.getOrLoadData(InvasionWorldSaveData.class, InvasionWorldSaveData.DATA_NAME);
+
+	if (instance == null)
+	{
+	    instance = new InvasionWorldSaveData();
+	    storage.setData(InvasionWorldSaveData.DATA_NAME, instance);
+	}
+	return instance;
     }
 }

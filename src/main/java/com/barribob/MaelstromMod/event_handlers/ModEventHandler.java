@@ -3,7 +3,7 @@ package com.barribob.MaelstromMod.event_handlers;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
-import com.barribob.MaelstromMod.invasion.InvasionProvider;
+import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.mana.IMana;
@@ -12,8 +12,10 @@ import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
+import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -22,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -30,6 +33,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -43,7 +47,36 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModEventHandler
 {
     public static final ResourceLocation MANA = new ResourceLocation(Reference.MOD_ID, "mana");
-    public static final ResourceLocation INVASION = new ResourceLocation(Reference.MOD_ID, "invasion");
+    // public static final ResourceLocation INVASION = new
+    // ResourceLocation(Reference.MOD_ID, "invasion");
+
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.WorldTickEvent event)
+    {
+	// Only tick in the overworld
+	if (event.side == Side.SERVER && event.world.provider.getDimension() == 0 && event.phase == TickEvent.Phase.END)
+	{
+	    InvasionWorldSaveData invasionCounter = ModUtils.getInvasionData(event.world);
+	    invasionCounter.update();
+	    if (invasionCounter.shouldDoInvasion())
+	    {
+		if (event.world.playerEntities.size() > 0)
+		{
+		    // Get the player closest to the origin
+		    EntityPlayer player = event.world.playerEntities.stream().reduce(event.world.playerEntities.get(0),
+			    (p1, p2) -> p1.getDistance(0, 0, 0) < p2.getDistance(0, 0, 0) ? p1 : p2);
+
+		    invasionCounter.setInvaded(true);
+		    WorldGenCustomStructures.invasionTower.generate(event.world, event.world.rand,
+			    new BlockPos(player.posX, WorldGenCustomStructures.invasionTower.getYGenHeight(event.world, (int) player.posX, (int) player.posZ), player.posZ));
+		}
+		else
+		{
+		    invasionCounter.setDimensionCooldownTime();
+		}
+	    }
+	}
+    }
 
     @SubscribeEvent
     public static void attachCabability(AttachCapabilitiesEvent<Entity> event)
@@ -51,7 +84,6 @@ public class ModEventHandler
 	if (event.getObject() instanceof EntityPlayer)
 	{
 	    event.addCapability(MANA, new ManaProvider());
-	    event.addCapability(INVASION, new InvasionProvider());
 	}
     }
 
