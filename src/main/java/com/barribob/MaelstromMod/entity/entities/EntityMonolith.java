@@ -11,6 +11,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelMonolith;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMeteor;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMonolithFireball;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
@@ -344,8 +345,24 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	    this.setVelocity(0, this.motionY, 0);
 	}
 
+	// Spawn a maelstrom splotch nearby
+	int maelstromMeteorTime = 1200;
+	int maxMeteors = 20;
+	if (!world.isRemote && this.getAttackTarget() == null && this.ticksExisted % maelstromMeteorTime == 0 && this.ticksExisted < maelstromMeteorTime * maxMeteors)
+	{
+	    ProjectileMaelstromMeteor meteor = new ProjectileMaelstromMeteor(world, this, this.getAttack());
+	    Vec3d pos = new Vec3d(ModRandom.getFloat(1.0f), 0, ModRandom.getFloat(1.0f)).normalize().scale(ModRandom.range(20, 40)).add(this.getPositionVector());
+	    meteor.setPosition(pos.x, pos.y, pos.z);
+	    meteor.shoot(this, 90, 0, 0.0F, 0.7f, 0);
+	    meteor.motionX -= this.motionX;
+	    meteor.motionZ -= this.motionZ;
+	    meteor.setTravelRange(100f);
+	    world.spawnEntity(meteor);
+	}
+
 	// Spawn a new mob and add it to the list of mobs to command
-	if (!world.isRemote && commandMobs.size() < maxShades && this.getAttackTarget() == null && this.ticksExisted % 200 == 0)
+	int mobSpawnTime = 200;
+	if (!world.isRemote && commandMobs.size() < maxShades && this.getAttackTarget() == null && this.ticksExisted % mobSpawnTime == 0)
 	{
 	    EntityMaelstromMob mob = new EntityShade(world);
 	    mob.setLevel(getLevel());
@@ -360,7 +377,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	    List<CommandMob> mobsToRemove = new ArrayList<CommandMob>();
 	    for (CommandMob commandMob : commandMobs)
 	    {
-		if (commandMob.mob.getAttackTarget() != null || commandMob.mob.isDead || commandMob.mob.ticksExisted > 1000
+		if (commandMob.mob.getAttackTarget() != null || commandMob.mob.isDead || commandMob.mob.ticksExisted > 1500
 			|| commandMob.towerProgress >= movementsDownTower.length)
 		{
 		    mobsToRemove.add(commandMob);
@@ -529,13 +546,6 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
     }
 
     @Override
-    public void onDeath(DamageSource cause)
-    {
-	world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE); // Explode on death
-	super.onDeath(cause);
-    }
-
-    @Override
     public void writeEntityToNBT(NBTTagCompound compound)
     {
 	// Make sure we save as immovable to avoid some weird states
@@ -545,6 +555,26 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	    this.setPosition(0, 0, 0);// Setting any position teleports it back to the initial position
 	}
 	super.writeEntityToNBT(compound);
+    }
+
+    @Override
+    public void onDeath(DamageSource cause)
+    {
+	world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE); // Explode on death
+
+	// Spawn the second half of the boss
+	EntityWhiteMonolith boss = new EntityWhiteMonolith(world);
+	boss.copyLocationAndAnglesFrom(this);
+	boss.setRotationYawHead(this.rotationYawHead);
+	if (!world.isRemote)
+	{
+	    world.spawnEntity(boss);
+	}
+
+	// Teleport away so that the player doens't see the death animation
+	this.setImmovable(false);
+	this.setPosition(0, 0, 0);
+	super.onDeath(cause);
     }
 
     @Override

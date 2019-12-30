@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
 
@@ -22,7 +21,7 @@ import net.minecraft.world.WorldServer;
  */
 public class NexusToOverworldTeleporter extends Teleporter
 {
-    private static final int yPortalOffset = 139;
+    public static final int yPortalOffset = 139;
     private int spacing;
 
     public NexusToOverworldTeleporter(WorldServer worldIn)
@@ -35,6 +34,7 @@ public class NexusToOverworldTeleporter extends Teleporter
 	spacing = DimensionNexus.NexusStructureSpacing * 16;
     }
 
+    @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
 	if (!this.placeInExistingPortal(entityIn, rotationYaw))
@@ -47,6 +47,7 @@ public class NexusToOverworldTeleporter extends Teleporter
     /**
      * Finds an existing portal to teleport the player to
      */
+    @Override
     public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
 	int startX = MathHelper.floor(entityIn.posX / spacing) * spacing;
@@ -83,6 +84,7 @@ public class NexusToOverworldTeleporter extends Teleporter
     /**
      * Creates a simple portal
      */
+    @Override
     public boolean makePortal(Entity entity)
     {
 	int i = MathHelper.floor(entity.posX / spacing) * spacing;

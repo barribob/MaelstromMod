@@ -25,17 +25,12 @@ Crimson Dungeon [85]
             1 for nexus
 
 Invasion Events [15]
-    Where enemies significantly stronger than the level of the world invade in the overworld.
     Overworld maelstrom that appear: 
         Uncolored Shade (1)
-        Uncolored Mage (1)
-        Horror (1)
     [DONE] Boss + fortress + builder mob (10)
     [DONE] Figure out system so that multiple do not spawn because of multiple players
     [DONE] Figure out what happens when in a different dimension
-    Wrap the event in a system that spawns many mobs and splotches around players (6)
-        This should also be configurable
-    Fix disappearing of monolith under certain conditions
+    [DONE]  Wrap the event in a system that spawns into world once
 
 Fine tune enchantments for loot drops (3)
 Add rendering of fog above cliff as well (2)

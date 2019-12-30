@@ -5,8 +5,6 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.init.ModPotions;
-import com.barribob.MaelstromMod.invasion.IInvasion;
-import com.barribob.MaelstromMod.invasion.InvasionProvider;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
@@ -111,12 +109,6 @@ public class EntityEventHandler
 	IMana newMana = event.getEntityPlayer().getCapability(ManaProvider.MANA, null);
 	IMana oldMana = event.getOriginal().getCapability(ManaProvider.MANA, null);
 	newMana.setLocked(oldMana.isLocked());
-
-	// Persist the invasion information across player deaths
-	IInvasion newInvasion = event.getEntityPlayer().getCapability(InvasionProvider.INVASION, null);
-	IInvasion oldInvasion = event.getOriginal().getCapability(InvasionProvider.INVASION, null);
-	newInvasion.setInvaded(oldInvasion.isInvaded());
-	newInvasion.setInvasionTime(oldInvasion.getInvasionTime());
     }
 
     @SubscribeEvent

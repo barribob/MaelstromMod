@@ -1,7 +1,6 @@
 //———————————————————————————————————————————————————————————
 // Key Items
 //———————————————————————————————————————————————————————————
-item.nexus_island_builder.name=Summon Nexus Island
 item.iron_pellet.name=Iron Pellet
 item.azure_maelstrom_core_crystal.name=Maelstrom Core
 item.azure_key.name=Fracture Dimensional Key
@@ -340,9 +339,10 @@ itemGroup.all=Maelstrom Mod
 //———————————————————————————————————————————————————————————
 // Misc.
 //———————————————————————————————————————————————————————————
-islandbuilder.fail=Nexus Island Builder only activates in the overworld
 herobrine_trading=Herobrine's Epic Crafts
 mana_locked=You haven't unlocked mana yet!
+mm.invasion_1=Something is trying to enter this world
+mm.invasion_2=Something has entered this world
 
 //———————————————————————————————————————————————————————————
 // Config

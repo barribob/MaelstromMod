@@ -60,6 +60,11 @@ public class InvasionWorldSaveData extends WorldSavedData
 	this.timeUntilInvasion = time;
     }
 
+    public int getInvasionTime()
+    {
+	return this.timeUntilInvasion;
+    }
+
     public boolean isInvaded()
     {
 	return invaded;

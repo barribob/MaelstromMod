@@ -21,6 +21,7 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
+import com.barribob.MaelstromMod.util.teleporter.NexusToOverworldTeleporter;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.client.Minecraft;
@@ -33,6 +34,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.WorldType;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -63,8 +68,24 @@ public class ModEventHandler
 	// Only tick in the overworld
 	if (event.side == Side.SERVER && event.world.provider.getDimension() == 0 && event.phase == TickEvent.Phase.END)
 	{
+	    // Do not generate the structure on superflat worlds
+	    if (event.world.getWorldType().equals(WorldType.FLAT))
+	    {
+		return;
+	    }
+
 	    InvasionWorldSaveData invasionCounter = ModUtils.getInvasionData(event.world);
 	    invasionCounter.update();
+
+	    // Issue a warning one tenth of the time left
+	    if (invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 0.1f)
+	    {
+		event.world.playerEntities.forEach((p) -> {
+		    p.sendMessage(
+			    new TextComponentString("" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_1").getFormattedText()));
+		});
+	    }
+
 	    if (invasionCounter.shouldDoInvasion())
 	    {
 		if (event.world.playerEntities.size() > 0)
@@ -92,7 +113,7 @@ public class ModEventHandler
 				structurePos.getZ() + (int) (mainTowerSize.getZ() * 0.5f), mainTowerSize.getX(), mainTowerSize.getZ(), 8);
 
 			// There is too much terrain variation for the tower to be here
-			if (y == -1)
+			if (y == -1 || y > NexusToOverworldTeleporter.yPortalOffset - structureSize.getY())
 			{
 			    return;
 			}
@@ -112,20 +133,24 @@ public class ModEventHandler
 			    {
 				return false;
 			    }
-			    return finalPos.distanceSq(p.getBedLocation().getX(), 0, p.getBedLocation().getZ()) < Math.pow(50, 2);
+			    return finalPos.distanceSq(p.getBedLocation()) < Math.pow(75, 2);
 			});
 
 			if (!baseNearby)
 			{
 			    int terrainVariation = GenUtils.getTerrainVariation(event.world, finalPos.getX(), finalPos.getZ(), finalPos.getX(),
 				    structureSize.getZ());
-			    positions.add(finalPos);
+			    positions.add(finalPos.down(3));
 			    variations.add(terrainVariation);
 			}
 		    });
 
 		    if (positions.size() > 0)
 		    {
+			event.world.playerEntities.forEach((p) -> {
+			    p.sendMessage(new TextComponentString(
+				    "" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_2").getFormattedText()));
+			});
 			invasionCounter.setInvaded(true);
 			BlockPos structurePos = positions.get(variations.indexOf(Collections.min(variations)));
 			WorldGenCustomStructures.invasionTower.generateStructure(event.world, structurePos, false);
@@ -136,7 +161,7 @@ public class ModEventHandler
 			// chances are there may be a lot of bad areas, so don't spend too much
 			// computing power
 			// every tick. Instead wait a second and try again
-			invasionCounter.setInvasionTime(200);
+			invasionCounter.setInvasionTime((int) (ModConfig.world.invasionTime * 0.09f));
 		    }
 		}
 		else

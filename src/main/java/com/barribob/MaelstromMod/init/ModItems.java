@@ -10,7 +10,6 @@ import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemCatalyst;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
-import com.barribob.MaelstromMod.items.ItemNexusIslandBuilder;
 import com.barribob.MaelstromMod.items.ItemSingleDescription;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
 import com.barribob.MaelstromMod.items.ItemTradable;
@@ -98,7 +97,6 @@ public class ModItems
     /*
      * Dimensional Items
      */
-    public static final Item NEXUS_ISLAND_BUILDER = new ItemNexusIslandBuilder("nexus_island_builder", ModCreativeTabs.ALL);
     public static final Item AZURE_KEY = new ItemKey("azure_key", ModCreativeTabs.ALL);
     public static final Item BROWN_KEY = new ItemKey("brown_key", ModCreativeTabs.ALL);
     public static final Item BEASTS_KEY = new ItemTBDKey("beast_key", ModCreativeTabs.ALL);

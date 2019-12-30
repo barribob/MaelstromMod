@@ -103,7 +103,7 @@ public class ModConfig
 	public boolean spawn_island = true;
 
 	@Config.LangKey(config + "invasion_time")
-	public int invasionTime = 200;
+	public int invasionTime = 20 * 60 * 100; // Default 100 minutes before invasion
     }
 
     @SubscribeEvent
