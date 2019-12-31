@@ -345,6 +345,6 @@ public class BiomeAzure extends BiomeDifferentStone
 	{
 	    return ModBlocks.DARK_AZURE_STONE_3;
 	}
-	return ModBlocks.DARK_AZURE_STONE_5;
+	return ModBlocks.DARK_AZURE_STONE;
     }
 }
