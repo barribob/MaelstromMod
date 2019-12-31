@@ -34,10 +34,8 @@ Invasion Events [15]
 
 Fine tune enchantments for loot drops (3)
 Add rendering of fog above cliff as well (2)
-Fix bug where melee weapons only do a small amount of damage sometimes (3)
 Fix bug where herobrine teleports into pillar (2)
 Make Azure stone at bottom not blindingly bright (1)
-Make Herobrine's particles something other than black(1)
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]
@@ -89,18 +87,6 @@ Elemental System Overhaul [21]
 
 Gargoyles (3)
 Align all hitboxes (2)
-[DONE] Golden Dungeon - links between pillars and move lava fountains back so they don't spill (1)
-[DONE] Bugfix Make saplings render naturally (1)
-[DONE] Fix bug where structures spawn waaaay underground (2)
-[DONE] Port 1.14 nav ai to our ai (3)
-[DONE] Cross of aqua take mana (1)
-[DONE] Add enchantments to staves (1)
-[DONE] Maelstrom now drop fragments of cores (1)
-[DONE] Villagers explain gun, staff, and armor mechanics (2)
-[DONE] Reimagine guns and how their ammo should work (5)
-[DONE] Incorperate maelstrom stronghold (3)
-[DONE] Guns only reload in hand (3)
-[DONE] Staves use mana bar (5)
 
 ||| After adding the crimson dimension
 
@@ -118,6 +104,19 @@ Clean up wiki (update current pages, and make the general guide much more compre
 Put out on curseforge and improve marketing (5)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Completed
+[DONE] Fix bug where melee weapons only do a small amount of damage sometimes (3)
+[DONE] Golden Dungeon - links between pillars and move lava fountains back so they don't spill (1)
+[DONE] Bugfix Make saplings render naturally (1)
+[DONE] Fix bug where structures spawn waaaay underground (2)
+[DONE] Port 1.14 nav ai to our ai (3)
+[DONE] Cross of aqua take mana (1)
+[DONE] Add enchantments to staves (1)
+[DONE] Maelstrom now drop fragments of cores (1)
+[DONE] Villagers explain gun, staff, and armor mechanics (2)
+[DONE] Reimagine guns and how their ammo should work (5)
+[DONE] Incorperate maelstrom stronghold (3)
+[DONE] Guns only reload in hand (3)
+[DONE] Staves use mana bar (5)
 [DONE] Bosses should scale in damage dealt depending on their health (3)
     Keeps the fight interesting because it gets more dangerous to not predict a boss's attacks
 
@@ -166,6 +165,8 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Particle overhaul (10 ish)
+    Make Herobrine's particles something other than black(1)
 Maelstrom pearls (1)
 Golden Ruins spawn more consistently (2)
 More nexus trades (5)
