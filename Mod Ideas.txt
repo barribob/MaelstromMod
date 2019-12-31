@@ -165,6 +165,7 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Make the portal telportation less jenky
 Particle overhaul (10 ish)
     Make Herobrine's particles something other than black(1)
 Maelstrom pearls (1)

@@ -24,6 +24,7 @@ public class StateFirstEncounter extends HerobrineState
     private EntityHerobrineOne herobrineBoss;
     private TimedMessager messager;
     private boolean leftClickMessage = false;
+    private int idleCounter;
 
     private Consumer<String> spawnHerobrine = (s) -> {
 	herobrineBoss = new EntityHerobrineOne(world);
@@ -66,9 +67,21 @@ public class StateFirstEncounter extends HerobrineState
 	    herobrine.bossInfo.setPercent(herobrineBoss.getHealth() / herobrineBoss.getMaxHealth());
 
 	    // If the herobrine falls off, teleport it back
-	    if (herobrineBoss.posY < 0)
+	    if (herobrineBoss.getDistanceSq(herobrine) > Math.pow(50, 2))
 	    {
-		herobrineBoss.setLocationAndAngles(herobrine.posX, herobrine.posY + 4, herobrine.posZ, herobrine.rotationYaw, herobrine.rotationPitch);
+		herobrineBoss.fallDistance = 0; // Don't take any fall damage
+		herobrineBoss.setLocationAndAngles(herobrine.posX, herobrine.posY + 1, herobrine.posZ - 5, herobrine.rotationYaw, herobrine.rotationPitch);
+	    }
+
+	    // Teleport the boss back in case it gets stuck somewhere
+	    if (herobrine.getAttackTarget() == null)
+	    {
+		idleCounter++;
+		if (idleCounter > 200)
+		{
+		    herobrineBoss.setLocationAndAngles(herobrine.posX, herobrine.posY + 1, herobrine.posZ - 5, herobrine.rotationYaw, herobrine.rotationPitch);
+		    idleCounter = 0;
+		}
 	    }
 
 	    // When herobrine is defeated
