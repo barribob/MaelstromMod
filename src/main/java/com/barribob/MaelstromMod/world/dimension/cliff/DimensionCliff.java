@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.world.biome.BiomeProviderMultiple;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -79,6 +80,12 @@ public class DimensionCliff extends WorldProvider
     }
 
     @Override
+    public Vec3d getCloudColor(float partialTicks)
+    {
+	return new Vec3d(0.5f, 0.43f, 0.5f);
+    }
+
+    @Override
     public Vec3d getFogColor(float time, float p_76562_2_)
     {
 	float f = MathHelper.cos(time * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
@@ -90,5 +97,17 @@ public class DimensionCliff extends WorldProvider
 	f2 = f2 * (f * 0.84F + 0.06F);
 	f3 = f3 * (f * 0.70F + 0.09F);
 	return new Vec3d(f1, f2, f3);
+    }
+
+    @Override
+    public Vec3d getSkyColor(Entity cameraEntity, float partialTicks)
+    {
+	float f = cameraEntity.world.getCelestialAngle(partialTicks);
+	float f1 = MathHelper.cos(f * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
+	f1 = MathHelper.clamp(f1, 0.1F, 1.0F);
+	int i = MathHelper.floor(cameraEntity.posX);
+	int j = MathHelper.floor(cameraEntity.posY);
+	int k = MathHelper.floor(cameraEntity.posZ);
+	return new Vec3d(0.60f, 0.53f, 0.7f).scale(f1);
     }
 }
