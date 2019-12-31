@@ -33,7 +33,7 @@ Invasion Events [15]
     [DONE]  Wrap the event in a system that spawns into world once
 
 Add rendering of fog above cliff as well (2)
-Improve impact logic (2)
+[DONE] Improve impact logic (2)
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]

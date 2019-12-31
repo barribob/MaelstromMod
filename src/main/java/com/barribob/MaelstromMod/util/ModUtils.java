@@ -220,17 +220,35 @@ public final class ModUtils
 	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
 
 	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
+
+		// Get the hitbox size of the entity because otherwise explosions are less
+		// effective against larger mobs
 		double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
-		double radiusSq = Math.pow(radius + avgEntitySize, 2);
-		double distanceFromExplosion = (float) getCenter(entity.getEntityBoundingBox()).squareDistanceTo(pos);
-		double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - distanceFromExplosion) / radiusSq)) : 1;
-		double damage = maxDamage.apply(entity) * damageFactor;
-		if (damage > 0 && distanceFromExplosion < radiusSq)
+		double radiusSq = Math.pow(radius, 2);
+
+		// Choose the closest distance from the center or the head to encourage
+		// headshots
+		double distance = Math.min(getCenter(entity.getEntityBoundingBox()).distanceTo(pos),
+			entity.getPositionVector().add(ModUtils.yVec(entity.getEyeHeight())).distanceTo(pos));
+
+		// Subtracting the average size makes it so that the full damage can be dealt
+		// with a direct hit
+		double adjustedDistance = Math.max(distance - avgEntitySize, 0);
+		double adjustedDistanceSq = (float) Math.pow(adjustedDistance, 2);
+		double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - adjustedDistanceSq) / radiusSq)) : 1;
+
+		// Damage decays by the square to make missed impacts less powerful
+		double damageFactorSq = Math.pow(damageFactor, 2);
+		double damage = maxDamage.apply(entity) * damageFactorSq;
+		if (damage > 0 && adjustedDistanceSq < radiusSq)
 		{
-		    entity.setFire(fireFactor);
+		    entity.setFire((int) (fireFactor * damageFactorSq));
 		    entity.attackEntityFrom(damageSource, (float) damage);
 		    double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
-		    Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactor).scale(knockbackFactor).scale(entitySizeFactor);
+		    double entitySizeFactorSq = Math.pow(entitySizeFactor, 2);
+
+		    // Velocity depends on the entity's size and the damage dealt squared
+		    Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactorSq).scale(knockbackFactor).scale(entitySizeFactorSq);
 		    entity.addVelocity(velocity.x, velocity.y, velocity.z);
 		}
 	    });

@@ -76,7 +76,7 @@ public class EntityDreamElk extends EntityLeveledMob
     @Override
     protected ResourceLocation getLootTable()
     {
-	return LootTableHandler.TWOANDHALF;
+	return LootTableHandler.ELK;
     }
 
     @Override
