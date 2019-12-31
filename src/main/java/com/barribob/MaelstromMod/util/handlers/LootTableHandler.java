@@ -29,4 +29,11 @@ public class LootTableHandler
     public static final ResourceLocation GOLDEN_RUINS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/golden_ruins"));
     public static final ResourceLocation GOLDEN_RUINS_BOSS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/golden_ruins_boss"));
     public static final ResourceLocation MAELSTROM_RUINS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/maelstrom_ruins"));
+
+    // For testing purposes
+    public static final ResourceLocation IRON = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "util/iron_level_loot"));
+    public static final ResourceLocation DIAMOND = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "util/diamond_level_loot"));
+    public static final ResourceLocation MAELSTROM = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "util/maelstrom_level_loot"));
+    public static final ResourceLocation TWO = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "util/level_2_loot"));
+    public static final ResourceLocation TWOANDHALF = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "util/level_2_half_loot"));
 }

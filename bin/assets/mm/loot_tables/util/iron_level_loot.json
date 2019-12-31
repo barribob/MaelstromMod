@@ -10,13 +10,18 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
-                            ]
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
@@ -42,13 +47,18 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
-                            ]
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
@@ -58,13 +68,18 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
-                            ]
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
@@ -74,13 +89,18 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
-                            ]
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
@@ -90,13 +110,18 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
-                            ]
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
@@ -107,13 +132,18 @@
                     "function": "enchant_randomly",
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
-                            ]
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
@@ -123,13 +153,18 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
-                            ]
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
@@ -139,7 +174,18 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly"
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 },
