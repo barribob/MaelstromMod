@@ -51,7 +51,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setLevel(2.5f);
-	this.setSize(1.5f, 3.2f);
+	this.setSize(1.6f, 3.6f);
 	this.healthScaledAttackFactor = 0.2;
 	if (!worldIn.isRemote)
 	{

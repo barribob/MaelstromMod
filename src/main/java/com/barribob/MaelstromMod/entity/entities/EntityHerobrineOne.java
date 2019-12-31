@@ -61,6 +61,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     {
 	super(worldIn);
 	this.healthScaledAttackFactor = 0.2;
+	this.setSize(0.8f, 2.0f);
 	if (!world.isRemote)
 	{
 	    attackHandler.setAttack(spinSlash, new ActionSpinSlash());

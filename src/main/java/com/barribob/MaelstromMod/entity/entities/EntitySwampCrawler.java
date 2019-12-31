@@ -36,7 +36,7 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     public EntitySwampCrawler(World worldIn)
     {
 	super(worldIn);
-	this.setSize(1.3f, 1.3f);
+	this.setSize(1.5f, 1.3f);
 	this.setLevel(2.0f);
     }
 

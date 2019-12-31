@@ -31,6 +31,7 @@ public class EntityCliffFly extends EntityLeveledFlyingMob
     {
 	super(worldIn);
 	this.moveHelper = new FlyingMoveHelper(this);
+	this.setSize(1.0f, 1.8f);
     }
 
     @Override

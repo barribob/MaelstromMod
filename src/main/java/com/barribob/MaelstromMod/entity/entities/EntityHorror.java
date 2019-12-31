@@ -26,7 +26,7 @@ public class EntityHorror extends EntityMaelstromMob
     public EntityHorror(World worldIn)
     {
 	super(worldIn);
-	this.setSize(1.2F, 1.2F);
+	this.setSize(1.3F, 1.3F);
 	this.setLevel(1.5f);
     }
     

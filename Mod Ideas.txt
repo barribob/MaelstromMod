@@ -34,7 +34,6 @@ Invasion Events [15]
 
 Fine tune enchantments for loot drops (3)
 Add rendering of fog above cliff as well (2)
-Make Azure stone at bottom not blindingly bright (1)
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]
@@ -84,8 +83,6 @@ Elemental System Overhaul [21]
 
         Change for all items and mobs
 
-Gargoyles (3)
-Align all hitboxes (2)
 
 ||| After adding the crimson dimension
 
@@ -103,6 +100,8 @@ Clean up wiki (update current pages, and make the general guide much more compre
 Put out on curseforge and improve marketing (5)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Completed
+[DONE] Align all hitboxes (2)
+[DONE] Make Azure stone at bottom not blindingly bright (1)
 [DONE] Fix bug where herobrine teleports into pillar (2)
 [DONE] Fix bug where melee weapons only do a small amount of damage sometimes (3)
 [DONE] Golden Dungeon - links between pillars and move lava fountains back so they don't spill (1)
@@ -165,6 +164,7 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Gargoyles (3)
 Key beacons actually should be beacons
 Make the portal telportation less jenky
 Particle overhaul (10 ish)
@@ -184,6 +184,7 @@ Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
 Fix the smearing and unclearness behind the rare and common durabilities
+Fix whitch animation
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 

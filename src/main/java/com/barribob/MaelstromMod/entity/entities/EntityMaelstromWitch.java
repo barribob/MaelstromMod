@@ -43,6 +43,7 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
 	threshold = this.getMaxHealth() * 0.3f;
 	this.healthScaledAttackFactor = 0.2;
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
+	this.setSize(0.9f, 1.8f);
 	if (!worldIn.isRemote)
 	{
 	    attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION));

@@ -39,6 +39,7 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
     public EntityTrader(World worldIn)
     {
 	super(worldIn);
+	this.setSize(0.8f, 1.8f);
     }
     
     @Override
