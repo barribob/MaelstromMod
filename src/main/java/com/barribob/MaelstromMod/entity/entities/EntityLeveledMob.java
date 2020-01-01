@@ -3,7 +3,9 @@ package com.barribob.MaelstromMod.entity.entities;
 import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
+import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
@@ -26,11 +28,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * streamlines some of the attribute setting, namely attack and max health
  *
  */
-public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob
+public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob, IElement
 {
     private float level;
     private float regenStartTimer;
     private static float regenStartTime = 60;
+    private Element element = Element.NONE;
 
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
@@ -45,6 +48,12 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	super(worldIn);
 	this.setLevel(1);
 	this.experienceValue = 5;
+    }
+
+    public EntityLeveledMob(World worldIn, Element element)
+    {
+	this(worldIn);
+	this.element = element;
     }
 
     // Because for some reason the default entity ai for 1.12 sends entities
@@ -219,6 +228,12 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	{
 	    amount = amount * LevelHandler.getArmorFromLevel(level - 1);
 	}
+
+	if (source instanceof IElement)
+	{
+	    amount = ModUtils.calculateElementalDamage(this.element, ((IElement) source).getElement(), amount);
+	}
+
 	return super.attackEntityFrom(source, amount);
     }
 
@@ -227,5 +242,11 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     {
 	super.entityInit();
 	this.dataManager.register(IMMOVABLE, Boolean.valueOf(false));
+    }
+
+    @Override
+    public Element getElement()
+    {
+	return element;
     }
 }

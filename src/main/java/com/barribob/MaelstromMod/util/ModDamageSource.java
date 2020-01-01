@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -51,25 +50,16 @@ public class ModDamageSource
      * The standard player damage, except with armor bypassing maelstrom armor
      * instead
      */
-    public static DamageSource causeMalestromPlayerDamage(EntityPlayer player)
+    public static DamageSource causeElementalPlayerDamage(EntityPlayer player, Element element)
     {
-	return new EntityDamageSource(PLAYER_MAELSTROM, player);
-    }
-
-    /**
-     * The standard arrow damage, except with armor bypassing maelstrom armor
-     * instead
-     */
-    public static DamageSource causeMaelstromArrowDamage(EntityArrow arrow, @Nullable Entity indirectEntityIn)
-    {
-	return (new EntityDamageSourceIndirect(ARROW_MAELSTROM, arrow, indirectEntityIn)).setProjectile();
+	return new EntityElementalDamageSource(PLAYER_MAELSTROM, player, element);
     }
 
     /**
      * The standard thrown damage, except with armor bypassing maelstrom armor
      * instead
      */
-    public static DamageSource causeMalestromThrownDamage(Entity source, @Nullable Entity indirectEntityIn)
+    public static DamageSource causeMaelstromThrownDamage(Entity source, @Nullable Entity indirectEntityIn)
     {
 	return (new EntityDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn)).setProjectile();
     }

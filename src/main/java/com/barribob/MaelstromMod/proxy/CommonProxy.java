@@ -2,9 +2,6 @@ package com.barribob.MaelstromMod.proxy;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
-import com.barribob.MaelstromMod.invasion.IInvasion;
-import com.barribob.MaelstromMod.invasion.Invasion;
-import com.barribob.MaelstromMod.invasion.InvasionStorage;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.Mana;
 import com.barribob.MaelstromMod.mana.ManaStorage;
@@ -12,6 +9,7 @@ import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.packets.MessageLeap;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.packets.MessageManaUnlock;
+import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -49,8 +47,10 @@ public class CommonProxy
 	Main.network.registerMessage(MessageLeap.MessageHandler.class, MessageLeap.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageManaUnlock.MessageHandler.class, MessageManaUnlock.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageMonolithLazer.Handler.class, MessageMonolithLazer.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageModParticles.MessageHandler.class, MessageModParticles.class, packetId++, Side.CLIENT);
 
 	CapabilityManager.INSTANCE.register(IMana.class, new ManaStorage(), Mana.class);
-	CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(), Invasion.class);
+	// CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(),
+	// Invasion.class);
     }
 }

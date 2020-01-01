@@ -1,6 +1,9 @@
 package com.barribob.MaelstromMod.player;
 
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -123,7 +126,18 @@ public class PlayerMeleeAttack
 		    double mx = targetEntity.motionX;
 		    double my = targetEntity.motionY;
 		    double mz = targetEntity.motionZ;
-		    boolean attackSuccessful = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage); // Actually attacks the entity
+
+		    boolean attackSuccessful;
+		    // If this is an elemental sword, then apply elemental damage
+		    if (player.getHeldItemMainhand().getItem() instanceof IElement)
+		    {
+			Element element = ((IElement) player.getHeldItemMainhand().getItem()).getElement();
+			attackSuccessful = targetEntity.attackEntityFrom(ModDamageSource.causeElementalPlayerDamage(player, element), damage);
+		    }
+		    else
+		    {
+			attackSuccessful = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage);
+		    }
 
 		    if (attackSuccessful)
 		    {
@@ -150,7 +164,7 @@ public class PlayerMeleeAttack
 			Item item = player.getHeldItemMainhand().getItem();
 			if (item instanceof ISweepAttackOverride && sweepAttack && targetEntity instanceof EntityLivingBase)
 			{
-			    ((ISweepAttackOverride)item).doSweepAttack(player, (EntityLivingBase) targetEntity);
+			    ((ISweepAttackOverride) item).doSweepAttack(player, (EntityLivingBase) targetEntity);
 			}
 
 			if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged)

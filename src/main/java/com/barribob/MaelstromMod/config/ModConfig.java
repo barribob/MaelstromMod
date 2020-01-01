@@ -73,6 +73,11 @@ public class ModConfig
 	@Config.Comment("Scales the base damage of mobs in this mod.")
 	public float mob_damage;
 
+	@Config.LangKey(config + "elemental_factor")
+	@Config.RangeDouble(min = 1.0, max = 3)
+	@Config.Comment("Represents how important using the correct color (or element) is")
+	public float elemental_factor = 1.5f;
+
 	public BalanceCat(float progression_scale, float mob_damage)
 	{
 	    this.progression_scale = progression_scale;
@@ -103,6 +108,7 @@ public class ModConfig
 	public boolean spawn_island = true;
 
 	@Config.LangKey(config + "invasion_time")
+	@Config.RangeDouble(min = 1200, max = 20 * 60 * 1000)
 	public int invasionTime = 20 * 60 * 100; // Default 100 minutes before invasion
     }
 

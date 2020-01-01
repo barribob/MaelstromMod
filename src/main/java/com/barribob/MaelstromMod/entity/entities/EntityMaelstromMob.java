@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
@@ -47,6 +48,11 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     {
 	super(worldIn);
 	this.experienceValue = 7;
+    }
+
+    public EntityMaelstromMob(World worldIn, Element element)
+    {
+	super(worldIn, element);
     }
 
     @Override

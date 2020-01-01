@@ -10,11 +10,15 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
+import com.barribob.MaelstromMod.packets.MessageModParticles;
+import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Multimap;
 
@@ -22,10 +26,13 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -43,6 +50,10 @@ import net.minecraft.world.storage.MapStorage;
 
 public final class ModUtils
 {
+    public static char AZURE_SYMBOL = '\u03A6';
+    public static char GOLDEN_SYMBOL = '\u03A9';
+    public static char CRIMSON_SYMBOL = '\u03A3';
+
     public static byte PARTICLE_BYTE = 12;
     public static byte SECOND_PARTICLE_BYTE = 14;
     public static byte THIRD_PARTICLE_BYTE = 15;
@@ -447,5 +458,47 @@ public final class ModUtils
 	    storage.setData(InvasionWorldSaveData.DATA_NAME, instance);
 	}
 	return instance;
+    }
+
+    public static float calculateElementalDamage(Element mobElement, Element damageElement, float amount)
+    {
+	if (mobElement.matchesElement(damageElement))
+	{
+	    return amount * 1.5f;
+	}
+	return amount;
+    }
+
+    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity)
+    {
+	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
+	float maxDistanceSq = 9.0f;
+
+	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(1.0, 0.25D, 1.0)))
+	{
+	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
+	    {
+		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F), (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+		entitylivingbase.attackEntityFrom(ModDamageSource.causeElementalPlayerDamage(player, element), sweepDamage);
+		perEntity.accept(entitylivingbase);
+	    }
+	}
+
+	player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 0.9F);
+
+	// Spawn colored sweep particles
+	if (!player.world.isRemote)
+	{
+	    double d0 = (-MathHelper.sin(player.rotationYaw * 0.017453292F));
+	    double d1 = MathHelper.cos(player.rotationYaw * 0.017453292F);
+	    Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, (float) (player.posX + d0), (float) (player.posY + player.height * 0.5D),
+		    (float) (player.posZ + d1), (float) d0, 0.0f, (float) d1, (float) element.sweepColor.x, (float) element.sweepColor.y, (float) element.sweepColor.z),
+		    (EntityPlayerMP) player);
+	}
+
+	Entity particle = new ParticleSpawnerSwordSwing(player.world);
+	particle.copyLocationAndAnglesFrom(target);
+	player.world.spawnEntity(particle);
     }
 }

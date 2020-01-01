@@ -78,7 +78,7 @@ public class ProjectileSkullAttack extends Projectile
 		    int burnTime = 5;
 		    ((EntityLivingBase) entity).setFire(burnTime);
 
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), this.getDamage());
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromThrownDamage(this, this.shootingEntity), this.getDamage());
 		    ((EntityLivingBase) entity).addVelocity(0, 0.1D, 0);
 		}
 	    }

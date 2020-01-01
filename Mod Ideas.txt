@@ -32,8 +32,6 @@ Invasion Events [15]
     [DONE] Figure out what happens when in a different dimension
     [DONE]  Wrap the event in a system that spawns into world once
 
-Add rendering of fog above cliff as well (2)
-
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]
     Make most weapons and armor elemental [6]
@@ -78,7 +76,7 @@ Elemental System Overhaul [21]
 
         Redo models of maelstrom, allowing for customization of color
 
-        Add tooltips
+        Add tooltips and indicators above mobs
 
         Change for all items and mobs
 
@@ -98,6 +96,7 @@ Clean up wiki (update current pages, and make the general guide much more compre
 Put out on curseforge and improve marketing (5)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Completed
+[DONE] Add rendering of fog above cliff as well (2)
 [DONE] Improve impact logic (2)
 [DONE] Fine tune enchantments for loot drops (3)
 [DONE] Align all hitboxes (2)

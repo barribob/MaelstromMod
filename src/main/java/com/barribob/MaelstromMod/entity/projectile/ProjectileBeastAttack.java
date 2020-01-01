@@ -63,7 +63,7 @@ public class ProjectileBeastAttack extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity));
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMaelstromThrownDamage(this, this.shootingEntity));
 	super.onHit(result);
     }
 }
