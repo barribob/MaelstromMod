@@ -49,6 +49,7 @@ import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -177,7 +178,7 @@ public class ModItems
 	{
 	    return new ProjectileAzureBullet(world, player, damage, stack);
 	}
-    });
+    }).setElement(Element.AZURE);
     public static final Item AMMO_CASE = new ItemAmmoCase("ammo_case", 1);
     public static final Item CHASMIUM_AMMO_CASE = new ItemAmmoCase("chasmium_ammo_case", 1.5f);
     public static final Item BLACK_GOLD_AMMO_CASE = new ItemAmmoCase("black_gold_ammo_case", 2.5f);

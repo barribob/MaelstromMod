@@ -32,6 +32,12 @@ Invasion Events [15]
     [DONE] Figure out what happens when in a different dimension
     [DONE]  Wrap the event in a system that spawns into world once
 
+Make the portal telportation less jenky
+Particle overhaul (10 ish)
+    Make Herobrine's particles something other than black(1)
+Fix the smearing and unclearness behind the rare and common durabilities
+Fix witch animation
+
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]
     Make most weapons and armor elemental [6]
@@ -165,12 +171,8 @@ Put out on curseforge and improve marketing (5)
 
 Gargoyles (3)
 Key beacons actually should be beacons
-Make the portal telportation less jenky
-Particle overhaul (10 ish)
-    Make Herobrine's particles something other than black(1)
 Maelstrom pearls (1)
 Golden Ruins spawn more consistently (2)
-More nexus trades (5)
 Fireflies
 Put actual illagers in the fortress
 Translations for some item descriptions
@@ -182,8 +184,6 @@ Spawners with different spawn ranges
 Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
-Fix the smearing and unclearness behind the rare and common durabilities
-Fix whitch animation
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 

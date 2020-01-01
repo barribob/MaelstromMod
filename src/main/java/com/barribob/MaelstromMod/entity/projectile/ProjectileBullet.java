@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +17,11 @@ import net.minecraft.world.World;
 public class ProjectileBullet extends ProjectileGun
 {
     private static final int PARTICLE_AMOUNT = 3;
+
+    public ProjectileBullet(World worldIn, EntityLivingBase throwerIn, float damage, ItemStack stack, Element element)
+    {
+	super(worldIn, throwerIn, damage, stack, element);
+    }
 
     public ProjectileBullet(World worldIn, EntityLivingBase throwerIn, float damage, ItemStack stack)
     {

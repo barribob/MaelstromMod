@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
 
 /**
  * 
@@ -38,30 +37,24 @@ public class ModDamageSource
 		|| source.damageType == EXPLOSION_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM_ENTITY || source.damageType == MAELSTROM;
     }
 
-    /**
-     * The standard mob damage, except with armor bypassing maelstrom armor instead
-     */
     public static DamageSource causeMaelstromMeleeDamage(EntityLivingBase mob)
     {
 	return new EntityDamageSource(MOB_MAELSTROM, mob);
     }
 
-    /**
-     * The standard player damage, except with armor bypassing maelstrom armor
-     * instead
-     */
     public static DamageSource causeElementalPlayerDamage(EntityPlayer player, Element element)
     {
 	return new EntityElementalDamageSource(PLAYER_MAELSTROM, player, element);
     }
 
-    /**
-     * The standard thrown damage, except with armor bypassing maelstrom armor
-     * instead
-     */
     public static DamageSource causeMaelstromThrownDamage(Entity source, @Nullable Entity indirectEntityIn)
     {
-	return (new EntityDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn)).setProjectile();
+	return causeMaelstromThrownDamage(source, indirectEntityIn, Element.NONE);
+    }
+
+    public static DamageSource causeMaelstromThrownDamage(Entity source, @Nullable Entity indirectEntityIn, Element element)
+    {
+	return (new EntityElementalDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn, element)).setProjectile();
     }
 
     /**

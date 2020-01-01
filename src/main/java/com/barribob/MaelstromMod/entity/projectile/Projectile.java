@@ -1,5 +1,8 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -16,13 +19,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * This is intended for offensive projectiles, as there is damage included
  *
  */
-public class Projectile extends EntityModThrowable
+public class Projectile extends EntityModThrowable implements IElement
 {
     private float travelRange;
     private final Vec3d startPos;
     private static final byte IMPACT_PARTICLE_BYTE = 3;
     private static final byte PARTICLE_BYTE = 4;
     private float damage = 0;
+    private Element element = Element.NONE;
+
+    public Projectile(World worldIn, EntityLivingBase throwerIn, float damage, Element element)
+    {
+	this(worldIn, throwerIn, damage);
+	this.element = element;
+    }
 
     public Projectile(World worldIn, EntityLivingBase throwerIn, float damage)
     {
@@ -104,6 +114,7 @@ public class Projectile extends EntityModThrowable
      * Handler for {@link World#setEntityState} Connected through setEntityState to
      * spawn particles
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -131,5 +142,17 @@ public class Projectile extends EntityModThrowable
      */
     protected void spawnImpactParticles()
     {
+    }
+
+    @Override
+    public Element getElement()
+    {
+	return element;
+    }
+
+    public Projectile setElement(Element element)
+    {
+	this.element = element;
+	return this;
     }
 }

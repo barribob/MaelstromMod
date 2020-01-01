@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.projectile;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.init.ModEnchantments;
+import com.barribob.MaelstromMod.util.Element;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -25,6 +26,12 @@ public class ProjectileGun extends Projectile
     private int criticalHit;
     private boolean isCritical;
     private static final byte CRITICAL_BYTE = 5;
+
+    public ProjectileGun(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack, Element element)
+    {
+	this(worldIn, throwerIn, baseDamage, stack);
+	this.setElement(element);
+    }
 
     public ProjectileGun(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)
     {

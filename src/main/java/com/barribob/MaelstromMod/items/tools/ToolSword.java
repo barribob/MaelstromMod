@@ -5,7 +5,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.Main;
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ILeveledItem;
@@ -27,7 +26,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverride, ILeveledItem, IElement
@@ -106,9 +104,7 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
 	tooltip.add(ModUtils.getDisplayLevel(level));
 	if (!element.equals(element.NONE))
 	{
-	    tooltip.add(ModUtils.translateDesc("elemental_sword_desc")
-		    .replaceFirst("<multiplier>", "x" + ModUtils.df.format(ModConfig.balance.elemental_factor))
-		    .replaceFirst("<element>", element.textColor + element.symbol + TextFormatting.GRAY));
+	    tooltip.add(ModUtils.getElementalTooltip(element));
 	}
 	information.accept(tooltip);
     }

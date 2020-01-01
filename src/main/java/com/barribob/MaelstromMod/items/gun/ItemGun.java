@@ -9,6 +9,8 @@ import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.StandardBullet;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
@@ -19,6 +21,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -37,7 +40,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * calls shoot() when the gun sucessfully shoots
  *
  */
-public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadable
+public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadable, IElement
 {
     private final int maxCooldown;
     private static final int SMOKE_PARTICLES = 4;
@@ -46,6 +49,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
     protected BulletFactory factory;
     private Consumer<List<String>> information = (info) -> {
     };
+    private Element element = Element.NONE;
 
     public ItemGun(String name, int cooldown, float damage, float useTime, float level, CreativeTabs tab)
     {
@@ -56,6 +60,12 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	this.setMaxDamage((int) (useTime / cooldown));
 	this.damage = damage;
 	this.factory = new StandardBullet();
+    }
+
+    public ItemGun(String name, int cooldown, float damage, float useTime, float level, CreativeTabs tab, Element element)
+    {
+	this(name, cooldown, damage, useTime, level, tab);
+	this.element = element;
     }
 
     public ItemGun setBullet(BulletFactory factory)
@@ -264,6 +274,10 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 
 	tooltip.add(ModUtils.translateDesc("gun_ammo") + ": " + TextFormatting.DARK_PURPLE + ModUtils.getGunAmmoUse(this.level));
 	tooltip.add(ModUtils.getCooldownTooltip(this.getEnchantedCooldown(stack)));
+	if (!element.equals(element.NONE))
+	{
+	    tooltip.add(ModUtils.getElementalTooltip(element));
+	}
 	information.accept(tooltip);
     }
 
@@ -296,6 +310,18 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
     public float getLevel()
     {
 	return this.level;
+    }
+
+    @Override
+    public Element getElement()
+    {
+	return element;
+    }
+
+    public Item setElement(Element element)
+    {
+	this.element = element;
+	return this;
     }
 
     protected abstract void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack);

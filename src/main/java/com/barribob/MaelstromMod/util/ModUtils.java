@@ -91,6 +91,13 @@ public final class ModUtils
 	return TextFormatting.GRAY + ModUtils.translateDesc("level") + ": " + TextFormatting.DARK_PURPLE + Math.round(level * 2 - 1);
     }
 
+    public static String getElementalTooltip(Element element)
+    {
+	return ModUtils.translateDesc("elemental_damage_desc")
+		.replaceFirst("<multiplier>", "x" + ModUtils.df.format(ModConfig.balance.elemental_factor))
+		.replaceFirst("<element>", element.textColor + element.symbol + TextFormatting.GRAY);
+    }
+
     public static double getSwordEnchantmentDamage(ItemStack stack)
     {
 	int power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.sharpness_2, stack);
