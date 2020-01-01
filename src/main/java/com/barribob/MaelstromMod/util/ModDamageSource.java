@@ -42,6 +42,11 @@ public class ModDamageSource
 	return new EntityDamageSource(MOB_MAELSTROM, mob);
     }
 
+    public static DamageSource causeElementalMeleeDamage(EntityLivingBase mob, Element element)
+    {
+	return new EntityElementalDamageSource(MOB_MAELSTROM, mob, element);
+    }
+
     public static DamageSource causeElementalPlayerDamage(EntityPlayer player, Element element)
     {
 	return new EntityElementalDamageSource(PLAYER_MAELSTROM, player, element);

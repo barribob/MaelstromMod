@@ -409,6 +409,7 @@ mm.desc.nyan_helmet=Full set bonus: Rainbows upon sprinting
 mm.desc.mana_cost=Mana Cost
 mm.desc.catalyst=Use to unlock mana
 mm.desc.elemental_damage_desc=Deals <multiplier> damage to <element> mobs
+mm.desc.elemental_armor_desc=Reduces %s type damage by %s
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

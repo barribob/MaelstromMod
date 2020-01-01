@@ -37,6 +37,7 @@ Particle overhaul (10 ish)
     Make Herobrine's particles something other than black(1)
 Fix the smearing and unclearness behind the rare and common durabilities
 Fix witch animation
+Clean up lang again (1)
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]

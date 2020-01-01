@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ILeveledItem;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
@@ -21,6 +24,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,26 +40,38 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Also allows for textures independent of the armor material
  *
  */
-public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem
+public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, IElement
 {
     private static final UUID[] ARMOR_MODIFIERS = new UUID[] { UUID.fromString("a3578781-e4a8-4d70-9d32-cd952aeae1df"),
 	    UUID.fromString("e2d1f056-f539-48c7-b353-30d7a367ebd0"), UUID.fromString("db13047a-bb47-4621-a025-65ed22ce461a"),
 	    UUID.fromString("abb5df20-361d-420a-8ec7-4bdba33378eb") };
 
     private float maelstrom_armor_factor;
-    private static final int[] armor_fractions = {4, 7, 8, 5};
+    private static final int[] armor_fractions = { 4, 7, 8, 5 };
     private static final int armor_total = 24;
     private String textureName;
+    private Element element = Element.NONE;
 
-    public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndex, EntityEquipmentSlot equipmentSlotIn, float maelstrom_armor, String textureName)
+    public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndex, EntityEquipmentSlot equipmentSlotIn, float maelstromArmor, String textureName)
     {
 	super(materialIn, renderIndex, equipmentSlotIn);
 	setUnlocalizedName(name);
 	setRegistryName(name);
 	setCreativeTab(ModCreativeTabs.ALL);
-	this.maelstrom_armor_factor = maelstrom_armor - 1;
+	this.maelstrom_armor_factor = maelstromArmor - 1;
 	this.textureName = textureName;
 	ModItems.ITEMS.add(this);
+    }
+
+    public float getElementalArmor(Element element)
+    {
+	if (element.matchesElement(getElement()))
+	{
+	    float fullArmorReduction = 1 - (1 / ModConfig.balance.elemental_factor);
+	    float armorFraction = this.armor_fractions[this.armorType.getIndex()] / (float) armor_total;
+	    return fullArmorReduction * armorFraction;
+	}
+	return 0; // Does not add any reduction at all
     }
 
     /**
@@ -64,18 +80,18 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem
     public float getMaelstromArmor(ItemStack stack)
     {
 	float total_armor_reduction = 1 - LevelHandler.getArmorFromLevel(this.maelstrom_armor_factor);
-	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float)armor_total;
+	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float) armor_total;
 	return total_armor_reduction * armor_type_fraction;
     }
-    
+
     /**
-     * Gets the armor bars for display
-     * Directly calculates from the fraction of the maelstrom_armor_factor, which
-     * represents the total armor bars of any given armor set
+     * Gets the armor bars for display Directly calculates from the fraction of the
+     * maelstrom_armor_factor, which represents the total armor bars of any given
+     * armor set
      */
     public float getMaelstromArmorBars()
     {
-	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float)armor_total;
+	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float) armor_total;
 	return this.maelstrom_armor_factor * armor_type_fraction * 2;
     }
 
@@ -96,37 +112,43 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem
 
 	if (equipmentSlot == this.armorType)
 	{
-	    multimap.put("maelstrom_armor", new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstrom Armor modifier", Math.round(this.getMaelstromArmorBars() * 100) / 100.0f, 0));
+	    multimap.put("maelstrom_armor",
+		    new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstrom Armor modifier", Math.round(this.getMaelstromArmorBars() * 100) / 100.0f, 0));
 	}
 
 	return multimap;
     }
-    
+
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	tooltip.add(ModUtils.getDisplayLevel((this.maelstrom_armor_factor + 1)));
+	if (!element.equals(element.NONE))
+	{
+	    tooltip.add(ModUtils.translateDesc("elemental_armor_desc", element.textColor + element.symbol + TextFormatting.GRAY,
+		    ModUtils.ROUND.format(100 * getElementalArmor(element)) + "%"));
+	}
     }
-    
+
     protected ModelBiped getCustomModel()
     {
 	return null;
     }
-    
+
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
     {
-	if(this.getCustomModel() != null)
+	if (this.getCustomModel() != null)
 	{
 	    return Reference.MOD_ID + ":textures/models/armor/" + this.textureName;
 	}
-	
+
 	// Basically the normal string that is generated by minecraft's default armor
 	int layer = slot == EntityEquipmentSlot.LEGS ? 2 : 1;
 	String t = type == null ? "" : String.format("_%s", type);
 	return String.format("%s:textures/models/armor/%s_layer_%d%s.png", Reference.MOD_ID, this.textureName, layer, t);
     }
-    
+
     /*
      * Sets up a custom armor model
      */
@@ -134,30 +156,42 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default)
     {
-        if(this.getCustomModel() != null && !itemStack.isEmpty() && itemStack.getItem() instanceof ModArmorBase)
-        {
-            ModelBiped model = getCustomModel();
-            model.bipedHead.showModel = (armorSlot == EntityEquipmentSlot.HEAD);
-            model.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST);
-            model.bipedLeftArm.showModel = (armorSlot == EntityEquipmentSlot.CHEST);
-            model.bipedRightArm.showModel = (armorSlot == EntityEquipmentSlot.CHEST);
-            model.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS || armorSlot == EntityEquipmentSlot.FEET);
-            model.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS || armorSlot == EntityEquipmentSlot.FEET);
-            
-            model.isChild = _default.isChild;
-            model.isRiding = _default.isRiding;
-            model.isSneak = _default.isSneak;
-            model.rightArmPose = _default.rightArmPose;
-            model.leftArmPose = _default.leftArmPose;
-            
-            return model;
-        }
-        return null;
+	if (this.getCustomModel() != null && !itemStack.isEmpty() && itemStack.getItem() instanceof ModArmorBase)
+	{
+	    ModelBiped model = getCustomModel();
+	    model.bipedHead.showModel = (armorSlot == EntityEquipmentSlot.HEAD);
+	    model.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST);
+	    model.bipedLeftArm.showModel = (armorSlot == EntityEquipmentSlot.CHEST);
+	    model.bipedRightArm.showModel = (armorSlot == EntityEquipmentSlot.CHEST);
+	    model.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS || armorSlot == EntityEquipmentSlot.FEET);
+	    model.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS || armorSlot == EntityEquipmentSlot.FEET);
+
+	    model.isChild = _default.isChild;
+	    model.isRiding = _default.isRiding;
+	    model.isSneak = _default.isSneak;
+	    model.rightArmPose = _default.rightArmPose;
+	    model.leftArmPose = _default.leftArmPose;
+
+	    return model;
+	}
+	return null;
     }
 
     @Override
     public float getLevel()
     {
 	return this.maelstrom_armor_factor + 1;
+    }
+
+    @Override
+    public Element getElement()
+    {
+	return element;
+    }
+
+    public ModArmorBase setElement(Element element)
+    {
+	this.element = element;
+	return this;
     }
 }

@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.util.handlers;
 
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
+import com.barribob.MaelstromMod.util.Element;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -14,6 +15,21 @@ import net.minecraft.item.ItemStack;
  */
 public class ArmorHandler
 {
+    public static float getElementalArmor(Entity entity, Element element)
+    {
+	float totalArmor = 0;
+
+	for (ItemStack equipment : entity.getArmorInventoryList())
+	{
+	    if (equipment.getItem() instanceof ModArmorBase)
+	    {
+		totalArmor += ((ModArmorBase) equipment.getItem()).getElementalArmor(element);
+	    }
+	}
+
+	return totalArmor;
+    }
+
     /**
      * Get the total maelstrom armor of an entity
      */

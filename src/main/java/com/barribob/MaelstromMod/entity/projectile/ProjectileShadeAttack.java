@@ -51,7 +51,7 @@ public class ProjectileShadeAttack extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMaelstromMeleeDamage(this.shootingEntity));
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalMeleeDamage(this.shootingEntity, this.getElement()));
 	super.onHit(result);
 
     }

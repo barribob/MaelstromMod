@@ -16,6 +16,7 @@ import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 import com.barribob.MaelstromMod.util.GenUtils;
+import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
@@ -242,16 +243,25 @@ public class ModEventHandler
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event)
     {
-	// Factor in maelstrom armor into damage source
+	float damage = event.getAmount();
+	// Factor in elemental armor first
+	if(event.getSource() instanceof IElement)
+	{
+	    damage *= 1 - ArmorHandler.getElementalArmor(event.getEntity(), ((IElement) event.getSource()).getElement());
+	}
+
+	// Factor in maelstrom armor second
 	if (!event.getSource().isUnblockable())
 	{
-	    event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromArmor(event.getEntity())));
+	    damage *= 1 - ArmorHandler.getMaelstromArmor(event.getEntity());
 
 	    if (ModDamageSource.isMaelstromDamage(event.getSource()))
 	    {
-		event.setAmount(event.getAmount() * (1 - ArmorHandler.getMaelstromProtection(event.getEntity())));
+		damage *= 1 - ArmorHandler.getMaelstromProtection(event.getEntity());
 	    }
 	}
+
+	event.setAmount(damage);
     }
 
     /**

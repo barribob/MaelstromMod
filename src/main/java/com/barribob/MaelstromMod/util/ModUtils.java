@@ -60,7 +60,8 @@ public final class ModUtils
     public static byte FOURTH_PARTICLE_BYTE = 16;
     public static final String LANG_DESC = Reference.MOD_ID + ".desc.";
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
-    public static final DecimalFormat df = new DecimalFormat("0.00");
+    public static final DecimalFormat DF_00 = new DecimalFormat("0.00");
+    public static final DecimalFormat ROUND = new DecimalFormat("0");
 
     public static Consumer<String> getPlayerAreaMessager(Entity entity)
     {
@@ -76,9 +77,9 @@ public final class ModUtils
 	};
     }
 
-    public static String translateDesc(String key)
+    public static String translateDesc(String key, Object... params)
     {
-	return I18n.format(ModUtils.LANG_DESC + key);
+	return I18n.format(ModUtils.LANG_DESC + key, params);
     }
 
     public static String translateDialog(String key)
@@ -94,7 +95,7 @@ public final class ModUtils
     public static String getElementalTooltip(Element element)
     {
 	return ModUtils.translateDesc("elemental_damage_desc")
-		.replaceFirst("<multiplier>", "x" + ModUtils.df.format(ModConfig.balance.elemental_factor))
+		.replaceFirst("<multiplier>", "x" + ModUtils.DF_00.format(ModConfig.balance.elemental_factor))
 		.replaceFirst("<element>", element.textColor + element.symbol + TextFormatting.GRAY);
     }
 
@@ -432,13 +433,13 @@ public final class ModUtils
 
     public static String getDamageTooltip(float damage)
     {
-	return TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + df.format(damage) + TextFormatting.GRAY + " "
+	return TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + DF_00.format(damage) + TextFormatting.GRAY + " "
 		+ ModUtils.translateDesc("damage");
     }
 
     public static String getCooldownTooltip(float cooldown)
     {
-	return TextFormatting.BLUE + "" + df.format(cooldown * 0.05) + TextFormatting.GRAY + " " + ModUtils.translateDesc("gun_reload_time");
+	return TextFormatting.BLUE + "" + DF_00.format(cooldown * 0.05) + TextFormatting.GRAY + " " + ModUtils.translateDesc("gun_reload_time");
     }
 
     public static float getEnchantedDamage(ItemStack stack, float level, float damage)

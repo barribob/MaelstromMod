@@ -137,10 +137,14 @@ public class ModItems
     public static final Item MAELSTROM_LEGGINGS = new ModArmorBase("maelstrom_leggings", COMMON_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1.5f, "maelstrom");
     public static final Item MAELSTROM_BOOTS = new ModArmorBase("maelstrom_boots", COMMON_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "maelstrom");
 
-    public static final Item ELK_HIDE_HELMET = new ModArmorBase("elk_hide_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1, "elk_hide");
-    public static final Item ELK_HIDE_CHESTPLATE = new ModArmorBase("elk_hide_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1, "elk_hide");
-    public static final Item ELK_HIDE_LEGGINGS = new ModArmorBase("elk_hide_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1, "elk_hide");
-    public static final Item ELK_HIDE_BOOTS = new ModArmorBase("elk_hide_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1, "elk_hide");
+    public static final Item ELK_HIDE_HELMET = new ModArmorBase("elk_hide_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1, "elk_hide")
+	    .setElement(Element.AZURE);
+    public static final Item ELK_HIDE_CHESTPLATE = new ModArmorBase("elk_hide_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1, "elk_hide")
+	    .setElement(Element.AZURE);
+    public static final Item ELK_HIDE_LEGGINGS = new ModArmorBase("elk_hide_leggings", RARE_ARMOR_MATERIAL, 2, EntityEquipmentSlot.LEGS, 1, "elk_hide")
+	    .setElement(Element.AZURE);
+    public static final Item ELK_HIDE_BOOTS = new ModArmorBase("elk_hide_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1, "elk_hide")
+	    .setElement(Element.AZURE);
 
     public static final Item CHASMIUM_HELMET = new ModArmorBase("chasmium_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "chasmium");
     public static final Item CHASMIUM_CHESTPLATE = new ModArmorBase("chasmium_chestplate", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.CHEST, 1.5f, "chasmium");
