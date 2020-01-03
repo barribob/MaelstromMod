@@ -7,7 +7,6 @@ import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
 import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -33,7 +32,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     private float level;
     private float regenStartTimer;
     private static float regenStartTime = 60;
-    private Element element = Element.NONE;
+    protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(EntityLeveledMob.class, DataSerializers.VARINT);
 
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
@@ -48,12 +47,6 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	super(worldIn);
 	this.setLevel(1);
 	this.experienceValue = 5;
-    }
-
-    public EntityLeveledMob(World worldIn, Element element)
-    {
-	this(worldIn);
-	this.element = element;
     }
 
     // Because for some reason the default entity ai for 1.12 sends entities
@@ -183,6 +176,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     {
 	compound.setFloat("level", level);
 	compound.setBoolean("isImmovable", this.isImmovable());
+	compound.setInteger("element", getElement().id);
 	if (initialPosition != null)
 	{
 	    compound.setDouble("initialX", initialPosition.x);
@@ -207,6 +201,10 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	{
 	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
 	}
+	if (compound.hasKey("element"))
+	{
+	    this.setElement(Element.getElementFromId(compound.getInteger("element")));
+	}
 	world.setEntityState(this, animationByte);
 
 	super.readFromNBT(compound);
@@ -218,23 +216,13 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     public float getAttack()
     {
 	return ModUtils.getMobDamage(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue(), healthScaledAttackFactor, this.getMaxHealth(),
-		this.getHealth(), this.getLevel());
+		this.getHealth(), this.getLevel(), this.getElement());
     }
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-	if (!source.isUnblockable())
-	{
-	    amount = amount * LevelHandler.getArmorFromLevel(level - 1);
-	}
-
-	if (source instanceof IElement)
-	{
-	    amount = ModUtils.calculateElementalDamage(this.element, ((IElement) source).getElement(), amount);
-	}
-
-	return super.attackEntityFrom(source, amount);
+	return super.attackEntityFrom(source, ModUtils.getArmoredDamage(source, amount, level, getElement()));
     }
 
     @Override
@@ -242,11 +230,17 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     {
 	super.entityInit();
 	this.dataManager.register(IMMOVABLE, Boolean.valueOf(false));
+	this.dataManager.register(ELEMENT, Integer.valueOf(Element.NONE.id));
     }
 
     @Override
     public Element getElement()
     {
-	return element;
+	return this.dataManager == null ? Element.getElementFromId(Element.NONE.id) : Element.getElementFromId(this.dataManager.get(ELEMENT));
+    }
+
+    public void setElement(Element element)
+    {
+	this.dataManager.set(ELEMENT, element.id);
     }
 }

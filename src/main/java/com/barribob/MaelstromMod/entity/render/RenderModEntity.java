@@ -1,7 +1,8 @@
 package com.barribob.MaelstromMod.entity.render;
 
-import com.barribob.MaelstromMod.entity.model.ModelHorror;
-import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
+import com.barribob.MaelstromMod.util.RenderUtils;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
@@ -44,6 +45,23 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 	    super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	    GlStateManager.disableBlend();
 	    GlStateManager.disableNormalize();
+
+	    if (entity instanceof IElement && !((IElement) entity).getElement().equals(Element.NONE))
+	    {
+		double d0 = entity.getDistanceSq(this.renderManager.renderViewEntity);
+		double maxDistance = 10;
+
+		if (d0 <= maxDistance * maxDistance)
+		{
+		    boolean flag = entity.isSneaking();
+		    float f = this.renderManager.playerViewY;
+		    float f1 = this.renderManager.playerViewX;
+		    boolean flag1 = this.renderManager.options.thirdPersonView == 2;
+		    float f2 = entity.height + 0.5F - (flag ? 0.25F : 0.0F);
+		    int verticalOffset = this.canRenderName(entity) ? -6 : 0;
+		    RenderUtils.drawElement(this.getFontRendererFromRenderManager(), ((IElement) entity).getElement().textColor + ((IElement) entity).getElement().symbol, (float) x, (float) y + f2, (float) z, verticalOffset, f, f1, flag1, flag);
+		}
+	    }
 	}
 	else
 	{

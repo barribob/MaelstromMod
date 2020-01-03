@@ -4,7 +4,6 @@ import com.barribob.MaelstromMod.entity.action.ActionThrust;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationShadeThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
-import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
@@ -29,7 +28,7 @@ public class EntityShade extends EntityMaelstromMob
 
     public EntityShade(World worldIn)
     {
-	super(worldIn, Element.AZURE);
+	super(worldIn);
 	this.setLevel(1.5f);
 	this.setSize(0.9f, 1.8f);
     }

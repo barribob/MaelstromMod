@@ -2,15 +2,19 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
+import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -20,11 +24,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /*
  * Base class that serves as the flying version of EntityLeveledMob
  */
-public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMob, IRangedAttackMob, IAnimatedMob
+public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMob, IRangedAttackMob, IAnimatedMob, IElement
 {
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
     private float level;
+    protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(EntityLeveledMob.class, DataSerializers.VARINT);
 
     public EntityLeveledFlyingMob(World worldIn)
     {
@@ -73,6 +78,10 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
     public void readFromNBT(NBTTagCompound compound)
     {
 	world.setEntityState(this, animationByte);
+	if (compound.hasKey("element"))
+	{
+	    this.setElement(Element.getElementFromId(compound.getInteger("element")));
+	}
 
 	super.readFromNBT(compound);
     }
@@ -80,7 +89,7 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
     public float getAttack()
     {
 	return ModUtils.getMobDamage(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue(), 0.0, this.getMaxHealth(), this.getHealth(),
-		this.level);
+		this.level, this.getElement());
     }
 
     @Override
@@ -92,11 +101,7 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-	if (!source.isUnblockable())
-	{
-	    amount = amount * LevelHandler.getArmorFromLevel(level - 1);
-	}
-	return super.attackEntityFrom(source, amount);
+	return super.attackEntityFrom(source, ModUtils.getArmoredDamage(source, amount, level, getElement()));
     }
 
     @Override
@@ -116,5 +121,30 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
+    }
+
+    @Override
+    protected void entityInit()
+    {
+	super.entityInit();
+	this.dataManager.register(ELEMENT, Integer.valueOf(Element.NONE.id));
+    }
+
+    @Override
+    public Element getElement()
+    {
+	return this.dataManager == null ? Element.getElementFromId(Element.NONE.id) : Element.getElementFromId(this.dataManager.get(ELEMENT));
+    }
+
+    public void setElement(Element element)
+    {
+	this.dataManager.set(ELEMENT, element.id);
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound)
+    {
+	compound.setInteger("element", getElement().id);
+	super.writeEntityToNBT(compound);
     }
 }

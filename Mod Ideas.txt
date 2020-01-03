@@ -38,6 +38,7 @@ Particle overhaul (10 ish)
 Fix the smearing and unclearness behind the rare and common durabilities
 Fix witch animation
 Clean up lang again (1)
+Gargoyles (3)
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]
@@ -170,7 +171,6 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
-Gargoyles (3)
 Key beacons actually should be beacons
 Maelstrom pearls (1)
 Golden Ruins spawn more consistently (2)
@@ -185,6 +185,7 @@ Spawners with different spawn ranges
 Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
+Specifying blend only for entities that need it.
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 

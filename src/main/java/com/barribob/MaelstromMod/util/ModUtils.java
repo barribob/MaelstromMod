@@ -379,11 +379,12 @@ public final class ModUtils
      * @param level
      * @return
      */
-    public static float getMobDamage(double baseAttackDamage, double healthScaledAttackFactor, float maxHealth, float health, float level)
+    public static float getMobDamage(double baseAttackDamage, double healthScaledAttackFactor, float maxHealth, float health, float level, Element element)
     {
 	double leveledAttack = baseAttackDamage * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.mob_damage;
 	double healthScaledAttack = leveledAttack * healthScaledAttackFactor * (((maxHealth * 0.5) - health) / maxHealth);
-	return (float) (healthScaledAttack + leveledAttack);
+	double elementalScale = element != Element.NONE ? ModConfig.balance.elemental_factor : 1;
+	return (float) ((healthScaledAttack + leveledAttack) * elementalScale);
     }
 
     /**
@@ -509,4 +510,27 @@ public final class ModUtils
 	particle.copyLocationAndAnglesFrom(target);
 	player.world.spawnEntity(particle);
     }
+
+    /*
+     * Does the elemental and leveled calculations for damage
+     */
+    public static float getArmoredDamage(DamageSource source, float amount, float level, Element element)
+    {
+	if (!source.isUnblockable())
+	{
+	    if (element != element.NONE)
+	    {
+		amount /= ModConfig.balance.elemental_factor;
+	    }
+	    amount = amount * LevelHandler.getArmorFromLevel(level - 1);
+	}
+
+	if (source instanceof IElement)
+	{
+	    amount = ModUtils.calculateElementalDamage(element, ((IElement) source).getElement(), amount);
+	}
+
+	return amount;
+    }
+
 }
