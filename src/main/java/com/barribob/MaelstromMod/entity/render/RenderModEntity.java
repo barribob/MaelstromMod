@@ -59,7 +59,8 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 		    boolean flag1 = this.renderManager.options.thirdPersonView == 2;
 		    float f2 = entity.height + 0.5F - (flag ? 0.25F : 0.0F);
 		    int verticalOffset = this.canRenderName(entity) ? -6 : 0;
-		    RenderUtils.drawElement(this.getFontRendererFromRenderManager(), ((IElement) entity).getElement().textColor + ((IElement) entity).getElement().symbol, (float) x, (float) y + f2, (float) z, verticalOffset, f, f1, flag1, flag);
+		    RenderUtils.drawElement(this.getFontRendererFromRenderManager(), ((IElement) entity).getElement().textColor + ((IElement) entity).getElement().symbol, (float) x, (float) y + f2, (float) z, verticalOffset, f, f1, flag1, flag,
+			    entity.ticksExisted, partialTicks);
 		}
 	    }
 	}

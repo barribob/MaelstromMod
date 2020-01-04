@@ -231,29 +231,30 @@ public final class ModUtils
 	{
 	    return;
 	}
-	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(new BlockPos(pos), new BlockPos(pos)).grow(radius));
+	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
 	if (list != null)
 	{
 	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
 	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
+	    double radiusSq = Math.pow(radius, 2);
 
 	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
 
 		// Get the hitbox size of the entity because otherwise explosions are less
 		// effective against larger mobs
 		double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
-		double radiusSq = Math.pow(radius, 2);
 
 		// Choose the closest distance from the center or the head to encourage
 		// headshots
-		double distance = Math.min(getCenter(entity.getEntityBoundingBox()).distanceTo(pos),
-			entity.getPositionVector().add(ModUtils.yVec(entity.getEyeHeight())).distanceTo(pos));
+		double distance = Math.min(Math.min(getCenter(entity.getEntityBoundingBox()).distanceTo(pos),
+			entity.getPositionVector().add(ModUtils.yVec(entity.getEyeHeight())).distanceTo(pos)),
+			entity.getPositionVector().distanceTo(pos));
 
 		// Subtracting the average size makes it so that the full damage can be dealt
 		// with a direct hit
 		double adjustedDistance = Math.max(distance - avgEntitySize, 0);
-		double adjustedDistanceSq = (float) Math.pow(adjustedDistance, 2);
+		double adjustedDistanceSq = Math.pow(adjustedDistance, 2);
 		double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - adjustedDistanceSq) / radiusSq)) : 1;
 
 		// Damage decays by the square to make missed impacts less powerful

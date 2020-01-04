@@ -14,4 +14,13 @@ public class ModColors
     public static final Vec3d RED = new Vec3d(0.9, 0.1, 0.1);
     public static final Vec3d GREEN = new Vec3d(0.1, 0.9, 0.1);
     public static final Vec3d BLUE = new Vec3d(0.1, 0.1, 0.8);
+
+    public static int toIntegerColor(int r, int g, int b, int a)
+    {
+	int i = r << 16;
+	i += g << 8;
+	i += b;
+	i += a << 24;
+	return i;
+    }
 }

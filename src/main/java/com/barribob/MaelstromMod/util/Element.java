@@ -33,9 +33,13 @@ public enum Element
 	this.id = id;
     }
 
+    /*
+     * A function to determine where elemental effects should be applied given a
+     * certain element
+     */
     public boolean matchesElement(Element e)
     {
-	return this == e;
+	return this == e && e != NONE && this != NONE;
     }
 
     public static Element getElementFromId(int id)

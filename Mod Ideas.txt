@@ -25,7 +25,7 @@ Crimson Dungeon [85]
             1 for nexus
 
 Invasion Events [15]
-    Overworld maelstrom that appear: 
+    Overworld maelstrom that appear:
         Uncolored Shade (1)
     [DONE] Boss + fortress + builder mob (10)
     [DONE] Figure out system so that multiple do not spawn because of multiple players
@@ -39,6 +39,7 @@ Fix the smearing and unclearness behind the rare and common durabilities
 Fix witch animation
 Clean up lang again (1)
 Gargoyles (3)
+Add crafting recipies for craftable armor
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]

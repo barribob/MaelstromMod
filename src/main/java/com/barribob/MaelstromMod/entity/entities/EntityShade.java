@@ -1,17 +1,25 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.action.ActionThrust;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
-import com.barribob.MaelstromMod.entity.animation.AnimationShadeThrust;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
+import com.barribob.MaelstromMod.entity.animation.AnimationClip;
+import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
+import com.barribob.MaelstromMod.entity.model.ModelMaelstromWarrior;
+import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,14 +37,56 @@ public class EntityShade extends EntityMaelstromMob
     public EntityShade(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(1.5f);
 	this.setSize(0.9f, 1.8f);
     }
 
     @Override
     protected void initAnimation()
     {
-	this.currentAnimation = new AnimationShadeThrust();
+	List<List<AnimationClip<ModelMaelstromWarrior>>> animationSlash = new ArrayList<List<AnimationClip<ModelMaelstromWarrior>>>();
+	List<AnimationClip<ModelMaelstromWarrior>> rightArmXStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
+	List<AnimationClip<ModelMaelstromWarrior>> rightArmZStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
+	List<AnimationClip<ModelMaelstromWarrior>> bodyStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
+	List<AnimationClip<ModelMaelstromWarrior>> swordStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
+
+	BiConsumer<ModelMaelstromWarrior, Float> rightArmX = (model, f) -> model.rightArm.rotateAngleX = -f;
+	BiConsumer<ModelMaelstromWarrior, Float> rightArmZ = (model, f) -> model.rightArm.rotateAngleZ = f;
+	BiConsumer<ModelMaelstromWarrior, Float> bodyX = (model, f) -> model.body.rotateAngleX = f;
+	BiConsumer<ModelMaelstromWarrior, Float> swordX = (model, f) -> model.sword.rotateAngleX = f;
+
+	rightArmXStream.add(new AnimationClip(6, 0, 170, rightArmX));
+	rightArmXStream.add(new AnimationClip(2, 170, 170, rightArmX));
+	rightArmXStream.add(new AnimationClip(5, 170, 60, rightArmX));
+	rightArmXStream.add(new AnimationClip(4, 60, 0, rightArmX));
+
+	rightArmZStream.add(new AnimationClip(6, 0, -20, rightArmZ));
+	rightArmZStream.add(new AnimationClip(7, -20, -40, rightArmZ));
+	rightArmZStream.add(new AnimationClip(4, -40, 0, rightArmZ));
+
+	bodyStream.add(new AnimationClip(6, 0, 0, bodyX));
+	bodyStream.add(new AnimationClip(2, -25, -25, bodyX));
+	bodyStream.add(new AnimationClip(5, -25, 25, bodyX));
+	bodyStream.add(new AnimationClip(4, 25, 0, bodyX));
+
+	swordStream.add(new AnimationClip(8, 0, 0, swordX));
+	swordStream.add(new AnimationClip(5, 0, 90, swordX));
+	swordStream.add(new AnimationClip(4, 90, 0, swordX));
+
+	animationSlash.add(rightArmXStream);
+	animationSlash.add(rightArmZStream);
+	animationSlash.add(bodyStream);
+	animationSlash.add(swordStream);
+
+	this.currentAnimation = new StreamAnimation<ModelMaelstromWarrior>(animationSlash)
+	{
+	    @Override
+	    public void setModelRotations(ModelMaelstromWarrior model, float limbSwing, float limbSwingAmount, float partialTicks)
+	    {
+		model.leftArm.offsetY = (float) Math.cos(Math.toRadians(ticksExisted * 4)) * 0.05f;
+		model.rightArm.offsetY = (float) Math.cos(Math.toRadians(ticksExisted * 4)) * 0.05f;
+		super.setModelRotations(model, limbSwing, limbSwingAmount, partialTicks);
+	    }
+	};
     }
 
     @Override
@@ -45,13 +95,14 @@ public class EntityShade extends EntityMaelstromMob
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5f);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
+	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.26f);
     }
 
     @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 3.0f, 0.5f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 10, 2.5f, 0.5f));
     }
 
     @Override
@@ -107,9 +158,11 @@ public class EntityShade extends EntityMaelstromMob
     {
 	if (!world.isRemote)
 	{
-	    new ActionThrust(() -> 
-	    new ProjectileShadeAttack(world, this, this.getAttack()).setElement(getElement()))
-	    .performAction(this, target);
+	    Vec3d dir = this.getLookVec();
+	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(this.getEyeHeight())).add(dir);
+	    this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+	    ModUtils.handleAreaImpact(0.6f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, 0, false);
+	    // ParticleManager.spawnParticleSphere(world, pos, 0.6f);
 	}
     }
 }
