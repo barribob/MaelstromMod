@@ -9,7 +9,6 @@ import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
@@ -52,7 +51,7 @@ public class WorldGenMaelstromCastle extends WorldGenStructure
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":shade"), 1);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":shade", 1, 1.0f, 16);
 	    }
 
 	}

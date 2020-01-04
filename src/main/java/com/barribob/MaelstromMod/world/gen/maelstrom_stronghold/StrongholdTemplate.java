@@ -2,8 +2,10 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.GenUtils;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
@@ -13,7 +15,6 @@ import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -121,7 +122,16 @@ public class StrongholdTemplate extends ModStructureTemplate
 	    {
 		String[] entities = { "shade", "horror", "floating_skull" };
 		String entityName = ModRandom.choice(entities);
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), ModRandom.range(1, 4));
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
+			new MobSpawnData[] {
+				new MobSpawnData(Reference.MOD_ID + ":shade", new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(Reference.MOD_ID + ":horror", Element.NONE),
+				new MobSpawnData(Reference.MOD_ID + ":floating_skull", Element.NONE),
+			},
+			new int[] { 1, 1, 1 },
+			3,
+			1.5f,
+			16);
 	    }
 	}
 	else if (function.startsWith("boss"))
@@ -131,7 +141,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":maelstrom_beast"), 1);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":maelstrom_beast", 1, 1.5f, 16);
 	    }
 	}
     }

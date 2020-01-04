@@ -6,9 +6,11 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
@@ -29,7 +31,6 @@ import com.barribob.MaelstromMod.world.gen.nexus.WorldGenNexusIslands;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -78,7 +79,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":maelstrom_witch"), 1);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":maelstrom_witch", 1, 2.0f, 16);
 		}
 	    }
 	};
@@ -95,7 +96,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":cliff_golem"), 1);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":cliff_golem", 1, 2.0f, 16);
 		}
 	    }
 	};
@@ -113,7 +114,15 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
 		    String[] enemies = { "golden_mage", "golden_shade" };
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + ModRandom.choice(enemies)), 5);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
+			    new MobSpawnData[] {
+				    new MobSpawnData(Reference.MOD_ID + ":golden_mage", Element.NONE),
+				    new MobSpawnData(Reference.MOD_ID + ":golden_shade", Element.NONE, 1),
+			    },
+			    new int[] { 1, 1 },
+			    3,
+			    2.0f,
+			    16);
 		}
 	    }
 	    if (function.startsWith("chest"))
@@ -150,7 +159,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":iron_shade"), 1);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":iron_shade", 1, 1.5f, 16);
 		}
 	    }
 	};
@@ -169,8 +178,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    String[] enemies = { "golden_pillar" };
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + ModRandom.choice(enemies)), 2);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":golden_pillar", 2, 2.0f, 16);
 		}
 	    }
 	    if (function.startsWith("chest"))
@@ -195,8 +203,16 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    {
 		if (rand.nextInt(3) == 0)
 		{
-		    String[] enemies = { "golden_mage", "golden_shade", "golden_pillar" };
-		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, enemies).generate(worldIn, rand, pos);
+		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+			    new MobSpawnData[] {
+				    new MobSpawnData(Reference.MOD_ID + ":golden_mage", Element.NONE),
+				    new MobSpawnData(Reference.MOD_ID + ":golden_shade", Element.NONE),
+				    new MobSpawnData(Reference.MOD_ID + ":golden_pillar", Element.NONE, 2),
+			    },
+			    new int[] { 1, 1, 1 },
+			    3,
+			    2.0f,
+			    16)).generate(worldIn, rand, pos);
 		}
 		else
 		{
@@ -253,8 +269,16 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    {
 		if (rand.nextInt(3) == 0)
 		{
-		    String[] enemies = { "golden_mage", "golden_shade", "golden_pillar" };
-		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, enemies).generate(worldIn, rand, pos);
+		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+			    new MobSpawnData[] {
+				    new MobSpawnData(Reference.MOD_ID + ":golden_mage", Element.NONE),
+				    new MobSpawnData(Reference.MOD_ID + ":golden_shade", Element.NONE),
+				    new MobSpawnData(Reference.MOD_ID + ":golden_pillar", Element.NONE, 2),
+			    },
+			    new int[] { 1, 1, 1 },
+			    3,
+			    2.0f,
+			    16)).generate(worldIn, rand, pos);
 		}
 		else
 		{

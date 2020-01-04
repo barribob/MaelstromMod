@@ -2,7 +2,10 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
 
 import net.minecraft.block.Block;
@@ -70,7 +73,15 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
     public void decorate(World world, Random rand, BlockPos pos)
     {
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE,
-		new String[] { "golden_shade", "golden_mage" });
+		(tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+			new MobSpawnData[] {
+				new MobSpawnData(Reference.MOD_ID + ":golden_mage", Element.NONE),
+				new MobSpawnData(Reference.MOD_ID + ":golden_shade", Element.NONE)
+			},
+			new int[] { 1, 1 },
+			3,
+			2.0f,
+			16));
 	if (rand.nextInt(5) == 0)
 	{
 	    int x1 = rand.nextInt(8) + 16;

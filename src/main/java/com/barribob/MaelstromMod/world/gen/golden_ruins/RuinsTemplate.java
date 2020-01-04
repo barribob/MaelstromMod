@@ -2,8 +2,10 @@ package com.barribob.MaelstromMod.world.gen.golden_ruins;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -12,7 +14,6 @@ import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -87,10 +88,17 @@ public class RuinsTemplate extends ModStructureTemplate
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
 		    String[] entities = { "golden_mage", "golden_shade", "golden_pillar" };
-		    int[] maxAmounts = { 3, 3, 1 };
 		    int i = ModRandom.range(0, 3);
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entities[i]),
-			    ModRandom.range(1, maxAmounts[i] + 1));
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
+			    new MobSpawnData[] { 
+				    new MobSpawnData(Reference.MOD_ID + ":golden_mage", Element.NONE, 1),
+				    new MobSpawnData(Reference.MOD_ID + ":golden_shade", Element.NONE, 1),
+				    new MobSpawnData(Reference.MOD_ID + ":golden_pillar", Element.NONE, 2)
+				    }, 
+			    new int[] { 1, 1, 1 },
+			    4,
+			    2.5f,
+			    20);
 		}
 	    }
 	    else
@@ -105,7 +113,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":golden_boss"), 1);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":golden_boss", 1, 2.5f, 16);
 	    }
 	}
 	else if (function.startsWith("lava"))

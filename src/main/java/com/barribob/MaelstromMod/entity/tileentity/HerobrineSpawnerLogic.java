@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -28,10 +29,7 @@ public class HerobrineSpawnerLogic extends DisappearingSpawnerLogic
 	    return;
 	}
 
-	for (int i = 0; i < this.spawnCount; i++)
-	{
-	    ItemMonsterPlacer.spawnCreature(world.get(), this.getEntityId(), pos.get().getX() + 0.5, pos.get().getY(), pos.get().getZ() + 0.5);
-	}
+	ItemMonsterPlacer.spawnCreature(world.get(), new ResourceLocation(this.getEntityData().mobId), pos.get().getX() + 0.5, pos.get().getY(), pos.get().getZ() + 0.5);
 
 	this.onSpawn(world.get(), pos.get());
     }

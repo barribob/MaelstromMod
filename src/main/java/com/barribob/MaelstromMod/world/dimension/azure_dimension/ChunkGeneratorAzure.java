@@ -1,6 +1,9 @@
 package com.barribob.MaelstromMod.world.dimension.azure_dimension;
 
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.world.dimension.WorldChunkGenerator;
 import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
 import com.barribob.MaelstromMod.world.gen.maelstrom_fortress.MapGenMaelstromFortress;
@@ -21,7 +24,7 @@ public class ChunkGeneratorAzure extends WorldChunkGenerator
     private static final int MINESHAFT_STRUCTURE_NUMBER = 0;
     private static final int FORTRESS_STRUCTURE_NUMBER = 13;
     private static final int STRONGHOLD_STRUCTURE_NUMBER = 26;
-    private static final MapGenStructure[] structures = { 
+    private static final MapGenStructure[] structures = {
 	    new MapGenMaelstromFortress(STRUCTURE_SPACING_CHUNKS, FORTRESS_STRUCTURE_NUMBER, 2),
 	    new MapGenAzureMineshaft(STRUCTURE_SPACING_CHUNKS, MINESHAFT_STRUCTURE_NUMBER, 1),
 	    new MapGenMaelstromStronghold(STRUCTURE_SPACING_CHUNKS, STRONGHOLD_STRUCTURE_NUMBER, 1) };
@@ -52,7 +55,16 @@ public class ChunkGeneratorAzure extends WorldChunkGenerator
     protected void generateFeatures(BlockPos pos, Biome biome)
     {
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE,
-		new String[] { "shade", "horror", "maelstrom_mage" });
+		(tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+			new MobSpawnData[] {
+				new MobSpawnData(Reference.MOD_ID + ":shade", new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(Reference.MOD_ID + ":horror", Element.NONE),
+				new MobSpawnData(Reference.MOD_ID + ":maelstrom_mage", Element.NONE)
+			},
+			new int[] { 1, 1, 1 },
+			3,
+			1.5f,
+			16));
 	if (rand.nextInt(15) == 0)
 	{
 	    int x1 = rand.nextInt(8) + 16;

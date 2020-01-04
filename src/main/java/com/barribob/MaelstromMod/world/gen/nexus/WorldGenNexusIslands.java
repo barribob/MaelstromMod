@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.world.gen.nexus;
 
 import java.util.Random;
 
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Reference;
@@ -43,16 +42,6 @@ public class WorldGenNexusIslands extends WorldGenStructure
 	    if (tileentity instanceof TileEntityTeleporter)
 	    {
 		((TileEntityTeleporter) tileentity).setRelTeleportPos(relTeleport);
-	    }
-	}
-	else if (function.startsWith("herobrine"))
-	{
-	    worldIn.setBlockState(pos, ModBlocks.NEXUS_HEROBRINE_SPAWNER.getDefaultState(), 2);
-	    TileEntity tileentity = worldIn.getTileEntity(pos);
-
-	    if (tileentity instanceof TileEntityMobSpawner)
-	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":herobrine_controller"), 1);
 	    }
 	}
 	else if (function.startsWith("mage"))

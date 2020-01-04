@@ -40,6 +40,7 @@ Fix witch animation
 Clean up lang again (1)
 Gargoyles (3)
 Add crafting recipies for craftable armor
+Maelstrom cores only drop fragments
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]

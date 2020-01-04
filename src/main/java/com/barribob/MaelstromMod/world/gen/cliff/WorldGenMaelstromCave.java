@@ -5,13 +5,11 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -32,8 +30,7 @@ public class WorldGenMaelstromCave extends WorldGenCliffLedge
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		String[] enemies = { "golden_mage" };
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + ModRandom.choice(enemies)), 2);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":golden_mage", 3, 2.0f, 16);
 	    }
 	}
 	else if (function.startsWith("chest"))

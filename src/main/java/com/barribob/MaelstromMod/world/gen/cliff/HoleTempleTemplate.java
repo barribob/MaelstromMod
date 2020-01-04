@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -42,7 +41,7 @@ public class HoleTempleTemplate extends ModStructureTemplate
 
 	if (tileentity instanceof TileEntityMobSpawner)
 	{
-	    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":beast"), 1);
+	    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":beast", 1, 2.0f, 20);
 	}
     }
 
