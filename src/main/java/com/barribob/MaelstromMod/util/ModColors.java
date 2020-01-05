@@ -14,6 +14,16 @@ public class ModColors
     public static final Vec3d RED = new Vec3d(0.9, 0.1, 0.1);
     public static final Vec3d GREEN = new Vec3d(0.1, 0.9, 0.1);
     public static final Vec3d BLUE = new Vec3d(0.1, 0.1, 0.8);
+    public static final Vec3d MAELSTROM = new Vec3d(0.3, 0.2, 0.4);
+
+    public static Vec3d variateColor(Vec3d baseColor, float variance)
+    {
+	float f = ModRandom.getFloat(variance);
+
+	return new Vec3d((float) Math.min(Math.max(0, baseColor.x + f), 1),
+		(float) Math.min(Math.max(0, baseColor.y + f), 1),
+		(float) Math.min(Math.max(0, baseColor.z + f), 1));
+    }
 
     public static int toIntegerColor(int r, int g, int b, int a)
     {

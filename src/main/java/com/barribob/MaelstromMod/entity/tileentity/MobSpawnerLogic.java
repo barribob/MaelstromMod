@@ -37,7 +37,7 @@ public abstract class MobSpawnerLogic
     protected Supplier<BlockPos> pos;
     protected Block block;
     protected float level;
-    protected MobSpawnData[] mobs = { new MobSpawnData("minecraft:pig", Element.NONE) };
+    protected MobSpawnData[] mobs = { new MobSpawnData("dream_elk", Element.NONE) };
     protected int[] mobWeights = { 1 };
 
     /**
@@ -148,9 +148,16 @@ public abstract class MobSpawnerLogic
 	{
 	    // Gets the entity data?
 	    Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(data.mobId), world.get());
+
+	    if (entity == null)
+	    {
+		System.out.println("Failed to spawn entity with id" + data.mobId);
+		return false;
+	    }
+
 	    entity.setLocationAndAngles(i1, j1, k1, world.get().rand.nextFloat() * 360.0F, 0.0F);
 
-	    if (entity != null && world.get().checkNoEntityCollision(entity.getEntityBoundingBox(), entity)
+	    if (world.get().checkNoEntityCollision(entity.getEntityBoundingBox(), entity)
 		    && world.get().getCollisionBoxes(entity, entity.getEntityBoundingBox()).isEmpty() && !world.get().containsAnyLiquid(entity.getEntityBoundingBox())
 		    && !this.tooManyEntities(world.get(), entity, pos.get()))
 	    {

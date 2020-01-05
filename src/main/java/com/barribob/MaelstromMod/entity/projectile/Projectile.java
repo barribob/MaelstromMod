@@ -4,6 +4,9 @@ import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IElement;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -26,12 +29,12 @@ public class Projectile extends EntityModThrowable implements IElement
     private static final byte IMPACT_PARTICLE_BYTE = 3;
     private static final byte PARTICLE_BYTE = 4;
     private float damage = 0;
-    private Element element = Element.NONE;
+    protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(Projectile.class, DataSerializers.VARINT);
 
     public Projectile(World worldIn, EntityLivingBase throwerIn, float damage, Element element)
     {
 	this(worldIn, throwerIn, damage);
-	this.element = element;
+	this.setElement(element);
     }
 
     public Projectile(World worldIn, EntityLivingBase throwerIn, float damage)
@@ -145,14 +148,21 @@ public class Projectile extends EntityModThrowable implements IElement
     }
 
     @Override
+    protected void entityInit()
+    {
+	super.entityInit();
+	this.dataManager.register(ELEMENT, Integer.valueOf(Element.NONE.id));
+    }
+
+    @Override
     public Element getElement()
     {
-	return element;
+	return this.dataManager == null ? Element.getElementFromId(Element.NONE.id) : Element.getElementFromId(this.dataManager.get(ELEMENT));
     }
 
     public Projectile setElement(Element element)
     {
-	this.element = element;
+	this.dataManager.set(ELEMENT, element.id);
 	return this;
     }
 }

@@ -98,6 +98,14 @@ public class ParticleManager
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
+    public static void spawnColoredExplosion(World worldIn, Vec3d pos, Vec3d baseColor)
+    {
+	Particle particle = new ParticleExplosionLarge.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.05f), 0.0f, ModRandom.getFloat(0.05f));
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
     /**
      * Spawns large smoke particles
      * 
@@ -135,6 +143,16 @@ public class ParticleManager
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
+    public static void spawnColoredSmoke(World worldIn, Random rand, Vec3d pos, Vec3d baseColor)
+    {
+	Particle particle = new ParticleSmokeNormal.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
+
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
+
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
     /**
      * Spawns blackish-purplish flames
      */
@@ -153,10 +171,11 @@ public class ParticleManager
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
-    public static void spawnEffect(World world, Vec3d pos, Vec3d color)
+    public static void spawnEffect(World world, Vec3d pos, Vec3d baseColor)
     {
 	Particle particle = new EffectParticle.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);
-	particle.setRBGColorF((float) color.x, (float) color.y, (float) color.z);
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 

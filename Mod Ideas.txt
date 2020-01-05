@@ -41,6 +41,9 @@ Clean up lang again (1)
 Gargoyles (3)
 Add crafting recipies for craftable armor
 Maelstrom cores only drop fragments
+Make the story make more sense with Herobrine and the dark nexus
+    Unlock herobrine after enough cliff key fragments
+Make all ids not hardcoded
 
 Elemental System Overhaul [21]
     Elemental Maelstrom [10]
@@ -77,18 +80,11 @@ Elemental System Overhaul [21]
                 Also influences enemy health
 
     Plan:
-        Implement damage sources
-        Implement color enum thingy
-        Connect sword damage with damage source
-        Connect entity color with damage source
-
-        Connect color with staffs and guns
-
-        Redo models of maelstrom, allowing for customization of color
-
-        Add tooltips and indicators above mobs
-
-        Change for all items and mobs
+        Golden Shade -> new type of mob
+        Golden Mage -> new type of shade
+        Mage -> new model
+        Framework to easily add textures different elements
+        Loot for elemental mobs
 
 ||| After adding the crimson dimension
 

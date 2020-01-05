@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
@@ -64,7 +65,7 @@ public class ProjectileMaelstromMeteor extends Projectile
 	}
 
 	new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
-		new MobSpawnData(Reference.MOD_ID + ":shade", Element.NONE),
+		new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, Element.NONE),
 		2,
 		1.0f,
 		16))

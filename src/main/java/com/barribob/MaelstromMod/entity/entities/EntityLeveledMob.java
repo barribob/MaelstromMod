@@ -166,9 +166,10 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     /**
      * Sets the level, updates attributes, and set health to the updated max health
      */
-    public void setLevel(float level)
+    public EntityLeveledMob setLevel(float level)
     {
 	this.level = level;
+	return this;
     }
 
     @Override
@@ -239,8 +240,9 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	return this.dataManager == null ? Element.getElementFromId(Element.NONE.id) : Element.getElementFromId(this.dataManager.get(ELEMENT));
     }
 
-    public void setElement(Element element)
+    public EntityLeveledMob setElement(Element element)
     {
 	this.dataManager.set(ELEMENT, element.id);
+	return this;
     }
 }

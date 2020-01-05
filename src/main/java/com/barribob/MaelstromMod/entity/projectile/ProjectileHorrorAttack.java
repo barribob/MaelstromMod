@@ -42,7 +42,7 @@ public class ProjectileHorrorAttack extends Projectile
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX, this.posY, this.posZ), true);
+	    ParticleManager.spawnColoredSmoke(world, rand, getPositionVector(), getElement().particleColor);
 	}
     }
     
@@ -52,7 +52,7 @@ public class ProjectileHorrorAttack extends Projectile
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{
 	    Vec3d vec1 = ModRandom.randVec().scale(EXPOSION_AREA_FACTOR * 0.25).add(getPositionVector()); 
-	    ParticleManager.spawnMaelstromExplosion(world, rand, vec1);
+	    ParticleManager.spawnColoredExplosion(world, vec1, getElement().particleColor);
 	}
     }
 

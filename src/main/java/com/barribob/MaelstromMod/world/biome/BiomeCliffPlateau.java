@@ -2,6 +2,8 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
@@ -75,8 +77,8 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE,
 		(tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
-				new MobSpawnData(Reference.MOD_ID + ":golden_mage", Element.NONE),
-				new MobSpawnData(Reference.MOD_ID + ":golden_shade", Element.NONE)
+				new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
 			},
 			new int[] { 1, 1 },
 			3,

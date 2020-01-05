@@ -71,4 +71,10 @@ public class ModDamageSource
 	return entityLivingBaseIn != null ? (new EntityDamageSource(EXPLOSION_MAELSTROM_ENTITY, entityLivingBaseIn)).setExplosion()
 		: (new DamageSource(EXPLOSION_MAELSTROM)).setExplosion();
     }
+
+    public static DamageSource causeElementalExplosionDamage(@Nullable EntityLivingBase entityLivingBaseIn, Element element)
+    {
+	return entityLivingBaseIn != null ? (new EntityElementalDamageSource(EXPLOSION_MAELSTROM_ENTITY, entityLivingBaseIn, element)).setExplosion()
+		: (new DamageSource(EXPLOSION_MAELSTROM)).setExplosion();
+    }
 }

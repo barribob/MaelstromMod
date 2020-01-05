@@ -8,9 +8,12 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromWarrior;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -31,6 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class EntityShade extends EntityMaelstromMob
 {
+    public static final String ID = "shade";
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 1.0f;
 
@@ -48,11 +52,13 @@ public class EntityShade extends EntityMaelstromMob
 	List<AnimationClip<ModelMaelstromWarrior>> rightArmZStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
 	List<AnimationClip<ModelMaelstromWarrior>> bodyStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
 	List<AnimationClip<ModelMaelstromWarrior>> swordStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
+	List<AnimationClip<ModelMaelstromWarrior>> leftArmXStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
 
 	BiConsumer<ModelMaelstromWarrior, Float> rightArmX = (model, f) -> model.rightArm.rotateAngleX = -f;
 	BiConsumer<ModelMaelstromWarrior, Float> rightArmZ = (model, f) -> model.rightArm.rotateAngleZ = f;
 	BiConsumer<ModelMaelstromWarrior, Float> bodyX = (model, f) -> model.body.rotateAngleX = f;
 	BiConsumer<ModelMaelstromWarrior, Float> swordX = (model, f) -> model.sword.rotateAngleX = f;
+	BiConsumer<ModelMaelstromWarrior, Float> leftArmX = (model, f) -> model.leftArm.rotateAngleX = f;
 
 	rightArmXStream.add(new AnimationClip(6, 0, 170, rightArmX));
 	rightArmXStream.add(new AnimationClip(2, 170, 170, rightArmX));
@@ -72,10 +78,16 @@ public class EntityShade extends EntityMaelstromMob
 	swordStream.add(new AnimationClip(5, 0, 90, swordX));
 	swordStream.add(new AnimationClip(4, 90, 0, swordX));
 
+	leftArmXStream.add(new AnimationClip(6, 0, -40, leftArmX));
+	leftArmXStream.add(new AnimationClip(2, -40, -40, leftArmX));
+	leftArmXStream.add(new AnimationClip(5, -40, 40, leftArmX));
+	leftArmXStream.add(new AnimationClip(4, 40, 0, leftArmX));
+
 	animationSlash.add(rightArmXStream);
 	animationSlash.add(rightArmZStream);
 	animationSlash.add(bodyStream);
 	animationSlash.add(swordStream);
+	animationSlash.add(leftArmXStream);
 
 	this.currentAnimation = new StreamAnimation<ModelMaelstromWarrior>(animationSlash)
 	{
@@ -140,12 +152,32 @@ public class EntityShade extends EntityMaelstromMob
     };
 
     @Override
+    public void onEntityUpdate()
+    {
+	super.onEntityUpdate();
+
+	if (rand.nextInt(20) == 0)
+	{
+	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+	}
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
 	if (id == 4)
 	{
 	    getCurrentAnimation().startAnimation();
+	}
+	else if (id == ModUtils.PARTICLE_BYTE)
+	{
+	    if (this.getElement().equals(Element.NONE))
+	    {
+		ParticleManager.spawnMaelstromPotionParticle(world, rand, this.getPositionVector().add(ModRandom.randVec()).add(ModUtils.yVec(1)), false);
+	    }
+
+	    ParticleManager.spawnEffect(world, this.getPositionVector().add(ModRandom.randVec()).add(ModUtils.yVec(1)), getElement().particleColor);
 	}
 	else
 	{
@@ -162,7 +194,6 @@ public class EntityShade extends EntityMaelstromMob
 	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(this.getEyeHeight())).add(dir);
 	    this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 	    ModUtils.handleAreaImpact(0.6f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, 0, false);
-	    // ParticleManager.spawnParticleSphere(world, pos, 0.6f);
 	}
     }
 }

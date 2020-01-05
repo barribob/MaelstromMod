@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.world.dimension.azure_dimension;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
@@ -57,9 +59,9 @@ public class ChunkGeneratorAzure extends WorldChunkGenerator
 	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE,
 		(tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
-				new MobSpawnData(Reference.MOD_ID + ":shade", new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
 				new MobSpawnData(Reference.MOD_ID + ":horror", Element.NONE),
-				new MobSpawnData(Reference.MOD_ID + ":maelstrom_mage", Element.NONE)
+				new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1)
 			},
 			new int[] { 1, 1, 1 },
 			3,

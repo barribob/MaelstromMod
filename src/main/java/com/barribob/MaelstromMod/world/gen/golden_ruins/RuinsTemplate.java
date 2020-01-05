@@ -2,6 +2,9 @@ package com.barribob.MaelstromMod.world.gen.golden_ruins;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
@@ -87,13 +90,11 @@ public class RuinsTemplate extends ModStructureTemplate
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    String[] entities = { "golden_mage", "golden_shade", "golden_pillar" };
-		    int i = ModRandom.range(0, 3);
 		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] { 
-				    new MobSpawnData(Reference.MOD_ID + ":golden_mage", Element.NONE, 1),
-				    new MobSpawnData(Reference.MOD_ID + ":golden_shade", Element.NONE, 1),
-				    new MobSpawnData(Reference.MOD_ID + ":golden_pillar", Element.NONE, 2)
+				    new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
+				    new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
+				    new MobSpawnData(Reference.MOD_ID + ":" + EntityGoldenPillar.ID, Element.GOLDEN, 2)
 				    }, 
 			    new int[] { 1, 1, 1 },
 			    4,
@@ -113,7 +114,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":golden_boss", 1, 2.5f, 16);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":golden_boss", Element.GOLDEN), 1, 2.5f, 16);
 	    }
 	}
 	else if (function.startsWith("lava"))

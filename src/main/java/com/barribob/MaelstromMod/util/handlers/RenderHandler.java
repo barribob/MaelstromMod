@@ -10,9 +10,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityCliffGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenBoss;
-import com.barribob.MaelstromMod.entity.entities.EntityGoldenMage;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
-import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
@@ -39,10 +37,11 @@ import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelFloatingSkull;
 import com.barribob.MaelstromMod.entity.model.ModelGoldenBoss;
 import com.barribob.MaelstromMod.entity.model.ModelGoldenPillar;
-import com.barribob.MaelstromMod.entity.model.ModelGoldenShade;
 import com.barribob.MaelstromMod.entity.model.ModelGunTrader;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelIronShade;
+import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
+import com.barribob.MaelstromMod.entity.model.ModelMaelstromWarrior;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromWitch;
 import com.barribob.MaelstromMod.entity.model.ModelMageTrader;
 import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
@@ -57,7 +56,6 @@ import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
 import com.barribob.MaelstromMod.entity.render.RenderHerobrine;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromBeast;
 import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
-import com.barribob.MaelstromMod.entity.render.RenderMaelstromWarrior;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderMonolith;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
@@ -83,33 +81,30 @@ public class RenderHandler
 {
     public static void registerEntityRenderers()
     {
-	registerModEntityRenderer(EntityShade.class, (manager) -> new RenderMaelstromWarrior(manager));
-	registerModEntityRenderer(EntityHorror.class, new ModelHorror(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/horror.png"));
-	registerModEntityRenderer(EntityDreamElk.class, new ModelDreamElk(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/dream_elk.png"));
-	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/beast.png"));
-	registerModEntityRenderer(EntityMaelstromMage.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_shade.png"));
-	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/floating_skull.png"));
+	registerModEntityRenderer(EntityShade.class, new ModelMaelstromWarrior(), "shade_base.png", "shade_azure.png", "shade_golden.png");
+	registerModEntityRenderer(EntityHorror.class, new ModelHorror(), "horror.png");
+	registerModEntityRenderer(EntityDreamElk.class, new ModelDreamElk(), "dream_elk.png");
+	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), "beast.png");
+	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), "maelstrom_mage.png", "maelstrom_mage_azure.png", "maelstrom_mage_golden.png");
+	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), "floating_skull.png");
 	registerModEntityRenderer(Herobrine.class, (manager) -> new RenderHerobrine(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png")));
 	registerModEntityRenderer(EntityHerobrineOne.class, (manager) -> new RenderHerobrine(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shadow_clone.png")));
-	registerModEntityRenderer(NexusGunTrader.class, new ModelGunTrader(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/gun_trader.png"));
-	registerModEntityRenderer(NexusMageTrader.class, new ModelMageTrader(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/mage_trader.png"));
-	registerModEntityRenderer(NexusArmorer.class, new ModelArmorer(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/armorer.png"));
-	registerModEntityRenderer(NexusBladesmith.class, new ModelBladesmith(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/bladesmith.png"));
-	registerModEntityRenderer(NexusSpecialTrader.class, new ModelNexusSaiyan(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/nexus_saiyan.png"));
-	registerModEntityRenderer(EntityGoldenPillar.class, new ModelGoldenPillar(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_pillar.png"));
-	registerModEntityRenderer(EntityGoldenShade.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_shade.png"));
-	registerModEntityRenderer(EntityGoldenMage.class, new ModelGoldenShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_shade.png"));
-	registerModEntityRenderer(EntityGoldenBoss.class, new ModelGoldenBoss(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/golden_boss.png"));
-	registerModEntityRenderer(EntityMaelstromGoldenBoss.class, new ModelGoldenBoss(),
-		new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_golden_boss.png"));
-	registerModEntityRenderer(EntityMaelstromWitch.class, new ModelMaelstromWitch(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_witch.png"));
-	registerModEntityRenderer(EntitySwampCrawler.class, new ModelSwampCrawler(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/swamp_crawler.png"));
-	registerModEntityRenderer(EntityIronShade.class, new ModelIronShade(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/iron_shade.png"));
-	registerModEntityRenderer(EntityCliffFly.class, new ModelCliffFly(), new ResourceLocation(Reference.MOD_ID + ":textures/entity/cliff_fly.png"));
+	registerModEntityRenderer(NexusGunTrader.class, new ModelGunTrader(), "gun_trader.png");
+	registerModEntityRenderer(NexusMageTrader.class, new ModelMageTrader(), "mage_trader.png");
+	registerModEntityRenderer(NexusArmorer.class, new ModelArmorer(), "armorer.png");
+	registerModEntityRenderer(NexusBladesmith.class, new ModelBladesmith(), "bladesmith.png");
+	registerModEntityRenderer(NexusSpecialTrader.class, new ModelNexusSaiyan(), "nexus_saiyan.png");
+	registerModEntityRenderer(EntityGoldenPillar.class, new ModelGoldenPillar(), "golden_pillar.png");
+	registerModEntityRenderer(EntityGoldenBoss.class, new ModelGoldenBoss(), "golden_boss.png");
+	registerModEntityRenderer(EntityMaelstromGoldenBoss.class, new ModelGoldenBoss(), "maelstrom_golden_boss.png");
+	registerModEntityRenderer(EntityMaelstromWitch.class, new ModelMaelstromWitch(), "maelstrom_witch.png");
+	registerModEntityRenderer(EntitySwampCrawler.class, new ModelSwampCrawler(), "swamp_crawler.png");
+	registerModEntityRenderer(EntityIronShade.class, new ModelIronShade(), "iron_shade.png");
+	registerModEntityRenderer(EntityCliffFly.class, new ModelCliffFly(), "cliff_fly.png");
 	registerModEntityRenderer(EntityAzureVillager.class, (manager) -> new RenderAzureVillager(manager));
 	registerModEntityRenderer(EntityMaelstromIllager.class, (manager) -> new RenderMaelstromIllager(manager));
-	registerModEntityRenderer(EntityAzureGolem.class, (manager) -> new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/azure_golem.png")));
-	registerModEntityRenderer(EntityCliffGolem.class, (manager) -> new RenderAzureGolem(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/cliff_golem.png")));
+	registerModEntityRenderer(EntityAzureGolem.class, (manager) -> new RenderAzureGolem(manager, "azure_golem.png"));
+	registerModEntityRenderer(EntityCliffGolem.class, (manager) -> new RenderAzureGolem(manager, "cliff_golem.png"));
 	registerModEntityRenderer(EntityMaelstromBeast.class, (manager) -> new RenderMaelstromBeast(manager));
 	registerModEntityRenderer(EntityMonolith.class, (manager) -> new RenderMonolith(manager));
 	registerModEntityRenderer(EntityWhiteMonolith.class, (manager) -> new RenderWhiteMonolith(manager));
@@ -127,9 +122,9 @@ public class RenderHandler
     /**
      * Registers an entity with a model and sets it up for rendering
      */
-    private static <T extends Entity, U extends ModelBase, V extends RenderModEntity> void registerModEntityRenderer(Class<T> entityClass, U model, ResourceLocation textures)
+    private static <T extends Entity, U extends ModelBase, V extends RenderModEntity> void registerModEntityRenderer(Class<T> entityClass, U model, String... textures)
     {
-	registerModEntityRenderer(entityClass, (manager) -> new RenderModEntity(manager, textures, model));
+	registerModEntityRenderer(entityClass, (manager) -> new RenderModEntity(manager, model, textures));
     }
 
     private static <T extends Entity, U extends ModelBase, V extends RenderModEntity> void registerModEntityRenderer(Class<T> entityClass, Function<RenderManager, Render<? super T>> renderClass)
@@ -143,7 +138,6 @@ public class RenderHandler
 	    }
 	});
     }
-
 
     /**
      * Makes a projectile render with the given item

@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationOctoMissiles;
 import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -48,7 +49,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	if (!worldIn.isRemote)
 	{
-	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(worldIn)));
+	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityShade(world).setElement(Element.GOLDEN).setLevel(getLevel())));
 	    this.attackHandler.setAttack(blackFireball, new ActionFireball());
 	    this.attackHandler.setAttack(runes, new ActionMaelstromRing());
 	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
@@ -59,7 +60,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(this.world)), () -> new AnimationOctoMissiles());
+	this.attackHandler.setAttack(spawnEnemy, Action.NONE, () -> new AnimationOctoMissiles());
 	this.attackHandler.setAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
 	this.attackHandler.setAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
 	this.attackHandler.setAttack(spawnPillar, Action.NONE, EntityGoldenBoss.getSpawnPillarAnimation());

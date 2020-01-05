@@ -20,11 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * 
- * Represent the attibutes and logic of the shade monster
- *
- */
 public class EntityFloatingSkull extends EntityMaelstromMob
 {
     public static final float PROJECTILE_INACCURACY = 0;

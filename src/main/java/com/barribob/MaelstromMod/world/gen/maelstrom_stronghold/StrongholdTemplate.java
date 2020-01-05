@@ -2,6 +2,8 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
@@ -120,11 +122,9 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		String[] entities = { "shade", "horror", "floating_skull" };
-		String entityName = ModRandom.choice(entities);
 		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
-				new MobSpawnData(Reference.MOD_ID + ":shade", new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
 				new MobSpawnData(Reference.MOD_ID + ":horror", Element.NONE),
 				new MobSpawnData(Reference.MOD_ID + ":floating_skull", Element.NONE),
 			},

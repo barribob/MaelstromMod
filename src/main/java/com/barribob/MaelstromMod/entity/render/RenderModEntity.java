@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.render;
 
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IElement;
+import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.RenderUtils;
 
 import net.minecraft.client.model.ModelBase;
@@ -18,18 +19,46 @@ import net.minecraft.util.ResourceLocation;
  */
 public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 {
-    public ResourceLocation TEXTURES;
+    public String[] TEXTURES;
 
-    public <U extends ModelBase> RenderModEntity(RenderManager rendermanagerIn, ResourceLocation textures, U modelClass)
+    public <U extends ModelBase> RenderModEntity(RenderManager rendermanagerIn, String textures, U modelClass)
     {
 	super(rendermanagerIn, modelClass, 0.5f);
+	this.TEXTURES = new String[] { textures };
+    }
+
+    public <U extends ModelBase> RenderModEntity(RenderManager rendermanagerIn, U modelClass, String... textures)
+    {
+	super(rendermanagerIn, modelClass, 0.5f);
+	if (textures.length == 0)
+	{
+	    throw new IllegalArgumentException("Must provide at least one texture to render an entity.");
+	}
 	this.TEXTURES = textures;
     }
 
     @Override
     protected ResourceLocation getEntityTexture(T entity)
     {
-	return TEXTURES;
+	String texture = TEXTURES[0];
+	if (entity instanceof IElement)
+	{
+	    IElement e = (IElement) entity;
+	    if (e.getElement().equals(Element.AZURE) && TEXTURES.length >= 2)
+	    {
+		texture = TEXTURES[1];
+	    }
+	    else if (e.getElement().equals(Element.GOLDEN) && TEXTURES.length >= 3)
+	    {
+		texture = TEXTURES[2];
+	    }
+	    else if (e.getElement().equals(Element.GOLDEN) && TEXTURES.length >= 4)
+	    {
+		texture = TEXTURES[3];
+	    }
+	}
+
+	return new ResourceLocation(Reference.MOD_ID + ":textures/entity/" + texture);
     }
 
     @Override
