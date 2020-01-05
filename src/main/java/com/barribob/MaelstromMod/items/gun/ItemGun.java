@@ -58,7 +58,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	this.maxCooldown = cooldown;
 	this.level = level;
 	this.setMaxDamage((int) (useTime / cooldown));
-	this.damage = damage;
+	this.damage = damage * ModConfig.balance.weapon_damage;
 	this.factory = new StandardBullet();
     }
 

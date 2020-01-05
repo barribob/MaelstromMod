@@ -28,7 +28,7 @@ public class ModConfig
     public static GuiCat gui = new GuiCat(0, 0, 0, 0, true, true);
 
     @Config.LangKey(config + "balancing")
-    public static BalanceCat balance = new BalanceCat(2, 1);
+    public static BalanceCat balance = new BalanceCat(2);
 
     public static class GuiCat
     {
@@ -71,17 +71,33 @@ public class ModConfig
 	@Config.LangKey(config + "mob_damage")
 	@Config.RangeDouble(min = 0.5, max = 3)
 	@Config.Comment("Scales the base damage of mobs in this mod.")
-	public float mob_damage;
+	public float mob_damage = 1.25f;
+
+	@Config.LangKey(config + "mob_armor")
+	@Config.RangeDouble(min = 0.1, max = 1.0)
+	@Config.Comment("Amount of additional damage reduction on mobs.")
+	public float mob_armor = 1.0f;
+
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "weapon_damage")
+	@Config.RangeDouble(min = 1.0, max = 3)
+	@Config.Comment("Base damage multiplier for weapons in this mod.")
+	public float weapon_damage = 1.25f;
+
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "armor_toughness")
+	@Config.RangeDouble(min = 0.5, max = 3)
+	@Config.Comment("Specifies the strength of the mod's base armor material.")
+	public float armor_toughness = 3.0f;
 
 	@Config.LangKey(config + "elemental_factor")
 	@Config.RangeDouble(min = 1.0, max = 3)
 	@Config.Comment("Represents how important using the correct color (or element) is")
 	public float elemental_factor = 1.5f;
 
-	public BalanceCat(float progression_scale, float mob_damage)
+	public BalanceCat(float progression_scale)
 	{
 	    this.progression_scale = progression_scale;
-	    this.mob_damage = mob_damage;
 	}
     }
 
@@ -108,7 +124,7 @@ public class ModConfig
 	public boolean spawn_island = true;
 
 	@Config.LangKey(config + "invasion_time")
-	@Config.RangeDouble(min = 1200, max = 20 * 60 * 1000)
+	@Config.RangeInt(min = 1200, max = 20 * 60 * 1000)
 	public int invasionTime = 20 * 60 * 100; // Default 100 minutes before invasion
     }
 

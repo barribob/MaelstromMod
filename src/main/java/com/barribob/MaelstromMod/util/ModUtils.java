@@ -517,6 +517,8 @@ public final class ModUtils
      */
     public static float getArmoredDamage(DamageSource source, float amount, float level, Element element)
     {
+	amount *= ModConfig.balance.mob_armor;
+
 	if (!source.isUnblockable())
 	{
 	    if (element != element.NONE)
