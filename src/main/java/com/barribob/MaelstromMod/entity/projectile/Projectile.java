@@ -31,18 +31,16 @@ public class Projectile extends EntityModThrowable implements IElement
     private float damage = 0;
     protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(Projectile.class, DataSerializers.VARINT);
 
-    public Projectile(World worldIn, EntityLivingBase throwerIn, float damage, Element element)
-    {
-	this(worldIn, throwerIn, damage);
-	this.setElement(element);
-    }
-
     public Projectile(World worldIn, EntityLivingBase throwerIn, float damage)
     {
 	super(worldIn, throwerIn);
 	this.travelRange = 20.0f;
 	this.setDamage(damage);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
+	if (throwerIn instanceof IElement)
+	{
+	    this.setElement(((IElement) throwerIn).getElement());
+	}
     }
 
     public Projectile(World worldIn)

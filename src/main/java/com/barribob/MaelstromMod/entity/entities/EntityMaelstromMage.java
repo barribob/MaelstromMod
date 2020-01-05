@@ -161,7 +161,6 @@ public class EntityMaelstromMage extends EntityMaelstromMob
 	if (!world.isRemote)
 	{
 	    ProjectileHorrorAttack projectile = new ProjectileHorrorAttack(this.world, this, this.getAttack());
-	    projectile.setElement(getElement());
 	    projectile.posY = this.posY + this.getEyeHeight() + 1.0f; // Raise pos y to summon the projectile above the head
 	    double d0 = target.posY + target.getEyeHeight() - 0.9f;
 	    double d1 = target.posX - this.posX;

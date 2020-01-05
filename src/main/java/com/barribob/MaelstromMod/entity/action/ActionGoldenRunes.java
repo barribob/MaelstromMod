@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.entity.action;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.projectile.EntityGoldenRune;
-import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -32,7 +31,6 @@ public class ActionGoldenRunes extends Action
 	projectile.setPosition(target.posX + offset.x, target.posY, target.posZ + offset.z);
 	projectile.shoot(zeroish, zeroish, zeroish, zeroish, zeroish);
 	projectile.setTravelRange(25);
-	projectile.setElement(Element.GOLDEN);
 	actor.world.spawnEntity(projectile);
     }
 }
