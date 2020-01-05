@@ -74,7 +74,7 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
     @Override
     public void decorate(World world, Random rand, BlockPos pos)
     {
-	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE,
+	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE,
 		(tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
 				new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),

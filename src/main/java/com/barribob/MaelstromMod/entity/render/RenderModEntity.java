@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.render;
 
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.Reference;
@@ -74,6 +75,11 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 	    super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	    GlStateManager.disableBlend();
 	    GlStateManager.disableNormalize();
+	    
+	    if(entity instanceof EntityLeveledMob)
+	    {
+		this.renderLivingLabel(entity, "Level: " + ((EntityLeveledMob) entity).getLevel(), x, y, z, 10);
+	    }
 
 	    if (entity instanceof IElement && !((IElement) entity).getElement().equals(Element.NONE))
 	    {

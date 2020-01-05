@@ -10,6 +10,8 @@ import com.barribob.MaelstromMod.config.ModConfig;
  */
 public class LevelHandler
 {   
+    public static final float INVASION_LEVEL = 0.0f;
+
     /**
      * Calculates the armor by using the progression level as a base and the level
      * as the negative exponent.
@@ -40,6 +42,6 @@ public class LevelHandler
      */
     public static float getMultiplierFromLevel(float level)
     {
-	return (float) Math.pow(ModConfig.balance.progression_scale, level - 1);
+	return (float) Math.pow(ModConfig.balance.progression_scale, level);
     }
 }

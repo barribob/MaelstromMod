@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
 
@@ -64,10 +65,10 @@ public class ProjectileMaelstromMeteor extends Projectile
 	    return;
 	}
 
-	new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.AZURE_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+	new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 		new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, Element.NONE),
 		2,
-		1.0f,
+		LevelHandler.INVASION_LEVEL,
 		16))
 			.generate(world, rand, this.getPosition());
 	super.onHit(result);

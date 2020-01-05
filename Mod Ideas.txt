@@ -183,6 +183,7 @@ Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
 Specifying blend only for entities that need it.
+MAelstrom generation sometimes exposes the core
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 

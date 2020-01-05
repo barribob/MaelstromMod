@@ -205,7 +205,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    {
 		if (rand.nextInt(3) == 0)
 		{
-		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+		    new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] {
 				    new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
 				    new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
@@ -271,7 +271,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	    {
 		if (rand.nextInt(3) == 0)
 		{
-		    new WorldGenMaelstrom(ModBlocks.DECAYING_AZURE_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+		    new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] {
 				    new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
 				    new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),

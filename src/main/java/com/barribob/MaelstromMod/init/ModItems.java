@@ -107,6 +107,10 @@ public class ModItems
     public static final Item CLIFF_KEY_FRAGMENT = new ItemSingleDescription("cliff_key_fragment", keyDesc, ModCreativeTabs.ALL);
     public static final Item RED_KEY_FRAGMENT = new ItemSingleDescription("red_key_fragment", keyDesc, ModCreativeTabs.ALL);
 
+    // Invasion Items
+    public static final Item MAELSTROM_CORE = new ItemTradable("maelstrom_core", ModCreativeTabs.ALL);
+    public static final Item MAELSTROM_FRAGMENT = new ItemBase("maelstrom_fragment", ModCreativeTabs.ALL);
+
     // The azure dimension's items
     public static final Item ELK_HIDE = new ItemTradable("elk_hide", ModCreativeTabs.ALL);
     public static final Item ELK_STRIPS = new ItemFoodBase("elk_strips", ModCreativeTabs.ALL, 3, 0.3F, true);

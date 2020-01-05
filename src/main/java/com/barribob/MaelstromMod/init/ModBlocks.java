@@ -64,6 +64,10 @@ public class ModBlocks
     public static final float PLANTS_RESISTANCE = 2.0f;
     public static final float ORE_HARDNESS = 3.0F;
 
+    // Invasion Blocks
+
+    public static final Block MAELSTROM_CORE = new BlockMaelstromCore("maelstrom_core_block", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, ModItems.MAELSTROM_FRAGMENT);
+
     /**
      * Blocks for the azure dimension
      */
@@ -111,9 +115,9 @@ public class ModBlocks
     // Maelstrom
     public static final Block AZURE_MAELSTROM = new BlockMaelstrom("azure_maelstrom", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1).setLightLevel(0.5f)
 	    .setCreativeTab(ModCreativeTabs.ALL);
-    public static final Block DECAYING_AZURE_MAELSTROM = new BlockDecayingMaelstrom("azure_decaying_maelstrom", STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1)
+    public static final Block DECAYING_MAELSTROM = new BlockDecayingMaelstrom("azure_decaying_maelstrom", STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1)
 	    .setLightLevel(0.5f);
-    public static final Block AZURE_MAELSTROM_CORE = new BlockMaelstromCore("azure_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
+    public static final Block AZURE_MAELSTROM_CORE = new BlockMaelstromCore("azure_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, ModItems.AZURE_MAELSTROM_FRAGMENT);
     public static final Block MAELSTROM_BRICKS = new BlockBase("maelstrom_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
 	    .setCreativeTab(ModCreativeTabs.ALL);
     public static final Block MAELSTROM_BRICK_FENCE = new BlockFenceBase("maelstrom_brick_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
@@ -213,7 +217,7 @@ public class ModBlocks
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.ALL);
     public static final Block FIRE_GRASS = new BlockModTallGrass("fire_grass", Material.PLANTS, PLANTS_HARDNESS, PLANTS_RESISTANCE, SoundType.PLANT)
 	    .setCreativeTab(ModCreativeTabs.ALL).setLightLevel(0.5f);
-    public static final Block CLIFF_MAELSTROM_CORE = new BlockMaelstromCore("cliff_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE);
+    public static final Block CLIFF_MAELSTROM_CORE = new BlockMaelstromCore("cliff_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, ModItems.GOLDEN_MAELSTROM_FRAGMENT);
 
     // Crimson Dimension
     public static final Block FURNACE_PILLAR = new BlockPillarBase("furnace_pillar", Material.ROCK).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE)

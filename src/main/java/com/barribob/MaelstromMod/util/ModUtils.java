@@ -525,7 +525,7 @@ public final class ModUtils
 	    {
 		amount /= ModConfig.balance.elemental_factor;
 	    }
-	    amount = amount * LevelHandler.getArmorFromLevel(level - 1);
+	    amount = amount * LevelHandler.getArmorFromLevel(level);
 	}
 
 	if (source instanceof IElement)
@@ -535,5 +535,4 @@ public final class ModUtils
 
 	return amount;
     }
-
 }

@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
 import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -45,7 +46,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     public EntityLeveledMob(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(1);
+	this.setLevel(LevelHandler.INVASION_LEVEL);
 	this.experienceValue = 5;
     }
 

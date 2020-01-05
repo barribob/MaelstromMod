@@ -81,7 +81,6 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	this.setImmovable(true);
 	this.setNoGravity(true);
 	this.setSize(2.2f, 4.5f);
-	this.setLevel(1);
 	this.healthScaledAttackFactor = 0.2;
 	this.isImmuneToFire = true;
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;

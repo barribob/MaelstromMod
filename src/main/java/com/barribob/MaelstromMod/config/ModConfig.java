@@ -28,7 +28,7 @@ public class ModConfig
     public static GuiCat gui = new GuiCat(0, 0, 0, 0, true, true);
 
     @Config.LangKey(config + "balancing")
-    public static BalanceCat balance = new BalanceCat(2);
+    public static BalanceCat balance = new BalanceCat();
 
     public static class GuiCat
     {
@@ -66,7 +66,7 @@ public class ModConfig
 	@Config.LangKey(config + "scale")
 	@Config.RangeDouble(min = 1.1, max = 3)
 	@Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty.")
-	public float progression_scale;
+	public float progression_scale = 1.25f;
 
 	@Config.LangKey(config + "mob_damage")
 	@Config.RangeDouble(min = 0.5, max = 3)
@@ -94,11 +94,6 @@ public class ModConfig
 	@Config.RangeDouble(min = 1.0, max = 3)
 	@Config.Comment("Represents how important using the correct color (or element) is")
 	public float elemental_factor = 1.5f;
-
-	public BalanceCat(float progression_scale)
-	{
-	    this.progression_scale = progression_scale;
-	}
     }
 
     public static class WorldCat

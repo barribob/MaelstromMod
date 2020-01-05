@@ -6,6 +6,8 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
@@ -26,6 +28,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
@@ -113,6 +116,21 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     protected SoundEvent getFallSound(int heightIn)
     {
 	return heightIn > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	if (this.getElement().equals(Element.AZURE))
+	{
+	    return LootTableHandler.AZURE_MAELSTROM;
+	}
+	else if (this.getElement().equals(Element.GOLDEN))
+	{
+	    return LootTableHandler.GOLDEN_MAELSTROM;
+	}
+
+	return LootTableHandler.MAELSTROM;
     }
 
     /**

@@ -12,7 +12,6 @@ import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
@@ -20,7 +19,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -133,12 +131,6 @@ public class EntityShade extends EntityMaelstromMob
     protected SoundEvent getDeathSound()
     {
 	return SoundsHandler.ENTITY_SHADE_DEATH;
-    }
-
-    @Override
-    protected ResourceLocation getLootTable()
-    {
-	return LootTableHandler.AZURE_MAELSTROM;
     }
 
     @Override
