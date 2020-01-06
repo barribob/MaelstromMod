@@ -46,7 +46,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     public EntityLeveledMob(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(LevelHandler.INVASION_LEVEL);
+	this.setLevel(LevelHandler.INVASION);
 	this.experienceValue = 5;
     }
 

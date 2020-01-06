@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
 import net.minecraft.tileentity.TileEntity;
@@ -38,7 +39,7 @@ public class WorldGenDarkNexus extends WorldGenStructure
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":herobrine_controller", Element.NONE), 1, 1.0f, 20);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":herobrine_controller", Element.NONE), 1, LevelHandler.AZURE_OVERWORLD, 20);
 	    }
 	}
     }

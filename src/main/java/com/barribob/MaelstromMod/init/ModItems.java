@@ -53,6 +53,7 @@ import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -170,12 +171,12 @@ public class ModItems
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
     };
     public static final Item KANSHOU = new ToolDagger("kanshou", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);
-    public static final Item BAKUYA = new ToolDagger("bakuya", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);;
+    public static final Item BAKUYA = new ToolDagger("bakuya", RARE_DAGGER, 2.5f).setInformation(kanshouBakuya);
 
     // Nexus Guns
-    public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, 1, ModCreativeTabs.ALL);
-    public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setBullet(new RedstoneRepeater());
-    public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, 1, ModCreativeTabs.ALL).setInformation((tooltip) -> {
+    public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, RARE_USE_TIME, LevelHandler.INVASION, ModCreativeTabs.ALL);
+    public static final Item REPEATER = new ItemRepeater("repeater", 60, RARE_USE_TIME, LevelHandler.INVASION, ModCreativeTabs.ALL).setBullet(new RedstoneRepeater());
+    public static final Item RIFLE = new ItemRifle("rifle", 60, RARE_USE_TIME, LevelHandler.INVASION, ModCreativeTabs.ALL).setInformation((tooltip) -> {
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("rifle"));
     });
     public static final Item ELK_BLASTER = new ItemRifle("elk_blaster", 60, RARE_USE_TIME, 1.5f, ModCreativeTabs.ALL).setInformation((tooltip) -> {
@@ -195,7 +196,7 @@ public class ModItems
     // Nexus Swords
     public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", RARE_SWORD, 1.5f);
     public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", RARE_BATTLEAXE, 1.5f);
-    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_DAGGER, 1.5f);
+    public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", RARE_DAGGER, LevelHandler.INVASION);
     public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", RARE_SWORD, 2f);
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", RARE_DAGGER, 2.5f);
     public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", RARE_SWORD, 2f);
@@ -207,7 +208,7 @@ public class ModItems
     public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 60, RARE_USE_TIME, 1f, ModCreativeTabs.ALL);
 
     // Nexus Armors
-    public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "straw_hat.png");
+    public static final Item STRAW_HAT = new ArmorStrawHat("straw_hat", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, LevelHandler.INVASION, "straw_hat.png");
     public static final Item SPEED_BOOTS = new ItemSpeedBoots("speed_boots", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.FEET, 1.5f, "speed");
 
     public static final Item NEXUS_HELMET = new ModArmorBase("nexus_helmet", RARE_ARMOR_MATERIAL, 1, EntityEquipmentSlot.HEAD, 1.5f, "nexus");

@@ -68,7 +68,7 @@ public class ProjectileMaelstromMeteor extends Projectile
 	new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 		new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, Element.NONE),
 		2,
-		LevelHandler.INVASION_LEVEL,
+		LevelHandler.INVASION,
 		16))
 			.generate(world, rand, this.getPosition());
 	super.onHit(result);

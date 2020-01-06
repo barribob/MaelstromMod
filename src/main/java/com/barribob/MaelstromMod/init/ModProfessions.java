@@ -49,23 +49,39 @@ public class ModProfessions
 		"minecraft:textures/entity/zombie_villager/zombie_farmer.png");
 
 	AZURE_WEAPONSMITH = new VillagerCareer(AZURE_VILLAGER, "azure_weaponsmith");
+	NEXUS_GUNSMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_weaponsmith");
+	NEXUS_MAGE = new VillagerCareer(NEXUS_VILLAGER, "nexus_mage");
+	NEXUS_ARMORER = new VillagerCareer(NEXUS_VILLAGER, "nexus_armorer");
+	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");
+	NEXUS_BLADESMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_bladesmith");
+
+	/**
+	 * Level 0 (Pre - Azure) trades
+	 */
+
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, null, 0, ModItems.AMMO_CASE, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.IRON_INGOT, 6, ModItems.FLINTLOCK, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Item.getItemFromBlock(Blocks.HAY_BLOCK), 2, Items.DIAMOND, 4, ModItems.STRAW_HAT, 1));
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.SPIDER_EYE, 16, ModItems.VENOM_DAGGER, 1));
+
+	/**
+	 * Level 1 (Azure overworld) trades
+	 */
+
 	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.ConstructElkArmor());
 	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.ConstructChasmiumArmor());
 	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.RangedWeapons());
 	AZURE_WEAPONSMITH.addTrade(1, new AzureTrades.CrystalsForEmeralds());
 	AZURE_WEAPONSMITH.addTrade(1, new EntityVillager.ListEnchantedBookForEmeralds());
 
-	NEXUS_GUNSMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_weaponsmith");
-	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 4, null, 0, ModItems.AMMO_CASE, 1));
-	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.GOLD_INGOT, 5, Items.IRON_INGOT, 6, ModItems.FLINTLOCK, 1));
-	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.REDSTONE, 16, Items.IRON_INGOT, 6, ModItems.REPEATER, 1));
+
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 1, Items.REDSTONE, 16, ModItems.REPEATER, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 6, ModItems.ELK_JERKY, 4, ModItems.RIFLE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CHASMIUM_INGOT, 2, null, 0, ModItems.CHASMIUM_AMMO_CASE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.ELK_HIDE, 32, null, 0, ModItems.ELK_BLASTER, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_FRAGMENT, 3, null, 0, ModItems.BLACK_GOLD_AMMO_CASE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.MoreComing());
 
-	NEXUS_MAGE = new VillagerCareer(NEXUS_VILLAGER, "nexus_mage");
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.MINOTAUR_HORN, 1, null, 0, ModItems.CATALYST, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.MINOTAUR_HORN, 1, null, 0, ModItems.FIREBALL_STAFF, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(Items.RABBIT_FOOT, 1, Items.DIAMOND, 1, ModItems.LEAP_STAFF, 1));
@@ -74,8 +90,6 @@ public class ModProfessions
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_STAFF, 1));
 	NEXUS_MAGE.addTrade(1, new NexusTrades.MoreComing());
 
-	NEXUS_ARMORER = new VillagerCareer(NEXUS_VILLAGER, "nexus_armorer");
-	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Item.getItemFromBlock(Blocks.HAY_BLOCK), 2, Items.DIAMOND, 4, ModItems.STRAW_HAT, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Items.DIAMOND_BOOTS, 1, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2, ModItems.SPEED_BOOTS, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 3, null, 0, ModItems.NEXUS_HELMET, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5, null, 0, ModItems.NEXUS_CHESTPLATE, 1));
@@ -88,7 +102,6 @@ public class ModProfessions
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 2, ModItems.FLY_WINGS, 1, ModItems.SWAMP_BOOTS, 1));
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.MoreComing());
 
-	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 16, Item.getItemFromBlock(Blocks.OBSIDIAN), 16, ModItems.ELUCIDATOR, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 12, Item.getItemFromBlock(Blocks.PUMPKIN), 16, ModItems.PUMPKIN, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(Items.IRON_INGOT, 32, null, 0, ModItems.DRAGON_SLAYER, 1));
@@ -100,9 +113,7 @@ public class ModProfessions
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, null, 0, ModItems.NYAN_BOOTS, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.MoreComing());
 
-	NEXUS_BLADESMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_bladesmith");
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(Items.DIAMOND_SWORD, 1, ModItems.ELK_HIDE, 32, ModItems.FROST_SWORD, 1));
-	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(Items.DIAMOND_SWORD, 1, Items.FERMENTED_SPIDER_EYE, 32, ModItems.VENOM_DAGGER, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(Items.EMERALD, 4, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5, ModItems.NEXUS_BATTLEAXE, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 16, Items.DIAMOND, 5, ModItems.CRUSADE_SWORD, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, Items.IRON_INGOT, 64, ModItems.MAGISTEEL_SWORD, 1));
