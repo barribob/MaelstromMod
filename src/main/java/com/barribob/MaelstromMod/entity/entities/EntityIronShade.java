@@ -45,7 +45,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	this.setLevel(1.5f);
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
 	this.healthScaledAttackFactor = 0.2;
-	this.setSize(1, 2.2f);
+	this.setSize(0.9f, 2.2f);
 	if (!worldIn.isRemote)
 	{
 	    attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack()), 1));
@@ -208,6 +208,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.24D);
 	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200);
+	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.2);
     }
 
     @Override

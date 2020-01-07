@@ -24,11 +24,11 @@
                 {
                     "type": "item",
                     "weight": 1,
-                    "name": "mm:azure_maelstrom_core_crystal",
+                    "name": "mm:maelstrom_core",
                     "functions": [
                         {
                             "function": "set_count",
-                            "count": 8
+                            "count": 4
                         }
                     ]
                 }

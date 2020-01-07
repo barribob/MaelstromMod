@@ -3,7 +3,6 @@ package com.barribob.MaelstromMod.entity.entities;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
@@ -11,7 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -34,7 +32,7 @@ public class EntityHorror extends EntityMaelstromMob
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
 
@@ -95,12 +93,6 @@ public class EntityHorror extends EntityMaelstromMob
     protected SoundEvent getDeathSound()
     {
 	return SoundsHandler.ENTITY_HORROR_DEATH;
-    }
-
-    @Override
-    protected ResourceLocation getLootTable()
-    {
-	return LootTableHandler.AZURE_MAELSTROM;
     }
 
     @Override

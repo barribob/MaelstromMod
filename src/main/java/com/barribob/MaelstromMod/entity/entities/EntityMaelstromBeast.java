@@ -54,7 +54,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
     public static final byte explosionParticles = 8;
     private static final DataParameter<Boolean> RAGED = EntityDataManager.<Boolean>createKey(EntityMaelstromBeast.class, DataSerializers.BOOLEAN);
     private byte rageParticles = 9;
-    private int ragedAttackDamage = 14;
+    private int ragedAttackDamage = 12;
 
     public EntityMaelstromBeast(World worldIn)
     {
@@ -132,7 +132,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
     {
 	if (!world.isRemote)
 	{
-	    ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack());
+	    ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack() * 0.5f);
 	    projectile.setPosition(pos.x, pos.y + 1.5, pos.z);
 	    double xDir = (world.rand.nextFloat() - world.rand.nextFloat()) * 0.5f;
 	    double yDir = 1;

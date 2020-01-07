@@ -12,6 +12,7 @@ public class LevelHandler
 {   
     public static final float INVASION = 0.0f;
     public static final float AZURE_OVERWORLD = 1.0f;
+    public static final float AZURE_ENDGAME = 2.0f;
 
     /**
      * Calculates the armor by using the progression level as a base and the level

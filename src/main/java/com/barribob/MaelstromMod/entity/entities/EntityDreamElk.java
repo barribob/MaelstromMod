@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.Entity;
@@ -38,7 +39,7 @@ public class EntityDreamElk extends EntityLeveledMob
     {
 	super(worldIn);
 	this.setSize(1.3964844F, 1.6F);
-	this.setLevel(1.5f);
+	this.setLevel(LevelHandler.AZURE_OVERWORLD);
     }
 
     @Override

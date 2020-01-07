@@ -4,7 +4,6 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationFloatingSkull;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -12,7 +11,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
@@ -79,12 +77,6 @@ public class EntityFloatingSkull extends EntityMaelstromMob
     protected float getSoundPitch()
     {
 	return 0.8f + ModRandom.getFloat(0.1f);
-    }
-
-    @Override
-    protected ResourceLocation getLootTable()
-    {
-	return LootTableHandler.AZURE_MAELSTROM;
     }
 
     @Override

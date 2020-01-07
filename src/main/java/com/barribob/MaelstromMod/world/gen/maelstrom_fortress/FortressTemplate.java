@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 
@@ -56,7 +57,7 @@ public class FortressTemplate extends ModStructureTemplate
 	BlockPos blockpos = pos.down();
 	if (function.startsWith("chest"))
 	{
-	    if (rand.nextInt(2) == 0)
+	    if (rand.nextInt(3) == 0)
 	    {
 		TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
@@ -90,17 +91,25 @@ public class FortressTemplate extends ModStructureTemplate
 	}
 	else if (function.startsWith("blacksmith_chest"))
 	{
-	    TileEntity tileentity = worldIn.getTileEntity(blockpos);
-
-	    if (tileentity instanceof TileEntityChest)
+	    if (rand.nextInt(2) == 0)
 	    {
-		((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS_FORGE, rand.nextLong());
+		TileEntity tileentity = worldIn.getTileEntity(blockpos);
+
+		if (tileentity instanceof TileEntityChest)
+		{
+		    ((TileEntityChest) tileentity).setLootTable(LootTableHandler.AZURE_FORTRESS_FORGE, rand.nextLong());
+		}
+	    }
+	    else
+	    {
+		worldIn.setBlockToAir(blockpos);
 	    }
 	}
 	else if (function.startsWith("boss"))
 	{
 	    EntityMaelstromIllager entity = new EntityMaelstromIllager(worldIn);
 	    entity.setPosition(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+	    entity.setLevel(LevelHandler.AZURE_ENDGAME);
 	    worldIn.spawnEntity(entity);
 	}
 	else if (function.startsWith("enemy"))
@@ -118,7 +127,7 @@ public class FortressTemplate extends ModStructureTemplate
 			},
 			new int[] { 1, 1, 1 },
 			3,
-			1.5f,
+			LevelHandler.AZURE_ENDGAME,
 			16);
 	    }
 	}

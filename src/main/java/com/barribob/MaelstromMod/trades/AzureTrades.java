@@ -7,7 +7,6 @@ import com.barribob.MaelstromMod.init.ModItems;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
 import net.minecraft.entity.passive.EntityVillager.PriceInfo;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
@@ -51,7 +50,7 @@ public class AzureTrades
 
 	    ItemStack material = new ItemStack(ModItems.ELK_HIDE, requiredHide);
 
-	    recipeList.add(new MerchantRecipe(material, sellStack));
+	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.MAELSTROM_CORE), material, sellStack));
 	}
     }
     
@@ -68,15 +67,15 @@ public class AzureTrades
 	    {
 	    case 0:
 		sellStack = new ItemStack(ModItems.CHASMIUM_HELMET);
-		requiredMaterial = 4;
+		requiredMaterial = 5;
 		break;
 	    case 1:
 		sellStack = new ItemStack(ModItems.CHASMIUM_CHESTPLATE);
-		requiredMaterial = 7;
+		requiredMaterial = 8;
 		break;
 	    case 2:
 		sellStack = new ItemStack(ModItems.CHASMIUM_LEGGINGS);
-		requiredMaterial = 6;
+		requiredMaterial = 7;
 		break;
 	    case 3:
 		sellStack = new ItemStack(ModItems.CHASMIUM_SWORD);
@@ -84,14 +83,13 @@ public class AzureTrades
 		break;
 	    default:
 		sellStack = new ItemStack(ModItems.CHASMIUM_BOOTS);
-		requiredMaterial = 3;
+		requiredMaterial = 4;
 		break;
 	    }
 
 	    ItemStack material = new ItemStack(ModItems.CHASMIUM_INGOT, requiredMaterial);
-	    ItemStack material2 = new ItemStack(Items.IRON_INGOT, requiredMaterial);
 
-	    recipeList.add(new MerchantRecipe(material, material2, sellStack));
+	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.MAELSTROM_CORE), material, sellStack));
 	}
     }
 
@@ -127,15 +125,6 @@ public class AzureTrades
 	    }
 
 	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, price), sellStack));
-	}
-    }
-
-    public static class CrystalsForEmeralds implements ITradeList
-    {
-	@Override
-	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
-	{
-	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL), new ItemStack(Items.EMERALD, 3)));
 	}
     }
 }

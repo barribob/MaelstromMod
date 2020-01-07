@@ -2,19 +2,16 @@
     "pools": [
         {
             "name": "azure_mineshaft",
-            "rolls": {
-                "min": 2,
-                "max": 4
-            },
+            "rolls": 2,
             "entries": [
                 {
                     "type": "loot_table",
                     "name": "mm:util/minecraft_ores",
-                    "weight": 3
+                    "weight": 1
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/iron_level_loot",
+                    "name": "mm:util/diamond_level_loot",
                     "weight": 2
                 },
                 {
@@ -25,11 +22,6 @@
                 {
                     "type": "loot_table",
                     "name": "minecraft:chests/abandoned_mineshaft",
-                    "weight": 1
-                },
-                {
-                    "type": "loot_table",
-                    "name": "minecraft:chests/simple_dungeon",
                     "weight": 1
                 },
                 {

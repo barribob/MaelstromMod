@@ -89,7 +89,7 @@ public final class ModUtils
 
     public static String getDisplayLevel(float level)
     {
-	return TextFormatting.GRAY + ModUtils.translateDesc("level") + ": " + TextFormatting.DARK_PURPLE + Math.round(level * 2 - 1);
+	return TextFormatting.GRAY + ModUtils.translateDesc("level") + ": " + TextFormatting.DARK_PURPLE + Math.round(level);
     }
 
     public static String getElementalTooltip(Element element)

@@ -12,8 +12,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 1,
-                                "max": 2
+                                "min": 3,
+                                "max": 5
                             }
                         }
                     ]
@@ -26,8 +26,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 1,
-                                "max": 2
+                                "min": 3,
+                                "max": 5
                             }
                         }
                     ]
@@ -40,8 +40,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 4,
-                                "max": 6
+                                "min": 12,
+                                "max": 16
                             }
                         }
                     ]
@@ -54,8 +54,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 2,
-                                "max": 4
+                                "min": 12,
+                                "max": 16
                             }
                         }
                     ]
@@ -68,22 +68,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 2,
-                                "max": 3
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "minecraft:redstone",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 4,
-                                "max": 9
+                                "min": 3,
+                                "max": 5
                             }
                         }
                     ]
@@ -100,22 +86,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 3,
-                                "max": 5
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "minecraft:coal",
-                    "weight": 3,
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 4,
-                                "max": 8
+                                "min": 12,
+                                "max": 16
                             }
                         }
                     ]

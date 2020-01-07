@@ -3,14 +3,13 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
-import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.GenUtils;
-import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
@@ -83,7 +82,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 	    worldIn.setBlockToAir(pos);
 	    BlockPos blockpos = pos.down();
 
-	    if (worldIn.rand.nextFloat() < 0.35f)
+	    if (worldIn.rand.nextFloat() < 0.25f)
 	    {
 		if (sbb.isVecInside(blockpos))
 		{
@@ -130,7 +129,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 			},
 			new int[] { 1, 1, 1 },
 			3,
-			1.5f,
+			LevelHandler.AZURE_ENDGAME,
 			16);
 	    }
 	}
@@ -141,7 +140,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":maelstrom_beast", 1, 1.5f, 16);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":maelstrom_beast", 1, LevelHandler.AZURE_ENDGAME, 16);
 	    }
 	}
     }

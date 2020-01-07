@@ -117,6 +117,7 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileSwampSpittle.class, ModItems.SWAMP_SLIME);
 	registerProjectileRenderer(EntityParticleSpawner.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBone.class, Items.BONE);
+	registerProjectileRenderer(Projectile.class, ModItems.MAELSTROM_PELLET);
     }
 
     /**

@@ -92,7 +92,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(0.9f, 2.5f);
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
-	this.setLevel(1.5f);
 	this.healthScaledAttackFactor = 0.2;
 	if (!world.isRemote)
 	{
@@ -235,7 +234,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(14);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(10);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300);
     }
 
@@ -452,7 +451,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	    this.bossInfo.setName(this.getDisplayName());
 	}
 
-	if (compound.hasKey("phase2"))
+	if (compound.hasKey("phase2") && this.getMaxHealth() <= this.getHealth() * 0.5f)
 	{
 	    phase2Attack = compound.getBoolean("phase2");
 	    if (phase2Attack)

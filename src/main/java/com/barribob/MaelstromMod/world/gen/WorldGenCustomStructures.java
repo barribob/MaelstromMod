@@ -17,6 +17,7 @@ import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.biome.BiomeCliffSwamp;
 import com.barribob.MaelstromMod.world.dimension.dark_nexus.WorldGenDarkNexus;
@@ -161,7 +162,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":iron_shade", 1, 1.5f, 16);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":iron_shade", 1, LevelHandler.AZURE_ENDGAME, 16);
 		}
 	    }
 	};

@@ -43,7 +43,8 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7.5);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6);
+	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(25f);
     }
 
     @Override

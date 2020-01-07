@@ -1,12 +1,12 @@
 {
     "pools": [
         {
-            "name": "maelstrom_level_loot",
+            "name": "level_2_loot",
             "rolls": 1,
             "entries": [
                 {
                     "type": "item",
-                    "name": "mm:shadow_dagger",
+                    "name": "mm:swamp_helmet",
                     "weight": 1,
                     "functions": [
                         {
@@ -27,86 +27,7 @@
                 },
                 {
                     "type": "item",
-                    "weight": 1,
-                    "name": "mm:maelstrom_cannon",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "mm:will-o-the-wisp_staff",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "mm:sword_of_shades",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "mm:maelstrom_battleaxe",
-                    "functions": [
-                        {
-                            "function": "enchant_randomly",
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.5
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "mm:beast_blade",
+                    "name": "mm:swamp_chestplate",
                     "weight": 1,
                     "functions": [
                         {
@@ -127,7 +48,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:maelstrom_helmet",
+                    "name": "mm:swamp_leggings",
                     "weight": 1,
                     "functions": [
                         {
@@ -148,7 +69,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:maelstrom_chestplate",
+                    "name": "mm:swamp_boots",
                     "weight": 1,
                     "functions": [
                         {
@@ -169,7 +90,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:maelstrom_leggings",
+                    "name": "mm:brownstone_sword",
                     "weight": 1,
                     "functions": [
                         {
@@ -190,7 +111,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:maelstrom_boots",
+                    "name": "mm:brownstone_cannon",
                     "weight": 1,
                     "functions": [
                         {
@@ -211,20 +132,43 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:chasmium_ammo_case",
-                    "weight": 1
-                },
-                {
-                    "type": "item",
-                    "name": "mm:azure_maelstrom_fragment",
+                    "name": "mm:meteor_staff",
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "set_count",
-                            "count": {
-                                "min": 3,
-                                "max": 4
-                            }
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ],
+                            "treasure": "true"
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:ancient_battleaxe",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 30
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ],
+                            "treasure": "true"
                         }
                     ]
                 }

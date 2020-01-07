@@ -2,11 +2,11 @@
     "pools": [
         {
             "name": "stronghold_key_chest",
-            "rolls": 4,
+            "rolls": 3,
             "entries": [
                 {
                     "type": "loot_table",
-                    "name": "mm:util/maelstrom_level_loot",
+                    "name": "mm:util/level_2_loot",
                     "weight": 4
                 },
                 {
@@ -15,7 +15,11 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 10,
+                                "max": 25
+                            },
                             "treasure": true
                         }
                     ]

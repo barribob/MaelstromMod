@@ -6,27 +6,6 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "minecraft:diamond_sword",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
                     "name": "minecraft:diamond_pickaxe",
                     "weight": 1,
                     "functions": [
@@ -154,90 +133,6 @@
                 {
                     "type": "item",
                     "name": "minecraft:diamond_boots",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "mm:elk_hide_helmet",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "mm:elk_hide_chestplate",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "mm:elk_hide_leggings",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
-                            "conditions": [
-                                {
-                                    "condition": "random_chance",
-                                    "chance": 0.4
-                                }
-                            ],
-                            "treasure": "true"
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "mm:elk_hide_boots",
                     "weight": 1,
                     "functions": [
                         {

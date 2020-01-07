@@ -46,19 +46,19 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
 	    UUID.fromString("e2d1f056-f539-48c7-b353-30d7a367ebd0"), UUID.fromString("db13047a-bb47-4621-a025-65ed22ce461a"),
 	    UUID.fromString("abb5df20-361d-420a-8ec7-4bdba33378eb") };
 
-    private float maelstrom_armor_factor;
+    private float level;
     private static final int[] armor_fractions = { 4, 7, 8, 5 };
     private static final int armor_total = 24;
     private String textureName;
     private Element element = Element.NONE;
 
-    public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndex, EntityEquipmentSlot equipmentSlotIn, float maelstromArmor, String textureName)
+    public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndex, EntityEquipmentSlot equipmentSlotIn, float level, String textureName)
     {
 	super(materialIn, renderIndex, equipmentSlotIn);
 	setUnlocalizedName(name);
 	setRegistryName(name);
 	setCreativeTab(ModCreativeTabs.ALL);
-	this.maelstrom_armor_factor = maelstromArmor - 1;
+	this.level = level;
 	this.textureName = textureName;
 	ModItems.ITEMS.add(this);
     }
@@ -79,7 +79,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
      */
     public float getMaelstromArmor(ItemStack stack)
     {
-	float total_armor_reduction = 1 - LevelHandler.getArmorFromLevel(this.maelstrom_armor_factor);
+	float total_armor_reduction = 1 - LevelHandler.getArmorFromLevel(this.level);
 	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float) armor_total;
 	return total_armor_reduction * armor_type_fraction;
     }
@@ -92,7 +92,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
     public float getMaelstromArmorBars()
     {
 	float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float) armor_total;
-	return this.maelstrom_armor_factor * armor_type_fraction * 2;
+	return this.getLevel() * armor_type_fraction;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(ModUtils.getDisplayLevel((this.maelstrom_armor_factor + 1)));
+	tooltip.add(ModUtils.getDisplayLevel((this.getLevel())));
 	if (!element.equals(element.NONE))
 	{
 	    tooltip.add(ModUtils.translateDesc("elemental_armor_desc", element.textColor + element.symbol + TextFormatting.GRAY,
@@ -180,7 +180,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
     @Override
     public float getLevel()
     {
-	return this.maelstrom_armor_factor + 1;
+	return this.level;
     }
 
     @Override

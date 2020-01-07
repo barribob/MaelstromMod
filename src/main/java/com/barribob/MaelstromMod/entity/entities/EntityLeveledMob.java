@@ -30,7 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob, IElement
 {
-    private float level;
+    protected static final DataParameter<Float> LEVEL = EntityDataManager.<Float>createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private float regenStartTimer;
     private static float regenStartTime = 60;
     protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(EntityLeveledMob.class, DataSerializers.VARINT);
@@ -152,7 +152,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 
     public float getLevel()
     {
-	return this.level;
+	return this.dataManager == null ? 0 : this.dataManager.get(LEVEL);
     }
 
     @Override
@@ -169,14 +169,14 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
      */
     public EntityLeveledMob setLevel(float level)
     {
-	this.level = level;
+	this.dataManager.set(LEVEL, level);
 	return this;
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound)
     {
-	compound.setFloat("level", level);
+	compound.setFloat("level", getLevel());
 	compound.setBoolean("isImmovable", this.isImmovable());
 	compound.setInteger("element", getElement().id);
 	if (initialPosition != null)
@@ -224,13 +224,14 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-	return super.attackEntityFrom(source, ModUtils.getArmoredDamage(source, amount, level, getElement()));
+	return super.attackEntityFrom(source, ModUtils.getArmoredDamage(source, amount, getLevel(), getElement()));
     }
 
     @Override
     protected void entityInit()
     {
 	super.entityInit();
+	this.dataManager.register(LEVEL, Float.valueOf(0.0f));
 	this.dataManager.register(IMMOVABLE, Boolean.valueOf(false));
 	this.dataManager.register(ELEMENT, Integer.valueOf(Element.NONE.id));
     }

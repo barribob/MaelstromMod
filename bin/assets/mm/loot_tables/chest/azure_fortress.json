@@ -2,7 +2,7 @@
     "pools": [
         {
             "name": "azure_fortress",
-            "rolls": 3,
+            "rolls": 2,
             "entries": [
                 {
                     "type": "loot_table",
@@ -11,12 +11,7 @@
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/diamond_level_loot",
-                    "weight": 3
-                },
-                {
-                    "type": "loot_table",
-                    "name": "mm:util/maelstrom_level_loot",
+                    "name": "mm:util/level_2_loot",
                     "weight": 3
                 },
                 {
