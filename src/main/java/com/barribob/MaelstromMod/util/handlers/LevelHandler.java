@@ -28,14 +28,14 @@ public class LevelHandler
     }
 
     /**
-     * Get the maximum damage reduction a completely enchanted armor set can have
+     * Get the maximum damage reduction a completely enchanted armor set can have.
      * 
-     * For example, a progression scale of 2 would at max half incoming damage, and
-     * a progression scale of 1.5 would reduce incoming damage by ~33%
+     * This is based on the progression scale. For for a scale of 1.5, the reduction
+     * is 1 / (1.5^2)
      */
     public static float getMaxMaelstromProtection()
     {
-	return 1 - (float) Math.pow(ModConfig.balance.progression_scale, -1);
+	return 1 - (float) Math.pow(ModConfig.balance.progression_scale, -2);
     }
     
     /**

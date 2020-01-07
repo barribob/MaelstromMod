@@ -42,7 +42,7 @@ public class ProjectileGun extends Projectile
 	    this.knockbackStrength = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.impact, stack);
 	    this.maelstromDestroyer = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.maelstrom_destroyer, stack);
 	    this.criticalHit = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.critical_hit, stack);
-	    if (rand.nextInt(10) == 0 && this.criticalHit > 0 && !world.isRemote)
+	    if (rand.nextInt(8) == 0 && this.criticalHit > 0 && !world.isRemote)
 	    {
 		this.isCritical = true;
 		this.setDamage(this.getDamage() * this.criticalHit * 2.5f);
@@ -63,8 +63,9 @@ public class ProjectileGun extends Projectile
     {
 	if (entity instanceof EntityMaelstromMob)
 	{
-	    float maxPower = ModConfig.balance.progression_scale / ModEnchantments.maelstrom_destroyer.getMaxLevel();
-	    return super.getDamage() * (1 + this.maelstromDestroyer * maxPower);
+	    float maxDamageBonus = (float) (Math.pow(ModConfig.balance.progression_scale, 2.5) - 1); // Max damage is slightly more than the damage enchantment
+	    float damageBonus = super.getDamage() * maxDamageBonus * (this.maelstromDestroyer / (float) ModEnchantments.maelstrom_destroyer.getMaxLevel());
+	    return super.getDamage() + damageBonus;
 	}
 
 	return super.getDamage();

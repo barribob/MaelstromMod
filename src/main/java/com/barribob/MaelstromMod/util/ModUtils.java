@@ -101,15 +101,15 @@ public final class ModUtils
 
     public static double getSwordEnchantmentDamage(ItemStack stack)
     {
-	int power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.sharpness_2, stack);
-	float maxPower = ModEnchantments.sharpness_2.getMaxLevel();
+	int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.sharpness_2, stack);
+	float maxPower = (float) (Math.pow(ModConfig.balance.progression_scale, 2) - 1);
 	Multimap<String, AttributeModifier> multimap = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
 	for (Entry<String, AttributeModifier> entry : multimap.entries())
 	{
 	    AttributeModifier attributemodifier = entry.getValue();
 	    if (attributemodifier.getID() == ToolSword.getAttackDamageModifier())
 	    {
-		double multiplier = ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
+		double multiplier = (level / (float) ModEnchantments.sharpness_2.getMaxLevel()) * maxPower;
 		return attributemodifier.getAmount() * multiplier;
 	    }
 	}
