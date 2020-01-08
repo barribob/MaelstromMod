@@ -53,7 +53,7 @@ public class ItemPumpkin extends ItemGun
     @Override
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + ModUtils.DF_00.format(this.getEnchantedDamage(stack))
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + ModUtils.DF_0.format(this.getEnchantedDamage(stack))
 		+ TextFormatting.GRAY + " "
 		+ ModUtils.translateDesc("damage_per_meter"));
     }

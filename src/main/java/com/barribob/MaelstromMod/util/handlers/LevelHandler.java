@@ -39,8 +39,8 @@ public class LevelHandler
     }
     
     /**
-     * returns a simple multiplicative modifier based on the level
-     * Starts at level 1 (returns a multiplier of 1)
+     * returns a simple multiplicative modifier based on the level Starts at level 0
+     * (returns a multiplier of 1)
      */
     public static float getMultiplierFromLevel(float level)
     {

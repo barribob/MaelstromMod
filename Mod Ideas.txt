@@ -24,14 +24,6 @@ Crimson Dungeon [85]
             2 for chests
             1 for nexus
 
-Invasion Events [15]
-    Overworld maelstrom that appear:
-        Uncolored Shade (1)
-    [DONE] Boss + fortress + builder mob (10)
-    [DONE] Figure out system so that multiple do not spawn because of multiple players
-    [DONE] Figure out what happens when in a different dimension
-    [DONE]  Wrap the event in a system that spawns into world once
-
 Make the portal telportation less jenky
 Particle overhaul (10 ish)
     Make Herobrine's particles something other than black(1)
@@ -44,6 +36,7 @@ Maelstrom cores only drop fragments
 Make the story make more sense with Herobrine and the dark nexus
     Unlock herobrine after enough cliff key fragments
 Make all ids not hardcoded
+Remove projectiles after a certain amount of time
 
 Rebuild the leveling system
 
@@ -63,6 +56,14 @@ Clean up wiki (update current pages, and make the general guide much more compre
 Put out on curseforge and improve marketing (5)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Completed
+
+[DONE]Invasion Events [15]
+    Overworld maelstrom that appear:
+        Uncolored Shade (1)
+    [DONE] Boss + fortress + builder mob (10)
+    [DONE] Figure out system so that multiple do not spawn because of multiple players
+    [DONE] Figure out what happens when in a different dimension
+    [DONE]  Wrap the event in a system that spawns into world once
 
 [DONE] Elemental System Overhaul [21]
     Elemental Maelstrom [10]
