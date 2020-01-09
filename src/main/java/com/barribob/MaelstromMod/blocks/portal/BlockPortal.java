@@ -3,17 +3,13 @@ package com.barribob.MaelstromMod.blocks.portal;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.blocks.BlockBase;
-import com.barribob.MaelstromMod.config.ModConfig;
-import com.barribob.MaelstromMod.util.teleporter.DimensionalTeleporter;
 import com.barribob.MaelstromMod.util.teleporter.Teleport;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -56,13 +52,6 @@ public abstract class BlockPortal extends BlockBase
 	{
 	    EntityPlayerMP player = (EntityPlayerMP) entityIn;
 
-	    MinecraftServer server = worldIn.getMinecraftServer();
-
-	    if (player.timeUntilPortal > 0)
-	    {
-		return;
-	    }
-
 	    if (player.dimension == dim1)
 	    {
 		Teleport.teleportToDimension(player, dim2, getTeleporter2(worldIn));
@@ -71,8 +60,6 @@ public abstract class BlockPortal extends BlockBase
 	    {
 		Teleport.teleportToDimension(player, dim1, getTeleporter1(worldIn));
 	    }
-
-	    player.timeUntilPortal = 300;
 	}
     }
     
@@ -91,16 +78,19 @@ public abstract class BlockPortal extends BlockBase
 	return QUARTER_AABB;
     }
 
+    @Override
     public boolean isFullCube(IBlockState state)
     {
 	return false;
     }
 
+    @Override
     public boolean isOpaqueCube(IBlockState state)
     {
 	return false;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer()
     {
@@ -110,6 +100,7 @@ public abstract class BlockPortal extends BlockBase
     /**
      * If the block is connected with itself, don't render the sides
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
@@ -139,6 +130,7 @@ public abstract class BlockPortal extends BlockBase
     /**
      * Returns the quantity of items to drop on block destruction.
      */
+    @Override
     public int quantityDropped(Random p_149745_1_)
     {
 	return 0;

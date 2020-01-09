@@ -27,7 +27,6 @@ Crimson Dungeon [85]
 
 Make the portal telportation less jenky
 Make Herobrine's particles something other than black(1)
-Fix the smearing and unclearness behind the rare and common durabilities
 Fix witch animation
 Clean up lang again (1)
 Gargoyles (3)
@@ -38,7 +37,6 @@ Make all ids not hardcoded
 Remove projectiles after a certain amount of time
 Make spawner that guarentees that bosses spawn
 Add a staff to counter the mobs during the second stage of the golden boss
-Make sweep attacks elemental
 
 Creative tab organization (1)
 Name things to be sexier (2)
@@ -101,6 +99,7 @@ Put out on curseforge and improve marketing (5)
     Plan:
         Loot for elemental mobs
 
+[DONE]Fix the smearing and unclearness behind the rare and common durabilities
 [DONE] Add rendering of fog above cliff as well (2)
 [DONE] Improve impact logic (2)
 [DONE] Fine tune enchantments for loot drops (3)

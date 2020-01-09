@@ -62,7 +62,7 @@ public class ChunkGeneratorAzure extends WorldChunkGenerator
 				new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
 				new MobSpawnData(Reference.MOD_ID + ":horror", Element.NONE)
 			},
-			new int[] { 1, 1, 1 },
+			new int[] { 1, 1 },
 			3,
 			LevelHandler.AZURE_OVERWORLD,
 			16));
