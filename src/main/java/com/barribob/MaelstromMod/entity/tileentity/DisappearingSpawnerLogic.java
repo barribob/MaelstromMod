@@ -71,7 +71,7 @@ public class DisappearingSpawnerLogic extends MobSpawnerLogic
 	    return;
 	}
 	
-	for (int i = 0; i < this.maxCount; i++)
+	while (this.count < this.maxCount)
 	{
 	    // Try multiple times to spawn the entity in a good spot
 	    int tries = 50;

@@ -43,16 +43,17 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     public EntityMaelstromGoldenBoss(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2.5f);
 	this.setSize(1.6f, 3.6f);
 	this.healthScaledAttackFactor = 0.2;
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
+	this.setLevel(4);
+	this.setElement(Element.GOLDEN);
 	if (!worldIn.isRemote)
 	{
-	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityShade(world).setElement(Element.GOLDEN).setLevel(getLevel())));
+	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityShade(world).setElement(rand.nextInt(3) == 0 ? Element.GOLDEN : Element.NONE).setLevel(getLevel())));
 	    this.attackHandler.setAttack(blackFireball, new ActionFireball());
 	    this.attackHandler.setAttack(runes, new ActionMaelstromRing());
-	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
+	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world).setLevel(getLevel()).setElement(Element.GOLDEN)));
 	}
     }
 
@@ -85,7 +86,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
     }
 
@@ -109,7 +110,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	if (!world.isRemote && this.ticksExisted % 20 == 0)
 	{
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
-	    for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+	    for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)))
 	    {
 		if (e instanceof EntityGoldenPillar)
 		{

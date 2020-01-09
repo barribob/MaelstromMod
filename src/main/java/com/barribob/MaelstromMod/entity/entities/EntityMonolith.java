@@ -124,7 +124,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
-		    ModUtils.handleAreaImpact(7, (e) -> getAttack(), actor, getPositionVector(), ModDamageSource.causeMaelstromMeleeDamage(actor), 2.0f, 0, true);
+		    ModUtils.handleAreaImpact(7, (e) -> getAttack(), actor, getPositionVector(), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 2.0f, 0, true);
 		    actor.playSound(SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, 1.0f, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 		    actor.world.setEntityState(actor, ModUtils.SECOND_PARTICLE_BYTE);
 		}
@@ -162,7 +162,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 			    Vec3d currentPos = actor.getPositionVector().add(ModUtils.yVec(actor.getEyeHeight()));
 			    for (int i = 0; i < numParticles; i++)
 			    {
-				ModUtils.handleAreaImpact(lazerRadius, (e) -> actor.getAttack(), actor, currentPos, ModDamageSource.causeMaelstromExplosionDamage(actor), 0.5f,
+				ModUtils.handleAreaImpact(lazerRadius, (e) -> actor.getAttack(), actor, currentPos, ModDamageSource.causeElementalExplosionDamage(actor, actor.getElement()), 0.5f,
 					5, false);
 				currentPos = currentPos.add(dir);
 				for (int j = 0; j < 20; j++)
@@ -491,7 +491,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
     @Override
     public void onStopLeaping()
     {
-	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeMaelstromExplosionDamage(this));
+	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalExplosionDamage(this, getElement()));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
 	this.world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE);
 	this.teleportBackTime = 20;

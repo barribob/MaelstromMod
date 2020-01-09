@@ -5,6 +5,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.items.ISweepAttackParticles;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -30,7 +31,7 @@ public class ToolBlackGoldSword extends ToolSword implements ISweepAttackOverrid
 
     public ToolBlackGoldSword(String name, ToolMaterial material, float level)
     {
-	super(name, material, level);
+	super(name, material, level, Element.GOLDEN);
     }
 
     @Override

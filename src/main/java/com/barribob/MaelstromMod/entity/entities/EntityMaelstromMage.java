@@ -35,7 +35,6 @@ public class EntityMaelstromMage extends EntityMaelstromMob
     public EntityMaelstromMage(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(1.5f);
 	this.setSize(0.9f, 1.8f);
     }
 

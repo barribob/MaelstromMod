@@ -16,7 +16,7 @@ public class ActionGolemSlam extends Action
     public void performAction(EntityLeveledMob actor, EntityLivingBase target)
     {
 	Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 1, 0)));
-	ModUtils.handleAreaImpact(2, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeMaelstromMeleeDamage(actor), 0.5f, 0, true);
+	ModUtils.handleAreaImpact(2, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.5f, 0, true);
 	ParticleManager.spawnParticleSphere(actor.world, offset, 2);
 
 	float inaccuracy = 0.0f;

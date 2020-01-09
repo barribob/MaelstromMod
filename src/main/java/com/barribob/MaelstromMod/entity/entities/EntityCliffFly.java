@@ -14,6 +14,7 @@ import com.barribob.MaelstromMod.entity.model.ModelCliffFly;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -32,6 +33,7 @@ public class EntityCliffFly extends EntityLeveledFlyingMob
 	super(worldIn);
 	this.moveHelper = new FlyingMoveHelper(this);
 	this.setSize(1.0f, 1.8f);
+	this.setLevel(LevelHandler.CLIFF_OVERWORLD);
     }
 
     @Override

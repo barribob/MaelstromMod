@@ -9,28 +9,18 @@
             "entries": [
                 {
                     "type": "loot_table",
-                    "name": "mm:util/minecraft_ores",
-                    "weight": 5
+                    "name": "mm:util/level_3_loot",
+                    "weight": 6
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/maelstrom_level_loot",
-                    "weight": 2
-                },
-                {
-                    "type": "loot_table",
-                    "name": "mm:util/level_2_loot",
-                    "weight": 4
-                },
-                {
-                    "type": "loot_table",
-                    "name": "mm:util/level_2_half_loot",
-                    "weight": 4
+                    "name": "mm:util/level_4_loot",
+                    "weight": 6
                 },
                 {
                     "type": "item",
                     "name": "minecraft:book",
-                    "weight": 1,
+                    "weight": 2,
                     "functions": [
                         {
                             "function": "enchant_with_levels",
@@ -39,6 +29,20 @@
                                 "max": 30
                             },
                             "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:golden_maelstrom_fragment",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 3,
+                                "max": 4
+                            }
                         }
                     ]
                 }

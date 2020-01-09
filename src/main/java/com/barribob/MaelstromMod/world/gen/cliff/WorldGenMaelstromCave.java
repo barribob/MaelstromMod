@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.tileentity.TileEntity;
@@ -39,7 +40,7 @@ public class WorldGenMaelstromCave extends WorldGenCliffLedge
 			},
 			new int[] { 1 },
 			3,
-			2.0f,
+			LevelHandler.CLIFF_OVERWORLD,
 			16);
 	    }
 	}

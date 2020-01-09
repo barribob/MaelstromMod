@@ -7,10 +7,8 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -47,6 +45,7 @@ public class ProjectileWillOTheWisp extends ProjectileGun
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	float f1 = 1.25f;
@@ -77,7 +76,7 @@ public class ProjectileWillOTheWisp extends ProjectileGun
 		    int burnTime = this.isBurning() ? 10 : 5;
 		    ((EntityLivingBase) entity).setFire(burnTime);
 
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMaelstromThrownDamage(this, this.shootingEntity),
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()),
 			    this.getGunDamage(((EntityLivingBase) entity)));
 		    ((EntityLivingBase) entity).addVelocity(0, 0.1D, 0);
 
@@ -85,8 +84,8 @@ public class ProjectileWillOTheWisp extends ProjectileGun
 
 		    if (f1 > 0.0F)
 		    {
-			((EntityLivingBase) entity).addVelocity(this.motionX * (double) this.getKnockback() * 0.6000000238418579D / (double) f1, 0.0D,
-				this.motionZ * (double) this.getKnockback() * 0.6000000238418579D / (double) f1);
+			((EntityLivingBase) entity).addVelocity(this.motionX * this.getKnockback() * 0.6000000238418579D / f1, 0.0D,
+				this.motionZ * this.getKnockback() * 0.6000000238418579D / f1);
 		    }
 		}
 	    }

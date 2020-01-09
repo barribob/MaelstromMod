@@ -247,7 +247,9 @@ public class ModEventHandler
 	// Factor in elemental armor first
 	if(event.getSource() instanceof IElement)
 	{
+	    System.out.println(damage);
 	    damage *= 1 - ArmorHandler.getElementalArmor(event.getEntity(), ((IElement) event.getSource()).getElement());
+	    System.out.println(damage);
 	}
 
 	// Factor in maelstrom armor second

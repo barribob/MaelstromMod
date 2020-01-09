@@ -38,7 +38,7 @@ public class ProjectileAzureBullet extends ProjectileBullet
     protected void onHit(RayTraceResult result)
     {
 	ModUtils.handleBulletImpact(result.entityHit, this, this.getGunDamage(result.entityHit),
-		ModDamageSource.causeMaelstromThrownDamage(this, this.shootingEntity, this.getElement()), this.getKnockback());
+		ModDamageSource.causeElementalThrownDamage(this, this.shootingEntity, this.getElement()), this.getKnockback());
 
 	if (result.entityHit == null)
 	{

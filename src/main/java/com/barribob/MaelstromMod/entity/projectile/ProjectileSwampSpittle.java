@@ -1,11 +1,11 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
 import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -40,7 +40,7 @@ public class ProjectileSwampSpittle extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), DamageSource.causeThrownDamage(this, this.shootingEntity));
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
 	super.onHit(result);
     }
 }

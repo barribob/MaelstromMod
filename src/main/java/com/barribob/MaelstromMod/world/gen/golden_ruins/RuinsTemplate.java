@@ -11,6 +11,7 @@ import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
@@ -98,7 +99,7 @@ public class RuinsTemplate extends ModStructureTemplate
 				    }, 
 			    new int[] { 1, 1, 1 },
 			    4,
-			    2.5f,
+			    LevelHandler.CLIFF_ENDGAME,
 			    20);
 		}
 	    }
@@ -114,7 +115,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":golden_boss", Element.GOLDEN), 1, 2.5f, 16);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":golden_boss", Element.GOLDEN), 1, LevelHandler.CLIFF_ENDGAME, 16);
 	    }
 	}
 	else if (function.startsWith("lava"))

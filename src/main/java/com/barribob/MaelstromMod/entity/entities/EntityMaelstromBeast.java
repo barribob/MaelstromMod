@@ -71,7 +71,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
 		    Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 0, 0)));
-		    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeMaelstromMeleeDamage(actor), 1, 0, false);
+		    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 1, 0, false);
 		    if (EntityMaelstromBeast.this.isRaged())
 		    {
 			ModUtils.performNTimes(8, (i) -> {
@@ -95,7 +95,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
 			ModUtils.handleAreaImpact(20, (e) -> {
 			    e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
 			    return actor.getAttack() * 0.5f;
-			}, actor, actor.getPositionVector(), ModDamageSource.causeMaelstromMeleeDamage(actor), 0, 0, false);
+			}, actor, actor.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0, 0, false);
 		    }
 		    actor.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1.0F, 0.9F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		}
@@ -506,7 +506,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
     @Override
     public void onStopLeaping()
     {
-	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeMaelstromExplosionDamage(this));
+	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeElementalExplosionDamage(this, getElement()));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
 	this.world.setEntityState(this, this.explosionParticles);
 	if (this.isRaged())

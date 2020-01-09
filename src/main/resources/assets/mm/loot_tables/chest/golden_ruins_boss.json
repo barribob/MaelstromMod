@@ -2,10 +2,7 @@
     "pools": [
         {
             "name": "golden_ruins",
-            "rolls": {
-                "min": 2,
-                "max": 4
-            },
+            "rolls": 4,
             "entries": [
                 {
                     "type": "item",
@@ -23,7 +20,7 @@
                 },
                 {
                     "type": "loot_table",
-                    "name": "mm:util/level_2_half_loot",
+                    "name": "mm:util/level_4_loot",
                     "weight": 1
                 },
                 {

@@ -1,13 +1,13 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
 import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -83,7 +83,7 @@ public class ProjectilePumpkin extends ProjectileGun
     protected void onHit(RayTraceResult result)
     {
 	ModUtils.handleBulletImpact(result.entityHit, this, (float) (this.getGunDamage(result.entityHit) * this.getDistanceTraveled()),
-		DamageSource.causeThrownDamage(this, this.shootingEntity), this.getKnockback());
+		ModDamageSource.causeElementalThrownDamage(this, this.shootingEntity, getElement()), this.getKnockback());
 	super.onHit(result);
     }
 }

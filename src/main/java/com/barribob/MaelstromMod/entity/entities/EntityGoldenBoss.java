@@ -19,6 +19,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelGoldenBoss;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -50,7 +51,6 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     public EntityGoldenBoss(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2.5f);
 	this.setSize(1.6f, 3.6f);
 	this.healthScaledAttackFactor = 0.2;
 	if (!worldIn.isRemote)
@@ -58,7 +58,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	    this.attackHandler.setAttack(octoMissile, new ActionOctoMissiles());
 	    this.attackHandler.setAttack(megaMissile, new ActionGoldenFireball());
 	    this.attackHandler.setAttack(runes, new ActionMultiGoldenRunes());
-	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world)));
+	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world).setLevel(getLevel()).setElement(Element.GOLDEN)));
 	}
     }
 
@@ -132,7 +132,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.5);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
     }
 
@@ -147,7 +147,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	    if (this.ticksExisted % 20 == 0)
 	    {
 		world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE);
-		for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+		for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)))
 		{
 		    if (e instanceof EntityGoldenPillar)
 		    {
@@ -173,6 +173,8 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	    boss.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(this)), null);
 	    world.spawnEntity(boss);
 	    boss.setAttackTarget(this.getAttackTarget());
+	    boss.setElement(Element.GOLDEN);
+	    boss.setLevel(this.getLevel());
 	}
 	this.setPosition(0, 0, 0);
 	super.onDeath(cause);

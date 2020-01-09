@@ -60,7 +60,7 @@ public class ProjectileHorrorAttack extends Projectile
     protected void onHit(RayTraceResult result)
     {
 	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(),
-		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity));
+		ModDamageSource.causeElementalExplosionDamage(shootingEntity, getElement()));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);
     }

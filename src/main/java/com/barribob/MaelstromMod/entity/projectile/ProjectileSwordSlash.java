@@ -1,9 +1,9 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -41,7 +41,7 @@ public class ProjectileSwordSlash extends Projectile
 		((WorldServer) this.world).spawnParticle(EnumParticleTypes.SWEEP_ATTACK, this.posX, this.posY, this.posZ, 0, 0, 0.0D, 0, 0.0D);
 	    }
 
-	    ModUtils.handleAreaImpact(1, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), DamageSource.causeThrownDamage(this, this.shootingEntity),
+	    ModUtils.handleAreaImpact(1, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()),
 		    0.2f, 0);
 	}
     }

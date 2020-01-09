@@ -121,7 +121,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
-		    ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack(), actor, getPositionVector(), ModDamageSource.causeMaelstromExplosionDamage(actor));
+		    ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack(), actor, getPositionVector(), ModDamageSource.causeElementalExplosionDamage(actor, getElement()));
 		    actor.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 		    actor.world.setEntityState(actor, ModUtils.THIRD_PARTICLE_BYTE);
 		}

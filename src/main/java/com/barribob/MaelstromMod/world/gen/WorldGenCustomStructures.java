@@ -100,7 +100,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":cliff_golem", 1, 2.0f, 16);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":cliff_golem", 1, LevelHandler.CLIFF_OVERWORLD, 16);
 		}
 	    }
 	};
@@ -124,7 +124,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 			    },
 			    new int[] { 1, 1 },
 			    3,
-			    2.0f,
+			    LevelHandler.CLIFF_OVERWORLD,
 			    16);
 		}
 	    }
@@ -181,7 +181,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
 		if (tileentity instanceof TileEntityMobSpawner)
 		{
-		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":" + EntityGoldenPillar.ID, Element.GOLDEN), 2, 2.0f, 16);
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":" + EntityGoldenPillar.ID, Element.GOLDEN), 2, LevelHandler.CLIFF_OVERWORLD, 16);
 		}
 	    }
 	    if (function.startsWith("chest"))
@@ -214,7 +214,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 			    },
 			    new int[] { 1, 1, 1 },
 			    3,
-			    2.0f,
+			    LevelHandler.CLIFF_OVERWORLD,
 			    16)).generate(worldIn, rand, pos);
 		}
 		else
@@ -280,7 +280,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 			    },
 			    new int[] { 1, 1, 1 },
 			    3,
-			    2.0f,
+			    LevelHandler.CLIFF_OVERWORLD,
 			    16)).generate(worldIn, rand, pos);
 		}
 		else

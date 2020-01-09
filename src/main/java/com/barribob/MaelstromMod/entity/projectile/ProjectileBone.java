@@ -46,7 +46,7 @@ public class ProjectileBone extends Projectile
     protected void onHit(RayTraceResult result)
     {
 	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(),
-		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity));
+		ModDamageSource.causeElementalExplosionDamage(this.shootingEntity, getElement()));
 	this.playSound(SoundEvents.ENTITY_SKELETON_HURT, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);
     }

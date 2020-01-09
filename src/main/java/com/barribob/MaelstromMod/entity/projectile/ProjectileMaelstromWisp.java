@@ -54,7 +54,7 @@ public class ProjectileMaelstromWisp extends Projectile
     {
 	super.onUpdate();
 	ModUtils.handleAreaImpact(AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, getPositionVector(),
-		ModDamageSource.causeMaelstromThrownDamage(this, this.shootingEntity));
+		ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
     }
 
     @Override

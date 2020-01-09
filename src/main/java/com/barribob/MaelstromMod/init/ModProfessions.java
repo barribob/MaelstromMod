@@ -103,39 +103,45 @@ public class ModProfessions
 	/**
 	 * Level 3 (Cliff Overworld)
 	 */
-
-	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_FRAGMENT, 3, null, 0, ModItems.BLACK_GOLD_AMMO_CASE, 1));
-	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.MoreComing());
-
-	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 32, null, 0, ModItems.CROSS_OF_AQUA, 1));
-	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_STAFF, 1));
-	NEXUS_MAGE.addTrade(1, new NexusTrades.MoreComing());
-
-	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.FLY_WINGS, 32, null, 0, Items.ELYTRA, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 3, ModItems.FLY_WINGS, 2, ModItems.SWAMP_HELMET, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 5, ModItems.FLY_WINGS, 3, ModItems.SWAMP_CHESTPLATE, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 4, ModItems.FLY_WINGS, 2, ModItems.SWAMP_LEGGINGS, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 2, ModItems.FLY_WINGS, 1, ModItems.SWAMP_BOOTS, 1));
-	NEXUS_ARMORER.addTrade(1, new NexusTrades.MoreComing());
 
-	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.BAKUYA, 1));
-	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.KANSHOU, 1));
-	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 3, null, 0, ModItems.NYAN_HELMET, 1));
-	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.NYAN_CHESTPLATE, 1));
-	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, null, 0, ModItems.NYAN_LEGGINGS, 1));
-	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, null, 0, ModItems.NYAN_BOOTS, 1));
-	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.MoreComing());
-
-	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.SWAMP_SLIME, 16, Items.DIAMOND, 5, ModItems.CRUSADE_SWORD, 1));
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2, ModItems.GOLDEN_MAELSTROM_CORE, 2, ModItems.CRUSADE_SWORD, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, Items.IRON_INGOT, 64, ModItems.MAGISTEEL_SWORD, 1));
+
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.FLY_WINGS, 32, null, 0, Items.ELYTRA, 1));
+	/**
+	 * Level 3 (Cliff Endgame)
+	 */
+
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 1, null, 0, ModItems.BLACK_GOLD_AMMO_CASE, 3));
+
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2, ModItems.CROSS_OF_AQUA, 1));
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_STAFF, 1));
+
+
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 3, ModItems.BAKUYA, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 3, ModItems.KANSHOU, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 3, ModItems.MAELSTROM_CORE, 2, ModItems.NYAN_HELMET, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, ModItems.MAELSTROM_CORE, 3, ModItems.NYAN_CHESTPLATE, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 3, ModItems.NYAN_LEGGINGS, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 2, ModItems.NYAN_BOOTS, 1));
+
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_DAGGER, 1));
+
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.MoreComing());
+	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.MoreComing());
+	NEXUS_ARMORER.addTrade(1, new NexusTrades.MoreComing());
+	NEXUS_MAGE.addTrade(1, new NexusTrades.MoreComing());
+	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.MoreComing());
 
 	HEROBRINE_CLIFF_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_cliff");
 	HEROBRINE_CLIFF_KEY.addTrade(1, new GeneralTrade(ModItems.CLIFF_KEY_FRAGMENT, 2, null, 0, ModItems.BROWN_KEY, 1));
 
 	HEROBRINE_CRIMSON_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_crimson");
-	HEROBRINE_CRIMSON_KEY.addTrade(1, new GeneralTrade(ModItems.RED_KEY_FRAGMENT, 7, null, 0, ModItems.RED_KEY, 1));
+	HEROBRINE_CRIMSON_KEY.addTrade(1, new GeneralTrade(ModItems.RED_KEY_FRAGMENT, 2, null, 0, ModItems.RED_KEY, 1));
     }
 
     public static class GeneralTrade implements ITradeList

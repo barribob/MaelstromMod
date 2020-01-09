@@ -40,7 +40,7 @@ public class ProjectileGoldenMissile extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMaelstromMeleeDamage(this.shootingEntity));
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
 	super.onHit(result);
     }
 }

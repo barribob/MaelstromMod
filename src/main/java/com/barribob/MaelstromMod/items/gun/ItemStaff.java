@@ -11,6 +11,8 @@ import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -36,7 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * calls shoot() when the staff successfully shoots
  *
  */
-public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reloadable
+public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reloadable, IElement
 {
     private final int maxCooldown;
     private float level;
@@ -44,6 +46,7 @@ public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reload
     protected DecimalFormat df = new DecimalFormat("0.00");
     private Consumer<List<String>> information = (info) -> {
     };
+    private Element element = Element.NONE;
 
     public ItemStaff(String name, int experienceUse, int cooldown, float useTime, float level, CreativeTabs tab)
     {
@@ -164,6 +167,10 @@ public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reload
 	tooltip.add(ModUtils.getDisplayLevel(this.level));
 	tooltip.add(ModUtils.getCooldownTooltip(this.getEnchantedCooldown(stack)));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("mana_cost") + ": " + TextFormatting.DARK_PURPLE + this.manaCost);
+	if (!element.equals(element.NONE))
+	{
+	    tooltip.add(ModUtils.getElementalTooltip(element));
+	}
 	information.accept(tooltip);
     }
 
@@ -191,6 +198,18 @@ public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reload
     public float getLevel()
     {
 	return this.level;
+    }
+
+    @Override
+    public Element getElement()
+    {
+	return element;
+    }
+
+    public ItemStaff setElement(Element element)
+    {
+	this.element = element;
+	return this;
     }
 
     protected abstract void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack);

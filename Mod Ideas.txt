@@ -1,5 +1,4 @@
-||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
-
+|||||||||||||||||||||||||||||||||||||||||||||| Update 1.1 (May 1)
 Crimson Dungeon [85]
     [DONE] Dungeon Blocks (6)
     Dungeon Generation [35]
@@ -24,6 +23,8 @@ Crimson Dungeon [85]
             2 for chests
             1 for nexus
 
+||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
+
 Make the portal telportation less jenky
 Particle overhaul (10 ish)
     Make Herobrine's particles something other than black(1)
@@ -31,16 +32,16 @@ Fix the smearing and unclearness behind the rare and common durabilities
 Fix witch animation
 Clean up lang again (1)
 Gargoyles (3)
-Add crafting recipies for craftable armor
 Maelstrom cores only drop fragments
 Make the story make more sense with Herobrine and the dark nexus
     Unlock herobrine after enough cliff key fragments
 Make all ids not hardcoded
 Remove projectiles after a certain amount of time
+Make spawner that guarentees that bosses spawn
+Add a staff to counter the mobs during the second stage of the golden boss
+Make sweep attacks elemental
 
 Rebuild the leveling system
-
-||| After adding the crimson dimension
 
 Creative tab organization (1)
 Name things to be sexier (2)
@@ -50,6 +51,7 @@ Testing (6)
     Test spawners because we changed the base spawner logic
     Test dungeon loots
     Test all mob pathfinding to make sure it is compatible with our ground mob pathfinder
+    Test elements
 Balacing (4)
 
 Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)

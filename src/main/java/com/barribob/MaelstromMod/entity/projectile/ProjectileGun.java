@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -50,6 +51,10 @@ public class ProjectileGun extends Projectile
 	    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_flame, stack) > 0)
 	    {
 		this.setFire(100);
+	    }
+	    if (stack.getItem() instanceof IElement)
+	    {
+		this.setElement(((IElement) stack.getItem()).getElement());
 	    }
 	}
     }

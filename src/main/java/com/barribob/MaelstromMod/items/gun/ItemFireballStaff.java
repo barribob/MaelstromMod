@@ -11,7 +11,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -45,7 +44,7 @@ public class ItemFireballStaff extends ItemStaff
 	world.spawnEntity(projectile);
     }
     
-    public Item setFactory(BulletFactory factory)
+    public ItemFireballStaff setFactory(BulletFactory factory)
     {
 	this.factory = factory;
 	return this;

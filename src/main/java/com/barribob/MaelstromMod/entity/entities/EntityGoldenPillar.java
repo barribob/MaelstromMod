@@ -33,7 +33,6 @@ public class EntityGoldenPillar extends EntityMaelstromMob
 	super(worldIn);
 	this.setSize(1.4f, 3.2f);
 	this.setNoGravity(true);
-	this.setLevel(2.5f);
 	this.setImmovable(true);
     }
 

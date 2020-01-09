@@ -29,12 +29,22 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
     @SideOnly(Side.CLIENT)
     protected Animation currentAnimation;
     private float level;
+
     protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(EntityLeveledMob.class, DataSerializers.VARINT);
 
     public EntityLeveledFlyingMob(World worldIn)
     {
 	super(worldIn);
-	this.level = 2;
+    }
+
+    public float getLevel()
+    {
+	return level;
+    }
+
+    public void setLevel(float level)
+    {
+	this.level = level;
     }
 
     @Override

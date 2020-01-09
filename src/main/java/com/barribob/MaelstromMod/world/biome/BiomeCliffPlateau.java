@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
 
 import net.minecraft.block.Block;
@@ -82,7 +83,7 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
 			},
 			new int[] { 1, 1 },
 			3,
-			2.0f,
+			LevelHandler.CLIFF_OVERWORLD,
 			16));
 	if (rand.nextInt(5) == 0)
 	{

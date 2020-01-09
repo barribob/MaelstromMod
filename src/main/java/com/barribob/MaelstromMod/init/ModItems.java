@@ -167,8 +167,8 @@ public class ModItems
     static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
     };
-    public static final Item KANSHOU = new ToolDagger("kanshou", DAGGER, 2.5f).setInformation(kanshouBakuya);
-    public static final Item BAKUYA = new ToolDagger("bakuya", DAGGER, 2.5f).setInformation(kanshouBakuya);
+    public static final Item KANSHOU = new ToolDagger("kanshou", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
+    public static final Item BAKUYA = new ToolDagger("bakuya", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
 
     // Nexus Guns
     public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, GUN_USE_TIME, LevelHandler.INVASION, ModCreativeTabs.ALL);
@@ -178,15 +178,15 @@ public class ModItems
     });
     public static final Item AMMO_CASE = new ItemAmmoCase("ammo_case", LevelHandler.INVASION);
     public static final Item CHASMIUM_AMMO_CASE = new ItemAmmoCase("chasmium_ammo_case", LevelHandler.AZURE_OVERWORLD);
-    public static final Item BLACK_GOLD_AMMO_CASE = new ItemAmmoCase("black_gold_ammo_case", 2.5f);
+    public static final Item BLACK_GOLD_AMMO_CASE = new ItemAmmoCase("black_gold_ammo_case", LevelHandler.CLIFF_ENDGAME);
 
     // Nexus Swords
     public static final Item FROST_SWORD = new ToolFrostSword("frost_sword", SWORD, LevelHandler.AZURE_ENDGAME);
     public static final Item NEXUS_BATTLEAXE = new ToolBattleaxe("nexus_battleaxe", BATTLEAXE, LevelHandler.AZURE_OVERWORLD);
     public static final Item VENOM_DAGGER = new ToolVenomDagger("venom_dagger", DAGGER, LevelHandler.INVASION);
-    public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", SWORD, 2f);
-    public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", DAGGER, 2.5f);
-    public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", SWORD, 2f);
+    public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
+    public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", DAGGER, LevelHandler.CLIFF_ENDGAME);
+    public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
 
     // Nexus Magic
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 20, STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ALL);
@@ -202,36 +202,43 @@ public class ModItems
     public static final Item NEXUS_CHESTPLATE = new ModArmorBase("nexus_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.INVASION, "nexus");
     public static final Item NEXUS_LEGGINGS = new ModArmorBase("nexus_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.INVASION, "nexus");
     public static final Item NEXUS_BOOTS = new ModArmorBase("nexus_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.INVASION, "nexus");
-    public static final Item NYAN_HELMET = new ArmorNyanHelmet("nyan_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, 2.5f, "nyan_helmet.png");
-    public static final Item NYAN_CHESTPLATE = new ModArmorBase("nyan_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, 2.5f, "nyan");
-    public static final Item NYAN_LEGGINGS = new ModArmorBase("nyan_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, 2.5f, "nyan");
-    public static final Item NYAN_BOOTS = new ModArmorBase("nyan_boots", ARMOR, 1, EntityEquipmentSlot.FEET, 2.5f, "nyan");
+    public static final Item NYAN_HELMET = new ArmorNyanHelmet("nyan_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CLIFF_ENDGAME, "nyan_helmet.png");
+    public static final Item NYAN_CHESTPLATE = new ModArmorBase("nyan_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CLIFF_ENDGAME, "nyan");
+    public static final Item NYAN_LEGGINGS = new ModArmorBase("nyan_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CLIFF_ENDGAME, "nyan");
+    public static final Item NYAN_BOOTS = new ModArmorBase("nyan_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CLIFF_ENDGAME, "nyan");
+
     /*
      * Cliff Dimension Items
      */
     public static final Item GOLD_PELLET = new ItemBase("gold_pellet", null);
-    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, GUN_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
-    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, GUN_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenRepeater());
-    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, GUN_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
-    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, GUN_USE_TIME, 2.5f, ModCreativeTabs.ALL).setBullet(new GoldenBullet());
+    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
+    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setBullet(new GoldenRepeater()).setElement(Element.GOLDEN);
+    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
+    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
 
-    public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, 2.5f, "black_gold");
-    public static final Item BLACK_GOLD_CHESTPLATE = new ModArmorBase("black_gold_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, 2.5f, "black_gold");
-    public static final Item BLACK_GOLD_LEGGINGS = new ModArmorBase("black_gold_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, 2.5f, "black_gold");
-    public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", ARMOR, 1, EntityEquipmentSlot.FEET, 2.5f, "black_gold");
+    public static final Item SWAMP_HELMET = new ModArmorBase("swamp_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CLIFF_OVERWORLD, "swamp");
+    public static final Item SWAMP_CHESTPLATE = new ModArmorBase("swamp_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CLIFF_OVERWORLD, "swamp");
+    public static final Item SWAMP_LEGGINGS = new ModArmorBase("swamp_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CLIFF_OVERWORLD, "swamp");
+    public static final Item SWAMP_BOOTS = new ModArmorBase("swamp_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CLIFF_OVERWORLD, "swamp");
 
-    public static final Item SWAMP_HELMET = new ModArmorBase("swamp_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, 2, "swamp");
-    public static final Item SWAMP_CHESTPLATE = new ModArmorBase("swamp_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, 2, "swamp");
-    public static final Item SWAMP_LEGGINGS = new ModArmorBase("swamp_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, 2, "swamp");
-    public static final Item SWAMP_BOOTS = new ModArmorBase("swamp_boots", ARMOR, 1, EntityEquipmentSlot.FEET, 2, "swamp");
+    public static final Item GOLTOX_HELMET = new ModArmorBase("goltox_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CLIFF_OVERWORLD, "goltox").setElement(Element.GOLDEN);
+    public static final Item GOLTOX_CHESTPLATE = new ModArmorBase("goltox_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CLIFF_OVERWORLD, "goltox").setElement(Element.GOLDEN);
+    public static final Item GOLTOX_LEGGINGS = new ModArmorBase("goltox_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CLIFF_OVERWORLD, "goltox").setElement(Element.GOLDEN);
+    public static final Item GOLTOX_BOOTS = new ModArmorBase("goltox_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CLIFF_OVERWORLD, "goltox").setElement(Element.GOLDEN);
+
+    public static final Item BLACK_GOLD_HELMET = new ModArmorBase("black_gold_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CLIFF_ENDGAME, "black_gold").setElement(Element.GOLDEN);
+    public static final Item BLACK_GOLD_CHESTPLATE = new ModArmorBase("black_gold_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CLIFF_ENDGAME, "black_gold").setElement(Element.GOLDEN);
+    public static final Item BLACK_GOLD_LEGGINGS = new ModArmorBase("black_gold_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CLIFF_ENDGAME, "black_gold").setElement(Element.GOLDEN);
+    public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CLIFF_ENDGAME, "black_gold").setElement(Element.GOLDEN);
+
     public static final Item SWAMP_SLIME = new ItemTradable("swamp_slime", ModCreativeTabs.ALL);
     public static final Item FLY_WINGS = new ItemTradable("fly_wings", ModCreativeTabs.ALL);
 
-    public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", SWORD, 2.5f);
-    public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", SWORD, 2.0f);
-    public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", GUN_USE_TIME, 2f, ModCreativeTabs.ALL).setFactory(new BrownstoneCannon());
-    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", STAFF_USE_TIME, 2.5f, ModCreativeTabs.ALL).setFactory(new GoldenFireball());
-    public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", BATTLEAXE, 2f);
+    public static final Item BLACK_GOLD_SWORD = new ToolBlackGoldSword("black_gold_sword", SWORD, LevelHandler.CLIFF_ENDGAME);
+    public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
+    public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", GUN_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ALL).setFactory(new BrownstoneCannon());
+    public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setFactory(new GoldenFireball()).setElement(Element.GOLDEN);
+    public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", BATTLEAXE, LevelHandler.CLIFF_OVERWORLD);
 
     public static final Item GOLDEN_MAELSTROM_CORE = new ItemTradable("golden_maelstrom_core", ModCreativeTabs.ALL);
     public static final Item GOLDEN_MAELSTROM_FRAGMENT = new ItemTradable("golden_maelstrom_fragment", ModCreativeTabs.ALL);
@@ -244,6 +251,6 @@ public class ModItems
 	    tooltip.add(TextFormatting.GRAY + "Mana cost: " + TextFormatting.DARK_PURPLE + "0.5" + TextFormatting.GRAY + " per second");
 	};
     };
-    public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", SWORD, 2.5f);
-    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 50, STAFF_USE_TIME, 2f, ModCreativeTabs.ALL);
+    public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", SWORD, LevelHandler.CLIFF_ENDGAME);
+    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 50, STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ALL);
 }

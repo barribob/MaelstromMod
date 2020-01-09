@@ -2,13 +2,13 @@ package com.barribob.MaelstromMod.entity.projectile;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -95,7 +95,7 @@ public class ProjectileQuake extends ProjectileGun
 		    int burnTime = this.isBurning() ? 5 : 0;
 		    ((EntityLivingBase) entity).setFire(burnTime);
 
-		    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), this.getGunDamage(((EntityLivingBase) entity)));
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()), this.getGunDamage(((EntityLivingBase) entity)));
 
 		    // Apply knockback enchantment
 		    if (this.getKnockback() > 0)

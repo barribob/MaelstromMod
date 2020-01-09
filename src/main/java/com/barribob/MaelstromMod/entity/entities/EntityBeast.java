@@ -51,7 +51,6 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 	this.setSize(2.8f, 2.2f);
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	this.healthScaledAttackFactor = 0.2;
-	this.setLevel(2.0f);
 	if (!worldIn.isRemote)
 	{
 	    attackHandler.setAttack(leap, new Action()
@@ -174,7 +173,7 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
     {
 	if (!world.isRemote && this.leaping)
 	{
-	    ModUtils.handleAreaImpact(2.5f, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeMaelstromMeleeDamage(this), 0.3f, 0, false);
+	    ModUtils.handleAreaImpact(2.5f, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.3f, 0, false);
 	}
 	super.onLivingUpdate();
     }

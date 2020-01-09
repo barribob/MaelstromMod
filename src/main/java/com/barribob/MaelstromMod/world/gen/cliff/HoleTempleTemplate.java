@@ -5,6 +5,7 @@ import java.util.Random;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
 
 import net.minecraft.tileentity.TileEntity;
@@ -41,7 +42,7 @@ public class HoleTempleTemplate extends ModStructureTemplate
 
 	if (tileentity instanceof TileEntityMobSpawner)
 	{
-	    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":beast", 1, 2.0f, 20);
+	    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":beast", 1, LevelHandler.CLIFF_OVERWORLD, 20);
 	}
     }
 

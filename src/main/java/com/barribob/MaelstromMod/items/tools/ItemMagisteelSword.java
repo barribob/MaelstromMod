@@ -21,7 +21,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemMagisteelSword extends ToolLongsword implements ISweepAttackOverride
+public class ItemMagisteelSword extends ToolSword implements ISweepAttackOverride
 {
     public ItemMagisteelSword(String name, ToolMaterial material, float level)
     {

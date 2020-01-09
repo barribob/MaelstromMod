@@ -158,7 +158,7 @@ public class ModEntities
     public static Vec3i cliff = new Vec3i(0x999966, 0xe6e600, 0);
     public static Vec3i cliff_maelstrom = new Vec3i(6433126, 0xe6e600, 0);
 
-    public static final int BOSS_EXPERIENCE = 500;
+    public static final int BOSS_EXPERIENCE = 1000;
     public static final int MINIBOSS_EXPERIENCE = 100;
 
     public static void registerEntities()

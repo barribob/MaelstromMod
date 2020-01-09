@@ -50,6 +50,7 @@ import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
@@ -117,7 +118,7 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileSwampSpittle.class, ModItems.SWAMP_SLIME);
 	registerProjectileRenderer(EntityParticleSpawner.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBone.class, Items.BONE);
-	registerProjectileRenderer(Projectile.class, ModItems.MAELSTROM_PELLET);
+	registerProjectileRenderer(ProjectileHorrorAttack.class, ModItems.MAELSTROM_PELLET);
     }
 
     /**
