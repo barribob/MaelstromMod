@@ -481,11 +481,15 @@ public final class ModUtils
 
     public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity)
     {
+	doSweepAttack(player, target, element, perEntity, 9, 1);
+    }
+
+    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity, float maxDistanceSq, float areaSize)
+    {
 	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
-	float maxDistanceSq = 9.0f;
 
-	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(1.0, 0.25D, 1.0)))
+	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(areaSize, 0.25D, areaSize)))
 	{
 	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
 	    {
