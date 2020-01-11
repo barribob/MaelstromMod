@@ -1,5 +1,8 @@
 package com.barribob.MaelstromMod.init;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
@@ -68,9 +71,9 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwordSlash;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityBossSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityFan;
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityBossSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
@@ -161,33 +164,35 @@ public class ModEntities
     public static final int BOSS_EXPERIENCE = 1000;
     public static final int MINIBOSS_EXPERIENCE = 100;
 
+    private static final Map<Class<? extends Entity>, String> ID_MAP = new HashMap<Class<? extends Entity>, String>();
+
     public static void registerEntities()
     {
-	registerEntity(EntityShade.ID, EntityShade.class, SHADE_ID, 50, maelstrom);
-	registerEntity("horror", EntityHorror.class, HORROR_ID, 50, maelstrom);
+	registerEntityWithID("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
+	registerEntityWithID("horror", EntityHorror.class, HORROR_ID, 50, maelstrom);
 	registerEntity("dream_elk", EntityDreamElk.class, DREAM_ELK_ID, 50, azure);
-	registerEntity("beast", EntityBeast.class, BEAST_ID, 100, maelstrom);
+	registerEntityWithID("beast", EntityBeast.class, BEAST_ID, 100, maelstrom);
 	registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 50, maelstrom);
 	registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 100, azure);
-	registerEntity(EntityMaelstromMage.ID, EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
+	registerEntityWithID("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
 	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 70, azure);
-	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
+	registerEntityWithID("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
 	registerEntity("herobrine_1", EntityHerobrineOne.class, HEROBRINE_1_ID, 50);
-	registerEntity("herobrine_controller", Herobrine.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
+	registerEntityWithID("herobrine_controller", Herobrine.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
 	registerEntity("nexus_gunsmith", NexusGunTrader.class, NEXUS_GUNSMITH, 50, nexus);
 	registerEntity("nexus_mage", NexusMageTrader.class, NEXUS_MAGE, 50, nexus);
 	registerEntity("nexus_armorer", NexusArmorer.class, NEXUS_ARMORER, 50, nexus);
 	registerEntity("nexus_saiyan", NexusSpecialTrader.class, NEXUS_SAIYAN, 50, nexus);
 	registerEntity("nexus_bladesmith", NexusBladesmith.class, NEXUS_BLADESMITH, 50, nexus);
-	registerEntity(EntityGoldenPillar.ID, EntityGoldenPillar.class, GOLDEN_PILLAR, 50, cliff_maelstrom);
-	registerEntity("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, cliff_maelstrom);
+	registerEntityWithID("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, cliff_maelstrom);
+	registerEntityWithID("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, cliff_maelstrom);
 	registerEntity("maelstrom_golden_boss", EntityMaelstromGoldenBoss.class, MAELSTROM_GOLDEN_BOSS, 70, cliff_maelstrom);
-	registerEntity("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, cliff_maelstrom);
-	registerEntity("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
+	registerEntityWithID("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, cliff_maelstrom);
+	registerEntityWithID("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
 	registerEntity("swamp_crawler", EntitySwampCrawler.class, ENTITY_START_ID++, 50, cliff);
 	registerEntity("cliff_fly", EntityCliffFly.class, ENTITY_START_ID++, 70, cliff);
-	registerEntity("iron_shade", EntityIronShade.class, ENTITY_START_ID++, 70, maelstrom);
-	registerEntity("maelstrom_beast", EntityMaelstromBeast.class, ENTITY_START_ID++, 70, maelstrom);
+	registerEntityWithID("iron_shade", EntityIronShade.class, ENTITY_START_ID++, 70, maelstrom);
+	registerEntityWithID("maelstrom_beast", EntityMaelstromBeast.class, ENTITY_START_ID++, 70, maelstrom);
 	registerEntity("monolith", EntityMonolith.class, ENTITY_START_ID++, 70, maelstrom);
 	registerEntity("white_monolith", EntityWhiteMonolith.class, ENTITY_START_ID++, 70);
 
@@ -245,10 +250,24 @@ public class ModEntities
 	registerTileEntity(TileEntityFan.class, "fan");
     }
 
+    public static String getID(Class<? extends Entity> entity)
+    {
+	if (ID_MAP.containsKey(entity))
+	{
+	    return Reference.MOD_ID + ":" + ID_MAP.get(entity);
+	}
+	throw new IllegalArgumentException("Mapping of an entity has not be registered for the maelstrom mod spawner system.");
+    }
+
+    private static void registerEntityWithID(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)
+    {
+	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(), eggColor.getY());
+	ID_MAP.put(entity, name);
+    }
+
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)
     {
-	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(),
-		eggColor.getY());
+	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(), eggColor.getY());
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range)

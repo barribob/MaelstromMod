@@ -2,14 +2,15 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_fortress;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
-import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
@@ -121,9 +122,9 @@ public class FortressTemplate extends ModStructureTemplate
 	    {
 		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
-				new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
-				new MobSpawnData(Reference.MOD_ID + ":horror", Element.NONE),
-				new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1)
+				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(ModEntities.getID(EntityHorror.class), Element.NONE),
+				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1)
 			},
 			new int[] { 1, 1, 1 },
 			3,

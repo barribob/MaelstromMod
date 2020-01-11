@@ -7,8 +7,8 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
-import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
@@ -36,7 +36,7 @@ public class WorldGenMaelstromCave extends WorldGenCliffLedge
 	    {
 		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
-				new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1)
+				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1)
 			},
 			new int[] { 1 },
 			3,

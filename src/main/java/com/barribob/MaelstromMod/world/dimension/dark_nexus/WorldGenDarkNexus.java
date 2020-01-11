@@ -2,11 +2,12 @@ package com.barribob.MaelstromMod.world.dimension.dark_nexus;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.Herobrine;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
-import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
@@ -39,7 +40,7 @@ public class WorldGenDarkNexus extends WorldGenStructure
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":herobrine_controller", Element.NONE), 1, LevelHandler.INVASION, 20);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(ModEntities.getID(Herobrine.class), Element.NONE), 1, LevelHandler.INVASION, 20);
 	    }
 	}
     }

@@ -2,15 +2,16 @@ package com.barribob.MaelstromMod.world.gen.golden_ruins;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
@@ -93,9 +94,9 @@ public class RuinsTemplate extends ModStructureTemplate
 		{
 		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] { 
-				    new MobSpawnData(Reference.MOD_ID + ":" + EntityMaelstromMage.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
-				    new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
-				    new MobSpawnData(Reference.MOD_ID + ":" + EntityGoldenPillar.ID, Element.GOLDEN, 2)
+				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityGoldenPillar.class), Element.GOLDEN, 2)
 				    }, 
 			    new int[] { 1, 1, 1 },
 			    4,
@@ -115,7 +116,7 @@ public class RuinsTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":golden_boss", Element.GOLDEN), 1, LevelHandler.CLIFF_ENDGAME, 16);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(ModEntities.getID(EntityGoldenBoss.class), Element.GOLDEN), 1, LevelHandler.CLIFF_ENDGAME, 16);
 	    }
 	}
 	else if (function.startsWith("lava"))

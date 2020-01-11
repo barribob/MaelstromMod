@@ -23,7 +23,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityGoldenPillar extends EntityMaelstromMob
 {
-    public static final String ID = "golden_pillar";
     private Action fireballBurst = new ActionFireballBurst();
     private Action goldenRune = new ActionGoldenRunes();
     private Action currentAction = fireballBurst;

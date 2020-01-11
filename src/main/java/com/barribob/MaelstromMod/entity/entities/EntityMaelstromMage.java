@@ -28,7 +28,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityMaelstromMage extends EntityMaelstromMob
 {
-    public static final String ID = "maelstrom_mage";
     public static final float PROJECTILE_INACCURACY = 6.0f;
     public static final float PROJECTILE_SPEED = 1.2f;
 

@@ -3,10 +3,10 @@ package com.barribob.MaelstromMod.entity.projectile;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
@@ -66,7 +66,7 @@ public class ProjectileMaelstromMeteor extends Projectile
 	}
 
 	new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
-		new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, Element.NONE),
+		new MobSpawnData(ModEntities.getID(EntityShade.class), Element.NONE),
 		2,
 		LevelHandler.INVASION,
 		16))

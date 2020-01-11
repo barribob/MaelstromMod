@@ -32,7 +32,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class EntityShade extends EntityMaelstromMob
 {
-    public static final String ID = "shade";
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 1.0f;
 

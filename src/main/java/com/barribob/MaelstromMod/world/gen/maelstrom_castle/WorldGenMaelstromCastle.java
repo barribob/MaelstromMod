@@ -5,7 +5,7 @@ import java.util.Random;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
-import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
 import net.minecraft.tileentity.TileEntity;
@@ -52,7 +52,7 @@ public class WorldGenMaelstromCastle extends WorldGenStructure
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":" + EntityShade.ID, 1, 1.0f, 16);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(ModEntities.getID(EntityShade.class), 1, 1.0f, 16);
 	    }
 
 	}

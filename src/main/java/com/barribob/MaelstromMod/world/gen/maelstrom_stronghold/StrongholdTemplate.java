@@ -2,13 +2,16 @@ package com.barribob.MaelstromMod.world.gen.maelstrom_stronghold;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
+import com.barribob.MaelstromMod.entity.entities.EntityHorror;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.GenUtils;
-import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.ModStructureTemplate;
@@ -123,9 +126,9 @@ public class StrongholdTemplate extends ModStructureTemplate
 	    {
 		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
-				new MobSpawnData(Reference.MOD_ID + ":" + EntityShade.ID, new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
-				new MobSpawnData(Reference.MOD_ID + ":horror", Element.NONE),
-				new MobSpawnData(Reference.MOD_ID + ":floating_skull", Element.NONE),
+				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.AZURE, Element.NONE }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(ModEntities.getID(EntityHorror.class), Element.NONE),
+				new MobSpawnData(ModEntities.getID(EntityFloatingSkull.class), Element.NONE),
 			},
 			new int[] { 1, 1, 1 },
 			3,
@@ -140,7 +143,7 @@ public class StrongholdTemplate extends ModStructureTemplate
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(Reference.MOD_ID + ":maelstrom_beast", 1, LevelHandler.AZURE_ENDGAME, 16);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(ModEntities.getID(EntityMaelstromBeast.class), 1, LevelHandler.AZURE_ENDGAME, 16);
 	    }
 	}
     }

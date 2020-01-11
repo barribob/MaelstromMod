@@ -32,10 +32,9 @@ Gargoyles (3)
 Maelstrom cores only drop fragments
 Make the story make more sense with Herobrine and the dark nexus
     Unlock herobrine after enough cliff key fragments
-Make all ids not hardcoded
 Remove projectiles after a certain amount of time
-Make spawner that guarentees that bosses spawn
 Add a staff to counter the mobs during the second stage of the golden boss
+Particle overhaul (3)
 
 Creative tab organization (1)
 Name things to be sexier (3)
@@ -98,8 +97,10 @@ Put out on curseforge and improve marketing (5)
     Plan:
         Loot for elemental mobs
 
+[DONE] Make all ids not hardcoded
+[DONE] Make spawner that guarentees that bosses spawn
 [DONE] Make the portal telportation less jenky(1)
-[DONE]Fix the smearing and unclearness behind the rare and common durabilities
+[DONE] Fix the smearing and unclearness behind the rare and common durabilities
 [DONE] Add rendering of fog above cliff as well (2)
 [DONE] Improve impact logic (2)
 [DONE] Fine tune enchantments for loot drops (3)
