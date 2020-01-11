@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -40,6 +41,7 @@ public class ProjectileHerobrineQuake extends ProjectileQuake
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	IBlockState block = world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ));
@@ -53,7 +55,7 @@ public class ProjectileHerobrineQuake extends ProjectileQuake
 		for (float y = 0; y < height; y += 0.2f)
 		{
 		    Vec3d pos = ModUtils.entityPos(this).add(new Vec3d(this.motionX * ModRandom.getFloat(0.5f), y, this.motionZ * ModRandom.getFloat(0.5f)));
-		    ParticleManager.spawnDarkFlames(world, rand, pos);
+		    ParticleManager.spawnColoredSmoke(world, pos, ModColors.AZURE);
 		}
 	    }
 	}

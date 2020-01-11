@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.particle.EffectParticle;
+import com.barribob.MaelstromMod.particle.SmokeParticle;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 
@@ -143,9 +144,19 @@ public class ParticleManager
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
-    public static void spawnColoredSmoke(World worldIn, Random rand, Vec3d pos, Vec3d baseColor)
+    public static void spawnColoredSmoke(World worldIn, Vec3d pos, Vec3d baseColor)
     {
 	Particle particle = new ParticleSmokeNormal.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
+
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
+
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    public static void spawnColoredCustomSmoke(World worldIn, Vec3d pos, Vec3d baseColor)
+    {
+	Particle particle = new SmokeParticle.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
 
 	baseColor = ModColors.variateColor(baseColor, 0.2f);
 	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);

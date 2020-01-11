@@ -25,8 +25,7 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-Make the portal telportation less jenky
-Make Herobrine's particles something other than black(1)
+Add actual item renders to certain projectiles
 Fix witch animation
 Clean up lang again (1)
 Gargoyles (3)
@@ -39,7 +38,7 @@ Make spawner that guarentees that bosses spawn
 Add a staff to counter the mobs during the second stage of the golden boss
 
 Creative tab organization (1)
-Name things to be sexier (2)
+Name things to be sexier (3)
 
 Server Testing (2)
 Testing (6)
@@ -99,6 +98,7 @@ Put out on curseforge and improve marketing (5)
     Plan:
         Loot for elemental mobs
 
+[DONE] Make the portal telportation less jenky(1)
 [DONE]Fix the smearing and unclearness behind the rare and common durabilities
 [DONE] Add rendering of fog above cliff as well (2)
 [DONE] Improve impact logic (2)

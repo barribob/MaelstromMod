@@ -42,7 +42,7 @@ public class ProjectileHorrorAttack extends Projectile
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnColoredSmoke(world, rand, getPositionVector(), getElement().particleColor);
+	    ParticleManager.spawnColoredSmoke(world, getPositionVector(), getElement().particleColor);
 	}
     }
     
