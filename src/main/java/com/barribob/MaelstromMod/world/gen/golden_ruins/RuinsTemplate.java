@@ -110,7 +110,7 @@ public class RuinsTemplate extends ModStructureTemplate
 	}
 	else if (function.startsWith("boss"))
 	{
-	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 
 	    if (tileentity instanceof TileEntityMobSpawner)

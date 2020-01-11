@@ -37,7 +37,7 @@ public class HoleTempleTemplate extends ModStructureTemplate
     @Override
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand, StructureBoundingBox sbb)
     {
-	worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState(), 2);
+	worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
 	TileEntity tileentity = worldIn.getTileEntity(pos);
 
 	if (tileentity instanceof TileEntityMobSpawner)

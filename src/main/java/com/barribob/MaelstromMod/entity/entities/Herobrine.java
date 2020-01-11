@@ -71,7 +71,10 @@ public class Herobrine extends EntityLeveledMob
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-	state.leftClick(this);
+	if (source.getTrueSource() instanceof EntityPlayer)
+	{
+	    state.leftClick(this);
+	}
 	return false;
     }
 
@@ -105,7 +108,7 @@ public class Herobrine extends EntityLeveledMob
     @Override
     public void readEntityFromNBT(NBTTagCompound compound)
     {
-	if(compound.hasKey(nbtState))
+	if (compound.hasKey(nbtState))
 	{
 	    if (compound.getString(nbtState).equals(new StateCliffKey(this).getNbtString()))
 	    {

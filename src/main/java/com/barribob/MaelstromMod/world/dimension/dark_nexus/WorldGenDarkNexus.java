@@ -34,12 +34,12 @@ public class WorldGenDarkNexus extends WorldGenStructure
 	worldIn.setBlockToAir(pos);
 	if (function.startsWith("herobrine"))
 	{
-	    worldIn.setBlockState(pos, ModBlocks.NEXUS_HEROBRINE_SPAWNER.getDefaultState(), 2);
+	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 
 	    if (tileentity instanceof TileEntityMobSpawner)
 	    {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":herobrine_controller", Element.NONE), 1, LevelHandler.AZURE_OVERWORLD, 20);
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(Reference.MOD_ID + ":herobrine_controller", Element.NONE), 1, LevelHandler.INVASION, 20);
 	    }
 	}
     }

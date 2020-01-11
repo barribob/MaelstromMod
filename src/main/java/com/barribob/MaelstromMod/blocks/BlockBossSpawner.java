@@ -1,16 +1,16 @@
 package com.barribob.MaelstromMod.blocks;
 
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityBossSpawner;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockNexusHerobrineSpawner extends BlockDisappearingSpawner
+public class BlockBossSpawner extends BlockDisappearingSpawner
 {
-    public BlockNexusHerobrineSpawner(String name)
+    public BlockBossSpawner(String name)
     {
 	super(name, Material.ROCK);
     }
@@ -18,6 +18,6 @@ public class BlockNexusHerobrineSpawner extends BlockDisappearingSpawner
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-	return new TileEntityHerobrineSpawner();
+	return new TileEntityBossSpawner();
     }
 }

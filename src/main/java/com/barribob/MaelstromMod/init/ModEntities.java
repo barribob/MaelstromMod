@@ -70,7 +70,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileSwordSlash;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityFan;
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityBossSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
@@ -240,7 +240,7 @@ public class ModEntities
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
 	registerTileEntity(TileEntityMegaStructure.class, "mega_structure");
 	registerTileEntity(TileEntityTeleporter.class, "nexus_teleporter");
-	registerTileEntity(TileEntityHerobrineSpawner.class, "nexus_spawner");
+	registerTileEntity(TileEntityBossSpawner.class, "nexus_spawner");
 	registerTileEntity(TileEntityUpdater.class, "updater");
 	registerTileEntity(TileEntityFan.class, "fan");
     }
