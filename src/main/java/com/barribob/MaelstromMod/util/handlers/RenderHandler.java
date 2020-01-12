@@ -47,10 +47,15 @@ import com.barribob.MaelstromMod.entity.model.ModelMageTrader;
 import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
 import com.barribob.MaelstromMod.entity.model.ModelSwampCrawler;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenFireball;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMonolithFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureVillager;
@@ -119,6 +124,12 @@ public class RenderHandler
 	registerProjectileRenderer(EntityParticleSpawner.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBone.class, Items.BONE);
 	registerProjectileRenderer(ProjectileHorrorAttack.class, ModItems.MAELSTROM_PELLET);
+	registerProjectileRenderer(ProjectileFireball.class, Items.FIRE_CHARGE);
+	registerProjectileRenderer(ProjectileBlackFireball.class, Items.FIRE_CHARGE);
+	registerProjectileRenderer(ProjectileGoldenFireball.class, Items.FIRE_CHARGE);
+	registerProjectileRenderer(ProjectileMonolithFireball.class, Items.FIRE_CHARGE);
+	registerProjectileRenderer(ProjectileGoldenMissile.class, ModItems.GOLD_PELLET);
+
     }
 
     /**

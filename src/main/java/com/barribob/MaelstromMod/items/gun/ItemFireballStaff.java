@@ -24,7 +24,7 @@ public class ItemFireballStaff extends ItemStaff
 
     public ItemFireballStaff(String name, int useTime, float level, CreativeTabs tab)
     {
-	super(name, 5, 40, useTime, level, tab);
+	super(name, 6, 40, useTime, level, tab);
 	this.baseDamage = 10;
     }
 

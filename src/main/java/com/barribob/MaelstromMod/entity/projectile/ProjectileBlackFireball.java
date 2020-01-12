@@ -6,7 +6,9 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -77,8 +79,11 @@ public class ProjectileBlackFireball extends Projectile
     @Override
     protected void onHit(RayTraceResult result)
     {
-	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(),
-		ModDamageSource.causeElementalExplosionDamage(this.shootingEntity, getElement()), 1, 5);
+	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> {
+	    e.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 80, 0));
+	    return this.getDamage();
+	}, this.shootingEntity, this.getPositionVector(),
+		ModDamageSource.causeElementalExplosionDamage(this.shootingEntity, getElement()), 1, 0);
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);
     }
