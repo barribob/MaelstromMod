@@ -112,6 +112,8 @@ public class ModProfessions
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, Items.IRON_INGOT, 64, ModItems.MAGISTEEL_SWORD, 1));
 
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.FLY_WINGS, 32, null, 0, Items.ELYTRA, 1));
+
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, null, 0, ModItems.GOLDEN_QUAKE_STAFF, 1));
 	/**
 	 * Level 3 (Cliff Endgame)
 	 */

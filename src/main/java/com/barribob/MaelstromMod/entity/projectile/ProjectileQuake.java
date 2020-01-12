@@ -2,8 +2,11 @@ package com.barribob.MaelstromMod.entity.projectile;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -57,6 +60,10 @@ public class ProjectileQuake extends ProjectileGun
 	    {
 		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ModRandom.getFloat(1.0f), this.posY + ModRandom.getFloat(0.5f) + 0.5f,
 			this.posZ + ModRandom.getFloat(1.0f), ModRandom.getFloat(1.0F), ModRandom.getFloat(1.0F), ModRandom.getFloat(1.0F), Block.getStateId(block));
+	    }
+	    if (this.getElement() != Element.NONE)
+	    {
+		ParticleManager.spawnEffect(world, getPositionVector().add(ModUtils.yVec(0.5f)).add(ModRandom.randVec()), this.getElement().particleColor);
 	    }
 	}
     }

@@ -215,6 +215,7 @@ public class ModItems
     public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setBullet(new GoldenRepeater()).setElement(Element.GOLDEN);
     public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
     public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ALL).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
+    public static final Item GOLDEN_QUAKE_STAFF = new ItemQuakeStaff("golden_quake_staff", 25, STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ALL).setElement(Element.GOLDEN);
 
     public static final Item SWAMP_HELMET = new ModArmorBase("swamp_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CLIFF_OVERWORLD, "swamp");
     public static final Item SWAMP_CHESTPLATE = new ModArmorBase("swamp_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CLIFF_OVERWORLD, "swamp");

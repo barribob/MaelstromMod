@@ -20,10 +20,10 @@ import net.minecraft.world.World;
  */
 public class ItemQuakeStaff extends ItemStaff
 {
-    private static final float baseDamage = 7;
+    private static final float baseDamage = 6;
     public ItemQuakeStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, 5, cooldown, maxDamage, level, tab);
+	super(name, 4, cooldown, maxDamage, level, tab);
     }
 
     @Override
