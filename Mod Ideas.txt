@@ -26,9 +26,6 @@ Crimson Dungeon [85]
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
 Add actual item renders to certain projectiles
-Fix witch animation
-Clean up lang again (1)
-Gargoyles (3)
 Maelstrom cores only drop fragments
 Make the story make more sense with Herobrine and the dark nexus
     Unlock herobrine after enough cliff key fragments
@@ -37,7 +34,7 @@ Add a staff to counter the mobs during the second stage of the golden boss
 Particle overhaul (3)
 
 Creative tab organization (1)
-Name things to be sexier (3)
+Name things to be sexier and clean up lang fragments(3)
 
 Server Testing (2)
 Testing (6)
@@ -168,6 +165,8 @@ Put out on curseforge and improve marketing (5)
         Maelstrom enemies should have weapons and staffs to differentiate them
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Gargoyles (3)
+Fix witch animation
 Key beacons actually should be beacons
 Maelstrom pearls (1)
 Golden Ruins spawn more consistently (2)

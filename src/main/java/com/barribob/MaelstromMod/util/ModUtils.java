@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.util;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map.Entry;
@@ -62,6 +63,12 @@ public final class ModUtils
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
     public static final DecimalFormat DF_0 = new DecimalFormat("0.0");
     public static final DecimalFormat ROUND = new DecimalFormat("0");
+
+    static
+    {
+	DF_0.setRoundingMode(RoundingMode.HALF_EVEN);
+	ROUND.setRoundingMode(RoundingMode.HALF_EVEN);
+    }
 
     public static Consumer<String> getPlayerAreaMessager(Entity entity)
     {

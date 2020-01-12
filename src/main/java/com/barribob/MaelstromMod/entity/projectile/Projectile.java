@@ -30,6 +30,7 @@ public class Projectile extends EntityModThrowable implements IElement
     private static final byte PARTICLE_BYTE = 4;
     private float damage = 0;
     protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(Projectile.class, DataSerializers.VARINT);
+    protected float maxAge = 20 * 20;
 
     public Projectile(World worldIn, EntityLivingBase throwerIn, float damage)
     {
@@ -97,6 +98,12 @@ public class Projectile extends EntityModThrowable implements IElement
 	if (this.shootingEntity != null && getDistanceTraveled() > this.travelRange)
 	{
 	    this.world.setEntityState(this, this.IMPACT_PARTICLE_BYTE);
+	    this.setDead();
+	}
+
+	// Despawn if older than a certain age
+	if (this.ticksExisted > this.maxAge)
+	{
 	    this.setDead();
 	}
     }
