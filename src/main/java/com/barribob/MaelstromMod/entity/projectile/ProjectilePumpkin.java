@@ -52,19 +52,24 @@ public class ProjectilePumpkin extends ProjectileGun
     @Override
     protected void spawnParticles()
     {
+	if (this.ticksExisted <= 2)
+	{
+	    this.prevPos = getPositionVector();
+	    return;
+	}
+	Vec3d vel = this.getPositionVector().subtract(this.prevPos).normalize();
 
 	maxRings = ModRandom.range(4, 7);
 	float tailWidth = 0.25f;
-	for (int i = 0; i < 5; i++)
-	{
-	    ParticleManager.spawnFirework(world,
-		    new Vec3d(this.posX, this.posY, this.posZ).add(new Vec3d(ModRandom.getFloat(tailWidth), ModRandom.getFloat(tailWidth), ModRandom.getFloat(tailWidth))),
-		    new Vec3d(0.9, 0.9, 0.5));
-	}
+	ParticleManager.spawnSwirl(world,
+		new Vec3d(this.posX, this.posY, this.posZ).add(new Vec3d(ModRandom.getFloat(tailWidth), ModRandom.getFloat(tailWidth), ModRandom.getFloat(tailWidth))),
+		ModColors.YELLOW,
+		vel.scale(0.1f),
+		ModRandom.range(25, 30));
+
 	if (this.rings < this.maxRings)
 	{
-	    float circleSize = Math.max(0, ModRandom.getFloat(1.5f) + 1);
-	    Vec3d vel = this.getPositionVector().subtract(this.prevPos).normalize();
+	    float circleSize = 1 + ModRandom.getFloat(0.9f);
 	    float f1 = MathHelper.sqrt(vel.x * vel.x + vel.z * vel.z);
 	    ParticleManager.spawnParticlesInCircle(circleSize, 30, (pos) -> {
 
@@ -76,7 +81,7 @@ public class ProjectilePumpkin extends ProjectileGun
 	    this.rings++;
 	}
 
-	this.prevPos = this.getPositionVector();
+	this.prevPos = getPositionVector();
     }
 
     @Override

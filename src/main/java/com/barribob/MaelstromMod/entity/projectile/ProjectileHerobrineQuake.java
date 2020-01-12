@@ -55,7 +55,7 @@ public class ProjectileHerobrineQuake extends ProjectileQuake
 		for (float y = 0; y < height; y += 0.2f)
 		{
 		    Vec3d pos = ModUtils.entityPos(this).add(new Vec3d(this.motionX * ModRandom.getFloat(0.5f), y, this.motionZ * ModRandom.getFloat(0.5f)));
-		    ParticleManager.spawnColoredSmoke(world, pos, ModColors.AZURE);
+		    ParticleManager.spawnSwirl(world, pos, ModColors.AZURE, Vec3d.ZERO, ModRandom.range(10, 15));
 		}
 	    }
 	}

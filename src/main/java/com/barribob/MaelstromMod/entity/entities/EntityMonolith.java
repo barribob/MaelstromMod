@@ -450,9 +450,9 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 		Vec3d currentPos = this.getPositionVector().add(ModUtils.yVec(this.getEyeHeight()));
 		for (int i = 0; i < numParticles; i++)
 		{
-		    for (int j = 0; j < 100; j++)
+		    for (int j = 0; j < 50; j++)
 		    {
-			ParticleManager.spawnEffect(world, currentPos.add(ModRandom.randVec().scale(lazerRadius * 2)), ModColors.RED);
+			ParticleManager.spawnWisp(world, currentPos.add(ModRandom.randVec().scale(lazerRadius * 2)), ModColors.RED, ModUtils.yVec(0.1f));
 			Vec3d pos = currentPos.add(ModRandom.randVec().scale(lazerRadius * 2));
 			world.spawnParticle(EnumParticleTypes.FLAME, pos.x, pos.y, pos.z, 0, 0, 0);
 			pos = currentPos.add(ModRandom.randVec().scale(lazerRadius * 2));

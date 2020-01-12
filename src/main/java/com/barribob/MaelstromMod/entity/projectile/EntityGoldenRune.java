@@ -1,6 +1,8 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -76,14 +78,17 @@ public class EntityGoldenRune extends Projectile
     {
 	ModUtils.performNTimes(10, (i) -> {
 	    ParticleManager.spawnParticlesInCircle(blastRadius, 30,
-		    (offset) -> ParticleManager.spawnEffect(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, i * 0.5, offset.y)), new Vec3d(0.8, 0.8, 0.4)));
+		    (offset) -> ParticleManager.spawnWisp(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, i * 0.5, offset.y)), ModColors.YELLOW, Vec3d.ZERO));
 	});
     }
 
     @Override
     protected void spawnParticles()
     {
-	ParticleManager.spawnParticlesInCircle(this.blastRadius, 30,
-		(offset) -> ParticleManager.spawnEffect(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, 0.5f, offset.y)), new Vec3d(0.8, 0.8, 0.4)));
+	if (this.ticksExisted % 10 == 0)
+	{
+	    ParticleManager.spawnParticlesInCircle(this.blastRadius, 30,
+		    (offset) -> ParticleManager.spawnSwirl(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, 0.5f, offset.y)), ModColors.YELLOW, Vec3d.ZERO, ModRandom.range(10, 15)));
+	}
     }
 }

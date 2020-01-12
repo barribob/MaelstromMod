@@ -37,6 +37,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -63,6 +64,7 @@ public final class ModUtils
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
     public static final DecimalFormat DF_0 = new DecimalFormat("0.0");
     public static final DecimalFormat ROUND = new DecimalFormat("0");
+    public static final ResourceLocation PARTICLE = new ResourceLocation(Reference.MOD_ID + ":textures/particle/particles.png");
 
     static
     {

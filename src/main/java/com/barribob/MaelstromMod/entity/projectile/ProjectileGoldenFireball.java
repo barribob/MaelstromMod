@@ -49,7 +49,7 @@ public class ProjectileGoldenFireball extends ProjectileGun
 	float size = 0.5f;
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnColoredCustomSmoke(world, getPositionVector().add(ModRandom.randVec().scale(size)), ModColors.YELLOW);
+	    ParticleManager.spawnCustomSmoke(world, getPositionVector().add(ModRandom.randVec().scale(size)), ModColors.YELLOW, ModUtils.yVec(0.1f));
 	}
     }
 
@@ -62,7 +62,7 @@ public class ProjectileGoldenFireball extends ProjectileGun
 	    unit = unit.rotatePitch((float) (Math.PI * ModRandom.getFloat(1)));
 	    unit = unit.rotateYaw((float) (Math.PI * ModRandom.getFloat(1)));
 	    unit = unit.normalize().scale(EXPOSION_AREA_FACTOR);
-	    ParticleManager.spawnEffect(world, unit.add(getPositionVector()), ModColors.YELLOW);
+	    ParticleManager.spawnSplit(world, unit.add(getPositionVector()), ModColors.YELLOW, Vec3d.ZERO);
 	}
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{

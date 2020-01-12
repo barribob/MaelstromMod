@@ -256,7 +256,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    for (int i = 0; i < fireballParticles; i++)
 	    {
 		Vec3d pos = new Vec3d(ModRandom.getFloat(0.5f), this.getEyeHeight() + 1.0f, ModRandom.getFloat(0.5f)).add(ModUtils.entityPos(this));
-		ParticleManager.spawnColoredCustomSmoke(world, pos, ProjectileFireball.FIREBALL_COLOR);
+		ParticleManager.spawnCustomSmoke(world, pos, ProjectileFireball.FIREBALL_COLOR, Vec3d.ZERO);
 	    }
 	}
 	else if (id == this.slashParticleByte)

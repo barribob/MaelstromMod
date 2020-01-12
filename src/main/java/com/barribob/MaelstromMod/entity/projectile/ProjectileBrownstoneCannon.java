@@ -50,9 +50,9 @@ public class ProjectileBrownstoneCannon extends ProjectileGun
     @Override
     protected void spawnImpactParticles()
     {
-	ParticleManager.spawnParticlesInCircle(EXPOSION_AREA_FACTOR + 0.25f, 10, (pos) -> {
+	ParticleManager.spawnParticlesInCircle(EXPOSION_AREA_FACTOR, 9, (pos) -> {
 	    ParticleManager.spawnParticlesInCircle((float) (pos.x), 32, (pos2) -> {
-		ParticleManager.spawnEffect(world, new Vec3d(pos2.x, pos.y, pos2.y).add(getPositionVector()), ModColors.BROWNSTONE);
+		ParticleManager.spawnSplit(world, new Vec3d(pos2.x, pos.y, pos2.y).add(getPositionVector()), ModColors.BROWNSTONE, Vec3d.ZERO);
 	    });
 	});
     }
