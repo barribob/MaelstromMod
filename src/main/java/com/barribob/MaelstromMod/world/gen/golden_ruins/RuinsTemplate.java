@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
@@ -95,10 +96,11 @@ public class RuinsTemplate extends ModStructureTemplate
 		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] { 
 				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityMaelstromLancer.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
 				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 3 }, 1),
 				    new MobSpawnData(ModEntities.getID(EntityGoldenPillar.class), Element.GOLDEN, 2)
-				    }, 
-			    new int[] { 1, 1, 1 },
+			    },
+			    new int[] { 1, 1, 1, 1 },
 			    4,
 			    LevelHandler.CLIFF_ENDGAME,
 			    20);

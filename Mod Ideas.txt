@@ -27,8 +27,7 @@ Crimson Dungeon [85]
 
 Make the story make more sense with Herobrine and the dark nexus
     Unlock herobrine after enough cliff key fragments
-Particle overhaul (5)
-Maelstrom lancer
+Maelstrom lancer(2)
 
 Creative tab organization (1)
 Name things to be sexier and clean up lang fragments(3)
@@ -91,6 +90,7 @@ Put out on curseforge and improve marketing (5)
     Plan:
         Loot for elemental mobs
 
+Particle overhaul (5)
 Add a staff to counter the mobs during the second stage of the golden boss
 Add actual item renders to certain projectiles
 Remove projectiles after a certain amount of time

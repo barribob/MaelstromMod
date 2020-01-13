@@ -19,6 +19,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
 import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
@@ -195,6 +196,7 @@ public class ModEntities
 	registerEntityWithID("maelstrom_beast", EntityMaelstromBeast.class, ENTITY_START_ID++, 70, maelstrom);
 	registerEntity("monolith", EntityMonolith.class, ENTITY_START_ID++, 70, maelstrom);
 	registerEntity("white_monolith", EntityWhiteMonolith.class, ENTITY_START_ID++, 70);
+	registerEntityWithID("maelstrom_lancer", EntityMaelstromLancer.class, ENTITY_START_ID++, 50, maelstrom);
 
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);

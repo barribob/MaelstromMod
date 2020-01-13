@@ -50,7 +50,10 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	this.setElement(Element.GOLDEN);
 	if (!worldIn.isRemote)
 	{
-	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityShade(world).setElement(rand.nextInt(3) == 0 ? Element.GOLDEN : Element.NONE).setLevel(getLevel())));
+	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> {
+		EntityLeveledMob enemy = rand.nextInt(3) == 0 ? new EntityShade(world) : new EntityMaelstromLancer(world);
+		return enemy.setElement(rand.nextInt(3) == 0 ? Element.GOLDEN : Element.NONE).setLevel(getLevel());
+	    }));
 	    this.attackHandler.setAttack(blackFireball, new ActionFireball());
 	    this.attackHandler.setAttack(runes, new ActionMaelstromRing());
 	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world).setLevel(getLevel()).setElement(Element.GOLDEN)));
