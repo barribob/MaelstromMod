@@ -40,7 +40,7 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
 	super(material);
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(ModCreativeTabs.ALL);
+	setCreativeTab(ModCreativeTabs.ITEMS);
 	ModItems.ITEMS.add(this);
 	this.level = level;
     }

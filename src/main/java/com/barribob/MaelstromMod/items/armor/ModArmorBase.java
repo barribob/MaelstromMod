@@ -57,7 +57,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
 	super(materialIn, renderIndex, equipmentSlotIn);
 	setUnlocalizedName(name);
 	setRegistryName(name);
-	setCreativeTab(ModCreativeTabs.ALL);
+	setCreativeTab(ModCreativeTabs.ITEMS);
 	this.level = level;
 	this.textureName = textureName;
 	ModItems.ITEMS.add(this);
