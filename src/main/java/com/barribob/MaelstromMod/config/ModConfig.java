@@ -114,13 +114,10 @@ public class ModConfig
 	@Config.LangKey(config + "dark_nexus_dimension_id")
 	public int dark_nexus_dimension_id = 128;
 
-	@Config.RequiresWorldRestart
-	@Config.LangKey(config + "spawn_island")
-	public boolean spawn_island = true;
-
 	@Config.LangKey(config + "invasion_time")
+	@Config.Comment("How many ticks(20ths of a second) before attempting to spawn the invasion tower.")
 	@Config.RangeInt(min = 1200, max = 20 * 60 * 1000)
-	public int invasionTime = 20 * 60 * 100; // Default 100 minutes before invasion
+	public int invasionTime = 20 * 60 * 180; // Default 180 minutes before invasion
     }
 
     @SubscribeEvent

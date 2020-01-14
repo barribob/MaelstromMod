@@ -98,14 +98,14 @@ public final class ModUtils
 
     public static String getDisplayLevel(float level)
     {
-	return TextFormatting.GRAY + ModUtils.translateDesc("level") + ": " + TextFormatting.DARK_PURPLE + Math.round(level);
+	return ModUtils.translateDesc("level", "" + TextFormatting.DARK_PURPLE + Math.round(level));
     }
 
     public static String getElementalTooltip(Element element)
     {
-	return ModUtils.translateDesc("elemental_damage_desc")
-		.replaceFirst("<multiplier>", "x" + ModUtils.DF_0.format(ModConfig.balance.elemental_factor))
-		.replaceFirst("<element>", element.textColor + element.symbol + TextFormatting.GRAY);
+	return ModUtils.translateDesc("elemental_damage_desc",
+		"x" + ModUtils.DF_0.format(ModConfig.balance.elemental_factor),
+		element.textColor + element.symbol + TextFormatting.GRAY);
     }
 
     public static double getSwordEnchantmentDamage(ItemStack stack)
@@ -444,13 +444,12 @@ public final class ModUtils
 
     public static String getDamageTooltip(float damage)
     {
-	return TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + DF_0.format(damage) + TextFormatting.GRAY + " "
-		+ ModUtils.translateDesc("damage");
+	return ModUtils.translateDesc("damage_tooltip", "" + TextFormatting.BLUE + DF_0.format(damage) + TextFormatting.GRAY);
     }
 
     public static String getCooldownTooltip(float cooldown)
     {
-	return TextFormatting.BLUE + "" + DF_0.format(cooldown * 0.05) + TextFormatting.GRAY + " " + ModUtils.translateDesc("gun_reload_time");
+	return ModUtils.translateDesc("gun_reload_time", TextFormatting.BLUE + "" + DF_0.format(cooldown * 0.05) + TextFormatting.GRAY);
     }
 
     public static float getEnchantedDamage(ItemStack stack, float level, float damage)

@@ -44,6 +44,6 @@ public class ItemSpeedBoots extends ModArmorBase
 	{
 	    potion = potion + " " + I18n.translateToLocal("potion.potency." + wornEffect.getAmplifier()).trim();
 	}
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("potion_add") + " " + potion);
+	tooltip.add(ModUtils.translateDesc("potion_add", potion));
     }
 }
