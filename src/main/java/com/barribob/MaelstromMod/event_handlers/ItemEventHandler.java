@@ -96,7 +96,7 @@ public class ItemEventHandler
 
 	    if ((heldItem.equals(ModItems.BAKUYA) && offhandItem.equals(ModItems.KANSHOU)) || (heldItem.equals(ModItems.KANSHOU) && offhandItem.equals(ModItems.BAKUYA)))
 	    {
-		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 2));
+		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 1));
 	    }
 
 	    if (!player.world.isRemote && (heldItem.equals(ModItems.CROSS_OF_AQUA) || offhandItem.equals(ModItems.CROSS_OF_AQUA)))
@@ -113,12 +113,58 @@ public class ItemEventHandler
 		}
 	    }
 
-	    if (helmet.equals(ModItems.NYAN_HELMET) && chestplate.equals(ModItems.NYAN_CHESTPLATE) && leggings.equals(ModItems.NYAN_LEGGINGS)
-		    && boots.equals(ModItems.NYAN_BOOTS) && player.isSprinting())
+	    if (helmet.equals(ModItems.NYAN_HELMET) &&
+		    chestplate.equals(ModItems.NYAN_CHESTPLATE) &&
+		    leggings.equals(ModItems.NYAN_LEGGINGS) &&
+		    boots.equals(ModItems.NYAN_BOOTS) && player.isSprinting())
 	    {
 		Entity particle = new ParticleSpawnerRainbow(player.world);
 		particle.copyLocationAndAnglesFrom(player);
 		player.world.spawnEntity(particle);
+	    }
+
+	    if (!player.world.isRemote &&
+		    helmet.equals(ModItems.BLACK_GOLD_HELMET) &&
+		    chestplate.equals(ModItems.BLACK_GOLD_CHESTPLATE) &&
+		    leggings.equals(ModItems.BLACK_GOLD_LEGGINGS) &&
+		    boots.equals(ModItems.BLACK_GOLD_BOOTS) &&
+		    player.ticksExisted % 40 == 0)
+	    {
+		player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
+	    }
+
+	    if (!player.world.isRemote &&
+		    helmet.equals(ModItems.MAELSTROM_HELMET) &&
+		    chestplate.equals(ModItems.MAELSTROM_CHESTPLATE) &&
+		    leggings.equals(ModItems.MAELSTROM_LEGGINGS) &&
+		    boots.equals(ModItems.MAELSTROM_BOOTS) &&
+		    player.ticksExisted % 40 == 0)
+	    {
+		player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 0));
+	    }
+
+	    if (helmet.equals(ModItems.GOLTOX_HELMET) &&
+		    chestplate.equals(ModItems.GOLTOX_CHESTPLATE) &&
+		    leggings.equals(ModItems.GOLTOX_LEGGINGS) &&
+		    boots.equals(ModItems.GOLTOX_BOOTS) &&
+		    player.ticksExisted % 20 == 0)
+	    {
+		if (player.isPotionActive(MobEffects.POISON))
+		{
+		    PotionEffect effect = player.getActivePotionEffect(MobEffects.POISON);
+		    player.removeActivePotionEffect(MobEffects.POISON);
+		    player.addPotionEffect(new PotionEffect(MobEffects.POISON, effect.getDuration() - 20, effect.getAmplifier()));
+		}
+	    }
+
+	    if (!player.world.isRemote &&
+		    helmet.equals(ModItems.SWAMP_HELMET) &&
+		    chestplate.equals(ModItems.SWAMP_CHESTPLATE) &&
+		    leggings.equals(ModItems.SWAMP_LEGGINGS) &&
+		    boots.equals(ModItems.SWAMP_BOOTS) &&
+		    player.ticksExisted % 40 == 0)
+	    {
+		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 0));
 	    }
 	}
     }

@@ -51,6 +51,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
     private static final int armor_total = 24;
     private String textureName;
     private Element element = Element.NONE;
+    private String armorBonusDesc = "";
 
     public ModArmorBase(String name, ArmorMaterial materialIn, int renderIndex, EntityEquipmentSlot equipmentSlotIn, float level, String textureName)
     {
@@ -128,6 +129,16 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
 	    tooltip.add(ModUtils.translateDesc("elemental_armor_desc", element.textColor + element.symbol + TextFormatting.GRAY,
 		    ModUtils.ROUND.format(100 * getElementalArmor(element)) + "%"));
 	}
+	if (!this.armorBonusDesc.isEmpty())
+	{
+	    tooltip.add(ModUtils.translateDesc(this.armorBonusDesc));
+	}
+    }
+
+    public ModArmorBase setArmorBonusDesc(String armorBonusDesc)
+    {
+	this.armorBonusDesc = armorBonusDesc;
+	return this;
     }
 
     protected ModelBiped getCustomModel()

@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.Fireball;
@@ -25,7 +26,7 @@ public class ItemFireballStaff extends ItemStaff
     public ItemFireballStaff(String name, int useTime, float level, CreativeTabs tab)
     {
 	super(name, 6, 40, useTime, level, tab);
-	this.baseDamage = 10;
+	this.baseDamage = 10 * ModConfig.balance.weapon_damage;
     }
 
     @Override

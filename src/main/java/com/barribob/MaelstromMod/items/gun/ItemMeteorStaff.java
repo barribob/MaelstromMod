@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMeteorSpawner;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -16,7 +17,7 @@ import net.minecraft.world.World;
 
 public class ItemMeteorStaff extends ItemStaff
 {
-    private float baseDamage = 10;
+    private float baseDamage = 10 * ModConfig.balance.weapon_damage;
 
     public ItemMeteorStaff(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {

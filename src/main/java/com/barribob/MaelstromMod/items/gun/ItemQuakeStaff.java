@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
 import com.barribob.MaelstromMod.util.ModUtils;
 
@@ -20,7 +21,7 @@ import net.minecraft.world.World;
  */
 public class ItemQuakeStaff extends ItemStaff
 {
-    private static final float baseDamage = 6;
+    private static final float baseDamage = 6 * ModConfig.balance.weapon_damage;
     public ItemQuakeStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
 	super(name, 4, cooldown, maxDamage, level, tab);

@@ -34,7 +34,7 @@ public class DimensionScreenHandler
 	    }
 	    else if (mc.player.dimension == ModConfig.world.nexus_dimension_id)
 	    {
-		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/gui/quartz_block_cracked.png"), "nexus_dimension"));
+		event.setGui(new GuiModDownloadTerrain(new ResourceLocation("minecraft:textures/blocks/quartz_block_chiseled.png"), "nexus_dimension"));
 	    }
 	    else if (mc.player.dimension == ModConfig.world.cliff_dimension_id)
 	    {

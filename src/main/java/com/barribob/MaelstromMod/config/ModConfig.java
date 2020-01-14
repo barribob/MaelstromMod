@@ -82,7 +82,7 @@ public class ModConfig
 	@Config.LangKey(config + "weapon_damage")
 	@Config.RangeDouble(min = 1.0, max = 3)
 	@Config.Comment("Base damage multiplier for weapons in this mod.")
-	public float weapon_damage = 1.25f;
+	public float weapon_damage = 1.0f;
 
 	@Config.RequiresMcRestart
 	@Config.LangKey(config + "armor_toughness")

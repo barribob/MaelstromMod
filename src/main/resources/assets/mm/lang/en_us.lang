@@ -422,7 +422,7 @@ mm.desc.dragonslayer=Has massive sweep attack
 mm.desc.dagger=Has no sweep attack
 mm.desc.flintlock=Medium range gun
 mm.desc.repeater=Short range repeating gun
-mm.desc.kanshou_bakuya=Wielding Kanshou and Bakuya together grants Strength III
+mm.desc.kanshou_bakuya=Wielding Kanshou and Bakuya together grants Strength II
 mm.desc.rifle=Long range gun
 mm.desc.elk_rifle=Pierces through multiple enemies
 mm.desc.frost_sword=Slows enemies on sweep attack
@@ -437,15 +437,18 @@ mm.desc.speed_staff=Gives a short speed boost
 mm.desc.fireball_staff=Shoots short range fireball
 mm.desc.explosive_staff=Made in honor of the gods of destruction
 mm.desc.potion_add=Adds %s
-mm.desc.black_gold_sword=Lights enemies on sweep attack
 mm.desc.meteor_staff=Summons a meteor up to 50 blocks away
-mm.desc.nyan_helmet=Full set bonus: Rainbows upon sprinting
 mm.desc.mana_cost=Mana Cost
 mm.desc.catalyst=Use to unlock mana
 mm.desc.elemental_damage_desc=Deals %s damage to %s mobs
 mm.desc.elemental_armor_desc=Reduces %s type damage by %s
 mm.desc.damage_tooltip=Deals %s damage
 mm.desc.damage_per_meter_tooltip=Deals %s damage per meter
+mm.desc.black_gold_full_set=Full set: Speed
+mm.desc.maelstrom_full_set=Full set: Resistance
+mm.desc.goltox_full_set=Full set: Poison Reduction
+mm.desc.swamp_full_set=Full set: Strength
+mm.desc.nyan_full_set=Full set: Rainbows when sprinting
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

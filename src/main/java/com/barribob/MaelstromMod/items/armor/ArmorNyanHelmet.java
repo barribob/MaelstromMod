@@ -1,15 +1,9 @@
 package com.barribob.MaelstromMod.items.armor;
 
-import java.util.List;
-
 import com.barribob.MaelstromMod.items.armor.model.ModelNyanHelmet;
-import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -25,12 +19,5 @@ public class ArmorNyanHelmet extends ModArmorBase
     protected ModelBiped getCustomModel()
     {
 	return new ModelNyanHelmet();
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-	tooltip.add(ModUtils.translateDesc("nyan_helmet"));
-	super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }

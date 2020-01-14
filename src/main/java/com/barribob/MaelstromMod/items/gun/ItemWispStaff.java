@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.util.ModUtils;
 
@@ -22,7 +23,7 @@ import net.minecraft.world.World;
  */
 public class ItemWispStaff extends ItemStaff
 {
-    private static final float baseDamage = 5;
+    private static final float baseDamage = 5 * ModConfig.balance.weapon_damage;
     public ItemWispStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
 	super(name, 5, cooldown, maxDamage, level, tab);

@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
 import com.barribob.MaelstromMod.items.gun.bullet.MaelstromCannon;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 public class ItemMaelstromCannon extends ItemStaff
 {
     private BulletFactory factory = new MaelstromCannon();
-    private float baseDamage = 5;
+    private float baseDamage = 5 * ModConfig.balance.weapon_damage;
 
     public ItemMaelstromCannon(String name, int maxDamage, float level, CreativeTabs tab)
     {
