@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
@@ -53,8 +52,6 @@ public class NexusToOverworldTeleporter extends Teleporter
     {
 	int startX = MathHelper.floor(entityIn.posX / spacing) * spacing;
 	int startZ = MathHelper.floor(entityIn.posZ / spacing) * spacing;
-	long l = ChunkPos.asLong(startX, startZ);
-	BlockPos pos = new BlockPos(startX, yPortalOffset, startZ);
 	Vec3d entityOffset = new Vec3d(1.5, 1, -0.5);
 
 	/**

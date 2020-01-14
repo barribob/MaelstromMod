@@ -40,7 +40,7 @@ public abstract class BlockPortal extends BlockBase
 	this.setLightOpacity(0);
 	this.dim1 = dim1;
 	this.dim2 = dim2;
-    }    
+    }
 
     /**
      * Teleport the player to the correct dimension on collision
@@ -50,7 +50,27 @@ public abstract class BlockPortal extends BlockBase
     {
 	if (entityIn instanceof EntityPlayerMP && !entityIn.isRiding() && !entityIn.isBeingRidden())
 	{
+	    /**
+	     * Find the corner of the portal, so that the entire portal is treated as one
+	     * position.
+	     * 
+	     * If this isn't done, then different parts of the same portal could potentially
+	     * send someone to different areas. (Assumes a simple 3x3 x-z portal layout)
+	     */
+	    BlockPos portalCorner = pos;
+	    for (int x = 0; x >= -2; x--)
+	    {
+		for (int z = 0; z >= -2; z--)
+		{
+		    if (worldIn.getBlockState(pos.add(new BlockPos(x, 0, z))).getBlock() == this)
+		    {
+			portalCorner = pos.add(new BlockPos(x, 0, z));
+		    }
+		}
+	    }
+
 	    EntityPlayerMP player = (EntityPlayerMP) entityIn;
+	    player.connection.setPlayerLocation(portalCorner.getX(), portalCorner.getY(), portalCorner.getZ(), player.rotationYaw, player.rotationPitch);
 
 	    if (player.dimension == dim1)
 	    {
@@ -62,8 +82,9 @@ public abstract class BlockPortal extends BlockBase
 	    }
 	}
     }
-    
+
     protected abstract Teleporter getTeleporter1(World world);
+
     protected abstract Teleporter getTeleporter2(World world);
 
     @Override
