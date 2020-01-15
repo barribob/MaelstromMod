@@ -143,7 +143,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 			{
 			    actor.setImmovable(false);
 			    actor.setNoGravity(false);
-			    Vec3d pos = target.getPositionVector().add(target.getForward()).add(ModUtils.yVec(24))
+			    Vec3d pos = target.getPositionVector().add(target.getLookVec()).add(ModUtils.yVec(24))
 				    .add(new Vec3d(ModRandom.getFloat(1), 0, ModRandom.getFloat(1)));
 			    actor.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
 			    actor.setPosition(pos.x, pos.y, pos.z);
@@ -341,7 +341,8 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	// When is is "moving" make sure it still feels immovable
 	if (!this.isImmovable())
 	{
-	    this.setVelocity(0, this.motionY, 0);
+	    this.motionX = 0;
+	    this.motionZ = 0;
 	}
 
 	// Spawn a maelstrom splotch nearby
