@@ -428,7 +428,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	else if (id == ModUtils.SECOND_PARTICLE_BYTE)
 	{
 	    ModUtils.performNTimes(4, (i) -> {
-		ParticleManager.spawnParticlesInCircle(2, 60, (pos) -> {
+		ModUtils.circleCallback(2, 60, (pos) -> {
 		    pos = new Vec3d(pos.x, 0, pos.y);
 		    ParticleManager.spawnFirework(world, pos.add(getPositionVector()).add(ModUtils.yVec(i + 1)), ModColors.YELLOW, pos.scale(0.5f));
 		});

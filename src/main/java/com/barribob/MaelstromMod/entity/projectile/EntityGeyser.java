@@ -79,7 +79,7 @@ public class EntityGeyser extends Projectile
     @Override
     protected void spawnParticles()
     {
-	ParticleManager.spawnParticlesInCircle(this.blastRadius, 30,
+	ModUtils.circleCallback(this.blastRadius, 30,
 		(offset) -> ParticleManager.spawnEffect(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, 0.5f, offset.y)), ModColors.CLIFF_STONE));
     }
 }

@@ -17,7 +17,7 @@ public class ActionMultiGoldenRunes extends Action
     {
 	spawnRune(actor, target, Vec3d.ZERO);
 
-	ParticleManager.spawnParticlesInCircle(4, 6, (pos) -> {
+	ModUtils.circleCallback(4, 6, (pos) -> {
 	    if (actor.world.rand.nextInt(2) == 0)
 	    {
 		spawnRune(actor, target, new Vec3d(pos.x, 0, pos.y));

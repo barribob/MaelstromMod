@@ -21,7 +21,6 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.teleporter.NexusToOverworldTeleporter;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
@@ -99,7 +98,7 @@ public class ModEventHandler
 		    List<Integer> variations = new ArrayList<Integer>();
 
 		    // Find the flattest area
-		    ParticleManager.spawnParticlesInCircle(50, 16, (pos) -> {
+		    ModUtils.circleCallback(50, 16, (pos) -> {
 			BlockPos structureSize = WorldGenCustomStructures.invasionTower.getSize(event.world);
 			BlockPos structurePos = new BlockPos(player.getPositionVector().x, 0, player.getPositionVector().z); // Start with player xz position
 			BlockPos mainTowerSize = new BlockPos(structureSize.getX() * 0.5f, 0, structureSize.getZ() * 0.5f);

@@ -77,7 +77,7 @@ public class EntityGoldenRune extends Projectile
     protected void spawnImpactParticles()
     {
 	ModUtils.performNTimes(10, (i) -> {
-	    ParticleManager.spawnParticlesInCircle(blastRadius, 30,
+	    ModUtils.circleCallback(blastRadius, 30,
 		    (offset) -> ParticleManager.spawnWisp(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, i * 0.5, offset.y)), ModColors.YELLOW, Vec3d.ZERO));
 	});
     }
@@ -87,7 +87,7 @@ public class EntityGoldenRune extends Projectile
     {
 	if (this.ticksExisted % 10 == 0)
 	{
-	    ParticleManager.spawnParticlesInCircle(this.blastRadius, 30,
+	    ModUtils.circleCallback(this.blastRadius, 30,
 		    (offset) -> ParticleManager.spawnSwirl(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, 0.5f, offset.y)), ModColors.YELLOW, Vec3d.ZERO, ModRandom.range(10, 15)));
 	}
     }

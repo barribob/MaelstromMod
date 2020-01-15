@@ -40,7 +40,7 @@ public class MessageManaUnlock implements IMessage
 		int numCircles = 7;
 		float dy = (player.height * 1.5f) / numCircles;
 		ModUtils.performNTimes(numCircles, (i) -> {
-		    ParticleManager.spawnParticlesInCircle(1, 30, (pos) -> {
+		    ModUtils.circleCallback(1, 30, (pos) -> {
 			pos = new Vec3d(pos.x, 0, pos.y);
 			Vec3d worldPos = pos.add(player.getPositionVector()).add(ModUtils.yVec(i * dy));
 			player.world.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, worldPos.x, worldPos.y, worldPos.z, 0, 0.1, 0);

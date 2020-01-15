@@ -239,7 +239,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	else if (id == EntityHerobrineOne.slashParticleByte)
 	{
 	    ModUtils.performNTimes(4, (i) -> {
-		ParticleManager.spawnParticlesInCircle(i, 15, (pos) -> {
+		ModUtils.circleCallback(i, 15, (pos) -> {
 		    ParticleManager.spawnDarkFlames(world, rand, getPositionVector().add(new Vec3d(pos.x, this.getEyeHeight(), pos.y)));
 		});
 	    });

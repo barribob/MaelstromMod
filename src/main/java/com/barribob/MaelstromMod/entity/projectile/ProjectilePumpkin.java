@@ -71,7 +71,7 @@ public class ProjectilePumpkin extends ProjectileGun
 	{
 	    float circleSize = 1 + ModRandom.getFloat(0.9f);
 	    float f1 = MathHelper.sqrt(vel.x * vel.x + vel.z * vel.z);
-	    ParticleManager.spawnParticlesInCircle(circleSize, 30, (pos) -> {
+	    ModUtils.circleCallback(circleSize, 30, (pos) -> {
 
 		// Conversion code taken from projectile shoot method
 		Vec3d outer = pos.rotatePitch((float) (MathHelper.atan2(vel.y, f1))).rotateYaw((float) (MathHelper.atan2(vel.x, vel.z)))

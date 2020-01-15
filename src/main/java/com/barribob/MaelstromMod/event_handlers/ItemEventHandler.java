@@ -30,6 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -119,7 +120,8 @@ public class ItemEventHandler
 		    boots.equals(ModItems.NYAN_BOOTS) && player.isSprinting())
 	    {
 		Entity particle = new ParticleSpawnerRainbow(player.world);
-		particle.copyLocationAndAnglesFrom(player);
+		Vec3d pos = player.getPositionVector().subtract(new Vec3d(player.getLookVec().x, 0, player.getLookVec().z));
+		particle.setPosition(pos.x, pos.y, pos.z);
 		player.world.spawnEntity(particle);
 	    }
 

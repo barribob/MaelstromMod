@@ -214,7 +214,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	}
 	else if (id == ModUtils.SECOND_PARTICLE_BYTE)
 	{
-	    ParticleManager.spawnParticlesInCircle(2, 30, (pos) -> {
+	    ModUtils.circleCallback(2, 30, (pos) -> {
 		ModUtils.performNTimes(10, (y) -> {
 		    ParticleManager.spawnDarkFlames(world, rand, pos.add(ModUtils.yVec(y * 0.5f).add(getPositionVector())));
 		});

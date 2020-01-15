@@ -36,7 +36,7 @@ public class ProjectileMaelstromWisp extends Projectile
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnParticlesInCircle(AREA_FACTOR, 30, (pos) -> {
+	    ModUtils.circleCallback(AREA_FACTOR, 30, (pos) -> {
 		Vec3d vel = new Vec3d(this.motionX, this.motionY, this.motionZ).normalize();
 
 		// Conversion code taken from projectile shoot method

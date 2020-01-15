@@ -59,7 +59,7 @@ public class ProjectileFireball extends ProjectileGun
     @Override
     protected void spawnImpactParticles()
     {
-	ParticleManager.spawnParticlesInCircle(EXPOSION_AREA_FACTOR, 40, (pos) -> {
+	ModUtils.circleCallback(EXPOSION_AREA_FACTOR, 40, (pos) -> {
 	    ParticleManager.spawnEffect(world, getPositionVector().add(pos), FIREBALL_COLOR);
 	    ParticleManager.spawnEffect(world, getPositionVector().add(new Vec3d(pos.x, 0, pos.y)), FIREBALL_COLOR);
 	    ParticleManager.spawnEffect(world, getPositionVector().add(new Vec3d(0, pos.x, pos.y)), FIREBALL_COLOR);
