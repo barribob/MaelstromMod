@@ -26,9 +26,6 @@ Crimson Dungeon [85]
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
 Make the story make more sense with Herobrine and the dark nexus
-Match a few items to their new names(1)
-    Crystalhide armor
-    Shadowgold sword
 
 Server Testing (2)
 Testing (6)
@@ -88,6 +85,9 @@ Put out on curseforge and improve marketing (5)
     Plan:
         Loot for elemental mobs
 
+Match a few items to their new names(1)
+    Crystalhide armor
+    Shadowgold sword
 Name things to be sexier and clean up lang fragments(3)
 Creative tab organization (1)
 Maelstrom lancer(2)

@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.packets;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -24,9 +23,9 @@ public class MessageLeap implements IMessage
 	@Override
 	public IMessage onMessage(MessageLeap message, MessageContext ctx)
 	{
-	    if (Minecraft.getMinecraft().player != null)
+	    if (PacketUtils.getPlayer() != null)
 	    {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = PacketUtils.getPlayer();
 		float maxVelocityIncrease = 0.6f;
 		player.addVelocity(Math.min(Math.max(player.motionX, -maxVelocityIncrease), maxVelocityIncrease), 0.8f,
 			Math.min(Math.max(player.motionZ, -maxVelocityIncrease), maxVelocityIncrease));

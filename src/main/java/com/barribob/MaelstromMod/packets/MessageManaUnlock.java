@@ -4,7 +4,6 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
@@ -35,9 +34,9 @@ public class MessageManaUnlock implements IMessage
 	@Override
 	public IMessage onMessage(MessageManaUnlock message, MessageContext ctx)
 	{
-	    if (Minecraft.getMinecraft().player != null)
+	    if (PacketUtils.getPlayer() != null)
 	    {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = PacketUtils.getPlayer();
 		int numCircles = 7;
 		float dy = (player.height * 1.5f) / numCircles;
 		ModUtils.performNTimes(numCircles, (i) -> {

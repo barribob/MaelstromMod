@@ -3,9 +3,6 @@ package com.barribob.MaelstromMod.packets;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleSweepAttack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -20,17 +17,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MessageModParticles implements IMessage
 {
     private EnumModParticles particleType;
-    private float xCoord;
-    private float yCoord;
-    private float zCoord;
-    private float xOffset;
-    private float yOffset;
-    private float zOffset;
+    float xCoord;
+    float yCoord;
+    float zCoord;
+    float xOffset;
+    float yOffset;
+    float zOffset;
     /**
      * These are the block/item ids and possibly metaData ids that are used to color
      * or texture the particle.
      */
-    private float[] particleArguments;
+    float[] particleArguments;
 
     public MessageModParticles()
     {
@@ -172,10 +169,7 @@ public class MessageModParticles implements IMessage
 	{
 	    if (message.particleType.equals(EnumModParticles.SWEEP_ATTACK))
 	    {
-		Particle particle = new ParticleSweepAttack.Factory().createParticle(0, Minecraft.getMinecraft().world, message.xCoord, message.yCoord, message.zCoord,
-			message.xOffset, message.yOffset, message.zOffset);
-		particle.setRBGColorF(message.particleArguments[0], message.particleArguments[1], message.particleArguments[2]);
-		Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+		PacketUtils.spawnSweepParticles(message);
 	    }
 	    return null;
 	}

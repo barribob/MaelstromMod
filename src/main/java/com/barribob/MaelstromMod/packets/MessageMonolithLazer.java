@@ -3,7 +3,6 @@ package com.barribob.MaelstromMod.packets;
 import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,9 +42,9 @@ public class MessageMonolithLazer implements IMessage
 	@Override
 	public IMessage onMessage(MessageMonolithLazer message, MessageContext ctx)
 	{
-	    if (Minecraft.getMinecraft().player != null)
+	    if (PacketUtils.getPlayer() != null)
 	    {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = PacketUtils.getPlayer();
 		if (message.data.hasKey("entityId") && message.data.hasKey("posX") && message.data.hasKey("posY") && message.data.hasKey("posZ"))
 		{
 		    Entity entity = player.world.getEntityByID(message.data.getInteger("entityId"));
