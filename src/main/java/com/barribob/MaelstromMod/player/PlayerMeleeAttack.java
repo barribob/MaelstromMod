@@ -4,7 +4,6 @@ import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModDamageSource;
-import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -64,8 +63,6 @@ public class PlayerMeleeAttack
 		{
 		    bonusDamage = EnchantmentHelper.getModifierForCreature(player.getHeldItemMainhand(), EnumCreatureAttribute.UNDEFINED);
 		}
-
-		bonusDamage += ModUtils.getSwordEnchantmentDamage(player.getHeldItemMainhand());
 
 		float atkCooldown = player.getCooledAttackStrength(0.5F);
 		damage = damage * (0.2F + atkCooldown * atkCooldown * 0.8F);

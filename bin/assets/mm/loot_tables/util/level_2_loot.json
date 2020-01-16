@@ -10,18 +10,14 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -31,18 +27,14 @@
                     "name": "mm:maelstrom_cannon",
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -52,18 +44,14 @@
                     "name": "mm:will-o-the-wisp_staff",
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -73,18 +61,14 @@
                     "name": "mm:sword_of_shades",
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -94,11 +78,12 @@
                     "name": "mm:maelstrom_battleaxe",
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -110,18 +95,14 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -131,18 +112,14 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -152,18 +129,14 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -173,18 +146,14 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },
@@ -194,18 +163,14 @@
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 1,
-                                "max": 30
-                            },
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
                                     "chance": 0.4
                                 }
-                            ],
-                            "treasure": "true"
+                            ]
                         }
                     ]
                 },

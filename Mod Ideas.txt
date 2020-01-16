@@ -27,6 +27,8 @@ Crimson Dungeon [85]
 
 Make the story make more sense with Herobrine and the dark nexus
 
+Fix ModRandom.range()
+
 Server Testing (2)
 Testing (6)
     Test spawners because we changed the base spawner logic

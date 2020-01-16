@@ -3,7 +3,6 @@ package com.barribob.MaelstromMod.util;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -17,24 +16,20 @@ import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwi
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
-import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
-import com.google.common.collect.Multimap;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -106,23 +101,6 @@ public final class ModUtils
 	return ModUtils.translateDesc("elemental_damage_desc",
 		"x" + ModUtils.DF_0.format(ModConfig.balance.elemental_factor),
 		element.textColor + element.symbol + TextFormatting.GRAY);
-    }
-
-    public static double getSwordEnchantmentDamage(ItemStack stack)
-    {
-	int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.sharpness_2, stack);
-	float maxPower = (float) (Math.pow(ModConfig.balance.progression_scale, 2) - 1);
-	Multimap<String, AttributeModifier> multimap = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-	for (Entry<String, AttributeModifier> entry : multimap.entries())
-	{
-	    AttributeModifier attributemodifier = entry.getValue();
-	    if (attributemodifier.getID() == ToolSword.getAttackDamageModifier())
-	    {
-		double multiplier = (level / (float) ModEnchantments.sharpness_2.getMaxLevel()) * maxPower;
-		return attributemodifier.getAmount() * multiplier;
-	    }
-	}
-	return 0;
     }
 
     /**
@@ -456,7 +434,8 @@ public final class ModUtils
     {
 	float maxPower = ModEnchantments.gun_power.getMaxLevel();
 	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
-	float enchantmentBonus = 1 + ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
+	float maxDamageBonus = (float) Math.pow(ModConfig.balance.progression_scale, 2); // Maximum damage is two levels above
+	float enchantmentBonus = 1 + ((power / maxPower) * (maxDamageBonus - 1));
 	return damage * enchantmentBonus * LevelHandler.getMultiplierFromLevel(level);
     }
 

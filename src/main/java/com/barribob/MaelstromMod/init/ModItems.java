@@ -73,7 +73,7 @@ import net.minecraftforge.common.util.EnumHelper;
  */
 public class ModItems
 {
-    private static final float BASE_MELEE_DAMAGE = 6 * ModConfig.balance.weapon_damage;
+    public static final float BASE_MELEE_DAMAGE = 6 * ModConfig.balance.weapon_damage;
     private static final String keyDesc = "Give to herobrine to craft";
 
     private static final ToolMaterial DAGGER = EnumHelper.addToolMaterial("rare_dagger", 2, 600, 8.0f, BASE_MELEE_DAMAGE, 20);
