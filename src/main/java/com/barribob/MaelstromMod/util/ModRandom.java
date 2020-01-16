@@ -31,7 +31,11 @@ public class ModRandom
      */
     public static int range(int min, int max)
     {
-	return min + rand.nextInt(max);
+	if (min > max)
+	{
+	    throw new IllegalArgumentException("minimum is greater than maximum");
+	}
+	return min + rand.nextInt(max - min);
     }
 
     /**

@@ -149,28 +149,28 @@ public class ParticleManager
 
     public static void spawnSwirl2(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
     {
-	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(10, 15), true);
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(10, 20), true);
 	particle.setParticleTextureRange(7, 9, 2);
 	spawnParticleWithColor(particle, baseColor);
     }
 
     public static void spawnWisp(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
     {
-	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(7, 12), false);
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(7, 15), false);
 	particle.setParticleTextureRange(24, 8, 1);
 	spawnParticleWithColor(particle, baseColor);
     }
 
     public static void spawnFluff(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
     {
-	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(10, 15), false);
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(10, 20), false);
 	particle.setParticleTextureRange(32, 10, 1);
 	spawnParticleWithColor(particle, baseColor);
     }
 
     public static void spawnSplit(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
     {
-	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(7, 12), false);
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(7, 20), false);
 	particle.setParticleTextureRange(42, 6, 1);
 	spawnParticleWithColor(particle, baseColor);
     }

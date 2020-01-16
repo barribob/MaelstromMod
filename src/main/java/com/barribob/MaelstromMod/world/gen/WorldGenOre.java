@@ -83,12 +83,12 @@ public class WorldGenOre implements IWorldGenerator
 
 	generateOre(ModBlocks.AZURE_COAL_ORE, ModBlocks.DARK_AZURE_STONE_1, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(8, 20), 40);
 	generateOre(ModBlocks.AZURE_IRON_ORE, ModBlocks.DARK_AZURE_STONE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 40);
-	generateOre(ModBlocks.AZURE_GOLD_ORE, ModBlocks.DARK_AZURE_STONE_2, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 9);
+	generateOre(ModBlocks.AZURE_GOLD_ORE, ModBlocks.DARK_AZURE_STONE_2, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 12);
 	generateOre(ModBlocks.AZURE_REDSTONE_ORE, ModBlocks.DARK_AZURE_STONE_2, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 24);
-	generateOre(ModBlocks.AZURE_DIAMOND_ORE, Blocks.PRISMARINE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 3);
-	generateOre(ModBlocks.AZURE_LAPIS_ORE, ModBlocks.DARK_AZURE_STONE_3, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 3);
-	generateOre(ModBlocks.AZURE_EMERALD_ORE, ModBlocks.DARK_AZURE_STONE_4, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(4, 8), 3);
-	generateOre(ModBlocks.CHASMIUM_ORE, Blocks.PRISMARINE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 3);
+	generateOre(ModBlocks.AZURE_DIAMOND_ORE, Blocks.PRISMARINE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 5);
+	generateOre(ModBlocks.AZURE_LAPIS_ORE, ModBlocks.DARK_AZURE_STONE_3, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 5);
+	generateOre(ModBlocks.AZURE_EMERALD_ORE, ModBlocks.DARK_AZURE_STONE_4, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(4, 8), 5);
+	generateOre(ModBlocks.CHASMIUM_ORE, Blocks.PRISMARINE, world, rand, chunkX * chunkSize, chunkZ * chunkSize, 1, 70, ModRandom.range(6, 12), 4);
 
     }
 

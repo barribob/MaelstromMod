@@ -351,7 +351,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	if (!world.isRemote && this.getAttackTarget() == null && this.ticksExisted % maelstromMeteorTime == 0 && this.ticksExisted < maelstromMeteorTime * maxMeteors)
 	{
 	    ProjectileMaelstromMeteor meteor = new ProjectileMaelstromMeteor(world, this, this.getAttack());
-	    Vec3d pos = new Vec3d(ModRandom.getFloat(1.0f), 0, ModRandom.getFloat(1.0f)).normalize().scale(ModRandom.range(20, 40)).add(this.getPositionVector());
+	    Vec3d pos = new Vec3d(ModRandom.getFloat(1.0f), 0, ModRandom.getFloat(1.0f)).normalize().scale(ModRandom.range(20, 50)).add(this.getPositionVector());
 	    meteor.setPosition(pos.x, pos.y, pos.z);
 	    meteor.shoot(this, 90, 0, 0.0F, 0.7f, 0);
 	    meteor.motionX -= this.motionX;
