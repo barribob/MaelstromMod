@@ -77,7 +77,7 @@ public class ModEventHandler
 	    invasionCounter.update();
 
 	    // Issue a warning one tenth of the time left
-	    if (invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 0.1f)
+	    if (invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 20 * 0.1f)
 	    {
 		event.world.playerEntities.forEach((p) -> {
 		    p.sendMessage(

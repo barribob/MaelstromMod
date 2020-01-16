@@ -115,9 +115,14 @@ public class ModConfig
 	public int dark_nexus_dimension_id = 128;
 
 	@Config.LangKey(config + "invasion_time")
-	@Config.Comment("How many ticks(20ths of a second) before attempting to spawn the invasion tower.")
-	@Config.RangeInt(min = 1200, max = 20 * 60 * 1000)
-	public int invasionTime = 20 * 60 * 180; // Default 180 minutes before invasion
+	@Config.Comment("How many seconds before attempting to spawn the invasion tower. Cannot be adjusted after the world is created.")
+	@Config.RangeInt(min = 60, max = 60 * 1000)
+	public int invasionTime = 60 * 180; // Default 180 minutes before invasion
+
+	@Config.RequiresWorldRestart
+	@Config.LangKey(config + "use_vanilla_pathfinding")
+	@Config.Comment("If there is another mod that improves the vanilla pathfinding ai, then set this to true.")
+	public boolean useVanillaPathfinding = false;
     }
 
     @SubscribeEvent

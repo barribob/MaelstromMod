@@ -4,7 +4,7 @@ import com.barribob.MaelstromMod.config.ModConfig;
 
 public class Invasion implements IInvasion
 {
-    private long timeUntilInvasion = ModConfig.world.invasionTime;
+    private long timeUntilInvasion = ModConfig.world.invasionTime * 20;
     private boolean invaded = false;
 
     @Override

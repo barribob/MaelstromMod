@@ -8,7 +8,7 @@ import net.minecraft.world.storage.WorldSavedData;
 
 public class InvasionWorldSaveData extends WorldSavedData
 {
-    private int timeUntilInvasion = ModConfig.world.invasionTime;
+    private int timeUntilInvasion = ModConfig.world.invasionTime * 20;
     private boolean invaded = false;
     private int dimensionTime = 20; // An additional second when coming out of a dimension to let the server get the
 				    // correct player position

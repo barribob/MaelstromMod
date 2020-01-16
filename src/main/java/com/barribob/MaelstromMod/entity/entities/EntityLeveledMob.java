@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
@@ -40,7 +41,6 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 
     protected static final DataParameter<Boolean> IMMOVABLE = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
     private Vec3d initialPosition = null;
-    private boolean animationsInit = false;
     protected double healthScaledAttackFactor = 0.0; // Factor that determines how much attack is affected by health
 
     public EntityLeveledMob(World worldIn)
@@ -55,6 +55,10 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     @Override
     protected PathNavigate createNavigator(World worldIn)
     {
+	if (ModConfig.world.useVanillaPathfinding)
+	{
+	    return super.createNavigator(worldIn);
+	}
 	return new ModGroundNavigator(this, worldIn);
     }
 
