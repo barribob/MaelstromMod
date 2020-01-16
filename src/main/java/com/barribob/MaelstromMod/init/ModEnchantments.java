@@ -5,7 +5,6 @@ import com.barribob.MaelstromMod.enchantments.EnchantmentDamage2;
 import com.barribob.MaelstromMod.enchantments.EnchantmentEnflame;
 import com.barribob.MaelstromMod.enchantments.EnchantmentImpact;
 import com.barribob.MaelstromMod.enchantments.EnchantmentMaelstromDestroyer;
-import com.barribob.MaelstromMod.enchantments.EnchantmentMaelstromProtection;
 import com.barribob.MaelstromMod.enchantments.EnchantmentPower;
 import com.barribob.MaelstromMod.enchantments.EnchantmentReload;
 import com.barribob.MaelstromMod.util.Reference;
@@ -33,9 +32,7 @@ public class ModEnchantments
     public static final Enchantment gun_flame = null;
     public static final Enchantment maelstrom_destroyer = null;
     public static final Enchantment critical_hit = null;
-    
-    public static final Enchantment maelstrom_protection = null;
-    
+
     public static final Enchantment sharpness_2 = null;
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
@@ -46,8 +43,6 @@ public class ModEnchantments
 	{
 	    final IForgeRegistry<Enchantment> registry = event.getRegistry();
 
-	    EntityEquipmentSlot[] armorSlots = new EntityEquipmentSlot[] { EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS,
-		    EntityEquipmentSlot.FEET };
 	    EntityEquipmentSlot[] weaponSlots = new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND };
 
 	    registry.register(new EnchantmentReload("reload", Enchantment.Rarity.UNCOMMON, weaponSlots));
@@ -55,7 +50,6 @@ public class ModEnchantments
 	    registry.register(new EnchantmentImpact("impact", Enchantment.Rarity.RARE, weaponSlots));
 	    registry.register(new EnchantmentEnflame("gun_flame", Enchantment.Rarity.RARE, weaponSlots));
 	    registry.register(new EnchantmentMaelstromDestroyer("maelstrom_destroyer", Enchantment.Rarity.RARE, weaponSlots));
-	    registry.register(new EnchantmentMaelstromProtection("maelstrom_protection", Enchantment.Rarity.COMMON, armorSlots));
 	    registry.register(new EnchantmentDamage2("sharpness_2", Enchantment.Rarity.COMMON, weaponSlots));
 	    registry.register(new EnchantmentCriticalHit("critical_hit", Enchantment.Rarity.RARE, weaponSlots));
 	}

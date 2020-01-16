@@ -28,17 +28,6 @@ public class LevelHandler
     {
 	return (float) Math.pow(ModConfig.balance.progression_scale, -level);
     }
-
-    /**
-     * Get the maximum damage reduction a completely enchanted armor set can have.
-     * 
-     * This is based on the progression scale. For for a scale of 1.5, the reduction
-     * is 1 / (1.5^2)
-     */
-    public static float getMaxMaelstromProtection()
-    {
-	return 1 - (float) Math.pow(ModConfig.balance.progression_scale, -2);
-    }
     
     /**
      * returns a simple multiplicative modifier based on the level Starts at level 0

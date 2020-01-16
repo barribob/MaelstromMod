@@ -1,10 +1,8 @@
 package com.barribob.MaelstromMod.util.handlers;
 
-import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
 import com.barribob.MaelstromMod.util.Element;
 
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 
@@ -46,23 +44,6 @@ public class ArmorHandler
 	}
 
 	return totalArmor;
-    }
-    
-    /*
-     * Applies the maelstrom protection enchantment, where each enchantment level reduces the incoming damage by 0.025 for a max of 50% reduction
-     */
-    public static float getMaelstromProtection(Entity entity)
-    {
-	float totalLevels = 0;
-	int maxPossibleEnchantments = 4 * ModEnchantments.maelstrom_protection.getMaxLevel();
-	float reductionPerLevel = LevelHandler.getMaxMaelstromProtection() / maxPossibleEnchantments;
-
-	for (ItemStack equipment : entity.getArmorInventoryList())
-	{
-	    totalLevels += EnchantmentHelper.getEnchantmentLevel(ModEnchantments.maelstrom_protection, equipment);
-	}
-
-	return totalLevels * reductionPerLevel;
     }
     
     /*

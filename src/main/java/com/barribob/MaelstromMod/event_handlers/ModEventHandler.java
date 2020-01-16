@@ -17,7 +17,6 @@ import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 import com.barribob.MaelstromMod.util.GenUtils;
 import com.barribob.MaelstromMod.util.IElement;
-import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
@@ -253,11 +252,6 @@ public class ModEventHandler
 	if (!event.getSource().isUnblockable())
 	{
 	    damage *= 1 - ArmorHandler.getMaelstromArmor(event.getEntity());
-
-	    if (ModDamageSource.isMaelstromDamage(event.getSource()))
-	    {
-		damage *= 1 - ArmorHandler.getMaelstromProtection(event.getEntity());
-	    }
 	}
 
 	event.setAmount(damage);
