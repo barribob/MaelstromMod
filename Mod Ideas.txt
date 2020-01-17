@@ -27,7 +27,6 @@ Crimson Dungeon [85]
 
 Make the story make more sense with Herobrine and the dark nexus
 
-Server Testing (2)
 Testing (6)
     Test spawners because we changed the base spawner logic
     Test dungeon loots
@@ -85,6 +84,7 @@ Put out on curseforge and improve marketing (5)
     Plan:
         Loot for elemental mobs
 
+[DONE] Server Testing (2)
 Match a few items to their new names(1)
     Crystalhide armor
     Shadowgold sword

@@ -30,7 +30,9 @@ public class Teleport extends Teleporter
     {
 	this.world.getBlockState(new BlockPos((int) x, (int) y, (int) z));
 	entityIn.setPosition(x, y, z);
-	entityIn.setVelocity(0, 0, 0);
+	entityIn.motionX = 0;
+	entityIn.motionY = 0;
+	entityIn.motionZ = 0;
     }
 
     public static void teleportToDimension(EntityPlayerMP player, int dimension, Teleporter teleporter)
