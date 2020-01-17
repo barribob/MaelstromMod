@@ -60,7 +60,7 @@ public class RenderHerobrine extends RenderAnimatedBiped
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
 		Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
 		GlStateManager.pushMatrix();
-		GlStateManager.scale(1.0, 1.0, 1.02);
+		GlStateManager.scale(1.02, 1.0, 1.02);
 		getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 		GlStateManager.popMatrix();
 		Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
