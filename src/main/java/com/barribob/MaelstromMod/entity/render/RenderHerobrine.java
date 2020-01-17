@@ -47,30 +47,29 @@ public class RenderHerobrine extends RenderAnimatedBiped
 	public void doRenderLayer(EntityLeveledMob entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw,
 		float headPitch, float scale)
 	{
-	    boolean flag = entitylivingbaseIn.isInvisible();
-	    GlStateManager.depthMask(!flag);
-	    bindTexture(EYES);
-	    GlStateManager.matrixMode(5890);
-	    GlStateManager.loadIdentity();
-	    float f = entitylivingbaseIn.ticksExisted + partialTicks;
-	    GlStateManager.matrixMode(5888);
-	    GlStateManager.enableBlend();
-	    float f1 = 1.0F;
-	    GlStateManager.color(f1, f1, f1, 1.0F);
-	    GlStateManager.disableLighting();
-	    GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-	    Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
-	    GlStateManager.pushMatrix();
-	    GlStateManager.scale(1.0, 1.0, 1.02);
-	    getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-	    GlStateManager.popMatrix();
-	    Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
-	    GlStateManager.matrixMode(5890);
-	    GlStateManager.loadIdentity();
-	    GlStateManager.matrixMode(5888);
-	    GlStateManager.enableLighting();
-	    GlStateManager.disableBlend();
-	    GlStateManager.depthMask(flag);
+	    if (!entitylivingbaseIn.isInvisible())
+	    {
+		bindTexture(EYES);
+		GlStateManager.matrixMode(5890);
+		GlStateManager.loadIdentity();
+		float f = entitylivingbaseIn.ticksExisted + partialTicks;
+		GlStateManager.matrixMode(5888);
+		GlStateManager.enableBlend();
+		GlStateManager.color(1, 1, 1, 1.0F);
+		GlStateManager.disableLighting();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+		Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(1.0, 1.0, 1.02);
+		getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+		GlStateManager.popMatrix();
+		Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
+		GlStateManager.matrixMode(5890);
+		GlStateManager.loadIdentity();
+		GlStateManager.matrixMode(5888);
+		GlStateManager.enableLighting();
+		GlStateManager.disableBlend();
+	    }
 	}
 
 	@Override

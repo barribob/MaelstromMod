@@ -499,22 +499,30 @@ mm.dialog.herobrine_pearl_0=You over there. You look like an adventurer.
 mm.dialog.herobrine_pearl_1=If you get me some pearls, I'll give you something good.
 mm.dialog.herobrine_pearl_2=Come on, there's no need for violence.
 
+mm.dialog.herobrine_battle_0=Thanks! Now, let me try to kill you.
+mm.dialog.herobrine_battle_1=I just want to see how strong you are for fun.
+
+mm.dialog.herobrine_battle_2=Fascinating. I guess you can fight.
+mm.dialog.herobrine_battle_3=Maybe instead of killing you, you can be my slave.
+mm.dialog.herobrine_battle_4=If you find any key fragments, give them to me, and I'll craft another key.
+mm.dialog.herobrine_battle_5=That way, I can unlock the way to those annoying maelstrom generals.
+mm.dialog.herobrine_battle_6=And you can do your exploration or whatever. Everybody wins.
+mm.dialog.herobrine_battle_7=Pipe down, the battle's over.
+
+mm.dialog.herobrine_cliff_0=Do you have fragments for the next key? If not, then GTFO.
+mm.dialog.herobrine_cliff_1=Don't attack me you dweeb. Only I'm allowed to attack unprovoked.
+mm.dialog.herobrine_cliff_2=Not bad. Now go get some more fragments for me.
+
+mm.dialog.herobrine_crimson_0=Do you have fragments for the next key? If not, then GTFO.
+mm.dialog.herobrine_crimson_1=How about you go left click some maelstrom instead?
+
+mm.dialog.herobrine_crimson_dimension_0=I have been informed by the mod creator that this is the current end of the mod.
+mm.dialog.herobrine_crimson_dimension_1=I have to sit here until an update happens. Lame.
+mm.dialog.herobrine_crimson_dimension_2=Guess you're too stupid to see that I'm ignoring you.
+
 mm.dialog.illager_1=What a fine being we have here! I must investigate!
 mm.dialog.illager_2=Come join our empire as a maelstrom zombie!
 mm.dialog.illager_3=Die pesky specimen!
-
-mm.dialog.herobrine_1=Hello there adventurer. Do you want a key to a new dimension?
-mm.dialog.herobrine_2=Prove to me that you can hold your own,
-mm.dialog.herobrine_3=and defeat this shadow clone.
-mm.dialog.herobrine_4=If you don't impress me, you'll die.
-mm.dialog.herobrine_5=Fascinating. You survived
-mm.dialog.herobrine_6=I shall soon see how far you get.
-mm.dialog.herobrine_7=Maybe you will be the one to release me from this prison.
-mm.dialog.herobrine_8=Don't attack me you dweeb.
-mm.dialog.herobrine_9=Do you have fragments for the next key? If not, then GTFO.
-mm.dialog.herobrine_10=I may be trapped, but I'm still invincible, idiot.
-mm.dialog.herobrine_11=How about you go left click some maelstrom instead?
-mm.dialog.herobrine_12=Not bad. Let's see how well you fare in this next dimension.
 
 mm.dialog.azure_villager_1=We've been having a problem with the maelstrom that's invaded this dimension.
 mm.dialog.azure_villager_2=You seem like a warrior, would you defeat the maelstrom invaders for us?
@@ -522,7 +530,7 @@ mm.dialog.azure_villager_3=We'll reward you handsomely for taking out the maelst
 mm.dialog.azure_villager_4=Have a look around the mineshaft for any useful gear and items.
 mm.dialog.azure_villager_5=Under the maelstrom growths, there is a core that spawns the maelstrom. Remove those!
 mm.dialog.azure_villager_6=Keep an eye out for the maelstrom fortress. That's where the boss is.
-mm.dialog.no_mana=Pleb, have no mana! Get some minotaur horns, and I'll get you started.
+mm.dialog.no_mana=Pleb, have no mana! Get some maelstrom minotaur horns, and I'll get you started.
 mm.dialog.mage_1=Good, that catalyst will unlock your mana.
 mm.dialog.mage_2=Any staff uses a certain amount of mana.
 mm.dialog.mage_3=Mana will slowly refill over time.

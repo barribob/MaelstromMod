@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.HerobrineState;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateCliffKey;
+import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateCrimsonDimension;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateCrimsonKey;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateEnderPearls;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateFirstBattle;
@@ -59,7 +60,10 @@ public class Herobrine extends EntityLeveledMob
     @Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand)
     {
-	state.rightClick(player);
+	if (!world.isRemote)
+	{
+	    state.rightClick(player);
+	}
 	return super.processInteract(player, hand);
     }
 
@@ -123,6 +127,10 @@ public class Herobrine extends EntityLeveledMob
 	    else if (compound.getString(nbtState).equals(new StateFirstBattle(this).getNbtString()))
 	    {
 		state = new StateFirstBattle(this);
+	    }
+	    else if (compound.getString(nbtState).equals(new StateCrimsonDimension(this).getNbtString()))
+	    {
+		state = new StateCrimsonDimension(this);
 	    }
 	}
 	super.readEntityFromNBT(compound);

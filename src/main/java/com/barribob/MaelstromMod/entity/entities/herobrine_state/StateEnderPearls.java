@@ -7,7 +7,6 @@ import com.barribob.MaelstromMod.util.TimedMessager;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -93,8 +92,6 @@ public class StateEnderPearls extends HerobrineState implements IMerchant
     @Override
     public void useRecipe(MerchantRecipe recipe)
     {
-	herobrine.teleportOutside();
-	herobrine.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
 	herobrine.state = new StateFirstBattle(herobrine);
     }
 

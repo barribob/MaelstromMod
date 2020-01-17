@@ -41,7 +41,7 @@ public class StateCrimsonKey extends HerobrineState implements IMerchant
     {
 	if (!this.gtfo)
 	{
-	    this.messageToPlayers.accept("herobrine_9");
+	    this.messageToPlayers.accept("herobrine_crimson_0");
 	    this.gtfo = true;
 	}
 	if (herobrine.isEntityAlive() && this.buyingPlayer == null)
@@ -56,7 +56,7 @@ public class StateCrimsonKey extends HerobrineState implements IMerchant
     {
 	if (!this.leftClickMessage)
 	{
-	    messageToPlayers.accept("herobrine_11");
+	    messageToPlayers.accept("herobrine_crimson_1");
 	    leftClickMessage = true;
 	}
 	super.leftClick(herobrine);
@@ -88,6 +88,7 @@ public class StateCrimsonKey extends HerobrineState implements IMerchant
     @Override
     public void useRecipe(MerchantRecipe recipe)
     {
+	herobrine.state = new StateCrimsonDimension(herobrine);
     }
 
     @Override

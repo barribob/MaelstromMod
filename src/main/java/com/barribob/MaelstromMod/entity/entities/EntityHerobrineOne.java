@@ -128,6 +128,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	else if (source.getTrueSource() instanceof EntityLivingBase)
 	{
 	    new ActionTeleport().performAction(this, (EntityLivingBase) source.getTrueSource());
+	    this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F + ModRandom.getFloat(0.2f));
 	    this.setRevengeTarget((EntityLivingBase) source.getTrueSource());
 
 	    hits--;
