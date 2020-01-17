@@ -130,6 +130,12 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	this.dataManager.set(IMMOVABLE, immovable);
     }
 
+    public void setImmovablePosition(Vec3d pos)
+    {
+	this.initialPosition = pos;
+	this.setPosition(0, 0, 0);
+    }
+
     // Hold the entity in the same position
     @Override
     public void setPosition(double x, double y, double z)

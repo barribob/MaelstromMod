@@ -495,9 +495,14 @@ mm.desc.nyan_full_set=Full set: Rainbows when sprinting
 //———————————————————————————————————————————————————————————
 // Entity Dialog
 //———————————————————————————————————————————————————————————
+mm.dialog.herobrine_pearl_0=You over there. You look like an adventurer.
+mm.dialog.herobrine_pearl_1=If you get me some pearls, I'll give you something good.
+mm.dialog.herobrine_pearl_2=Come on, there's no need for violence.
+
 mm.dialog.illager_1=What a fine being we have here! I must investigate!
 mm.dialog.illager_2=Come join our empire as a maelstrom zombie!
 mm.dialog.illager_3=Die pesky specimen!
+
 mm.dialog.herobrine_1=Hello there adventurer. Do you want a key to a new dimension?
 mm.dialog.herobrine_2=Prove to me that you can hold your own,
 mm.dialog.herobrine_3=and defeat this shadow clone.
@@ -510,6 +515,7 @@ mm.dialog.herobrine_9=Do you have fragments for the next key? If not, then GTFO.
 mm.dialog.herobrine_10=I may be trapped, but I'm still invincible, idiot.
 mm.dialog.herobrine_11=How about you go left click some maelstrom instead?
 mm.dialog.herobrine_12=Not bad. Let's see how well you fare in this next dimension.
+
 mm.dialog.azure_villager_1=We've been having a problem with the maelstrom that's invaded this dimension.
 mm.dialog.azure_villager_2=You seem like a warrior, would you defeat the maelstrom invaders for us?
 mm.dialog.azure_villager_3=We'll reward you handsomely for taking out the maelstrom.

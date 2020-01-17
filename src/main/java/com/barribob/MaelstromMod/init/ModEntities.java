@@ -267,6 +267,12 @@ public class ModEntities
 	ID_MAP.put(entity, name);
     }
 
+    private static void registerEntityWithID(String name, Class<? extends Entity> entity, int id, int range)
+    {
+	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true);
+	ID_MAP.put(entity, name);
+    }
+
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)
     {
 	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(), eggColor.getY());

@@ -36,6 +36,7 @@ public class ModProfessions
     public static VillagerCareer NEXUS_ARMORER;
     public static VillagerCareer NEXUS_SPECIAL_TRADER;
     public static VillagerCareer NEXUS_BLADESMITH;
+    public static VillagerCareer HEROBRINE_ENDER_PEARLS;
     public static VillagerCareer HEROBRINE_CLIFF_KEY;
     public static VillagerCareer HEROBRINE_CRIMSON_KEY;
 
@@ -138,6 +139,9 @@ public class ModProfessions
 	NEXUS_ARMORER.addTrade(1, new NexusTrades.MoreComing());
 	NEXUS_MAGE.addTrade(1, new NexusTrades.MoreComing());
 	NEXUS_GUNSMITH.addTrade(1, new NexusTrades.MoreComing());
+
+	HEROBRINE_ENDER_PEARLS = new VillagerCareer(NEXUS_VILLAGER, "herobrine_pearls");
+	HEROBRINE_ENDER_PEARLS.addTrade(1, new GeneralTrade(Items.ENDER_PEARL, 16, null, 0, ModItems.AZURE_KEY, 1));
 
 	HEROBRINE_CLIFF_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_cliff");
 	HEROBRINE_CLIFF_KEY.addTrade(1, new GeneralTrade(ModItems.CLIFF_KEY_FRAGMENT, 2, null, 0, ModItems.BROWN_KEY, 1));

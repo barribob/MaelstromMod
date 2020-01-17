@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class StateFirstEncounter extends HerobrineState
+public class StateFirstBattle extends HerobrineState
 {
     private static final String[] INTRO_MESSAGES = { "herobrine_1", "herobrine_2", "herobrine_3", "herobrine_4", "" };
     private static final int[] INTRO_MESSAGE_TIMES = { 80, 140, 200, 260, 320 };
@@ -51,7 +51,7 @@ public class StateFirstEncounter extends HerobrineState
 	herobrine.state = new StateCliffKey(herobrine);
     };
 
-    public StateFirstEncounter(Herobrine herobrine)
+    public StateFirstBattle(Herobrine herobrine)
     {
 	super(herobrine);
 	messager = new TimedMessager(INTRO_MESSAGES, INTRO_MESSAGE_TIMES, spawnHerobrine);

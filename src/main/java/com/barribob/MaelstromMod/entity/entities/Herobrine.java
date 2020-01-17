@@ -3,7 +3,8 @@ package com.barribob.MaelstromMod.entity.entities;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.HerobrineState;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateCliffKey;
 import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateCrimsonKey;
-import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateFirstEncounter;
+import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateEnderPearls;
+import com.barribob.MaelstromMod.entity.entities.herobrine_state.StateFirstBattle;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
@@ -42,7 +44,7 @@ public class Herobrine extends EntityLeveledMob
     public Herobrine(World worldIn)
     {
 	super(worldIn);
-	state = new StateFirstEncounter(this);
+	state = new StateEnderPearls(this);
 	this.setSize(0.5f, 2.0f);
 	this.setImmovable(true);
 	this.setNoGravity(true);
@@ -118,8 +120,31 @@ public class Herobrine extends EntityLeveledMob
 	    {
 		state = new StateCrimsonKey(this);
 	    }
+	    else if (compound.getString(nbtState).equals(new StateFirstBattle(this).getNbtString()))
+	    {
+		state = new StateFirstBattle(this);
+	    }
 	}
 	super.readEntityFromNBT(compound);
+    }
+
+    public void teleportOutside()
+    {
+	this.setImmovablePosition(new Vec3d(posX, posY, posZ - 5));
+	if (!world.isRemote)
+	{
+	    world.setEntityState(this, (byte) 4);
+	}
+    }
+
+    @Override
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == 4)
+	{
+	    teleportOutside();
+	}
+	super.handleStatusUpdate(id);
     }
 
     @Override
