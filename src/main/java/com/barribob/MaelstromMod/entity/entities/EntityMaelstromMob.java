@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.entities;
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
@@ -62,16 +63,19 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false, new Class[0]));
 	this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 
-	// This makes it so that the entity attack every entity except others of its
-	// kind
-	this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
+	if (ModConfig.entities.attackAll)
 	{
-	    @Override
-	    public boolean apply(@Nullable Entity entity)
+	    // This makes it so that the entity attack every entity except others of its
+	    // kind
+	    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
 	    {
-		return !(entity instanceof EntityMaelstromMob);
-	    }
-	}));
+		@Override
+		public boolean apply(@Nullable Entity entity)
+		{
+		    return !(entity instanceof EntityMaelstromMob);
+		}
+	    }));
+	}
     }
 
     @Override

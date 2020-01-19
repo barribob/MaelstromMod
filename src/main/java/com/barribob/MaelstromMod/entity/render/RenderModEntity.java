@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.render;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IElement;
@@ -76,7 +77,7 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 	    GlStateManager.disableBlend();
 	    GlStateManager.disableNormalize();
 
-	    if (entity instanceof EntityLeveledMob)
+	    if (entity instanceof EntityLeveledMob && ModConfig.entities.displayLevel)
 	    {
 		this.renderLivingLabel(entity, "Level: " + ((EntityLeveledMob) entity).getLevel(), x, y, z, 10);
 	    }

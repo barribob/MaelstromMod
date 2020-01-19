@@ -25,7 +25,12 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-Make the story make more sense with Herobrine and the dark nexus
+Monolith shouldn't convert quartz blocks on client side
+Check if monolith meteor is being placed with decaying maelstrom
+Maelstrom Scouts still feel very weak compared to other mobs
+Reduce enderpearls from 16 to 8
+When killed, herobrine shows death animation
+Try to make balancing not require a minecraft restart
 
 Testing (6)
     Test spawners because we changed the base spawner logic
@@ -84,6 +89,7 @@ Put out on curseforge and improve marketing (5)
     Plan:
         Loot for elemental mobs
 
+Make the story make more sense with Herobrine and the dark nexus
 [DONE] Server Testing (2)
 Match a few items to their new names(1)
     Crystalhide armor

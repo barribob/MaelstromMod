@@ -55,7 +55,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     @Override
     protected PathNavigate createNavigator(World worldIn)
     {
-	if (ModConfig.world.useVanillaPathfinding)
+	if (ModConfig.entities.useVanillaPathfinding)
 	{
 	    return super.createNavigator(worldIn);
 	}

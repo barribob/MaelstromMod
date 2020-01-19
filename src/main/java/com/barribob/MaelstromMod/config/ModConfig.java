@@ -30,6 +30,9 @@ public class ModConfig
     @Config.LangKey(config + "balancing")
     public static BalanceCat balance = new BalanceCat();
 
+    @Config.LangKey(config + "entities")
+    public static EntityCat entities = new EntityCat();
+
     public static class GuiCat
     {
 	@Config.LangKey(config + "armor_bar_x")
@@ -114,15 +117,26 @@ public class ModConfig
 	@Config.LangKey(config + "dark_nexus_dimension_id")
 	public int dark_nexus_dimension_id = 128;
 
+
 	@Config.LangKey(config + "invasion_time")
 	@Config.Comment("How many seconds before attempting to spawn the invasion tower. Cannot be adjusted after the world is created.")
 	@Config.RangeInt(min = 60, max = 60 * 1000)
 	public int invasionTime = 60 * 180; // Default 180 minutes before invasion
+    }
 
-	@Config.RequiresWorldRestart
+    public static class EntityCat
+    {
 	@Config.LangKey(config + "use_vanilla_pathfinding")
-	@Config.Comment("If there is another mod that improves the vanilla pathfinding ai, then set this to true.")
+	@Config.Comment("If there is another mod that improves the vanilla pathfinding ai, then set this to true. Takes effect after reloading the world.")
 	public boolean useVanillaPathfinding = false;
+
+	@Config.LangKey(config + "attack_all")
+	@Config.Comment("Whether maelstrom mobs should attack any living entity they see. Takes effect after reloading the world.")
+	public boolean attackAll = true;
+
+	@Config.LangKey(config + "display_mob_level")
+	@Config.Comment("Display the level of most mobs above their nametag.")
+	public boolean displayLevel = false;
     }
 
     @SubscribeEvent

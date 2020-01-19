@@ -427,7 +427,6 @@ mm.config.nexus_dimension_id=Nexus Dimension Id
 mm.config.cliff_dimension_id=Cliff Dimension Id
 mm.config.dark_nexus_dimension_id=Dark Nexus Dimension Id
 mm.config.invasion_time=Invasion Time
-mm.config.use_vanilla_pathfinding=Use Vanilla Pathfinding
 
 mm.config.gui=Gui
 mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
@@ -444,6 +443,11 @@ mm.config.weapon_damage=Base Weapon Damage
 mm.config.scale=Progression Scale
 mm.config.mob_damage=Base Mob Damage
 mm.config.elemental_factor=Elemental Factor
+
+mm.config.entities=Entities
+mm.config.use_vanilla_pathfinding=Use Vanilla Pathfinding
+mm.config.attack_all=Attack All Mobs
+mm.config.display_mob_level=Display Mob Level
 
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions
