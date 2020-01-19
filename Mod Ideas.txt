@@ -25,12 +25,9 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-Monolith shouldn't convert quartz blocks on client side
-Check if monolith meteor is being placed with decaying maelstrom
 Maelstrom Scouts still feel very weak compared to other mobs
 Reduce enderpearls from 16 to 8
 When killed, herobrine shows death animation
-Try to make balancing not require a minecraft restart
 
 Testing (6)
     Test spawners because we changed the base spawner logic

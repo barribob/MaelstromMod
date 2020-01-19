@@ -47,13 +47,18 @@ public class EntityWhiteMonolith extends EntityLeveledMob
 	this.setRotation(0, 0);
 	this.setRotationYawHead(0);
 
-	if (!world.isRemote && rand.nextInt(6) == 0)
+	if (world.isRemote)
+	{
+	    return;
+	}
+
+	if (rand.nextInt(6) == 0)
 	{
 	    world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
 	}
 
 	// Remove minions after the boss fight
-	if (!world.isRemote && this.ticksExisted == 1)
+	if (this.ticksExisted == 1)
 	{
 	    ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(15, 2, 15)).stream().filter((e) -> e instanceof EntityMaelstromMob).forEach((e) -> {
 		e.hurtResistantTime = 0;
@@ -61,13 +66,13 @@ public class EntityWhiteMonolith extends EntityLeveledMob
 	    });
 	}
 
-	if (!world.isRemote && this.ticksExisted > DEATH_TIME - 40)
+	if (this.ticksExisted > DEATH_TIME - 40)
 	{
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	    world.playSound(this.posX, NexusToOverworldTeleporter.yPortalOffset, this.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.AMBIENT, 5.0f, 1.0f, false);
 	}
 
-	if (!world.isRemote && this.ticksExisted > DEATH_TIME)
+	if (this.ticksExisted > DEATH_TIME)
 	{
 	    WorldGenStructure portal = new WorldGenStructure("nexus/nexus_portal");
 	    BlockPos size = portal.getSize(world);
