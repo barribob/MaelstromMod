@@ -17,11 +17,14 @@ import net.minecraft.world.World;
 
 public class ItemMeteorStaff extends ItemStaff
 {
-    private float baseDamage = 10 * ModConfig.balance.weapon_damage;
-
     public ItemMeteorStaff(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
 	super(name, 6, cooldown, useTime, level, tab);
+    }
+
+    public float getBaseDamage()
+    {
+	return 10 * ModConfig.balance.weapon_damage;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class ItemMeteorStaff extends ItemStaff
 	float inaccuracy = 0.0f;
 	float velocity = 3f;
 
-	Projectile projectile = new ProjectileMeteorSpawner(world, player, ModUtils.getEnchantedDamage(stack, this.getLevel(), baseDamage), stack);
+	Projectile projectile = new ProjectileMeteorSpawner(world, player, ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage()), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(50);
 
@@ -41,7 +44,7 @@ public class ItemMeteorStaff extends ItemStaff
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage())));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("meteor_staff"));
     }
 

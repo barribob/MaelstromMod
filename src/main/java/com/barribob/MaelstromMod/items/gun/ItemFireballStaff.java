@@ -20,13 +20,16 @@ import net.minecraft.world.World;
 
 public class ItemFireballStaff extends ItemStaff
 {
-    private float baseDamage;
     private BulletFactory factory = new Fireball();
 
     public ItemFireballStaff(String name, int useTime, float level, CreativeTabs tab)
     {
 	super(name, 6, 40, useTime, level, tab);
-	this.baseDamage = 10 * ModConfig.balance.weapon_damage;
+    }
+
+    private float getBaseDamage()
+    {
+	return 10 * ModConfig.balance.weapon_damage;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class ItemFireballStaff extends ItemStaff
 	float inaccuracy = 2.0f;
 	float velocity = 1.3f;
 
-	Projectile projectile = factory.get(world, player, stack, ModUtils.getEnchantedDamage(stack, this.getLevel(), baseDamage));
+	Projectile projectile = factory.get(world, player, stack, ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage()));
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25);
 
@@ -55,7 +58,7 @@ public class ItemFireballStaff extends ItemStaff
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage())));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("fireball_staff"));
     }
 

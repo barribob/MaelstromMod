@@ -39,7 +39,7 @@ public class ModEnchantWithLevels extends LootFunction
 	{
 	    float sharpnessDamage = 0.5f;
 	    int level = this.randomLevel.generateInt(rand);
-	    float swordDamage = ModItems.BASE_MELEE_DAMAGE * LevelHandler.getMultiplierFromLevel(level); // Calculate the standard sword damage
+	    float swordDamage = ModItems.BASE_MELEE_DAMAGE * ModConfig.balance.weapon_damage * LevelHandler.getMultiplierFromLevel(level); // Calculate the standard sword damage
 	    int maxSharpness = (int) Math.round((swordDamage * (Math.pow(ModConfig.balance.progression_scale, 2) - 1)) / sharpnessDamage); // Approximate the max sharpness to be about two levels
 
 	    stack.addEnchantment(Enchantments.SHARPNESS, Math.max(5, rand.nextInt(maxSharpness) + 1));

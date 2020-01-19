@@ -23,10 +23,14 @@ import net.minecraft.world.World;
  */
 public class ItemWispStaff extends ItemStaff
 {
-    private static final float baseDamage = 5 * ModConfig.balance.weapon_damage;
     public ItemWispStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
 	super(name, 5, cooldown, maxDamage, level, tab);
+    }
+
+    public float getBaseDamage()
+    {
+	return 5 * ModConfig.balance.weapon_damage;
     }
 
     /**
@@ -41,7 +45,7 @@ public class ItemWispStaff extends ItemStaff
 	float inaccuracy = 0.0f;
 	float speed = 1f;
 
-	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, ModUtils.getEnchantedDamage(stack, getLevel(), baseDamage), stack);
+	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, ModUtils.getEnchantedDamage(stack, getLevel(), getBaseDamage()), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	projectile.setTravelRange(9f);
 
@@ -52,7 +56,7 @@ public class ItemWispStaff extends ItemStaff
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage())));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("wisp_staff"));
     }
 

@@ -58,7 +58,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	this.maxCooldown = cooldown;
 	this.level = level;
 	this.setMaxDamage((int) (useTime / cooldown));
-	this.damage = damage * ModConfig.balance.weapon_damage;
+	this.damage = damage;
 	this.factory = new StandardBullet();
     }
 
@@ -94,7 +94,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
 	float maxDamageBonus = (float) Math.pow(ModConfig.balance.progression_scale, 2); // Maximum damage is two levels above
 	float enchantmentBonus = 1 + ((power / maxPower) * (maxDamageBonus - 1));
-	return this.damage * enchantmentBonus * this.getMultiplier();
+	return this.damage * ModConfig.balance.weapon_damage * enchantmentBonus * this.getMultiplier();
     }
 
     /**

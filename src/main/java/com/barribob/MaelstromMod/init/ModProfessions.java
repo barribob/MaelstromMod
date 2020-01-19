@@ -61,7 +61,7 @@ public class ModProfessions
 
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, null, 0, ModItems.AMMO_CASE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.IRON_INGOT, 6, ModItems.FLINTLOCK, 1));
-	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Item.getItemFromBlock(Blocks.HAY_BLOCK), 2, Items.DIAMOND, 4, ModItems.STRAW_HAT, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Item.getItemFromBlock(Blocks.HAY_BLOCK), 1, ModItems.MAELSTROM_CORE, 1, ModItems.STRAW_HAT, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.SPIDER_EYE, 16, ModItems.VENOM_DAGGER, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.DIAMOND, 5, ModItems.NEXUS_HELMET, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.DIAMOND, 8, ModItems.NEXUS_CHESTPLATE, 1));

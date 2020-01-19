@@ -21,10 +21,14 @@ import net.minecraft.world.World;
  */
 public class ItemQuakeStaff extends ItemStaff
 {
-    private static final float baseDamage = 6 * ModConfig.balance.weapon_damage;
     public ItemQuakeStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
 	super(name, 4, cooldown, maxDamage, level, tab);
+    }
+
+    public float getBaseDamage()
+    {
+	return 6 * ModConfig.balance.weapon_damage;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class ItemQuakeStaff extends ItemStaff
 	// Shoots projectiles in a small arc
 	for (int i = 0; i < 5; i++)
 	{
-	    ProjectileQuake projectile = new ProjectileQuake(world, player, ModUtils.getEnchantedDamage(stack, getLevel(), baseDamage), stack);
+	    ProjectileQuake projectile = new ProjectileQuake(world, player, ModUtils.getEnchantedDamage(stack, getLevel(), getBaseDamage()), stack);
 	    projectile.setPosition(player.posX, player.posY, player.posZ);
 	    projectile.shoot(player, pitch, player.rotationYaw - 20 + (i * 10), 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(8f);
@@ -49,7 +53,7 @@ public class ItemQuakeStaff extends ItemStaff
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage())));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("quake_staff"));
     }
 

@@ -14,12 +14,14 @@ import com.barribob.MaelstromMod.util.IHasModel;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -102,19 +104,18 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
 	Main.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
-    /**
-     * Gets a map of item attribute modifiers, used by ItemSword to increase hit
-     * damage.
-     */
     @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
     {
-	Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
+	Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 
 	if (equipmentSlot == this.armorType)
 	{
-	    multimap.put("maelstrom_armor",
-		    new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstrom Armor modifier", Math.round(this.getMaelstromArmorBars() * 10) / 10.0f, 0));
+	    multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", this.damageReduceAmount, 0));
+
+	    // Override armor toughness to make is adjustable in game
+	    multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", ModConfig.balance.armor_toughness, 0));
+	    multimap.put("maelstrom_armor", new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Maelstrom Armor modifier", Math.round(this.getMaelstromArmorBars() * 10) / 10.0f, 0));
 	}
 
 	return multimap;

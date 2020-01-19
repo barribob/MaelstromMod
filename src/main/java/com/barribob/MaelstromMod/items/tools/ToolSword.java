@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ILeveledItem;
@@ -84,7 +85,7 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
     @Override
     public float getAttackDamage()
     {
-	return super.getAttackDamage() * LevelHandler.getMultiplierFromLevel(level);
+	return super.getAttackDamage() * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.weapon_damage;
     }
 
     protected double getAttackSpeed()

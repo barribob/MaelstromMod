@@ -29,11 +29,15 @@ import net.minecraft.world.World;
 public class ItemMaelstromCannon extends ItemStaff
 {
     private BulletFactory factory = new MaelstromCannon();
-    private float baseDamage = 5 * ModConfig.balance.weapon_damage;
 
     public ItemMaelstromCannon(String name, int maxDamage, float level, CreativeTabs tab)
     {
 	super(name, 2, 20, maxDamage, level, tab);
+    }
+
+    public float getBaseDamage()
+    {
+	return 5 * ModConfig.balance.weapon_damage;
     }
 
     /**
@@ -51,7 +55,7 @@ public class ItemMaelstromCannon extends ItemStaff
 	float inaccuracy = 3.0f;
 	float degreesUp = 20;
 
-	Projectile projectile = factory.get(world, player, stack, ModUtils.getEnchantedDamage(stack, this.getLevel(), baseDamage));
+	Projectile projectile = factory.get(world, player, stack, ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage()));
 	projectile.shoot(player, player.rotationPitch - degreesUp, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(25f);
 	world.spawnEntity(projectile);
@@ -67,7 +71,7 @@ public class ItemMaelstromCannon extends ItemStaff
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
-	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), this.baseDamage)));
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage())));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("maelstrom_cannon"));
     }
 

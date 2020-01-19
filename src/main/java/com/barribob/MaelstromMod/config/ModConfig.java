@@ -81,15 +81,13 @@ public class ModConfig
 	@Config.Comment("Amount of additional damage reduction on mobs.")
 	public float mob_armor = 1.0f;
 
-	@Config.RequiresMcRestart
 	@Config.LangKey(config + "weapon_damage")
 	@Config.RangeDouble(min = 1.0, max = 3)
 	@Config.Comment("Base damage multiplier for weapons in this mod.")
 	public float weapon_damage = 1.0f;
 
-	@Config.RequiresMcRestart
 	@Config.LangKey(config + "armor_toughness")
-	@Config.RangeDouble(min = 0.5, max = 3)
+	@Config.RangeDouble(min = 0.5, max = 5)
 	@Config.Comment("Specifies the strength of the mod's base armor material.")
 	public float armor_toughness = 3.0f;
 

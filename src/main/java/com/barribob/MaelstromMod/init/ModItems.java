@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.items.ItemBase;
@@ -73,7 +72,7 @@ import net.minecraftforge.common.util.EnumHelper;
  */
 public class ModItems
 {
-    public static final float BASE_MELEE_DAMAGE = 6 * ModConfig.balance.weapon_damage;
+    public static final float BASE_MELEE_DAMAGE = 6;
     private static final String keyDesc = "Give to herobrine to craft";
 
     private static final ToolMaterial DAGGER = EnumHelper.addToolMaterial("rare_dagger", 2, 600, 8.0f, BASE_MELEE_DAMAGE, 20);
@@ -81,8 +80,7 @@ public class ModItems
     private static final ToolMaterial BATTLEAXE = EnumHelper.addToolMaterial("rare_battleaxe", 2, 400, 8.0f, BASE_MELEE_DAMAGE, 20);
     private static final int GUN_USE_TIME = 12000;
     private static final int STAFF_USE_TIME = 9000;
-    private static final ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16,
-	    SoundEvents.ITEM_ARMOR_EQUIP_GOLD, ModConfig.balance.armor_toughness);
+    private static final ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
