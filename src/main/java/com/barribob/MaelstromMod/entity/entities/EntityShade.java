@@ -140,6 +140,15 @@ public class EntityShade extends EntityMaelstromMob
 	if (swingingArms)
 	{
 	    this.world.setEntityState(this, (byte) 4);
+
+	    if (this.getAttackTarget() != null)
+	    {
+		Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
+		Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
+		this.motionX += leap.x;
+		this.motionY += leap.y;
+		this.motionZ += leap.z;
+	    }
 	}
     };
 
