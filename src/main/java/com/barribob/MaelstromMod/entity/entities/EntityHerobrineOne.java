@@ -142,6 +142,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     {
 	world.setEntityState(this, this.deathParticleByte);
 	this.setPosition(0, 0, 0);
+	this.setDead();
 	super.onDeath(cause);
     }
 
@@ -192,6 +193,18 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    else
 	    {
 		attackHandler.setCurrentAttack(spinSlash);
+
+		if (this.getAttackTarget() != null)
+		{
+		    Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
+		    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
+		    this.motionX += leap.x;
+		    if (this.motionY < 0.1)
+		    {
+			this.motionY += leap.y;
+		    }
+		    this.motionZ += leap.z;
+		}
 	    }
 
 	    this.world.setEntityState(this, attackHandler.getCurrentAttack());

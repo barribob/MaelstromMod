@@ -202,7 +202,10 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
 	Vec3d dir = target.getPositionVector().subtract(getPositionVector()).normalize();
 	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.7f).add(ModUtils.yVec(0.3f));
 	this.motionX += leap.x;
-	this.motionY += leap.y;
+	if (this.motionY < 0.1)
+	{
+	    this.motionY += leap.y;
+	}
 	this.motionZ += leap.z;
 	this.leaping = true;
 	this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, ModRandom.getFloat(0.1f) + 1.2f);

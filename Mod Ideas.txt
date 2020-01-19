@@ -25,9 +25,8 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-Maelstrom Scouts still feel very weak compared to other mobs
-Reduce enderpearls from 16 to 8
 When killed, herobrine shows death animation
+Lighting updates for the nexus?
 
 Testing (6)
     Test spawners because we changed the base spawner logic

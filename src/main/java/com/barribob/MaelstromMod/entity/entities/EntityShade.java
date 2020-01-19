@@ -146,7 +146,10 @@ public class EntityShade extends EntityMaelstromMob
 		Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
 		Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
 		this.motionX += leap.x;
-		this.motionY += leap.y;
+		if (this.motionY < 0.1)
+		{
+		    this.motionY += leap.y;
+		}
 		this.motionZ += leap.z;
 	    }
 	}
