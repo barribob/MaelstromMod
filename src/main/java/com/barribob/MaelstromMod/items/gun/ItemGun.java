@@ -200,6 +200,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 		if (!dontConsumeAmmo)
 		{
 		    ammoStack.damageItem(ModUtils.getGunAmmoUse(this.level), playerIn);
+		    itemstack.damageItem(1, playerIn);
 
 		    if (ammoStack.isEmpty())
 		    {

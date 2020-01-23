@@ -25,6 +25,15 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
+decaying maelstrom does not want to decay
+is saturation hud being overwritten?
+Saber seems to do lots of damage, and our longsword does barely any damage
+    It seems that both of these are true.
+    The saber has some damage that bypasses our armor system
+New texture for nexus teleporter
+Illager seems to be regenerating randomly
+Maelstrom armor bars not showing either
+
 Testing (6)
     Test spawners because we changed the base spawner logic
     Test dungeon loots

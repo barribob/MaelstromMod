@@ -90,7 +90,7 @@ public class ModBlocks
     public static final Block DARK_AZURE_STONE_2 = new BlockBase("azure_stone_2", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block DARK_AZURE_STONE_3 = new BlockBase("azure_stone_3", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block DARK_AZURE_STONE_4 = new BlockBase("azure_stone_4", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block DARK_AZURE_STONE_5 = new BlockBase("azure_stone_5", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setLightLevel(1.0f);
+    public static final Block DARK_AZURE_STONE_5 = new BlockBase("azure_stone_5", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block LIGHT_AZURE_STONE = new BlockLamp("light_azure_stone", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS).setLightLevel(1.0f);
     public static final Block AZURE_COAL_ORE = new BlockAzureOre("azure_coal_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block AZURE_DIAMOND_ORE = new BlockAzureOre("azure_diamond_ore", ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);

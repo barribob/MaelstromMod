@@ -78,7 +78,7 @@ item.chasmium_sword.name=Chasmium Sword
 // Armor
 //———————————————————————————————————————————————————————————
 item.maelstrom_helmet.name=Maelstrom Helmet
-item.maelstrom_chestplate.name=Maelstrom Chesplate
+item.maelstrom_chestplate.name=Maelstrom Chestplate
 item.maelstrom_leggings.name=Maelstrom Leggings
 item.maelstrom_boots.name=Maelstrom Boots
 item.straw_hat.name=Straw Hat
@@ -134,6 +134,7 @@ tile.azure_stone_1.name=Fracture Granite
 tile.azure_stone_2.name=Marine Rock
 tile.azure_stone_3.name=Blue Granite
 tile.azure_stone_4.name=Azure Cobblestone
+tile.azure_stone_5.name=Blue Glowstone
 tile.furnace_pillar.name=Furnace Pillar
 tile.redstone_brick.name=Redstone Bricks
 tile.iron_grate.name=Iron Grate

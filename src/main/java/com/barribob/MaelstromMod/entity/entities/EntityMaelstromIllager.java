@@ -234,7 +234,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     protected void applyEntityAttributes()
     {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(10);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300);
     }
 
