@@ -25,8 +25,7 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-decaying maelstrom does not want to decay
-is saturation hud being overwritten?
+is saturation hud being overwritten [Lets not worry about this since this might be modpack specific]
 Saber seems to do lots of damage, and our longsword does barely any damage
     It seems that both of these are true.
     The saber has some damage that bypasses our armor system

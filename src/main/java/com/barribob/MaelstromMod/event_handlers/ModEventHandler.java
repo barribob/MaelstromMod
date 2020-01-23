@@ -271,7 +271,7 @@ public class ModEventHandler
 	    EntityPlayer player = (EntityPlayer) mc.getRenderViewEntity();
 
 	    // If in creative mode or something, don't draw
-	    if (mc.playerController.shouldDrawHUD())
+	    if (ModConfig.gui.showArmorBar)
 	    {
 		InGameGui.renderArmorBar(mc, event, player);
 	    }

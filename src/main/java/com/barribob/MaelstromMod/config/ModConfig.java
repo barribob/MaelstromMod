@@ -53,6 +53,9 @@ public class ModConfig
 	@Config.LangKey(config + "show_mana_bar")
 	public boolean showManaBar;
 
+	@Config.LangKey(config + "show_armor_bar")
+	public boolean showArmorBar = false;
+
 	public GuiCat(int x, int y, int mana_x, int mana_y, boolean showCooldown, boolean showMana)
 	{
 	    this.maelstrom_armor_bar_offset_x = x;
