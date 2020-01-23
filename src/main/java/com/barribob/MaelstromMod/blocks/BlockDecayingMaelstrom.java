@@ -114,7 +114,7 @@ public class BlockDecayingMaelstrom extends BlockLeavesBase
                                 IBlockState iblockstate = worldIn.getBlockState(blockpos$mutableblockpos.setPos(k + i2, l + j2, i1 + k2));
                                 Block block = iblockstate.getBlock();
 
-				if (block instanceof BlockMaelstromCore)
+				if (!(block instanceof BlockMaelstromCore))
                                 {
                                     if (block == ModBlocks.DECAYING_MAELSTROM)
                                     {
