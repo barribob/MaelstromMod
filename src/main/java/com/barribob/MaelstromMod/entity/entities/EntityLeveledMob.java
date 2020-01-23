@@ -232,9 +232,9 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
+    protected float applyArmorCalculations(DamageSource source, float damage)
     {
-	return super.attackEntityFrom(source, ModUtils.getArmoredDamage(source, amount, getLevel(), getElement()));
+	return super.applyArmorCalculations(source, ModUtils.getArmoredDamage(source, damage, getLevel(), getElement()));
     }
 
     @Override

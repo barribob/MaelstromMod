@@ -54,7 +54,7 @@ public class ModConfig
 	public boolean showManaBar;
 
 	@Config.LangKey(config + "show_armor_bar")
-	public boolean showArmorBar = false;
+	public boolean showArmorBar = true;
 
 	public GuiCat(int x, int y, int mana_x, int mana_y, boolean showCooldown, boolean showMana)
 	{
