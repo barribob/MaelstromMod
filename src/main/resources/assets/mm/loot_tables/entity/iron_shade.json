@@ -7,7 +7,7 @@
                 {
                     "type": "loot_table",
                     "weight": 1,
-                    "name": "mm:util/maelstrom_level_loot"
+                    "name": "mm:util/level_2_loot"
                 }
             ]
         },

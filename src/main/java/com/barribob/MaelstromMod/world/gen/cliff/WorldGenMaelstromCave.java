@@ -36,7 +36,7 @@ public class WorldGenMaelstromCave extends WorldGenCliffLedge
 	    {
 		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			new MobSpawnData[] {
-				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1)
+				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1)
 			},
 			new int[] { 1 },
 			3,

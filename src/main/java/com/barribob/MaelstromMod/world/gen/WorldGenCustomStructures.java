@@ -122,8 +122,8 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		{
 		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] {
-				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
-				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
 			    },
 			    new int[] { 1, 1 },
 			    3,
@@ -211,8 +211,8 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		{
 		    new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] {
-				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
-				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
 				    new MobSpawnData(ModEntities.getID(EntityGoldenPillar.class), Element.GOLDEN, 2),
 			    },
 			    new int[] { 1, 1, 1 },
@@ -277,8 +277,8 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		{
 		    new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
 			    new MobSpawnData[] {
-				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
-				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 1, 4 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
+				    new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
 				    new MobSpawnData(ModEntities.getID(EntityGoldenPillar.class), Element.NONE, 2),
 			    },
 			    new int[] { 1, 1, 1 },

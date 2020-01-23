@@ -18,6 +18,17 @@
             ]
         },
         {
+            "name": "beast",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:cliff_key_fragment"
+                }
+            ]
+        },
+        {
             "rolls": 1,
             "name": "beast",
             "entries": [
