@@ -93,7 +93,6 @@ public class ModProfessions
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Items.DIAMOND_BOOTS, 1, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2, ModItems.SPEED_BOOTS, 1));
 
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 3, null, 0, ModItems.NEXUS_BATTLEAXE, 1));
-	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, null, 0, ModItems.NEXUS_BATTLEAXE, 1));
 	NEXUS_BLADESMITH.addTrade(1, new StackTrade(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2), sharpness5Book));
 
 	/**
