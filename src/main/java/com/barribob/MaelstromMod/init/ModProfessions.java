@@ -6,11 +6,14 @@ import com.barribob.MaelstromMod.trades.AzureTrades;
 import com.barribob.MaelstromMod.trades.NexusTrades;
 import com.barribob.MaelstromMod.util.Reference;
 
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
@@ -54,6 +57,11 @@ public class ModProfessions
 	NEXUS_ARMORER = new VillagerCareer(NEXUS_VILLAGER, "nexus_armorer");
 	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");
 	NEXUS_BLADESMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_bladesmith");
+	
+	ItemStack sharpness3Book = new ItemStack(Items.ENCHANTED_BOOK);
+	ItemStack sharpness5Book = new ItemStack(Items.ENCHANTED_BOOK);
+	ItemEnchantedBook.addEnchantment(sharpness3Book, new EnchantmentData(Enchantments.SHARPNESS, 3));
+	ItemEnchantedBook.addEnchantment(sharpness5Book, new EnchantmentData(Enchantments.SHARPNESS, 5));
 
 	/**
 	 * Level 0 (Pre - Azure) trades
@@ -63,6 +71,7 @@ public class ModProfessions
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.IRON_INGOT, 6, ModItems.FLINTLOCK, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Item.getItemFromBlock(Blocks.HAY_BLOCK), 1, ModItems.MAELSTROM_CORE, 1, ModItems.STRAW_HAT, 1));
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.SPIDER_EYE, 16, ModItems.VENOM_DAGGER, 1));
+	NEXUS_BLADESMITH.addTrade(1, new StackTrade(new ItemStack(ModItems.MAELSTROM_CORE, 2), sharpness3Book));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.DIAMOND, 5, ModItems.NEXUS_HELMET, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.DIAMOND, 8, ModItems.NEXUS_CHESTPLATE, 1));
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, Items.DIAMOND, 7, ModItems.NEXUS_LEGGINGS, 1));
@@ -84,6 +93,8 @@ public class ModProfessions
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(Items.DIAMOND_BOOTS, 1, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2, ModItems.SPEED_BOOTS, 1));
 
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 3, null, 0, ModItems.NEXUS_BATTLEAXE, 1));
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 1, null, 0, ModItems.NEXUS_BATTLEAXE, 1));
+	NEXUS_BLADESMITH.addTrade(1, new StackTrade(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2), sharpness5Book));
 
 	/**
 	 * Level 2 (Azure endgame)
@@ -169,6 +180,39 @@ public class ModProfessions
 	    }
 	    this.reward = new ItemStack(reward, amount3);
 	}
+
+	@Override
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+	{
+	    if (cost != null)
+	    {
+		recipeList.add(new MerchantRecipe(base, cost, reward));
+	    }
+	    else
+	    {
+		recipeList.add(new MerchantRecipe(base, reward));
+	    }
+	}
+    }
+
+    public static class StackTrade implements ITradeList
+    {
+	private final ItemStack base;
+	private final ItemStack cost;
+	private final ItemStack reward;
+
+	public StackTrade(ItemStack base, ItemStack cost, ItemStack reward)
+	{
+	    this.base = base;
+	    this.cost = cost;
+	    this.reward = reward;
+	}
+	
+	public StackTrade(ItemStack base, ItemStack reward)
+	{
+	    this(base, null, reward);
+	}
+
 
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)

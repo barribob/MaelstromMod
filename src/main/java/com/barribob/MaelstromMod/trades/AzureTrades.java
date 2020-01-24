@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.init.ModItems;
 
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
-import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
@@ -50,7 +49,7 @@ public class AzureTrades
 
 	    ItemStack material = new ItemStack(ModItems.ELK_HIDE, requiredHide);
 
-	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.MAELSTROM_CORE), material, sellStack));
+	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL), material, sellStack));
 	}
     }
     
@@ -95,17 +94,14 @@ public class AzureTrades
 
     public static class RangedWeapons implements ITradeList
     {
-	public PriceInfo priceInfo;
 
 	public RangedWeapons()
 	{
-	    priceInfo = new PriceInfo(5, 7);
 	}
 
 	@Override
 	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 	{
-	    int price = 1;
 	    ItemStack sellStack;
 	    switch (random.nextInt(5))
 	    {
@@ -119,12 +115,7 @@ public class AzureTrades
 		sellStack = new ItemStack(ModItems.QUAKE_STAFF);
 	    }
 
-	    if (priceInfo != null)
-	    {
-		price = priceInfo.getPrice(random);
-	    }
-
-	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, price), sellStack));
+	    recipeList.add(new MerchantRecipe(new ItemStack(ModItems.MAELSTROM_CORE, 4), sellStack));
 	}
     }
 }
