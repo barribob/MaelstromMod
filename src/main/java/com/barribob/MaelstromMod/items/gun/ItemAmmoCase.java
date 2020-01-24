@@ -20,7 +20,7 @@ public class ItemAmmoCase extends ItemBase implements ILeveledItem
     {
 	super(name, ModCreativeTabs.ITEMS);
 	this.level = level;
-	this.setMaxDamage(Math.round(LevelHandler.getMultiplierFromLevel(level) * 128));
+	this.setMaxDamage(Math.round(LevelHandler.getMultiplierFromLevel(level) * 110));
 	this.setMaxStackSize(1);
     }
 
