@@ -109,9 +109,9 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
+    protected float applyArmorCalculations(DamageSource source, float damage)
     {
-	return super.attackEntityFrom(source, ModUtils.getArmoredDamage(source, amount, level, getElement()));
+	return super.applyArmorCalculations(source, ModUtils.getArmoredDamage(source, damage, getLevel(), getElement()));
     }
 
     @Override
