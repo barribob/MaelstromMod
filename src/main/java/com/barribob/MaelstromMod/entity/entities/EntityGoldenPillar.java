@@ -85,7 +85,10 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	currentAction.performAction(this, target);
+	if (!world.isRemote)
+	{
+	    currentAction.performAction(this, target);
+	}
     }
 
     @Override

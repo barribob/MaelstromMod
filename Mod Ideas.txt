@@ -28,7 +28,6 @@ Crimson Dungeon [85]
 Illager seems to be regenerating randomly [We will not pursue because is might be modpack specific]
 Fog issues??
 
-Swamp fly seems sorta like it isn't being scaled
 Fix Golden pillar duds
 
 Make stronghold entrance even more visible
@@ -37,7 +36,6 @@ Nexus tree needs a light that works
 We actually get a lot of maelstrom crystals... maybe increase prices on some items
 Azure golem fight feels unfair??
 Our leaves don't break faster under axes
-Exo helmet should be more expensive
 
 Testing (6)
     Test spawners because we changed the base spawner logic

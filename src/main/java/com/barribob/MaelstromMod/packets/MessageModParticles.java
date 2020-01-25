@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.packets;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -31,6 +32,11 @@ public class MessageModParticles implements IMessage
 
     public MessageModParticles()
     {
+    }
+
+    public MessageModParticles(EnumModParticles particleIn, Vec3d pos, Vec3d vel, Vec3d color)
+    {
+	this(particleIn, (float) pos.x, (float) pos.y, (float) pos.z, (float) vel.x, (float) vel.y, (float) vel.z, (float) color.x, (float) color.y, (float) color.z);
     }
 
     public MessageModParticles(EnumModParticles particleIn, float xIn, float yIn, float zIn, float xOffsetIn, float yOffsetIn, float zOffsetIn,
@@ -170,6 +176,10 @@ public class MessageModParticles implements IMessage
 	    if (message.particleType.equals(EnumModParticles.SWEEP_ATTACK))
 	    {
 		PacketUtils.spawnSweepParticles(message);
+	    }
+	    else if (message.particleType.equals(EnumModParticles.EFFECT))
+	    {
+		PacketUtils.spawnEffect(message);
 	    }
 	    return null;
 	}

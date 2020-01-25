@@ -1,5 +1,8 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.packets.MessageModParticles;
+import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -54,6 +57,18 @@ public class EntityGoldenRune extends Projectile
 	if (this.ticksExisted >= this.tickDelay)
 	{
 	    this.onHit(null);
+	}
+
+	if (!world.isRemote && this.shootingEntity != null)
+	{
+	    float numParticles = 20;
+	    Vec3d dir = this.getPositionVector().subtract(this.shootingEntity.getPositionVector()).scale(1 / numParticles);
+	    Vec3d currentPos = this.shootingEntity.getPositionVector();
+	    for (int i = 0; i < numParticles - 2; i++)
+	    {
+		Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, currentPos.add(ModUtils.yVec(0.5f)), Vec3d.ZERO, ModColors.YELLOW), this);
+		currentPos = currentPos.add(dir);
+	    }
 	}
     }
 

@@ -8,7 +8,8 @@ import com.google.common.collect.Maps;
 
 public enum EnumModParticles
 {
-    SWEEP_ATTACK(45, 3);
+    SWEEP_ATTACK(45, 3),
+    EFFECT(46, 3);
 
     private final int particleID;
     private final int argumentCount;
