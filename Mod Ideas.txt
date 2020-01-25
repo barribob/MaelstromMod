@@ -25,16 +25,19 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-is saturation hud being overwritten [Lets not worry about this since this might be modpack specific]
-Maelstrom armor bars not showing either
 Illager seems to be regenerating randomly [We will not pursue because is might be modpack specific]
+Fog issues??
 
-Saber seems to do lots of damage, and our longsword does barely any damage
-    It seems that both of these are true.
-    The saber has some damage that bypasses our armor system[Fixed]
+Swamp fly seems sorta like it isn't being scaled
+Fix Golden pillar duds
 
-Add enchantment books to be sold
-Double check azure trades
+Make stronghold entrance even more visible
+Add a few more landmarks to Azure dimension
+Nexus tree needs a light that works
+We actually get a lot of maelstrom crystals... maybe increase prices on some items
+Azure golem fight feels unfair??
+Our leaves don't break faster under axes
+Exo helmet should be more expensive
 
 Testing (6)
     Test spawners because we changed the base spawner logic
