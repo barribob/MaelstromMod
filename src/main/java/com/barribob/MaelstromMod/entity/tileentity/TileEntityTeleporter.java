@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -30,6 +31,7 @@ public class TileEntityTeleporter extends TileEntity implements ITickable
 	if (player != null && this.relTeleportPos != null)
 	{
 	    player.setPositionAndUpdate(player.posX + this.relTeleportPos.x, player.posY + this.relTeleportPos.y, player.posZ + this.relTeleportPos.z);
+	    player.playSound(SoundEvents.BLOCK_METAL_HIT, 1.0f, 1.0f);
 	}
 
 	// Spawn a line of particles indicating what direction the teleport is
