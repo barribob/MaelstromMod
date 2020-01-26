@@ -30,8 +30,11 @@ Fog issues??
 
 Make stronghold entrance even more visible
 Add a few more landmarks to Azure dimension
+
 We actually get a lot of maelstrom crystals... maybe increase prices on some items
 Azure golem fight feels unfair??
+
+***Discontinuity between client and server damage statistics***
 
 Testing (6)
     Test spawners because we changed the base spawner logic

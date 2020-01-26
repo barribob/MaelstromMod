@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVineBridge;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureVines;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
+import com.barribob.MaelstromMod.world.gen.foliage.WorldGenMegaTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenModFoliage;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenWaterfall;
@@ -81,6 +82,7 @@ public class BiomeAzure extends BiomeDifferentStone
     {
 	int plumTreeOdds = 10;
 	int largePlumTreeOdds = 12;
+	int megaPlumTreeOdds = 50;
 	if (rand.nextInt(plumTreeOdds) == 0)
 	{
 	    return SMALL_PLUM_TREE;
@@ -92,6 +94,10 @@ public class BiomeAzure extends BiomeDifferentStone
 	else if (rand.nextInt(azureTreeGen) == 0)
 	{
 	    return AZURE_TREE;
+	}
+	else if (rand.nextInt(megaPlumTreeOdds) == 0)
+	{
+	    return new WorldGenMegaTree(true, 25, 10, ModBlocks.PLUM_LOG.getDefaultState(), ModBlocks.PLUM_LEAVES.getDefaultState(), ModBlocks.PLUM_FILLED_LEAVES.getDefaultState());
 	}
 
 	return new WorldGenBigTree(false);
