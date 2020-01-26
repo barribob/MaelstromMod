@@ -33,6 +33,9 @@ public class ModConfig
     @Config.LangKey(config + "entities")
     public static EntityCat entities = new EntityCat();
 
+    @Config.LangKey(config + "server")
+    public static ServerCat server = new ServerCat();
+
     public static class GuiCat
     {
 	@Config.LangKey(config + "armor_bar_x")
@@ -138,6 +141,13 @@ public class ModConfig
 	@Config.LangKey(config + "display_mob_level")
 	@Config.Comment("Display the level of most mobs above their nametag.")
 	public boolean displayLevel = false;
+    }
+
+    public static class ServerCat
+    {
+	@Config.LangKey(config + "sync_config_on_login")
+	@Config.Comment("Whether to make configs of the players that login match the server config (to keep stuff like item stats consistent).")
+	public boolean sync_on_login = true;
     }
 
     @SubscribeEvent

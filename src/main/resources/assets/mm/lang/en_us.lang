@@ -436,6 +436,7 @@ mm.config.mana_bar_x=Mana Bar X Offset
 mm.config.mana_bar_y=Mana Bar Y Offset
 mm.config.show_cooldown_bar=Show Gun Cooldown Bar
 mm.config.show_mana_bar=Show Mana Bar
+mm.config.show_armor_bar=Show Armor Bar
 
 mm.config.balancing=Balancing
 mm.config.armor_toughness=Base Armor Toughness
@@ -449,6 +450,9 @@ mm.config.entities=Entities
 mm.config.use_vanilla_pathfinding=Use Vanilla Pathfinding
 mm.config.attack_all=Attack All Mobs
 mm.config.display_mob_level=Display Mob Level
+
+mm.config.server=Server
+mm.config.sync_config_on_login=Sync Config On Login
 
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions

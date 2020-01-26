@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
+import com.barribob.MaelstromMod.packets.MessageSyncConfig;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
 import com.barribob.MaelstromMod.util.GenUtils;
@@ -27,6 +28,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -44,6 +46,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -60,6 +63,16 @@ public class ModEventHandler
     public static final ResourceLocation MANA = new ResourceLocation(Reference.MOD_ID, "mana");
     // public static final ResourceLocation INVASION = new
     // ResourceLocation(Reference.MOD_ID, "invasion");
+
+    @SubscribeEvent
+    public static void playerLoggedInEvent(PlayerLoggedInEvent event)
+    {
+	// Sync some of the config parameters
+	if (ModConfig.server.sync_on_login)
+	{
+	    Main.network.sendTo(new MessageSyncConfig(ModConfig.balance.progression_scale, ModConfig.balance.weapon_damage, ModConfig.balance.armor_toughness, ModConfig.balance.elemental_factor), (EntityPlayerMP) event.player);
+	}
+    }
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.WorldTickEvent event)
@@ -243,7 +256,7 @@ public class ModEventHandler
     {
 	float damage = event.getAmount();
 	// Factor in elemental armor first
-	if(event.getSource() instanceof IElement)
+	if (event.getSource() instanceof IElement)
 	{
 	    damage *= 1 - ArmorHandler.getElementalArmor(event.getEntity(), ((IElement) event.getSource()).getElement());
 	}
