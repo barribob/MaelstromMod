@@ -190,7 +190,7 @@ public class ModItems
     public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
     public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
     public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", SWORD, LevelHandler.CLIFF_ENDGAME);
-    public static final Item BLACK_GOLD_SWORD = new ToolSword("black_gold_sword", SWORD, LevelHandler.CLIFF_ENDGAME);
+    public static final Item BLACK_GOLD_SWORD = new ToolSword("black_gold_sword", SWORD, LevelHandler.CLIFF_ENDGAME, Element.GOLDEN);
     public static final Item KANSHOU = new ToolDagger("kanshou", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
     public static final Item BAKUYA = new ToolDagger("bakuya", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", DAGGER, LevelHandler.CLIFF_ENDGAME);
