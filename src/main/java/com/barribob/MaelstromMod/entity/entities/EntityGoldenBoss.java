@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionGoldenFireball;
-import com.barribob.MaelstromMod.entity.action.ActionMultiGoldenRunes;
 import com.barribob.MaelstromMod.entity.action.ActionOctoMissiles;
 import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
@@ -18,6 +17,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationOctoMissiles;
 import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelGoldenBoss;
+import com.barribob.MaelstromMod.entity.projectile.EntityLargeGoldenRune;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModColors;
@@ -59,7 +59,19 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	{
 	    this.attackHandler.setAttack(octoMissile, new ActionOctoMissiles());
 	    this.attackHandler.setAttack(megaMissile, new ActionGoldenFireball());
-	    this.attackHandler.setAttack(runes, new ActionMultiGoldenRunes());
+	    this.attackHandler.setAttack(runes, new Action()
+	    {
+		@Override
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+		{
+		    float zeroish = 0.001f;
+		    EntityLargeGoldenRune projectile = new EntityLargeGoldenRune(actor.world, actor, actor.getAttack());
+		    projectile.setPosition(target.posX, target.posY, target.posZ);
+		    projectile.shoot(zeroish, zeroish, zeroish, zeroish, zeroish);
+		    projectile.setTravelRange(25);
+		    actor.world.spawnEntity(projectile);
+		}
+	    });
 	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world).setLevel(getLevel()).setElement(Element.GOLDEN)));
 	}
     }
@@ -70,7 +82,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
     {
 	this.attackHandler.setAttack(octoMissile, new ActionOctoMissiles(), () -> new AnimationOctoMissiles());
 	this.attackHandler.setAttack(megaMissile, new ActionGoldenFireball(), () -> new AnimationMegaMissile());
-	this.attackHandler.setAttack(runes, new ActionMultiGoldenRunes(), () -> new AnimationRuneSummon());
+	this.attackHandler.setAttack(runes, Action.NONE, () -> new AnimationRuneSummon());
 	this.attackHandler.setAttack(spawnPillar, Action.NONE, this.getSpawnPillarAnimation());
 	this.currentAnimation = new AnimationOctoMissiles();
     }
@@ -148,14 +160,8 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	    if (this.ticksExisted % 20 == 0)
 	    {
-		for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)))
-		{
-		    if (e instanceof EntityGoldenPillar)
-		    {
-			this.heal(1);
-			break;
-		    }
-		}
+		long pillars = ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)).stream().filter((e) -> e instanceof EntityGoldenPillar).count();
+		this.heal((float) Math.sqrt(pillars));
 	    }
 	}
     }
@@ -194,7 +200,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	if (swingingArms && !world.isRemote)
 	{
 	    Byte[] attack = { octoMissile, megaMissile, runes, spawnPillar };
-	    double[] weights = { 0.3, 0.3, 0.3, 0.1 };
+	    double[] weights = { 0.3, 0.3, 0.3, (this.getHealth() < this.getMaxHealth() * 0.6 ? 0.1 : 0.0) };
 	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
 	}

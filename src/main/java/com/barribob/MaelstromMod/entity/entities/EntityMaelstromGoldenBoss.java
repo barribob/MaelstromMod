@@ -113,14 +113,8 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	this.bossInfo.setPercent(getHealth() / getMaxHealth());
 	if (!world.isRemote && this.ticksExisted % 20 == 0)
 	{
-	    for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)))
-	    {
-		if (e instanceof EntityGoldenPillar)
-		{
-		    this.heal(1);
-		    break;
-		}
-	    }
+	    long pillars = ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)).stream().filter((e) -> e instanceof EntityGoldenPillar).count();
+	    this.heal((float) Math.sqrt(pillars));
 	}
     }
 
@@ -131,7 +125,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	if (swingingArms && !world.isRemote)
 	{
 	    Byte[] attack = { spawnEnemy, blackFireball, runes, spawnPillar };
-	    double[] weights = { 0.2, 0.3, 0.3, 0.1 };
+	    double[] weights = { 0.2, 0.3, 0.3, (this.getHealth() < this.getMaxHealth() * 0.6 ? 0.1 : 0.0) };
 	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
 	}

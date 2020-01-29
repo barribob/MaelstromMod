@@ -40,7 +40,7 @@ public class ProjectileMaelstromQuake extends ProjectileQuake
 	    Vec3d vel = new Vec3d(0, -0.1, 0);
 	    for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	    {
-		Vec3d pos = ModUtils.entityPos(this).add(new Vec3d(ModRandom.getFloat(AREA_FACTOR), 0.5, ModRandom.getFloat(AREA_FACTOR)));
+		Vec3d pos = ModUtils.entityPos(this).add(new Vec3d(ModRandom.getFloat(AREA_FACTOR), 0.75 + ModRandom.getFloat(0.25f), ModRandom.getFloat(AREA_FACTOR)));
 		ParticleManager.spawnDarkFlames(world, rand, pos, vel);
 	    }
 	}

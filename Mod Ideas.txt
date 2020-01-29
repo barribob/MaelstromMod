@@ -34,13 +34,6 @@ Azure golem fight feels unfair??
 The golden boss feels a bit too easy
 The weapons seems to be doing a lot of damage
 
-Statue's runes with lines are confusing. Also having a bunch of runes overlapping is probably pretty confusing.
-    Solution: Giant rune?
-Fireball and missiles are sort of redundant attacks in terms of what they make the player do
-    Solution: Reflectable fireballs? Homing fireballs?
-The pillar summoning is still sort of a half-baked attack. Maybe make it happen in accordance to the room itself.
-    Solution: Event that happens at health landmarks, and that is centered on the room itself
-
 Testing (6)
     Test spawners because we changed the base spawner logic
     Test dungeon loots
