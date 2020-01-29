@@ -23,8 +23,10 @@ import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.RenderUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -146,7 +148,6 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	    if (this.ticksExisted % 20 == 0)
 	    {
-		world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE);
 		for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)))
 		{
 		    if (e instanceof EntityGoldenPillar)
@@ -220,26 +221,21 @@ public class EntityGoldenBoss extends EntityMaelstromMob
 		});
 	    });
 	}
-	else if (id == ModUtils.THIRD_PARTICLE_BYTE)
-	{
-	    for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
-	    {
-		if (e instanceof EntityGoldenPillar)
-		{
-		    float numParticles = 20;
-		    Vec3d dir = e.getPositionVector().add(ModUtils.yVec(2)).subtract(this.getPositionVector().add(ModUtils.yVec(2))).scale(1 / numParticles);
-		    Vec3d currentPos = this.getPositionVector().add(ModUtils.yVec(2));
-		    for (int i = 0; i < numParticles; i++)
-		    {
-			ParticleManager.spawnEffect(world, currentPos, ModColors.YELLOW);
-			currentPos = currentPos.add(dir);
-		    }
-		}
-	    }
-	}
 	else
 	{
 	    super.handleStatusUpdate(id);
+	}
+    }
+
+    @Override
+    public void doRender(RenderManager renderManager, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+	for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+	{
+	    if (e instanceof EntityGoldenPillar)
+	    {
+		RenderUtils.drawLazer(renderManager, this.getPositionVector(), e.getPositionVector(), new Vec3d(x, y - 1, z), ModColors.YELLOW, this, partialTicks);
+	    }
 	}
     }
 

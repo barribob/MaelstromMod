@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -256,5 +257,9 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     {
 	this.dataManager.set(ELEMENT, element.id);
 	return this;
+    }
+
+    public void doRender(RenderManager renderManager, double x, double y, double z, float entityYaw, float partialTicks)
+    {
     }
 }

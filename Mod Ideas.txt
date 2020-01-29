@@ -26,14 +26,20 @@ Crimson Dungeon [85]
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
 Illager seems to be regenerating randomly [We will not pursue because is might be modpack specific]
+Repeater not hitting every time [modpack specific]
 Fog issues??
 We actually get a lot of maelstrom crystals... maybe increase prices on some items
 Azure golem fight feels unfair??
-Repeater not hitting every time [modpack specific]
 
 The golden boss feels a bit too easy
 The weapons seems to be doing a lot of damage
-Statue's runes with lines are confusing
+
+Statue's runes with lines are confusing. Also having a bunch of runes overlapping is probably pretty confusing.
+    Solution: Giant rune?
+Fireball and missiles are sort of redundant attacks in terms of what they make the player do
+    Solution: Reflectable fireballs? Homing fireballs?
+The pillar summoning is still sort of a half-baked attack. Maybe make it happen in accordance to the room itself.
+    Solution: Event that happens at health landmarks, and that is centered on the room itself
 
 Testing (6)
     Test spawners because we changed the base spawner logic

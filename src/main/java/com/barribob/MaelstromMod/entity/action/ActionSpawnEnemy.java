@@ -28,8 +28,19 @@ public class ActionSpawnEnemy extends Action
 	{
 	    // Find a random position to spawn the enemy
 	    int i1 = (int) actor.posX + MathHelper.getInt(actor.world.rand, 2, 8) * ModRandom.randSign();
-	    int j1 = (int) actor.posY + MathHelper.getInt(actor.world.rand, -1, 1);
 	    int k1 = (int) actor.posZ + MathHelper.getInt(actor.world.rand, 2, 8) * ModRandom.randSign();
+
+	    int y = 2;
+	    while (y > -3)
+	    {
+		if (!actor.world.isAirBlock(new BlockPos(i1, actor.posY + y - 1, k1)))
+		{
+		    break;
+		}
+		y--;
+	    }
+
+	    int j1 = (int) actor.posY + y;
 
 	    if (actor.world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(actor.world, new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP))
 	    {
