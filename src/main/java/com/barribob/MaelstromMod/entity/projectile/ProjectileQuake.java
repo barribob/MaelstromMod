@@ -58,7 +58,7 @@ public class ProjectileQuake extends ProjectileGun
 	{
 	    for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	    {
-		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ModRandom.getFloat(1.0f), this.posY + ModRandom.getFloat(0.5f) + 0.5f,
+		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ModRandom.getFloat(1.0f), this.posY + ModRandom.getFloat(0.5f) + 0.75f,
 			this.posZ + ModRandom.getFloat(1.0f), ModRandom.getFloat(1.0F), ModRandom.getFloat(1.0F), ModRandom.getFloat(1.0F), Block.getStateId(block));
 	    }
 	    if (this.getElement() != Element.NONE)

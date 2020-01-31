@@ -25,21 +25,9 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-Illager seems to be regenerating randomly [We will not pursue because is might be modpack specific]
-Repeater not hitting every time [modpack specific]
-Fog issues??
-We actually get a lot of maelstrom crystals... maybe increase prices on some items
 Azure golem fight feels unfair??
 
-The golden boss feels a bit too easy
-The weapons seems to be doing a lot of damage
-
-Testing (6)
-    Test spawners because we changed the base spawner logic
-    Test dungeon loots
-    Test all mob pathfinding to make sure it is compatible with our ground mob pathfinder
-    Test elements
-Balacing (4)
+Final quick server test (2)
 
 Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)
 Put out on curseforge and improve marketing (5)
@@ -192,6 +180,7 @@ Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
 Specifying blend only for entities that need it.
 MAelstrom generation sometimes exposes the core
+Make damage III max enchantable and loot damage up to V
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 

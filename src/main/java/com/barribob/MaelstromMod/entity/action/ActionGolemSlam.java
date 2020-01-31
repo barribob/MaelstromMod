@@ -18,7 +18,7 @@ public class ActionGolemSlam extends Action
 	ModUtils.handleAreaImpact(2, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.5f, 0, true);
 
 	float inaccuracy = 0.0f;
-	float speed = 2f;
+	float speed = 1.5f;
 	float pitch = 0; // Projectiles aim straight ahead always
 
 	// Shoots projectiles in a small arc
