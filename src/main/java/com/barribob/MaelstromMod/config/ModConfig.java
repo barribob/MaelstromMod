@@ -75,12 +75,12 @@ public class ModConfig
 	@Config.LangKey(config + "scale")
 	@Config.RangeDouble(min = 1.1, max = 3)
 	@Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty.")
-	public float progression_scale = 1.25f;
+	public float progression_scale = 1.3f;
 
 	@Config.LangKey(config + "mob_damage")
 	@Config.RangeDouble(min = 0.5, max = 3)
 	@Config.Comment("Scales the base damage of mobs in this mod.")
-	public float mob_damage = 1.25f;
+	public float mob_damage = 1.2f;
 
 	@Config.LangKey(config + "mob_armor")
 	@Config.RangeDouble(min = 0.1, max = 1.0)
@@ -100,7 +100,7 @@ public class ModConfig
 	@Config.LangKey(config + "elemental_factor")
 	@Config.RangeDouble(min = 1.0, max = 3)
 	@Config.Comment("Represents how important using the correct color (or element) is")
-	public float elemental_factor = 1.5f;
+	public float elemental_factor = 1.6f;
     }
 
     public static class WorldCat
