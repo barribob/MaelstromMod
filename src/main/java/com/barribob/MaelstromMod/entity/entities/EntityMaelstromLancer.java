@@ -119,7 +119,7 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 40, 10, 4.5f, 0.5f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 40, 10, 5f, 0.5f));
     }
 
     @Override
@@ -200,7 +200,7 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
 	Vec3d dir = target.getPositionVector().subtract(getPositionVector()).normalize();
-	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.7f).add(ModUtils.yVec(0.3f));
+	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.9f).add(ModUtils.yVec(0.3f));
 	this.motionX += leap.x;
 	if (this.motionY < 0.1)
 	{
