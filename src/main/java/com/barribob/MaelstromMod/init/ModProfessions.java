@@ -157,7 +157,7 @@ public class ModProfessions
 	HEROBRINE_CLIFF_KEY.addTrade(1, new GeneralTrade(ModItems.CLIFF_KEY_FRAGMENT, 2, null, 0, ModItems.BROWN_KEY, 1));
 
 	HEROBRINE_CRIMSON_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_crimson");
-	HEROBRINE_CRIMSON_KEY.addTrade(1, new GeneralTrade(ModItems.RED_KEY_FRAGMENT, 2, null, 0, ModItems.RED_KEY, 1));
+	HEROBRINE_CRIMSON_KEY.addTrade(1, new GeneralTrade(ModItems.RED_KEY_FRAGMENT, 1, null, 0, ModItems.RED_KEY, 1));
     }
 
     public static class GeneralTrade implements ITradeList
