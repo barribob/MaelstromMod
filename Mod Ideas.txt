@@ -25,9 +25,7 @@ Crimson Dungeon [85]
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Update 1.0 (Febuary 1)
 
-Azure golem fight feels unfair??
-
-Final quick server test (2)
+Test with a couple other mobpacks
 
 Clean up wiki (update current pages, and make the general guide much more comprehensive) (3)
 Put out on curseforge and improve marketing (5)
