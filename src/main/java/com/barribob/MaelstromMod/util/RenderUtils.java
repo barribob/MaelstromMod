@@ -19,14 +19,14 @@ public class RenderUtils
      * Draws an element above the entity kind of like a name tag
      */
     public static void drawElement(FontRenderer fontRendererIn, String str, float x, float y, float z, int verticalShift, float viewerYaw, float viewerPitch,
-	    boolean isThirdPersonFrontal, boolean isSneaking, int ticks, float partialTicks)
+	    boolean isThirdPersonFrontal, boolean isSneaking, int ticks, float partialTicks, float scale)
     {
 	GlStateManager.pushMatrix();
 	GlStateManager.translate(x, y, z);
 	GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
 	GlStateManager.rotate(-viewerYaw, 0.0F, 1.0F, 0.0F);
 	GlStateManager.rotate((isThirdPersonFrontal ? -1 : 1) * viewerPitch, 1.0F, 0.0F, 0.0F);
-	GlStateManager.scale(-0.025F, -0.025F, 0.025F);
+	GlStateManager.scale(-0.025F * scale, -0.025F * scale, 0.025F * scale);
 	GlStateManager.disableLighting();
 	GlStateManager.enableAlpha();
 	GlStateManager.enableBlend();
