@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionFireball;
 import com.barribob.MaelstromMod.entity.action.ActionMaelstromRing;
 import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
@@ -9,9 +10,14 @@ import com.barribob.MaelstromMod.entity.animation.AnimationOctoMissiles;
 import com.barribob.MaelstromMod.entity.animation.AnimationRuneSummon;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.RenderUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,6 +25,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
@@ -32,18 +39,25 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     private byte spawnEnemy = 4;
     private byte blackFireball = 5;
     private byte runes = 6;
+    private byte spawnPillar = 7;
 
     public EntityMaelstromGoldenBoss(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2.5f);
-	this.setSize(1.5f, 3.2f);
+	this.setSize(1.6f, 3.6f);
+	this.healthScaledAttackFactor = 0.2;
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
+	this.setLevel(4);
+	this.setElement(Element.GOLDEN);
 	if (!worldIn.isRemote)
 	{
-	    this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(worldIn)));
-	    this.attackHandler.addAttack(blackFireball, new ActionFireball());
-	    this.attackHandler.addAttack(runes, new ActionMaelstromRing());
+	    this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> {
+		EntityLeveledMob enemy = rand.nextInt(3) == 0 ? new EntityShade(world) : new EntityMaelstromLancer(world);
+		return enemy.setElement(rand.nextInt(3) == 0 ? Element.GOLDEN : Element.NONE).setLevel(getLevel());
+	    }));
+	    this.attackHandler.setAttack(blackFireball, new ActionFireball());
+	    this.attackHandler.setAttack(runes, new ActionMaelstromRing());
+	    this.attackHandler.setAttack(spawnPillar, new ActionSpawnEnemy(() -> new EntityGoldenPillar(world).setLevel(getLevel()).setElement(Element.GOLDEN)));
 	}
     }
 
@@ -51,9 +65,10 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	this.attackHandler.addAttack(spawnEnemy, new ActionSpawnEnemy(() -> new EntityGoldenShade(this.world)), () -> new AnimationOctoMissiles());
-	this.attackHandler.addAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
-	this.attackHandler.addAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
+	this.attackHandler.setAttack(spawnEnemy, Action.NONE, () -> new AnimationOctoMissiles());
+	this.attackHandler.setAttack(blackFireball, new ActionFireball(), () -> new AnimationMegaMissile());
+	this.attackHandler.setAttack(runes, new ActionMaelstromRing(), () -> new AnimationRuneSummon());
+	this.attackHandler.setAttack(spawnPillar, Action.NONE, EntityGoldenBoss.getSpawnPillarAnimation());
 	this.currentAnimation = new AnimationOctoMissiles();
     }
 
@@ -75,7 +90,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
     }
 
@@ -96,16 +111,22 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     {
 	super.onUpdate();
 	this.bossInfo.setPercent(getHealth() / getMaxHealth());
+	if (!world.isRemote && this.ticksExisted % 20 == 0)
+	{
+	    long pillars = ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(15)).stream().filter((e) -> e instanceof EntityGoldenPillar).count();
+	    this.heal((float) Math.sqrt(pillars));
+	}
     }
 
     @Override
     public void setSwingingArms(boolean swingingArms)
     {
 	super.setSwingingArms(swingingArms);
-	if (swingingArms)
+	if (swingingArms && !world.isRemote)
 	{
-	    Byte[] attack = { spawnEnemy, blackFireball, runes };
-	    attackHandler.setCurrentAttack(ModRandom.choice(attack));
+	    Byte[] attack = { spawnEnemy, blackFireball, runes, spawnPillar };
+	    double[] weights = { 0.2, 0.3, 0.3, (this.getHealth() < this.getMaxHealth() * 0.6 ? 0.1 : 0.0) };
+	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
 	}
     }
@@ -114,7 +135,7 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id >= 4 && id <= 6)
+	if (id >= 4 && id <= 7)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
 	    getCurrentAnimation().startAnimation();
@@ -122,6 +143,18 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob
 	else
 	{
 	    super.handleStatusUpdate(id);
+	}
+    }
+
+    @Override
+    public void doRender(RenderManager renderManager, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+	for (EntityLivingBase e : ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox().grow(20)))
+	{
+	    if (e instanceof EntityGoldenPillar)
+	    {
+		RenderUtils.drawLazer(renderManager, this.getPositionVector(), e.getPositionVector(), new Vec3d(x, y - 1, z), ModColors.YELLOW, this, partialTicks);
+	    }
 	}
     }
 

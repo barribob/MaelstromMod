@@ -28,7 +28,7 @@ public class FogHandler
     {
 	if (event.getEntity().dimension == ModConfig.world.fracture_dimension_id)
 	{
-	    int fogStartY = 60;
+	    int fogStartY = 70;
 	    float maxFog = 0.085f;
 	    float fogDensity = 0.005f;
 
@@ -50,6 +50,47 @@ public class FogHandler
 		GlStateManager.setFog(GlStateManager.FogMode.EXP);
 		GlStateManager.setFogDensity(0.07f);
 	    }
+	    else
+	    {
+		int fogStartY = 240;
+		float maxFog = 0.045f;
+		float fogDensity = 0.005f;
+
+		if (event.getEntity().posY > fogStartY && event.getEntity().posY < 260)
+		{
+		    fogDensity += (float) (event.getEntity().posY - fogStartY) / fogStartY;
+		}
+
+		GlStateManager.setFog(GlStateManager.FogMode.EXP);
+		GlStateManager.setFogDensity(fogDensity);
+	    }
+	}
+	else if (event.getEntity().dimension == ModConfig.world.dark_nexus_dimension_id)
+	{
+	    GlStateManager.setFog(GlStateManager.FogMode.EXP);
+	    GlStateManager.setFogDensity(0.07f);
+	}
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent()
+    public static void onFogColor(EntityViewRenderEvent.FogColors event)
+    {
+	if (event.getEntity().dimension == ModConfig.world.cliff_dimension_id && event.getEntity().posY > 240)
+	{
+	    float fadeY = 4;
+	    float alpha = (float) Math.min((event.getEntity().posY - 240) / fadeY, 1);
+	    float one_minus_alpha = 1 - alpha;
+	    float magnitude = (event.getBlue() + event.getRed() + event.getGreen()) / 3;
+	    event.setBlue(0.5f * magnitude * alpha + event.getBlue() * one_minus_alpha);
+	    event.setRed(0.5f * magnitude * alpha + event.getRed() * one_minus_alpha);
+	    event.setGreen(0.43f * magnitude * alpha + event.getGreen() * one_minus_alpha);
+	}
+	if (event.getEntity().dimension == ModConfig.world.dark_nexus_dimension_id)
+	{
+	    event.setBlue(0);
+	    event.setRed(0);
+	    event.setGreen(0);
 	}
     }
 

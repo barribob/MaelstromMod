@@ -10,15 +10,9 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleSpell;
-import net.minecraft.client.particle.ParticleSuspendedTown;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -48,11 +42,13 @@ public class BlockDecayingMaelstrom extends BlockLeavesBase
     /**
      * Get the Item that this Block should drop when harvested.
      */
+    @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return null;
     }
    
+    @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
         return MAELSTROM_COLLISION_AABB;
@@ -61,6 +57,7 @@ public class BlockDecayingMaelstrom extends BlockLeavesBase
     /**
      * Called When an Entity Collided with the Block
      */
+    @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
 	if (entityIn instanceof EntityLivingBase && !(entityIn instanceof EntityMaelstromMob))
@@ -69,6 +66,7 @@ public class BlockDecayingMaelstrom extends BlockLeavesBase
 	}
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
@@ -82,11 +80,12 @@ public class BlockDecayingMaelstrom extends BlockLeavesBase
 	}
     }
     
+    @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
         if (!worldIn.isRemote)
         {
-            if (((Boolean)state.getValue(CHECK_DECAY)).booleanValue() && ((Boolean)state.getValue(DECAYABLE)).booleanValue())
+            if (state.getValue(CHECK_DECAY).booleanValue() && state.getValue(DECAYABLE).booleanValue())
             {
                 int i = 6;
                 int j = 10;
@@ -115,9 +114,9 @@ public class BlockDecayingMaelstrom extends BlockLeavesBase
                                 IBlockState iblockstate = worldIn.getBlockState(blockpos$mutableblockpos.setPos(k + i2, l + j2, i1 + k2));
                                 Block block = iblockstate.getBlock();
 
-                                if (block != ModBlocks.AZURE_MAELSTROM_CORE)
+				if (!(block instanceof BlockMaelstromCore))
                                 {
-                                    if (block == ModBlocks.DECAYING_AZURE_MAELSTROM)
+                                    if (block == ModBlocks.DECAYING_MAELSTROM)
                                     {
                                         this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = -2;
                                     }

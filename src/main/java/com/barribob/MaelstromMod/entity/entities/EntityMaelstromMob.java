@@ -2,6 +2,13 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import javax.annotation.Nullable;
 
+import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.mana.IMana;
+import com.barribob.MaelstromMod.mana.ManaProvider;
+import com.barribob.MaelstromMod.packets.MessageMana;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
 
@@ -13,15 +20,16 @@ import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
@@ -42,30 +50,32 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     public EntityMaelstromMob(World worldIn)
     {
 	super(worldIn);
-	this.experienceValue = 7;
+	this.experienceValue = 10;
     }
 
     @Override
     protected void initEntityAI()
     {
 	this.tasks.addTask(1, new EntityAISwimming(this));
-	this.tasks.addTask(2, new EntityAIRestrictSun(this));
 	this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
 	this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 	this.tasks.addTask(6, new EntityAILookIdle(this));
 	this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false, new Class[0]));
 	this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 
-	// This makes it so that the entity attack every entity except others of its
-	// kind
-	this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
+	if (ModConfig.entities.attackAll)
 	{
-	    @Override
-	    public boolean apply(@Nullable Entity entity)
+	    // This makes it so that the entity attack every entity except others of its
+	    // kind
+	    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
 	    {
-		return !(entity instanceof EntityMaelstromMob);
-	    }
-	}));
+		@Override
+		public boolean apply(@Nullable Entity entity)
+		{
+		    return !(entity instanceof EntityMaelstromMob);
+		}
+	    }));
+	}
     }
 
     @Override
@@ -110,6 +120,21 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     protected SoundEvent getFallSound(int heightIn)
     {
 	return heightIn > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable()
+    {
+	if (this.getElement().equals(Element.AZURE))
+	{
+	    return LootTableHandler.AZURE_MAELSTROM;
+	}
+	else if (this.getElement().equals(Element.GOLDEN))
+	{
+	    return LootTableHandler.GOLDEN_MAELSTROM;
+	}
+
+	return LootTableHandler.MAELSTROM;
     }
 
     /**
@@ -159,10 +184,8 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 		double d0 = this.rand.nextGaussian() * 0.02D;
 		double d1 = this.rand.nextGaussian() * 0.02D;
 		double d2 = this.rand.nextGaussian() * 0.02D;
-		ParticleManager.spawnMaelstromLargeSmoke(world, rand,
-			new Vec3d(this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width - d0 * 10.0D,
-				this.posY + this.rand.nextFloat() * this.height - d1 * 10.0D,
-				this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width - d2 * 10.0D));
+		ParticleManager.spawnMaelstromLargeSmoke(world, rand, new Vec3d(this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width - d0 * 10.0D,
+			this.posY + this.rand.nextFloat() * this.height - d1 * 10.0D, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width - d2 * 10.0D));
 	    }
 	}
 	else
@@ -197,5 +220,25 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     public void setSwingingArms(boolean swingingArms)
     {
 	this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
+    }
+
+    @Override
+    public void onDeath(DamageSource cause)
+    {
+	if (!world.isRemote && cause.getTrueSource() instanceof EntityPlayer)
+	{
+	    IMana mana = ((EntityPlayer) cause.getTrueSource()).getCapability(ManaProvider.MANA, null);
+	    if (!mana.isLocked())
+	    {
+		mana.replenish(getManaExp());
+		Main.network.sendTo(new MessageMana(mana.getMana()), (EntityPlayerMP) cause.getTrueSource());
+	    }
+	}
+	super.onDeath(cause);
+    }
+
+    protected float getManaExp()
+    {
+	return Math.round(this.getMaxHealth() * 0.05f);
     }
 }

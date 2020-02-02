@@ -8,10 +8,10 @@ import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.stats.StatList;
@@ -39,11 +39,19 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
     public EntityTrader(World worldIn)
     {
 	super(worldIn);
+	this.setSize(0.8f, 1.8f);
     }
     
+    @Override
+    protected PathNavigate createNavigator(World worldIn)
+    {
+	return new PathNavigateGround(this, worldIn);
+    }
+
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */
+    @Override
     protected boolean canDespawn()
     {
         return false;
@@ -78,17 +86,10 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
     /**
      * When the entity is right clicked
      */
+    @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
-	ItemStack itemstack = player.getHeldItem(hand);
-	boolean flag = itemstack.getItem() == Items.NAME_TAG;
-
-	if (flag)
-	{
-	    itemstack.interactWithEntity(player, this, hand);
-	    return true;
-	}
-	else if (this.isEntityAlive() && !this.isTrading() && !this.isChild() && !player.isSneaking() && this.getAttackTarget() == null)
+	if (this.isEntityAlive() && !this.isTrading() && !this.isChild() && !player.isSneaking() && this.getAttackTarget() == null)
 	{
 	    if (this.buyingList == null)
 	    {
@@ -133,17 +134,20 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
      * The following few methods are used in the IMerchant class to handle the
      * trading interface
      */
+    @Override
     @Nullable
     public EntityPlayer getCustomer()
     {
 	return this.buyingPlayer;
     }
 
+    @Override
     public void setCustomer(@Nullable EntityPlayer player)
     {
 	this.buyingPlayer = player;
     }
 
+    @Override
     @Nullable
     public MerchantRecipeList getRecipes(EntityPlayer player)
     {
@@ -160,6 +164,7 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
     {
     }
 
+    @Override
     public void useRecipe(MerchantRecipe recipe)
     {
 	recipe.incrementToolUses();
@@ -177,6 +182,7 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
      * Usually, this is just a sound byte being played depending if the suggested
      * itemstack is not null.
      */
+    @Override
     public void verifySellingItem(ItemStack stack)
     {
 	if (!this.world.isRemote && this.livingSoundTime > -this.getTalkInterval() + 20)
@@ -186,11 +192,13 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
 	}
     }
 
+    @Override
     public World getWorld()
     {
 	return this.world;
     }
 
+    @Override
     public BlockPos getPos()
     {
 	return new BlockPos(this);
@@ -199,6 +207,7 @@ public abstract class EntityTrader extends EntityLeveledMob implements IMerchant
     /**
      * Get the formatted ChatComponent that will be used for the sender's username in chat
      */
+    @Override
     public ITextComponent getDisplayName()
     {
         Team team = this.getTeam();

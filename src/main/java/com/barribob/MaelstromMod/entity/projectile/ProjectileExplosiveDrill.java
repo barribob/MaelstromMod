@@ -1,18 +1,11 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import java.util.List;
-
-import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ProjectileExplosiveDrill extends ProjectileGun
@@ -37,6 +30,7 @@ public class ProjectileExplosiveDrill extends ProjectileGun
 	this.setNoGravity(true);
     }
 
+    @Override
     protected void spawnParticles()
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
@@ -51,7 +45,7 @@ public class ProjectileExplosiveDrill extends ProjectileGun
     {
 	if (!world.isRemote)
 	{
-	    world.createExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, 6, true);
+	    world.createExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, 3, true);
 	}
     }
 }

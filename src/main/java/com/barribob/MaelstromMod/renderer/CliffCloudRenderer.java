@@ -26,12 +26,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.CloudRenderer;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.client.resource.IResourceType;
 import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
-import net.minecraftforge.client.resource.SelectiveReloadStateHandler;
-import net.minecraftforge.client.resource.VanillaResourceType;
 
 /**
  * Sourced from CloudRenderer.java
@@ -54,7 +51,7 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
     private int texH;
     private static final boolean WIREFRAME = false;
     private DynamicTexture COLOR_TEX = null;
-    public static final float FOG_HEIGHT = 70.25f;
+    public static final float FOG_HEIGHT = 45.25f;
 
     @Override
     public void render(float partialTicks, WorldClient world, Minecraft mc)

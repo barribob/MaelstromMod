@@ -6,9 +6,9 @@ import com.barribob.MaelstromMod.entity.action.ActionGolemSlam;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationAzureGolem;
 import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
-import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.block.Block;
@@ -20,6 +20,7 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -38,6 +39,8 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	super(worldIn);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
+	this.healthScaledAttackFactor = 0.2;
+	this.setLevel(LevelHandler.AZURE_ENDGAME);
     }
 
     @Override
@@ -58,7 +61,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(18);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(15);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
@@ -86,7 +89,7 @@ public class EntityAzureGolem extends EntityLeveledMob implements IRangedAttackM
 	int j = MathHelper.floor(this.getEntityBoundingBox().minY);
 	int k = MathHelper.floor(this.posZ);
 	BlockPos blockpos = new BlockPos(i, j, k);
-	return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
+	return this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
     @Override

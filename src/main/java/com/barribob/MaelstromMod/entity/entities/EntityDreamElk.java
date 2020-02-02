@@ -1,12 +1,12 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.ai.AIEatAzureGrass;
-import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIEatGrass;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -32,19 +33,20 @@ public class EntityDreamElk extends EntityLeveledMob
      */
     private int attackTimer;
     private int eatGrassTimer;
-    private AIEatAzureGrass grassAI;
+    private EntityAIEatGrass grassAI;
 
     public EntityDreamElk(World worldIn)
     {
 	super(worldIn);
 	this.setSize(1.3964844F, 1.6F);
-	this.setLevel(1.5f);
+	this.setLevel(LevelHandler.AZURE_OVERWORLD);
     }
 
     @Override
     protected void initEntityAI()
     {
-	grassAI = new AIEatAzureGrass(this);
+	grassAI = new EntityAIEatGrass(this);
+	;
 	this.tasks.addTask(0, new EntityAISwimming(this));
 	this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, true));
 	this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
@@ -114,7 +116,7 @@ public class EntityDreamElk extends EntityLeveledMob
         int j = MathHelper.floor(this.getEntityBoundingBox().minY);
         int k = MathHelper.floor(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
-        return this.world.getBlockState(blockpos.down()).getBlock() == ModBlocks.AZURE_GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
+	return this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
     /**

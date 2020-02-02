@@ -1,9 +1,10 @@
 package com.barribob.MaelstromMod.util.handlers;
 
 import java.util.Random;
-import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.particle.EffectParticle;
+import com.barribob.MaelstromMod.particle.ModParticle;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.client.Minecraft;
@@ -26,20 +27,6 @@ import net.minecraft.world.World;
  */
 public class ParticleManager
 {
-    /**
-     * Calls a particle spawner with the vector offset
-     * @param radius The radius of the circle
-     * @param points The number of points around the circle
-     * @param particleSpawner
-     */
-    public static void spawnParticlesInCircle(float radius, int points, Consumer<Vec3d> particleSpawner) {
-	float degrees = 360f / points;
-	for(int i = 0; i < points; i++) {
-	    double radians = Math.toRadians(i * degrees);
-	    Vec3d offset = new Vec3d(Math.sin(radians), Math.cos(radians), 0).scale(radius);
-	    particleSpawner.accept(offset);
-	}
-    }
     /**
      * Spawns the little square purple particles
      * 
@@ -64,7 +51,7 @@ public class ParticleManager
     public static void spawnMaelstromPotionParticle(World worldIn, Random rand, Vec3d pos, boolean isLight)
     {
 	Particle particle = new ParticleSpell.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.1D, 0.0D);
-	
+
 	if (isLight)
 	{
 	    setMaelstromLightColor(particle);
@@ -73,7 +60,7 @@ public class ParticleManager
 	{
 	    setMaelstromColor(particle);
 	}
-	
+
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
@@ -88,6 +75,14 @@ public class ParticleManager
     {
 	Particle particle = new ParticleExplosionLarge.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.05f), 0.0f, ModRandom.getFloat(0.05f));
 	setMaelstromColor(particle);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    public static void spawnColoredExplosion(World worldIn, Vec3d pos, Vec3d baseColor)
+    {
+	Particle particle = new ParticleExplosionLarge.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, ModRandom.getFloat(0.05f), 0.0f, ModRandom.getFloat(0.05f));
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
@@ -115,7 +110,7 @@ public class ParticleManager
     public static void spawnMaelstromSmoke(World worldIn, Random rand, Vec3d pos, boolean isLight)
     {
 	Particle particle = new ParticleSmokeNormal.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
-	
+
 	if (isLight)
 	{
 	    setMaelstromLightColor(particle);
@@ -124,10 +119,69 @@ public class ParticleManager
 	{
 	    setMaelstromColor(particle);
 	}
-	
+
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
+
+    public static void spawnColoredSmoke(World worldIn, Vec3d pos, Vec3d baseColor)
+    {
+	Particle particle = new ParticleSmokeNormal.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
+
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
+
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    public static void spawnCustomSmoke(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 2, ModRandom.range(20, 30), false);
+	particle.setParticleTextureRange(0, 7, 1);
+	spawnParticleWithColor(particle, baseColor);
+    }
     
+    public static void spawnSwirl(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion, int age)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, age, true);
+	particle.setParticleTextureRange(16, 8, 2);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
+    public static void spawnSwirl2(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(10, 20), true);
+	particle.setParticleTextureRange(7, 9, 2);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
+    public static void spawnWisp(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(7, 15), false);
+	particle.setParticleTextureRange(24, 8, 1);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
+    public static void spawnFluff(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(10, 20), false);
+	particle.setParticleTextureRange(32, 10, 1);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
+    public static void spawnSplit(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(7, 20), false);
+	particle.setParticleTextureRange(42, 6, 1);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
+    private static void spawnParticleWithColor(Particle particle, Vec3d baseColor)
+    {
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
     /**
      * Spawns blackish-purplish flames
      */
@@ -135,21 +189,22 @@ public class ParticleManager
     {
 	spawnDarkFlames(worldIn, rand, pos, Vec3d.ZERO);
     }
-    
+
     public static void spawnDarkFlames(World worldIn, Random rand, Vec3d pos, Vec3d vel)
     {
 	Particle particle = new ParticleFlame.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
-	
+
 	float f = ModRandom.getFloat(0.1f);
 	particle.setRBGColorF(0.1f + f, 0, 0.1f + f);
-	
+
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
-    
-    public static void spawnEffect(World world, Vec3d pos, Vec3d color)
+
+    public static void spawnEffect(World world, Vec3d pos, Vec3d baseColor)
     {
 	Particle particle = new EffectParticle.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);
-	particle.setRBGColorF((float)color.x, (float)color.y, (float)color.z);
+	baseColor = ModColors.variateColor(baseColor, 0.2f);
+	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
@@ -157,14 +212,27 @@ public class ParticleManager
     {
 	spawnFirework(world, pos, color, Vec3d.ZERO);
     }
-    
+
     public static void spawnFirework(World world, Vec3d pos, Vec3d color, Vec3d vel)
     {
 	Particle particle = new ParticleFirework.Factory().createParticle(0, world, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
-	particle.setRBGColorF((float)color.x, (float)color.y, (float)color.z);
+	particle.setRBGColorF((float) color.x, (float) color.y, (float) color.z);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
-    
+
+    public static void spawnParticleSphere(World world, Vec3d pos, float radius)
+    {
+	for (int i = 0; i < 1000; i++)
+	{
+	    Vec3d unit = new Vec3d(0, 1, 0);
+	    unit = unit.rotatePitch((float) (Math.PI * ModRandom.getFloat(1)));
+	    unit = unit.rotateYaw((float) (Math.PI * ModRandom.getFloat(1)));
+	    unit = unit.normalize().scale(radius);
+	    ParticleManager.spawnMaelstromParticle(world, world.rand, pos.add(unit));
+	}
+	ParticleManager.spawnEffect(world, pos, ModColors.RED);
+    }
+
     /**
      * Helper function to vary and unify the colors
      * 

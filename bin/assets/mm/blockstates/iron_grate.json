@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "mm:iron_grate_bottom" },
+        "half=top": { "model": "mm:iron_grate_top" }
+    }
+}

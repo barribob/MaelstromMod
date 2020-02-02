@@ -1,8 +1,12 @@
 package com.barribob.MaelstromMod.world.dimension.azure_dimension;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.renderer.AzureSkyRenderHandler;
+import com.barribob.MaelstromMod.world.biome.BiomeProviderMultiple;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -10,8 +14,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldProvider.WorldSleepResult;
-import net.minecraft.world.biome.BiomeProviderSingle;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.client.IRenderHandler;
 
@@ -26,8 +29,15 @@ public class DimensionAzure extends WorldProvider
     @Override
     protected void init()
     {
-	this.biomeProvider = new BiomeProviderSingle(BiomeInit.AZURE);
 	this.hasSkyLight = true;
+	this.biomeProvider = new BiomeProviderMultiple(this.world.getWorldInfo())
+	{
+	    @Override
+	    public List<Biome> getBiomesToSpawnIn()
+	    {
+		return Arrays.asList(new Biome[] { BiomeInit.AZURE, BiomeInit.AZURE_LIGHT, BiomeInit.AZURE_PLAINS });
+	    }
+	};
     }
 
     @Override
@@ -54,6 +64,7 @@ public class DimensionAzure extends WorldProvider
 	return true;
     }
 
+    @Override
     public WorldSleepResult canSleepAt(net.minecraft.entity.player.EntityPlayer player, BlockPos pos)
     {
 	return WorldSleepResult.DENY;
@@ -70,7 +81,7 @@ public class DimensionAzure extends WorldProvider
 	f1 = f1 * (f * 0.70F + 0.06F);
 	f2 = f2 * (f * 0.84F + 0.06F);
 	f3 = f3 * (f * 0.70F + 0.09F);
-	return new Vec3d((double) f1, (double) f2, (double) f3);
+	return new Vec3d(f1, f2, f3);
     }
 
     @Override

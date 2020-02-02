@@ -32,6 +32,7 @@ public class ClientProxy extends CommonProxy
     /**
      * Initializations for client only stuff like rendering
      */
+    @Override
     public void init()
     {
 	RenderHandler.registerEntityRenderers();

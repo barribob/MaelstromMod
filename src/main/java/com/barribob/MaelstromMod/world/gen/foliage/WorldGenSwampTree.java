@@ -30,9 +30,10 @@ public class WorldGenSwampTree extends WorldGenAbstractTree
 	super(notify);
     }
 
+    @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
-	int firstTreeHeight = ModRandom.range(2, 4);
+	int firstTreeHeight = ModRandom.range(2, 6);
 	int additionalTrees = ModRandom.range(0, 3);
 	int maxLeafWidth = additionalTrees > 0 ? 3 : 2; // Wider leaves for taller trees
 	int heightCheck = 4;
@@ -103,8 +104,8 @@ public class WorldGenSwampTree extends WorldGenAbstractTree
 
     private void generateRoots(World world, BlockPos pos)
     {
-	int rootLengthX = ModRandom.range(1, 4);
-	int rootLengthZ = ModRandom.range(1, 4);
+	int rootLengthX = ModRandom.range(1, 5);
+	int rootLengthZ = ModRandom.range(1, 5);
 
 	// Generate the two logs across
 	for (int x = -rootLengthX; x <= rootLengthX; x++)

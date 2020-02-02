@@ -12,7 +12,6 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -26,7 +25,9 @@ import net.minecraft.world.World;
  */
 public class BlockMaelstromCore extends BlockContainer implements IHasModel
 {
-    public BlockMaelstromCore(String name, Material material)
+    private Item itemDropped;
+
+    public BlockMaelstromCore(String name, Material material, Item itemDropped)
     {
 	super(material);
 	setUnlocalizedName(name);
@@ -36,11 +37,12 @@ public class BlockMaelstromCore extends BlockContainer implements IHasModel
 	ModBlocks.BLOCKS.add(this);
 	ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
 	this.hasTileEntity = true;
+	this.itemDropped = itemDropped;
     }
 
-    public BlockMaelstromCore(String name, Material material, float hardness, float resistance, SoundType soundType)
+    public BlockMaelstromCore(String name, Material material, float hardness, float resistance, SoundType soundType, Item itemDropped)
     {
-	this(name, material);
+	this(name, material, itemDropped);
 	setHardness(hardness);
 	setResistance(resistance);
 	setSoundType(soundType);
@@ -72,6 +74,7 @@ public class BlockMaelstromCore extends BlockContainer implements IHasModel
      * MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids, INVISIBLE to
      * skip all rendering
      */
+    @Override
     public EnumBlockRenderType getRenderType(IBlockState state)
     {
 	return EnumBlockRenderType.MODEL;
@@ -80,6 +83,6 @@ public class BlockMaelstromCore extends BlockContainer implements IHasModel
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-	return ModItems.AZURE_MAELSTROM_CORE_CRYSTAL;
+	return itemDropped;
     }
 }

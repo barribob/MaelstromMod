@@ -1,0 +1,214 @@
+{
+    "pools": [
+        {
+            "name": "level_2_loot",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "mm:swamp_helmet",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:swamp_chestplate",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:swamp_leggings",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:swamp_boots",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                                {
+                    "type": "item",
+                    "name": "mm:goltox_helmet",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:goltox_chestplate",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:goltox_leggings",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:goltox_boots",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:brownstone_sword",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:brownstone_cannon",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:meteor_staff",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:ancient_battleaxe",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 3,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

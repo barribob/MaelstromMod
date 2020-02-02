@@ -108,5 +108,15 @@
                 "stream": true
             }
         ]
+    },
+    "entity.monolith.ambient": {
+        "category": "entity",
+        "subtitle": "entity.monolith.ambient",
+        "sounds": [
+            {
+                "name": "mm:entity/monolith/ambient",
+                "stream": true
+            }
+        ]
     }
 }

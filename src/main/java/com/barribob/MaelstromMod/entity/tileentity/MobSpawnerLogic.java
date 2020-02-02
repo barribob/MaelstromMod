@@ -1,48 +1,89 @@
 package com.barribob.MaelstromMod.entity.tileentity;
 
-import java.util.List;
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
-
-import com.barribob.MaelstromMod.init.ModBlocks;
-import com.google.common.collect.Lists;
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 
 public abstract class MobSpawnerLogic
 {
     /** The delay to spawn. */
     protected int spawnDelay = 20;
-    /** List of potential entities to spawn */
-    protected final List<WeightedSpawnerEntity> potentialSpawns = Lists.<WeightedSpawnerEntity>newArrayList();
-    protected WeightedSpawnerEntity spawnData = new WeightedSpawnerEntity();
-    protected int spawnCount = 4;
-    /** Cached instance of the entity to render inside the spawner. */
-    protected Entity cachedEntity;
     protected int maxNearbyEntities = 6;
     /** The distance from which a player activates the spawner. */
     protected int activatingRangeFromPlayer = 16;
+
+    // tallies entities through their counts. The max count is the maximum, and the
+    // count is the current amound
+    protected int maxCount = 4;
+    protected int count = 0;
+
     /** The range coefficient for spawning entities around. */
     protected int spawnRange = 4;
     protected Supplier<World> world;
     protected Supplier<BlockPos> pos;
     protected Block block;
+    protected float level;
+    protected MobSpawnData[] mobs = { new MobSpawnData(Reference.MOD_ID + ":dream_elk", Element.NONE) };
+    protected int[] mobWeights = { 1 };
+
+    /**
+     * 
+     * Stores data for more advanced spawner logic
+     *
+     * The count is the amound of spaces that spawning the mob takes up. So, if a
+     * certain mob is much more powerful than the other mobs, and not too many
+     * should be spawned, make its count higher.
+     * 
+     * Basically the formula is number of mobs spawned = spawner.maxCount / average
+     * MobSpawnData.count
+     */
+    public static class MobSpawnData
+    {
+	String mobId;
+	int count;
+	Element[] possibleElements;
+	int[] elementalWeights;
+
+	public MobSpawnData(String mobId, Element element)
+	{
+	    this(mobId, element, 1);
+	}
+
+	public MobSpawnData(String mobId, Element element, int count)
+	{
+	    this(mobId, new Element[] { element }, new int[] { 1 }, count);
+	}
+
+	public MobSpawnData(String mobId, Element[] possibleElements, int[] elementalWeights, int count)
+	{
+	    super();
+	    this.mobId = mobId;
+
+	    if (possibleElements.length != elementalWeights.length)
+	    {
+		throw new IllegalArgumentException("Element and weight arrays not the same length.");
+	    }
+
+	    this.possibleElements = possibleElements;
+	    this.elementalWeights = elementalWeights;
+	    this.count = count;
+	}
+    };
 
     public MobSpawnerLogic(Supplier<World> world, Supplier<BlockPos> pos, Block block)
     {
@@ -51,17 +92,31 @@ public abstract class MobSpawnerLogic
 	this.block = block;
     }
 
-    public void setEntities(@Nullable ResourceLocation id, int count)
+    public void setData(String mob, int maxCount, float level, int activationRange)
     {
-	if (id != null)
+	this.setData(new MobSpawnData(mob, Element.NONE, 1), maxCount, level, activationRange);
+    }
+
+    public void setData(MobSpawnData mob, int maxCount, float level, int activationRange)
+    {
+	this.setData(new MobSpawnData[] { mob }, new int[] { 1 }, maxCount, level, activationRange);
+    }
+
+    public void setData(MobSpawnData[] mobs, int[] mobWeights, int maxCount, float level, int activationRange)
+    {
+	if (mobs.length != mobWeights.length)
 	{
-	    this.spawnData.getNbt().setString("id", id.toString());
-	    this.spawnCount = count;
+	    throw new IllegalArgumentException("Mobs and weight arrays for spawner not the same length.");
 	}
+	this.mobs = mobs;
+	this.mobWeights = mobWeights;
+	this.activatingRangeFromPlayer = activationRange;
+	this.maxCount = maxCount;
+	this.level = level;
     }
 
     public abstract void updateSpawner();
-    
+
     /**
      * If there are too many entities of a type in a certain area
      * 
@@ -72,8 +127,8 @@ public abstract class MobSpawnerLogic
      */
     protected boolean tooManyEntities(World world, Entity entity, BlockPos blockpos)
     {
-	int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ(),
-		(double) (blockpos.getX() + 1), (double) (blockpos.getY() + 1), (double) (blockpos.getZ() + 1))).grow((double) this.spawnRange)).size();
+	int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(),
+		blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1)).grow(this.spawnRange)).size();
 
 	if (k >= this.maxNearbyEntities)
 	{
@@ -81,12 +136,10 @@ public abstract class MobSpawnerLogic
 	}
 	return false;
     }
-    
+
     protected boolean tryToSpawnEntity()
     {
-	NBTTagCompound nbttagcompound = this.spawnData.getNbt();
-	NBTTagList nbttaglist = nbttagcompound.getTagList("Pos", 6);
-
+	MobSpawnData data = getEntityData();
 	// Get a random position
 	int i1 = pos.get().getX() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
 	int j1 = pos.get().getY() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
@@ -95,26 +148,38 @@ public abstract class MobSpawnerLogic
 	if (world.get().getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(world.get(), new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP))
 	{
 	    // Gets the entity data?
-	    Entity entity = AnvilChunkLoader.readWorldEntityPos(nbttagcompound, world.get(), i1, j1, k1, false);
+	    Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(data.mobId), world.get());
 
-	    if (entity != null && world.get().checkNoEntityCollision(entity.getEntityBoundingBox(), entity)
+	    if (entity == null)
+	    {
+		System.out.println("Failed to spawn entity with id" + data.mobId);
+		return false;
+	    }
+
+	    entity.setLocationAndAngles(i1, j1, k1, world.get().rand.nextFloat() * 360.0F, 0.0F);
+
+	    if (world.get().checkNoEntityCollision(entity.getEntityBoundingBox(), entity)
 		    && world.get().getCollisionBoxes(entity, entity.getEntityBoundingBox()).isEmpty() && !world.get().containsAnyLiquid(entity.getEntityBoundingBox())
 		    && !this.tooManyEntities(world.get(), entity, pos.get()))
 	    {
 		EntityLiving entityliving = entity instanceof EntityLiving ? (EntityLiving) entity : null;
-		entity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, world.get().rand.nextFloat() * 360.0F, 0.0F);
 
 		if (entityliving != null)
 		{
-		    if (this.spawnData.getNbt().getSize() == 1 && this.spawnData.getNbt().hasKey("id", 8) && entity instanceof EntityLiving)
-		    {
-			((EntityLiving) entity).onInitialSpawn(world.get().getDifficultyForLocation(new BlockPos(entity)), (IEntityLivingData) null);
-		    }
-
 		    // A successful spawn of the entity
-		    AnvilChunkLoader.spawnEntity(entity, world.get());
+		    world.get().spawnEntity(entity);
 		    world.get().playEvent(2004, pos.get(), 0);
 		    entityliving.spawnExplosionParticle();
+
+		    if (entity instanceof EntityLeveledMob)
+		    {
+			EntityLeveledMob leveledMob = (EntityLeveledMob) entity;
+			leveledMob.setElement(ModRandom.choice(data.possibleElements, this.world.get().rand, data.elementalWeights).next());
+			leveledMob.setLevel(level);
+		    }
+
+		    this.count += data.count;
+
 		    return true;
 		}
 	    }
@@ -125,26 +190,20 @@ public abstract class MobSpawnerLogic
     public void readFromNBT(NBTTagCompound nbt)
     {
 	this.spawnDelay = nbt.getShort("Delay");
-	this.spawnCount = nbt.getShort("SpawnCount");
-	this.potentialSpawns.clear();
 
-	if (nbt.hasKey("SpawnPotentials", 9))
+	if (nbt.hasKey("MobWeights"))
 	{
-	    NBTTagList nbttaglist = nbt.getTagList("SpawnPotentials", 10);
-
-	    for (int i = 0; i < nbttaglist.tagCount(); ++i)
-	    {
-		this.potentialSpawns.add(new WeightedSpawnerEntity(nbttaglist.getCompoundTagAt(i)));
-	    }
+	    this.mobWeights = nbt.getIntArray("MobWeights");
+	}
+	
+	if(nbt.hasKey("MaxCount"))
+	{
+	    this.maxCount = nbt.getShort("MaxCount");
 	}
 
-	if (nbt.hasKey("SpawnData", 10))
+	if (nbt.hasKey("Level"))
 	{
-	    this.setNextSpawnData(new WeightedSpawnerEntity(1, nbt.getCompoundTag("SpawnData")));
-	}
-	else if (!this.potentialSpawns.isEmpty())
-	{
-	    this.setNextSpawnData((WeightedSpawnerEntity) WeightedRandom.getRandomItem(this.world.get().rand, this.potentialSpawns));
+	    this.level = nbt.getFloat("Level");
 	}
 
 	if (nbt.hasKey("MaxNearbyEntities", 99))
@@ -158,63 +217,79 @@ public abstract class MobSpawnerLogic
 	    this.spawnRange = nbt.getShort("SpawnRange");
 	}
 
-	if (this.world.get() != null)
+	if (nbt.hasKey("MobSpawnData"))
 	{
-	    this.cachedEntity = null;
+	    // 10 is for NBTTagCompound
+	    NBTTagList nbttaglist = nbt.getTagList("MobSpawnData", 10);
+
+	    this.mobs = new MobSpawnData[nbttaglist.tagCount()];
+	    for (int i = 0; i < nbttaglist.tagCount(); i++)
+	    {
+		NBTTagCompound compound = nbttaglist.getCompoundTagAt(i);
+
+		int[] elementIds = compound.getIntArray("Elements");
+		Element[] elements = new Element[elementIds.length];
+		for (int j = 0; j < elementIds.length; j++)
+		{
+		    elements[j] = Element.getElementFromId(elementIds[j]);
+		}
+
+		mobs[i] = new MobSpawnData(compound.getString("EntityId"), elements, compound.getIntArray("ElementWeights"), compound.getInteger("Count"));
+	    }
+	}
+
+	if (this.mobs.length != this.mobWeights.length)
+	{
+	    System.err.println("Error loading spawner tile entity data.");
+
+	    // Replace with a pig spawner
+	    MobSpawnData[] brokenMobs = { new MobSpawnData("minecraft:pig", Element.NONE) };
+	    int[] brokenMobWeights = { 1 };
+	    this.mobs = brokenMobs;
+	    this.mobWeights = brokenMobWeights;
 	}
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
-	ResourceLocation resourcelocation = this.getEntityId();
 
-	if (resourcelocation == null)
+	if (mobs == null)
 	{
 	    return compound;
 	}
-	else
-	{
-	    compound.setShort("Delay", (short) this.spawnDelay);
-	    compound.setShort("SpawnCount", (short) this.spawnCount);
-	    compound.setShort("MaxNearbyEntities", (short) this.maxNearbyEntities);
-	    compound.setShort("RequiredPlayerRange", (short) this.activatingRangeFromPlayer);
-	    compound.setShort("SpawnRange", (short) this.spawnRange);
-	    compound.setTag("SpawnData", this.spawnData.getNbt().copy());
-	    NBTTagList nbttaglist = new NBTTagList();
+	compound.setIntArray("MobWeights", mobWeights);
 
-	    if (this.potentialSpawns.isEmpty())
+	compound.setShort("Delay", (short) this.spawnDelay);
+	compound.setShort("MaxNearbyEntities", (short) this.maxNearbyEntities);
+	compound.setShort("RequiredPlayerRange", (short) this.activatingRangeFromPlayer);
+	compound.setShort("SpawnRange", (short) this.spawnRange);
+	compound.setShort("MaxCount", (short) this.maxCount);
+	compound.setFloat("Level", this.level);
+
+	NBTTagList nbttaglist = new NBTTagList();
+	for (MobSpawnData data : this.mobs)
+	{
+	    NBTTagCompound dataCompound = new NBTTagCompound();
+	    int[] elements = new int[data.possibleElements.length];
+	    for (int i = 0; i < data.possibleElements.length; i++)
 	    {
-		nbttaglist.appendTag(this.spawnData.toCompoundTag());
-	    }
-	    else
-	    {
-		for (WeightedSpawnerEntity weightedspawnerentity : this.potentialSpawns)
-		{
-		    nbttaglist.appendTag(weightedspawnerentity.toCompoundTag());
-		}
+		elements[i] = data.possibleElements[i].id;
 	    }
 
-	    compound.setTag("SpawnPotentials", nbttaglist);
-	    return compound;
+	    dataCompound.setIntArray("Elements", elements);
+	    dataCompound.setIntArray("ElementWeights", data.elementalWeights);
+	    dataCompound.setString("EntityId", data.mobId);
+	    dataCompound.setInteger("Count", data.count);
+	    nbttaglist.appendTag(dataCompound);
 	}
+
+	compound.setTag("MobSpawnData", nbttaglist);
+	return compound;
     }
 
-    public void setNextSpawnData(WeightedSpawnerEntity entity)
+    protected MobSpawnData getEntityData()
     {
-	this.spawnData = entity;
-
-	if (this.world.get() != null)
-	{
-	    IBlockState iblockstate = this.world.get().getBlockState(this.pos.get());
-	    this.world.get().notifyBlockUpdate(this.pos.get(), iblockstate, iblockstate, 4);
-	}
-    }
-
-    @Nullable
-    protected ResourceLocation getEntityId()
-    {
-	String s = this.spawnData.getNbt().getString("id");
-	return StringUtils.isNullOrEmpty(s) ? null : new ResourceLocation(s);
+	return ModRandom.choice(this.mobs, this.world.get().rand, this.mobWeights).next();
     }
 
     public void broadcastEvent(int id)

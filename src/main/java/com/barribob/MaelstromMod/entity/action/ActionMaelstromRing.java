@@ -13,7 +13,7 @@ public class ActionMaelstromRing extends Action
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target)
     {
-	ParticleManager.spawnParticlesInCircle(1, 24, (dir) -> {
+	ModUtils.circleCallback(1, 24, (dir) -> {
 	    float inaccuracy = 0.0f;
 	    float speed = 0.5f;
 

@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.entity.animation.AnimationOpenJaws;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.Entity;
@@ -36,8 +37,8 @@ public class EntitySwampCrawler extends EntityLeveledMob implements IRangedAttac
     public EntitySwampCrawler(World worldIn)
     {
 	super(worldIn);
-	this.setSize(1.3f, 1.3f);
-	this.setLevel(2.0f);
+	this.setSize(1.5f, 1.3f);
+	this.setLevel(LevelHandler.CLIFF_OVERWORLD);
     }
 
     @Override

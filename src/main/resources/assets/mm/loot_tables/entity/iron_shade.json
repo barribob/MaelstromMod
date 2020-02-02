@@ -7,7 +7,7 @@
                 {
                     "type": "loot_table",
                     "weight": 1,
-                    "name": "mm:util/maelstrom_level_loot"
+                    "name": "mm:util/level_2_loot"
                 }
             ]
         },
@@ -18,7 +18,7 @@
                 {
                     "type": "item",
                     "weight": 1,
-                    "name": "mm:cliff_key_fragment"
+                    "name": "mm:maelstrom_core"
                 }
             ]
         }

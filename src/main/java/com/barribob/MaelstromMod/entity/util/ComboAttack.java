@@ -40,26 +40,18 @@ public class ComboAttack
     }
 
     @SideOnly(Side.CLIENT)
-    public void addAttack(byte b, Action action, Supplier<Animation> anim)
+    public void setAttack(byte b, Action action, Supplier<Animation> anim)
     {
 	if (animations == null)
 	{
 	    animations = new HashMap<Byte, Supplier<Animation>>();
 	}
-	if (actions.containsKey(b) || animations.containsKey(b))
-	{
-	    throw new IllegalArgumentException("The byte " + b + " was already registered.");
-	}
-	addAttack(b, action);
+	setAttack(b, action);
 	animations.put(b, anim);
     }
 
-    public void addAttack(byte b, Action action)
+    public void setAttack(byte b, Action action)
     {
-	if (actions.containsKey(b))
-	{
-	    throw new IllegalArgumentException("The byte " + b + " was already registered.");
-	}
 	actions.put(b, action);
     }
 

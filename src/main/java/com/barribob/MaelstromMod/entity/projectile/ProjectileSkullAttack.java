@@ -7,14 +7,8 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -50,6 +44,7 @@ public class ProjectileSkullAttack extends Projectile
      * 
      * @param world
      */
+    @Override
     protected void spawnParticles()
     {
 	float f1 = 1.25f;
@@ -78,7 +73,7 @@ public class ProjectileSkullAttack extends Projectile
 		    int burnTime = 5;
 		    ((EntityLivingBase) entity).setFire(burnTime);
 
-		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeMalestromThrownDamage(this, this.shootingEntity), this.getDamage());
+		    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()), this.getDamage());
 		    ((EntityLivingBase) entity).addVelocity(0, 0.1D, 0);
 		}
 	    }

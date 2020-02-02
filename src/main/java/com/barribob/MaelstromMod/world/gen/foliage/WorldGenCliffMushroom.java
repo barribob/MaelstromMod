@@ -16,7 +16,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
  */
 public class WorldGenCliffMushroom extends WorldGenerator
 {
-    private static Block mushroom = Blocks.BROWN_MUSHROOM_BLOCK;
     private Block cliffBlock;
 
     public WorldGenCliffMushroom(Block cliffBlock)
@@ -29,7 +28,7 @@ public class WorldGenCliffMushroom extends WorldGenerator
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
 
-	Block block = Blocks.BROWN_MUSHROOM_BLOCK;
+	Block block = rand.nextInt(4) == 0 ? Blocks.SLIME_BLOCK : Blocks.BROWN_MUSHROOM_BLOCK;
 
 	// Move the generation until it is at the correct y position
 	while (worldIn.getBlockState(position).getBlock() != Blocks.AIR)
@@ -65,7 +64,7 @@ public class WorldGenCliffMushroom extends WorldGenerator
 		    ++j3;
 		}
 
-		if (block == Blocks.BROWN_MUSHROOM_BLOCK)
+		if (block == Blocks.BROWN_MUSHROOM_BLOCK || block.equals(Blocks.SLIME_BLOCK))
 		{
 		    j3 = 3;
 		}
@@ -101,7 +100,7 @@ public class WorldGenCliffMushroom extends WorldGenerator
 
 			BlockHugeMushroom.EnumType blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.byMetadata(j2);
 
-			if (block == Blocks.BROWN_MUSHROOM_BLOCK || l2 < position.getY())
+			if (block == Blocks.BROWN_MUSHROOM_BLOCK || block.equals(Blocks.SLIME_BLOCK) || l2 < position.getY())
 			{
 			    if ((l1 == k3 || l1 == l3) && (i2 == j1 || i2 == k1))
 			    {
@@ -161,8 +160,9 @@ public class WorldGenCliffMushroom extends WorldGenerator
 
 			    if (state.getBlock().canBeReplacedByLeaves(state, worldIn, blockpos))
 			    {
-				this.setBlockAndNotifyAdequately(worldIn, blockpos,
-					block.getDefaultState().withProperty(BlockHugeMushroom.VARIANT, blockhugemushroom$enumtype));
+				state = block.equals(Blocks.SLIME_BLOCK) ? block.getDefaultState()
+					: block.getDefaultState().withProperty(BlockHugeMushroom.VARIANT, blockhugemushroom$enumtype);
+				this.setBlockAndNotifyAdequately(worldIn, blockpos, state);
 			    }
 			}
 		    }

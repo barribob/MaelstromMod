@@ -1,6 +1,12 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
+
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -16,13 +22,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * This is intended for offensive projectiles, as there is damage included
  *
  */
-public class Projectile extends EntityModThrowable
+public class Projectile extends EntityModThrowable implements IElement
 {
     private float travelRange;
     private final Vec3d startPos;
     private static final byte IMPACT_PARTICLE_BYTE = 3;
     private static final byte PARTICLE_BYTE = 4;
     private float damage = 0;
+    protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(Projectile.class, DataSerializers.VARINT);
+    protected float maxAge = 20 * 20;
 
     public Projectile(World worldIn, EntityLivingBase throwerIn, float damage)
     {
@@ -30,6 +38,10 @@ public class Projectile extends EntityModThrowable
 	this.travelRange = 20.0f;
 	this.setDamage(damage);
 	this.startPos = new Vec3d(this.posX, this.posY, this.posZ);
+	if (throwerIn instanceof IElement)
+	{
+	    this.setElement(((IElement) throwerIn).getElement());
+	}
     }
 
     public Projectile(World worldIn)
@@ -88,6 +100,12 @@ public class Projectile extends EntityModThrowable
 	    this.world.setEntityState(this, this.IMPACT_PARTICLE_BYTE);
 	    this.setDead();
 	}
+
+	// Despawn if older than a certain age
+	if (this.ticksExisted > this.maxAge)
+	{
+	    this.setDead();
+	}
     }
 
     @Override
@@ -104,6 +122,7 @@ public class Projectile extends EntityModThrowable
      * Handler for {@link World#setEntityState} Connected through setEntityState to
      * spawn particles
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
@@ -131,5 +150,24 @@ public class Projectile extends EntityModThrowable
      */
     protected void spawnImpactParticles()
     {
+    }
+
+    @Override
+    protected void entityInit()
+    {
+	super.entityInit();
+	this.dataManager.register(ELEMENT, Integer.valueOf(Element.NONE.id));
+    }
+
+    @Override
+    public Element getElement()
+    {
+	return this.dataManager == null ? Element.getElementFromId(Element.NONE.id) : Element.getElementFromId(this.dataManager.get(ELEMENT));
+    }
+
+    public Projectile setElement(Element element)
+    {
+	this.dataManager.set(ELEMENT, element.id);
+	return this;
     }
 }

@@ -29,7 +29,7 @@ public class ItemBase extends Item implements IHasModel
 
     public ItemBase(String name)
     {
-	this(name, ModCreativeTabs.ALL);
+	this(name, ModCreativeTabs.ITEMS);
     }
 
     @Override

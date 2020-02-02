@@ -1,13 +1,12 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
-import com.barribob.MaelstromMod.init.ModBlocks;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -29,6 +28,7 @@ public class DimensionalTeleporter extends Teleporter
 	this.portalBlock = portalBlock;
     }
 
+    @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
 	if (!this.placeInExistingPortal(entityIn, rotationYaw))
@@ -41,6 +41,7 @@ public class DimensionalTeleporter extends Teleporter
     /**
      * Finds an existing portal to teleport the player to
      */
+    @Override
     public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
 	int i = 64;
@@ -48,10 +49,11 @@ public class DimensionalTeleporter extends Teleporter
 	int k = MathHelper.floor(entityIn.posZ);
 	BlockPos portalPos = BlockPos.ORIGIN;
 	long l = ChunkPos.asLong(j, k);
+	Vec3d entityOffset = new Vec3d(1.5, 1, -0.5);
 
 	if (this.destinationCoordinateCache.containsKey(l))
 	{
-	    Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition) this.destinationCoordinateCache.get(l);
+	    Teleporter.PortalPosition teleporter$portalposition = this.destinationCoordinateCache.get(l);
 	    portalPos = teleporter$portalposition;
 	    teleporter$portalposition.lastUpdateTime = this.world.getTotalWorldTime();
 	}
@@ -87,11 +89,11 @@ public class DimensionalTeleporter extends Teleporter
 	
 	if (entityIn instanceof EntityPlayerMP)
 	{
-	    ((EntityPlayerMP) entityIn).connection.setPlayerLocation(portalPos.getX(), portalPos.getY(), portalPos.getZ(), entityIn.rotationYaw, entityIn.rotationPitch);
+	    ((EntityPlayerMP) entityIn).connection.setPlayerLocation(portalPos.getX() + entityOffset.x, portalPos.getY() + entityOffset.y, portalPos.getZ() + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
 	}
 	else
 	{
-            entityIn.setLocationAndAngles(portalPos.getX(), portalPos.getY(), portalPos.getZ(), entityIn.rotationYaw, entityIn.rotationPitch);
+	    entityIn.setLocationAndAngles(portalPos.getX() + entityOffset.x, portalPos.getY() + entityOffset.y, portalPos.getZ() + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
 	}
 
 	return true;
@@ -100,6 +102,7 @@ public class DimensionalTeleporter extends Teleporter
     /**
      * Creates a simple portal
      */
+    @Override
     public boolean makePortal(Entity entity)
     {
         int i = MathHelper.floor(entity.posX);
@@ -113,12 +116,12 @@ public class DimensionalTeleporter extends Teleporter
         }
                 
         // Clear the area of air blocks
-        int size = 4;
-        for(int x = i - size; x < i + size; x++)
+	int size = 3;
+	for (int x = i - size; x < i + size + 1; x++)
         {
-            for(int z = k - size; z < k + size; z++)
+	    for (int z = k - size; z < k + size + 1; z++)
             {
-        	for(int y = j; y < j + 2; y++)
+		for (int y = j; y < j + 4; y++)
                 {
                     world.setBlockToAir(new BlockPos(x, y, z));            	
                 }
@@ -126,18 +129,18 @@ public class DimensionalTeleporter extends Teleporter
         }
         
         // Add the portal blocks
-        for(int x = i - size; x < i + size; x++)
+	for (int x = i - size; x < i + size + 1; x++)
         {
-            for(int z = k - size; z < k + size; z++)
+	    for (int z = k - size; z < k + size + 1; z++)
             {
         	world.setBlockState(new BlockPos(x, j, z), rimBlock.getDefaultState());
             }   
         }
         
         int size2 = size - 1;
-        for(int x = i - size2; x < i + size2; x++)
+	for (int x = i - size2; x < i + size2 + 1; x++)
         {
-            for(int z = k - size2; z < k + size2; z++)
+	    for (int z = k - size2; z < k + size2 + 1; z++)
             {
         	world.setBlockState(new BlockPos(x, j + 1, z), rimBlock.getDefaultState());
         	world.setBlockState(new BlockPos(x, j - 1, z), rimBlock.getDefaultState());
@@ -145,9 +148,9 @@ public class DimensionalTeleporter extends Teleporter
         }
         
         int size3 = size2 - 1;
-        for(int x = i - size3; x < i + size3; x++)
+	for (int x = i - size3; x < i + size3 + 1; x++)
         {
-            for(int z = k - size3; z < k + size3; z++)
+	    for (int z = k - size3; z < k + size3 + 1; z++)
             {
         	world.setBlockState(new BlockPos(x, j + 1, z), portalBlock.getDefaultState());
             }

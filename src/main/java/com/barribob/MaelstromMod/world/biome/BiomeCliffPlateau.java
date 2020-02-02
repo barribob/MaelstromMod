@@ -2,16 +2,19 @@ package com.barribob.MaelstromMod.world.biome;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
+import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModBlocks;
+import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
+import com.barribob.MaelstromMod.world.gen.WorldGenMaelstrom;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +23,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenSavannaTree;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -37,16 +42,28 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
 
 	this.decorator.treesPerChunk = 1;
 	this.decorator.grassPerChunk = 3;
-	this.decorator.flowersPerChunk = 1;
-	this.decorator.deadBushPerChunk = 1;
+	this.decorator.flowersPerChunk = -999;
+	this.decorator.deadBushPerChunk = 4;
 	this.decorator.sandPatchesPerChunk = 0;
 	this.decorator.gravelPatchesPerChunk = 0;
 
 	this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntitySheep.class, 12, 4, 4));
-	this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityPig.class, 10, 4, 4));
-	this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityChicken.class, 10, 4, 4));
-	this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityCow.class, 8, 4, 4));
 	this.spawnableCaveCreatureList.add(new Biome.SpawnListEntry(EntityBat.class, 10, 8, 8));
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getGrassColorAtPos(BlockPos pos)
+    {
+	double d0 = GRASS_COLOR_NOISE.getValue(pos.getX() * 0.0225D, pos.getZ() * 0.0225D);
+	return d0 < -0.1D ? 4671303 : 4665927;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getFoliageColorAtPos(BlockPos pos)
+    {
+	return 4671303;
     }
 
     @Override
@@ -56,18 +73,26 @@ public class BiomeCliffPlateau extends BiomeDifferentStone
     }
 
     @Override
-    public void decorate(World worldIn, Random rand, BlockPos pos)
+    public void decorate(World world, Random rand, BlockPos pos)
     {
-	DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
-
-	for (int i = 0; i < 7; ++i)
+	WorldGenMaelstrom worldgenmaelstrom = new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.CLIFF_MAELSTROM_CORE,
+		(tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+			new MobSpawnData[] {
+				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
+				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.NONE, Element.GOLDEN }, new int[] { 4, 1 }, 1),
+			},
+			new int[] { 1, 1 },
+			3,
+			LevelHandler.CLIFF_OVERWORLD,
+			16));
+	if (rand.nextInt(5) == 0)
 	{
-	    int j = rand.nextInt(16) + 8;
-	    int k = rand.nextInt(16) + 8;
-	    int l = rand.nextInt(worldIn.getHeight(pos.add(j, 0, k)).getY() + 32);
-	    DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j, l, k));
+	    int x1 = rand.nextInt(8) + 16;
+	    int y = 256;
+	    int z1 = rand.nextInt(8) + 16;
+	    worldgenmaelstrom.generate(world, rand, pos.add(x1, y, z1));
 	}
-	super.decorate(worldIn, rand, pos);
+	super.decorate(world, rand, pos);
     }
 
     @Override

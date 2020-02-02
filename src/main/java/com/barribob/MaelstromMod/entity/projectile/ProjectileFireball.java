@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class ProjectileFireball extends ProjectileGun
 {
     private static final int PARTICLE_AMOUNT = 15;
-    private static final int IMPACT_PARTICLE_AMOUNT = 10;
+    private static final int IMPACT_PARTICLE_AMOUNT = 30;
     private static final int EXPOSION_AREA_FACTOR = 4;
     public static final Vec3d FIREBALL_COLOR = new Vec3d(1.0, 0.6, 0.5);
 
@@ -49,27 +49,21 @@ public class ProjectileFireball extends ProjectileGun
 	float size = 0.25f;
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnEffect(this.world,
-		    new Vec3d(this.posX, this.posY, this.posZ).add(new Vec3d(ModRandom.getFloat(size), ModRandom.getFloat(size), ModRandom.getFloat(size))), FIREBALL_COLOR);
+	    ParticleManager.spawnCustomSmoke(this.world,
+		    new Vec3d(this.posX, this.posY, this.posZ).add(new Vec3d(ModRandom.getFloat(size), ModRandom.getFloat(size), ModRandom.getFloat(size))),
+		    FIREBALL_COLOR,
+		    ModUtils.yVec(0.1f));
 	}
     }
 
     @Override
     protected void spawnImpactParticles()
     {
-	int sectors = 60;
-	int degreesPerSector = 360 / sectors;
-	Vec3d pos = new Vec3d(this.posX, this.posY, this.posZ);
-	float particleVel = 0.30f;
-	for (int i = 0; i < sectors; i++)
-	{
-	    Vec3d circleX = new Vec3d(Math.cos(i * degreesPerSector), Math.sin(i * degreesPerSector), 0);
-	    Vec3d circleY = new Vec3d(0, Math.sin(i * degreesPerSector), Math.cos(i * degreesPerSector));
-	    Vec3d circleZ = new Vec3d(Math.cos(i * degreesPerSector), 0, Math.sin(i * degreesPerSector));
-	    ParticleManager.spawnFirework(this.world, pos.add(circleX), FIREBALL_COLOR, circleX.normalize().scale(particleVel));
-	    ParticleManager.spawnFirework(this.world, pos.add(circleY), FIREBALL_COLOR, circleY.normalize().scale(particleVel));
-	    ParticleManager.spawnFirework(this.world, pos.add(circleZ), FIREBALL_COLOR, circleZ.normalize().scale(particleVel));
-	}
+	ModUtils.circleCallback(EXPOSION_AREA_FACTOR, 40, (pos) -> {
+	    ParticleManager.spawnEffect(world, getPositionVector().add(pos), FIREBALL_COLOR);
+	    ParticleManager.spawnEffect(world, getPositionVector().add(new Vec3d(pos.x, 0, pos.y)), FIREBALL_COLOR);
+	    ParticleManager.spawnEffect(world, getPositionVector().add(new Vec3d(0, pos.x, pos.y)), FIREBALL_COLOR);
+	});
 
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{

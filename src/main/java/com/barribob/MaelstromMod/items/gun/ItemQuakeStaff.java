@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
 import com.barribob.MaelstromMod.util.ModUtils;
 
@@ -18,11 +19,16 @@ import net.minecraft.world.World;
  * A short range quake attack
  *
  */
-public class ItemQuakeStaff extends ItemGun
+public class ItemQuakeStaff extends ItemStaff
 {
     public ItemQuakeStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 6, maxDamage, null, level, tab);
+	super(name, 4, cooldown, maxDamage, level, tab);
+    }
+
+    public float getBaseDamage()
+    {
+	return 6 * ModConfig.balance.weapon_damage;
     }
 
     @Override
@@ -35,23 +41,25 @@ public class ItemQuakeStaff extends ItemGun
 	// Shoots projectiles in a small arc
 	for (int i = 0; i < 5; i++)
 	{
-	    ProjectileQuake projectile = new ProjectileQuake(world, player, this.getEnchantedDamage(stack), stack);
+	    ProjectileQuake projectile = new ProjectileQuake(world, player, ModUtils.getEnchantedDamage(stack, getLevel(), getBaseDamage()), stack);
 	    projectile.setPosition(player.posX, player.posY, player.posZ);
 	    projectile.shoot(player, pitch, player.rotationYaw - 20 + (i * 10), 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(8f);
 	    world.spawnEntity(projectile);
 	}
     }
-
-    @Override
-    protected void spawnShootParticles(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
-    }
     
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         super.addInformation(stack, worldIn, tooltip, flagIn);
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage())));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("quake_staff"));
+    }
+
+    @Override
+    public boolean doesDamage()
+    {
+	return true;
     }
 }

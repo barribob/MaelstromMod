@@ -32,7 +32,7 @@ public class ActionSpinSlash extends Action
     {
 	List<EntityLivingBase> entities = ModUtils.getEntitiesInBox(actor, actor.getEntityBoundingBox().grow(size, 0.5f, size));
 
-	Consumer<EntityLivingBase> attack = e -> e.attackEntityFrom(ModDamageSource.causeMaelstromMeleeDamage(actor), actor.getAttack());
+	Consumer<EntityLivingBase> attack = e -> e.attackEntityFrom(ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), actor.getAttack());
 
 	if (entities != null)
 	{

@@ -20,7 +20,7 @@ public class ItemPumpkin extends ItemGun
 {
     public ItemPumpkin(String name, int cooldown, float useTime, Item ammo, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 0.5f, useTime, ammo, level, tab);
+	super(name, cooldown, 0.5f, useTime, level, tab);
     }
 
     /**
@@ -53,7 +53,6 @@ public class ItemPumpkin extends ItemGun
     @Override
     protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("deals") + " " + TextFormatting.BLUE + df.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY + " "
-		+ ModUtils.translateDesc("damage_per_meter"));
+	tooltip.add(ModUtils.translateDesc("damage_per_meter_tooltip", TextFormatting.BLUE + ModUtils.DF_0.format(this.getEnchantedDamage(stack)) + TextFormatting.GRAY));
     }
 }

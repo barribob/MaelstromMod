@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "mm:golden_maelstrom_fragment",
+        "data": 0
+      }
+    ]
+  },
+  "result": {
+    "item": "mm:golden_maelstrom_core"
+  }
+}

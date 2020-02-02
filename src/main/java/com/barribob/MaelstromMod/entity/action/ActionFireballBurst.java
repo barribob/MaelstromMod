@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.entity.action;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePillarFlames;
 import com.barribob.MaelstromMod.util.ModRandom;
 
@@ -37,7 +36,7 @@ public class ActionFireballBurst extends Action
 	// Spawn one aimed at the player
 	ProjectilePillarFlames projectile = new ProjectilePillarFlames(actor.world, actor, actor.getAttack());
 	projectile.setPosition(projectile.posX, actor.posY + (actor.getEyeHeight() * 0.5f), projectile.posZ);
-	double d0 = target.posY + (double) target.getEyeHeight() - 1;
+	double d0 = target.posY + target.getEyeHeight() - 1;
 	double xDir = target.posX - actor.posX;
 	double yDir = d0 - projectile.posY;
 	double zDir = target.posZ - actor.posZ;

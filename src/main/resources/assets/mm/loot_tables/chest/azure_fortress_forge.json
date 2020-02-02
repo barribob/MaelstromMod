@@ -1,0 +1,20 @@
+{
+    "pools": [
+        {
+            "name": "azure_fortress",
+            "rolls": 2,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/minecraft_ores",
+                    "weight": 2
+                },
+                {
+                    "type": "loot_table",
+                    "name": "mm:util/level_1_loot",
+                    "weight": 2
+                }
+            ]
+        }
+    ]
+}

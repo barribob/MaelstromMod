@@ -10,6 +10,12 @@ import com.barribob.MaelstromMod.config.ModConfig;
  */
 public class LevelHandler
 {   
+    public static final float INVASION = 0.0f;
+    public static final float AZURE_OVERWORLD = 1.0f;
+    public static final float AZURE_ENDGAME = 2.0f;
+    public static final float CLIFF_OVERWORLD = 3.0f;
+    public static final float CLIFF_ENDGAME = 4.0f;
+
     /**
      * Calculates the armor by using the progression level as a base and the level
      * as the negative exponent.
@@ -22,24 +28,13 @@ public class LevelHandler
     {
 	return (float) Math.pow(ModConfig.balance.progression_scale, -level);
     }
-
-    /**
-     * Get the maximum damage reduction a completely enchanted armor set can have
-     * 
-     * For example, a progression scale of 2 would at max half incoming damage, and
-     * a progression scale of 1.5 would reduce incoming damage by ~33%
-     */
-    public static float getMaxMaelstromProtection()
-    {
-	return 1 - (float) Math.pow(ModConfig.balance.progression_scale, -1);
-    }
     
     /**
-     * returns a simple multiplicative modifier based on the level
-     * Starts at level 1 (returns a multiplier of 1)
+     * returns a simple multiplicative modifier based on the level Starts at level 0
+     * (returns a multiplier of 1)
      */
     public static float getMultiplierFromLevel(float level)
     {
-	return (float) Math.pow(ModConfig.balance.progression_scale, level - 1);
+	return (float) Math.pow(ModConfig.balance.progression_scale, level);
     }
 }

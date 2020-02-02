@@ -40,6 +40,7 @@ public class MapGenGoldenRuins extends MapGenModStructure
     public static class Start extends StructureStart
     {
 	ChunkGeneratorCliff provider;
+
 	public Start()
 	{
 	}
@@ -54,16 +55,33 @@ public class MapGenGoldenRuins extends MapGenModStructure
 	private void create(World worldIn, Random rnd, int chunkX, int chunkZ)
 	{
 	    Random random = new Random(chunkX + chunkZ * 10387313);
-	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-	    int mod = (ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS + ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) * 2;
-	    boolean isXEven = ((((chunkX - ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) / ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS) % 2) & 1) == 0;
-	    boolean isZEven = ((((chunkZ - ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) / ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS) % 2) & 1) == 0;
-	    int y = isXEven ^ isZEven ? 135 : 170;
+	    int rand = random.nextInt(Rotation.values().length);
 
-	    BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
-	    GoldenRuins stronghold = new GoldenRuins(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), provider, components);
-	    stronghold.startStronghold(blockpos, Rotation.NONE);
-	    this.updateBoundingBox();
+	    for (int i = 0; i < 4; i++)
+	    {
+		components.clear();
+		Rotation rotation = Rotation.values()[(rand + i) % Rotation.values().length];
+		int mod = (ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS + ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) * 2;
+		boolean isXEven = ((((chunkX - ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) / ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS) % 2) & 1) == 0;
+		boolean isZEven = ((((chunkZ - ChunkGeneratorCliff.GOLDEN_RUINS_NUMBER) / ChunkGeneratorCliff.STRUCTURE_SPACING_CHUNKS) % 2) & 1) == 0;
+		int y = isXEven ^ isZEven ? 135 : 170;
+
+		BlockPos blockpos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
+		GoldenRuins stronghold = new GoldenRuins(worldIn, worldIn.getSaveHandler().getStructureTemplateManager(), provider, components);
+		stronghold.startStronghold(blockpos, rotation);
+		this.updateBoundingBox();
+
+		if (this.isSizeableStructure())
+		{
+		    break;
+		}
+	    }
+	}
+
+	@Override
+	public boolean isSizeableStructure()
+	{
+	    return components.size() > 4;
 	}
     }
 }

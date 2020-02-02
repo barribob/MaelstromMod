@@ -1,27 +1,11 @@
 package com.barribob.MaelstromMod.entity.tileentity;
 
-import java.util.List;
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedSpawnerEntity;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 
 /**
  * 
@@ -46,10 +30,11 @@ public class MaelstromMobSpawnerLogic extends MobSpawnerLogic
     private boolean isActivated()
     {
 	BlockPos blockpos = this.pos.get();
-	return this.world.get().isAnyPlayerWithinRangeAt((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D,
-		(double) this.activatingRangeFromPlayer);
+	return this.world.get().isAnyPlayerWithinRangeAt(blockpos.getX() + 0.5D, blockpos.getY() + 0.5D, blockpos.getZ() + 0.5D,
+		this.activatingRangeFromPlayer);
     }
 
+    @Override
     public void updateSpawner()
     {
 	// Currently does not deal with any server stuff, although this might be a
@@ -70,7 +55,7 @@ public class MaelstromMobSpawnerLogic extends MobSpawnerLogic
 	    return;
 	}
 
-	for (int i = 0; i < this.spawnCount; i++)
+	while (this.count < this.maxCount)
 	{
 	    // Try multiple times to spawn the entity in a good spot
 	    int tries = 20;
@@ -79,6 +64,10 @@ public class MaelstromMobSpawnerLogic extends MobSpawnerLogic
 		if(this.tryToSpawnEntity())
 		{
 		    break;
+		}
+		else if (t == tries - 1)
+		{
+		    this.count++;
 		}
 	    }
 	}
@@ -101,14 +90,12 @@ public class MaelstromMobSpawnerLogic extends MobSpawnerLogic
 	    this.spawnDelay = this.minSpawnDelay + this.world.get().rand.nextInt(i);
 	}
 
-	if (!this.potentialSpawns.isEmpty())
-	{
-	    this.setNextSpawnData((WeightedSpawnerEntity) WeightedRandom.getRandomItem(this.world.get().rand, this.potentialSpawns));
-	}
+	this.count = 0;
 
 	this.broadcastEvent(1);
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
 	if (nbt.hasKey("MinSpawnDelay", 99))
@@ -119,9 +106,10 @@ public class MaelstromMobSpawnerLogic extends MobSpawnerLogic
 	super.readFromNBT(nbt);
     }
 
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
-	if(this.getEntityId() != null)
+	if(this.getEntityData() != null)
 	{
 	    compound.setShort("MinSpawnDelay", (short) this.minSpawnDelay);
 	    compound.setShort("MaxSpawnDelay", (short) this.maxSpawnDelay);

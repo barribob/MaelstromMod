@@ -16,11 +16,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemSpeedStaff extends ItemGun
+public class ItemSpeedStaff extends ItemStaff
 {
-    public ItemSpeedStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
+    public ItemSpeedStaff(String name, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 0, maxDamage, null, level, tab);
+	super(name, 20, 220, maxDamage, level, tab);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ItemSpeedStaff extends ItemGun
 	world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 0.5F,
 		0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-	player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 120, 2));
+	player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 180, 2));
     }
 
     @Override
@@ -37,10 +37,5 @@ public class ItemSpeedStaff extends ItemGun
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("speed_staff"));
-    }
-
-    @Override
-    protected void spawnShootParticles(World worldIn, EntityPlayer player, EnumHand handIn)
-    {
     }
 }

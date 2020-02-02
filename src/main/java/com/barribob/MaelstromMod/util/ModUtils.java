@@ -1,7 +1,8 @@
 package com.barribob.MaelstromMod.util;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -9,42 +10,80 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.init.ModEnchantments;
-import com.barribob.MaelstromMod.items.tools.ToolSword;
-import com.google.common.collect.Multimap;
+import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
+import com.barribob.MaelstromMod.packets.MessageModParticles;
+import com.barribob.MaelstromMod.particle.EnumModParticles;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.storage.MapStorage;
 
 public final class ModUtils
 {
+    public static char AZURE_SYMBOL = '\u03A6';
+    public static char GOLDEN_SYMBOL = '\u03A9';
+    public static char CRIMSON_SYMBOL = '\u03A3';
+
     public static byte PARTICLE_BYTE = 12;
     public static byte SECOND_PARTICLE_BYTE = 14;
     public static byte THIRD_PARTICLE_BYTE = 15;
+    public static byte FOURTH_PARTICLE_BYTE = 16;
     public static final String LANG_DESC = Reference.MOD_ID + ".desc.";
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
+    public static final DecimalFormat DF_0 = new DecimalFormat("0.0");
+    public static final DecimalFormat ROUND = new DecimalFormat("0");
+    public static final ResourceLocation PARTICLE = new ResourceLocation(Reference.MOD_ID + ":textures/particle/particles.png");
 
-    public static String translateDesc(String key)
+    static
     {
-	return I18n.format(ModUtils.LANG_DESC + key);
+	DF_0.setRoundingMode(RoundingMode.HALF_EVEN);
+	ROUND.setRoundingMode(RoundingMode.HALF_EVEN);
+    }
+
+    public static Consumer<String> getPlayerAreaMessager(Entity entity)
+    {
+	return (message) -> {
+	    if (message != "")
+	    {
+		for (EntityPlayer player : entity.world.getPlayers(EntityPlayer.class, (p) -> p.getDistanceSq(entity) < 100))
+		{
+		    player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + entity.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE)
+			    .appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + message)));
+		}
+	    }
+	};
+    }
+
+    public static String translateDesc(String key, Object... params)
+    {
+	return I18n.format(ModUtils.LANG_DESC + key, params);
     }
 
     public static String translateDialog(String key)
@@ -54,24 +93,14 @@ public final class ModUtils
 
     public static String getDisplayLevel(float level)
     {
-	return TextFormatting.GRAY + ModUtils.translateDesc("level") + ": " + TextFormatting.DARK_PURPLE + Math.round(level * 2 - 1);
+	return ModUtils.translateDesc("level", "" + TextFormatting.DARK_PURPLE + Math.round(level));
     }
 
-    public static double getSwordEnchantmentDamage(ItemStack stack)
+    public static String getElementalTooltip(Element element)
     {
-	int power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.sharpness_2, stack);
-	float maxPower = ModEnchantments.sharpness_2.getMaxLevel();
-	Multimap<String, AttributeModifier> multimap = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-	for (Entry<String, AttributeModifier> entry : multimap.entries())
-	{
-	    AttributeModifier attributemodifier = entry.getValue();
-	    if (attributemodifier.getID() == ToolSword.getAttackDamageModifier())
-	    {
-		double multiplier = ((power / maxPower) * (ModConfig.balance.progression_scale - 1));
-		return attributemodifier.getAmount() * multiplier;
-	    }
-	}
-	return 0;
+	return ModUtils.translateDesc("elemental_damage_desc",
+		"x" + ModUtils.DF_0.format(ModConfig.balance.elemental_factor),
+		element.textColor + element.symbol + TextFormatting.GRAY);
     }
 
     /**
@@ -189,25 +218,44 @@ public final class ModUtils
 	{
 	    return;
 	}
-	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(new BlockPos(pos), new BlockPos(pos)).grow(radius));
+	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
 	if (list != null)
 	{
 	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
 	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
+	    double radiusSq = Math.pow(radius, 2);
 
 	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
+
+		// Get the hitbox size of the entity because otherwise explosions are less
+		// effective against larger mobs
 		double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
-		double radiusSq = Math.pow(radius + avgEntitySize, 2);
-		double distanceFromExplosion = (float) getCenter(entity.getEntityBoundingBox()).squareDistanceTo(pos);
-		double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - distanceFromExplosion) / radiusSq)) : 1;
-		double damage = maxDamage.apply(entity) * damageFactor;
-		if (damage > 0 && distanceFromExplosion < radiusSq)
+
+		// Choose the closest distance from the center or the head to encourage
+		// headshots
+		double distance = Math.min(Math.min(getCenter(entity.getEntityBoundingBox()).distanceTo(pos),
+			entity.getPositionVector().add(ModUtils.yVec(entity.getEyeHeight())).distanceTo(pos)),
+			entity.getPositionVector().distanceTo(pos));
+
+		// Subtracting the average size makes it so that the full damage can be dealt
+		// with a direct hit
+		double adjustedDistance = Math.max(distance - avgEntitySize, 0);
+		double adjustedDistanceSq = Math.pow(adjustedDistance, 2);
+		double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - adjustedDistanceSq) / radiusSq)) : 1;
+
+		// Damage decays by the square to make missed impacts less powerful
+		double damageFactorSq = Math.pow(damageFactor, 2);
+		double damage = maxDamage.apply(entity) * damageFactorSq;
+		if (damage > 0 && adjustedDistanceSq < radiusSq)
 		{
-		    entity.setFire(fireFactor);
+		    entity.setFire((int) (fireFactor * damageFactorSq));
 		    entity.attackEntityFrom(damageSource, (float) damage);
 		    double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
-		    Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactor).scale(knockbackFactor).scale(entitySizeFactor);
+		    double entitySizeFactorSq = Math.pow(entitySizeFactor, 2);
+
+		    // Velocity depends on the entity's size and the damage dealt squared
+		    Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactorSq).scale(knockbackFactor).scale(entitySizeFactorSq);
 		    entity.addVelocity(velocity.x, velocity.y, velocity.z);
 		}
 	    });
@@ -310,5 +358,192 @@ public final class ModUtils
 	    entity.fallDistance = 0.0F; // otherwise I believe it adds up, which may surprise you when you come down
 	    entity.onGround = true;
 	}
+    }
+
+    /**
+     * The function that calculates the mob damage for any leveled mob
+     * 
+     * @param baseAttackDamage
+     * @param level
+     * @return
+     */
+    public static float getMobDamage(double baseAttackDamage, double healthScaledAttackFactor, float maxHealth, float health, float level, Element element)
+    {
+	double leveledAttack = baseAttackDamage * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.mob_damage;
+	double healthScaledAttack = leveledAttack * healthScaledAttackFactor * (((maxHealth * 0.5) - health) / maxHealth);
+	double elementalScale = element != Element.NONE ? ModConfig.balance.elemental_factor : 1;
+	return (float) ((healthScaledAttack + leveledAttack) * elementalScale);
+    }
+
+    /**
+     * Determine if a >= v < b
+     * 
+     * @param a
+     * @param b
+     * @param v
+     * @return
+     */
+    public static boolean isBetween(int a, int b, int v)
+    {
+	if (a > b)
+	{
+	    int t = a;
+	    a = b;
+	    b = t;
+	}
+	return v >= a && v < b;
+    }
+
+    public static int calculateGenerationHeight(World world, int x, int z)
+    {
+	return world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();
+    }
+
+    /**
+     * Returns -1 if the variation is too much
+     */
+    public static int getAverageGroundHeight(World world, int x, int z, int sizeX, int sizeZ, int maxVariation)
+    {
+	sizeX = x + sizeX;
+	sizeZ = z + sizeZ;
+	int corner1 = calculateGenerationHeight(world, x, z);
+	int corner2 = calculateGenerationHeight(world, sizeX, z);
+	int corner3 = calculateGenerationHeight(world, x, sizeZ);
+	int corner4 = calculateGenerationHeight(world, sizeX, sizeZ);
+
+	int max = Math.max(Math.max(corner3, corner4), Math.max(corner1, corner2));
+	int min = Math.min(Math.min(corner3, corner4), Math.min(corner1, corner2));
+	if (max - min > maxVariation)
+	{
+	    return -1;
+	}
+	return min;
+    }
+
+    public static String getDamageTooltip(float damage)
+    {
+	return ModUtils.translateDesc("damage_tooltip", "" + TextFormatting.BLUE + DF_0.format(damage) + TextFormatting.GRAY);
+    }
+
+    public static String getCooldownTooltip(float cooldown)
+    {
+	return ModUtils.translateDesc("gun_reload_time", TextFormatting.BLUE + "" + DF_0.format(cooldown * 0.05) + TextFormatting.GRAY);
+    }
+
+    public static float getEnchantedDamage(ItemStack stack, float level, float damage)
+    {
+	float maxPower = ModEnchantments.gun_power.getMaxLevel();
+	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
+	float maxDamageBonus = (float) Math.pow(ModConfig.balance.progression_scale, 2); // Maximum damage is two levels above
+	float enchantmentBonus = 1 + ((power / maxPower) * (maxDamageBonus - 1));
+	return damage * enchantmentBonus * LevelHandler.getMultiplierFromLevel(level);
+    }
+
+    public static int getGunAmmoUse(float level)
+    {
+	return Math.round(LevelHandler.getMultiplierFromLevel(level));
+    }
+
+    public static InvasionWorldSaveData getInvasionData(World world)
+    {
+	MapStorage storage = world.getMapStorage();
+	InvasionWorldSaveData instance = (InvasionWorldSaveData) storage.getOrLoadData(InvasionWorldSaveData.class, InvasionWorldSaveData.DATA_NAME);
+
+	if (instance == null)
+	{
+	    instance = new InvasionWorldSaveData();
+	    storage.setData(InvasionWorldSaveData.DATA_NAME, instance);
+	}
+	return instance;
+    }
+
+    public static float calculateElementalDamage(Element mobElement, Element damageElement, float amount)
+    {
+	if (mobElement.matchesElement(damageElement))
+	{
+	    return amount * 1.5f;
+	}
+	return amount;
+    }
+
+    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity)
+    {
+	doSweepAttack(player, target, element, perEntity, 9, 1);
+    }
+
+    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity, float maxDistanceSq, float areaSize)
+    {
+	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
+
+	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(areaSize, 0.25D, areaSize)))
+	{
+	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
+	    {
+		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F), (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+		entitylivingbase.attackEntityFrom(ModDamageSource.causeElementalPlayerDamage(player, element), sweepDamage);
+		perEntity.accept(entitylivingbase);
+	    }
+	}
+
+	player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 0.9F);
+
+	// Spawn colored sweep particles
+	if (!player.world.isRemote)
+	{
+	    double d0 = (-MathHelper.sin(player.rotationYaw * 0.017453292F));
+	    double d1 = MathHelper.cos(player.rotationYaw * 0.017453292F);
+	    Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, (float) (player.posX + d0), (float) (player.posY + player.height * 0.5D),
+		    (float) (player.posZ + d1), (float) d0, 0.0f, (float) d1, (float) element.sweepColor.x, (float) element.sweepColor.y, (float) element.sweepColor.z),
+		    (EntityPlayerMP) player);
+	}
+
+	Entity particle = new ParticleSpawnerSwordSwing(player.world);
+	particle.copyLocationAndAnglesFrom(target);
+	player.world.spawnEntity(particle);
+    }
+
+    /**
+     * Provides multiple points in a circle via a callback
+     * 
+     * @param radius
+     *            The radius of the circle
+     * @param points
+     *            The number of points around the circle
+     * @param particleSpawner
+     */
+    public static void circleCallback(float radius, int points, Consumer<Vec3d> particleSpawner)
+    {
+	float degrees = 360f / points;
+	for (int i = 0; i < points; i++)
+	{
+	    double radians = Math.toRadians(i * degrees);
+	    Vec3d offset = new Vec3d(Math.sin(radians), Math.cos(radians), 0).scale(radius);
+	    particleSpawner.accept(offset);
+	}
+    }
+
+    /*
+     * Does the elemental and leveled calculations for damage
+     */
+    public static float getArmoredDamage(DamageSource source, float amount, float level, Element element)
+    {
+	amount *= ModConfig.balance.mob_armor;
+
+	if (!source.isUnblockable())
+	{
+	    if (element != element.NONE)
+	    {
+		amount /= ModConfig.balance.elemental_factor;
+	    }
+	    amount = amount * LevelHandler.getArmorFromLevel(level);
+	}
+
+	if (source instanceof IElement)
+	{
+	    amount = ModUtils.calculateElementalDamage(element, ((IElement) source).getElement(), amount);
+	}
+
+	return amount;
     }
 }

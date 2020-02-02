@@ -1,0 +1,97 @@
+Update 0.3.2: Polishing The Mod
+
+Bug Fixes:
+Sapling items 2D
+Fix melee not doing full damage against large mobs
+Removed lighting errors with generated structure
+Make hitboxes larger for most mobs
+Jumping between dimensions no longer has a random time lag
+Fixed herobrine eye glitching
+
+Improvements and Additions:
+Improve the Fracture with more beautiful generation, multiple biomes
+Changed the top of Golden Canyon to contain more Maelstrom
+Added more ruins and features to the Golden Canyon
+Reworked herobrine's dialog and actions
+Added a mana bar for staves; the mana must be unlocked
+Added various tutorials and information about items in the Nexus
+Guns now require ammo cases instead of pellets
+Removed object that summons portal, and replaced with the invasion tower and Monolith boss fight
+Added a simple elemental system with elemental mobs, weapons, and armor
+All items have been rebalanced from the ground up
+Added Goltox armor set, and renamed many new armor sets
+Added a handful of custom particles to spice up the visuals
+Added maelstrom lancer
+Organized creative tabs
+Removed maelstrom protection and sharpness
+Fixed pathfind where mobs easily are left off drops
+Improved animations and attacks for maelstrom goons (scouts, mages, and lancers)
+Golden pillar attack is more readable
+
+Update 0.3.1: Finished Golden Valley Dimension
+
+Bug Fixes:
+Fixed sword sweep particles for server-side
+Fixed bug where ranged ai gets reset when the entity is damaged
+Improved explosion mechanic to deal less damage with distance
+Fixed a sound issue with the Statue of Nirvana
+Downsized golden ruins by about 25%
+Fixed rare bug where golden ruins are cut off by stone
+Golden Pillar should no longer move
+Fixed bullets jiggling with guns
+Fixed bug where extended reach swords couldn't break blocks
+Fixed bug where sometimes using the teleportation gates in the nexus failed
+
+Improvements and Additions:
+Animations for various mobs are smoother
+Improved maelstrom stronghold
+Improved the Maelstrom Illager boss fight
+Replaced the Maelstrom Beast boss with the Maelstrom Minotaur
+Improved the Cliff dimension's aesthetics (It looks better)
+Added a new miniboss to the Azure Dimension: The Shade of Execution
+Added a new mob to the Cliff Dimension: The Cliff Fly
+Guns now have 3D models
+Key blocks have 3D models.
+Holding the key in hand will show which key block the key belongs to
+The maelstrom armor bar is now animated
+Added Herobrine appearing when unlocking the Golden Valley
+Added a handful of items
+
+Update 0.3: Added the Golden Valley Dimension
+Basic generation completed with multiple mobs, ruins, dungeons, and progression to the next planned dimension
+Fixed bug where teleporting to the Nexus could fail
+Rebalanced and rescaled many items
+The bosses of the fracture no longer drop full keys, but now drop key fragments
+Two new minibosses, and one boss (The Statue of Nirvana)
+Dungeon loot can now appear enchanted
+Added an alternate way to get into the Nexus dimension (Summon Nexus Island)
+The bricks in the Fracture Stronghold no longer are unbreakable
+
+Update 0.2: Completed the Nexus Dimension
+The Beast now drops maelstrom crystals
+The Nexus dimension is the first dimension and the connector to all of the other dimensions. This means that the Fracture can only be accessed through that dimension.
+The animations for the Fracture Golem, the Beast, and the Maelstrom Illager have been improved.
+Added a bunch of random weapons, armor, and other items to be traded in the Nexus Dimension
+Added Herobrine ;)
+Improved tooltips for guns and staves
+
+Update 0.11: Completed the Fracture Dimension
+New weapons including new guns, staves, and swords (including longswords and daggers)
+Enchantments for guns and staves
+Improved loot in chests
+Saplings for the trees
+Plums for the plum tree
+A Dimension teleport screen
+Custom fog and sky for the dimension
+A new progression scale and refactoring of maelstrom armor
+Improvement of the Mineshaft village
+A couple of new entities: Floating Skull, and Fracture Golem
+The Fracture Stronghold
+
+Release 0.1: Added the incomplete Fracture Dimension including:
+Most blocks related to terrain, trees, vines, wood, maelstrom blocks
+Chasms
+A Mineshaft village with custom NPCs
+A gigantic Maelstrom Fortress
+A bunch of mobs
+Some test armor and weapons (guns)

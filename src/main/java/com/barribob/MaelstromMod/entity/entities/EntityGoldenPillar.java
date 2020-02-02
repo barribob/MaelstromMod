@@ -30,16 +30,9 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     public EntityGoldenPillar(World worldIn)
     {
 	super(worldIn);
-	this.setSize(1.3f, 3.0f);
+	this.setSize(1.4f, 3.2f);
 	this.setNoGravity(true);
-	this.setLevel(2.5f);
-    }
-
-    @Override
-    public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch)
-    {
-	super.setLocationAndAngles(x, y, z, yaw, pitch);
-	this.isImmovable = true;
+	this.setImmovable(true);
     }
 
     @Override
@@ -92,7 +85,10 @@ public class EntityGoldenPillar extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-	currentAction.performAction(this, target);
+	if (!world.isRemote)
+	{
+	    currentAction.performAction(this, target);
+	}
     }
 
     @Override

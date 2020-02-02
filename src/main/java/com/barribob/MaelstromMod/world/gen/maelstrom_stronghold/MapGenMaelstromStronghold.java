@@ -21,11 +21,13 @@ public class MapGenMaelstromStronghold extends MapGenModStructure
 	super(spacing, offset, odds);
     }
 
+    @Override
     public String getStructureName()
     {
 	return "Maelstrom Stronghold";
     }
 
+    @Override
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
 	return new MapGenMaelstromStronghold.Start(this.world, this.rand, chunkX, chunkZ);
@@ -45,7 +47,7 @@ public class MapGenMaelstromStronghold extends MapGenModStructure
 
 	private void create(World worldIn, Random rnd, int chunkX, int chunkZ)
 	{
-	    Random random = new Random((long) (chunkX + chunkZ * 10387313));
+	    Random random = new Random(chunkX + chunkZ * 10387313);
 	    Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
 	    int y = 1;
 

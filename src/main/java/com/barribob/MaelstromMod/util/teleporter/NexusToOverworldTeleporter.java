@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
 
@@ -8,8 +7,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -22,7 +21,7 @@ import net.minecraft.world.WorldServer;
  */
 public class NexusToOverworldTeleporter extends Teleporter
 {
-    private static final int yPortalOffset = 139;
+    public static final int yPortalOffset = 139;
     private int spacing;
 
     public NexusToOverworldTeleporter(WorldServer worldIn)
@@ -35,6 +34,7 @@ public class NexusToOverworldTeleporter extends Teleporter
 	spacing = DimensionNexus.NexusStructureSpacing * 16;
     }
 
+    @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
 	if (!this.placeInExistingPortal(entityIn, rotationYaw))
@@ -47,12 +47,12 @@ public class NexusToOverworldTeleporter extends Teleporter
     /**
      * Finds an existing portal to teleport the player to
      */
+    @Override
     public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
 	int startX = MathHelper.floor(entityIn.posX / spacing) * spacing;
 	int startZ = MathHelper.floor(entityIn.posZ / spacing) * spacing;
-	long l = ChunkPos.asLong(startX, startZ);
-	BlockPos pos = new BlockPos(startX, yPortalOffset, startZ);
+	Vec3d entityOffset = new Vec3d(1.5, 1, -0.5);
 
 	/**
 	 * This is an algorithm that depends on the assumption that the create portal
@@ -67,11 +67,11 @@ public class NexusToOverworldTeleporter extends Teleporter
 		{
 		    if (entityIn instanceof EntityPlayerMP)
 		    {
-			((EntityPlayerMP) entityIn).connection.setPlayerLocation(x, yPortalOffset, z, entityIn.rotationYaw, entityIn.rotationPitch);
+			((EntityPlayerMP) entityIn).connection.setPlayerLocation(x + entityOffset.x, yPortalOffset + entityOffset.y, z + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
 		    }
 		    else
 		    {
-			entityIn.setLocationAndAngles(x, yPortalOffset, z, entityIn.rotationYaw, entityIn.rotationPitch);
+			entityIn.setLocationAndAngles(x + entityOffset.x, yPortalOffset + entityOffset.y, z + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
 		    }
 		    return true;
 		}
@@ -83,6 +83,7 @@ public class NexusToOverworldTeleporter extends Teleporter
     /**
      * Creates a simple portal
      */
+    @Override
     public boolean makePortal(Entity entity)
     {
 	int i = MathHelper.floor(entity.posX / spacing) * spacing;

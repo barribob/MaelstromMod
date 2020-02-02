@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import javax.annotation.Nullable;
 
+import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionFireball;
 import com.barribob.MaelstromMod.entity.action.ActionGroundSlash;
 import com.barribob.MaelstromMod.entity.action.ActionSpinSlash;
@@ -10,9 +11,11 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationFireballThrow;
 import com.barribob.MaelstromMod.entity.animation.AnimationHerobrineGroundSlash;
 import com.barribob.MaelstromMod.entity.animation.AnimationSpinSlash;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModItems;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -25,10 +28,10 @@ import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,9 +45,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/*
- * The first herobrine boss
- */
 public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttackMob
 {
     // Swinging arms is the animation for the attack
@@ -64,11 +64,23 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     public EntityHerobrineOne(World worldIn)
     {
 	super(worldIn);
+	this.healthScaledAttackFactor = 0.2;
+	this.setSize(0.8f, 2.0f);
 	if (!world.isRemote)
 	{
-	    attackHandler.addAttack(spinSlash, new ActionSpinSlash());
-	    attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())));
-	    attackHandler.addAttack(fireball, new ActionFireball());
+	    attackHandler.setAttack(spinSlash, new ActionSpinSlash());
+	    attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())));
+	    attackHandler.setAttack(fireball, new Action()
+	    {
+		@Override
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+		{
+		    actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 0.4F / (actor.world.rand.nextFloat() * 0.4F + 0.8F));
+
+		    ProjectileFireball projectile = new ProjectileFireball(actor.world, actor, actor.getAttack(), null);
+		    ModUtils.throwProjectile(actor, target, projectile, 2.0f, 0.5f, ModUtils.yVec(0.5f));
+		}
+	    });
 	}
     }
 
@@ -76,10 +88,10 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     @SideOnly(Side.CLIENT)
     protected void initAnimation()
     {
-	attackHandler.addAttack(spinSlash, new ActionSpinSlash(), () -> new AnimationSpinSlash());
-	attackHandler.addAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())),
+	attackHandler.setAttack(spinSlash, new ActionSpinSlash(), () -> new AnimationSpinSlash());
+	attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())),
 		() -> new AnimationHerobrineGroundSlash());
-	attackHandler.addAttack(fireball, new ActionFireball(), () -> new AnimationFireballThrow());
+	attackHandler.setAttack(fireball, new ActionFireball(), () -> new AnimationFireballThrow());
 	this.currentAnimation = new AnimationSpinSlash();
     }
 
@@ -89,7 +101,6 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttack<EntityHerobrineOne>(this, 1.0f, 40, 10.0f, 0.2f));
 	this.tasks.addTask(1, new EntityAISwimming(this));
-	this.tasks.addTask(2, new EntityAIRestrictSun(this));
 	this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
 	this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 	this.tasks.addTask(6, new EntityAILookIdle(this));
@@ -103,7 +114,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30);
     }
 
     @Override
@@ -117,6 +128,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	else if (source.getTrueSource() instanceof EntityLivingBase)
 	{
 	    new ActionTeleport().performAction(this, (EntityLivingBase) source.getTrueSource());
+	    this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F + ModRandom.getFloat(0.2f));
 	    this.setRevengeTarget((EntityLivingBase) source.getTrueSource());
 
 	    hits--;
@@ -130,6 +142,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
     {
 	world.setEntityState(this, this.deathParticleByte);
 	this.setPosition(0, 0, 0);
+	this.setDead();
 	super.onDeath(cause);
     }
 
@@ -180,6 +193,18 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    else
 	    {
 		attackHandler.setCurrentAttack(spinSlash);
+
+		if (this.getAttackTarget() != null)
+		{
+		    Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
+		    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
+		    this.motionX += leap.x;
+		    if (this.motionY < 0.1)
+		    {
+			this.motionY += leap.y;
+		    }
+		    this.motionZ += leap.z;
+		}
 	    }
 
 	    this.world.setEntityState(this, attackHandler.getCurrentAttack());
@@ -228,7 +253,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	{
 	    if (rand.nextInt(2) == 0)
 	    {
-		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(1.5f)).add(new Vec3d(0, 1, 0)));
+		ParticleManager.spawnEffect(world, ModUtils.entityPos(this).add(ModRandom.randVec().scale(1.5f)).add(new Vec3d(0, 1, 0)), ModColors.AZURE);
 	    }
 	}
 	else if (id == this.deathParticleByte)
@@ -236,8 +261,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    int particleAmount = 100;
 	    for (int i = 0; i < particleAmount; i++)
 	    {
-		ParticleManager.spawnDarkFlames(this.world, rand, ModUtils.entityPos(this).add(ModRandom.randVec().scale(2f)).add(new Vec3d(0, 1, 0)),
-			ModRandom.randVec().scale(0.5f));
+		ParticleManager.spawnEffect(this.world, ModUtils.entityPos(this).add(ModRandom.randVec().scale(2f)).add(new Vec3d(0, 1, 0)), ModColors.AZURE);
 	    }
 	}
 	else if (id == this.fireballParticleByte)
@@ -246,7 +270,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 	    for (int i = 0; i < fireballParticles; i++)
 	    {
 		Vec3d pos = new Vec3d(ModRandom.getFloat(0.5f), this.getEyeHeight() + 1.0f, ModRandom.getFloat(0.5f)).add(ModUtils.entityPos(this));
-		ParticleManager.spawnDarkFlames(world, rand, pos);
+		ParticleManager.spawnCustomSmoke(world, pos, ProjectileFireball.FIREBALL_COLOR, Vec3d.ZERO);
 	    }
 	}
 	else if (id == this.slashParticleByte)
@@ -258,7 +282,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
 		for (float sector = 0; sector < 360; sector += 10)
 		{
 		    Vec3d pos = new Vec3d(Math.cos(sector) * r, particleHeight, Math.sin(sector) * r).add(ModUtils.entityPos(this));
-		    ParticleManager.spawnDarkFlames(world, world.rand, pos);
+		    ParticleManager.spawnEffect(world, pos, ModColors.AZURE);
 		}
 	    }
 	}

@@ -1,7 +1,5 @@
 package com.barribob.MaelstromMod.entity.render;
 
-import com.barribob.MaelstromMod.init.ModItems;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -28,36 +26,39 @@ public class RenderProjectile<T extends Entity> extends Render<T>
 
     public RenderProjectile(RenderManager renderManagerIn, RenderItem itemRendererIn, Item item)
     {
-        super(renderManagerIn);
-        this.itemRenderer = itemRendererIn;
-        this.itemToRender = item;
+	super(renderManagerIn);
+	this.itemRenderer = itemRendererIn;
+	this.itemToRender = item;
     }
 
     /**
      * Renders the desired {@code T} type Entity.
      */
+    @Override
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x, (float)y, (float)z);
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate((float)(this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-        this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+	GlStateManager.pushMatrix();
+	GlStateManager.translate((float) x, (float) y, (float) z);
+	GlStateManager.enableRescaleNormal();
+	GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+	GlStateManager.rotate((this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+	GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+	this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        this.itemRenderer.renderItem(new ItemStack(this.itemToRender), ItemCameraTransforms.TransformType.GROUND);
-        
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.popMatrix();
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	this.itemRenderer.renderItem(new ItemStack(this.itemToRender), ItemCameraTransforms.TransformType.GROUND);
+
+	GlStateManager.disableRescaleNormal();
+	GlStateManager.popMatrix();
+	super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
-    
+
     /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     * Returns the location of an entity's texture. Doesn't seem to be called unless
+     * you call Render.bindEntityTexture.
      */
+    @Override
     protected ResourceLocation getEntityTexture(Entity entity)
     {
-        return TextureMap.LOCATION_BLOCKS_TEXTURE;
+	return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
 }

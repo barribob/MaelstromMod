@@ -1,17 +1,12 @@
 package com.barribob.MaelstromMod.packets;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
-import com.barribob.MaelstromMod.items.tools.ToolLongsword;
-import com.barribob.MaelstromMod.renderer.InputOverrides;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -80,7 +75,9 @@ public class MessageExtendedReachAttack implements IMessage
 
 			if (sword instanceof IExtendedReach)
 			{
-			    if (entity.getDistance(player) < ((IExtendedReach) sword).getReach())
+			    // Factor in the size of the entity's bounding box to handle issues with large
+			    // mobs
+			    if (entity.getDistance(player) < ((IExtendedReach) sword).getReach() + (entity.getEntityBoundingBox().getAverageEdgeLength() * 0.5f))
 			    {
 				player.attackTargetEntityWithCurrentItem(entity);
 			    }

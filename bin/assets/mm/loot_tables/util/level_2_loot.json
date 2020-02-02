@@ -6,15 +6,16 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "mm:swamp_helmet",
+                    "name": "mm:shadow_dagger",
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -22,15 +23,16 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:swamp_chestplate",
                     "weight": 1,
+                    "name": "mm:maelstrom_cannon",
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -38,15 +40,16 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:swamp_leggings",
                     "weight": 1,
+                    "name": "mm:will-o-the-wisp_staff",
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -54,15 +57,16 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:swamp_boots",
                     "weight": 1,
+                    "name": "mm:sword_of_shades",
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -70,15 +74,16 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:brownstone_sword",
                     "weight": 1,
+                    "name": "mm:maelstrom_battleaxe",
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -86,15 +91,16 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:brownstone_cannon",
+                    "name": "mm:beast_blade",
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -102,15 +108,16 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:meteor_staff",
+                    "name": "mm:maelstrom_helmet",
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
@@ -118,19 +125,59 @@
                 },
                 {
                     "type": "item",
-                    "name": "mm:ancient_battleaxe",
+                    "name": "mm:maelstrom_chestplate",
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "enchant_randomly",
+                            "function": "mm:enchant",
+                            "level": 2,
                             "conditions": [
                                 {
                                     "condition": "random_chance",
-                                    "chance": 0.5
+                                    "chance": 0.4
                                 }
                             ]
                         }
                     ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:maelstrom_leggings",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 2,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:maelstrom_boots",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "mm:enchant",
+                            "level": 2,
+                            "conditions": [
+                                {
+                                    "condition": "random_chance",
+                                    "chance": 0.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "mm:chasmium_ammo_case",
+                    "weight": 1
                 }
             ]
         }

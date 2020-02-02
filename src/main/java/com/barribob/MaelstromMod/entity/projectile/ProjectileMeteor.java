@@ -60,7 +60,7 @@ public class ProjectileMeteor extends ProjectileGun
 	    unit = unit.rotatePitch((float) (Math.PI * ModRandom.getFloat(1)));
 	    unit = unit.rotateYaw((float) (Math.PI * ModRandom.getFloat(1)));
 	    unit = unit.normalize().scale(this.EXPOSION_AREA_FACTOR);
-	    ParticleManager.spawnEffect(world, unit.add(getPositionVector()), ModColors.PURPLE);
+	    ParticleManager.spawnWisp(world, unit.add(getPositionVector()), ModColors.PURPLE, Vec3d.ZERO);
 	}
 	for (int i = 0; i < 100; i++)
 	{

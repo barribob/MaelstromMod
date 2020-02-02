@@ -38,7 +38,7 @@ public class ProjectilePillarFlames extends Projectile
     protected void onHit(RayTraceResult result)
     {
 	this.setFire(1);
-	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMaelstromMeleeDamage(this.shootingEntity));
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
 	super.onHit(result);
     }
 }

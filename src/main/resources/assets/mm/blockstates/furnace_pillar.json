@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "mm:furnace_pillar" },
+        "axis=z":   { "model": "mm:furnace_pillar", "x": 90 },
+        "axis=x":   { "model": "mm:furnace_pillar", "x": 90, "y": 90 },
+        "axis=none": { "model": "mm:furnace_block" }
+    }
+}

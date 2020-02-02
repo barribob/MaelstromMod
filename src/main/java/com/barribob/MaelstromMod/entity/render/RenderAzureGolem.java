@@ -5,13 +5,12 @@ import com.barribob.MaelstromMod.entity.model.ModelAzureGolem;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
 
 public class RenderAzureGolem extends RenderScaledMob<EntityLeveledMob>
 {
     public static final float AZURE_GOLEM_SIZE = 1.4f;
     
-    public RenderAzureGolem(RenderManager rendermanagerIn, ResourceLocation textures)
+    public RenderAzureGolem(RenderManager rendermanagerIn, String textures)
     {
 	super(rendermanagerIn, textures, new ModelAzureGolem(), AZURE_GOLEM_SIZE);
     }
@@ -21,7 +20,7 @@ public class RenderAzureGolem extends RenderScaledMob<EntityLeveledMob>
     {
 	super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
 
-	if ((double) entityLiving.limbSwingAmount >= 0.01D)
+	if (entityLiving.limbSwingAmount >= 0.01D)
 	{
 	    float f = 13.0F;
 	    float f1 = entityLiving.limbSwing - entityLiving.limbSwingAmount * (1.0F - partialTicks) + 6.0F;

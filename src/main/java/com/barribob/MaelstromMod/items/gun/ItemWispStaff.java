@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
 import com.barribob.MaelstromMod.util.ModUtils;
 
@@ -20,11 +21,16 @@ import net.minecraft.world.World;
  * A short range staff that burns enemies
  *
  */
-public class ItemWispStaff extends ItemGun
+public class ItemWispStaff extends ItemStaff
 {
     public ItemWispStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 5, maxDamage, null, level, tab);
+	super(name, 5, cooldown, maxDamage, level, tab);
+    }
+
+    public float getBaseDamage()
+    {
+	return 5 * ModConfig.balance.weapon_damage;
     }
 
     /**
@@ -39,7 +45,7 @@ public class ItemWispStaff extends ItemGun
 	float inaccuracy = 0.0f;
 	float speed = 1f;
 
-	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, this.getEnchantedDamage(stack), stack);
+	ProjectileWillOTheWisp projectile = new ProjectileWillOTheWisp(world, player, ModUtils.getEnchantedDamage(stack, getLevel(), getBaseDamage()), stack);
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, speed, inaccuracy);
 	projectile.setTravelRange(9f);
 
@@ -50,11 +56,13 @@ public class ItemWispStaff extends ItemGun
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
 	super.addInformation(stack, worldIn, tooltip, flagIn);
+	tooltip.add(ModUtils.getDamageTooltip(ModUtils.getEnchantedDamage(stack, this.getLevel(), getBaseDamage())));
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("wisp_staff"));
     }
 
     @Override
-    protected void spawnShootParticles(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public boolean doesDamage()
     {
+	return true;
     }
 }

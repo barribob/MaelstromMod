@@ -1,6 +1,11 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.packets.MessageModParticles;
+import com.barribob.MaelstromMod.particle.EnumModParticles;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
@@ -53,6 +58,18 @@ public class EntityGoldenRune extends Projectile
 	{
 	    this.onHit(null);
 	}
+
+	if (!world.isRemote && this.shootingEntity != null)
+	{
+	    float numParticles = 20;
+	    Vec3d dir = this.getPositionVector().subtract(this.shootingEntity.getPositionVector()).scale(1 / numParticles);
+	    Vec3d currentPos = this.shootingEntity.getPositionVector();
+	    for (int i = 0; i < numParticles - 2; i++)
+	    {
+		Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, currentPos.add(ModUtils.yVec(0.5f)), Vec3d.ZERO, ModColors.YELLOW), this);
+		currentPos = currentPos.add(dir);
+	    }
+	}
     }
 
     @Override
@@ -66,7 +83,7 @@ public class EntityGoldenRune extends Projectile
 	    e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));
 	    return this.getDamage();
 	}, this.shootingEntity, this.getPositionVector(),
-		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity));
+		ModDamageSource.causeElementalExplosionDamage(this.shootingEntity, getElement()));
 	this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);
     }
@@ -75,15 +92,18 @@ public class EntityGoldenRune extends Projectile
     protected void spawnImpactParticles()
     {
 	ModUtils.performNTimes(10, (i) -> {
-	    ParticleManager.spawnParticlesInCircle(blastRadius, 30,
-		    (offset) -> ParticleManager.spawnEffect(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, i * 0.5, offset.y)), new Vec3d(0.8, 0.8, 0.4)));
+	    ModUtils.circleCallback(blastRadius, 30,
+		    (offset) -> ParticleManager.spawnWisp(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, i * 0.5, offset.y)), ModColors.YELLOW, Vec3d.ZERO));
 	});
     }
 
     @Override
     protected void spawnParticles()
     {
-	ParticleManager.spawnParticlesInCircle(this.blastRadius, 30,
-		(offset) -> ParticleManager.spawnEffect(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, 0.5f, offset.y)), new Vec3d(0.8, 0.8, 0.4)));
+	if (this.ticksExisted % 10 == 0)
+	{
+	    ModUtils.circleCallback(this.blastRadius, 30,
+		    (offset) -> ParticleManager.spawnSwirl(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, 0.5f, offset.y)), ModColors.YELLOW, Vec3d.ZERO, ModRandom.range(10, 15)));
+	}
     }
 }

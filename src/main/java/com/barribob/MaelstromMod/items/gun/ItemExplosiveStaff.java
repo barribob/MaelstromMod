@@ -16,11 +16,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemExplosiveStaff extends ItemGun
+public class ItemExplosiveStaff extends ItemStaff
 {    
     public ItemExplosiveStaff(String name, int cooldown, int useTime, float level, CreativeTabs tab)
     {
-	super(name, cooldown, 7, useTime, null, level, tab);
+	super(name, 15, cooldown, useTime, level, tab);
     }
 
     @Override
@@ -42,11 +42,7 @@ public class ItemExplosiveStaff extends ItemGun
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
+	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("explosive_staff"));
-    }
-    
-    @Override
-    protected void spawnShootParticles(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
     }
 }

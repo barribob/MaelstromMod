@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ProjectileGoldenMissile extends Projectile
@@ -34,13 +35,13 @@ public class ProjectileGoldenMissile extends Projectile
     @Override
     protected void spawnParticles()
     {
-	ParticleManager.spawnEffect(world, this.getPositionVector(), ModColors.YELLOW);
+	ParticleManager.spawnSwirl2(world, this.getPositionVector(), ModColors.YELLOW, Vec3d.ZERO);
     }
 
     @Override
     protected void onHit(RayTraceResult result)
     {
-	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeMaelstromMeleeDamage(this.shootingEntity));
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
 	super.onHit(result);
     }
 }

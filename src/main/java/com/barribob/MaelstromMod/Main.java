@@ -6,12 +6,14 @@ import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.init.ModProfessions;
 import com.barribob.MaelstromMod.init.ModRecipes;
 import com.barribob.MaelstromMod.init.ModStructures;
+import com.barribob.MaelstromMod.loot.functions.ModEnchantWithLevels;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 import com.barribob.MaelstromMod.world.gen.WorldGenOre;
 
+import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -60,6 +62,7 @@ public class Main
 	proxy.init();
 
 	ModDimensions.registerDimensions();
+	LootFunctionManager.registerFunction(new ModEnchantWithLevels.Serializer());
     }
 
     @EventHandler

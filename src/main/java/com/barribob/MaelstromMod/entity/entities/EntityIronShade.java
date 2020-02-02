@@ -43,11 +43,13 @@ public class EntityIronShade extends EntityMaelstromMob
     {
 	super(worldIn);
 	this.setLevel(1.5f);
-	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
+	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
+	this.healthScaledAttackFactor = 0.2;
+	this.setSize(0.9f, 2.2f);
 	if (!worldIn.isRemote)
 	{
-	    attackHandler.addAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack()), 1));
-	    attackHandler.addAttack(spin, new ActionSpinSlash(3.0f));
+	    attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack()), 1));
+	    attackHandler.setAttack(spin, new ActionSpinSlash(3.0f));
 	}
     }
 
@@ -144,7 +146,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	flipAnimations.add(body);
 	flipAnimations.add(lowerChains);
 	flipAnimations.add(upperChains);
-	attackHandler.addAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack())), () -> new StreamAnimation(flipAnimations));
+	attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack())), () -> new StreamAnimation(flipAnimations));
 
 	List<List<AnimationClip<ModelIronShade>>> spinAnimations = new ArrayList<List<AnimationClip<ModelIronShade>>>();
 	wisps = new ArrayList<AnimationClip<ModelIronShade>>();
@@ -188,7 +190,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	spinAnimations.add(body);
 	spinAnimations.add(lowerChains);
 	spinAnimations.add(upperChains);
-	attackHandler.addAttack(spin, new ActionSpinSlash(3.0f), () -> new StreamAnimation(spinAnimations));
+	attackHandler.setAttack(spin, new ActionSpinSlash(3.0f), () -> new StreamAnimation(spinAnimations));
 	this.currentAnimation = new StreamAnimation(flipAnimations);
     }
 
@@ -206,6 +208,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.24D);
 	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200);
+	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.2);
     }
 
     @Override
@@ -236,7 +239,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	else if (id == EntityHerobrineOne.slashParticleByte)
 	{
 	    ModUtils.performNTimes(4, (i) -> {
-		ParticleManager.spawnParticlesInCircle(i, 15, (pos) -> {
+		ModUtils.circleCallback(i, 15, (pos) -> {
 		    ParticleManager.spawnDarkFlames(world, rand, getPositionVector().add(new Vec3d(pos.x, this.getEyeHeight(), pos.y)));
 		});
 	    });

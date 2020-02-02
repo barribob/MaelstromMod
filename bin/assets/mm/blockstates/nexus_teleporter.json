@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "sea_lantern" }
+        "normal": { "model": "mm:nexus_teleporter" }
     }
 }

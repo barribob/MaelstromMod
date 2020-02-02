@@ -42,7 +42,7 @@ public class ProjectileHorrorAttack extends Projectile
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnMaelstromSmoke(world, rand, new Vec3d(this.posX, this.posY, this.posZ), true);
+	    ParticleManager.spawnColoredSmoke(world, getPositionVector(), getElement().particleColor);
 	}
     }
     
@@ -52,7 +52,7 @@ public class ProjectileHorrorAttack extends Projectile
 	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
 	{
 	    Vec3d vec1 = ModRandom.randVec().scale(EXPOSION_AREA_FACTOR * 0.25).add(getPositionVector()); 
-	    ParticleManager.spawnMaelstromExplosion(world, rand, vec1);
+	    ParticleManager.spawnColoredExplosion(world, vec1, getElement().particleColor);
 	}
     }
 
@@ -60,7 +60,7 @@ public class ProjectileHorrorAttack extends Projectile
     protected void onHit(RayTraceResult result)
     {
 	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(),
-		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity));
+		ModDamageSource.causeElementalExplosionDamage(shootingEntity, getElement()));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);
     }

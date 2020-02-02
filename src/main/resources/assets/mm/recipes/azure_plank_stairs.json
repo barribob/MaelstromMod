@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "planks",
+  "pattern": [
+    "W  ",
+    "WW ",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "mm:azure_planks",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "mm:azure_plank_stairs",
+    "count": 4
+  }
+}

@@ -6,16 +6,11 @@ import com.barribob.MaelstromMod.items.ISweepAttackOverride;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -29,25 +24,8 @@ public class ToolCrusadeSword extends ToolSword implements ISweepAttackOverride
     @Override
     public void doSweepAttack(EntityPlayer player, EntityLivingBase target)
     {
-	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
-	float maxDistanceSq = 9.0f;
-	float targetEntitySize = (float) 1.0D;
-	
-	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class,
-		target.getEntityBoundingBox().grow(targetEntitySize, 0.25D, targetEntitySize)))
-	{
-	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
-	    {
-		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F),
-			(-MathHelper.cos(player.rotationYaw * 0.017453292F)));
-		entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(player), sweepDamage);
-	    }
-	}
-	
-	player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 0.9F);
-	player.spawnSweepParticles();
-	
+	ModUtils.doSweepAttack(player, target, getElement(), (e) -> {
+	});
 	player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 40, 0));
     }
     

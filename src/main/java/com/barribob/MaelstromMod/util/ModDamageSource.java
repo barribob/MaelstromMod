@@ -5,10 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
 
 /**
  * 
@@ -39,48 +36,24 @@ public class ModDamageSource
 		|| source.damageType == EXPLOSION_MAELSTROM || source.damageType == EXPLOSION_MAELSTROM_ENTITY || source.damageType == MAELSTROM;
     }
 
-    /**
-     * The standard mob damage, except with armor bypassing maelstrom armor instead
-     */
-    public static DamageSource causeMaelstromMeleeDamage(EntityLivingBase mob)
+    public static DamageSource causeElementalMeleeDamage(EntityLivingBase mob, Element element)
     {
-	return new EntityDamageSource(MOB_MAELSTROM, mob);
+	return new EntityElementalDamageSource(MOB_MAELSTROM, mob, element);
     }
 
-    /**
-     * The standard player damage, except with armor bypassing maelstrom armor
-     * instead
-     */
-    public static DamageSource causeMalestromPlayerDamage(EntityPlayer player)
+    public static DamageSource causeElementalPlayerDamage(EntityPlayer player, Element element)
     {
-	return new EntityDamageSource(PLAYER_MAELSTROM, player);
+	return new EntityElementalDamageSource(PLAYER_MAELSTROM, player, element);
     }
 
-    /**
-     * The standard arrow damage, except with armor bypassing maelstrom armor
-     * instead
-     */
-    public static DamageSource causeMaelstromArrowDamage(EntityArrow arrow, @Nullable Entity indirectEntityIn)
+    public static DamageSource causeElementalThrownDamage(Entity source, @Nullable Entity indirectEntityIn, Element element)
     {
-	return (new EntityDamageSourceIndirect(ARROW_MAELSTROM, arrow, indirectEntityIn)).setProjectile();
+	return (new EntityElementalDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn, element)).setProjectile();
     }
 
-    /**
-     * The standard thrown damage, except with armor bypassing maelstrom armor
-     * instead
-     */
-    public static DamageSource causeMalestromThrownDamage(Entity source, @Nullable Entity indirectEntityIn)
+    public static DamageSource causeElementalExplosionDamage(@Nullable EntityLivingBase entityLivingBaseIn, Element element)
     {
-	return (new EntityDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn)).setProjectile();
-    }
-
-    /**
-     * The standard explosion damage, except with armor bypassing maelstrom armor
-     * instead
-     */
-    public static DamageSource causeMaelstromExplosionDamage(@Nullable EntityLivingBase entityLivingBaseIn)
-    {
-	return entityLivingBaseIn != null ? (new EntityDamageSource(EXPLOSION_MAELSTROM_ENTITY, entityLivingBaseIn)).setExplosion()
+	return entityLivingBaseIn != null ? (new EntityElementalDamageSource(EXPLOSION_MAELSTROM_ENTITY, entityLivingBaseIn, element)).setExplosion()
 		: (new DamageSource(EXPLOSION_MAELSTROM)).setExplosion();
     }
 }

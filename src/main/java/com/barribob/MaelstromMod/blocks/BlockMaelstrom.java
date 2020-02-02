@@ -5,18 +5,15 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
-import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -39,20 +36,29 @@ public class BlockMaelstrom extends BlockBase
     /**
      * Get the Item that this Block should drop when harvested.
      */
+    @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
 	return null;
     }
 
+    @Override
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
 	return MAELSTROM_COLLISION_AABB;
     }
 
+    @Override
+    public boolean isFullCube(IBlockState state)
+    {
+	return false;
+    }
+
     /**
      * Called When an Entity Collided with the Block
      */
+    @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
 	if (entityIn instanceof EntityLivingBase && !(entityIn instanceof EntityMaelstromMob))
@@ -61,6 +67,7 @@ public class BlockMaelstrom extends BlockBase
 	}
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {

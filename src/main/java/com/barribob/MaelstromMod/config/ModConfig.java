@@ -25,10 +25,16 @@ public class ModConfig
     public static WorldCat world = new WorldCat();
 
     @Config.LangKey(config + "gui")
-    public static GuiCat gui = new GuiCat(0, 0, true);
+    public static GuiCat gui = new GuiCat(0, 0, 0, 0, true, true);
 
     @Config.LangKey(config + "balancing")
-    public static BalanceCat balance = new BalanceCat(2, 1);
+    public static BalanceCat balance = new BalanceCat();
+
+    @Config.LangKey(config + "entities")
+    public static EntityCat entities = new EntityCat();
+
+    @Config.LangKey(config + "server")
+    public static ServerCat server = new ServerCat();
 
     public static class GuiCat
     {
@@ -38,14 +44,29 @@ public class ModConfig
 	@Config.LangKey(config + "armor_bar_y")
 	public int maelstrom_armor_bar_offset_y;
 
+	@Config.LangKey(config + "mana_bar_x")
+	public int maelstrom_mana_bar_offset_x;
+
+	@Config.LangKey(config + "mana_bar_y")
+	public int maelstrom_mana_bar_offset_y;
+
 	@Config.LangKey(config + "show_cooldown_bar")
 	public boolean showGunCooldownBar;
 
-	public GuiCat(int x, int y, boolean showCooldown)
+	@Config.LangKey(config + "show_mana_bar")
+	public boolean showManaBar;
+
+	@Config.LangKey(config + "show_armor_bar")
+	public boolean showArmorBar = true;
+
+	public GuiCat(int x, int y, int mana_x, int mana_y, boolean showCooldown, boolean showMana)
 	{
 	    this.maelstrom_armor_bar_offset_x = x;
 	    this.maelstrom_armor_bar_offset_y = y;
+	    this.maelstrom_mana_bar_offset_x = mana_x;
+	    this.maelstrom_mana_bar_offset_y = mana_y;
 	    showGunCooldownBar = showCooldown;
+	    showManaBar = showMana;
 	}
     }
 
@@ -54,18 +75,32 @@ public class ModConfig
 	@Config.LangKey(config + "scale")
 	@Config.RangeDouble(min = 1.1, max = 3)
 	@Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty.")
-	public float progression_scale;
+	public float progression_scale = 1.3f;
 
 	@Config.LangKey(config + "mob_damage")
 	@Config.RangeDouble(min = 0.5, max = 3)
 	@Config.Comment("Scales the base damage of mobs in this mod.")
-	public float mob_damage;
+	public float mob_damage = 1.2f;
 
-	public BalanceCat(float progression_scale, float mob_damage)
-	{
-	    this.progression_scale = progression_scale;
-	    this.mob_damage = mob_damage;
-	}
+	@Config.LangKey(config + "mob_armor")
+	@Config.RangeDouble(min = 0.1, max = 1.0)
+	@Config.Comment("Amount of additional damage reduction on mobs.")
+	public float mob_armor = 1.0f;
+
+	@Config.LangKey(config + "weapon_damage")
+	@Config.RangeDouble(min = 1.0, max = 3)
+	@Config.Comment("Base damage multiplier for weapons in this mod.")
+	public float weapon_damage = 1.0f;
+
+	@Config.LangKey(config + "armor_toughness")
+	@Config.RangeDouble(min = 0.5, max = 5)
+	@Config.Comment("Specifies the strength of the mod's base armor material.")
+	public float armor_toughness = 3.0f;
+
+	@Config.LangKey(config + "elemental_factor")
+	@Config.RangeDouble(min = 1.0, max = 3)
+	@Config.Comment("Represents how important using the correct color (or element) is")
+	public float elemental_factor = 1.6f;
     }
 
     public static class WorldCat
@@ -82,9 +117,37 @@ public class ModConfig
 	@Config.LangKey(config + "cliff_dimension_id")
 	public int cliff_dimension_id = 127;
 
-	@Config.RequiresWorldRestart
-	@Config.LangKey(config + "spawn_island")
-	public boolean spawn_island = true;
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "dark_nexus_dimension_id")
+	public int dark_nexus_dimension_id = 128;
+
+
+	@Config.LangKey(config + "invasion_time")
+	@Config.Comment("How many seconds before attempting to spawn the invasion tower. Cannot be adjusted after the world is created.")
+	@Config.RangeInt(min = 60, max = 60 * 1000)
+	public int invasionTime = 60 * 180; // Default 180 minutes before invasion
+    }
+
+    public static class EntityCat
+    {
+	@Config.LangKey(config + "use_vanilla_pathfinding")
+	@Config.Comment("If there is another mod that improves the vanilla pathfinding ai, then set this to true. Takes effect after reloading the world.")
+	public boolean useVanillaPathfinding = false;
+
+	@Config.LangKey(config + "attack_all")
+	@Config.Comment("Whether maelstrom mobs should attack any living entity they see. Takes effect after reloading the world.")
+	public boolean attackAll = true;
+
+	@Config.LangKey(config + "display_mob_level")
+	@Config.Comment("Display the level of most mobs above their nametag.")
+	public boolean displayLevel = false;
+    }
+
+    public static class ServerCat
+    {
+	@Config.LangKey(config + "sync_config_on_login")
+	@Config.Comment("Whether to make configs of the players that login match the server config (to keep stuff like item stats consistent).")
+	public boolean sync_on_login = true;
     }
 
     @SubscribeEvent

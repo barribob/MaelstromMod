@@ -68,7 +68,7 @@ public class ProjectileMaelstromCannon extends ProjectileGun
 	float knockbackFactor = 1 + this.getKnockback() * 0.4f;
 	int fireFactor = this.isBurning() ? 5 : 0;
 	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getGunDamage(e), this.shootingEntity, this.getPositionVector(),
-		ModDamageSource.causeMaelstromExplosionDamage(this.shootingEntity), knockbackFactor, fireFactor);
+		ModDamageSource.causeElementalExplosionDamage(shootingEntity, getElement()), knockbackFactor, fireFactor);
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
 
 	super.onHit(result);

@@ -48,7 +48,7 @@ public class EntityNexusParticleSpawner extends Entity
 	if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    ModUtils.performNTimes(20, (i) -> {
-		ParticleManager.spawnParticlesInCircle(i * 2, 600 - this.ticksExisted, (pos) -> {
+		ModUtils.circleCallback(i * 2, 600 - this.ticksExisted, (pos) -> {
 		    pos = pos.scale(1.0f + ModRandom.getFloat(0.03f));
 		    ParticleManager.spawnEffect(world, new Vec3d(pos.x, i * 5, pos.y).add(getPositionVector()), ModColors.WHITE);
 		});

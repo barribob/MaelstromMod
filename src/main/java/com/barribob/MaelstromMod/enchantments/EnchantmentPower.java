@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.enchantments;
 
 import com.barribob.MaelstromMod.items.gun.ItemGun;
+import com.barribob.MaelstromMod.items.gun.ItemStaff;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -25,6 +26,7 @@ public class EnchantmentPower extends Enchantment
     /**
      * Returns the minimal value of enchantability needed on the enchantment level passed.
      */
+    @Override
     public int getMinEnchantability(int enchantmentLevel)
     {
         return 1 + (enchantmentLevel - 1) * 10;
@@ -33,6 +35,7 @@ public class EnchantmentPower extends Enchantment
     /**
      * Returns the maximum value of enchantability nedded on the enchantment level passed.
      */
+    @Override
     public int getMaxEnchantability(int enchantmentLevel)
     {
         return this.getMinEnchantability(enchantmentLevel) + 15;
@@ -41,6 +44,7 @@ public class EnchantmentPower extends Enchantment
     /**
      * Determines if the enchantment passed can be applyied together with this enchantment.
      */
+    @Override
     public boolean canApplyTogether(Enchantment ench)
     {
         return !(ench instanceof EnchantmentMaelstromDestroyer) && super.canApplyTogether(ench);
@@ -49,6 +53,7 @@ public class EnchantmentPower extends Enchantment
     /**
      * Returns the maximum level that the enchantment can have.
      */
+    @Override
     public int getMaxLevel()
     {
         return 5;
@@ -57,6 +62,6 @@ public class EnchantmentPower extends Enchantment
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack)
     {
-	return stack.getItem() instanceof ItemGun;
+	return stack.getItem() instanceof ItemGun || (stack.getItem() instanceof ItemStaff && ((ItemStaff) stack.getItem()).doesDamage());
     }
 }

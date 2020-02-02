@@ -1,5 +1,8 @@
 package com.barribob.MaelstromMod.init;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
@@ -9,21 +12,21 @@ import com.barribob.MaelstromMod.entity.entities.EntityCliffGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
 import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenBoss;
-import com.barribob.MaelstromMod.entity.entities.EntityGoldenMage;
 import com.barribob.MaelstromMod.entity.entities.EntityGoldenPillar;
-import com.barribob.MaelstromMod.entity.entities.EntityGoldenShade;
-import com.barribob.MaelstromMod.entity.entities.EntityHerobrineCliff;
 import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromWitch;
+import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.entity.entities.EntitySwampCrawler;
-import com.barribob.MaelstromMod.entity.entities.HerobrineBossController;
+import com.barribob.MaelstromMod.entity.entities.EntityWhiteMonolith;
+import com.barribob.MaelstromMod.entity.entities.Herobrine;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusArmorer;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusBladesmith;
 import com.barribob.MaelstromMod.entity.entities.npc.NexusGunTrader;
@@ -34,11 +37,14 @@ import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerRainbow;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.EntityGeyser;
 import com.barribob.MaelstromMod.entity.projectile.EntityGoldenRune;
+import com.barribob.MaelstromMod.entity.projectile.EntityLargeGoldenRune;
 import com.barribob.MaelstromMod.entity.projectile.EntityOctoMissileLauncher;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileBoneQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBrownstoneCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileExplosiveDrill;
@@ -47,16 +53,17 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenRepeater;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenThrust;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileIronShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMeteor;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMissile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromWisp;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMeteor;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMeteorSpawner;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMonolithFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePillarFlames;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
@@ -66,8 +73,9 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwordSlash;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileWillOTheWisp;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityBossSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityDisappearingSpawner;
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityHerobrineSpawner;
+import com.barribob.MaelstromMod.entity.tileentity.TileEntityFan;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMegaStructure;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityTeleporter;
@@ -108,8 +116,6 @@ public class ModEntities
     public static final int NEXUS_SAIYAN = 114;
     public static final int NEXUS_BLADESMITH = 115;
     public static final int GOLDEN_PILLAR = 116;
-    public static final int GOLDEN_SHADE = 117;
-    public static final int GOLDEN_MAGE = 118;
     public static final int GOLDEN_BOSS = 119;
     public static final int MAELSTROM_GOLDEN_BOSS = 120;
     public static final int MAELSTROM_WITCH = 121;
@@ -136,7 +142,6 @@ public class ModEntities
     public static final int GOLDEN_REPEATER_ID = 216;
     public static final int PILLAR_FLAMES_ID = 217;
     public static final int GOLDEN_RUNE_ID = 218;
-    public static final int GOLDEN_SHADE_ATTACK_ID = 219;
     public static final int GOLDEN_MAGE_ATTACK_ID = 220;
     public static final int OCTO_MISSILES_ID = 221;
     public static final int GOLDEN_FIREBALL_ID = 222;
@@ -158,38 +163,41 @@ public class ModEntities
     public static Vec3i cliff = new Vec3i(0x999966, 0xe6e600, 0);
     public static Vec3i cliff_maelstrom = new Vec3i(6433126, 0xe6e600, 0);
 
-    public static final int BOSS_EXPERIENCE = 100;
-    public static final int MINIBOSS_EXPERIENCE = 20;
+    public static final int BOSS_EXPERIENCE = 1000;
+    public static final int MINIBOSS_EXPERIENCE = 100;
+
+    private static final Map<Class<? extends Entity>, String> ID_MAP = new HashMap<Class<? extends Entity>, String>();
 
     public static void registerEntities()
     {
-	registerEntity("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
-	registerEntity("horror", EntityHorror.class, HORROR_ID, 50, maelstrom);
+	registerEntityWithID("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
+	registerEntityWithID("horror", EntityHorror.class, HORROR_ID, 50, maelstrom);
 	registerEntity("dream_elk", EntityDreamElk.class, DREAM_ELK_ID, 50, azure);
-	registerEntity("beast", EntityBeast.class, BEAST_ID, 100, maelstrom);
+	registerEntityWithID("beast", EntityBeast.class, BEAST_ID, 100, maelstrom);
 	registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 50, maelstrom);
 	registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 100, azure);
-	registerEntity("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
+	registerEntityWithID("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
 	registerEntity("azure_golem", EntityAzureGolem.class, AZURE_GOLEM_ID, 70, azure);
-	registerEntity("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
+	registerEntityWithID("floating_skull", EntityFloatingSkull.class, FLOATING_SKULL_ID, 50, maelstrom);
 	registerEntity("herobrine_1", EntityHerobrineOne.class, HEROBRINE_1_ID, 50);
-	registerEntity("herobrine_controller", HerobrineBossController.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
+	registerEntityWithID("herobrine_controller", Herobrine.class, HEROBRINE_CONTROLLLER, 50, maelstrom);
 	registerEntity("nexus_gunsmith", NexusGunTrader.class, NEXUS_GUNSMITH, 50, nexus);
 	registerEntity("nexus_mage", NexusMageTrader.class, NEXUS_MAGE, 50, nexus);
 	registerEntity("nexus_armorer", NexusArmorer.class, NEXUS_ARMORER, 50, nexus);
 	registerEntity("nexus_saiyan", NexusSpecialTrader.class, NEXUS_SAIYAN, 50, nexus);
 	registerEntity("nexus_bladesmith", NexusBladesmith.class, NEXUS_BLADESMITH, 50, nexus);
-	registerEntity("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, cliff_maelstrom);
-	registerEntity("golden_shade", EntityGoldenShade.class, GOLDEN_SHADE, 50, cliff_maelstrom);
-	registerEntity("golden_mage", EntityGoldenMage.class, GOLDEN_MAGE, 50, cliff_maelstrom);
-	registerEntity("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, cliff_maelstrom);
+	registerEntityWithID("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, cliff_maelstrom);
+	registerEntityWithID("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, cliff_maelstrom);
 	registerEntity("maelstrom_golden_boss", EntityMaelstromGoldenBoss.class, MAELSTROM_GOLDEN_BOSS, 70, cliff_maelstrom);
-	registerEntity("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, cliff_maelstrom);
-	registerEntity("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
+	registerEntityWithID("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, cliff_maelstrom);
+	registerEntityWithID("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
 	registerEntity("swamp_crawler", EntitySwampCrawler.class, ENTITY_START_ID++, 50, cliff);
 	registerEntity("cliff_fly", EntityCliffFly.class, ENTITY_START_ID++, 70, cliff);
-	registerEntity("iron_shade", EntityIronShade.class, ENTITY_START_ID++, 70, maelstrom);
-	registerEntity("maelstrom_beast", EntityMaelstromBeast.class, ENTITY_START_ID++, 70, maelstrom);
+	registerEntityWithID("iron_shade", EntityIronShade.class, ENTITY_START_ID++, 70, maelstrom);
+	registerEntityWithID("maelstrom_beast", EntityMaelstromBeast.class, ENTITY_START_ID++, 70, maelstrom);
+	registerEntity("monolith", EntityMonolith.class, ENTITY_START_ID++, 70, maelstrom);
+	registerEntity("white_monolith", EntityWhiteMonolith.class, ENTITY_START_ID++, 70);
+	registerEntityWithID("maelstrom_lancer", EntityMaelstromLancer.class, ENTITY_START_ID++, 50, maelstrom);
 
 	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
@@ -209,7 +217,6 @@ public class ModEntities
 	registerEntity("golden_repeater", ProjectileGoldenRepeater.class, GOLDEN_REPEATER_ID, 30);
 	registerEntity("pillar_flames", ProjectilePillarFlames.class, PILLAR_FLAMES_ID, 30);
 	registerEntity("golden_rune", EntityGoldenRune.class, GOLDEN_RUNE_ID, 30);
-	registerEntity("golden_shade_attack", ProjectileGoldenThrust.class, GOLDEN_SHADE_ATTACK_ID, 30);
 	registerEntity("golden_mage_attack", ProjectileGoldenMissile.class, GOLDEN_MAGE_ATTACK_ID, 30);
 	registerEntity("octo_missiles", EntityOctoMissileLauncher.class, OCTO_MISSILES_ID, 30);
 	registerEntity("golden_fireball", ProjectileGoldenFireball.class, GOLDEN_FIREBALL_ID, 30);
@@ -228,7 +235,11 @@ public class ModEntities
 	registerEntity("meteor_spawner", ProjectileMeteorSpawner.class, PROJECTILE_START_ID++, 50);
 	registerEntity("sword_slash", ProjectileSwordSlash.class, PROJECTILE_START_ID++, 50);
 	registerEntity("beast_quake", ProjectileBeastQuake.class, PROJECTILE_START_ID++, 50);
-	registerEntity("cliff_herobrine", EntityHerobrineCliff.class, PROJECTILE_START_ID++, 50);
+	registerEntity("bone", ProjectileBone.class, PROJECTILE_START_ID++, 30);
+	registerEntity("bone_quake", ProjectileBoneQuake.class, PROJECTILE_START_ID++, 50);
+	registerEntity("monolith_fireball", ProjectileMonolithFireball.class, PROJECTILE_START_ID++, 50);
+	registerEntity("maelstrom_meteor", ProjectileMaelstromMeteor.class, PROJECTILE_START_ID++, 50);
+	registerEntity("large_golden_rune", EntityLargeGoldenRune.class, PROJECTILE_START_ID++, 40);
 
 	registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
 	registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);
@@ -238,14 +249,35 @@ public class ModEntities
 	registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");
 	registerTileEntity(TileEntityMegaStructure.class, "mega_structure");
 	registerTileEntity(TileEntityTeleporter.class, "nexus_teleporter");
-	registerTileEntity(TileEntityHerobrineSpawner.class, "nexus_spawner");
+	registerTileEntity(TileEntityBossSpawner.class, "nexus_spawner");
 	registerTileEntity(TileEntityUpdater.class, "updater");
+	registerTileEntity(TileEntityFan.class, "fan");
+    }
+
+    public static String getID(Class<? extends Entity> entity)
+    {
+	if (ID_MAP.containsKey(entity))
+	{
+	    return Reference.MOD_ID + ":" + ID_MAP.get(entity);
+	}
+	throw new IllegalArgumentException("Mapping of an entity has not be registered for the maelstrom mod spawner system.");
+    }
+
+    private static void registerEntityWithID(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)
+    {
+	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(), eggColor.getY());
+	ID_MAP.put(entity, name);
+    }
+
+    private static void registerEntityWithID(String name, Class<? extends Entity> entity, int id, int range)
+    {
+	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true);
+	ID_MAP.put(entity, name);
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range, Vec3i eggColor)
     {
-	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(),
-		eggColor.getY());
+	EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID + ":" + name), entity, name, id, Main.instance, range, 1, true, eggColor.getX(), eggColor.getY());
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entity, int id, int range)

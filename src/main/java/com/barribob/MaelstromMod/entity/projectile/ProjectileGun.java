@@ -3,6 +3,8 @@ package com.barribob.MaelstromMod.entity.projectile;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.init.ModEnchantments;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.IElement;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -26,6 +28,12 @@ public class ProjectileGun extends Projectile
     private boolean isCritical;
     private static final byte CRITICAL_BYTE = 5;
 
+    public ProjectileGun(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack, Element element)
+    {
+	this(worldIn, throwerIn, baseDamage, stack);
+	this.setElement(element);
+    }
+
     public ProjectileGun(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)
     {
 	super(worldIn, throwerIn, baseDamage);
@@ -35,7 +43,7 @@ public class ProjectileGun extends Projectile
 	    this.knockbackStrength = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.impact, stack);
 	    this.maelstromDestroyer = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.maelstrom_destroyer, stack);
 	    this.criticalHit = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.critical_hit, stack);
-	    if (rand.nextInt(10) == 0 && this.criticalHit > 0 && !world.isRemote)
+	    if (rand.nextInt(8) == 0 && this.criticalHit > 0 && !world.isRemote)
 	    {
 		this.isCritical = true;
 		this.setDamage(this.getDamage() * this.criticalHit * 2.5f);
@@ -43,6 +51,10 @@ public class ProjectileGun extends Projectile
 	    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_flame, stack) > 0)
 	    {
 		this.setFire(100);
+	    }
+	    if (stack.getItem() instanceof IElement)
+	    {
+		this.setElement(((IElement) stack.getItem()).getElement());
 	    }
 	}
     }
@@ -56,8 +68,9 @@ public class ProjectileGun extends Projectile
     {
 	if (entity instanceof EntityMaelstromMob)
 	{
-	    float maxPower = ModConfig.balance.progression_scale / ModEnchantments.maelstrom_destroyer.getMaxLevel();
-	    return super.getDamage() * (1 + this.maelstromDestroyer * maxPower);
+	    float maxDamageBonus = (float) (Math.pow(ModConfig.balance.progression_scale, 2.5) - 1); // Max damage is slightly more than the damage enchantment
+	    float damageBonus = super.getDamage() * maxDamageBonus * (this.maelstromDestroyer / (float) ModEnchantments.maelstrom_destroyer.getMaxLevel());
+	    return super.getDamage() + damageBonus;
 	}
 
 	return super.getDamage();

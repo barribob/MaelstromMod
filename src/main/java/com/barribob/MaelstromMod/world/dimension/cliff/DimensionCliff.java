@@ -1,18 +1,19 @@
 package com.barribob.MaelstromMod.world.dimension.cliff;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.world.biome.BiomeProviderMultiple;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 
 /**
@@ -26,9 +27,14 @@ public class DimensionCliff extends WorldProvider
     @Override
     protected void init()
     {
-	BiomeProvider provider = new BiomeProviderMultiple(this.world.getWorldInfo(), Arrays.asList(new Biome[] { BiomeInit.HIGH_CLIFF, BiomeInit.CLIFF_SWAMP }));
-	this.biomeProvider = provider;
 	this.hasSkyLight = true;
+	this.biomeProvider = new BiomeProviderMultiple(this.world.getWorldInfo()) {
+	    @Override
+	    public List<Biome> getBiomesToSpawnIn()
+	    {
+		return Arrays.asList(new Biome[] { BiomeInit.HIGH_CLIFF, BiomeInit.CLIFF_SWAMP });
+	    }
+	};
     }
 
     @Override
@@ -70,7 +76,13 @@ public class DimensionCliff extends WorldProvider
     @Override
     public float getCloudHeight()
     {
-	return 300;
+	return 260;
+    }
+
+    @Override
+    public Vec3d getCloudColor(float partialTicks)
+    {
+	return new Vec3d(0.5f, 0.43f, 0.5f);
     }
 
     @Override
@@ -85,5 +97,17 @@ public class DimensionCliff extends WorldProvider
 	f2 = f2 * (f * 0.84F + 0.06F);
 	f3 = f3 * (f * 0.70F + 0.09F);
 	return new Vec3d(f1, f2, f3);
+    }
+
+    @Override
+    public Vec3d getSkyColor(Entity cameraEntity, float partialTicks)
+    {
+	float f = cameraEntity.world.getCelestialAngle(partialTicks);
+	float f1 = MathHelper.cos(f * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
+	f1 = MathHelper.clamp(f1, 0.1F, 1.0F);
+	int i = MathHelper.floor(cameraEntity.posX);
+	int j = MathHelper.floor(cameraEntity.posY);
+	int k = MathHelper.floor(cameraEntity.posZ);
+	return new Vec3d(0.60f, 0.53f, 0.7f).scale(f1);
     }
 }

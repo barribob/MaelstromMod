@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "mm:blocks/furnace_pillar_top",
+        "side": "mm:blocks/furnace_pillar_side"
+    }
+}

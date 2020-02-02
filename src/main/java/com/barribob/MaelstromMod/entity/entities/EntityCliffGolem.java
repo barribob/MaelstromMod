@@ -11,6 +11,7 @@ import com.barribob.MaelstromMod.entity.render.RenderAzureGolem;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 
 import net.minecraft.block.Block;
@@ -41,13 +42,14 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
     public EntityCliffGolem(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(2);
+	this.setLevel(LevelHandler.CLIFF_OVERWORLD);
 	this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
 	if (!worldIn.isRemote)
 	{
-	    attackHandler.addAttack(groundPoundByte, new ActionGolemSlam());
-	    attackHandler.addAttack(this.geyserByte, new ActionGeyser());
+	    attackHandler.setAttack(groundPoundByte, new ActionGolemSlam());
+	    attackHandler.setAttack(this.geyserByte, new ActionGeyser());
 	}
+	this.healthScaledAttackFactor = 0.2;
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
 
@@ -56,8 +58,8 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
     protected void initAnimation()
     {
 	this.currentAnimation = new AnimationAzureGolem();
-	attackHandler.addAttack(groundPoundByte, new ActionGolemSlam(), () -> new AnimationAzureGolem());
-	attackHandler.addAttack(this.geyserByte, new ActionGeyser(), () -> new AnimationGroundFistBump());
+	attackHandler.setAttack(groundPoundByte, new ActionGolemSlam(), () -> new AnimationAzureGolem());
+	attackHandler.setAttack(this.geyserByte, new ActionGeyser(), () -> new AnimationGroundFistBump());
     }
 
     @Override

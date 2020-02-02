@@ -1,16 +1,25 @@
 //———————————————————————————————————————————————————————————
-// Key Items
+// Random Items
 //———————————————————————————————————————————————————————————
-item.nexus_island_builder.name=Summon Nexus Island
 item.iron_pellet.name=Iron Pellet
-item.azure_maelstrom_core_crystal.name=Maelstrom Core
+item.azure_maelstrom_core_crystal.name=Azure Maelstrom Core
+item.maelstrom_core.name=Maelstrom Core
 item.azure_key.name=Fracture Dimensional Key
 item.beast_key.name=Purple Dimensional Key
 item.invisible.name=Invisible
-item.brown_key.name=Golden Valley Dimensional Key
-item.red_key.name=Red Dimensional Key
-item.cliff_key_fragment.name=Key Fragment
-item.red_key_fragment.name=Key Fragment
+item.brown_key.name=Golden Canyon Dimensional Key
+item.red_key.name=Crimson Dimensional Key
+item.cliff_key_fragment.name=Golden Key Fragment
+item.red_key_fragment.name=Crimson Key Fragment
+item.maelstrom_fragment=Maelstrom Fragment
+item.azure_maelstrom_fragment=Azure Maelstrom Fragment
+item.golden_maelstrom_fragment=Golden Maelstrom Fragment
+item.chasmium_ingot.name=Chasmium Ingot
+item.catalyst.name=Mana Catalyst
+item.minotaur_horn.name=Maelstrom Minotaur Horn
+item.ammo_case.name=Ammo Case
+item.chasmium_ammo_case.name=Chasmium Ammo Case
+item.black_gold_ammo_case.name=Golden Ammo Case
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -27,26 +36,27 @@ item.boomstick.name=Boomstick
 item.musket.name=Musket
 item.maelstrom_cannon.name=Maelstrom Cannon
 item.will-o-the-wisp_staff.name=Will-O-The-Wisp Staff
-item.quake_staff.name=Quake Staff
+item.quake_staff.name=Seismic Staff
 item.pumpkin.name=Roman Artillery: Pumpkin
 item.flintlock_pistol.name=Flintlock Pistol
-item.repeater.name=Repeater Gun
+item.repeater.name=Redstone Repeater
 item.rifle.name=Rifle
 item.leap_staff.name=Staff of Leaping
 item.speed_staff.name=Staff of Speed
-item.fireball_staff.name=Fireball Staff
-item.elk_blaster.name=Elk Blaster
+item.fireball_staff.name=Inferno Staff
+item.elk_blaster.name=Azure Piercer
 item.explosive_staff.name=Explosive Staff
 item.brownstone_cannon.name=Brownstone Cannon
-item.golden_fireball_staff.name=Golden Fireball Staff
-item.cross_of_aqua.name=Cross of Aqua
+item.golden_fireball_staff.name=Golden Inferno Staff
+item.cross_of_aqua.name=Poseidon's Cross
+item.golden_quake_staff.name=Golden Seismic Staff
 
 //———————————————————————————————————————————————————————————
 // Weapons
 //———————————————————————————————————————————————————————————
-item.beast_blade.name=Beast Blade
-item.sword_of_shades.name=Shadow Longsword
-item.shadow_dagger.name=Shadow Dagger
+item.beast_blade.name=Maelstrom Crystal Sword
+item.sword_of_shades.name=Maelstrom Longsword
+item.shadow_dagger.name=Maelstrom Dagger
 item.maelstrom_battleaxe.name=Maelstrom Battleaxe
 item.elucidator.name=Elucidator
 item.dragon_slayer.name=Dragon Slayer
@@ -57,53 +67,62 @@ item.kanshou.name=Kanshou
 item.bakuya.name=Bakuya
 item.crusade_sword.name=Crusade Sword
 item.explosive_dagger.name=Explosive Dagger
-item.black_gold_sword.name=Black Gold Sword
+item.black_gold_sword.name=Shadowgold Sword
 item.brownstone_sword.name=Brownstone Sword
 item.ancient_battleaxe.name=Ancient Battleaxe
 item.magisteel_sword.name=Magisteel Sword
+item.gold_stone_longsword.name=Emperor's Sword
+item.chasmium_sword.name=Chasmium Sword
 
 //———————————————————————————————————————————————————————————
 // Armor
 //———————————————————————————————————————————————————————————
 item.maelstrom_helmet.name=Maelstrom Helmet
-item.maelstrom_chestplate.name=Maelstrom Chesplate
+item.maelstrom_chestplate.name=Maelstrom Chestplate
 item.maelstrom_leggings.name=Maelstrom Leggings
 item.maelstrom_boots.name=Maelstrom Boots
 item.straw_hat.name=Straw Hat
 item.speed_boots.name=Speed Boots
-item.elk_hide_helmet.name=Elk Hide Helmet
-item.elk_hide_chestplate.name=Elk Hide Chestplate
-item.elk_hide_leggings.name=Elk Hide Leggings
-item.elk_hide_boots.name=Elk Hide Boots
-item.nexus_helmet.name=Nexus Helmet
-item.nexus_chestplate.name=Nexus Chestplate
-item.nexus_leggings.name=Nexus Leggings
-item.nexus_boots.name=Nexus Boots
-item.swamp_helmet.name=Swamp Helmet
-item.swamp_chestplate.name=Swamp Chestplate
-item.swamp_leggings.name=Swamp Leggings
-item.swamp_boots.name=Swamp Boots
-item.black_gold_helmet.name=Black Gold Helmet
-item.black_gold_chestplate.name=Black Gold Chestplate
-item.black_gold_leggings.name=Black Gold Leggings
-item.black_gold_boots.name=Black Gold Boots
+item.elk_hide_helmet.name=Crystalhide Helmet
+item.elk_hide_chestplate.name=Crystalhide Chestplate
+item.elk_hide_leggings.name=Crystalhide Leggings
+item.elk_hide_boots.name=Crystalhide Boots
+item.nexus_helmet.name=White Diamond Helmet
+item.nexus_chestplate.name=White Diamond Chestplate
+item.nexus_leggings.name=White Diamond Leggings
+item.nexus_boots.name=White Diamond Boots
+item.swamp_helmet.name=Exo Helmet
+item.swamp_chestplate.name=Exo Chestplate
+item.swamp_leggings.name=Exo Leggings
+item.swamp_boots.name=Exo Boots
+item.black_gold_helmet.name=Shadowgold Helmet
+item.black_gold_chestplate.name=Shadowgold Chestplate
+item.black_gold_leggings.name=Shadowgold Leggings
+item.black_gold_boots.name=Shadowgold Boots
 item.nyan_helmet.name=Nyan Helmet
 item.nyan_chestplate.name=Nyan Chestplate
 item.nyan_leggings.name=Nyan Leggings
 item.nyan_boots.name=Nyan Boots
+item.chasmium_helmet.name=Chasmium Helmet
+item.chasmium_chestplate.name=Chasmium Chestplate
+item.chasmium_leggings.name=Chasmium Leggings
+item.chasmium_boots.name=Chasmium Boots
+item.goltox_helmet.name=Goltox Helmet
+item.goltox_chestplate.name=Goltox Chestplate
+item.goltox_leggings.name=Goltox Leggings
+item.goltox_boots.name=Goltox Boots
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
 //———————————————————————————————————————————————————————————
 item.gold_pellet.name=Gold Pellet
-item.golden_pistol.name=Gold Pistol
-item.golden_repeater.name=Gold Repeater
-item.golden_shotgun.name=Gold Shotgun
-item.golden_rifle.name=Gold Rifle
+item.golden_pistol.name=Golden Pistol
+item.golden_repeater.name=Golden Repeater
+item.golden_shotgun.name=Golden Shotgun
+item.golden_rifle.name=Golden Rifle
 item.swamp_slime.name=Swamp Slime
 item.golden_maelstrom_core.name=Golden Maelstrom Core
-item.gold_stone_longsword.name=Gold Stone Sword
-item.meteor_staff.name=Meteor Staff
+item.meteor_staff.name=Starfall Staff
 item.fly_wings.name=Fly Wings
 
 //———————————————————————————————————————————————————————————
@@ -111,6 +130,14 @@ item.fly_wings.name=Fly Wings
 //———————————————————————————————————————————————————————————
 tile.dark_azure_stone.name=Dark Fracture Stone
 tile.light_azure_stone.name=Light Fracture Stone
+tile.azure_stone_1.name=Fracture Granite
+tile.azure_stone_2.name=Marine Rock
+tile.azure_stone_3.name=Blue Granite
+tile.azure_stone_4.name=Azure Cobblestone
+tile.azure_stone_5.name=Blue Glowstone
+tile.furnace_pillar.name=Furnace Pillar
+tile.redstone_brick.name=Redstone Bricks
+tile.iron_grate.name=Iron Grate
 
 //———————————————————————————————————————————————————————————
 // Plants
@@ -129,9 +156,11 @@ tile.ruby_orchid.name=Ruby Orchid
 tile.double_browned_grass.name=Tall Browned Grass
 tile.azure_planks.name=Planks
 tile.azure_fence.name=Fence
+tile.azure_plank_stairs.name=Azure Plank Stairs
 tile.azure_sapling.name=Fracture Sapling
 tile.plum_sapling.name=Plum Sapling
 tile.large_plum_sapling.name=Large Plum Sapling
+tile.fire_grass.name=Red Tipped Grass
 
 //———————————————————————————————————————————————————————————
 // Maelstrom
@@ -154,6 +183,7 @@ tile.azure_iron_ore.name=Iron Ore
 tile.azure_gold_ore.name=Gold Ore
 tile.azure_redstone_ore.name=Redstone Ore
 tile.azure_lit_redostone_ore.name=Lit Redstone Ore
+tile.chasmium_ore.name=Chasmium Ore
 
 //———————————————————————————————————————————————————————————
 // Overworld
@@ -188,6 +218,7 @@ tile.ice_dungeon_key_block.name=Blue Dungeon Key Block
 tile.black_dungeon_key_block.name=Black Dungeon Key Block
 tile.nexus_herobrine_spawner.name=Mysterous Block
 tile.nexus_portal.name=Nexus Portal
+tile.dark_nexus_portal.name=Dark Nexus Portal
 
 //———————————————————————————————————————————————————————————
 // Util
@@ -221,12 +252,12 @@ tile.swamp_fence.name=Swamp Plank Fence
 //———————————————————————————————————————————————————————————
 // Entities
 //———————————————————————————————————————————————————————————
-entity.shade.name=Maelstrom Shade
-entity.horror.name=Maelstrom Horror
-entity.dream_elk.name=Dream Elk
-entity.beast.name=Maelstrom Beast
+entity.shade.name=Maelstrom Scout
+entity.horror.name=Maelstrom Cauldron
+entity.dream_elk.name=Azure Elk
+entity.beast.name=Maelstrom Crawler
 entity.maelstrom_illager.name=Maelstrom Illager
-entity.azure_villager.name=Villager
+entity.azure_villager.name=Azure Villager
 entity.maelstrom_mage.name=Maelstrom Mage
 entity.azure_golem.name=Fracture Golem
 entity.floating_skull.name=Floating Skull
@@ -238,16 +269,13 @@ entity.nexus_armorer.name=Nexus Armorer
 entity.nexus_saiyan.name=Nexus Saiyan
 entity.nexus_bladesmith.name=Nexus Bladesmith
 entity.golden_pillar.name=Golden Pillar
-entity.golden_shade.name=Golden Shade
-entity.golden_mage.name=Golden Mage
 entity.golden_boss.name=Statue of Nirvana
 entity.maelstrom_golden_boss.name=Maelstrom Statue of Nirvana
 entity.maelstrom_witch.name=Maelstrom Witch
 entity.cliff_golem.name=Cliff Stone Golem
 entity.swamp_crawler.name=Swamp Crawler
-entity.iron_shade.name=Shade of Execution
+entity.iron_shade.name=Maelstrom Executioner
 entity.maelstrom_beast.name=Maelstrom Minotaur
-entity.cliff_herobrine.name=Herobrine
 entity.cliff_fly.name=Swamp Fly
 
 //———————————————————————————————————————————————————————————
@@ -290,6 +318,9 @@ entity.maelstrom_wisp.name=Maelstrom Wisp
 entity.meteor.name=Maelstrom Meteor
 entity.meteor_spawner.name=Meteor Summoner
 entity.beast_quake.name=Minotaur Fissure
+entity.monolith.name=Maelstrom Monolith
+enttiy.white_monolith.name=Monolith
+entity.maelstrom_lancer.name=Maelstrom Lancer
 
 //———————————————————————————————————————————————————————————
 // Damage Sources
@@ -320,47 +351,112 @@ enchantment.maelstrom_protection=Maelstrom Protection
 enchantment.sharpness_2=Maelstrom Sharpness
 enchantment.critical_hit=Critical Hit
 
+enchantment.level.11=11
+enchantment.level.12=12
+enchantment.level.13=13
+enchantment.level.14=14
+enchantment.level.15=15
+enchantment.level.16=16
+enchantment.level.17=17
+enchantment.level.18=18
+enchantment.level.19=19
+enchantment.level.20=20
+enchantment.level.21=21
+enchantment.level.22=22
+enchantment.level.23=23
+enchantment.level.24=24
+enchantment.level.25=25
+enchantment.level.26=26
+enchantment.level.27=27
+enchantment.level.28=28
+enchantment.level.29=29
+enchantment.level.30=30
+enchantment.level.31=31
+enchantment.level.32=32
+enchantment.level.33=33
+enchantment.level.34=34
+enchantment.level.35=35
+enchantment.level.36=36
+enchantment.level.37=37
+enchantment.level.38=38
+enchantment.level.39=39
+enchantment.level.40=40
+enchantment.level.41=41
+enchantment.level.42=42
+enchantment.level.43=43
+enchantment.level.44=44
+enchantment.level.45=45
+enchantment.level.46=46
+enchantment.level.47=47
+enchantment.level.48=48
+enchantment.level.49=49
+enchantment.level.50=50
+
+//———————————————————————————————————————————————————————————
+// Potion
+//———————————————————————————————————————————————————————————
+mm.effect.water_strider=Water Walker
+
 //———————————————————————————————————————————————————————————
 // Loading Screens
 //———————————————————————————————————————————————————————————
 multiplayer.entering=Now Entering:
 multiplayer.azure_dimension=The Fracture
 multiplayer.nexus_dimension=The Nexus
-multiplayer.cliff_dimension=The Golden Valley
+multiplayer.cliff_dimension=The Golden Canyon
 
 //———————————————————————————————————————————————————————————
 // Creative Tabs
 //———————————————————————————————————————————————————————————
-itemGroup.all=Maelstrom Mod
+itemGroup.items=Maelstrom Mod Items
+itemGroup.blocks=Maelstrom Mod Blocks
 
 //———————————————————————————————————————————————————————————
 // Misc.
 //———————————————————————————————————————————————————————————
-islandbuilder.fail=Nexus Island Builder only activates in the overworld
+herobrine_trading=Herobrine's Epic Crafts
+mana_locked=You haven't unlocked mana yet!
+mm.invasion_1=Something is trying to enter this world
+mm.invasion_2=Something has entered this world
 
 //———————————————————————————————————————————————————————————
 // Config
 //———————————————————————————————————————————————————————————
 mm.config.world=World
-mm.config.spawn_island=Naturally Spawn Nexus Island
 mm.config.fracture_dimension_id=Fracture Dimension Id
 mm.config.nexus_dimension_id=Nexus Dimension Id
 mm.config.cliff_dimension_id=Cliff Dimension Id
+mm.config.dark_nexus_dimension_id=Dark Nexus Dimension Id
+mm.config.invasion_time=Invasion Time
 
 mm.config.gui=Gui
 mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
 mm.config.armor_bar_y=Maelstrom Armor Bar Y Offset
+mm.config.mana_bar_x=Mana Bar X Offset
+mm.config.mana_bar_y=Mana Bar Y Offset
 mm.config.show_cooldown_bar=Show Gun Cooldown Bar
+mm.config.show_mana_bar=Show Mana Bar
+mm.config.show_armor_bar=Show Armor Bar
 
 mm.config.balancing=Balancing
+mm.config.armor_toughness=Base Armor Toughness
+mm.config.mob_armor=Base Mob Armor
+mm.config.weapon_damage=Base Weapon Damage
 mm.config.scale=Progression Scale
-mm.config.mob_damage=Mob Damage Scaling
+mm.config.mob_damage=Base Mob Damage
+mm.config.elemental_factor=Elemental Factor
+
+mm.config.entities=Entities
+mm.config.use_vanilla_pathfinding=Use Vanilla Pathfinding
+mm.config.attack_all=Attack All Mobs
+mm.config.display_mob_level=Display Mob Level
+
+mm.config.server=Server
+mm.config.sync_config_on_login=Sync Config On Login
 
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions
 //———————————————————————————————————————————————————————————
-mm.desc.island_builder=Right-clicking builds a large island at y=100 that has a portal to the nexus dimension.
-mm.desc.lag=Lag warning!
 mm.desc.dimensional_key=Right click on a key block in the Nexus to activate
 mm.desc.tbd_key=A key to a dimension, coming soon!
 mm.desc.boomstick=Close range shotgun attack
@@ -368,20 +464,16 @@ mm.desc.musket=Medium range and melee attack
 mm.desc.maelstrom_cannon=Close range explosive attack
 mm.desc.wisp_staff=Short range piercing flame attack
 mm.desc.quake_staff=Short range ground attack
-mm.desc.level=Maelstrom Level
+mm.desc.level=Maelstrom Level: %s
 mm.desc.pumpkin=An accurate energy sniper rifle
 mm.desc.pumpkin_damage=Deals more damage the farther it travels
-mm.desc.deals=Deals
-mm.desc.damage_per_meter=damage per meter
-mm.desc.damage=Damage
-mm.desc.gun_ammo=Required Ammo
-mm.desc.gun_reload_time=second reload time
-mm.desc.no_ammo_required=None
+mm.desc.gun_ammo=Ammo use: %s
+mm.desc.gun_reload_time=%s second reload time
 mm.desc.dragonslayer=Has massive sweep attack
 mm.desc.dagger=Has no sweep attack
 mm.desc.flintlock=Medium range gun
 mm.desc.repeater=Short range repeating gun
-mm.desc.kanshou_bakuya=Wielding Kanshou and Bakuya together grants Strength III
+mm.desc.kanshou_bakuya=Wielding Kanshou and Bakuya together grants Strength II
 mm.desc.rifle=Long range gun
 mm.desc.elk_rifle=Pierces through multiple enemies
 mm.desc.frost_sword=Slows enemies on sweep attack
@@ -395,30 +487,74 @@ mm.desc.fall_damage_reduction=Reduces falling damage
 mm.desc.speed_staff=Gives a short speed boost
 mm.desc.fireball_staff=Shoots short range fireball
 mm.desc.explosive_staff=Made in honor of the gods of destruction
-mm.desc.potion_add=Adds
-mm.desc.black_gold_sword=Lights enemies on sweep attack
+mm.desc.potion_add=Adds %s
 mm.desc.meteor_staff=Summons a meteor up to 50 blocks away
-mm.desc.nyan_helmet=Full set bonus: Rainbows upon sprinting
+mm.desc.mana_cost=Mana Cost
+mm.desc.catalyst=Use to unlock mana
+mm.desc.elemental_damage_desc=Deals %s damage to %s mobs
+mm.desc.elemental_armor_desc=Reduces %s type damage by %s
+mm.desc.damage_tooltip=Deals %s damage
+mm.desc.damage_per_meter_tooltip=Deals %s damage per meter
+mm.desc.black_gold_full_set=Full set: Speed
+mm.desc.maelstrom_full_set=Full set: Resistance
+mm.desc.goltox_full_set=Full set: Poison Reduction
+mm.desc.swamp_full_set=Full set: Strength
+mm.desc.nyan_full_set=Full set: Rainbows when sprinting
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog
 //———————————————————————————————————————————————————————————
+mm.dialog.herobrine_pearl_0=You over there. You look like an adventurer.
+mm.dialog.herobrine_pearl_1=If you get me some pearls, I'll give you something good.
+mm.dialog.herobrine_pearl_2=Come on, there's no need for violence.
+
+mm.dialog.herobrine_battle_0=Thanks! Now, let me try to kill you.
+mm.dialog.herobrine_battle_1=I just want to see how strong you are for fun.
+
+mm.dialog.herobrine_battle_2=Fascinating. I guess you can fight.
+mm.dialog.herobrine_battle_3=Maybe instead of killing you, you can be my slave.
+mm.dialog.herobrine_battle_4=If you find any key fragments, give them to me, and I'll craft another key.
+mm.dialog.herobrine_battle_5=That way, I can unlock the way to those annoying maelstrom generals.
+mm.dialog.herobrine_battle_6=And you can do your exploration or whatever. Everybody wins.
+mm.dialog.herobrine_battle_7=Pipe down, the battle's over.
+
+mm.dialog.herobrine_cliff_0=Do you have fragments for the next key? If not, then GTFO.
+mm.dialog.herobrine_cliff_1=Don't attack me you dweeb. Only I'm allowed to attack unprovoked.
+mm.dialog.herobrine_cliff_2=Not bad. Now go get some more fragments for me.
+
+mm.dialog.herobrine_crimson_0=Do you have fragments for the next key? If not, then GTFO.
+mm.dialog.herobrine_crimson_1=How about you go left click some maelstrom instead?
+
+mm.dialog.herobrine_crimson_dimension_0=I have been informed by the mod creator that this is the current end of the mod.
+mm.dialog.herobrine_crimson_dimension_1=I have to sit here until an update happens. Lame.
+mm.dialog.herobrine_crimson_dimension_2=Guess you're too stupid to see that I'm ignoring you.
+
 mm.dialog.illager_1=What a fine being we have here! I must investigate!
 mm.dialog.illager_2=Come join our empire as a maelstrom zombie!
 mm.dialog.illager_3=Die pesky specimen!
-mm.dialog.herobrine_1=Hello there adventurer.
-mm.dialog.herobrine_2=Before I allow you to enter the maelstrom,
-mm.dialog.herobrine_3=I'll have to make sure you are able to fight.
-mm.dialog.herobrine_4=If you don't impress me, you'll die.
-mm.dialog.herobrine_5=Good, you have the skill,
-mm.dialog.herobrine_6=I will give you the key to the first dimension,
-mm.dialog.herobrine_7=We shall soon see how far you get.
+
 mm.dialog.azure_villager_1=We've been having a problem with the maelstrom that's invaded this dimension.
 mm.dialog.azure_villager_2=You seem like a warrior, would you defeat the maelstrom invaders for us?
 mm.dialog.azure_villager_3=We'll reward you handsomely for taking out the maelstrom.
 mm.dialog.azure_villager_4=Have a look around the mineshaft for any useful gear and items.
 mm.dialog.azure_villager_5=Under the maelstrom growths, there is a core that spawns the maelstrom. Remove those!
 mm.dialog.azure_villager_6=Keep an eye out for the maelstrom fortress. That's where the boss is.
-mm.dialog.herobrine_cliff_1=You have completed the first dimension? Not bad.
-mm.dialog.herobrine_cliff_2=You might be just what I'm looking for.
-mm.dialog.herobrine_cliff_3=Let's see how well you fare in this next dimension.
+mm.dialog.no_mana=Pleb, have no mana! Get some maelstrom minotaur horns, and I'll get you started.
+mm.dialog.mage_1=Good, that catalyst will unlock your mana.
+mm.dialog.mage_2=Any staff uses a certain amount of mana.
+mm.dialog.mage_3=Mana will slowly refill over time.
+mm.dialog.mage_4=Slaying the maelstrom will also restore mana. Bosses will fill your entire bar!
+mm.dialog.mage_5=Be careful of enemies that drain your mana. Now good luck, apprentice!
+mm.dialog.gun_1=That's a good starter gun. First time shooting?
+mm.dialog.gun_2=I'll explain to refresh your memory anyways.
+mm.dialog.gun_3=Guns need to be reloaded after every shot.
+mm.dialog.gun_4=They will automatically reload in your hand.
+mm.dialog.gun_5=Guns require ammo, so keep plenty on you.
+mm.dialog.gun_6=I personally use cases of ammo. Why you ask?
+mm.dialog.gun_7=Because guns require megatons of ammo!
+mm.dialog.armor_1=Watch out for modded armors. Some are scams!
+mm.dialog.armor_2=In what way you ask? I'll share my research.
+mm.dialog.armor_3=Armor points past 20, a full diamond suit, do not actually matter!
+mm.dialog.armor_4=This is because the damage calculation caps armor at 20 even if the armor is stronger.
+mm.dialog.armor_5=My armor is different. It uses maelstrom armor to become stronger than diamond.
+mm.dialog.armor_6=So always buy from your trusted armorer!

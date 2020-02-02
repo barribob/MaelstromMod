@@ -3,7 +3,7 @@
   "modid": "mm",
   "name": "Maelstrom Mod",
   "description": "A dimension expansion mod.",
-  "version": "1.12.2-0.3.1",
+  "version": "1.12.2-0.3.2",
   "mcversion": "1.12",
   "url": "https://maelstrom-mod.fandom.com/wiki/Downloads",
   "updateJSON": "https://raw.githubusercontent.com/miyo6032/MaelstromMod/LibraryIntegration/update.json",

@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.world.dimension.cliff;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.world.dimension.WorldChunkGenerator;
 import com.barribob.MaelstromMod.world.gen.WorldGenLongVein;
+import com.barribob.MaelstromMod.world.gen.cliff.MapGenHoleTemple;
 import com.barribob.MaelstromMod.world.gen.golden_ruins.MapGenGoldenRuins;
 
 import net.minecraft.init.Blocks;
@@ -20,8 +21,12 @@ public class ChunkGeneratorCliff extends WorldChunkGenerator
     public ChunkGeneratorCliff(World worldIn, long seed, boolean mapFeaturesEnabledIn, String generatorOptions)
     {
 	super(worldIn, seed, mapFeaturesEnabledIn, generatorOptions, ModBlocks.CLIFF_STONE, Blocks.WATER, null);
-	MapGenStructure[] structures = { new MapGenGoldenRuins(STRUCTURE_SPACING_CHUNKS, GOLDEN_RUINS_NUMBER, 1, this) };
+	MapGenStructure[] structures = { new MapGenGoldenRuins(STRUCTURE_SPACING_CHUNKS, GOLDEN_RUINS_NUMBER, 1, this),
+		new MapGenHoleTemple(STRUCTURE_SPACING_CHUNKS, 10, 1, this) };
 	this.structures = structures;
+
+	worldIn.setSeaLevel(39);
+
     }
 
     @Override

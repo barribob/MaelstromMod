@@ -2,17 +2,13 @@ package com.barribob.MaelstromMod.world.gen;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.function.Consumer;
 
-import com.barribob.MaelstromMod.entity.tileentity.TileEntityMalestromSpawner;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
-import com.barribob.MaelstromMod.init.ModEntities;
-import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -20,12 +16,14 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class WorldGenMaelstrom extends WorldGenerator
 {
     private final Block maelstromBlock;
-    private final Block malestromCore;
+    private final Block maelstromCore;
+    private final Consumer<TileEntityMobSpawner> dataSetter;
     
-    public WorldGenMaelstrom(Block block, Block core)
+    public WorldGenMaelstrom(Block block, Block core, Consumer<TileEntityMobSpawner> dataSetter)
     {
 	this.maelstromBlock = block;
-	this.malestromCore = core;
+	this.maelstromCore = core;
+	this.dataSetter = dataSetter;
     }
     
     /**
@@ -64,14 +62,12 @@ public class WorldGenMaelstrom extends WorldGenerator
 	}
 	
 	// Add the core in the approximate center, and initialize the tile entity
-	worldIn.setBlockState(pos.down(), this.malestromCore.getDefaultState(), 2);
+	worldIn.setBlockState(pos.down(), this.maelstromCore.getDefaultState(), 2);
         TileEntity tileentity = worldIn.getTileEntity(pos.down());
 
         if (tileentity instanceof TileEntityMobSpawner)
         {
-            String[] entities = {"shade", "horror", "maelstrom_mage"};
-            String entityName = ModRandom.choice(entities);
-            ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic().setEntities(new ResourceLocation(Reference.MOD_ID + ":" + entityName), 4);
+	    this.dataSetter.accept((TileEntityMobSpawner) tileentity);
         }
 	
 	return true;

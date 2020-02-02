@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.world.gen.golden_ruins;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.barribob.MaelstromMod.util.GenUtils;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.world.dimension.cliff.ChunkGeneratorCliff;
@@ -12,8 +13,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
@@ -44,7 +43,7 @@ public class GoldenRuins
     public void startStronghold(BlockPos pos, Rotation rot)
     {
 	RuinsTemplate template = new RuinsTemplate(manager, "boss", pos, rot, 0, true);
-	if (this.getGroundHeight(template, provider, rot) > requiredGroundHeight && !ModUtils.chunksGenerated(template.getBoundingBox(), world))
+	if (GenUtils.getGroundHeight(template, provider, rot) > requiredGroundHeight && !ModUtils.chunksGenerated(template.getBoundingBox(), world))
 	{
 	    components.add(template);
 	    generateCross(template, BlockPos.ORIGIN, rot);
@@ -62,7 +61,7 @@ public class GoldenRuins
 	    return false;
 	}
 
-	if (this.getGroundHeight(template, provider, rot) < requiredGroundHeight)
+	if (GenUtils.getGroundHeight(template, provider, rot) < requiredGroundHeight)
 	{
 	    return this.generateEnd(parent, pos, rot);
 	}
@@ -100,7 +99,7 @@ public class GoldenRuins
 	    return false;
 	}
 
-	if (this.getGroundHeight(template, provider, rot) < requiredGroundHeight)
+	if (GenUtils.getGroundHeight(template, provider, rot) < requiredGroundHeight)
 	{
 	    return this.generateEnd(parent, pos, rot);
 	}
@@ -163,48 +162,5 @@ public class GoldenRuins
 	BlockPos adjustedPos = new BlockPos(parent.getTemplate().getSize().getX(), 0, (parent.getTemplate().getSize().getZ() - child.getTemplate().getSize().getZ()) / 2f)
 		.rotate(rot);
 	child.offset(adjustedPos.getX(), adjustedPos.getY(), adjustedPos.getZ());
-    }
-
-    private int getGroundHeight(RuinsTemplate template, ChunkGeneratorCliff gen, Rotation rotation)
-    {
-	StructureBoundingBox box = template.getBoundingBox();
-	int corner1 = this.getGroundHeight(new BlockPos(box.maxX, 0, box.maxZ), gen, rotation);
-	int corner2 = this.getGroundHeight(new BlockPos(box.minX, 0, box.maxZ), gen, rotation);
-	int corner3 = this.getGroundHeight(new BlockPos(box.maxX, 0, box.minZ), gen, rotation);
-	int corner4 = this.getGroundHeight(new BlockPos(box.minX, 0, box.minZ), gen, rotation);
-	return Math.min(Math.min(corner3, corner4), Math.max(corner2, corner1));
-    }
-
-    /*
-     * From MapGenEndCity: determines the ground height
-     */
-    private int getGroundHeight(BlockPos pos, ChunkGeneratorCliff gen, Rotation rotation)
-    {
-	BlockPos chunk = ModUtils.posToChunk(pos);
-	ChunkPrimer chunkprimer = new ChunkPrimer();
-	gen.setBlocksInChunk(chunk.getX(), chunk.getZ(), chunkprimer);
-	int i = 5;
-	int j = 5;
-
-	if (rotation == Rotation.CLOCKWISE_90)
-	{
-	    i = -5;
-	}
-	else if (rotation == Rotation.CLOCKWISE_180)
-	{
-	    i = -5;
-	    j = -5;
-	}
-	else if (rotation == Rotation.COUNTERCLOCKWISE_90)
-	{
-	    j = -5;
-	}
-
-	int k = chunkprimer.findGroundBlockIdx(7, 7);
-	int l = chunkprimer.findGroundBlockIdx(7, 7 + j);
-	int i1 = chunkprimer.findGroundBlockIdx(7 + i, 7);
-	int j1 = chunkprimer.findGroundBlockIdx(7 + i, 7 + j);
-	int k1 = Math.min(Math.min(k, l), Math.min(i1, j1));
-	return k1;
     }
 }

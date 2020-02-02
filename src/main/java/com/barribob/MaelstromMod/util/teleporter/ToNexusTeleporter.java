@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -49,6 +50,7 @@ public class ToNexusTeleporter extends Teleporter
 	int x = MathHelper.floor(entityIn.posX / spacing) * spacing + portalOffset.getX();
 	int z = MathHelper.floor(entityIn.posZ / spacing) * spacing + portalOffset.getZ();
 	int y = portalOffset.getY();
+	Vec3d entityOffset = new Vec3d(2.5, 1, -0.5);
 
 	if (entityIn instanceof EntityPlayerMP)
 	{
@@ -61,11 +63,11 @@ public class ToNexusTeleporter extends Teleporter
 		int chunkZ = Math.floorDiv((z >> 4), DimensionNexus.NexusStructureSpacing) * DimensionNexus.NexusStructureSpacing;
 		WorldGenCustomStructures.NEXUS.generate(world, random, new BlockPos(chunkX * 16 + 8, 50, chunkZ * 16 + 8));
 	    }
-	    ((EntityPlayerMP) entityIn).connection.setPlayerLocation(x, y, z, entityIn.rotationYaw, entityIn.rotationPitch);
+	    ((EntityPlayerMP) entityIn).connection.setPlayerLocation(x + entityOffset.x, y + entityOffset.y, z + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
 	}
 	else
 	{
-	    entityIn.setLocationAndAngles(x, y, z, entityIn.rotationYaw, entityIn.rotationPitch);
+	    entityIn.setLocationAndAngles(x + entityOffset.x, y + entityOffset.y, z + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
 	}
 	return true;
     }
