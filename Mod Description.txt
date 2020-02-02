@@ -1,0 +1,41 @@
+Welcome Adventurers! This is the Maelstrom Mod, a work-in-progress adventure RPG. If you enjoy journeying into unknown places full of unknown dangers and testing the limits of your combat, this mod is aimed to provide just that.
+
+ 
+
+Story:
+One day, a giant purple tower appears beside your house ruining the landscape and laying waste to anything near it. Will you avoid it and the faceless evil within at all costs, or fight back against the Maelstrom that's spread across Minecraft?
+
+ 
+
+Features:
+
+3 Dimensions
+Gigantic Structures
+Tactical Multistage Boss Fights
+Lightweight storyline
+ 
+
+To enter the first dimension:
+Unlike most adventure mods, you don't get to invade, this time, you will be invaded first!
+
+ 
+
+Modpack Developers:
+At this point, this mod has not been tested enough for me to say that it is modpack ready. This goes especially for the server. Be careful and test thoroughly if you decide to include it. Of course, I'm willing to work with you to get your modpack working!
+That said, this mod attempts to provide a lot of powerful configuration options that should let this mod fit into any modpack and not unbalance it too much.
+
+ 
+
+Words of warning:
+This mod is experimental and intentionally will destroy part of the world when placing the invasion tower.
+It's designed to avoid player spawn points, but you can still expect some property damage. A harmless invasion isn't really an invasion after all!
+
+ 
+
+Suggestions:
+This mod is still in its infancy. If you have suggestions, don't hesitate to add a comment or create an issue in the issue tracker.
+
+ 
+
+Wiki:
+The wiki currently provides a very small amount of additional information about the mod.
