@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import java.util.PriorityQueue;
+
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
@@ -43,6 +45,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     protected static final DataParameter<Boolean> IMMOVABLE = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
     private Vec3d initialPosition = null;
     protected double healthScaledAttackFactor = 0.0; // Factor that determines how much attack is affected by health
+    private PriorityQueue<TimedEvent> events = new PriorityQueue<TimedEvent>();
 
     public EntityLeveledMob(World worldIn)
     {
@@ -86,6 +89,21 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     public void onLivingUpdate()
     {
 	super.onLivingUpdate();
+
+	boolean foundEvent = true;
+	while (foundEvent)
+	{
+	    TimedEvent event = events.peek();
+	    if (event != null && event.ticks <= this.ticksExisted)
+	    {
+		events.remove();
+		event.callback.run();
+	    }
+	    else
+	    {
+		foundEvent = false;
+	    }
+	}
 
 	if (world.isRemote && currentAnimation != null)
 	{
@@ -261,5 +279,35 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 
     public void doRender(RenderManager renderManager, double x, double y, double z, float entityYaw, float partialTicks)
     {
+    }
+
+    /**
+     * Adds an event to be executed at a later time. Negative ticks are executed
+     * immediately.
+     * 
+     * @param runnable
+     * @param ticksFromNow
+     */
+    protected void addEvent(Runnable runnable, int ticksFromNow)
+    {
+	events.add(new TimedEvent(runnable, this.ticksExisted + ticksFromNow));
+    }
+
+    private static class TimedEvent implements Comparable<TimedEvent>
+    {
+	Runnable callback;
+	int ticks;
+
+	public TimedEvent(Runnable callback, int ticks)
+	{
+	    this.callback = callback;
+	    this.ticks = ticks;
+	}
+
+	@Override
+	public int compareTo(TimedEvent event)
+	{
+	    return event.ticks < ticks ? 1 : -1;
+	}
     }
 }
