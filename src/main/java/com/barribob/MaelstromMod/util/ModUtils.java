@@ -546,4 +546,16 @@ public final class ModUtils
 
 	return amount;
     }
+
+    public static void leapTowards(EntityLivingBase entity, Vec3d target, float horzVel, float yVel)
+    {
+	Vec3d dir = target.subtract(entity.getPositionVector()).normalize();
+	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(horzVel).add(ModUtils.yVec(yVel));
+	entity.motionX += leap.x;
+	if (entity.motionY < 0.1)
+	{
+	    entity.motionY += leap.y;
+	}
+	entity.motionZ += leap.z;
+    }
 }

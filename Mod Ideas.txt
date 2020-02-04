@@ -1,6 +1,6 @@
 |||||||||||||||||||||||||||||||||||||||||||||| Update 0.5
 The Mantle
-|||||||||||||||||||||||||||||||||||||||||||||| Update 0.4 (May 1)
+|||||||||||||||||||||||||||||||||||||||||||||| Update 0.4 (June 1)
 Crimson Dungeon [85]
     [DONE] Dungeon Blocks (6)
     Dungeon Generation [35]
@@ -8,16 +8,28 @@ Crimson Dungeon [85]
         Build the dungeon (30)
         Basic generation to place dungeon in (3)
     Mobs [32]
-        Engineer with advanced AI (6)
-        Knight (4)
         Eyerock (9)
-        Maelstrom Knight (8)
-        Mage (3)
+        Chaos Knight (8)
+            A hulking beast of a commander that throws attacks like an unstoppable truck, and defends with a magical shield
+
+            When not actively attacking, the knight defends with its shield, immune to attacks from the front.
+
+            Double slice - jumps forward twice and takes two wide swings at the player, dealing heavy damage and knockback.
+
+            Jump Slam - jump high into the air, front-flip and slam down, dealing area damage nearby
+
+            Teleportation Slice - does an epic ninja slice that teleports him across the room instantly
+
+            Side swipe - A close melee attack and an immediate feint to the side.
+
+            Shield charge - A fast charge using the shield to deal damage
+
+            Rage mode: melee attacks shoot ranged particles. Deals more damage. Add in an extra move.
+
+        Maelstrom Tech (3)
+
     Items [12]
         3 sets of armor (5)
-            common for level 3
-            common for level 3.5
-            rare for nexus trading 3.5
         4 guns (4)
             4 for chests
             1 for nexus

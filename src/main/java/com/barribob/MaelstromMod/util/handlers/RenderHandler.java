@@ -5,6 +5,7 @@ import java.util.function.Function;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
+import com.barribob.MaelstromMod.entity.entities.EntityChaosKnight;
 import com.barribob.MaelstromMod.entity.entities.EntityCliffFly;
 import com.barribob.MaelstromMod.entity.entities.EntityCliffGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityDreamElk;
@@ -33,6 +34,7 @@ import com.barribob.MaelstromMod.entity.entities.npc.NexusSpecialTrader;
 import com.barribob.MaelstromMod.entity.model.ModelArmorer;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.model.ModelBladesmith;
+import com.barribob.MaelstromMod.entity.model.ModelChaosKnight;
 import com.barribob.MaelstromMod.entity.model.ModelCliffFly;
 import com.barribob.MaelstromMod.entity.model.ModelDreamElk;
 import com.barribob.MaelstromMod.entity.model.ModelFloatingSkull;
@@ -117,6 +119,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityMonolith.class, (manager) -> new RenderMonolith(manager));
 	registerModEntityRenderer(EntityWhiteMonolith.class, (manager) -> new RenderWhiteMonolith(manager));
 	registerModEntityRenderer(EntityMaelstromLancer.class, new ModelMaelstromLancer(), "maelstrom_lancer.png", "maelstrom_lancer_azure.png", "maelstrom_lancer_golden.png");
+	registerModEntityRenderer(EntityChaosKnight.class, new ModelChaosKnight(), "chaos_knight.png");
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
