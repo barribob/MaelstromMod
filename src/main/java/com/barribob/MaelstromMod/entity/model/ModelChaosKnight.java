@@ -11,8 +11,8 @@ public class ModelChaosKnight extends ModelAnimated
     public final ModelRenderer Chest1;
     private final ModelRenderer Chest2;
     public final ModelRenderer leftShoulder;
-    private final ModelRenderer Rarm1;
-    private final ModelRenderer Rarm2;
+    private final ModelRenderer leftArm1;
+    public final ModelRenderer leftArm2;
     private final ModelRenderer sheild1;
     private final ModelRenderer sheild2;
     private final ModelRenderer sheild3;
@@ -23,8 +23,8 @@ public class ModelChaosKnight extends ModelAnimated
     private final ModelRenderer sheild8;
     private final ModelRenderer sheild9;
     public final ModelRenderer rightShoulder;
-    private final ModelRenderer Larm1;
-    private final ModelRenderer Larm2;
+    private final ModelRenderer rightArm1;
+    private final ModelRenderer rightArm2;
     public final ModelRenderer axe0;
     private final ModelRenderer axe1;
     private final ModelRenderer shaft;
@@ -81,7 +81,7 @@ public class ModelChaosKnight extends ModelAnimated
 
 	Chest1 = new ModelRenderer(this);
 	Chest1.setRotationPoint(0.0F, 5.5F, 0.0F);
-	setRotationAngle(Chest1, 0.0F, -3.1416F, 0.0F);
+	setRotationAngle(Chest1, 0.0F, 3.1416F, 0.0F);
 	root.addChild(Chest1);
 	Chest1.cubeList.add(new ModelBox(Chest1, 0, 0, -8.5F, -14.0F, -4.0F, 17, 10, 8, 0.0F, true));
 
@@ -96,60 +96,59 @@ public class ModelChaosKnight extends ModelAnimated
 	Chest1.addChild(leftShoulder);
 	leftShoulder.cubeList.add(new ModelBox(leftShoulder, 45, 14, -2.0F, -2.721F, -1.9903F, 5, 7, 5, 0.0F, true));
 
-	Rarm1 = new ModelRenderer(this);
-	Rarm1.setRotationPoint(3.1F, 4.0F, 2.0F);
-	leftShoulder.addChild(Rarm1);
-	Rarm1.cubeList.add(new ModelBox(Rarm1, 121, 34, -3.99F, 0.279F, -3.7903F, 4, 5, 4, 0.0F, true));
+	leftArm1 = new ModelRenderer(this);
+	leftArm1.setRotationPoint(3.1F, 4.0F, 2.0F);
+	leftShoulder.addChild(leftArm1);
+	leftArm1.cubeList.add(new ModelBox(leftArm1, 121, 34, -3.99F, 0.279F, -3.7903F, 4, 5, 4, 0.0F, true));
 
-	Rarm2 = new ModelRenderer(this);
-	Rarm2.setRotationPoint(0.1F, 6.8F, 3.7F);
-	setRotationAngle(Rarm2, 0.0698F, 0.0F, 0.0F);
-	leftShoulder.addChild(Rarm2);
-	Rarm2.cubeList.add(new ModelBox(Rarm2, 59, 35, -1.0F, 0.0F, -6.0F, 4, 11, 5, 0.0F, true));
+	leftArm2 = new ModelRenderer(this);
+	leftArm2.setRotationPoint(2.1F, 6.8F, 3.7F);
+	leftShoulder.addChild(leftArm2);
+	leftArm2.cubeList.add(new ModelBox(leftArm2, 59, 35, -3.0F, 0.0F, -6.0F, 4, 11, 5, 0.0F, true));
 
 	sheild1 = new ModelRenderer(this);
-	sheild1.setRotationPoint(0.0F, 2.0F, 0.0F);
-	Rarm2.addChild(sheild1);
+	sheild1.setRotationPoint(-2.0F, 2.0F, 0.0F);
+	leftArm2.addChild(sheild1);
 	sheild1.cubeList.add(new ModelBox(sheild1, 22, 35, -2.0F, 0.0F, -8.0F, 1, 10, 11, 0.0F, true));
 
 	sheild2 = new ModelRenderer(this);
-	sheild2.setRotationPoint(-1.0F, 3.5F, -6.0F);
-	Rarm2.addChild(sheild2);
+	sheild2.setRotationPoint(-3.0F, 3.5F, -6.0F);
+	leftArm2.addChild(sheild2);
 	sheild2.cubeList.add(new ModelBox(sheild2, 98, 90, -1.0F, 0.0F, -4.0F, 1, 7, 2, 0.0F, true));
 
 	sheild3 = new ModelRenderer(this);
-	sheild3.setRotationPoint(-1.0F, 5.4F, -7.0F);
-	Rarm2.addChild(sheild3);
+	sheild3.setRotationPoint(-3.0F, 5.4F, -7.0F);
+	leftArm2.addChild(sheild3);
 	sheild3.cubeList.add(new ModelBox(sheild3, 118, 85, -1.0F, 0.0F, -4.0F, 1, 3, 1, 0.0F, true));
 
 	sheild4 = new ModelRenderer(this);
-	sheild4.setRotationPoint(-1.0F, 1.0F, 1.0F);
-	Rarm2.addChild(sheild4);
+	sheild4.setRotationPoint(-3.0F, 1.0F, 1.0F);
+	leftArm2.addChild(sheild4);
 	sheild4.cubeList.add(new ModelBox(sheild4, 109, 14, -1.0F, 0.0F, -4.0F, 1, 1, 6, 0.0F, true));
 
 	sheild5 = new ModelRenderer(this);
-	sheild5.setRotationPoint(-1.0F, 12.0F, 1.0F);
-	Rarm2.addChild(sheild5);
+	sheild5.setRotationPoint(-3.0F, 12.0F, 1.0F);
+	leftArm2.addChild(sheild5);
 	sheild5.cubeList.add(new ModelBox(sheild5, 49, 26, -1.0F, 0.0F, -4.0F, 1, 1, 6, 0.0F, true));
 
 	sheild6 = new ModelRenderer(this);
-	sheild6.setRotationPoint(-0.7F, 4.0F, 0.0F);
-	Rarm2.addChild(sheild6);
+	sheild6.setRotationPoint(-2.7F, 4.0F, 0.0F);
+	leftArm2.addChild(sheild6);
 	sheild6.cubeList.add(new ModelBox(sheild6, 77, 38, -2.0F, 0.0F, -8.0F, 1, 6, 10, 0.0F, true));
 
 	sheild7 = new ModelRenderer(this);
-	sheild7.setRotationPoint(-0.4F, 3.0F, 5.0F);
-	Rarm2.addChild(sheild7);
+	sheild7.setRotationPoint(-2.4F, 3.0F, 5.0F);
+	leftArm2.addChild(sheild7);
 	sheild7.cubeList.add(new ModelBox(sheild7, 46, 46, -2.0F, 0.0F, -8.0F, 1, 8, 6, 0.0F, true));
 
 	sheild8 = new ModelRenderer(this);
-	sheild8.setRotationPoint(0.0F, 2.0F, 10.0F);
-	Rarm2.addChild(sheild8);
+	sheild8.setRotationPoint(-2.0F, 2.0F, 10.0F);
+	leftArm2.addChild(sheild8);
 	sheild8.cubeList.add(new ModelBox(sheild8, 134, 0, -2.0F, 0.0F, -7.0F, 1, 10, 1, 0.0F, true));
 
 	sheild9 = new ModelRenderer(this);
-	sheild9.setRotationPoint(0.0F, 4.5F, 12.0F);
-	Rarm2.addChild(sheild9);
+	sheild9.setRotationPoint(-2.0F, 4.5F, 12.0F);
+	leftArm2.addChild(sheild9);
 	sheild9.cubeList.add(new ModelBox(sheild9, 116, 92, -2.0F, 0.0F, -8.0F, 1, 5, 1, 0.0F, true));
 
 	rightShoulder = new ModelRenderer(this);
@@ -157,20 +156,20 @@ public class ModelChaosKnight extends ModelAnimated
 	Chest1.addChild(rightShoulder);
 	rightShoulder.cubeList.add(new ModelBox(rightShoulder, 65, 14, -2.0F, -0.721F, -2.4903F, 5, 6, 5, 0.0F, true));
 
-	Larm1 = new ModelRenderer(this);
-	Larm1.setRotationPoint(2.1F, 5.0F, -0.5F);
-	rightShoulder.addChild(Larm1);
-	Larm1.cubeList.add(new ModelBox(Larm1, 0, 50, -4.01F, 0.279F, -1.5F, 4, 5, 4, 0.0F, true));
+	rightArm1 = new ModelRenderer(this);
+	rightArm1.setRotationPoint(2.1F, 5.0F, -0.5F);
+	rightShoulder.addChild(rightArm1);
+	rightArm1.cubeList.add(new ModelBox(rightArm1, 0, 50, -4.01F, 0.279F, -1.5F, 4, 5, 4, 0.0F, true));
 
-	Larm2 = new ModelRenderer(this);
-	Larm2.setRotationPoint(0.1F, 7.8F, 0.0F);
-	rightShoulder.addChild(Larm2);
-	Larm2.cubeList.add(new ModelBox(Larm2, 60, 51, -2.0F, 0.0F, -2.5F, 4, 11, 5, 0.0F, true));
+	rightArm2 = new ModelRenderer(this);
+	rightArm2.setRotationPoint(0.1F, 7.8F, 0.0F);
+	rightShoulder.addChild(rightArm2);
+	rightArm2.cubeList.add(new ModelBox(rightArm2, 60, 51, -2.0F, 0.0F, -2.5F, 4, 11, 5, 0.0F, true));
 
 	axe0 = new ModelRenderer(this);
 	axe0.setRotationPoint(0.3F, 8.8F, -0.1F);
-	Larm2.addChild(axe0);
-	axe0.cubeList.add(new ModelBox(axe0, 68, 38, -1.0F, 0.0F, -5.0F, 1, 1, 31, 0.0F, true));
+	rightArm2.addChild(axe0);
+	axe0.cubeList.add(new ModelBox(axe0, 68, 38, -1.0F, 0.0F, -11.6F, 1, 1, 31, 0.0F, true));
 
 	axe1 = new ModelRenderer(this);
 	axe1.setRotationPoint(0.5F, -0.5F, 22.8F);
@@ -180,7 +179,7 @@ public class ModelChaosKnight extends ModelAnimated
 	shaft = new ModelRenderer(this);
 	shaft.setRotationPoint(0.5F, -0.5F, -2.4F);
 	axe0.addChild(shaft);
-	shaft.cubeList.add(new ModelBox(shaft, 42, 0, -2.0F, 0.0F, -3.0F, 2, 2, 2, 0.0F, true));
+	shaft.cubeList.add(new ModelBox(shaft, 42, 0, -2.0F, 0.0F, -10.0F, 2, 2, 2, 0.0F, true));
 
 	axe2 = new ModelRenderer(this);
 	axe2.setRotationPoint(0.0F, -2.5F, 23.3F);
@@ -421,7 +420,7 @@ public class ModelChaosKnight extends ModelAnimated
     @Override
     public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTickTime)
     {
-	float limbSwingFactor = 1.5f;
+	float limbSwingFactor = 1.0f;
 	this.Leg1.rotateAngleX = -limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 	this.leg2.rotateAngleX = limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 

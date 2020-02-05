@@ -118,5 +118,15 @@
                 "stream": true
             }
         ]
+    },
+    "entity.chaos_knight.block": {
+        "category": "entity",
+        "subtitle": "entity.chaos_knight.block",
+        "sounds": [
+            {
+                "name": "mm:entity/chaos_knight/block",
+                "stream": true
+            }
+        ]
     }
 }

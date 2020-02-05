@@ -24,6 +24,7 @@ public class SoundsHandler
     public static SoundEvent ENTTIY_CRAWLER_AMBIENT;
     public static SoundEvent ENTTIY_CRAWLER_HURT;
     public static SoundEvent ENTITY_MONOLITH_AMBIENT;
+    public static SoundEvent ENTITY_CHAOS_KNIGHT_BLOCK;
 
     public static void registerSounds()
     {
@@ -38,6 +39,7 @@ public class SoundsHandler
 	ENTTIY_CRAWLER_AMBIENT = registerSound("entity.swamp_crawler.ambient");
 	ENTTIY_CRAWLER_HURT = registerSound("entity.swamp_crawler.hurt");
 	ENTITY_MONOLITH_AMBIENT = registerSound("entity.monolith.ambient");
+	ENTITY_CHAOS_KNIGHT_BLOCK = registerSound("entity.chaos_knight.block");
     }
 
     private static SoundEvent registerSound(String name)

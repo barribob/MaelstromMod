@@ -14,11 +14,13 @@ import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
+import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -45,12 +47,12 @@ public class EntityChaosKnight extends EntityMaelstromMob
 		{
 		    Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(0.5, 1, -1)));
 		    ModUtils.handleAreaImpact(2, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.5f, 0, false);
-		    ParticleManager.spawnParticleSphere(world, offset, 2);
 		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		    Vec3d jump = actor.getLookVec().rotateYaw(180).scale(0.6f);
 		    actor.motionX = jump.x;
 		    actor.motionY = 0.4;
 		    actor.motionZ = jump.z;
+		    addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 15);
 		}
 	    });
 	}
@@ -59,12 +61,23 @@ public class EntityChaosKnight extends EntityMaelstromMob
     @Override
     protected void initAnimation()
     {
+	BiConsumer<ModelChaosKnight, Float> leftArmX = (model, f) -> model.leftShoulder.rotateAngleX = -f;
+	BiConsumer<ModelChaosKnight, Float> elbowZ = (model, f) -> model.leftArm2.rotateAngleZ = f;
+
+	AnimationClip<ModelChaosKnight> shieldUpLeftArmX = new AnimationClip<ModelChaosKnight>(5, 0, -90, leftArmX);
+	AnimationClip<ModelChaosKnight> shieldUpElbowZ = new AnimationClip<ModelChaosKnight>(5, 0, -90, elbowZ);
+
+	AnimationClip<ModelChaosKnight> shieldDownLeftArmX = new AnimationClip<ModelChaosKnight>(5, -90, 0, leftArmX);
+	AnimationClip<ModelChaosKnight> shieldDownElbowZ = new AnimationClip<ModelChaosKnight>(5, -90, 0, elbowZ);
+
 	List<List<AnimationClip<ModelChaosKnight>>> animationSlash = new ArrayList<List<AnimationClip<ModelChaosKnight>>>();
 	List<AnimationClip<ModelChaosKnight>> bodyYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	List<AnimationClip<ModelChaosKnight>> bodyXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	List<AnimationClip<ModelChaosKnight>> rightArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	List<AnimationClip<ModelChaosKnight>> rightArmZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	List<AnimationClip<ModelChaosKnight>> axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	List<AnimationClip<ModelChaosKnight>> leftArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	List<AnimationClip<ModelChaosKnight>> elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 
 	BiConsumer<ModelChaosKnight, Float> none = (model, f) -> {
 	};
@@ -101,11 +114,21 @@ public class EntityChaosKnight extends EntityMaelstromMob
 	axeStream.add(new AnimationClip<ModelChaosKnight>(4, 45, 45, axeX));
 	axeStream.add(new AnimationClip<ModelChaosKnight>(6, 45, 0, axeX));
 
+	leftArmXStream.add(shieldDownLeftArmX);
+	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(27, 0, 0, leftArmX));
+	leftArmXStream.add(shieldUpLeftArmX);
+
+	elbowZStream.add(shieldDownElbowZ);
+	elbowZStream.add(new AnimationClip<ModelChaosKnight>(27, 0, 0, elbowZ));
+	elbowZStream.add(shieldUpElbowZ);
+
 	animationSlash.add(axeStream);
 	animationSlash.add(bodyYStream);
 	animationSlash.add(bodyXStream);
 	animationSlash.add(rightArmXStream);
 	animationSlash.add(rightArmZStream);
+	animationSlash.add(leftArmXStream);
+	animationSlash.add(elbowZStream);
 
 	attackHandler.setAttack(sideSwipe, Action.NONE, () -> new StreamAnimation(animationSlash));
     }
@@ -120,6 +143,57 @@ public class EntityChaosKnight extends EntityMaelstromMob
     }
 
     @Override
+    public boolean attackEntityFrom(DamageSource source, float amount)
+    {
+	if (amount > 0.0F && this.canBlockDamageSource(source))
+	{
+	    this.damageShield(amount);
+	    amount = 0.0F;
+
+	    if (!source.isProjectile())
+	    {
+		Entity entity = source.getImmediateSource();
+
+		if (entity instanceof EntityLivingBase)
+		{
+		    this.blockUsingShield((EntityLivingBase) entity);
+		}
+	    }
+	    this.playSound(SoundsHandler.ENTITY_CHAOS_KNIGHT_BLOCK, 1.0f, 0.9f + ModRandom.getFloat(0.2f));
+
+	    return false;
+	}
+	return super.attackEntityFrom(source, amount);
+    }
+
+    /**
+     * Determines whether the entity can block the damage source based on the damage
+     * source's location, whether the damage source is blockable, and whether the
+     * entity is blocking.
+     */
+    private boolean canBlockDamageSource(DamageSource damageSourceIn)
+    {
+	if (!damageSourceIn.isUnblockable() && !this.isSwingingArms())
+	{
+	    Vec3d vec3d = damageSourceIn.getDamageLocation();
+
+	    if (vec3d != null)
+	    {
+		Vec3d vec3d1 = this.getLook(1.0F);
+		Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(this.posX, this.posY, this.posZ)).normalize();
+		vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
+
+		if (vec3d2.dotProduct(vec3d1) < 0.0D)
+		{
+		    return true;
+		}
+	    }
+	}
+
+	return false;
+    }
+
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -129,9 +203,9 @@ public class EntityChaosKnight extends EntityMaelstromMob
     @Override
     public void setSwingingArms(boolean swingingArms)
     {
-	super.setSwingingArms(swingingArms);
-	if (this.isSwingingArms())
+	if (swingingArms)
 	{
+	    super.setSwingingArms(true);
 	    Byte[] attack = { sideSwipe };
 	    attackHandler.setCurrentAttack(ModRandom.choice(attack));
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
