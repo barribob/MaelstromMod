@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 
 public class ModelChaosKnight extends ModelAnimated
 {
-    private final ModelRenderer root;
+    public final ModelRenderer root;
     public final ModelRenderer Chest1;
     private final ModelRenderer Chest2;
     public final ModelRenderer leftShoulder;
