@@ -18,21 +18,21 @@ public class BlockCliffPortal extends BlockPortal
 {
     public BlockCliffPortal(String name)
     {
-	super(name, ModConfig.world.nexus_dimension_id, ModConfig.world.cliff_dimension_id);
+	super(name, ModConfig.world.cliff_dimension_id, ModConfig.world.nexus_dimension_id);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
     }
     
     @Override
-    protected Teleporter getTeleporter1(World world)
+    protected Teleporter getEntranceTeleporter(World world)
     {
-	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(82, 129, 171));
+	return new DimensionalTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.cliff_dimension_id), ModBlocks.CHISELED_CLIFF_STONE, ModBlocks.CLIFF_PORTAL);
     }
     
     @Override
-    protected Teleporter getTeleporter2(World world)
+    protected Teleporter getExitTeleporter(World world)
     {
-	return new DimensionalTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.cliff_dimension_id), ModBlocks.CHISELED_CLIFF_STONE, ModBlocks.CLIFF_PORTAL);
+	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(82, 129, 171));
     }
 }

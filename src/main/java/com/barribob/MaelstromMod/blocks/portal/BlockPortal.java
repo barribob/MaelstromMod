@@ -27,19 +27,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class BlockPortal extends BlockBase
 {
-    private int dim1;
-    private int dim2;
+    private int entranceDimension;
+    private int exitDimension;
 
     protected static final AxisAlignedBB QUARTER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
 
-    public BlockPortal(String name, int dim1, int dim2)
+    public BlockPortal(String name, int entranceDimension, int exitDimension)
     {
 	super(name, Material.ROCK, 1000, 1000, SoundType.STONE);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
-	this.dim1 = dim1;
-	this.dim2 = dim2;
+	this.entranceDimension = entranceDimension;
+	this.exitDimension = exitDimension;
     }
 
     /**
@@ -72,20 +72,20 @@ public abstract class BlockPortal extends BlockBase
 	    EntityPlayerMP player = (EntityPlayerMP) entityIn;
 	    player.connection.setPlayerLocation(portalCorner.getX(), portalCorner.getY(), portalCorner.getZ(), player.rotationYaw, player.rotationPitch);
 
-	    if (player.dimension == dim1)
+	    if (player.dimension == entranceDimension)
 	    {
-		Teleport.teleportToDimension(player, dim2, getTeleporter2(worldIn));
+		Teleport.teleportToDimension(player, exitDimension, getExitTeleporter(worldIn));
 	    }
-	    else if (player.dimension == dim2)
+	    else // Entering the portal from any other dimension will teleport the player to that dimension
 	    {
-		Teleport.teleportToDimension(player, dim1, getTeleporter1(worldIn));
+		Teleport.teleportToDimension(player, entranceDimension, getEntranceTeleporter(worldIn));
 	    }
 	}
     }
 
-    protected abstract Teleporter getTeleporter1(World world);
+    protected abstract Teleporter getEntranceTeleporter(World world);
 
-    protected abstract Teleporter getTeleporter2(World world);
+    protected abstract Teleporter getExitTeleporter(World world);
 
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
