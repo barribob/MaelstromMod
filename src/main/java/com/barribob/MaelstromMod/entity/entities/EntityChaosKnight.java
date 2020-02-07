@@ -108,6 +108,16 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     {
 	BiConsumer<ModelChaosKnight, Float> leftArmX = (model, f) -> model.leftShoulder.rotateAngleX = -f;
 	BiConsumer<ModelChaosKnight, Float> elbowZ = (model, f) -> model.leftArm2.rotateAngleZ = f;
+	BiConsumer<ModelChaosKnight, Float> none = (model, f) -> {
+	};
+	BiConsumer<ModelChaosKnight, Float> bodyY = (model, f) -> model.Chest1.rotateAngleY = -f;
+	BiConsumer<ModelChaosKnight, Float> bodyX = (model, f) -> model.Chest1.rotateAngleX = -f;
+	BiConsumer<ModelChaosKnight, Float> rightArmX = (model, f) -> model.rightShoulder.rotateAngleX = -f;
+	BiConsumer<ModelChaosKnight, Float> rightArmZ = (model, f) -> model.rightShoulder.rotateAngleZ = f;
+	BiConsumer<ModelChaosKnight, Float> rightArmY = (model, f) -> model.rightShoulder.rotateAngleY = -f;
+	BiConsumer<ModelChaosKnight, Float> axeX = (model, f) -> model.axe0.rotateAngleX = -f;
+	BiConsumer<ModelChaosKnight, Float> rootX = (model, f) -> model.root.rotateAngleX = -f;
+	BiConsumer<ModelChaosKnight, Float> rootY = (model, f) -> model.root.rotateAngleY = -f;
 
 	AnimationClip<ModelChaosKnight> shieldUpLeftArmX = new AnimationClip<ModelChaosKnight>(5, 0, -90, leftArmX);
 	AnimationClip<ModelChaosKnight> shieldUpElbowZ = new AnimationClip<ModelChaosKnight>(5, 0, -90, elbowZ);
@@ -123,14 +133,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	List<AnimationClip<ModelChaosKnight>> axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	List<AnimationClip<ModelChaosKnight>> leftArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	List<AnimationClip<ModelChaosKnight>> elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-
-	BiConsumer<ModelChaosKnight, Float> none = (model, f) -> {
-	};
-	BiConsumer<ModelChaosKnight, Float> bodyY = (model, f) -> model.Chest1.rotateAngleY = -f;
-	BiConsumer<ModelChaosKnight, Float> bodyX = (model, f) -> model.Chest1.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> rightArmX = (model, f) -> model.rightShoulder.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> rightArmZ = (model, f) -> model.rightShoulder.rotateAngleZ = f;
-	BiConsumer<ModelChaosKnight, Float> axeX = (model, f) -> model.axe0.rotateAngleX = -f;
 
 	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 0, none));
 	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 180, 195, bodyY));
@@ -184,9 +186,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 
-	BiConsumer<ModelChaosKnight, Float> rootX = (model, f) -> model.root.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> rightArmY = (model, f) -> model.rightShoulder.rotateAngleY = -f;
-
 	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 0, none));
 	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, -50, bodyX));
 	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, -50, -50, bodyX));
@@ -196,15 +195,19 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, 50, 0, bodyX));
 
 	rootXStream.add(new AnimationClip<ModelChaosKnight>(23, 0, 0, rootX));
-	rootXStream.add(new AnimationClip<ModelChaosKnight>(20, 0, -360, rootX));
+	rootXStream.add(new AnimationClip<ModelChaosKnight>(20, 0, -720, rootX));
 
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(30, 0, 0, none));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 145, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 145, 285, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 285, 285, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 285, 360, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, 0, none));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(7, 0, -180, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, -180, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, 0, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -180, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -180, -180, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, -75, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -75, -75, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -75, 0, rightArmX));
 
-	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(30, 0, 0, none));
+	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(30, 0, 0, rightArmY));
 	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(15, 0, 15, rightArmY));
 	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(5, 15, 15, rightArmY));
 	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(5, 15, 0, rightArmY));
@@ -215,7 +218,10 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	axeStream.add(new AnimationClip<ModelChaosKnight>(5, 45, 0, axeX));
 
 	leftArmXStream.add(shieldDownLeftArmX);
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(50, 0, 0, leftArmX));
+	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(7, 0, -180, leftArmX));
+	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, -180, leftArmX));
+	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, 0, leftArmX));
+	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(30, 0, 0, leftArmX));
 	leftArmXStream.add(shieldUpLeftArmX);
 
 	elbowZStream.add(shieldDownElbowZ);
@@ -287,9 +293,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	rightArmZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	rightArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	
-	BiConsumer<ModelChaosKnight, Float> rootY = (model, f) -> model.root.rotateAngleY = -f;
-	
+
 	rootYStream.add(new AnimationClip<ModelChaosKnight>(20, 0, 0, none));
 	rootYStream.add(new AnimationClip<ModelChaosKnight>(36, 0, 360 * 3 + 60, rootY));
 	rootYStream.add(new AnimationClip<ModelChaosKnight>(10, 360 * 3 + 60, 360 * 3, rootY));

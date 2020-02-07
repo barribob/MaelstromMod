@@ -21,9 +21,15 @@ Crimson Dungeon [85]
 
             Shield charge - A fast charge using the shield to deal damage
 
-            Rage mode: melee attacks shoot ranged particles. Deals more damage. Add in an extra move.
+            No second stage: just start with two moves, and throw in a few moves as the health depletes.
 
         Maelstrom Tech (3)
+        Maelstrom Gunner
+        Maelstrom Archmage
+        Maelstrom Berserker
+    Remove action class because is it overly complicated
+    Remove swinging arms -> rangedAttackFramework
+    Animation api needs a major update (10)
 
     Items [12]
         3 sets of armor (5)
@@ -35,31 +41,28 @@ Crimson Dungeon [85]
             1 for nexus
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Patch
-Animation api needs a major update (10)
+[DONE] Portals should work in any dimension
+Fix swamp fog cliff top fog problems
+Make damage III max enchantable and loot damage up to V
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
-
+Improve dimension efficiency
 Add some test cases to mod utils
 Add wind sounds, or make dark nexus wind particles not disableable
 Gargoyles (3)
 Fix witch animation
 Key beacons actually should be beacons
 Maelstrom pearls (1)
-Golden Ruins spawn more consistently (2)
 Fireflies
 Put actual illagers in the fortress
-Translations for some item descriptions
 Maelstrom health
 Combo attacks
-Fix swamp fog cliff top fog problems
 More ruined houses for Fracture(5)
-Spawners with different spawn ranges
 Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
 Specifying blend only for entities that need it.
 MAelstrom generation sometimes exposes the core
-Make damage III max enchantable and loot damage up to V
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 
