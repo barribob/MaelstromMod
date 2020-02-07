@@ -3,13 +3,17 @@ package com.barribob.MaelstromMod.entity.render;
 import com.barribob.MaelstromMod.entity.entities.EntityChaosKnight;
 import com.barribob.MaelstromMod.entity.model.ModelChaosKnight;
 import com.barribob.MaelstromMod.entity.model.ModelChaosShield;
+import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.RenderUtils;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 
 public class RenderChaosKnight extends RenderModEntity<EntityChaosKnight>
 {
@@ -19,6 +23,17 @@ public class RenderChaosKnight extends RenderModEntity<EntityChaosKnight>
     {
 	super(rendermanagerIn, new ModelChaosKnight(), textures);
 	this.addLayer(new LayerShield(new ModelChaosShield()));
+    }
+
+    @Override
+    public void doRender(EntityChaosKnight entity, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+	super.doRender(entity, x, y, z, entityYaw, partialTicks);
+
+	if (entity.getLazerPosition() != null)
+	{
+	    RenderUtils.drawLazer(renderManager, entity.getPositionVector().add(ModUtils.yVec(entity.getEyeHeight())), entity.getLazerPosition(), new Vec3d(x, y, z), ModColors.RED, entity, partialTicks);
+	}
     }
 
     private class LayerShield implements LayerRenderer<EntityChaosKnight>

@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
-import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelChaosKnight;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -20,15 +21,22 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEntity
 {
@@ -36,7 +44,10 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
     public static final byte sideSwipe = 4;
     public static final byte leapSlam = 5;
+    public static final byte thunderCharge = 6;
     private boolean leaping = false;
+    private Vec3d chargeDir;
+    private static final float dashRadius = 2;
 
     public EntityChaosKnight(World worldIn)
     {
@@ -72,6 +83,22 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 		    addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 36);
 		}
 	    });
+	    attackHandler.setAttack(thunderCharge, new Action()
+	    {
+		@Override
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+		{
+		    world.createExplosion(actor, actor.posX, actor.posY, actor.posZ, 2, false);
+		    ModUtils.lineCallback(actor.getPositionVector(), chargeDir, (int) Math.sqrt(chargeDir.subtract(actor.getPositionVector()).lengthSquared()), (vec, i) -> {
+			ModUtils.handleAreaImpact(dashRadius, (e) -> actor.getAttack(), actor, vec, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.3f, 5);
+			world.playSound(vec.x, vec.y, vec.z, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 1.0f, 1.0f + ModRandom.getFloat(0.1f), false);
+		    });
+		    actor.attemptTeleport(chargeDir.x, chargeDir.y, chargeDir.z);
+		    world.setEntityState(actor, ModUtils.SECOND_PARTICLE_BYTE);
+		    addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 25);
+		    actor.playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
+		}
+	    });
 	}
     }
 
@@ -98,18 +125,18 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 
 	BiConsumer<ModelChaosKnight, Float> none = (model, f) -> {
 	};
-	BiConsumer<ModelChaosKnight, Float> bodyY = (model, f) -> model.Chest1.rotateAngleY = f;
+	BiConsumer<ModelChaosKnight, Float> bodyY = (model, f) -> model.Chest1.rotateAngleY = -f;
 	BiConsumer<ModelChaosKnight, Float> bodyX = (model, f) -> model.Chest1.rotateAngleX = -f;
 	BiConsumer<ModelChaosKnight, Float> rightArmX = (model, f) -> model.rightShoulder.rotateAngleX = -f;
 	BiConsumer<ModelChaosKnight, Float> rightArmZ = (model, f) -> model.rightShoulder.rotateAngleZ = f;
 	BiConsumer<ModelChaosKnight, Float> axeX = (model, f) -> model.axe0.rotateAngleX = -f;
 
 	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 0, none));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, -180, -195, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, -195, -195, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, -195, -145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, -145, -145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(6, -145, -180, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 180, 195, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 195, 195, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 195, 145, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 145, 145, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(6, 145, 180, bodyY));
 
 	bodyXStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 0, none));
 	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 20, bodyX));
@@ -146,7 +173,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	animationSlash.add(rightArmZStream);
 	animationSlash.add(leftArmXStream);
 	animationSlash.add(elbowZStream);
-	
+
 	List<List<AnimationClip<ModelChaosKnight>>> animationLeapSlam = new ArrayList<List<AnimationClip<ModelChaosKnight>>>();
 	List<AnimationClip<ModelChaosKnight>> rootXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	bodyXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
@@ -155,7 +182,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	List<AnimationClip<ModelChaosKnight>> rightArmYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
 	elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	
+
 	BiConsumer<ModelChaosKnight, Float> rootX = (model, f) -> model.root.rotateAngleX = -f;
 	BiConsumer<ModelChaosKnight, Float> rightArmY = (model, f) -> model.rightShoulder.rotateAngleY = -f;
 
@@ -169,7 +196,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 
 	rootXStream.add(new AnimationClip<ModelChaosKnight>(23, 0, 0, rootX));
 	rootXStream.add(new AnimationClip<ModelChaosKnight>(20, 0, -360, rootX));
-	
+
 	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(30, 0, 0, none));
 	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 145, rightArmX));
 	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 145, 285, rightArmX));
@@ -193,7 +220,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	elbowZStream.add(shieldDownElbowZ);
 	elbowZStream.add(new AnimationClip<ModelChaosKnight>(50, 0, 0, elbowZ));
 	elbowZStream.add(shieldUpElbowZ);
-	
+
 	animationLeapSlam.add(rootXStream);
 	animationLeapSlam.add(bodyXStream);
 	animationLeapSlam.add(leftArmXStream);
@@ -202,8 +229,57 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	animationLeapSlam.add(rightArmXStream);
 	animationLeapSlam.add(axeStream);
 
+	List<List<AnimationClip<ModelChaosKnight>>> animationCharge = new ArrayList<List<AnimationClip<ModelChaosKnight>>>();
+	bodyXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	bodyYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	rightArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	rightArmZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	leftArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+	elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
+
+	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 30, bodyX));
+	bodyXStream.add(new AnimationClip<ModelChaosKnight>(25, 30, 30, bodyX));
+	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 30, 0, bodyX));
+
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 180, 160, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 160, 160, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(5, 160, 210, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 210, 210, bodyY));
+	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 210, 180, bodyY));
+
+	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -70, rightArmZ));
+	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(25, -70, -70, rightArmZ));
+	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(10, -70, 0, rightArmZ));
+
+	axeStream.add(new AnimationClip<ModelChaosKnight>(15, 0, 45, axeX));
+	axeStream.add(new AnimationClip<ModelChaosKnight>(20, 45, 45, axeX));
+	axeStream.add(new AnimationClip<ModelChaosKnight>(10, 45, 0, axeX));
+
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(20, 0, 0, none));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, -130, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -130, -130, rightArmX));
+	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -130, 0, rightArmX));
+
+	leftArmXStream.add(shieldDownLeftArmX);
+	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(37, 0, 0, leftArmX));
+	leftArmXStream.add(shieldUpLeftArmX);
+
+	elbowZStream.add(shieldDownElbowZ);
+	elbowZStream.add(new AnimationClip<ModelChaosKnight>(37, 0, 0, elbowZ));
+	elbowZStream.add(shieldUpElbowZ);
+
+	animationCharge.add(bodyXStream);
+	animationCharge.add(bodyYStream);
+	animationCharge.add(leftArmXStream);
+	animationCharge.add(elbowZStream);
+	animationCharge.add(rightArmXStream);
+	animationCharge.add(axeStream);
+	animationCharge.add(rightArmZStream);
+
 	attackHandler.setAttack(sideSwipe, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(animationSlash));
 	attackHandler.setAttack(leapSlam, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(animationLeapSlam));
+	attackHandler.setAttack(thunderCharge, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(animationCharge));
     }
 
     @Override
@@ -267,6 +343,12 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     }
 
     @Override
+    public float getEyeHeight()
+    {
+	return this.height * 0.8f;
+    }
+
+    @Override
     protected void initEntityAI()
     {
 	super.initEntityAI();
@@ -279,14 +361,14 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	if (swingingArms)
 	{
 	    super.setSwingingArms(true);
-	    
-	    if(this.getAttackTarget() == null)
+
+	    if (this.getAttackTarget() == null)
 	    {
 		return;
 	    }
-	    
-	    Byte[] attack = { sideSwipe, leapSlam };
-	    double[] weights = { 3.0 / getDistance(getAttackTarget()), 0.5 };
+
+	    Byte[] attack = { sideSwipe, leapSlam, thunderCharge };
+	    double[] weights = { 3.0 / getDistance(getAttackTarget()), 0.5, 0.5 };
 	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
 
@@ -296,12 +378,38 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 		    if (this.getAttackTarget() != null)
 		    {
 			float distance = this.getDistance(this.getAttackTarget());
-			if (distance > 3)
+			if (distance > 2)
 			{
 			    ModUtils.leapTowards(this, this.getAttackTarget().getPositionVector(), (float) (0.4 * Math.sqrt(distance)), 0.5f);
 			}
 		    }
 		}, 5);
+	    }
+
+	    if (attackHandler.getCurrentAttack() == thunderCharge)
+	    {
+		Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
+		Vec3d teleportPos = getAttackTarget().getPositionVector();
+		int maxDistance = 10;
+		for (int i = 0; i < maxDistance; i++)
+		{
+		    Vec3d proposedPos = teleportPos.add(dir);
+		    IBlockState state = world.getBlockState(new BlockPos(proposedPos).down());
+		    if (state.canEntitySpawn(this) && state.isTopSolid())
+		    {
+			teleportPos = proposedPos;
+		    }
+		}
+
+		this.chargeDir = teleportPos;
+
+		// Send the aimed position to the client side
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("entityId", this.getEntityId());
+		data.setFloat("posX", (float) this.chargeDir.x);
+		data.setFloat("posY", (float) this.chargeDir.y);
+		data.setFloat("posZ", (float) this.chargeDir.z);
+		Main.network.sendToAllTracking(new MessageMonolithLazer(data), this);
 	    }
 	}
     }
@@ -309,7 +417,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     @Override
     public void handleStatusUpdate(byte id)
     {
-	if (id >= sideSwipe && id <= leapSlam)
+	if (id >= sideSwipe && id <= thunderCharge)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
 	    getCurrentAnimation().startAnimation();
@@ -322,6 +430,23 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 		    pos = new Vec3d(pos.x, 0, pos.y);
 		    ParticleManager.spawnSplit(world, pos.add(getPositionVector().add(ModUtils.yVec(-1.5f))), ModColors.RED, pos.scale(0.1f).add(ModUtils.yVec(0.05f)));
 		});
+	    }
+	}
+	else if (id == ModUtils.SECOND_PARTICLE_BYTE)
+	{
+	    if (chargeDir != null)
+	    {
+		Vec3d particleVel = chargeDir.subtract(getPositionVector()).normalize().scale(0.5);
+		ModUtils.lineCallback(getPositionVector(), chargeDir, 20, (vec, i) -> {
+		    ModUtils.performNTimes(10, (j) -> {
+			ParticleManager.spawnSplit(world, vec.add(ModRandom.randVec().scale(dashRadius * 2)), ModColors.RED, particleVel.add(ModRandom.randVec().scale(0.2f)));
+			ParticleManager.spawnCustomSmoke(world, vec.add(ModRandom.randVec().scale(dashRadius * 2)), ModColors.GREY, particleVel.add(ModRandom.randVec().scale(0.2f)));
+			Vec3d flamePos = vec.add(ModRandom.randVec().scale(dashRadius * 2));
+			Vec3d flameVel = particleVel.add(ModRandom.randVec().scale(0.2f));
+			world.spawnParticle(EnumParticleTypes.FLAME, flamePos.x, flamePos.y, flamePos.z, flameVel.x, flameVel.y, flameVel.z);
+		    });
+		});
+		this.chargeDir = null; // So that the lazer doesn't render anymore
 	    }
 	}
 	super.handleStatusUpdate(id);
@@ -352,4 +477,18 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	this.playSound(SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
 	this.world.setEntityState(this, ModUtils.PARTICLE_BYTE);
     }
+
+    // For rendering the lazer
+    @SideOnly(Side.CLIENT)
+    public Vec3d getLazerPosition()
+    {
+	return this.chargeDir;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void setLazerDir(Vec3d lazerDir)
+    {
+	this.chargeDir = lazerDir;
+    }
+
 }

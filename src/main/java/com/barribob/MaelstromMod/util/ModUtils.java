@@ -558,4 +558,24 @@ public final class ModUtils
 	}
 	entity.motionZ += leap.z;
     }
+
+    /**
+     * Calls a function that linearly interpolates between two points. Includes both
+     * ends of the line
+     * 
+     * @param start
+     * @param end
+     * @param points
+     * @param callback
+     */
+    public static void lineCallback(Vec3d start, Vec3d end, int points, BiConsumer<Vec3d, Integer> callback)
+    {
+	Vec3d dir = end.subtract(start).scale(1 / (float) (points - 1));
+	Vec3d pos = start;
+	for (int i = 0; i < points; i++)
+	{
+	    callback.accept(pos, i);
+	    pos = pos.add(dir);
+	}
+    }
 }

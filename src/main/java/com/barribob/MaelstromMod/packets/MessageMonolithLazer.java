@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.packets;
 
+import com.barribob.MaelstromMod.entity.entities.EntityChaosKnight;
 import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
 
 import io.netty.buffer.ByteBuf;
@@ -51,6 +52,10 @@ public class MessageMonolithLazer implements IMessage
 		    if (entity instanceof EntityMonolith)
 		    {
 			((EntityMonolith) entity).setLazerDir(new Vec3d(message.data.getFloat("posX"), message.data.getFloat("posY"), message.data.getFloat("posZ")));
+		    }
+		    else if (entity instanceof EntityChaosKnight)
+		    {
+			((EntityChaosKnight) entity).setLazerDir(new Vec3d(message.data.getFloat("posX"), message.data.getFloat("posY"), message.data.getFloat("posZ")));
 		    }
 		}
 	    }

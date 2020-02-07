@@ -13,14 +13,11 @@ Crimson Dungeon [85]
             A hulking beast of a commander that throws attacks like an unstoppable truck, and defends with a magical shield
 
             When not actively attacking, the knight defends with its shield, immune to attacks from the front.
-
-            Double slice - jumps forward twice and takes two wide swings at the player, dealing heavy damage and knockback.
-
             Jump Slam - jump high into the air, front-flip and slam down, dealing area damage nearby
-
+            Side swipe - A close melee attack and an immediate feint to the side.
             Teleportation Slice - does an epic ninja slice that teleports him across the room instantly
 
-            Side swipe - A close melee attack and an immediate feint to the side.
+            Double slice - jumps forward twice and takes two wide swings at the player, dealing heavy damage and knockback.
 
             Shield charge - A fast charge using the shield to deal damage
 
@@ -37,8 +34,13 @@ Crimson Dungeon [85]
             2 for chests
             1 for nexus
 
+||||||||||||||||||||||||||||||||||||||||||||||| Patch
+Animation api needs a major update (10)
+
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Add some test cases to mod utils
+Add wind sounds, or make dark nexus wind particles not disableable
 Gargoyles (3)
 Fix witch animation
 Key beacons actually should be beacons
