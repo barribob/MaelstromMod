@@ -25,3 +25,11 @@ run/*
 !run/saves/
 run/saves/*
 !run/saves/BUILDING_WORLD/
+
+# Testing
+!/eclipse
+eclipse/*
+!eclipse/TestMaelstromMod/
+eclipse/TestMaelstromMod/*
+!eclipse/TestMaelstromMod/src
+

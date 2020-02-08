@@ -46,6 +46,9 @@ Fix swamp fog cliff top fog problems
 Make damage III max enchantable and loot damage up to V
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
+Better looking melee weapons
+Enchanted effect for elemental weapons.
+Enchanted effect for elemental entities.
 Improve dimension efficiency
 Add some test cases to mod utils
 Add wind sounds, or make dark nexus wind particles not disableable
