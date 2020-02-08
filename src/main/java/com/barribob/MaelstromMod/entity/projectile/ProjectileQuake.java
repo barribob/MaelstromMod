@@ -8,11 +8,10 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -56,10 +55,9 @@ public class ProjectileQuake extends ProjectileGun
 	IBlockState block = world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ));
 	if (block.isFullCube())
 	{
-	    for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
+	    for (int i = 0; i < 5; i++)
 	    {
-		world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ModRandom.getFloat(1.0f), this.posY + ModRandom.getFloat(0.5f) + 0.75f,
-			this.posZ + ModRandom.getFloat(1.0f), ModRandom.getFloat(1.0F), ModRandom.getFloat(1.0F), ModRandom.getFloat(1.0F), Block.getStateId(block));
+		ParticleManager.spawnBreak(world, this.getPositionVector().add(ModRandom.randVec().scale(1.0f).add(ModUtils.yVec(0.75f))), Item.getItemFromBlock(block.getBlock()), ModRandom.randVec().scale(0.1).add(ModUtils.yVec(0.1f)));
 	    }
 	    if (this.getElement() != Element.NONE)
 	    {

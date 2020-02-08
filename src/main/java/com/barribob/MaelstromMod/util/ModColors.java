@@ -15,6 +15,7 @@ public class ModColors
     public static final Vec3d GREEN = new Vec3d(0.1, 0.9, 0.1);
     public static final Vec3d BLUE = new Vec3d(0.1, 0.1, 0.8);
     public static final Vec3d MAELSTROM = new Vec3d(0.3, 0.2, 0.4);
+    public static final Vec3d DARK_GREY = new Vec3d(0.2, 0.2, 0.2);
 
     public static Vec3d variateColor(Vec3d baseColor, float variance)
     {
