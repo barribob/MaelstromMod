@@ -578,4 +578,16 @@ public final class ModUtils
 	    pos = pos.add(dir);
 	}
     }
+
+    public static int tryParseInt(String s, int defaultValue)
+    {
+	try
+	{
+	    return Integer.parseInt(s);
+	}
+	catch (NumberFormatException e)
+	{
+	    return defaultValue;
+	}
+    }
 }

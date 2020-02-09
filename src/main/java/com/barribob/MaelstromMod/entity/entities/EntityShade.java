@@ -44,49 +44,16 @@ public class EntityShade extends EntityMaelstromMob
     @Override
     protected void initAnimation()
     {
-	List<List<AnimationClip<ModelMaelstromWarrior>>> animationSlash = new ArrayList<List<AnimationClip<ModelMaelstromWarrior>>>();
-	List<AnimationClip<ModelMaelstromWarrior>> rightArmXStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
-	List<AnimationClip<ModelMaelstromWarrior>> rightArmZStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
-	List<AnimationClip<ModelMaelstromWarrior>> bodyStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
-	List<AnimationClip<ModelMaelstromWarrior>> swordStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
-	List<AnimationClip<ModelMaelstromWarrior>> leftArmXStream = new ArrayList<AnimationClip<ModelMaelstromWarrior>>();
-
-	BiConsumer<ModelMaelstromWarrior, Float> rightArmX = (model, f) -> model.rightArm.rotateAngleX = -f;
-	BiConsumer<ModelMaelstromWarrior, Float> rightArmZ = (model, f) -> model.rightArm.rotateAngleZ = f;
-	BiConsumer<ModelMaelstromWarrior, Float> bodyX = (model, f) -> model.body.rotateAngleX = f;
-	BiConsumer<ModelMaelstromWarrior, Float> swordX = (model, f) -> model.sword.rotateAngleX = f;
-	BiConsumer<ModelMaelstromWarrior, Float> leftArmX = (model, f) -> model.leftArm.rotateAngleX = f;
-
-	rightArmXStream.add(new AnimationClip(6, 0, 170, rightArmX));
-	rightArmXStream.add(new AnimationClip(2, 170, 170, rightArmX));
-	rightArmXStream.add(new AnimationClip(5, 170, 60, rightArmX));
-	rightArmXStream.add(new AnimationClip(4, 60, 0, rightArmX));
-
-	rightArmZStream.add(new AnimationClip(6, 0, -20, rightArmZ));
-	rightArmZStream.add(new AnimationClip(7, -20, -40, rightArmZ));
-	rightArmZStream.add(new AnimationClip(4, -40, 0, rightArmZ));
-
-	bodyStream.add(new AnimationClip(6, 0, 0, bodyX));
-	bodyStream.add(new AnimationClip(2, -25, -25, bodyX));
-	bodyStream.add(new AnimationClip(5, -25, 25, bodyX));
-	bodyStream.add(new AnimationClip(4, 25, 0, bodyX));
-
-	swordStream.add(new AnimationClip(8, 0, 0, swordX));
-	swordStream.add(new AnimationClip(5, 0, 90, swordX));
-	swordStream.add(new AnimationClip(4, 90, 0, swordX));
-
-	leftArmXStream.add(new AnimationClip(6, 0, -40, leftArmX));
-	leftArmXStream.add(new AnimationClip(2, -40, -40, leftArmX));
-	leftArmXStream.add(new AnimationClip(5, -40, 40, leftArmX));
-	leftArmXStream.add(new AnimationClip(4, 40, 0, leftArmX));
-
-	animationSlash.add(rightArmXStream);
-	animationSlash.add(rightArmZStream);
-	animationSlash.add(bodyStream);
-	animationSlash.add(swordStream);
-	animationSlash.add(leftArmXStream);
-
-	this.currentAnimation = new StreamAnimation<ModelMaelstromWarrior>(animationSlash)
+	this.currentAnimation = new StreamAnimation<ModelMaelstromWarrior>("animation_scout.csv", new ArrayList<BiConsumer<ModelMaelstromWarrior, Float>>()
+	{
+	    {
+		add((model, f) -> model.rightArm.rotateAngleX = -f);
+		add((model, f) -> model.rightArm.rotateAngleZ = f);
+		add((model, f) -> model.body.rotateAngleX = f);
+		add((model, f) -> model.sword.rotateAngleX = f);
+		add((model, f) -> model.leftArm.rotateAngleX = f);
+	    }
+	})
 	{
 	    @Override
 	    public void setModelRotations(ModelMaelstromWarrior model, float limbSwing, float limbSwingAmount, float partialTicks)
