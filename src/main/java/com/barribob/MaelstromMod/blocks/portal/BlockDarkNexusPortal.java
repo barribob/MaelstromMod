@@ -12,21 +12,21 @@ public class BlockDarkNexusPortal extends BlockPortal
 {
     public BlockDarkNexusPortal(String name)
     {
-	super(name, ModConfig.world.nexus_dimension_id, ModConfig.world.dark_nexus_dimension_id);
+	super(name, ModConfig.world.dark_nexus_dimension_id, ModConfig.world.nexus_dimension_id);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
     }
     
     @Override
-    protected Teleporter getTeleporter1(World world)
+    protected Teleporter getEntranceTeleporter(World world)
     {
-	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(189, 103, 40));
+	return new ToDarkNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.dark_nexus_dimension_id), new BlockPos(24, 64, 24));
     }
     
     @Override
-    protected Teleporter getTeleporter2(World world)
+    protected Teleporter getExitTeleporter(World world)
     {
-	return new ToDarkNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.dark_nexus_dimension_id), new BlockPos(24, 64, 24));
+	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(189, 103, 40));
     }
 }

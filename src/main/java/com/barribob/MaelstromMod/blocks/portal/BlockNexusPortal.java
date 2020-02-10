@@ -17,21 +17,21 @@ public class BlockNexusPortal extends BlockPortal
 {
     public BlockNexusPortal(String name)
     {
-	super(name, 0, ModConfig.world.nexus_dimension_id);
+	super(name, ModConfig.world.nexus_dimension_id, 0);
 	this.setBlockUnbreakable();
 	this.setLightLevel(0.5f);
 	this.setLightOpacity(0);
     }
     
     @Override
-    protected Teleporter getTeleporter1(World world)
+    protected Teleporter getEntranceTeleporter(World world)
     {
-        return new NexusToOverworldTeleporter(world.getMinecraftServer().getWorld(0));
+	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(70, 80, 103));
     }
     
     @Override
-    protected Teleporter getTeleporter2(World world)
+    protected Teleporter getExitTeleporter(World world)
     {
-	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(70, 80, 103));
+	return new NexusToOverworldTeleporter(world.getMinecraftServer().getWorld(0));
     }
 }
