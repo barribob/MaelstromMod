@@ -90,18 +90,21 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     {
 	super.onLivingUpdate();
 
-	boolean foundEvent = true;
-	while (foundEvent)
+	if (!isDead && this.getHealth() > 0)
 	{
-	    TimedEvent event = events.peek();
-	    if (event != null && event.ticks <= this.ticksExisted)
+	    boolean foundEvent = true;
+	    while (foundEvent)
 	    {
-		events.remove();
-		event.callback.run();
-	    }
-	    else
-	    {
-		foundEvent = false;
+		TimedEvent event = events.peek();
+		if (event != null && event.ticks <= this.ticksExisted)
+		{
+		    events.remove();
+		    event.callback.run();
+		}
+		else
+		{
+		    foundEvent = false;
+		}
 	    }
 	}
 
