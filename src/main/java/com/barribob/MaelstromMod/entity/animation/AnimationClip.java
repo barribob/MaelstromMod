@@ -27,6 +27,16 @@ public class AnimationClip<T extends ModelBase> extends ArrayAnimation<T>
     }
 
     @Override
+    public void update()
+    {
+	super.update();
+	if (this.animationLength - 1 == this.attackTimer)
+	{
+	    isEnded = true;
+	}
+    }
+
+    @Override
     public final void setModelRotations(T model, float limbSwing, float limbSwingAmount, float partialTicks)
     {
 	float progress = 0;
@@ -36,10 +46,6 @@ public class AnimationClip<T extends ModelBase> extends ArrayAnimation<T>
 	}
 	float degrees = ((endValue - startValue) * progress) + startValue;
 	setModelRotationsImpl.accept(model, (float) Math.toRadians(degrees));
-	if (this.animationLength - 1 == this.attackTimer)
-	{
-	    isEnded = true;
-	}
     }
 
     public boolean isEnded()
