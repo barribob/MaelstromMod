@@ -1,13 +1,12 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.BiConsumer;
 
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
-import com.barribob.MaelstromMod.entity.animation.AnimationClip;
+import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromWarrior;
+import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -30,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Represent the attibutes and logic of the shade monster
  *
  */
-public class EntityShade extends EntityMaelstromMob
+public class EntityShade extends EntityMaelstromMob implements IAttack
 {
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 1.0f;
@@ -79,7 +78,7 @@ public class EntityShade extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 20, 10, 2.5f, 0.5f));
+	this.tasks.addTask(4, new EntityAITimedAttack<EntityShade>(this, 1.0f, 20, 3f, 0.5f));
     }
 
     @Override
@@ -99,28 +98,6 @@ public class EntityShade extends EntityMaelstromMob
     {
 	return SoundsHandler.ENTITY_SHADE_DEATH;
     }
-
-    @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
-	super.setSwingingArms(swingingArms);
-	if (swingingArms)
-	{
-	    this.world.setEntityState(this, (byte) 4);
-
-	    if (this.getAttackTarget() != null)
-	    {
-		Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
-		Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
-		this.motionX += leap.x;
-		if (this.motionY < 0.1)
-		{
-		    this.motionY += leap.y;
-		}
-		this.motionZ += leap.z;
-	    }
-	}
-    };
 
     @Override
     public void onEntityUpdate()
@@ -159,12 +136,29 @@ public class EntityShade extends EntityMaelstromMob
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
+    }
+
+    @Override
+    public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
+    {
 	if (!world.isRemote)
 	{
-	    Vec3d dir = this.getLookVec();
-	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(this.getEyeHeight())).add(dir);
-	    this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-	    ModUtils.handleAreaImpact(0.6f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, 0, false);
+	    this.world.setEntityState(this, (byte) 4);
+	    Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
+	    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
+	    this.motionX += leap.x;
+	    if (this.motionY < 0.1)
+	    {
+		this.motionY += leap.y;
+	    }
+	    this.motionZ += leap.z;
+
+	    addEvent(() -> {
+		Vec3d pos = this.getPositionVector().add(ModUtils.yVec(this.getEyeHeight())).add(this.getLookVec());
+		this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+		ModUtils.handleAreaImpact(0.6f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, 0, false);
+	    }, 10);
 	}
+	return 20;
     }
 }

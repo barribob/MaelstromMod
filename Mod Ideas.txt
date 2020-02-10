@@ -46,6 +46,7 @@ Fix swamp fog cliff top fog problems
 Make damage III max enchantable and loot damage up to V
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
+Some sort of prior indicator that the tower is going to appear in a certain spot??
 Better looking melee weapons
 Enchanted effect for elemental weapons.
 Enchanted effect for elemental entities.
