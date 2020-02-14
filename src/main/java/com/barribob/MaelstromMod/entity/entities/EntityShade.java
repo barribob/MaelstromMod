@@ -1,12 +1,11 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import java.util.ArrayList;
-import java.util.function.BiConsumer;
-
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
+import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromWarrior;
 import com.barribob.MaelstromMod.entity.util.IAttack;
+import com.barribob.MaelstromMod.init.ModAnimations;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -43,16 +42,13 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     @Override
     protected void initAnimation()
     {
-	this.currentAnimation = new StreamAnimation<ModelMaelstromWarrior>("animation_scout.csv", new ArrayList<BiConsumer<ModelMaelstromWarrior, Float>>()
-	{
-	    {
-		add((model, f) -> model.rightArm.rotateAngleX = -f);
-		add((model, f) -> model.rightArm.rotateAngleZ = f);
-		add((model, f) -> model.body.rotateAngleX = f);
-		add((model, f) -> model.sword.rotateAngleX = f);
-		add((model, f) -> model.leftArm.rotateAngleX = f);
-	    }
-	})
+	this.currentAnimation = createAnimation(ModAnimations.SCOUT_SLASH);
+    }
+
+    @Override
+    protected Animation createAnimation(int animationId)
+    {
+	return new StreamAnimation<ModelMaelstromWarrior>(animationId)
 	{
 	    @Override
 	    public void setModelRotations(ModelMaelstromWarrior model, float limbSwing, float limbSwingAmount, float partialTicks)
@@ -114,11 +110,7 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-	if (id == 4)
-	{
-	    getCurrentAnimation().startAnimation();
-	}
-	else if (id == ModUtils.PARTICLE_BYTE)
+	if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    if (this.getElement().equals(Element.NONE))
 	    {
@@ -134,16 +126,11 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
-    {
-    }
-
-    @Override
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
 	if (!world.isRemote)
 	{
-	    this.world.setEntityState(this, (byte) 4);
+	    this.startAnimation(ModAnimations.SCOUT_SLASH);
 	    Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
 	    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
 	    this.motionX += leap.x;
@@ -160,5 +147,10 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
 	    }, 10);
 	}
 	return 20;
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
     }
 }

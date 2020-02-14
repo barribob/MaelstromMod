@@ -1,18 +1,14 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiConsumer;
-
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
-import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelChaosKnight;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
+import com.barribob.MaelstromMod.init.ModAnimations;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
 import com.barribob.MaelstromMod.util.ModColors;
@@ -129,21 +125,18 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	    });
 
 	    attackHandler.setAttack(spinSlash, (EntityLeveledMob actor, EntityLivingBase target) -> {
-		addEvent(() -> {
-		    ModUtils.leapTowards(actor, target.getPositionVector(), (float) (0.4f * Math.sqrt(actor.getDistance(target))), 0.5f);
-		}, 20);
-
 		Runnable leap = () -> ModUtils.leapTowards(actor, target.getPositionVector(), (float) (0.4f * Math.sqrt(actor.getDistance(target))), 0.4f);
 		Runnable meleeAttack = () -> {
-		    ModUtils.handleAreaImpact(2.8f, (e) -> actor.getAttack(), actor, actor.getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.5f, 0, false);
+		    ModUtils.handleAreaImpact(2.7f, (e) -> actor.getAttack(), actor, actor.getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.5f, 0, false);
 		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		};
 
+		addEvent(leap, 20);
 		addEvent(meleeAttack, 30);
 		addEvent(leap, 33);
-		addEvent(meleeAttack, 43);
-		addEvent(leap, 46);
-		addEvent(meleeAttack, 56);
+		addEvent(meleeAttack, 41);
+		addEvent(leap, 44);
+		addEvent(meleeAttack, 53);
 		addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 70);
 	    });
 	}
@@ -154,7 +147,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     {
 	setSwingingArms(true);
 	Byte[] attack = { sideSwipe, leapSlam, thunderCharge, spinSlash };
-	double[] weights = { 9.0 / distanceFactor, 0.5, 0.5, 0.5 };
+	double[] weights = { 3.0 / Math.sqrt(distanceFactor), 0.5, 0.5, 0.5 };
 	attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 	world.setEntityState(this, attackHandler.getCurrentAttack());
 	this.attackHandler.getCurrentAttackAction().performAction(this, target);
@@ -313,254 +306,9 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     @Override
     protected void initAnimation()
     {
-	BiConsumer<ModelChaosKnight, Float> leftArmX = (model, f) -> model.leftShoulder.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> elbowZ = (model, f) -> model.leftArm2.rotateAngleZ = f;
-	BiConsumer<ModelChaosKnight, Float> none = (model, f) -> {
-	};
-	BiConsumer<ModelChaosKnight, Float> bodyY = (model, f) -> model.Chest1.rotateAngleY = -f;
-	BiConsumer<ModelChaosKnight, Float> bodyX = (model, f) -> model.Chest1.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> rightArmX = (model, f) -> model.rightShoulder.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> rightArmZ = (model, f) -> model.rightShoulder.rotateAngleZ = f;
-	BiConsumer<ModelChaosKnight, Float> rightArmY = (model, f) -> model.rightShoulder.rotateAngleY = -f;
-	BiConsumer<ModelChaosKnight, Float> axeX = (model, f) -> model.axe0.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> rootX = (model, f) -> model.root.rotateAngleX = -f;
-	BiConsumer<ModelChaosKnight, Float> rootY = (model, f) -> model.root.rotateAngleY = -f;
-
-	AnimationClip<ModelChaosKnight> shieldUpLeftArmX = new AnimationClip<ModelChaosKnight>(5, 0, -90, leftArmX);
-	AnimationClip<ModelChaosKnight> shieldUpElbowZ = new AnimationClip<ModelChaosKnight>(5, 0, -90, elbowZ);
-
-	AnimationClip<ModelChaosKnight> shieldDownLeftArmX = new AnimationClip<ModelChaosKnight>(5, -90, 0, leftArmX);
-	AnimationClip<ModelChaosKnight> shieldDownElbowZ = new AnimationClip<ModelChaosKnight>(5, -90, 0, elbowZ);
-
-	List<List<AnimationClip<ModelChaosKnight>>> animationSlash = new ArrayList<List<AnimationClip<ModelChaosKnight>>>();
-	List<AnimationClip<ModelChaosKnight>> bodyYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	List<AnimationClip<ModelChaosKnight>> bodyXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	List<AnimationClip<ModelChaosKnight>> rightArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	List<AnimationClip<ModelChaosKnight>> rightArmZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	List<AnimationClip<ModelChaosKnight>> axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	List<AnimationClip<ModelChaosKnight>> leftArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	List<AnimationClip<ModelChaosKnight>> elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 0, none));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 180, 195, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 195, 195, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 195, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(4, 145, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(6, 145, 180, bodyY));
-
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 0, none));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 20, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(12, 20, 20, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(6, 20, 0, bodyX));
-
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 0, none));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -100, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(4, -100, -100, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(4, -100, 0, rightArmX));
-
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 0, none));
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -80, rightArmZ));
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(12, -80, -80, rightArmZ));
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(6, -80, 0, rightArmZ));
-
-	axeStream.add(new AnimationClip<ModelChaosKnight>(18, 0, 0, none));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(4, 0, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(4, 45, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(6, 45, 0, axeX));
-
-	leftArmXStream.add(shieldDownLeftArmX);
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(27, 0, 0, leftArmX));
-	leftArmXStream.add(shieldUpLeftArmX);
-
-	elbowZStream.add(shieldDownElbowZ);
-	elbowZStream.add(new AnimationClip<ModelChaosKnight>(27, 0, 0, elbowZ));
-	elbowZStream.add(shieldUpElbowZ);
-
-	animationSlash.add(axeStream);
-	animationSlash.add(bodyYStream);
-	animationSlash.add(bodyXStream);
-	animationSlash.add(rightArmXStream);
-	animationSlash.add(rightArmZStream);
-	animationSlash.add(leftArmXStream);
-	animationSlash.add(elbowZStream);
-
-	List<List<AnimationClip<ModelChaosKnight>>> animationLeapSlam = new ArrayList<List<AnimationClip<ModelChaosKnight>>>();
-	List<AnimationClip<ModelChaosKnight>> rootXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	bodyXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	leftArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	rightArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	List<AnimationClip<ModelChaosKnight>> rightArmYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 0, none));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, -50, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, -50, -50, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(3, -50, 0, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, 50, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(25, 50, 50, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, 50, 0, bodyX));
-
-	rootXStream.add(new AnimationClip<ModelChaosKnight>(23, 0, 0, rootX));
-	rootXStream.add(new AnimationClip<ModelChaosKnight>(20, 0, -720, rootX));
-
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, 0, none));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(7, 0, -180, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, -180, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, 0, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -180, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -180, -180, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, -75, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -75, -75, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -75, 0, rightArmX));
-
-	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(30, 0, 0, rightArmY));
-	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(15, 0, 15, rightArmY));
-	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(5, 15, 15, rightArmY));
-	rightArmYStream.add(new AnimationClip<ModelChaosKnight>(5, 15, 0, rightArmY));
-
-	axeStream.add(new AnimationClip<ModelChaosKnight>(40, 0, 0, none));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(5, 0, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(5, 45, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(5, 45, 0, axeX));
-
-	leftArmXStream.add(shieldDownLeftArmX);
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(7, 0, -180, leftArmX));
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, -180, leftArmX));
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -180, 0, leftArmX));
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(30, 0, 0, leftArmX));
-	leftArmXStream.add(shieldUpLeftArmX);
-
-	elbowZStream.add(shieldDownElbowZ);
-	elbowZStream.add(new AnimationClip<ModelChaosKnight>(50, 0, 0, elbowZ));
-	elbowZStream.add(shieldUpElbowZ);
-
-	animationLeapSlam.add(rootXStream);
-	animationLeapSlam.add(bodyXStream);
-	animationLeapSlam.add(leftArmXStream);
-	animationLeapSlam.add(elbowZStream);
-	animationLeapSlam.add(rightArmYStream);
-	animationLeapSlam.add(rightArmXStream);
-	animationLeapSlam.add(axeStream);
-
-	List<List<AnimationClip<ModelChaosKnight>>> animationCharge = new ArrayList<List<AnimationClip<ModelChaosKnight>>>();
-	bodyXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	bodyYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	rightArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	rightArmZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	leftArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, 30, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(25, 30, 30, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 30, 0, bodyX));
-
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 180, 160, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 160, 160, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(5, 160, 210, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 210, 210, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 210, 180, bodyY));
-
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -70, rightArmZ));
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(25, -70, -70, rightArmZ));
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(10, -70, 0, rightArmZ));
-
-	axeStream.add(new AnimationClip<ModelChaosKnight>(15, 0, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(20, 45, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(10, 45, 0, axeX));
-
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(20, 0, 0, none));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, -130, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -130, -130, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -130, 0, rightArmX));
-
-	leftArmXStream.add(shieldDownLeftArmX);
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(37, 0, 0, leftArmX));
-	leftArmXStream.add(shieldUpLeftArmX);
-
-	elbowZStream.add(shieldDownElbowZ);
-	elbowZStream.add(new AnimationClip<ModelChaosKnight>(37, 0, 0, elbowZ));
-	elbowZStream.add(shieldUpElbowZ);
-
-	animationCharge.add(bodyXStream);
-	animationCharge.add(bodyYStream);
-	animationCharge.add(leftArmXStream);
-	animationCharge.add(elbowZStream);
-	animationCharge.add(rightArmXStream);
-	animationCharge.add(axeStream);
-	animationCharge.add(rightArmZStream);
-
-	List<List<AnimationClip<ModelChaosKnight>>> animationSpinSlash = new ArrayList<List<AnimationClip<ModelChaosKnight>>>();
-	List<AnimationClip<ModelChaosKnight>> rootYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	bodyXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	bodyYStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	axeStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	leftArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	elbowZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	rightArmZStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-	rightArmXStream = new ArrayList<AnimationClip<ModelChaosKnight>>();
-
-	rootYStream.add(new AnimationClip<ModelChaosKnight>(20, 0, 0, none));
-	rootYStream.add(new AnimationClip<ModelChaosKnight>(36, 0, 360 * 3 + 60, rootY));
-	rootYStream.add(new AnimationClip<ModelChaosKnight>(10, 360 * 3 + 60, 360 * 3, rootY));
-
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -10, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, -10, -10, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(5, -10, 20, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(30, 20, 20, bodyX));
-	bodyXStream.add(new AnimationClip<ModelChaosKnight>(10, 20, 0, bodyX));
-
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 180, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(18, 145, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(5, 145, 210, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(5, 210, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(3, 145, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(5, 145, 210, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(5, 210, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(3, 145, 145, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(5, 145, 210, bodyY));
-	bodyYStream.add(new AnimationClip<ModelChaosKnight>(10, 210, 180, bodyY));
-
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(10, 0, -70, rightArmZ));
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(50, -70, -70, rightArmZ));
-	rightArmZStream.add(new AnimationClip<ModelChaosKnight>(10, -70, 0, rightArmZ));
-
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(28, 0, 0, none));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, -100, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -100, 0, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(3, 0, 0, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, -100, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -100, 0, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(3, 0, 0, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, 0, -100, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(5, -100, -100, rightArmX));
-	rightArmXStream.add(new AnimationClip<ModelChaosKnight>(10, -100, 0, rightArmX));
-
-	axeStream.add(new AnimationClip<ModelChaosKnight>(15, 0, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(50, 45, 45, axeX));
-	axeStream.add(new AnimationClip<ModelChaosKnight>(10, 45, 0, axeX));
-
-	leftArmXStream.add(shieldDownLeftArmX);
-	leftArmXStream.add(new AnimationClip<ModelChaosKnight>(60, 0, 0, leftArmX));
-	leftArmXStream.add(shieldUpLeftArmX);
-
-	elbowZStream.add(shieldDownElbowZ);
-	elbowZStream.add(new AnimationClip<ModelChaosKnight>(60, 0, 0, elbowZ));
-	elbowZStream.add(shieldUpElbowZ);
-
-	animationSpinSlash.add(bodyXStream);
-	animationSpinSlash.add(bodyYStream);
-	animationSpinSlash.add(rightArmZStream);
-	animationSpinSlash.add(rightArmXStream);
-	animationSpinSlash.add(leftArmXStream);
-	animationSpinSlash.add(elbowZStream);
-	animationSpinSlash.add(axeStream);
-	animationSpinSlash.add(rootYStream);
-
-	attackHandler.setAttack(sideSwipe, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(animationSlash));
-	attackHandler.setAttack(leapSlam, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(animationLeapSlam));
-	attackHandler.setAttack(thunderCharge, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(animationCharge));
-	attackHandler.setAttack(spinSlash, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(animationSpinSlash));
+	attackHandler.setAttack(sideSwipe, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_SINGLE_SWIPE));
+	attackHandler.setAttack(leapSlam, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_LEAP_SLAM));
+	attackHandler.setAttack(thunderCharge, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_DASH));
+	attackHandler.setAttack(spinSlash, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_SPIN_SLASH));
     }
 }

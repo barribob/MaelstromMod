@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.Mana;
 import com.barribob.MaelstromMod.mana.ManaStorage;
+import com.barribob.MaelstromMod.packets.MessageAnimation;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.packets.MessageLeap;
 import com.barribob.MaelstromMod.packets.MessageMana;
@@ -50,6 +51,7 @@ public class CommonProxy
 	Main.network.registerMessage(MessageMonolithLazer.Handler.class, MessageMonolithLazer.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageModParticles.MessageHandler.class, MessageModParticles.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageSyncConfig.Handler.class, MessageSyncConfig.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageAnimation.Handler.class, MessageAnimation.class, packetId++, Side.CLIENT);
 
 	CapabilityManager.INSTANCE.register(IMana.class, new ManaStorage(), Mana.class);
 	// CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(),

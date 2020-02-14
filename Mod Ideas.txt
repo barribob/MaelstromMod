@@ -27,9 +27,11 @@ Crimson Dungeon [85]
         Maelstrom Gunner
         Maelstrom Archmage
         Maelstrom Berserker
-    Remove action class because is it overly complicated
-    Remove swinging arms -> rangedAttackFramework
+
     Animation api needs a major update (10)
+    Nexus Invasion tower thingy
+    Advance attacks of maelstrom swordsman and lancer (3)
+    Death animations???
 
     Items [12]
         3 sets of armor (5)
@@ -39,6 +41,8 @@ Crimson Dungeon [85]
         3 swords (3)
             2 for chests
             1 for nexus
+
+    Change animation function to use caching before using in production
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Patch
 [DONE] Portals should work in any dimension

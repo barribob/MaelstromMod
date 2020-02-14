@@ -2,10 +2,13 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import java.util.PriorityQueue;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
+import com.barribob.MaelstromMod.packets.MessageAnimation;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
 import com.barribob.MaelstromMod.util.IElement;
@@ -312,5 +315,23 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	{
 	    return event.ticks < ticks ? 1 : -1;
 	}
+    }
+
+    public void startAnimation(int animationId)
+    {
+	if (world.isRemote)
+	{
+	    currentAnimation = createAnimation(animationId);
+	    getCurrentAnimation().startAnimation();
+	}
+	else
+	{
+	    Main.network.sendToAllTracking(new MessageAnimation(animationId, this.getEntityId()), this);
+	}
+    }
+
+    protected Animation createAnimation(int animationId)
+    {
+	return new StreamAnimation(animationId);
     }
 }
