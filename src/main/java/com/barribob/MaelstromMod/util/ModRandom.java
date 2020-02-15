@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.util;
 
+import java.util.List;
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
@@ -70,6 +71,11 @@ public class ModRandom
     {
 	int i = rand.nextInt(array.length);
 	return array[i];
+    }
+
+    public static <T> RandomCollection<T> choice(List<T> items, Random rand, double[] weights)
+    {
+	return (RandomCollection<T>) choice(items.toArray(), rand, weights);
     }
 
     public static <T> RandomCollection<T> choice(T[] array, Random rand, double[] weights)

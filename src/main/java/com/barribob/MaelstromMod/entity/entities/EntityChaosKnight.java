@@ -1,10 +1,12 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
 import com.barribob.MaelstromMod.Main;
-import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
-import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
-import com.barribob.MaelstromMod.entity.model.ModelChaosKnight;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
@@ -39,13 +41,99 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 {
     private ComboAttack attackHandler = new ComboAttack();
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
-    public static final byte sideSwipe = 4;
-    public static final byte leapSlam = 5;
-    public static final byte thunderCharge = 6;
-    public static final byte spinSlash = 7;
     private boolean leaping = false;
     private Vec3d chargeDir;
     private static final float dashRadius = 2;
+    private Consumer<EntityLivingBase> prevAttack;
+
+    private final Consumer<EntityLivingBase> sideSwipe = (target) -> {
+	this.startAnimation(ModAnimations.CHAOS_KNIGHT_SINGLE_SWIPE);
+	addEvent(() -> {
+	    float distance = getDistance(target);
+	    if (distance > 2)
+	    {
+		ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.4 * Math.sqrt(distance)), 0.5f);
+	    }
+	}, 5);
+
+	addEvent(() -> {
+	    Vec3d offset = getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(0.5, 1, -1)));
+	    ModUtils.handleAreaImpact(2, (e) -> getAttack(), this, offset, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.5f, 0, false);
+	    playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
+	    Vec3d jump = getLookVec().rotateYaw(180).scale(0.6f);
+	    motionX = jump.x;
+	    motionY = 0.4;
+	    motionZ = jump.z;
+	}, 20);
+
+	addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 35);
+    };
+
+    private final Consumer<EntityLivingBase> leapSlam = (target) -> {
+	this.startAnimation(ModAnimations.CHAOS_KNIGHT_LEAP_SLAM);
+	addEvent(() -> {
+	    ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.4f * Math.sqrt(getDistance(target))), 1.0f);
+	    fallDistance = -3;
+	    leaping = true;
+	}, 20);
+	addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 60);
+    };
+
+    private final Consumer<EntityLivingBase> dash = (target) -> {
+	this.startAnimation(ModAnimations.CHAOS_KNIGHT_DASH);
+	Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
+	Vec3d teleportPos = getAttackTarget().getPositionVector();
+	int maxDistance = 10;
+	for (int i = 0; i < maxDistance; i++)
+	{
+	    Vec3d proposedPos = teleportPos.add(dir);
+	    IBlockState state = world.getBlockState(new BlockPos(proposedPos).down());
+	    if (state.canEntitySpawn(this) && state.isTopSolid())
+	    {
+		teleportPos = proposedPos;
+	    }
+	}
+
+	this.chargeDir = teleportPos;
+
+	// Send the aimed position to the client side
+	NBTTagCompound data = new NBTTagCompound();
+	data.setInteger("entityId", this.getEntityId());
+	data.setFloat("posX", (float) this.chargeDir.x);
+	data.setFloat("posY", (float) this.chargeDir.y);
+	data.setFloat("posZ", (float) this.chargeDir.z);
+	Main.network.sendToAllTracking(new MessageMonolithLazer(data), this);
+
+	addEvent(() -> {
+	    world.createExplosion(this, posX, posY, posZ, 2, false);
+	    ModUtils.lineCallback(getPositionVector(), chargeDir, (int) Math.sqrt(chargeDir.subtract(getPositionVector()).lengthSquared()), (vec, i) -> {
+		ModUtils.handleAreaImpact(dashRadius, (e) -> getAttack(), this, vec, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.3f, 5);
+		world.playSound(vec.x, vec.y, vec.z, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 1.0f, 1.0f + ModRandom.getFloat(0.1f), false);
+	    });
+	    attemptTeleport(chargeDir.x, chargeDir.y, chargeDir.z);
+	    world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
+	    playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
+	}, 20);
+
+	addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 45);
+    };
+
+    private final Consumer<EntityLivingBase> spinSlash = (target) -> {
+	this.startAnimation(ModAnimations.CHAOS_KNIGHT_SPIN_SLASH);
+	Runnable leap = () -> ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.4f * Math.sqrt(getDistance(target))), 0.4f);
+	Runnable meleeAttack = () -> {
+	    ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.5f, 0, false);
+	    playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
+	};
+
+	addEvent(leap, 20);
+	addEvent(meleeAttack, 30);
+	addEvent(leap, 33);
+	addEvent(meleeAttack, 41);
+	addEvent(leap, 44);
+	addEvent(meleeAttack, 53);
+	addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 70);
+    };
 
     public EntityChaosKnight(World worldIn)
     {
@@ -53,105 +141,23 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	this.setSize(1.5f, 3.0f);
 	this.healthScaledAttackFactor = 0.2;
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
-	if (!world.isRemote)
-	{
-	    attackHandler.setAttack(sideSwipe, (EntityLeveledMob actor, EntityLivingBase target) -> {
-		addEvent(() -> {
-		    float distance = actor.getDistance(target);
-		    if (distance > 2)
-		    {
-			ModUtils.leapTowards(actor, target.getPositionVector(), (float) (0.4 * Math.sqrt(distance)), 0.5f);
-		    }
-		}, 5);
-
-		addEvent(() -> {
-		    Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(0.5, 1, -1)));
-		    ModUtils.handleAreaImpact(2, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.5f, 0, false);
-		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
-		    Vec3d jump = actor.getLookVec().rotateYaw(180).scale(0.6f);
-		    actor.motionX = jump.x;
-		    actor.motionY = 0.4;
-		    actor.motionZ = jump.z;
-		}, 20);
-
-		addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 35);
-	    });
-
-	    attackHandler.setAttack(leapSlam, (EntityLeveledMob actor, EntityLivingBase target) -> {
-		addEvent(() -> {
-		    ModUtils.leapTowards(actor, target.getPositionVector(), (float) (0.4f * Math.sqrt(actor.getDistance(target))), 1.0f);
-		    actor.fallDistance = -3;
-		    leaping = true;
-		}, 20);
-		addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 60);
-	    });
-
-	    attackHandler.setAttack(thunderCharge, (EntityLeveledMob actor, EntityLivingBase target) -> {
-		Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
-		Vec3d teleportPos = getAttackTarget().getPositionVector();
-		int maxDistance = 10;
-		for (int i = 0; i < maxDistance; i++)
-		{
-		    Vec3d proposedPos = teleportPos.add(dir);
-		    IBlockState state = world.getBlockState(new BlockPos(proposedPos).down());
-		    if (state.canEntitySpawn(this) && state.isTopSolid())
-		    {
-			teleportPos = proposedPos;
-		    }
-		}
-
-		this.chargeDir = teleportPos;
-
-		// Send the aimed position to the client side
-		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("entityId", this.getEntityId());
-		data.setFloat("posX", (float) this.chargeDir.x);
-		data.setFloat("posY", (float) this.chargeDir.y);
-		data.setFloat("posZ", (float) this.chargeDir.z);
-		Main.network.sendToAllTracking(new MessageMonolithLazer(data), this);
-
-		addEvent(() -> {
-		    world.createExplosion(actor, actor.posX, actor.posY, actor.posZ, 2, false);
-		    ModUtils.lineCallback(actor.getPositionVector(), chargeDir, (int) Math.sqrt(chargeDir.subtract(actor.getPositionVector()).lengthSquared()), (vec, i) -> {
-			ModUtils.handleAreaImpact(dashRadius, (e) -> actor.getAttack(), actor, vec, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.3f, 5);
-			world.playSound(vec.x, vec.y, vec.z, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 1.0f, 1.0f + ModRandom.getFloat(0.1f), false);
-		    });
-		    actor.attemptTeleport(chargeDir.x, chargeDir.y, chargeDir.z);
-		    world.setEntityState(actor, ModUtils.SECOND_PARTICLE_BYTE);
-		    actor.playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
-		}, 20);
-
-		addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 45);
-	    });
-
-	    attackHandler.setAttack(spinSlash, (EntityLeveledMob actor, EntityLivingBase target) -> {
-		Runnable leap = () -> ModUtils.leapTowards(actor, target.getPositionVector(), (float) (0.4f * Math.sqrt(actor.getDistance(target))), 0.4f);
-		Runnable meleeAttack = () -> {
-		    ModUtils.handleAreaImpact(2.7f, (e) -> actor.getAttack(), actor, actor.getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0.5f, 0, false);
-		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
-		};
-
-		addEvent(leap, 20);
-		addEvent(meleeAttack, 30);
-		addEvent(leap, 33);
-		addEvent(meleeAttack, 41);
-		addEvent(leap, 44);
-		addEvent(meleeAttack, 53);
-		addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 70);
-	    });
-	}
     }
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
 	setSwingingArms(true);
-	Byte[] attack = { sideSwipe, leapSlam, thunderCharge, spinSlash };
-	double[] weights = { 3.0 / Math.sqrt(distanceFactor), 0.5, 0.5, 0.5 };
-	attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
-	world.setEntityState(this, attackHandler.getCurrentAttack());
-	this.attackHandler.getCurrentAttackAction().performAction(this, target);
-	return attackHandler.getCurrentAttack() == sideSwipe ? 50 : 90;
+	double distance = Math.sqrt(distanceFactor);
+	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(sideSwipe, leapSlam, dash, spinSlash));
+	double[] weights = {
+		(1 - (distance / 10)) * (prevAttack != sideSwipe ? 1.5 : 1.0), // More likely at closer range
+		0.2 + 0.04 * distance, // Most likely as longer range
+		0.2 + 0.04 * distance,
+		0.5 - (prevAttack == spinSlash ? 0.3 : 0.0) }; // A powerful move that shouldn't happen too often in a row.
+
+	prevAttack = ModRandom.choice(attacks, rand, weights).next();
+	prevAttack.accept(target);
+	return prevAttack == sideSwipe ? 50 : 90;
     }
 
     @Override
@@ -187,11 +193,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	return super.attackEntityFrom(source, amount);
     }
 
-    /**
-     * Determines whether the entity can block the damage source based on the damage
-     * source's location, whether the damage source is blockable, and whether the
-     * entity is blocking.
-     */
     private boolean canBlockDamageSource(DamageSource damageSourceIn)
     {
 	if (!damageSourceIn.isUnblockable() && !this.isSwingingArms())
@@ -230,12 +231,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     @Override
     public void handleStatusUpdate(byte id)
     {
-	if (id >= sideSwipe && id <= spinSlash)
-	{
-	    currentAnimation = attackHandler.getAnimation(id);
-	    getCurrentAnimation().startAnimation();
-	}
-	else if (id == ModUtils.PARTICLE_BYTE)
+	if (id == ModUtils.PARTICLE_BYTE)
 	{
 	    for (int r = 1; r < 3; r++)
 	    {
@@ -263,11 +259,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	    }
 	}
 	super.handleStatusUpdate(id);
-    }
-
-    @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
-    {
     }
 
     @Override
@@ -306,9 +297,10 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
     @Override
     protected void initAnimation()
     {
-	attackHandler.setAttack(sideSwipe, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_SINGLE_SWIPE));
-	attackHandler.setAttack(leapSlam, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_LEAP_SLAM));
-	attackHandler.setAttack(thunderCharge, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_DASH));
-	attackHandler.setAttack(spinSlash, Action.NONE, () -> new StreamAnimation<ModelChaosKnight>(ModAnimations.CHAOS_KNIGHT_SPIN_SLASH));
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
     }
 }

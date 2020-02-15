@@ -7,7 +7,7 @@ Crimson Dungeon [85]
         Connect dimension with portal (2)
         Build the dungeon (30)
         Basic generation to place dungeon in (3)
-    Mobs [32]
+    Mobs [31]
         Eyerock (9)
         Chaos Knight (8)
             A hulking beast of a commander that throws attacks like an unstoppable truck, and defends with a magical shield
@@ -23,10 +23,8 @@ Crimson Dungeon [85]
 
             No second stage: just start with two moves, and throw in a few moves as the health depletes.
 
-        Maelstrom Tech (3)
-        Maelstrom Gunner
-        Maelstrom Archmage
-        Maelstrom Berserker
+        One new Maelstrom goon (4)
+        Two minibosses (10)
 
     Animation api needs a major update (10)
     Nexus Invasion tower thingy
