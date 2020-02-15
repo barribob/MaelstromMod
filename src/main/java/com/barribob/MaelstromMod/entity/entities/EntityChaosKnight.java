@@ -9,7 +9,6 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.IAttack;
-import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModAnimations;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
@@ -37,11 +36,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEntity, IAttack
+public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 {
     private ComboAttack attackHandler = new ComboAttack();
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
-    private boolean leaping = false;
     private Vec3d chargeDir;
     private static final float dashRadius = 2;
     private Consumer<EntityLivingBase> prevAttack;
@@ -74,7 +72,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	addEvent(() -> {
 	    ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.4f * Math.sqrt(getDistance(target))), 1.0f);
 	    fallDistance = -3;
-	    leaping = true;
+	    setLeaping(true);
 	}, 20);
 	addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 60);
     };
@@ -259,18 +257,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements LeapingEnti
 	    }
 	}
 	super.handleStatusUpdate(id);
-    }
-
-    @Override
-    public boolean isLeaping()
-    {
-	return leaping;
-    }
-
-    @Override
-    public void setLeaping(boolean leaping)
-    {
-	this.leaping = leaping;
     }
 
     @Override

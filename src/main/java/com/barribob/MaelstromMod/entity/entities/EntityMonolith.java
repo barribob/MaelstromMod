@@ -14,7 +14,6 @@ import com.barribob.MaelstromMod.entity.model.ModelMonolith;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMeteor;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMonolithFireball;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
-import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
 import com.barribob.MaelstromMod.util.ModColors;
@@ -46,7 +45,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
+public class EntityMonolith extends EntityMaelstromMob
 {
     // Maelstrom minion AI stuff
     private static final int enemySpawnTicks = 200;
@@ -61,7 +60,6 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
     public static final byte redAttack = 5;
     public static final byte yellowAttack = 6;
     private byte stageTransform = 7;
-    private boolean leaping = false;
     private static final DataParameter<Boolean> TRANSFORMED = EntityDataManager.<Boolean>createKey(EntityMonolith.class, DataSerializers.BOOLEAN);
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_6));
 
@@ -147,7 +145,7 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 				    .add(new Vec3d(ModRandom.getFloat(1), 0, ModRandom.getFloat(1)));
 			    actor.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
 			    actor.setPosition(pos.x, pos.y, pos.z);
-			    EntityMonolith.this.leaping = true;
+			    EntityMonolith.this.setLeaping(true);
 			}
 		    });
 		    attackHandler.setAttack(redAttack, new Action()
@@ -475,18 +473,6 @@ public class EntityMonolith extends EntityMaelstromMob implements LeapingEntity
 	{
 	    this.mob = mob;
 	}
-    }
-
-    @Override
-    public boolean isLeaping()
-    {
-	return leaping;
-    }
-
-    @Override
-    public void setLeaping(boolean leaping)
-    {
-	this.leaping = leaping;
     }
 
     @Override

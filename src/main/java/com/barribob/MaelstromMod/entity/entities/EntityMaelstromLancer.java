@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromLancer;
-import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -26,10 +25,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityMaelstromLancer extends EntityMaelstromMob implements LeapingEntity
+public class EntityMaelstromLancer extends EntityMaelstromMob
 {
-    boolean leaping = false;
-
     public EntityMaelstromLancer(World worldIn)
     {
 	super(worldIn);
@@ -187,7 +184,7 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
     @Override
     public void onLivingUpdate()
     {
-	if (!world.isRemote && this.leaping)
+	if (!world.isRemote && this.isLeaping())
 	{
 	    Vec3d dir = this.getLookVec().scale(2.2);
 	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(0.8f)).add(dir);
@@ -207,20 +204,8 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
 	    this.motionY += leap.y;
 	}
 	this.motionZ += leap.z;
-	this.leaping = true;
+	this.setLeaping(true);
 	this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, ModRandom.getFloat(0.1f) + 1.2f);
-    }
-
-    @Override
-    public boolean isLeaping()
-    {
-	return leaping;
-    }
-
-    @Override
-    public void setLeaping(boolean leaping)
-    {
-	this.leaping = leaping;
     }
 
     @Override

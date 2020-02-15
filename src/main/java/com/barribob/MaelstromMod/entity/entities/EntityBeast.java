@@ -11,7 +11,6 @@ import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
-import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -35,12 +34,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
+public class EntityBeast extends EntityMaelstromMob
 {
     private ComboAttack attackHandler = new ComboAttack();
     private byte leap = 4;
     private byte spit = 5;
-    boolean leaping = false;
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -164,14 +162,14 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 	this.attackHandler.getCurrentAttackAction().performAction(this, target);
 	if (attackHandler.getCurrentAttack() == leap)
 	{
-	    leaping = true;
+	    setLeaping(true);
 	}
     }
 
     @Override
     public void onLivingUpdate()
     {
-	if (!world.isRemote && this.leaping)
+	if (!world.isRemote && this.isLeaping())
 	{
 	    ModUtils.handleAreaImpact(2.5f, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.3f, 0, false);
 	}
@@ -268,18 +266,6 @@ public class EntityBeast extends EntityMaelstromMob implements LeapingEntity
 	    getCurrentAnimation().startAnimation();
 	}
 	super.handleStatusUpdate(id);
-    }
-
-    @Override
-    public boolean isLeaping()
-    {
-	return this.leaping;
-    }
-
-    @Override
-    public void setLeaping(boolean leaping)
-    {
-	this.leaping = leaping;
     }
 
     @Override

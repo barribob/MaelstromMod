@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
+import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.packets.MessageAnimation;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
@@ -31,11 +32,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * A base class for mob to scale nicely with the leveling system. Also
- * streamlines some of the attribute setting, namely attack and max health
+ * A base class for the mod's mobs. It includes a hodgepodge of attributes and
+ * abilities. One is to scale nicely with the leveling system.
  *
  */
-public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob, IElement
+public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob, IElement, LeapingEntity
 {
     protected static final DataParameter<Float> LEVEL = EntityDataManager.<Float>createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private float regenStartTimer;
@@ -49,6 +50,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     private Vec3d initialPosition = null;
     protected double healthScaledAttackFactor = 0.0; // Factor that determines how much attack is affected by health
     private PriorityQueue<TimedEvent> events = new PriorityQueue<TimedEvent>();
+    private boolean leaping = false;
 
     public EntityLeveledMob(World worldIn)
     {
@@ -333,5 +335,22 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     protected Animation createAnimation(int animationId)
     {
 	return new StreamAnimation(animationId);
+    }
+
+    @Override
+    public boolean isLeaping()
+    {
+	return leaping;
+    }
+
+    @Override
+    public void setLeaping(boolean leaping)
+    {
+	this.leaping = leaping;
+    }
+
+    @Override
+    public void onStopLeaping()
+    {
     }
 }

@@ -15,7 +15,6 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBoneQuake;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
-import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
@@ -42,7 +41,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingEntity
+public class EntityMaelstromBeast extends EntityMaelstromMob
 {
     private ComboAttack attackHandler = new ComboAttack();
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -50,7 +49,6 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
     private byte battleShout = 5;
     private byte groundSlash = 6;
     private byte leap = 7;
-    private boolean leaping = false;
     public static final byte explosionParticles = 8;
     private static final DataParameter<Boolean> RAGED = EntityDataManager.<Boolean>createKey(EntityMaelstromBeast.class, DataSerializers.BOOLEAN);
     private byte rageParticles = 9;
@@ -310,24 +308,12 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements LeapingE
     }
 
     @Override
-    public boolean isLeaping()
-    {
-	return leaping;
-    }
-
-    @Override
-    public void setLeaping(boolean leaping)
-    {
-	this.leaping = leaping;
-    }
-
-    @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
 	this.attackHandler.getCurrentAttackAction().performAction(this, target);
 	if (attackHandler.getCurrentAttack() == leap)
 	{
-	    leaping = true;
+	    setLeaping(true);
 	}
     }
 
