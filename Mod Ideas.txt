@@ -41,6 +41,7 @@ Crimson Dungeon [85]
             1 for nexus
 
     Change animation function to use caching before using in production
+    Retexture weapons to match a more vanilla style
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Patch
 [DONE] Portals should work in any dimension

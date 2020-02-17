@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.blocks.BlockAzureVines;
 import com.barribob.MaelstromMod.blocks.BlockAzureVinesBlock;
 import com.barribob.MaelstromMod.blocks.BlockBase;
 import com.barribob.MaelstromMod.blocks.BlockBossSpawner;
+import com.barribob.MaelstromMod.blocks.BlockChain;
 import com.barribob.MaelstromMod.blocks.BlockDecayingMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockDisappearingSpawner;
 import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
@@ -47,6 +48,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -174,7 +179,18 @@ public class ModBlocks
     public static final Block CRIMSON_MAELSTROM_BRICK_FENCE = new BlockFenceBase("crimson_maelstrom_brick_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRIMSON_MAELSTROM_BRICK_STAIRS =
 	    new BlockStairsBase("crimson_maelstrom_brick_stairs", CRIMSON_MAELSTROM_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
-
+    public static final Block CRIMSON_LAMP = new BlockLamp("crimson_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
+    {
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer()
+	{
+	    return BlockRenderLayer.CUTOUT;
+	}
+    }.setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CHAIN = new BlockChain("chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.425D, 0.0D, 0.425D, 0.575D, 1.0D, 0.575D)).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block MULTI_CHAIN = new BlockChain("multi_chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D)).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block LARGE_CHAIN = new BlockChain("large_chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.30D, 0.0D, 0.3D, 0.7D, 1.0D, 0.7D)).setCreativeTab(ModCreativeTabs.BLOCKS);
 
     /*
      * Key blocks and nexus stuff
