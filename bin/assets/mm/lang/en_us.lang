@@ -428,6 +428,7 @@ mm.config.nexus_dimension_id=Nexus Dimension Id
 mm.config.cliff_dimension_id=Cliff Dimension Id
 mm.config.dark_nexus_dimension_id=Dark Nexus Dimension Id
 mm.config.invasion_time=Invasion Time
+mm.config.render_cliff_fog=Render Cliff Fog
 
 mm.config.gui=Gui
 mm.config.armor_bar_x=Maelstrom Armor Bar X Offset

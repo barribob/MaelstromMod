@@ -546,4 +546,9 @@ public final class ModUtils
 
 	return amount;
     }
+
+    public static float clamp(double value, double min, double max)
+    {
+	return (float) Math.max(min, Math.min(max, value));
+    }
 }

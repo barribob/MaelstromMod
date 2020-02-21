@@ -47,6 +47,10 @@ Specifying blend only for entities that need it.
 MAelstrom generation sometimes exposes the core
 Make damage III max enchantable and loot damage up to V
 
+||||||||||||||||||||||||||||||||||||||||||||||| Things to watch out for when updating
+
+Reflected methods will may change, so when changing versions, you have to check that those still work
+
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 
 Theme: Black and red, nether hell inferno castle.
