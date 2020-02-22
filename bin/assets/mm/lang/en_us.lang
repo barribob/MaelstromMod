@@ -501,6 +501,7 @@ mm.desc.maelstrom_full_set=Full set: Resistance
 mm.desc.goltox_full_set=Full set: Poison Reduction
 mm.desc.swamp_full_set=Full set: Strength
 mm.desc.nyan_full_set=Full set: Rainbows when sprinting
+mm.desc.nexus_only_portal=In survival mode, accessed only in the Nexus dimension
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog
