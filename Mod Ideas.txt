@@ -26,7 +26,7 @@ Crimson Dungeon [85]
         One new Maelstrom goon (4)
         Two minibosses (10)
 
-    Animation api needs a major update (10)
+    [DONE] Animation api needs a major update (10)
     Nexus Invasion tower thingy
     Advance attacks of maelstrom swordsman and lancer (3)
     Death animations???
@@ -49,6 +49,7 @@ Fix swamp fog cliff top fog problems
 Make damage III max enchantable and loot damage up to V
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
+
 Some sort of prior indicator that the tower is going to appear in a certain spot??
 Better looking melee weapons
 Enchanted effect for elemental weapons.
