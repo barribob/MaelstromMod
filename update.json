@@ -1,6 +1,8 @@
 {
-  "homepage": "https://maelstrom-mod.fandom.com/wiki/Downloads",
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/into-the-maelstrom",
   "1.12.2": {
+    "0.3.3": "Mini patch",
+    "0.3.2": "Mod polishing",
     "0.3.1": "Completed the Cliff dimension",
     "0.3": "Added the Cliff dimension",
     "0.2": "Added the Nexus dimension",
@@ -8,7 +10,7 @@
     "0.1": "First version of mod: Adds the Fracture dimension"
   },
   "promos": {
-    "1.12.2-latest": "0.3.1",
-    "1.12.1-recommended": "0.3.1"
+    "1.12.2-latest": "0.3.3",
+    "1.12.1-recommended": "0.3.3"
   }
 }
