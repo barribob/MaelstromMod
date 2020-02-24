@@ -1,11 +1,13 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ProjectileExplosiveDrill extends ProjectileGun
@@ -35,8 +37,7 @@ public class ProjectileExplosiveDrill extends ProjectileGun
     {
 	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
 	{
-	    world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + ModRandom.getFloat(0.5f), this.posY + ModRandom.getFloat(0.5f),
-		    this.posZ + ModRandom.getFloat(0.5f), 0, 0, 0);
+	    ParticleManager.spawnColoredSmoke(world, getPositionVector().add(ModRandom.randVec()), ModColors.DARK_GREY, Vec3d.ZERO);
 	}
     }
 

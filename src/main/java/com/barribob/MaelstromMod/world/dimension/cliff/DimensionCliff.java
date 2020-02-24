@@ -28,7 +28,8 @@ public class DimensionCliff extends WorldProvider
     protected void init()
     {
 	this.hasSkyLight = true;
-	this.biomeProvider = new BiomeProviderMultiple(this.world.getWorldInfo()) {
+	this.biomeProvider = new BiomeProviderMultiple(this.world.getWorldInfo())
+	{
 	    @Override
 	    public List<Biome> getBiomesToSpawnIn()
 	    {
@@ -72,11 +73,11 @@ public class DimensionCliff extends WorldProvider
     {
 	return 8.0f / 256f;
     }
-    
+
     @Override
     public float getCloudHeight()
     {
-	return 260;
+	return 242;
     }
 
     @Override
@@ -105,9 +106,6 @@ public class DimensionCliff extends WorldProvider
 	float f = cameraEntity.world.getCelestialAngle(partialTicks);
 	float f1 = MathHelper.cos(f * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
 	f1 = MathHelper.clamp(f1, 0.1F, 1.0F);
-	int i = MathHelper.floor(cameraEntity.posX);
-	int j = MathHelper.floor(cameraEntity.posY);
-	int k = MathHelper.floor(cameraEntity.posZ);
-	return new Vec3d(0.60f, 0.53f, 0.7f).scale(f1);
+	return new Vec3d(0.60f, 0.55f, 0.7f).scale(f1);
     }
 }

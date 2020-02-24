@@ -8,15 +8,16 @@ import com.barribob.MaelstromMod.init.ModPotions;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -49,10 +50,13 @@ public class EntityEventHandler
 
 	if (event.getEntity().dimension == ModConfig.world.dark_nexus_dimension_id && event.getEntity() instanceof EntityPlayer)
 	{
-	    ModUtils.performNTimes(15, (i) -> {
-		Vec3d pos = event.getEntity().getPositionVector().add(new Vec3d(ModRandom.getFloat(8), ModRandom.getFloat(4), ModRandom.getFloat(4)));
-		event.getEntity().world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.x - 8, pos.y + 2, pos.z, 0.8, 0, 0);
-	    });
+	    if (event.getEntity().world.isRemote)
+	    {
+		ModUtils.performNTimes(15, (i) -> {
+		    Vec3d pos = event.getEntity().getPositionVector().add(new Vec3d(ModRandom.getFloat(8), ModRandom.getFloat(4), ModRandom.getFloat(4)));
+		    ParticleManager.spawnColoredSmoke(event.getEntity().world, pos, ModColors.DARK_GREY, new Vec3d(0.8, 0, 0));
+		});
+	    }
 
 	    int[] blockage = { 0, 0 }; // Represents the two y values the wind could be blowing at the player
 

@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleBreaking;
 import net.minecraft.client.particle.ParticleExplosion;
 import net.minecraft.client.particle.ParticleExplosionLarge;
 import net.minecraft.client.particle.ParticleFirework;
@@ -16,6 +17,7 @@ import net.minecraft.client.particle.ParticleFlame;
 import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.client.particle.ParticleSpell;
 import net.minecraft.client.particle.ParticleSuspendedTown;
+import net.minecraft.item.Item;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -123,9 +125,9 @@ public class ParticleManager
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
-    public static void spawnColoredSmoke(World worldIn, Vec3d pos, Vec3d baseColor)
+    public static void spawnColoredSmoke(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d vel)
     {
-	Particle particle = new ParticleSmokeNormal.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0.0D, 0.01D, 0.0D);
+	Particle particle = new ParticleSmokeNormal.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
 
 	baseColor = ModColors.variateColor(baseColor, 0.2f);
 	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
@@ -205,6 +207,12 @@ public class ParticleManager
 	Particle particle = new EffectParticle.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);
 	baseColor = ModColors.variateColor(baseColor, 0.2f);
 	particle.setRBGColorF((float) baseColor.x, (float) baseColor.y, (float) baseColor.z);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    public static void spawnBreak(World world, Vec3d pos, Item item, Vec3d vel)
+    {
+	Particle particle = new ParticleBreaking.Factory().createParticle(0, world, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z, Item.getIdFromItem(item));
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 

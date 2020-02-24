@@ -46,6 +46,11 @@ More minibosses that the player can stumble across
 Specifying blend only for entities that need it.
 MAelstrom generation sometimes exposes the core
 Make damage III max enchantable and loot damage up to V
+Fix bug seen where two portals get created in the fracture (seen on server)
+
+||||||||||||||||||||||||||||||||||||||||||||||| Things to watch out for when updating
+
+Reflected methods will may change, so when changing versions, you have to check that those still work
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 
