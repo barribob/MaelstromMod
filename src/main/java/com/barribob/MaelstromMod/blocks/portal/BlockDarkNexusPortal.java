@@ -1,9 +1,14 @@
 package com.barribob.MaelstromMod.blocks.portal;
 
+import java.util.List;
+
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.teleporter.ToDarkNexusTeleporter;
 import com.barribob.MaelstromMod.util.teleporter.ToNexusTeleporter;
 
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
@@ -28,5 +33,12 @@ public class BlockDarkNexusPortal extends BlockPortal
     protected Teleporter getExitTeleporter(World world)
     {
 	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(189, 103, 40));
+    }
+    
+    @Override
+    public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced)
+    {
+	tooltip.add(ModUtils.translateDesc("nexus_only_portal"));
+	super.addInformation(stack, player, tooltip, advanced);
     }
 }

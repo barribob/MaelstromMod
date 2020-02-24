@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
+import com.barribob.MaelstromMod.event_handlers.FogHandler;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.client.Minecraft;
@@ -51,7 +52,6 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
     private int texH;
     private static final boolean WIREFRAME = false;
     private DynamicTexture COLOR_TEX = null;
-    public static final float FOG_HEIGHT = 45.25f;
 
     @Override
     public void render(float partialTicks, WorldClient world, Minecraft mc)
@@ -63,7 +63,7 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
 	checkSettings();
 
 	Entity entity = mc.getRenderViewEntity();
-	if (entity.posY < FOG_HEIGHT)
+	if (entity.posY < FogHandler.CLIFF_FOG_HEIGHT)
 	{
 	    return;
 	}
@@ -71,7 +71,7 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
 	double totalOffset = partialTicks + entity.ticksExisted;
 
 	double x = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks + totalOffset * 0.01;
-	double y = FOG_HEIGHT + entity.getEyeHeight() - (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks);
+	double y = FogHandler.CLIFF_FOG_HEIGHT + entity.getEyeHeight() - (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks);
 	double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
 
 	int scale = getScale();

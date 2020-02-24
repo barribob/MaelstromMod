@@ -1,0 +1,12 @@
+Test on sever
+Search for misnamed stuff
+Update version (build.gradle, reference.java, mcmod.info, update.json)
+Vanilla test (load all dimensions)
+Stress test (test on a large modpack, load all dimensions)
+Update changelog in changelog.txt
+Open pull request then link all issues related on github
+
+||||||After release on curseforge|||||||
+
+Update changelog on wikia
+Merge pull request

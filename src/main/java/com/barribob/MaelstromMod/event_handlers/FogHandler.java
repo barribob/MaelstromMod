@@ -1,22 +1,33 @@
 package com.barribob.MaelstromMod.event_handlers;
 
+import java.lang.reflect.Method;
+
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.renderer.CliffCloudRenderer;
+import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class FogHandler
 {
-    @SideOnly(Side.CLIENT)
-    private static net.minecraftforge.client.IRenderHandler fogRenderer = new CliffCloudRenderer();
+    public static float CLIFF_FOG_HEIGHT = 45.55f;
+    private static final float CLOUD_FOG_HEIGHT = 239.25f;
+
+    private static net.minecraftforge.client.IRenderHandler swampFogRenderer = new CliffCloudRenderer();
+
+    private static Method setupFog;
 
     /**
      * Altering the fog density through the render fog event because the fog density
@@ -45,20 +56,21 @@ public class FogHandler
 	}
 	else if (event.getEntity().dimension == ModConfig.world.cliff_dimension_id)
 	{
-	    if (event.getEntity().posY < CliffCloudRenderer.FOG_HEIGHT)
+	    if (event.getEntity().posY < CLIFF_FOG_HEIGHT)
 	    {
 		GlStateManager.setFog(GlStateManager.FogMode.EXP);
 		GlStateManager.setFogDensity(0.07f);
 	    }
 	    else
 	    {
-		int fogStartY = 240;
+		float fogStartY = CLOUD_FOG_HEIGHT;
+		float maxFogY = 2;
 		float maxFog = 0.045f;
 		float fogDensity = 0.005f;
 
-		if (event.getEntity().posY > fogStartY && event.getEntity().posY < 260)
+		if (event.getEntity().posY > fogStartY)
 		{
-		    fogDensity += (float) (event.getEntity().posY - fogStartY) / fogStartY;
+		    fogDensity += Math.min(1, Math.max(0, event.getEntity().posY - fogStartY) / maxFogY) * maxFog;
 		}
 
 		GlStateManager.setFog(GlStateManager.FogMode.EXP);
@@ -72,20 +84,28 @@ public class FogHandler
 	}
     }
 
+    private static Vec3d interpolateFogColor(Entity renderEntity, Vec3d fog1, Vec3d fog2, float transitionStart, float transitionLength)
+    {
+	float alpha = ModUtils.clamp((renderEntity.posY - transitionStart) / transitionLength, 0, 1);
+	return fog1.scale(1 - alpha).add(fog2.scale(alpha));
+    }
+
     @SideOnly(Side.CLIENT)
     @SubscribeEvent()
     public static void onFogColor(EntityViewRenderEvent.FogColors event)
     {
-	if (event.getEntity().dimension == ModConfig.world.cliff_dimension_id && event.getEntity().posY > 240)
+	if (event.getEntity().dimension == ModConfig.world.cliff_dimension_id)
 	{
-	    float fadeY = 4;
-	    float alpha = (float) Math.min((event.getEntity().posY - 240) / fadeY, 1);
-	    float one_minus_alpha = 1 - alpha;
-	    float magnitude = (event.getBlue() + event.getRed() + event.getGreen()) / 3;
-	    event.setBlue(0.5f * magnitude * alpha + event.getBlue() * one_minus_alpha);
-	    event.setRed(0.5f * magnitude * alpha + event.getRed() * one_minus_alpha);
-	    event.setGreen(0.43f * magnitude * alpha + event.getGreen() * one_minus_alpha);
+	    Vec3d originalColor = new Vec3d(event.getRed(), event.getGreen(), event.getBlue());
+	    Vec3d cloudColor = new Vec3d(0.5, 0.43, 0.5);
+	    Vec3d swampFogColor = new Vec3d(0.4, 0.35, 0.2);
+	    Vec3d color = interpolateFogColor(event.getEntity(), originalColor, cloudColor.scale(Math.sqrt(originalColor.lengthSquared() / cloudColor.lengthSquared())), CLOUD_FOG_HEIGHT, 2);
+	    Vec3d color2 = interpolateFogColor(event.getEntity(), swampFogColor.scale(Math.sqrt(color.lengthSquared() / swampFogColor.lengthSquared())), color, CLIFF_FOG_HEIGHT, 1);
+	    event.setRed((float) color2.x);
+	    event.setGreen((float) color2.y);
+	    event.setBlue((float) color2.z);
 	}
+
 	if (event.getEntity().dimension == ModConfig.world.dark_nexus_dimension_id)
 	{
 	    event.setBlue(0);
@@ -98,9 +118,42 @@ public class FogHandler
     @SubscribeEvent()
     public static void onRenderWorldLastEvent(RenderWorldLastEvent event)
     {
-	if (Minecraft.getMinecraft().getRenderViewEntity().dimension == ModConfig.world.cliff_dimension_id)
+	if (ModConfig.world.render_fog)
 	{
-	    fogRenderer.render(event.getPartialTicks(), Minecraft.getMinecraft().world, Minecraft.getMinecraft());
+	    Minecraft mc = Minecraft.getMinecraft();
+	    if (mc.getRenderViewEntity().dimension == ModConfig.world.cliff_dimension_id)
+	    {
+		if (setupFog == null)
+		{
+		    try
+		    {
+			setupFog = ReflectionHelper.findMethod(EntityRenderer.class, "setupFog", "func_78468_a", int.class, float.class);
+			setupFog.setAccessible(true);
+		    }
+		    catch (Exception e)
+		    {
+			System.out.println("Failed to render fog: " + e);
+		    }
+		}
+
+		if (setupFog != null)
+		{
+		    try
+		    {
+			if (mc.getRenderViewEntity().posY > CLIFF_FOG_HEIGHT)
+			{
+			    setupFog.invoke(mc.entityRenderer, 0, event.getPartialTicks());
+			    swampFogRenderer.render(event.getPartialTicks(), Minecraft.getMinecraft().world, Minecraft.getMinecraft());
+			    GlStateManager.disableFog();
+			}
+		    }
+		    catch (Exception e)
+		    {
+			System.out.println("Failed to render fog: " + e);
+			GlStateManager.disableFog();
+		    }
+		}
+	    }
 	}
     }
 }
