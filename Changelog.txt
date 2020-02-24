@@ -1,3 +1,14 @@
+Update 0.3.3: Febuary 2020 patch
+
+Fixed naming on a few items (previous has .name appended to them)
+Previously portals mean to work in the Nexus dimension didn't work in the overworld. This has been changed so that they will work in any dimension. Going back through the same portal will go to the Nexus dimension.
+If the Nexus portal has not been created by the monolith, going back to the overworld will no longer take a long time to load.
+The fog in the cliff dimension looked weird when looking down at the swamp. This will no longer be the case.
+There are a few other fog/weather changes. The clouds have been lowered a bit, and the fog extends upward beyond y=260 (before it stopped)
+Animations sometimes went out of sync when the player wasn't looking directly at it. This is only noticeable for longer animations, but now this is no longer the case.
+Certain particles such as in the Dark Nexus dimension and from certain staves would not appear on minimal particle settings. The most essential particles now appear in every setting.
+The Fracture Golem and Cliff Golem quake attacks move a bit slower
+
 Update 0.3.2: Polishing The Mod
 
 Bug Fixes:
