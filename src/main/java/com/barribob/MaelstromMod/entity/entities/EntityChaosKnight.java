@@ -23,6 +23,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -86,7 +88,8 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 	{
 	    Vec3d proposedPos = teleportPos.add(dir);
 	    IBlockState state = world.getBlockState(new BlockPos(proposedPos).down());
-	    if (state.canEntitySpawn(this) && state.isTopSolid())
+	    IBlockState aboveState = world.getBlockState(new BlockPos(proposedPos));
+	    if ((state.canEntitySpawn(this) || aboveState.getBlock() == Blocks.REDSTONE_WIRE || aboveState.getBlock() == Blocks.SKULL) && state.isTopSolid())
 	    {
 		teleportPos = proposedPos;
 	    }
@@ -108,7 +111,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 		ModUtils.handleAreaImpact(dashRadius, (e) -> getAttack(), this, vec, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.3f, 5);
 		world.playSound(vec.x, vec.y, vec.z, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 1.0f, 1.0f + ModRandom.getFloat(0.1f), false);
 	    });
-	    attemptTeleport(chargeDir.x, chargeDir.y, chargeDir.z);
+	    this.setPositionAndUpdate(chargeDir.x, chargeDir.y, chargeDir.z);
 	    world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
 	    playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
 	}, 20);
@@ -136,26 +139,59 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
     public EntityChaosKnight(World worldIn)
     {
 	super(worldIn);
+	// Using this attribute to teleport the knight back if it falls off the tower it spawns on
+	this.setImmovable(true);
 	this.setSize(1.5f, 3.0f);
 	this.healthScaledAttackFactor = 0.2;
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
     }
 
     @Override
+    public void onUpdate()
+    {
+	super.onUpdate();
+	this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+
+	if (world.isRemote || this.ticksExisted % 5 != 0)
+	{
+	    return;
+	}
+
+	boolean hasGround = false;
+	for (int i = 0; i > -10; i--)
+	{
+	    if (!world.isAirBlock(getPosition().add(new BlockPos(0, i, 0))))
+	    {
+		hasGround = true;
+	    }
+	}
+
+	if (!hasGround && this.motionY < -1)
+	{
+	    this.setImmovable(true);
+	}
+	else if (this.isImmovable())
+	{
+	    this.setImmovable(false);
+	}
+    }
+
+    @Override
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
+	float healthRatio = this.getHealth() / this.getMaxHealth();
 	setSwingingArms(true);
 	double distance = Math.sqrt(distanceFactor);
 	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(sideSwipe, leapSlam, dash, spinSlash));
 	double[] weights = {
 		(1 - (distance / 10)) * (prevAttack != sideSwipe ? 1.5 : 1.0), // More likely at closer range
-		0.2 + 0.04 * distance, // Most likely as longer range
-		0.2 + 0.04 * distance,
+		healthRatio < 0.75 ? 0.2 + 0.04 * distance : 0, // Most likely as longer range, and only appears below 75% health
+		healthRatio < 0.5 ? 0.2 + 0.04 * distance : 0, // Only appears below 50% health
 		0.5 - (prevAttack == spinSlash ? 0.3 : 0.0) }; // A powerful move that shouldn't happen too often in a row.
 
 	prevAttack = ModRandom.choice(attacks, rand, weights).next();
 	prevAttack.accept(target);
-	return prevAttack == sideSwipe ? 50 : 90;
+	return prevAttack == sideSwipe ? 50 : 90 - (int) (10 * (1 - healthRatio));
     }
 
     @Override
@@ -163,6 +199,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
     {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9f);
+	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30f);
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
     }
@@ -223,7 +260,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAITimedAttack<EntityChaosKnight>(this, 1.0f, 90, 15, 0.5f));
+	this.tasks.addTask(4, new EntityAITimedAttack<EntityChaosKnight>(this, 1.0f, 60, 15, 0.5f));
     }
 
     @Override
@@ -278,6 +315,44 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
     public void setLazerDir(Vec3d lazerDir)
     {
 	this.chargeDir = lazerDir;
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+	if (this.hasCustomName())
+	{
+	    this.bossInfo.setName(this.getDisplayName());
+	}
+
+	super.readEntityFromNBT(compound);
+    }
+
+    @Override
+    public void setCustomNameTag(String name)
+    {
+	super.setCustomNameTag(name);
+	this.bossInfo.setName(this.getDisplayName());
+    }
+
+    @Override
+    public void addTrackingPlayer(EntityPlayerMP player)
+    {
+	super.addTrackingPlayer(player);
+	this.bossInfo.addPlayer(player);
+    }
+
+    @Override
+    public void removeTrackingPlayer(EntityPlayerMP player)
+    {
+	super.removeTrackingPlayer(player);
+	this.bossInfo.removePlayer(player);
+    }
+
+    @Override
+    protected boolean canDespawn()
+    {
+	return false;
     }
 
     @Override
