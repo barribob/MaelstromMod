@@ -13,6 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -77,7 +78,7 @@ public class EntityWhiteMonolith extends EntityLeveledMob
 	    WorldGenStructure portal = new WorldGenStructure("nexus/nexus_portal");
 	    BlockPos size = portal.getSize(world);
 	    BlockPos pos = new BlockPos(this.posX, NexusToOverworldTeleporter.yPortalOffset - 2, this.posZ).subtract(new BlockPos(size.getX() * 0.5f, 0, size.getZ() * 0.5f));
-	    portal.generateStructure(world, pos, false);
+	    portal.generateStructure(world, pos, Rotation.NONE);
 	    this.setDead();
 	}
 

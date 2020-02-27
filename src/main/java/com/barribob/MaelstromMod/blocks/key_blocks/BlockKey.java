@@ -1,11 +1,14 @@
 package com.barribob.MaelstromMod.blocks.key_blocks;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.blocks.BlockBase;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityUpdater;
+import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
+import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.util.IBlockUpdater;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -17,6 +20,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -28,18 +32,26 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class BlockKey extends BlockBase implements IBlockUpdater, ITileEntityProvider
+public class BlockKey extends BlockBase implements IBlockUpdater, ITileEntityProvider
 {
     private Item activationItem;
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.25D, 1.0D);
     int counter = 0;
+    BiFunction<World, BlockPos, Entity> spawnPortal;
 
-    public BlockKey(String name, Item item)
+    public BlockKey(String name)
+    {
+	this(name, null, (world, pos) -> new EntityAzurePortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
+    }
+
+    public BlockKey(String name, Item item, BiFunction<World, BlockPos, Entity> spawnPortal)
     {
 	super(name, Material.ROCK, 1000, 10000, SoundType.STONE);
 	this.setBlockUnbreakable();
 	this.activationItem = item;
 	this.hasTileEntity = true;
+	this.spawnPortal = spawnPortal;
+	this.setCreativeTab(ModCreativeTabs.BLOCKS);
     }
 
     @Override
@@ -103,11 +115,9 @@ public abstract class BlockKey extends BlockBase implements IBlockUpdater, ITile
     {
 	if (playerIn.getHeldItemMainhand() != null && playerIn.getHeldItemMainhand().getItem() == this.activationItem)
 	{
-	    this.spawnPortalEntity(worldIn, pos);
+	    worldIn.spawnEntity(this.spawnPortal.apply(worldIn, pos));
 	    worldIn.setBlockToAir(pos);
 	}
 	return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
-
-    protected abstract void spawnPortalEntity(World world, BlockPos pos);
 }

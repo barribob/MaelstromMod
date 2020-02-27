@@ -70,6 +70,7 @@ import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderMonolith;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
 import com.barribob.MaelstromMod.entity.render.RenderWhiteMonolith;
+import com.barribob.MaelstromMod.entity.util.EntityCrimsonTowerSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityParticleSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn;
@@ -135,7 +136,7 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileGoldenFireball.class, Items.FIRE_CHARGE);
 	registerProjectileRenderer(ProjectileMonolithFireball.class, Items.FIRE_CHARGE);
 	registerProjectileRenderer(ProjectileGoldenMissile.class, ModItems.GOLD_PELLET);
-
+	registerProjectileRenderer(EntityCrimsonTowerSpawner.class, ModItems.INVISIBLE);
     }
 
     /**

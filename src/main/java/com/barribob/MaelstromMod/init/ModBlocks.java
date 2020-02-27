@@ -33,12 +33,14 @@ import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
 import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
 import com.barribob.MaelstromMod.blocks.BlockSwampLeaves;
-import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
-import com.barribob.MaelstromMod.blocks.key_blocks.BlockBrownKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockKey;
 import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockCliffPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockDarkNexusPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
+import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityCrimsonTowerSpawner;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
@@ -197,13 +199,13 @@ public class ModBlocks
      */
 
     public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockAzureKey("azure_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block BROWN_KEY_BLOCK = new BlockBrownKey("brown_key_block", ModItems.BROWN_KEY).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block RED_DUNGEON_KEY_BLOCK = new BlockAzureKey("red_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block ICE_KEY_BLOCK = new BlockAzureKey("ice_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockAzureKey("ice_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockAzureKey("black_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block AZURE_KEY_BLOCK = new BlockKey("azure_key_block", ModItems.AZURE_KEY, (world, pos) -> new EntityAzurePortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
+    public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockKey("azure_dungeon_key_block");
+    public static final Block BROWN_KEY_BLOCK = new BlockKey("brown_key_block", ModItems.BROWN_KEY, (world, pos) -> new EntityCliffPortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
+    public static final Block RED_DUNGEON_KEY_BLOCK = new BlockKey("red_dungeon_key_block", ModItems.RED_KEY, (world, pos) -> new EntityCrimsonTowerSpawner(world, pos.getX(), pos.getY(), pos.getZ()));
+    public static final Block ICE_KEY_BLOCK = new BlockKey("ice_key_block");
+    public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockKey("ice_dungeon_key_block");
+    public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockKey("black_dungeon_key_block");
 
     /*
      * Crimson dimension

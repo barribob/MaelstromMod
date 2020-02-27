@@ -33,11 +33,13 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenCliffShrub;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampVines;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenWaterfall;
 import com.barribob.MaelstromMod.world.gen.maelstrom_castle.WorldGenMaelstromCastle;
+import com.barribob.MaelstromMod.world.gen.nexus.WorldGenCrimsonTower;
 import com.barribob.MaelstromMod.world.gen.nexus.WorldGenNexusIslands;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -260,6 +262,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 
     public static final WorldGenStructure NEXUS = new WorldGenNexusIslands();
     public static final WorldGenStructure DARK_NEXUS = new WorldGenDarkNexus();
+    public static final WorldGenStructure CRIMSON_TOWER = new WorldGenCrimsonTower();
 
     public static class CliffMaelstromStructure extends WorldGenStructure
     {
@@ -323,7 +326,7 @@ public class WorldGenCustomStructures implements IWorldGenerator
 	@Override
 	public boolean generate(World worldIn, Random rand, BlockPos position)
 	{
-	    this.generateStructure(worldIn, position, false);
+	    this.generateStructure(worldIn, position, Rotation.NONE);
 	    return true;
 	}
 

@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -24,7 +25,7 @@ public class WorldGenNexusIslands extends WorldGenStructure
     @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
-	this.generateStructure(worldIn, position, false);
+	this.generateStructure(worldIn, position, Rotation.NONE);
 	return true;
     }
 

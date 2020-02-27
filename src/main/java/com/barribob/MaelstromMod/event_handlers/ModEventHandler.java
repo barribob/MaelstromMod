@@ -32,6 +32,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -165,7 +166,7 @@ public class ModEventHandler
 			});
 			invasionCounter.setInvaded(true);
 			BlockPos structurePos = positions.get(variations.indexOf(Collections.min(variations)));
-			WorldGenCustomStructures.invasionTower.generateStructure(event.world, structurePos, false);
+			WorldGenCustomStructures.invasionTower.generateStructure(event.world, structurePos, Rotation.NONE);
 		    }
 		    else
 		    {

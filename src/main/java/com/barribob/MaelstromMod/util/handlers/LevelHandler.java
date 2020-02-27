@@ -15,6 +15,7 @@ public class LevelHandler
     public static final float AZURE_ENDGAME = 2.0f;
     public static final float CLIFF_OVERWORLD = 3.0f;
     public static final float CLIFF_ENDGAME = 4.0f;
+    public static final float CRIMSON_START = 5.0f;
 
     /**
      * Calculates the armor by using the progression level as a base and the level
