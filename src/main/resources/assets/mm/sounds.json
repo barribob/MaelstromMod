@@ -128,5 +128,35 @@
                 "stream": true
             }
         ]
+    },
+    "entity.chaos_knight.ambient": {
+        "category": "entity",
+        "subtitle": "entity.chaos_knight.ambient",
+        "sounds": [
+            {
+                "name": "mm:entity/chaos_knight/ambient",
+                "stream": true
+            }
+        ]
+    },
+    "entity.chaos_knight.death": {
+        "category": "entity",
+        "subtitle": "entity.chaos_knight.death",
+        "sounds": [
+            {
+                "name": "mm:entity/chaos_knight/death",
+                "stream": true
+            }
+        ]
+    },
+    "entity.chaos_knight.hurt": {
+        "category": "entity",
+        "subtitle": "entity.chaos_knight.hurt",
+        "sounds": [
+            {
+                "name": "mm:entity/chaos_knight/hurt",
+                "stream": true
+            }
+        ]
     }
 }

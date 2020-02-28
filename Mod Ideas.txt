@@ -32,6 +32,7 @@ Crimson Dungeon Dimension
 
 ||||||| Release prep
 
+    Complete playthrough on a server (can only be done on a better computer)
     Reflected methods will may change, so when changing versions, you have to check that those still work
     Change animation function to use caching before using in production
     

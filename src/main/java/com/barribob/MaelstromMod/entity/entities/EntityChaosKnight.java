@@ -30,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
@@ -347,6 +348,24 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
     {
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound()
+    {
+	return SoundsHandler.ENTITY_CHAOS_KNIGHT_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound()
+    {
+	return SoundsHandler.ENTITY_CHAOS_KNIGHT_DEATH;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+    {
+	return SoundsHandler.ENTITY_CHAOS_KNIGHT_HURT;
     }
 
     @Override
