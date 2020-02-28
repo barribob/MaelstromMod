@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.entity.model.ModelIronShade;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileIronShadeAttack;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -42,13 +43,19 @@ public class EntityIronShade extends EntityMaelstromMob
     public EntityIronShade(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(1.5f);
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
 	this.healthScaledAttackFactor = 0.2;
 	this.setSize(0.9f, 2.2f);
 	if (!worldIn.isRemote)
 	{
-	    attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack()), 1));
+	    attackHandler.setAttack(frontFlip, new ActionThrust(() -> {
+		ProjectileIronShadeAttack projectile = new ProjectileIronShadeAttack(world, this, this.getAttack());
+		if (this.getElement() == Element.CRIMSON)
+		{
+		    projectile.setFire(3);
+		}
+		return projectile;
+	    }));
 	    attackHandler.setAttack(spin, new ActionSpinSlash(3.0f));
 	}
     }
@@ -240,7 +247,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	{
 	    ModUtils.performNTimes(4, (i) -> {
 		ModUtils.circleCallback(i, 15, (pos) -> {
-		    ParticleManager.spawnDarkFlames(world, rand, getPositionVector().add(new Vec3d(pos.x, this.getEyeHeight(), pos.y)));
+		    ParticleManager.spawnColoredFire(world, rand, getPositionVector().add(new Vec3d(pos.x, this.getEyeHeight(), pos.y)), getElement().sweepColor);
 		});
 	    });
 	}
@@ -249,9 +256,9 @@ public class EntityIronShade extends EntityMaelstromMob
 	    Vec3d look = this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
 	    Vec3d side = look.rotateYaw((float) Math.PI * -0.5f);
 	    Vec3d offset = getPositionVector().add(side.scale(0.5f * ModRandom.randSign())).add(ModUtils.yVec(rand.nextFloat()));
-	    ParticleManager.spawnDarkFlames(world, rand, offset);
+	    ParticleManager.spawnColoredFire(world, rand, offset, getElement().sweepColor);
 	    offset = getPositionVector().add(side.scale(0.5f * ModRandom.randSign())).add(look.scale(-rand.nextFloat())).add(ModUtils.yVec(0.1f));
-	    ParticleManager.spawnDarkFlames(world, rand, offset);
+	    ParticleManager.spawnColoredFire(world, rand, offset, getElement().sweepColor);
 	}
 	else
 	{
@@ -280,6 +287,11 @@ public class EntityIronShade extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
+	if (getElement() == Element.CRIMSON)
+	{
+	    return LootTableHandler.CRIMSON_MINIBOSS;
+	}
+
 	return LootTableHandler.IRON_SHADE;
     }
 

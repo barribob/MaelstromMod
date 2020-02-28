@@ -104,9 +104,11 @@ public class ModItems
     public static final Item MAELSTROM_CORE = new ItemTradable("maelstrom_core", ModCreativeTabs.ITEMS);
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemTradable("azure_maelstrom_core_crystal", ModCreativeTabs.ITEMS);
     public static final Item GOLDEN_MAELSTROM_CORE = new ItemTradable("golden_maelstrom_core", ModCreativeTabs.ITEMS);
+    public static final Item CRIMSON_MAELSTROM_CORE = new ItemTradable("crimson_maelstrom_core", ModCreativeTabs.ITEMS);
     public static final Item MAELSTROM_FRAGMENT = new ItemBase("maelstrom_fragment", ModCreativeTabs.ITEMS);
     public static final Item AZURE_MAELSTROM_FRAGMENT = new ItemBase("azure_maelstrom_fragment", ModCreativeTabs.ITEMS);
     public static final Item GOLDEN_MAELSTROM_FRAGMENT = new ItemTradable("golden_maelstrom_fragment", ModCreativeTabs.ITEMS);
+    public static final Item CRISMON_MAELSTROM_FRAGMENT = new ItemTradable("crimson_maelstrom_fragment", ModCreativeTabs.ITEMS);
 
     // The azure dimension's items
     public static final Item ELK_HIDE = new ItemTradable("elk_hide", ModCreativeTabs.ITEMS);

@@ -202,6 +202,14 @@ public class ParticleManager
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
+    public static void spawnColoredFire(World worldIn, Random rand, Vec3d pos, Vec3d color)
+    {
+	Particle particle = new ParticleFlame.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0, 0, 0);
+	color = ModColors.variateColor(color, 0.2f);
+	particle.setRBGColorF((float) color.x, (float) color.y, (float) color.z);
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
     public static void spawnEffect(World world, Vec3d pos, Vec3d baseColor)
     {
 	Particle particle = new EffectParticle.Factory().createParticle(0, world, pos.x, pos.y, pos.z, 0, 0, 0);

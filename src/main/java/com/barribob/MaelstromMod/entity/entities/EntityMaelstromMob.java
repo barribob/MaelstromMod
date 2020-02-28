@@ -133,6 +133,10 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	{
 	    return LootTableHandler.GOLDEN_MAELSTROM;
 	}
+	else if (this.getElement().equals(Element.CRIMSON))
+	{
+	    return LootTableHandler.CRIMSON_MAELSTROM;
+	}
 
 	return LootTableHandler.MAELSTROM;
     }

@@ -92,11 +92,11 @@ public class RenderHandler
 {
     public static void registerEntityRenderers()
     {
-	registerModEntityRenderer(EntityShade.class, new ModelMaelstromWarrior(), "shade_base.png", "shade_azure.png", "shade_golden.png");
+	registerModEntityRenderer(EntityShade.class, new ModelMaelstromWarrior(), "shade_base.png", "shade_azure.png", "shade_golden.png", "shade_crimson.png");
 	registerModEntityRenderer(EntityHorror.class, new ModelHorror(), "horror.png");
 	registerModEntityRenderer(EntityDreamElk.class, new ModelDreamElk(), "dream_elk.png");
 	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), "beast.png");
-	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), "maelstrom_mage.png", "maelstrom_mage_azure.png", "maelstrom_mage_golden.png");
+	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), "maelstrom_mage.png", "maelstrom_mage_azure.png", "maelstrom_mage_golden.png", "maelstrom_mage_crimson.png");
 	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), "floating_skull.png");
 	registerModEntityRenderer(Herobrine.class, (manager) -> new RenderHerobrine(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png")));
 	registerModEntityRenderer(EntityHerobrineOne.class, (manager) -> new RenderHerobrine(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/shadow_clone.png")));
@@ -110,7 +110,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityMaelstromGoldenBoss.class, new ModelGoldenBoss(), "maelstrom_golden_boss.png");
 	registerModEntityRenderer(EntityMaelstromWitch.class, new ModelMaelstromWitch(), "maelstrom_witch.png");
 	registerModEntityRenderer(EntitySwampCrawler.class, new ModelSwampCrawler(), "swamp_crawler.png");
-	registerModEntityRenderer(EntityIronShade.class, new ModelIronShade(), "iron_shade.png");
+	registerModEntityRenderer(EntityIronShade.class, new ModelIronShade(), "iron_shade.png", null, null, "iron_shade_crimson.png");
 	registerModEntityRenderer(EntityCliffFly.class, new ModelCliffFly(), "cliff_fly.png");
 	registerModEntityRenderer(EntityAzureVillager.class, (manager) -> new RenderAzureVillager(manager));
 	registerModEntityRenderer(EntityMaelstromIllager.class, (manager) -> new RenderMaelstromIllager(manager));
@@ -119,7 +119,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityMaelstromBeast.class, (manager) -> new RenderMaelstromBeast(manager));
 	registerModEntityRenderer(EntityMonolith.class, (manager) -> new RenderMonolith(manager));
 	registerModEntityRenderer(EntityWhiteMonolith.class, (manager) -> new RenderWhiteMonolith(manager));
-	registerModEntityRenderer(EntityMaelstromLancer.class, new ModelMaelstromLancer(), "maelstrom_lancer.png", "maelstrom_lancer_azure.png", "maelstrom_lancer_golden.png");
+	registerModEntityRenderer(EntityMaelstromLancer.class, new ModelMaelstromLancer(), "maelstrom_lancer.png", "maelstrom_lancer_azure.png", "maelstrom_lancer_golden.png", "maelstrom_lancer_crimson.png");
 	registerModEntityRenderer(EntityChaosKnight.class, (manager) -> new RenderChaosKnight(manager, "chaos_knight.png"));
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);

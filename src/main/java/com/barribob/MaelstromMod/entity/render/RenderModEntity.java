@@ -46,15 +46,15 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 	if (entity instanceof IElement)
 	{
 	    IElement e = (IElement) entity;
-	    if (e.getElement().equals(Element.AZURE) && TEXTURES.length >= 2)
+	    if (e.getElement().equals(Element.AZURE) && TEXTURES.length >= 2 && TEXTURES[1] != null)
 	    {
 		texture = TEXTURES[1];
 	    }
-	    else if (e.getElement().equals(Element.GOLDEN) && TEXTURES.length >= 3)
+	    else if (e.getElement().equals(Element.GOLDEN) && TEXTURES.length >= 3 && TEXTURES[2] != null)
 	    {
 		texture = TEXTURES[2];
 	    }
-	    else if (e.getElement().equals(Element.GOLDEN) && TEXTURES.length >= 4)
+	    else if (e.getElement().equals(Element.CRIMSON) && TEXTURES.length >= 4 && TEXTURES[3] != null)
 	    {
 		texture = TEXTURES[3];
 	    }
