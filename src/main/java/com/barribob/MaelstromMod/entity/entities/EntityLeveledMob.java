@@ -87,7 +87,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     {
 	super.onLivingUpdate();
 
-	if (world.isRemote && currentAnimation != null)
+	if (world.isRemote && currentAnimation != null && this.getHealth() > 0)
 	{
 	    currentAnimation.update();
 	}
