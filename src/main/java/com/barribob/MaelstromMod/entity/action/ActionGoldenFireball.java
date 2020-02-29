@@ -1,14 +1,10 @@
 package com.barribob.MaelstromMod.entity.action;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenFireball;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.util.math.MathHelper;
 
 public class ActionGoldenFireball extends Action
 {

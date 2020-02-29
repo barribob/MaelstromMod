@@ -74,7 +74,7 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAITimedAttack<EntityShade>(this, 1.0f, 20, 3f, 0.5f));
+	this.tasks.addTask(4, new EntityAITimedAttack<EntityShade>(this, 1.0f, 5, 3f, 0.5f));
     }
 
     @Override
@@ -128,24 +128,22 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     @Override
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
-	if (!world.isRemote)
+	this.startAnimation(ModAnimations.SCOUT_SLASH);
+	Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
+	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
+	this.motionX += leap.x;
+	if (this.motionY < 0.1)
 	{
-	    this.startAnimation(ModAnimations.SCOUT_SLASH);
-	    Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
-	    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
-	    this.motionX += leap.x;
-	    if (this.motionY < 0.1)
-	    {
-		this.motionY += leap.y;
-	    }
-	    this.motionZ += leap.z;
-
-	    addEvent(() -> {
-		Vec3d pos = this.getPositionVector().add(ModUtils.yVec(this.getEyeHeight())).add(this.getLookVec());
-		this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-		ModUtils.handleAreaImpact(0.6f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, 0, false);
-	    }, 10);
+	    this.motionY += leap.y;
 	}
+	this.motionZ += leap.z;
+
+	addEvent(() -> {
+	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(1)).add(this.getLookVec());
+	    this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+	    ModUtils.handleAreaImpact(0.6f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, 0, false);
+	}, 10);
+
 	return 20;
     }
 

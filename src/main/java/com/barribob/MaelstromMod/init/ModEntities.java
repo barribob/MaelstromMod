@@ -56,7 +56,6 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenRepeater;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHerobrineQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileIronShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromCannon;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMeteor;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMissile;
@@ -69,7 +68,6 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectilePillarFlames;
 import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileQuake;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileRepeater;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileShadeAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSkullAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwampSpittle;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwordSlash;
@@ -125,8 +123,6 @@ public class ModEntities
 
     private static int ENTITY_START_ID = 123;
 
-    public static final int PROJECTILE_ID = 200;
-    public static final int SHADE_ATTACK_ID = 201;
     public static final int HORROR_ATTACK_ID = 202;
     public static final int BEAST_ATTACK_ID = 203;
     public static final int BULLET_ID = 204;
@@ -202,7 +198,6 @@ public class ModEntities
 	registerEntityWithID("maelstrom_lancer", EntityMaelstromLancer.class, ENTITY_START_ID++, 50, maelstrom);
 	registerEntityWithID("chaos_knight", EntityChaosKnight.class, ENTITY_START_ID++, 70, maelstrom);
 
-	registerEntity("shade_attack", ProjectileShadeAttack.class, SHADE_ATTACK_ID, 30);
 	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
 	registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);
 	registerFastProjectile("bullet", ProjectileBullet.class, BULLET_ID, 100);
@@ -232,7 +227,6 @@ public class ModEntities
 	registerFastProjectile("azure_bullet", ProjectileAzureBullet.class, AZURE_BULLET, 100);
 	registerEntity("swamp_spittle", ProjectileSwampSpittle.class, PROJECTILE_START_ID++, 30);
 	registerEntity("nexus_particle", EntityNexusParticleSpawner.class, PROJECTILE_START_ID++, 50);
-	registerEntity("iron_thrust", ProjectileIronShadeAttack.class, PROJECTILE_START_ID++, 50);
 	registerEntity("maelstrom_wisp", ProjectileMaelstromWisp.class, PROJECTILE_START_ID++, 50);
 	registerEntity("meteor", ProjectileMeteor.class, PROJECTILE_START_ID++, 100);
 	registerEntity("meteor_spawner", ProjectileMeteorSpawner.class, PROJECTILE_START_ID++, 50);

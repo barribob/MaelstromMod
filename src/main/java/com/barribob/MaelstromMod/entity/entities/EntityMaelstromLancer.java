@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromLancer;
+import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityMaelstromLancer extends EntityMaelstromMob
+public class EntityMaelstromLancer extends EntityMaelstromMob implements IAttack
 {
     public EntityMaelstromLancer(World worldIn)
     {
@@ -116,7 +117,7 @@ public class EntityMaelstromLancer extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 40, 10, 5f, 0.5f));
+	this.tasks.addTask(4, new EntityAITimedAttack<EntityMaelstromLancer>(this, 1.0f, 10, 5, 0.5f, 20.0f));
     }
 
     @Override
@@ -136,16 +137,6 @@ public class EntityMaelstromLancer extends EntityMaelstromMob
     {
 	return SoundsHandler.ENTITY_SHADE_DEATH;
     }
-
-    @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
-	super.setSwingingArms(swingingArms);
-	if (swingingArms)
-	{
-	    this.world.setEntityState(this, (byte) 4);
-	}
-    };
 
     @Override
     public void onEntityUpdate()
@@ -194,22 +185,28 @@ public class EntityMaelstromLancer extends EntityMaelstromMob
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards)
     {
-	Vec3d dir = target.getPositionVector().subtract(getPositionVector()).normalize();
-	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.9f).add(ModUtils.yVec(0.3f));
-	this.motionX += leap.x;
-	if (this.motionY < 0.1)
-	{
-	    this.motionY += leap.y;
-	}
-	this.motionZ += leap.z;
-	this.setLeaping(true);
-	this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, ModRandom.getFloat(0.1f) + 1.2f);
+	this.world.setEntityState(this, (byte) 4);
+
+	addEvent(() -> {
+	    Vec3d dir = target.getPositionVector().subtract(getPositionVector()).normalize();
+	    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.9f).add(ModUtils.yVec(0.3f));
+	    this.motionX += leap.x;
+	    if (this.motionY < 0.1)
+	    {
+		this.motionY += leap.y;
+	    }
+	    this.motionZ += leap.z;
+	    this.setLeaping(true);
+	    this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, ModRandom.getFloat(0.1f) + 1.2f);
+	}, 10);
+
+	return 40;
     }
 
     @Override
-    public void onStopLeaping()
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
     }
 }
