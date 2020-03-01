@@ -88,7 +88,7 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 	{
 	    if (entity.getHealth() <= 0 && Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
 	    {
-		float f = entity.deathTime / (15f); // The alpha value required to render a pixel (multiplied by 95 because the actual image was erased by 95)
+		float f = entity.deathTime / (15f); // The alpha value required to render a pixel
 
 		// Use the stencil buffer to first record where to draw with the disintegration texture,
 		// and then the entity render only renders where the stencil buffer has drawn
