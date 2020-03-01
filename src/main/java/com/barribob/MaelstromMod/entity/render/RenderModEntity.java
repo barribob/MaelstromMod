@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.RenderUtils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -70,7 +71,7 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
     @Override
     protected void applyRotations(T entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
     {
-	if (entityLiving instanceof EntityMaelstromMob)
+	if (entityLiving instanceof EntityMaelstromMob && Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
 	{
 	    GlStateManager.rotate(180.0F - rotationYaw, 0.0F, 1.0F, 0.0F);
 	}
@@ -85,55 +86,38 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
     {
 	if (entity instanceof EntityMaelstromMob)
 	{
-	    if (entity.getHealth() <= 0)
+	    if (entity.getHealth() <= 0 && Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
 	    {
 		float f = entity.deathTime / (15f); // The alpha value required to render a pixel (multiplied by 95 because the actual image was erased by 95)
-//		GlStateManager.depthFunc(GL11.GL_LEQUAL);
-//		GlStateManager.enableAlpha();
-//		GlStateManager.alphaFunc(GL11.GL_GREATER, f);
-		this.bindTexture(DEATH_TEXTURES);
-		
-		/**
-		 * We've gotten somewhere with this problem. The only thing that really doesn't work here is the GL GREATER which will render mobs through walls
-		 * try this masking somehow: https://stackoverflow.com/questions/5097145/opengl-mask-with-multiple-textures
-		 * Actually maybe use the stencil buffer or something like it: https://stackoverflow.com/questions/292071/opengl-how-to-implement-an-eraser-tool
-		 * I believe we can do this with stencil buffering hopefully.
-		 */
-		GlStateManager.colorMask(false, false, false, false);
-		GlStateManager.depthMask(false);
+
+		// Use the stencil buffer to first record where to draw with the disintegration texture,
+		// and then the entity render only renders where the stencil buffer has drawn
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
-		GL11.glStencilFunc(GL11.GL_ALWAYS, 1, 0xFFFFFFFF);
-		GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_REPLACE, GL11.GL_REPLACE);
-
-		// Rendering similar to the creeper aura thingy
-//		GlStateManager.matrixMode(5890);
-//		GlStateManager.loadIdentity();
-//		GlStateManager.matrixMode(5888);
-//		GlStateManager.enableBlend();
-//		GlStateManager.color(0.1f, 0.2f, 0.5f, 0.5F); // Color it purple
-//		GlStateManager.disableLighting();
-//		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-//		GlStateManager.scale(1.01, 1.01, 1.01);
-		this.mainModel.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-//		GlStateManager.matrixMode(5890);
-//		GlStateManager.loadIdentity();
-//		GlStateManager.matrixMode(5888);
-//		GlStateManager.enableLighting();
-//		GlStateManager.disableBlend();
+		GlStateManager.clear(GL11.GL_STENCIL_BUFFER_BIT);
+		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
+		GL11.glStencilFunc(GL11.GL_ALWAYS, 1, 0xFF);
+		GL11.glStencilMask(0xFF);
 		
-		GL11.glStencilFunc(GL11.GL_EQUAL, 0, 0xFFFFFFFF);
-		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
-		GlStateManager.colorMask(true, true, true, true);
-		GlStateManager.depthMask(true);
+		GlStateManager.enableAlpha();
+		GlStateManager.alphaFunc(GL11.GL_GREATER, f); // More and more pixels are cut off as alpha threshold gets larger
+		this.bindTexture(DEATH_TEXTURES);
+		this.mainModel.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+		
+		GL11.glStencilFunc(GL11.GL_EQUAL, 1, 0xFF);
+		GL11.glStencilMask(0x00);
 
-//		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-//		GlStateManager.depthFunc(GL11.GL_GREATER); // This makes it so that only the stuff that's rendered before gets rendered in the real render below
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
+		this.bindEntityTexture(entity);
+		this.mainModel.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+
+		GL11.glStencilMask(0xFF);
+		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	    }
-
-	    this.bindEntityTexture(entity);
-	    this.mainModel.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-
-	    GlStateManager.depthFunc(GL11.GL_LEQUAL);
+	    else
+	    {
+		this.bindEntityTexture(entity);
+		this.mainModel.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+	    }
 	}
 	else
 	{
