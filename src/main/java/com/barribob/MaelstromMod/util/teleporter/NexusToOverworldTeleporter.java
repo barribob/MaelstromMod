@@ -63,7 +63,7 @@ public class NexusToOverworldTeleporter extends Teleporter
 	{
 	    for (int z = startZ; z < startZ + spacing; z += 3)
 	    {
-		if (world.isBlockLoaded(new BlockPos(x, yPortalOffset, z)) && this.world.getBlockState(new BlockPos(x, yPortalOffset, z)).getBlock() == ModBlocks.NEXUS_PORTAL)
+		if (this.world.getBlockState(new BlockPos(x, yPortalOffset, z)).getBlock() == ModBlocks.NEXUS_PORTAL)
 		{
 		    if (entityIn instanceof EntityPlayerMP)
 		    {
