@@ -8,10 +8,9 @@ import net.minecraft.world.storage.WorldSavedData;
 
 public class InvasionWorldSaveData extends WorldSavedData
 {
-    private int timeUntilInvasion = ModConfig.world.invasionTime * 20;
+    private int timeUntilInvasion = ModConfig.world.invasionTime * 60 * 1000; // The number of milliseconds until invasion
     private boolean invaded = false;
-    private int dimensionTime = 20; // An additional second when coming out of a dimension to let the server get the
-				    // correct player position
+    private int dimensionTime = 1000; // An additional second when coming out of a dimension to let the server get the correct player position
     public static final String DATA_NAME = Reference.MOD_ID + "_InvasionData";
 
     public InvasionWorldSaveData(String s)
@@ -42,9 +41,9 @@ public class InvasionWorldSaveData extends WorldSavedData
 	return compound;
     }
 
-    public void update()
+    public void update(int milliseconds)
     {
-	this.timeUntilInvasion = Math.max(0, this.timeUntilInvasion - 1);
+	this.timeUntilInvasion = Math.max(0, this.timeUntilInvasion - milliseconds);
 	this.markDirty();
     }
 

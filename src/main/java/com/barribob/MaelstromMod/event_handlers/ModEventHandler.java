@@ -63,6 +63,7 @@ public class ModEventHandler
     public static final ResourceLocation MANA = new ResourceLocation(Reference.MOD_ID, "mana");
     // public static final ResourceLocation INVASION = new
     // ResourceLocation(Reference.MOD_ID, "invasion");
+    private static long timeSinceServerTick = System.nanoTime();
 
     @SubscribeEvent
     public static void playerLoggedInEvent(PlayerLoggedInEvent event)
@@ -87,10 +88,13 @@ public class ModEventHandler
 	    }
 
 	    InvasionWorldSaveData invasionCounter = ModUtils.getInvasionData(event.world);
-	    invasionCounter.update();
+
+	    long timeElapsed = System.nanoTime() - timeSinceServerTick;
+	    timeSinceServerTick = System.nanoTime();
+	    invasionCounter.update((int) (timeElapsed * 1e-6)); // Convert from nanoseconds to milleseconds
 
 	    // Issue a warning one tenth of the time left
-	    if (invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 20 * 0.1f)
+	    if (invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 20 * 0.1f && !invasionCounter.isInvaded())
 	    {
 		event.world.playerEntities.forEach((p) -> {
 		    p.sendMessage(
