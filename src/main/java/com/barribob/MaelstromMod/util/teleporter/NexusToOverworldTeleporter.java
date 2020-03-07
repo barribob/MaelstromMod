@@ -15,8 +15,7 @@ import net.minecraft.world.WorldServer;
 
 /**
  * 
- * Finds a portal in the overworld from the nexus, or builds one Uses known
- * offsets to teleport precisely to the portal
+ * Finds a portal in the overworld from the nexus, or builds one Uses known offsets to teleport precisely to the portal
  *
  */
 public class NexusToOverworldTeleporter extends Teleporter
@@ -55,16 +54,30 @@ public class NexusToOverworldTeleporter extends Teleporter
 	Vec3d entityOffset = new Vec3d(1.5, 1, -0.5);
 
 	/**
-	 * This is an algorithm that depends on the assumption that the create portal
-	 * will always be at a certain height, and that the portal will be at least 3 x
-	 * 3 wide. 
+	 * This is an algorithm that depends on the assumption that the create portal will always be at a certain height, and that the portal will be at least 3 x 3 wide.
 	 */
 	for (int x = startX; x < startX + spacing; x += 3)
 	{
 	    for (int z = startZ; z < startZ + spacing; z += 3)
 	    {
-		if (this.world.getBlockState(new BlockPos(x, yPortalOffset, z)).getBlock() == ModBlocks.NEXUS_PORTAL)
+		if (this.world.isChunkGeneratedAt(x >> 4, z >> 4) && this.world.getBlockState(new BlockPos(x, yPortalOffset, z)).getBlock() == ModBlocks.NEXUS_PORTAL)
 		{
+		    // Find the corner of the portal to make sure that the portal offset applies correctly (otherwise there is a good chance of spawning inside the portal)
+		    BlockPos portalCorner = new BlockPos(x, yPortalOffset, z);
+		    for (int x1 = 2; x1 >= -2; x1--)
+		    {
+			for (int z1 = 2; z1 >= -2; z1--)
+			{
+			    if (world.getBlockState(new BlockPos(x + x1, yPortalOffset, z + z1)).getBlock() == ModBlocks.NEXUS_PORTAL)
+			    {
+				portalCorner = new BlockPos(x + x1, yPortalOffset, z + z1);
+			    }
+			}
+		    }
+		    
+		    x = portalCorner.getX();
+		    z = portalCorner.getZ();
+		    
 		    if (entityIn instanceof EntityPlayerMP)
 		    {
 			((EntityPlayerMP) entityIn).connection.setPlayerLocation(x + entityOffset.x, yPortalOffset + entityOffset.y, z + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
