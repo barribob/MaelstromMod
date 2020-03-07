@@ -36,6 +36,9 @@ public class ModConfig
     @Config.LangKey(config + "server")
     public static ServerCat server = new ServerCat();
 
+    @Config.LangKey(config + "performance")
+    public static PeformanceCat performance = new PeformanceCat();
+
     public static class GuiCat
     {
 	@Config.LangKey(config + "armor_bar_x")
@@ -123,9 +126,9 @@ public class ModConfig
 
 
 	@Config.LangKey(config + "invasion_time")
-	@Config.Comment("How many seconds before attempting to spawn the invasion tower. Cannot be adjusted after the world is created.")
-	@Config.RangeInt(min = 60, max = 60 * 1000)
-	public int invasionTime = 60 * 180; // Default 180 minutes before invasion
+	@Config.Comment("How many minutes before attempting to spawn the invasion tower. Cannot be changed after the world is loaded.")
+	@Config.RangeInt(min = 0, max = 60 * 20) // Max set to 20 hours
+	public int invasionTime = 180; // Default 180 minutes before invasion
 
 	@Config.LangKey(config + "render_cliff_fog")
 	@Config.Comment("Whether to render the cliff fog that rests above the swamp. Does not change the ambient fog, but just the rendered plane.")
@@ -152,6 +155,13 @@ public class ModConfig
 	@Config.LangKey(config + "sync_config_on_login")
 	@Config.Comment("Whether to make configs of the players that login match the server config (to keep stuff like item stats consistent).")
 	public boolean sync_on_login = true;
+    }
+
+    public static class PeformanceCat
+    {
+	@Config.LangKey(config + "nexus_flat_light")
+	@Config.Comment("Reduces lag in the Nexus dimension by freezing the time so that Minecraft doesn't have to recalculate lighting every time the dimension loads. Takes effect after reloading the world.")
+	public boolean nexusFlatLight = false;
     }
 
     @SubscribeEvent

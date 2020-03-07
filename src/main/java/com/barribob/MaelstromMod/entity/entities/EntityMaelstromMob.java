@@ -8,6 +8,8 @@ import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.base.Predicate;
@@ -22,6 +24,7 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -29,6 +32,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -38,8 +42,7 @@ import net.minecraft.world.World;
 
 /**
  * 
- * The base mob that most mobs in this mod will extend A lot of these methods
- * are from the EntityMob class to make it behave similarly
+ * The base mob that most mobs in this mod will extend A lot of these methods are from the EntityMob class to make it behave similarly
  *
  */
 public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob
@@ -142,8 +145,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     }
 
     /**
-     * Checks if the entity's current position is a valid location to spawn this
-     * entity.
+     * Checks if the entity's current position is a valid location to spawn this entity.
      */
     @Override
     public boolean getCanSpawnHere()
@@ -175,8 +177,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     }
 
     /**
-     * Changes the default "white smoke" spawning from a mob spawner to a purple
-     * smoke
+     * Changes the default "white smoke" spawning from a mob spawner to a purple smoke
      */
     @Override
     public void spawnExplosionParticle()
@@ -244,5 +245,43 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     protected float getManaExp()
     {
 	return Math.round(this.getMaxHealth() * 0.05f);
+    }
+
+    @Override
+    protected void onDeathUpdate()
+    {
+	++this.deathTime;
+
+	if (this.deathTime == 20)
+	{
+	    if (!this.world.isRemote && (this.isPlayer() || this.recentlyHit > 0 && this.canDropLoot() && this.world.getGameRules().getBoolean("doMobLoot")))
+	    {
+		int i = this.getExperiencePoints(this.attackingPlayer);
+		i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.attackingPlayer, i);
+		while (i > 0)
+		{
+		    int j = EntityXPOrb.getXPSplit(i);
+		    i -= j;
+		    this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, j));
+		}
+	    }
+
+	    this.setDead();
+	    
+	    world.setEntityState(this, ModUtils.MAELSTROM_PARTICLE_BYTE);
+	}
+    }
+
+    @Override
+    public void handleStatusUpdate(byte id)
+    {
+	if (id == ModUtils.MAELSTROM_PARTICLE_BYTE)
+	{
+	    for(int i = 0; i < 20; i++)
+	    {
+		ParticleManager.spawnMaelstromLargeSmoke(world, rand, this.getPositionVector().add(ModRandom.gaussVec().scale(0.5f).add(ModUtils.yVec(1))));
+	    }
+	}
+	super.handleStatusUpdate(id);
     }
 }

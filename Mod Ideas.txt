@@ -83,7 +83,6 @@ Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
 Specifying blend only for entities that need it
 MAelstrom generation sometimes exposes the core
-Fix bug seen where two portals get created in the fracture (seen on server)
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 

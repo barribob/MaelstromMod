@@ -56,7 +56,7 @@ public class ToNexusTeleporter extends Teleporter
 	{
 	    BlockPos pos = new BlockPos(x, y, z);
 
-	    if (this.world.isAirBlock(pos))
+	    if (!this.world.isChunkGeneratedAt(x >> 4, z >> 4))
 	    {
 		// Round the position to the nearest 64th chunk square
 		int chunkX = Math.floorDiv((x >> 4), DimensionNexus.NexusStructureSpacing) * DimensionNexus.NexusStructureSpacing;

@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.init.ModAnimations;
 import com.barribob.MaelstromMod.util.handlers.RenderHandler;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.item.Item;
@@ -29,13 +30,18 @@ public class ClientProxy extends CommonProxy
     {
 	ModelLoader.setCustomStateMapper(block, mapper);
     }
-    
+
     /**
      * Initializations for client only stuff like rendering
      */
     @Override
     public void init()
     {
+	if (!Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
+	{
+	    Minecraft.getMinecraft().getFramebuffer().enableStencil();
+	}
+
 	ModAnimations.registerAnimations();
 	RenderHandler.registerEntityRenderers();
 	super.init();

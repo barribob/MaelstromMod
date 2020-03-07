@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.world.dimension.nexus;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.renderer.AzureSkyRenderHandler;
@@ -22,12 +23,14 @@ import net.minecraftforge.client.IRenderHandler;
 public class DimensionNexus extends WorldProvider
 {
     public static final int NexusStructureSpacing = 64;
+
     // Overridden to change the biome provider
     @Override
     protected void init()
     {
 	this.biomeProvider = new BiomeProviderSingle(BiomeInit.NEXUS);
-	this.hasSkyLight = true;
+	this.hasSkyLight = !ModConfig.performance.nexusFlatLight;
+	this.world.setAllowedSpawnTypes(false, false);
     }
 
     @Override
@@ -96,5 +99,39 @@ public class DimensionNexus extends WorldProvider
     public float getCloudHeight()
     {
 	return super.getCloudHeight() + 50;
+    }
+
+    @Override
+    protected void generateLightBrightnessTable()
+    {
+	// For flat lighting, add a little bit of ambient light
+	if (ModConfig.performance.nexusFlatLight)
+	{
+	    float f = 0.05f;
+	    float maxLight = 15;
+
+	    for (int i = 0; i <= maxLight; ++i)
+	    {
+		float f1 = 1 - i / maxLight;
+		this.lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) + f;
+	    }
+	}
+	else
+	{
+	    super.generateLightBrightnessTable();
+	}
+    }
+
+    @Override
+    public float calculateCelestialAngle(long worldTime, float partialTicks)
+    {
+	if (ModConfig.performance.nexusFlatLight)
+	{
+	    return 1.2874f; // This was just guessed to get a sunset time
+	}
+	else
+	{
+	    return super.calculateCelestialAngle(worldTime, partialTicks);
+	}
     }
 }
