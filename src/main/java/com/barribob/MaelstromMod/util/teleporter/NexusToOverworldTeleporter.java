@@ -60,25 +60,24 @@ public class NexusToOverworldTeleporter extends Teleporter
 	{
 	    for (int z = startZ; z < startZ + spacing; z += 3)
 	    {
-
-		// Find the corner of the portal to make sure that the portal offset applies correctly (otherwise there is a good chance of spawning inside the portal)
-		BlockPos portalCorner = new BlockPos(x, yPortalOffset, z);
-		for (int x1 = 2; x1 >= -2; x1--)
+		if (this.world.isChunkGeneratedAt(x >> 4, z >> 4) && this.world.getBlockState(new BlockPos(x, yPortalOffset, z)).getBlock() == ModBlocks.NEXUS_PORTAL)
 		{
-		    for (int z1 = 2; z1 >= -2; z1--)
+		    // Find the corner of the portal to make sure that the portal offset applies correctly (otherwise there is a good chance of spawning inside the portal)
+		    BlockPos portalCorner = new BlockPos(x, yPortalOffset, z);
+		    for (int x1 = 2; x1 >= -2; x1--)
 		    {
-			if (world.getBlockState(new BlockPos(x + x1, yPortalOffset, z + z1)).getBlock() == ModBlocks.NEXUS_PORTAL)
+			for (int z1 = 2; z1 >= -2; z1--)
 			{
-			    portalCorner = new BlockPos(x + x1, yPortalOffset, z + z1);
+			    if (world.getBlockState(new BlockPos(x + x1, yPortalOffset, z + z1)).getBlock() == ModBlocks.NEXUS_PORTAL)
+			    {
+				portalCorner = new BlockPos(x + x1, yPortalOffset, z + z1);
+			    }
 			}
 		    }
-		}
-
-		x = portalCorner.getX();
-		z = portalCorner.getZ();
-
-		if (this.world.getChunkProvider().chunkExists(x >> 4, z >> 4) && this.world.getBlockState(new BlockPos(x, yPortalOffset, z)).getBlock() == ModBlocks.NEXUS_PORTAL)
-		{
+		    
+		    x = portalCorner.getX();
+		    z = portalCorner.getZ();
+		    
 		    if (entityIn instanceof EntityPlayerMP)
 		    {
 			((EntityPlayerMP) entityIn).connection.setPlayerLocation(x + entityOffset.x, yPortalOffset + entityOffset.y, z + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
