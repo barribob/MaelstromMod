@@ -16,13 +16,13 @@ public class ManaProvider implements ICapabilitySerializable<NBTBase>
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
-	return capability.equals(MANA);
+	return MANA == capability;
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing)
     {
-	return capability.equals(MANA) ? MANA.<T>cast(this.instance) : null;
+	return MANA == capability ? MANA.<T>cast(this.instance) : null;
     }
 
     @Override
