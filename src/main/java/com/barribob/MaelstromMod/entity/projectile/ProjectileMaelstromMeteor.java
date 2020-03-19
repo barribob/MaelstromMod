@@ -65,12 +65,15 @@ public class ProjectileMaelstromMeteor extends Projectile
 	    return;
 	}
 
-	new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
-		new MobSpawnData(ModEntities.getID(EntityShade.class), Element.NONE),
-		2,
-		LevelHandler.INVASION,
-		16))
-			.generate(world, rand, this.getPosition());
+	if (!world.isRemote)
+	{
+	    new WorldGenMaelstrom(ModBlocks.DECAYING_MAELSTROM, ModBlocks.MAELSTROM_CORE, (tileEntity) -> tileEntity.getSpawnerBaseLogic().setData(
+		    new MobSpawnData(ModEntities.getID(EntityShade.class), Element.NONE),
+		    2,
+		    LevelHandler.INVASION,
+		    16))
+	    .generate(world, rand, this.getPosition());
+	}
 	super.onHit(result);
     }
 }
