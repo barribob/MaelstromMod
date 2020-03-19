@@ -110,7 +110,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	/**
 	 * Periodically check if the animations need to be reinitialized
 	 */
-	if (this.ticksExisted % 20 == 0)
+	if (this.ticksExisted % 20 == 1)
 	{
 	    world.setEntityState(this, animationByte);
 	}
