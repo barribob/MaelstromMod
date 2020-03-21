@@ -98,13 +98,17 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T>
 		GL11.glStencilFunc(GL11.GL_ALWAYS, 1, 0xFF);
 		GL11.glStencilMask(0xFF);
 		
+		GlStateManager.colorMask(false, false, false, false);
+		GlStateManager.depthMask(false);
 		GlStateManager.enableAlpha();
 		GlStateManager.alphaFunc(GL11.GL_GREATER, f); // More and more pixels are cut off as alpha threshold gets larger
 		this.bindTexture(DEATH_TEXTURES);
 		this.mainModel.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-		
+
 		GL11.glStencilFunc(GL11.GL_EQUAL, 1, 0xFF);
 		GL11.glStencilMask(0x00);
+		GlStateManager.depthMask(true);
+		GlStateManager.colorMask(true, true, true, true);
 
 		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
 		this.bindEntityTexture(entity);
