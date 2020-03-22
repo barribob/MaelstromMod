@@ -52,7 +52,7 @@ public abstract class EntityLeveledFlyingMob extends EntityFlying implements IMo
     {
 	super.onLivingUpdate();
 
-	if (world.isRemote && currentAnimation != null)
+	if (world.isRemote && currentAnimation != null && this.getHealth() > 0)
 	{
 	    currentAnimation.update();
 	}

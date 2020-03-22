@@ -123,9 +123,9 @@ public class ModConfig
 
 
 	@Config.LangKey(config + "invasion_time")
-	@Config.Comment("How many seconds before attempting to spawn the invasion tower. Cannot be adjusted after the world is created.")
-	@Config.RangeInt(min = 60, max = 60 * 1000)
-	public int invasionTime = 60 * 180; // Default 180 minutes before invasion
+	@Config.Comment("How many minutes before attempting to spawn the invasion tower. Cannot be changed after the world is loaded.")
+	@Config.RangeInt(min = 0, max = 60 * 20) // Max set to 20 hours
+	public int invasionTime = 180; // Default 180 minutes before invasion
 
 	@Config.LangKey(config + "render_cliff_fog")
 	@Config.Comment("Whether to render the cliff fog that rests above the swamp. Does not change the ambient fog, but just the rendered plane.")

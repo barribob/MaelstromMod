@@ -71,7 +71,7 @@ public class DimensionalTeleporter extends Teleporter
 		    {
 			blockpos2 = blockpos1.down();
 
-			if (this.world.isBlockLoaded(blockpos1) && this.world.getBlockState(blockpos1).getBlock() == portalBlock)
+			if (this.world.getBlockState(blockpos1).getBlock() == portalBlock)
 			{
 			    portalPos = blockpos1;
 			}

@@ -12,7 +12,8 @@ public abstract class ModelAnimated extends ModelBase
     {
 	if (entity instanceof IAnimatedMob)
 	{
-	    ((IAnimatedMob) entity).getCurrentAnimation().setModelRotations(this, limbSwing, limbSwingAmount, partialTickTime);
+	    // The partial tick time conditional prevent twitching when the animation is stopped after death
+	    ((IAnimatedMob) entity).getCurrentAnimation().setModelRotations(this, limbSwing, limbSwingAmount, entity.getHealth() > 0 ? partialTickTime : 0.99f);
 	}
 	else
 	{

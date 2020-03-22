@@ -59,6 +59,7 @@ public class ModelAnimatedBiped extends ModelBiped
 	this.centerPivot.render(f5);
     }
 
+    @Override
     public void postRenderArm(float scale, EnumHandSide side)
     {
 	// Translate because the postRender does not detect that the arm is a child of
@@ -76,6 +77,7 @@ public class ModelAnimatedBiped extends ModelBiped
 	this.partialTicks = partialTickTime;
     }
 
+    @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
 	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
@@ -86,7 +88,7 @@ public class ModelAnimatedBiped extends ModelBiped
 	
 	if (entityIn instanceof EntityLeveledMob)
 	{
-	    ((EntityLeveledMob) entityIn).getCurrentAnimation().setModelRotations(this, limbSwing, limbSwingAmount, this.partialTicks);
+	    ((EntityLeveledMob) entityIn).getCurrentAnimation().setModelRotations(this, limbSwing, limbSwingAmount, ((EntityLeveledMob) entityIn).getHealth() > 0 ? this.partialTicks : 0.99f);
 	}
 	else
 	{

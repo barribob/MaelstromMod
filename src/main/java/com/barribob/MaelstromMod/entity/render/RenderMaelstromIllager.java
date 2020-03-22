@@ -19,23 +19,16 @@ import net.minecraft.util.ResourceLocation;
  * model normally
  *
  */
-public class RenderMaelstromIllager extends RenderLiving<EntityMaelstromIllager>
+public class RenderMaelstromIllager extends RenderModEntity<EntityMaelstromIllager>
 {
-    public ResourceLocation TEXTURES = new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_illager.png");
     private static final DynamicTexture TEXTURE_BRIGHTNESS = new DynamicTexture(16, 16);
 
     public RenderMaelstromIllager(RenderManager rendermanagerIn)
     {
-	super(rendermanagerIn, new ModelMaelstromIllager(), 0.5f);
+	super(rendermanagerIn, "maelstrom_illager.png", new ModelMaelstromIllager());
 	this.addLayer(new LayerMaelstromIllagerArmor(this));
     }
-
-    @Override
-    protected ResourceLocation getEntityTexture(EntityMaelstromIllager entity)
-    {
-	return TEXTURES;
-    }
-
+    
     /*
      * Same as overriden version, except blue when the blow is blocked
      */

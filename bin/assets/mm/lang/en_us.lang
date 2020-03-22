@@ -277,6 +277,7 @@ entity.swamp_crawler.name=Swamp Crawler
 entity.iron_shade.name=Maelstrom Executioner
 entity.maelstrom_beast.name=Maelstrom Minotaur
 entity.cliff_fly.name=Swamp Fly
+entity.white_monolith.name=White Monolith
 
 //———————————————————————————————————————————————————————————
 // Projectiles

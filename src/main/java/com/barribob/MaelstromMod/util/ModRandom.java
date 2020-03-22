@@ -45,6 +45,14 @@ public class ModRandom
     {
 	return new Vec3d(getFloat(0.5f), getFloat(0.5f), getFloat(0.5f));
     }
+    
+    /**
+     * Returns a vector where each value is a gaussian of mean 0 and std dev 1
+     */
+    public static Vec3d gaussVec()
+    {
+	return new Vec3d(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
+    }
 
     /**
      * Produces 1 or -1 with equal probablity

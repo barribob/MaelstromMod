@@ -1,3 +1,21 @@
+Update 0.3.4 March 2020 patch
+
+Bug Fixes:
+Animations now stop when an enemy is killed.
+Fixed portal duplication bug
+Fixed not teleporting to correct overworld nexus portal if chunks not loaded
+Reduced lighting errors in structures and in the Nexus dimension
+
+Changes:
+The invasion time for the tower has been changed to minutes.
+The invasion time no longer is dependent on the server tick, so it will be more accurate.
+    ***IMPORTANT*** For modpack developers, this does affect all current world and configs. You'll have to 
+    change or delete your config if you plan on making any new worlds, and for existing worlds,
+    this means that towers will spawn quicker than expected. You may want to wait until the tower appears
+    before updating to this new version.
+To reduce lag in the Nexus, the time of day has been frozen, and the lighting is flatter
+Maelstrom mobs now have a unique death animation
+
 Update 0.3.3: Febuary 2020 patch
 
 Fixed naming on a few items (previous has .name appended to them)

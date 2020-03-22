@@ -55,6 +55,11 @@ public final class ModUtils
     public static byte SECOND_PARTICLE_BYTE = 14;
     public static byte THIRD_PARTICLE_BYTE = 15;
     public static byte FOURTH_PARTICLE_BYTE = 16;
+    
+    /**
+     * This is only for the maelstrom mob death particles so it doesn't intersect with the other particle bytes.
+     */
+    public static byte MAELSTROM_PARTICLE_BYTE = 17;
     public static final String LANG_DESC = Reference.MOD_ID + ".desc.";
     public static final String LANG_CHAT = Reference.MOD_ID + ".dialog.";
     public static final DecimalFormat DF_0 = new DecimalFormat("0.0");

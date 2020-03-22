@@ -8,14 +8,14 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderMaelstromBeast extends RenderLiving<EntityMaelstromBeast>
+public class RenderMaelstromBeast extends RenderModEntity<EntityMaelstromBeast>
 {
     public ResourceLocation TEXTURES_1 = new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_beast.png");
     public ResourceLocation TEXTURES_2 = new ResourceLocation(Reference.MOD_ID + ":textures/entity/skeleton_minotaur.png");
 
     public RenderMaelstromBeast(RenderManager rendermanagerIn)
     {
-	super(rendermanagerIn, new ModelMaelstromBeast(), 1);
+	super(rendermanagerIn, "", new ModelMaelstromBeast());
     }
 
     @Override
@@ -27,5 +27,4 @@ public class RenderMaelstromBeast extends RenderLiving<EntityMaelstromBeast>
 	}
 	return TEXTURES_1;
     }
-
 }
