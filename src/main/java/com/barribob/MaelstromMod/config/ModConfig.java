@@ -36,9 +36,6 @@ public class ModConfig
     @Config.LangKey(config + "server")
     public static ServerCat server = new ServerCat();
 
-    @Config.LangKey(config + "performance")
-    public static PeformanceCat performance = new PeformanceCat();
-
     public static class GuiCat
     {
 	@Config.LangKey(config + "armor_bar_x")
@@ -155,13 +152,6 @@ public class ModConfig
 	@Config.LangKey(config + "sync_config_on_login")
 	@Config.Comment("Whether to make configs of the players that login match the server config (to keep stuff like item stats consistent).")
 	public boolean sync_on_login = true;
-    }
-
-    public static class PeformanceCat
-    {
-	@Config.LangKey(config + "nexus_flat_light")
-	@Config.Comment("Reduces lag in the Nexus dimension by freezing the time so that Minecraft doesn't have to recalculate lighting every time the dimension loads. Takes effect after reloading the world.")
-	public boolean nexusFlatLight = false;
     }
 
     @SubscribeEvent

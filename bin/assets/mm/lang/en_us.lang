@@ -277,6 +277,7 @@ entity.swamp_crawler.name=Swamp Crawler
 entity.iron_shade.name=Maelstrom Executioner
 entity.maelstrom_beast.name=Maelstrom Minotaur
 entity.cliff_fly.name=Swamp Fly
+entity.white_monolith.name=White Monolith
 
 //———————————————————————————————————————————————————————————
 // Projectiles
@@ -454,9 +455,6 @@ mm.config.display_mob_level=Display Mob Level
 
 mm.config.server=Server
 mm.config.sync_config_on_login=Sync Config On Login
-
-mm.config.performance=Performance
-mm.config.nexus_flat_light=Nexus Flat Lighting
 
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions

@@ -21,6 +21,7 @@ import com.barribob.MaelstromMod.blocks.BlockFenceBase;
 import com.barribob.MaelstromMod.blocks.BlockFullLog;
 import com.barribob.MaelstromMod.blocks.BlockGrate;
 import com.barribob.MaelstromMod.blocks.BlockLamp;
+import com.barribob.MaelstromMod.blocks.BlockLightingUpdater;
 import com.barribob.MaelstromMod.blocks.BlockLogBase;
 import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
@@ -73,6 +74,7 @@ public class ModBlocks
     public static final float ORE_HARDNESS = 3.0F;
 
     public static final Block MEGA_STRUCTURE_BLOCK = new BlockMegaStructure("mega_structure_block");
+    public static final Block LIGHTING_UPDATER = new BlockLightingUpdater("lighting_updater", Material.AIR).setLightLevel(0.1f);
     public static final Block DISAPPEARING_SPAWNER = new BlockDisappearingSpawner("disappearing_spawner", Material.ROCK);
     public static final Block BOSS_SPAWNER = new BlockBossSpawner("nexus_herobrine_spawner");
 
