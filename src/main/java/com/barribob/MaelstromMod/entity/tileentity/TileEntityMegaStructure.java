@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenCrimsonKingdom;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -243,7 +244,7 @@ public class TileEntityMegaStructure extends TileEntityStructure
     @Override
     public void setSize(BlockPos sizeIn)
     {
-	this.size = new BlockPos(60, 110, 60);
+	this.size = new BlockPos(640, 205 - 36, 640);
     }
 
     @Override
@@ -520,35 +521,49 @@ public class TileEntityMegaStructure extends TileEntityStructure
      * @return true if the template was successfully saved.
      * 
      * @param writeToDisk
-     *            If true, {@link TemplateManager#writeTemplate} will be called with
-     *            the template, and its return value will dictate the return value
-     *            of this method. If false, the template will be updated but not
-     *            written to disk.
+     *            If true, {@link TemplateManager#writeTemplate} will be called with the template, and its return value will dictate the return value of this method. If false, the template will be updated
+     *            but not written to disk.
      */
     @Override
     public boolean save(boolean writeToDisk)
     {
-        if (this.mode == TileEntityStructure.Mode.SAVE && !this.world.isRemote && !StringUtils.isNullOrEmpty(this.name))
-        {
-            BlockPos blockpos = this.getPos().add(this.position);
-            WorldServer worldserver = (WorldServer)this.world;
-            MinecraftServer minecraftserver = this.world.getMinecraftServer();
-            TemplateManager templatemanager = worldserver.getStructureTemplateManager();
-            Template template = templatemanager.getTemplate(minecraftserver, new ResourceLocation(this.name));
-	    template.takeBlocksFromWorld(this.world, blockpos, this.size, !this.ignoreEntities, Blocks.AIR);
-            template.setAuthor(this.author);
-            return !writeToDisk || templatemanager.writeTemplate(minecraftserver, new ResourceLocation(this.name));
-        }
-        else
-        {
-            return false;
-        }
+	if (this.mode == TileEntityStructure.Mode.SAVE && !this.world.isRemote && !StringUtils.isNullOrEmpty(this.name))
+	{
+	    BlockPos blockpos = this.getPos().add(this.position);
+	    // return saveStructure(writeToDisk, blockpos, this.size);
+
+	    // Split structure code
+	    double sliceY = this.size.getY() / ((float) WorldGenCrimsonKingdom.SLICES);
+	    double yOffset = 0;
+	    for (int i = 0; i < WorldGenCrimsonKingdom.SLICES; i++)
+	    {
+		BlockPos bottom = blockpos.up((int) Math.floor(yOffset));
+		yOffset += sliceY;
+		BlockPos top = blockpos.up((int) Math.floor(yOffset));
+		saveStructure(writeToDisk, bottom.add(this.position), new BlockPos(this.size.getX(), top.getY() - bottom.getY(), this.size.getZ()), this.name + "_" + i);
+	    }
+	    return true;
+	}
+	else
+	{
+	    return false;
+	}
+    }
+
+    private boolean saveStructure(boolean writeToDisk, BlockPos startPos, BlockPos size, String structureName)
+    {
+	WorldServer worldserver = (WorldServer) this.world;
+	MinecraftServer minecraftserver = this.world.getMinecraftServer();
+	TemplateManager templatemanager = worldserver.getStructureTemplateManager();
+	Template template = templatemanager.getTemplate(minecraftserver, new ResourceLocation(structureName));
+	System.out.println(size);
+	template.takeBlocksFromWorld(this.world, startPos, size, !this.ignoreEntities, Blocks.AIR);
+	template.setAuthor(this.author);
+	return !writeToDisk || templatemanager.writeTemplate(minecraftserver, new ResourceLocation(structureName));
     }
 
     /**
-     * Loads the given template, both into this structure block and into the world,
-     * aborting if the size of the template does not match the size in this
-     * structure block.
+     * Loads the given template, both into this structure block and into the world, aborting if the size of the template does not match the size in this structure block.
      * 
      * @return true if the template was successfully added to the world.
      */
@@ -564,11 +579,8 @@ public class TileEntityMegaStructure extends TileEntityStructure
      * @return true if the template was successfully added to the world.
      * 
      * @param requireMatchingSize
-     *            If true, and the size of the loaded template does not match the
-     *            size in this structure block, the structure will not be loaded
-     *            into the world and false will be returned. Regardless of the value
-     *            of this parameter, the size in the structure block will be updated
-     *            after calling this method.
+     *            If true, and the size of the loaded template does not match the size in this structure block, the structure will not be loaded into the world and false will be returned. Regardless of
+     *            the value of this parameter, the size in the structure block will be updated after calling this method.
      */
     @Override
     public boolean load(boolean requireMatchingSize)
@@ -692,8 +704,7 @@ public class TileEntityMegaStructure extends TileEntityStructure
     }
 
     /**
-     * Get the formatted ChatComponent that will be used for the sender's username
-     * in chat
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
      */
     @Override
     @Nullable

@@ -37,6 +37,7 @@ import com.barribob.MaelstromMod.blocks.BlockSwampLeaves;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockKey;
 import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockCliffPortal;
+import com.barribob.MaelstromMod.blocks.portal.BlockCrimsonPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockDarkNexusPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
 import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
@@ -89,6 +90,7 @@ public class ModBlocks
     public static final Block DARK_NEXUS_PORTAL = new BlockDarkNexusPortal("dark_nexus_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRIMSON_PORTAL = new BlockCrimsonPortal("crimson_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
 
     /**
      * Stone and ore

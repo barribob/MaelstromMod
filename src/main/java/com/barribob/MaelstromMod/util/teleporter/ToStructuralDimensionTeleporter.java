@@ -1,8 +1,6 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
-import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,21 +10,20 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class ToDarkNexusTeleporter extends Teleporter
+public class ToStructuralDimensionTeleporter extends Teleporter
 {
     private BlockPos portalOffset;
     private int spacing;
+    private WorldGenerator structure;
 
-    public ToDarkNexusTeleporter(WorldServer worldIn, BlockPos portalOffset)
+    public ToStructuralDimensionTeleporter(WorldServer worldIn, BlockPos portalOffset, WorldGenerator structure)
     {
 	super(worldIn);
-	if (this.world.provider.getDimensionType().getId() != ModConfig.world.dark_nexus_dimension_id)
-	{
-	    System.err.println("The overworld to nexus teleporter is being used for the wrong dimension!");
-	}
 	this.portalOffset = portalOffset;
 	spacing = DimensionNexus.NexusStructureSpacing * 16;
+	this.structure = structure;
     }
 
     @Override
@@ -48,14 +45,12 @@ public class ToDarkNexusTeleporter extends Teleporter
 
 	if (entityIn instanceof EntityPlayerMP)
 	{
-	    BlockPos pos = new BlockPos(x, y, z);
-
-	    if (this.world.isAirBlock(pos))
+	    if (!this.world.isChunkGeneratedAt(x >> 4, z >> 4))
 	    {
 		// Round the position to the nearest 64th chunk square
 		int chunkX = Math.floorDiv((x >> 4), DimensionNexus.NexusStructureSpacing) * DimensionNexus.NexusStructureSpacing;
 		int chunkZ = Math.floorDiv((z >> 4), DimensionNexus.NexusStructureSpacing) * DimensionNexus.NexusStructureSpacing;
-		WorldGenCustomStructures.DARK_NEXUS.generate(world, random, new BlockPos(chunkX * 16 + 8, 50, chunkZ * 16 + 8));
+		structure.generate(world, random, new BlockPos(chunkX * 16 + 8, 50, chunkZ * 16 + 8));
 	    }
 	    ((EntityPlayerMP) entityIn).connection.setPlayerLocation(x + entityOffset.x, y + entityOffset.y, z + entityOffset.z, entityIn.rotationYaw, entityIn.rotationPitch);
 	}

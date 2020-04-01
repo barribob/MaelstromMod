@@ -121,6 +121,9 @@ public class ModConfig
 	@Config.LangKey(config + "dark_nexus_dimension_id")
 	public int dark_nexus_dimension_id = 128;
 
+	@Config.RequiresMcRestart
+	@Config.LangKey(config + "crimson_kingdom_dimension_id")
+	public int crimson_kingdom_dimension_id = 129;
 
 	@Config.LangKey(config + "invasion_time")
 	@Config.Comment("How many minutes before attempting to spawn the invasion tower. Cannot be changed after the world is loaded.")
