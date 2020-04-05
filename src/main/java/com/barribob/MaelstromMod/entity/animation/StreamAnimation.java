@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 import com.barribob.MaelstromMod.init.ModAnimations;
+import com.barribob.MaelstromMod.init.ModObfuscation;
 
 import net.minecraft.client.model.ModelBase;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 /**
  * Allows for multiple streams of animations to proceed, using lists of
@@ -22,7 +24,7 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
     private static final Map<String, List<List<AnimationClip>>> animationsCache = new HashMap<String, List<List<AnimationClip>>>();
     private final List<List<AnimationClip<T>>> animations;
     private int[] activeAnimations;
-    private boolean loop = false;;
+    private boolean loop = false;
 
     public StreamAnimation<T> loop(boolean loop)
     {
@@ -67,11 +69,12 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
 	    animation.add(new ArrayList<AnimationClip<T>>());
 	    modelMovers.add((model, f) -> {
 		String[] fields = data.movers[streamFinal].split(" ");
-		Field modelBox;
 		try
 		{
-		    modelBox = model.getClass().getField(fields[0]);
-		    Field angle = modelBox.get(model).getClass().getField("rotateAngle" + fields[1]);
+		    Field modelBox = model.getClass().getField(fields[0]);
+		    String rotationName = "rotateAngle" + fields[1];
+		    String obfName = ModObfuscation.toObfuscated.get(rotationName);
+		    Field angle = ReflectionHelper.findField(modelBox.get(model).getClass(), rotationName, obfName);
 		    angle.set(modelBox.get(model), fields[1].startsWith("Z") ? f : -f); // Negative because blockbench makes x and y angle negative for some reason
 		}
 		catch (NoSuchFieldException | SecurityException | IllegalAccessException e)
