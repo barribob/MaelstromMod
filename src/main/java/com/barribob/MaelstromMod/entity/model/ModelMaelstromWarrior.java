@@ -117,6 +117,7 @@ public class ModelMaelstromWarrior extends ModelAnimated
 	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 	this.head.rotateAngleX = headPitch * 0.017453292F;
+	this.root.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 12)) * 0.1f;
     }
 
     @Override
