@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.init.ModEnchantments;
@@ -55,7 +56,7 @@ public final class ModUtils
     public static byte SECOND_PARTICLE_BYTE = 14;
     public static byte THIRD_PARTICLE_BYTE = 15;
     public static byte FOURTH_PARTICLE_BYTE = 16;
-    
+
     /**
      * This is only for the maelstrom mob death particles so it doesn't intersect with the other particle bytes.
      */
@@ -109,8 +110,7 @@ public final class ModUtils
     }
 
     /**
-     * Determines if the chunk is already generated, in which case new structures
-     * cannot be placed
+     * Determines if the chunk is already generated, in which case new structures cannot be placed
      * 
      * @param box
      * @param world
@@ -183,8 +183,7 @@ public final class ModUtils
     }
 
     /**
-     * Creates a Vec3 using the pitch and yaw of the entities rotation. Taken from
-     * entity, so it can be used anywhere
+     * Creates a Vec3 using the pitch and yaw of the entities rotation. Taken from entity, so it can be used anywhere
      */
     public static Vec3d getVectorForRotation(float pitch, float yaw)
     {
@@ -344,8 +343,7 @@ public final class ModUtils
     }
 
     /**
-     * Credit to coolAlias
-     * https://www.minecraftforge.net/forum/topic/22166-walking-on-water/
+     * Credit to coolAlias https://www.minecraftforge.net/forum/topic/22166-walking-on-water/
      * 
      * @param entity
      * @param world
@@ -565,8 +563,7 @@ public final class ModUtils
     }
 
     /**
-     * Calls a function that linearly interpolates between two points. Includes both
-     * ends of the line
+     * Calls a function that linearly interpolates between two points. Includes both ends of the line
      * 
      * @param start
      * @param end
@@ -599,5 +596,21 @@ public final class ModUtils
     public static float clamp(double value, double min, double max)
     {
 	return (float) Math.max(min, Math.min(max, value));
+    }
+
+    public static Vec3d findEntityGroupCenter(Entity mob, int boxDistance)
+    {
+	Vec3d groupCenter = mob.getPositionVector();
+	float numMobs = 1;
+	for (EntityLivingBase entity : ModUtils.getEntitiesInBox(mob, new AxisAlignedBB(mob.getPosition()).grow(boxDistance)))
+	{
+	    if (entity instanceof EntityMaelstromMob)
+	    {
+		groupCenter = groupCenter.add(entity.getPositionVector());
+		numMobs += 1;
+	    }
+	}
+
+	return groupCenter.scale(1 / numMobs);
     }
 }

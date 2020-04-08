@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.ai.EntityAIAvoidCrowding;
+import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
@@ -16,14 +18,13 @@ import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -32,10 +33,10 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -49,6 +50,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 {
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
+    protected static int reinforcementsCallDistance = 20;
 
     public EntityMaelstromMob(World worldIn)
     {
@@ -60,17 +62,16 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     protected void initEntityAI()
     {
 	this.tasks.addTask(1, new EntityAISwimming(this));
-	this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
-	this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
-	this.tasks.addTask(6, new EntityAILookIdle(this));
+	this.tasks.addTask(5, new EntityAIAvoidCrowding(this, 1.0D));
+	this.tasks.addTask(6, new EntityAIWanderWithGroup(this, 1.0D));
+	this.tasks.addTask(7, new EntityAILookIdle(this));
 	this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false, new Class[0]));
-	this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+	this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
 
 	if (ModConfig.entities.attackAll)
 	{
-	    // This makes it so that the entity attack every entity except others of its
-	    // kind
-	    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
+	    // This makes it so that the entity attack every entity except others of its kind
+	    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
 	    {
 		@Override
 		public boolean apply(@Nullable Entity entity)
@@ -87,6 +88,25 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
+    }
+
+    /**
+     * Calls nearby maelstrom mobs to join in attacking the target.
+     */
+    @Override
+    public void setAttackTarget(EntityLivingBase entitylivingbaseIn)
+    {
+	super.setAttackTarget(entitylivingbaseIn);
+	if (entitylivingbaseIn != null)
+	{
+	    for(EntityLivingBase entity : ModUtils.getEntitiesInBox(this, new AxisAlignedBB(this.getPosition()).grow(reinforcementsCallDistance)))
+	    {
+		if (entity instanceof EntityMaelstromMob && ((EntityMaelstromMob) entity).getAttackTarget() == null)
+		{
+		    ((EntityMaelstromMob) entity).getNavigator().tryMoveToEntityLiving(this, 1.0f);
+		}
+	    }
+	}
     }
 
     @Override
