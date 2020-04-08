@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.EntityAIAvoidCrowding;
+import com.barribob.MaelstromMod.entity.ai.EntityAIFollowAttackers;
 import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
@@ -18,7 +19,6 @@ import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -36,7 +36,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -62,9 +61,10 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     protected void initEntityAI()
     {
 	this.tasks.addTask(1, new EntityAISwimming(this));
-	this.tasks.addTask(5, new EntityAIAvoidCrowding(this, 1.0D));
-	this.tasks.addTask(6, new EntityAIWanderWithGroup(this, 1.0D));
-	this.tasks.addTask(7, new EntityAILookIdle(this));
+	this.tasks.addTask(5, new EntityAIFollowAttackers(this, 1.0D));
+	this.tasks.addTask(6, new EntityAIAvoidCrowding(this, 1.0D));
+	this.tasks.addTask(7, new EntityAIWanderWithGroup(this, 1.0D));
+	this.tasks.addTask(8, new EntityAILookIdle(this));
 	this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false, new Class[0]));
 	this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
 
@@ -88,25 +88,6 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-    }
-
-    /**
-     * Calls nearby maelstrom mobs to join in attacking the target.
-     */
-    @Override
-    public void setAttackTarget(EntityLivingBase entitylivingbaseIn)
-    {
-	super.setAttackTarget(entitylivingbaseIn);
-	if (entitylivingbaseIn != null)
-	{
-	    for(EntityLivingBase entity : ModUtils.getEntitiesInBox(this, new AxisAlignedBB(this.getPosition()).grow(reinforcementsCallDistance)))
-	    {
-		if (entity instanceof EntityMaelstromMob && ((EntityMaelstromMob) entity).getAttackTarget() == null)
-		{
-		    ((EntityMaelstromMob) entity).getNavigator().tryMoveToEntityLiving(this, 1.0f);
-		}
-	    }
-	}
     }
 
     @Override
@@ -287,7 +268,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	    }
 
 	    this.setDead();
-	    
+
 	    world.setEntityState(this, ModUtils.MAELSTROM_PARTICLE_BYTE);
 	}
     }
@@ -297,7 +278,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
     {
 	if (id == ModUtils.MAELSTROM_PARTICLE_BYTE)
 	{
-	    for(int i = 0; i < 20; i++)
+	    for (int i = 0; i < 20; i++)
 	    {
 		ParticleManager.spawnMaelstromLargeSmoke(world, rand, this.getPositionVector().add(ModRandom.gaussVec().scale(0.5f).add(ModUtils.yVec(1))));
 	    }
