@@ -71,7 +71,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	if (ModConfig.entities.attackAll)
 	{
 	    // This makes it so that the entity attack every entity except others of its kind
-	    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, true, new Predicate<Entity>()
+	    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, new Predicate<Entity>()
 	    {
 		@Override
 		public boolean apply(@Nullable Entity entity)

@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
@@ -75,6 +76,7 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     {
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAITimedAttack<EntityShade>(this, 1.0f, 5, 3f, 0.5f));
+	this.tasks.addTask(0, new AIJumpAtTarget(this, 0.4f, 0.5f));
     }
 
     @Override
@@ -137,6 +139,13 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
 	    this.motionY += leap.y;
 	}
 	this.motionZ += leap.z;
+	double horzMag = Math.sqrt(Math.pow(this.motionX, 2) + Math.pow(this.motionZ, 2));
+	double scale = 0.4 / horzMag;
+	if (scale < 1)
+	{
+	    this.motionX *= scale;
+	    this.motionZ *= scale;
+	}
 
 	addEvent(() -> {
 	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(1)).add(this.getLookVec());
