@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
@@ -118,6 +119,7 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements IAttack
     {
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAITimedAttack<EntityMaelstromLancer>(this, 1.0f, 10, 5, 0.5f, 20.0f));
+	this.tasks.addTask(0, new AIJumpAtTarget(this, 0.4f, 0.5f));
     }
 
     @Override
@@ -190,14 +192,7 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements IAttack
 	this.world.setEntityState(this, (byte) 4);
 
 	addEvent(() -> {
-	    Vec3d dir = target.getPositionVector().subtract(getPositionVector()).normalize();
-	    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.9f).add(ModUtils.yVec(0.3f));
-	    this.motionX += leap.x;
-	    if (this.motionY < 0.1)
-	    {
-		this.motionY += leap.y;
-	    }
-	    this.motionZ += leap.z;
+	    ModUtils.leapTowards(this, target.getPositionVector(), 0.9f, 0.3f);
 	    this.setLeaping(true);
 	    this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, ModRandom.getFloat(0.1f) + 1.2f);
 	}, 10);

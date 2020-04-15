@@ -114,11 +114,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 		@Override
 		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
 		{
-		    Vec3d dir = target.getPositionVector().subtract(actor.getPositionVector()).normalize();
-		    Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(1.4f).add(ModUtils.yVec(0.7f));
-		    actor.motionX = leap.x;
-		    actor.motionY = leap.y;
-		    actor.motionZ = leap.z;
+		    ModUtils.leapTowards(actor, target.getPositionVector(), 1.4f, 0.7f);
 		}
 
 	    });

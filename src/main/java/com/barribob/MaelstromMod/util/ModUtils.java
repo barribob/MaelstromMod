@@ -560,6 +560,15 @@ public final class ModUtils
 	    entity.motionY += leap.y;
 	}
 	entity.motionZ += leap.z;
+
+	// Normalize to make sure the velocity doesn't go beyond what we expect
+	double horzMag = Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionZ, 2));
+	double scale = horzVel / horzMag;
+	if (scale < 1)
+	{
+	    entity.motionX *= scale;
+	    entity.motionZ *= scale;
+	}
     }
 
     /**
@@ -612,5 +621,18 @@ public final class ModUtils
 	}
 
 	return groupCenter.scale(1 / numMobs);
+    }
+
+    public static boolean isAirBelow(World world, BlockPos pos, int blocksBelow)
+    {
+	boolean hasGround = false;
+	for (int i = 0; i > -blocksBelow; i--)
+	{
+	    if (!world.isAirBlock(pos.add(new BlockPos(0, i, 0))))
+	    {
+		hasGround = true;
+	    }
+	}
+	return !hasGround;
     }
 }
