@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionSpinSlash;
+import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
@@ -205,6 +206,7 @@ public class EntityIronShade extends EntityMaelstromMob
     {
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.3f, 60, 10, 4.5f, 0.4f));
+	this.tasks.addTask(0, new AIJumpAtTarget(this, 0.4f, 0.5f));
     }
 
     @Override

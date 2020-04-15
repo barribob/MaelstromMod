@@ -560,6 +560,15 @@ public final class ModUtils
 	    entity.motionY += leap.y;
 	}
 	entity.motionZ += leap.z;
+
+	// Normalize to make sure the velocity doesn't go beyond what we expect
+	double horzMag = Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionZ, 2));
+	double scale = horzVel / horzMag;
+	if (scale < 1)
+	{
+	    entity.motionX *= scale;
+	    entity.motionZ *= scale;
+	}
     }
 
     /**

@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.pathfinding.NodeProcessor;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -38,8 +39,13 @@ public class AIJumpAtTarget extends EntityAIBase
 	    this.ticksAirborne++;
 	}
 
+	if (entity.getAttackTarget() == null)
+	{
+	    return false;
+	}
+
 	// Our goal is to capture the time right when the entity slips of the edge
-	if (this.ticksAirborne == 1 && ModUtils.isAirBelow(entity.world, entity.getPosition(), 7) && entity.getAttackTarget() != null)
+	if (this.ticksAirborne == 1 && ModUtils.isAirBelow(entity.world, entity.getPosition(), 7))
 	{
 	    ModUtils.leapTowards(entity, entity.getAttackTarget().getPositionVector(), horzVel, yVel);
 	    this.jumpCooldown = 20;
@@ -47,28 +53,34 @@ public class AIJumpAtTarget extends EntityAIBase
 	}
 	else
 	{
-	    if (entity.getAttackTarget() != null && this.entity.getNavigator() != null && this.entity.getNavigator().noPath() && this.entity.onGround)
+	    if (this.entity.getNavigator() != null && this.entity.getNavigator().noPath() && this.entity.onGround)
 	    {
-
-
-		BlockPos nearbyBlock = null;
-
 		Vec3d jumpDirection = entity.getAttackTarget().getPositionVector().subtract(entity.getPositionVector()).normalize();
-		Vec3d jumpPos = entity.getPositionVector().add(jumpDirection.scale(2));
-		
+		Vec3d jumpPos = entity.getPositionVector().add(jumpDirection);
+
+		if (!ModUtils.isAirBelow(entity.world, new BlockPos(jumpPos), 3))
+		{
+		    return false;
+		}
+
 		for (int i = 0; i < 2; i++)
 		{
-		    if (this.entity.getNavigator().getNodeProcessor().getPathNodeType(this.entity.world, (int) Math.round(jumpPos.x), (int) Math.round(jumpPos.y), (int) Math.round(jumpPos.z)) == PathNodeType.WALKABLE ||
-			    this.entity.getNavigator().getNodeProcessor().getPathNodeType(this.entity.world, (int) Math.round(jumpPos.x), (int) Math.round(jumpPos.y) - 1, (int) Math.round(jumpPos.z)) == PathNodeType.WALKABLE)
+		    jumpPos = jumpPos.add(jumpDirection);
+		    if (jumpPos.subtract(entity.getPositionVector()).y < 1.2)
 		    {
-			if (jumpPos.subtract(entity.getPositionVector()).y < 1.2)
+			BlockPos pos = new BlockPos(jumpPos);
+			NodeProcessor processor = this.entity.getNavigator().getNodeProcessor();
+
+			for (int y = -1; y <= 1; y++)
 			{
-			    System.out.println(i);
-			    ModUtils.leapTowards(entity, entity.getAttackTarget().getPositionVector(), horzVel * (i * 0.5f + ModRandom.getFloat(0.3f) + 1), yVel);
-			    return true;
+			    if (processor.getPathNodeType(this.entity.world, pos.getX(), pos.getY() + y, pos.getZ()) == PathNodeType.WALKABLE)
+			    {
+				System.out.println(i);
+				ModUtils.leapTowards(entity, entity.getAttackTarget().getPositionVector(), horzVel * (i * 0.3f + ModRandom.getFloat(0.3f) + 1), yVel);
+				return true;
+			    }
 			}
 		    }
-		    jumpPos = jumpPos.add(jumpDirection);
 		}
 	    }
 	}

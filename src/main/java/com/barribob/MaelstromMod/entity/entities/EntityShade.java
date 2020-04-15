@@ -131,21 +131,7 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
 	this.startAnimation(ModAnimations.SCOUT_SLASH);
-	Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
-	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.4f).add(ModUtils.yVec(0.3f));
-	this.motionX += leap.x;
-	if (this.motionY < 0.1)
-	{
-	    this.motionY += leap.y;
-	}
-	this.motionZ += leap.z;
-	double horzMag = Math.sqrt(Math.pow(this.motionX, 2) + Math.pow(this.motionZ, 2));
-	double scale = 0.4 / horzMag;
-	if (scale < 1)
-	{
-	    this.motionX *= scale;
-	    this.motionZ *= scale;
-	}
+	ModUtils.leapTowards(this, this.getAttackTarget().getPositionVector(), 0.4f, 0.3f);
 
 	addEvent(() -> {
 	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(1)).add(this.getLookVec());
