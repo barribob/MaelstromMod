@@ -41,6 +41,7 @@ public class ModAnimations
 	CHAOS_KNIGHT_SPIN_SLASH = registerAnimation("chaos_knight/spin_slash.csv");
     }
 
+    @Deprecated
     public static AnimationData getAnimationById(int id)
     {
 	if (animations.containsKey(id))
@@ -58,12 +59,14 @@ public class ModAnimations
      * @param id
      * @return
      */
+    @Deprecated
     public static AnimationData getAnimationByIdUncached(int id)
     {
 	System.out.println("Warning: using the uncached version of animation loading");
 	return loadAnimations(idToAnimation.get(id));
     }
 
+    @Deprecated
     private static int registerAnimation(String filename)
     {
 	id++;
@@ -79,6 +82,7 @@ public class ModAnimations
      * @param csv
      * @return
      */
+    @Deprecated
     private static AnimationData loadAnimations(String csv)
     {
 	ResourceLocation loc = new ResourceLocation(Reference.MOD_ID, "animations/" + csv);
