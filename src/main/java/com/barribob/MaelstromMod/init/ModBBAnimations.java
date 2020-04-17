@@ -12,6 +12,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 
+import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.entity.animation.AnimationManager;
+import com.barribob.MaelstromMod.packets.MessageAnimation;
 import com.barribob.MaelstromMod.util.Reference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,6 +25,7 @@ import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.util.JsonException;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -40,8 +44,46 @@ public class ModBBAnimations
     private static Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static final Map<Integer, JsonObject> animations = new HashMap<Integer, JsonObject>();
     private static final Map<String, Integer> nameToId = new HashMap<String, Integer>();
+    private static final Map<Integer, String> idToName = new HashMap<Integer, String>();
 
     private static int id = -1;
+
+    /**
+     * Animation id of the format: animation_filename.animation_name. For example if I have an animation file called "anim.json" and inside it there is one animation under the "animations" object named
+     * "walk", then the id would be "anim.walk"
+     * 
+     * @param animationId
+     */
+    public static void addAnimationToEntity(EntityLivingBase entity, String animationId)
+    {
+	if (!entity.world.isRemote)
+	{
+	    Main.network.sendToAllTracking(new MessageAnimation(ModBBAnimations.getAnimationId(animationId), entity.getEntityId()), entity);
+	}
+	else
+	{
+	    AnimationManager.addAnimation(entity, animationId);
+	}
+    }
+
+    public static String getAnimationName(int id)
+    {
+	if (idToName.containsKey(id))
+	{
+	    return idToName.get(id);
+	}
+	return "";
+    }
+
+    public static int getAnimationId(String id)
+    {
+	if (nameToId.containsKey(id))
+	{
+	    return nameToId.get(id);
+	}
+	System.err.println("Could not find registered animation with id " + id);
+	return -1;
+    }
 
     /**
      * Animation id of the format: animation_filename.animation_name. For example if I have an animation file callsed "anim.json" and inside it there is one animation under the "animations" object named
@@ -112,6 +154,7 @@ public class ModBBAnimations
 	    id++;
 	    nameToId.put(filename + "." + animation.getKey(), id);
 	    animations.put(id, animation.getValue().getAsJsonObject());
+	    idToName.put(id, filename + "." + animation.getKey());
 	}
     }
 

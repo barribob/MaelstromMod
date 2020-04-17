@@ -19,7 +19,7 @@ import net.minecraft.client.model.ModelRenderer;
  * @author Barribob
  *
  */
-public class BBAnimation implements Animation<ModelBase>
+public class BBAnimation
 {
     private JsonObject animation;
     private long ticksSinceStart = 0;
@@ -37,7 +37,6 @@ public class BBAnimation implements Animation<ModelBase>
 	animation = ModBBAnimations.getAnimationUncached(animationId);
     }
 
-    @Override
     public void setModelRotations(ModelBase model, float limbSwing, float limbSwingAmount, float partialTicks)
     {
 	boolean loop = false;
@@ -149,13 +148,11 @@ public class BBAnimation implements Animation<ModelBase>
 	return entries;
     }
 
-    @Override
     public void update()
     {
 	this.ticksSinceStart++;
     }
 
-    @Override
     public void startAnimation()
     {
 	this.ticksSinceStart = 0;

@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelMaelstromWarrior extends ModelAnimated
+public class ModelMaelstromWarrior extends ModelBBAnimated
 {
     private final ModelRenderer root;
     private final ModelRenderer wisps;

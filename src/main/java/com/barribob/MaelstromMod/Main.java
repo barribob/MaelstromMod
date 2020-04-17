@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod;
 
 import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
+import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.init.ModProfessions;
@@ -61,6 +62,7 @@ public class Main
 	ModEntities.registerEntities();
 	proxy.init();
 
+	ModBBAnimations.registerAnimations();
 	ModDimensions.registerDimensions();
 	LootFunctionManager.registerFunction(new ModEnchantWithLevels.Serializer());
     }

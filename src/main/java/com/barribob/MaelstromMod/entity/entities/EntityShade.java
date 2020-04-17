@@ -2,9 +2,11 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
-import com.barribob.MaelstromMod.entity.animation.BBAnimation;
+import com.barribob.MaelstromMod.entity.animation.Animation;
+import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModAnimations;
+import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -104,10 +106,6 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
 
 	    ParticleManager.spawnEffect(world, this.getPositionVector().add(ModRandom.randVec()).add(ModUtils.yVec(1)), getElement().particleColor);
 	}
-	else if (id == 5)
-	{
-	    this.currentAnimation = new BBAnimation("scout.attack");
-	}
 	else
 	{
 	    super.handleStatusUpdate(id);
@@ -115,9 +113,15 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     }
 
     @Override
+    protected Animation createAnimation(int animationId)
+    {
+	return new AnimationNone();
+    }
+
+    @Override
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
-	world.setEntityState(this, (byte) 5);
+	ModBBAnimations.addAnimationToEntity(this, "scout.attack");
 	ModUtils.leapTowards(this, this.getAttackTarget().getPositionVector(), 0.4f, 0.3f);
 
 	addEvent(() -> {

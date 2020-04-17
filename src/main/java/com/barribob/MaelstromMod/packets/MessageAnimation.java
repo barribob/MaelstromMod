@@ -1,9 +1,11 @@
 package com.barribob.MaelstromMod.packets;
 
-import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.animation.AnimationManager;
+import com.barribob.MaelstromMod.init.ModBBAnimations;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -47,9 +49,9 @@ public class MessageAnimation implements IMessage
 	public IMessage onMessage(MessageAnimation message, MessageContext ctx)
 	{
 	    Entity entity = PacketUtils.getWorld().getEntityByID(message.entityId);
-	    if (entity instanceof EntityLeveledMob)
+	    if (entity instanceof EntityLivingBase)
 	    {
-		((EntityLeveledMob) entity).startAnimation(message.animationId);
+		AnimationManager.addAnimation((EntityLivingBase) entity, ModBBAnimations.getAnimationName(message.animationId));
 	    }
 	    return null;
 	}
