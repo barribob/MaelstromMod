@@ -3,10 +3,10 @@ package com.barribob.MaelstromMod.entity.entities;
 import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.animation.Animation;
-import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
-import com.barribob.MaelstromMod.entity.model.ModelMaelstromWarrior;
+import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModAnimations;
+import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -44,21 +44,6 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     protected void initAnimation()
     {
 	this.currentAnimation = createAnimation(ModAnimations.SCOUT_SLASH);
-    }
-
-    @Override
-    protected Animation createAnimation(int animationId)
-    {
-	return new StreamAnimation<ModelMaelstromWarrior>(animationId)
-	{
-	    @Override
-	    public void setModelRotations(ModelMaelstromWarrior model, float limbSwing, float limbSwingAmount, float partialTicks)
-	    {
-		model.leftArm.offsetY = (float) Math.cos(Math.toRadians(ticksExisted * 4)) * 0.05f;
-		model.rightArm.offsetY = (float) Math.cos(Math.toRadians(ticksExisted * 4)) * 0.05f;
-		super.setModelRotations(model, limbSwing, limbSwingAmount, partialTicks);
-	    }
-	};
     }
 
     @Override
@@ -128,9 +113,15 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     }
 
     @Override
+    protected Animation createAnimation(int animationId)
+    {
+	return new AnimationNone();
+    }
+
+    @Override
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
-	this.startAnimation(ModAnimations.SCOUT_SLASH);
+	ModBBAnimations.addAnimationToEntity(this, "scout.attack");
 	ModUtils.leapTowards(this, this.getAttackTarget().getPositionVector(), 0.4f, 0.3f);
 
 	addEvent(() -> {

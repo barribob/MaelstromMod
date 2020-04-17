@@ -1,0 +1,59 @@
+package com.barribob.MaelstromMod.packets;
+
+import com.barribob.MaelstromMod.entity.animation.AnimationManager;
+import com.barribob.MaelstromMod.init.ModBBAnimations;
+
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+/**
+ * Sends an entity animation to play to the client side
+ *
+ */
+public class MessageBBAnimation implements IMessage
+{
+    private int animationId;
+    private int entityId;
+
+    public MessageBBAnimation()
+    {
+    }
+
+    public MessageBBAnimation(int animationId, int id)
+    {
+	this.animationId = animationId;
+	this.entityId = id;
+    }
+
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
+	this.animationId = buf.readInt();
+	this.entityId = buf.readInt();
+    }
+
+    @Override
+    public void toBytes(ByteBuf buf)
+    {
+	buf.writeInt(this.animationId);
+	buf.writeInt(this.entityId);
+    }
+
+    public static class Handler implements IMessageHandler<MessageBBAnimation, IMessage>
+    {
+	@Override
+	public IMessage onMessage(MessageBBAnimation message, MessageContext ctx)
+	{
+	    Entity entity = PacketUtils.getWorld().getEntityByID(message.entityId);
+	    if (entity instanceof EntityLivingBase)
+	    {
+		AnimationManager.addAnimation((EntityLivingBase) entity, ModBBAnimations.getAnimationName(message.animationId));
+	    }
+	    return null;
+	}
+    }
+}

@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelMaelstromWarrior extends ModelAnimated
+public class ModelMaelstromWarrior extends ModelBBAnimated
 {
     private final ModelRenderer root;
     private final ModelRenderer wisps;
@@ -118,6 +118,8 @@ public class ModelMaelstromWarrior extends ModelAnimated
 	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 	this.head.rotateAngleX = headPitch * 0.017453292F;
 	this.root.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 12)) * 0.1f;
+	this.leftArm.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 4)) * 0.05f;
+	this.rightArm.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 4)) * 0.05f;
     }
 
     @Override
