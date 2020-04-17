@@ -1,14 +1,20 @@
 package com.barribob.MaelstromMod.init;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
 
 import com.barribob.MaelstromMod.util.Reference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -16,28 +22,34 @@ import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.util.JsonException;
+import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 
 /**
- * Handle animation registration
+ * Handle animation registration automatically
  * 
  * @author Barribob
  *
  */
 public class ModBBAnimations
 {
+    private static Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static final Map<Integer, JsonObject> animations = new HashMap<Integer, JsonObject>();
-    private static final Map<Integer, String> idToAnimation = new HashMap<Integer, String>();
     private static final Map<String, Integer> nameToId = new HashMap<String, Integer>();
 
     private static int id = -1;
 
-    public static void registerAnimations()
-    {
-	animations.put(-1, new JsonObject()); // Default animation for any animations that fail to load
-	registerAnimations("scout");
-    }
-
+    /**
+     * Animation id of the format: animation_filename.animation_name. For example if I have an animation file callsed "anim.json" and inside it there is one animation under the "animations" object named
+     * "walk", then the id would be "anim.walk"
+     * 
+     * @param id
+     * @return
+     */
     public static JsonObject getAnimation(String id)
     {
 	if (nameToId.containsKey(id))
@@ -49,23 +61,37 @@ public class ModBBAnimations
     }
 
     /**
-     * Used to easily hot replace animations during debug when constructing new animations
+     * Used to easily hot replace animations during debug when constructing new animations It probably doesn't work during production, so make sure to switch to getAnimation()
      * 
      * @param id
      * @return
      */
-    public static JsonObject getAnimationUncached(String filename, String animName)
+    public static JsonObject getAnimationUncached(String animationId)
     {
 	System.out.println("Warning: using the uncached version of animation loading");
-	String name = filename + "." + animName;
-	nameToId.remove(name);
-	registerAnimations(filename);
-	return getAnimation(name);
-    }
+	String[] s = animationId.split("(\\.)", 2);
+	String filename = s[0];
+	String animName = s[1];
+	ResourceLocation loc = new ResourceLocation(Reference.MOD_ID, "animations/" + filename + ".json");
+	JsonParser jsonparser = new JsonParser();
+	IResource resource = null;
 
-    public static String getAnimationName(int id)
-    {
-	return idToAnimation.get(id);
+	try
+	{
+	    resource = Minecraft.getMinecraft().getResourceManager().getResource(loc);
+	    JsonObject animationObject = jsonparser.parse(IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8)).getAsJsonObject();
+	    return animationObject.getAsJsonObject("animations").getAsJsonObject(animName);
+	}
+	catch (IOException e)
+	{
+	    System.err.println("Failed to load animation: " + filename + e);
+	}
+	finally
+	{
+	    IOUtils.closeQuietly(resource);
+	}
+
+	return new JsonObject();
     }
 
     /**
@@ -73,58 +99,76 @@ public class ModBBAnimations
      * 
      * @param filename
      */
-    private static void registerAnimations(String filename)
+    private static void registerAnimations(JsonObject animationFile, String filename)
     {
-	try
+	// Check the animation's version
+	if (!animationFile.get("format_version").getAsString().startsWith("1.8.0"))
 	{
-	    JsonObject animationFile = loadAnimationFile(filename);
-
-	    // Check the animation's version
-	    if (!animationFile.get("format_version").getAsString().startsWith("1.8.0"))
-	    {
-		System.err.println("Animation format not included for animation file: " + filename);
-	    }
-
-	    for (Entry<String, JsonElement> animation : animationFile.getAsJsonObject("animations").entrySet())
-	    {
-		id++;
-		nameToId.put(filename + "." + animation.getKey(), id);
-		animations.put(id, animation.getValue().getAsJsonObject());
-	    }
+	    System.err.println("Animation format not included for animation file: " + filename);
 	}
-	catch (JsonException e)
+
+	for (Entry<String, JsonElement> animation : animationFile.getAsJsonObject("animations").entrySet())
 	{
-	    System.err.println("Failed to load animation: " + e);
+	    id++;
+	    nameToId.put(filename + "." + animation.getKey(), id);
+	    animations.put(id, animation.getValue().getAsJsonObject());
 	}
     }
 
     /**
-     * Loads all animations from a bedrock animation json file
+     * Loads all animations from a bedrock animation json file. Walks through file folder using code from CraftingHelper in FML
      * 
      * @param filename
      * @return
      * @throws JsonException
      */
-    private static JsonObject loadAnimationFile(String filename) throws JsonException
+    public static void registerAnimations()
     {
-	JsonParser jsonparser = new JsonParser();
-	ResourceLocation loc = new ResourceLocation(Reference.MOD_ID, "animations/" + filename + ".json");
-	IResource iresource = null;
+	// Sort of hacky way to get the ModContainer for my mod
+	ModContainer myMod = null;
+	for (ModContainer mod : Loader.instance().getActiveModList())
+	{
+	    if (mod.getModId().equals("mm"))
+	    {
+		myMod = mod;
+	    }
+	}
 
-	try
-	{
-	    iresource = Minecraft.getMinecraft().getResourceManager().getResource(loc);
-	    return jsonparser.parse(IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8)).getAsJsonObject();
-	}
-	catch (IOException e)
-	{
-	    JsonException jsonexception = JsonException.forException(e);
-	    jsonexception.setFilenameAndFlush(loc.getResourcePath());
-	    throw jsonexception;
-	}
-	finally
-	{
-	    IOUtils.closeQuietly(iresource);
-	}
+	final ModContainer mod = myMod; // Because lambda function can't take non final values :(
+	JsonContext ctx = new JsonContext(myMod.getModId());
+
+	// This part is pretty similar CraftingHelper.java does to load recipes
+	CraftingHelper.findFiles(myMod, "assets/" + myMod.getModId() + "/animations",
+		root -> {
+		    return true;
+		},
+		(root, file) -> {
+		    Loader.instance().setActiveModContainer(mod);
+
+		    String relative = root.relativize(file).toString();
+		    if (!"json".equals(FilenameUtils.getExtension(file.toString())) || relative.startsWith("_"))
+			return true;
+
+		    String name = FilenameUtils.removeExtension(relative).replaceAll("\\\\", "/");
+		    ResourceLocation key = new ResourceLocation(ctx.getModId(), name);
+
+		    BufferedReader reader = null;
+		    try
+		    {
+			reader = Files.newBufferedReader(file);
+			JsonObject json = JsonUtils.fromJson(GSON, reader, JsonObject.class);
+			registerAnimations(json, name);
+		    }
+		    catch (IOException e)
+		    {
+			LogManager.getLogger().error("Couldn't read animation {} from {}", key, file, e);
+			return false;
+		    }
+		    finally
+		    {
+			IOUtils.closeQuietly(reader);
+		    }
+		    return true;
+		}, true, true);
     }
 }

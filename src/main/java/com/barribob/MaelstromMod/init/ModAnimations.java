@@ -34,7 +34,6 @@ public class ModAnimations
 
     public static void registerAnimations()
     {
-	SCOUT_SLASH = registerAnimation("animation_scout.csv");
 	CHAOS_KNIGHT_SINGLE_SWIPE = registerAnimation("chaos_knight/single_swipe.csv");
 	CHAOS_KNIGHT_LEAP_SLAM = registerAnimation("chaos_knight/leap_slam.csv");
 	CHAOS_KNIGHT_DASH = registerAnimation("chaos_knight/dash.csv");

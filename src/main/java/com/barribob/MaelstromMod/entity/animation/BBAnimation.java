@@ -26,15 +26,15 @@ public class BBAnimation implements Animation<ModelBase>
     private String animationId;
 
     /**
-     * Animation id of the format: animation_filename.animation_name
+     * Animation id of the format: animation_filename.animation_name. For example if I have an animation file callsed "anim.json" and inside it there is one animation under the "animations" object named
+     * "walk", then the id would be "anim.walk"
      * 
      * @param animationId
      */
     public BBAnimation(String animationId)
     {
 	this.animationId = animationId;
-	String[] s = animationId.split("(\\.)", 2);
-	animation = ModBBAnimations.getAnimationUncached(s[0], s[1]);
+	animation = ModBBAnimations.getAnimationUncached(animationId);
     }
 
     @Override
@@ -49,6 +49,7 @@ public class BBAnimation implements Animation<ModelBase>
 	float animationLength = animation.get("animation_length").getAsFloat();
 	float timeInSeconds;
 
+	// Looping is achieved by just using the remainder of the ticksSinceStart / animationLength
 	if (loop)
 	{
 	    timeInSeconds = (ticksSinceStart + partialTicks) * 0.05f;
@@ -65,6 +66,7 @@ public class BBAnimation implements Animation<ModelBase>
 	    JsonObject element = elementEntry.getValue().getAsJsonObject();
 	    ModelRenderer component;
 
+	    // Use reflection to get the component we want from the model
 	    try
 	    {
 		component = ((ModelRenderer) model.getClass().getField(elementEntry.getKey()).get(model));
@@ -83,7 +85,6 @@ public class BBAnimation implements Animation<ModelBase>
 		component.rotateAngleZ = (float) Math.toRadians(rotations[2]);
 	    }
 	}
-
     }
 
     /**
