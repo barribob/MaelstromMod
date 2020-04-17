@@ -16,8 +16,6 @@ public class AIJumpAtTarget extends EntityAIBase
     private final float horzVel;
     private final float yVel;
     private int ticksAirborne = 0;
-    private int jumpCooldown = 20;
-    private int ticksSinceJump;
 
     public AIJumpAtTarget(EntityLiving entity, float horzVel, float yVel)
     {
@@ -48,7 +46,6 @@ public class AIJumpAtTarget extends EntityAIBase
 	if (this.ticksAirborne == 1 && ModUtils.isAirBelow(entity.world, entity.getPosition(), 7))
 	{
 	    ModUtils.leapTowards(entity, entity.getAttackTarget().getPositionVector(), horzVel, yVel);
-	    this.jumpCooldown = 20;
 	    return true;
 	}
 	else

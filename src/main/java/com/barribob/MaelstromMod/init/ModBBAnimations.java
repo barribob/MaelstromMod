@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.animation.AnimationManager;
-import com.barribob.MaelstromMod.packets.MessageAnimation;
+import com.barribob.MaelstromMod.packets.MessageBBAnimation;
 import com.barribob.MaelstromMod.util.Reference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,7 +58,7 @@ public class ModBBAnimations
     {
 	if (!entity.world.isRemote)
 	{
-	    Main.network.sendToAllTracking(new MessageAnimation(ModBBAnimations.getAnimationId(animationId), entity.getEntityId()), entity);
+	    Main.network.sendToAllTracking(new MessageBBAnimation(ModBBAnimations.getAnimationId(animationId), entity.getEntityId()), entity);
 	}
 	else
 	{
