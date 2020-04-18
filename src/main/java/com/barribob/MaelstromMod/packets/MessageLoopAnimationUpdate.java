@@ -1,7 +1,5 @@
 package com.barribob.MaelstromMod.packets;
 
-import org.apache.logging.log4j.LogManager;
-
 import com.barribob.MaelstromMod.entity.animation.AnimationManager;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 
@@ -14,23 +12,21 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 /**
- * Sends an entity animation to play to the client side
+ * Updates a looping animation in case it doens't exist on the client due to various circumstances
  */
-public class MessageBBAnimation implements IMessage
+public class MessageLoopAnimationUpdate implements IMessage
 {
     private int animationId;
     private int entityId;
-    private boolean remove;
 
-    public MessageBBAnimation()
+    public MessageLoopAnimationUpdate()
     {
     }
 
-    public MessageBBAnimation(int animationId, int id, boolean remove)
+    public MessageLoopAnimationUpdate(int animationId, int id)
     {
 	this.animationId = animationId;
 	this.entityId = id;
-	this.remove = remove;
     }
 
     @Override
@@ -38,7 +34,6 @@ public class MessageBBAnimation implements IMessage
     {
 	this.animationId = buf.readInt();
 	this.entityId = buf.readInt();
-	this.remove = buf.readBoolean();
     }
 
     @Override
@@ -46,34 +41,18 @@ public class MessageBBAnimation implements IMessage
     {
 	buf.writeInt(this.animationId);
 	buf.writeInt(this.entityId);
-	buf.writeBoolean(this.remove);
     }
 
-    public static class Handler implements IMessageHandler<MessageBBAnimation, IMessage>
+    public static class Handler implements IMessageHandler<MessageLoopAnimationUpdate, IMessage>
     {
 	@Override
-	public IMessage onMessage(MessageBBAnimation message, MessageContext ctx)
+	public IMessage onMessage(MessageLoopAnimationUpdate message, MessageContext ctx)
 	{
 	    Minecraft.getMinecraft().addScheduledTask(() -> {
-
-		/**
-		 * Will spin for a second just in case the packet updating the entityID doesn't come before. That's why I put this in a separate thread so the client doesn't block
-		 */
 		Entity entity = PacketUtils.getWorld().getEntityByID(message.entityId);
-		long time = System.currentTimeMillis();
-		while (entity == null)
-		{
-		    if (System.currentTimeMillis() - time > 1000)
-		    {
-			LogManager.getLogger().warn("Failed to recieve entity id for animation.");
-			break;
-		    }
-		    entity = PacketUtils.getWorld().getEntityByID(message.entityId);
-		}
-
 		if (entity != null && entity instanceof EntityLivingBase)
 		{
-		    AnimationManager.updateAnimation((EntityLivingBase) entity, ModBBAnimations.getAnimationName(message.animationId), message.remove);
+		    AnimationManager.updateLoopingAnimation((EntityLivingBase) entity, ModBBAnimations.getAnimationName(message.animationId));
 		}
 	    });
 	    return null;

@@ -626,7 +626,7 @@ public final class ModUtils
     public static boolean isAirBelow(World world, BlockPos pos, int blocksBelow)
     {
 	boolean hasGround = false;
-	for (int i = 0; i > -blocksBelow; i--)
+	for (int i = 0; i >= -blocksBelow; i--)
 	{
 	    if (!world.isAirBlock(pos.add(new BlockPos(0, i, 0))))
 	    {

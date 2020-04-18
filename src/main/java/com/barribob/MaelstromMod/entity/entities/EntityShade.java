@@ -121,7 +121,7 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     @Override
     public int startAttack(EntityLivingBase target, float distanceFactor, boolean strafingBackwards)
     {
-	ModBBAnimations.addAnimationToEntity(this, "scout.attack");
+	ModBBAnimations.animation(this, "scout.attack", false);
 	ModUtils.leapTowards(this, this.getAttackTarget().getPositionVector(), 0.4f, 0.3f);
 
 	addEvent(() -> {

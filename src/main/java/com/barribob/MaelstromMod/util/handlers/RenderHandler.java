@@ -17,6 +17,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
@@ -42,6 +43,7 @@ import com.barribob.MaelstromMod.entity.model.ModelGoldenPillar;
 import com.barribob.MaelstromMod.entity.model.ModelGunTrader;
 import com.barribob.MaelstromMod.entity.model.ModelHorror;
 import com.barribob.MaelstromMod.entity.model.ModelIronShade;
+import com.barribob.MaelstromMod.entity.model.ModelMaelstromHealer;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromLancer;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromMage;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromWarrior;
@@ -121,6 +123,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityWhiteMonolith.class, (manager) -> new RenderWhiteMonolith(manager));
 	registerModEntityRenderer(EntityMaelstromLancer.class, new ModelMaelstromLancer(), "maelstrom_lancer.png", "maelstrom_lancer_azure.png", "maelstrom_lancer_golden.png", "maelstrom_lancer_crimson.png");
 	registerModEntityRenderer(EntityChaosKnight.class, (manager) -> new RenderChaosKnight(manager, "chaos_knight.png"));
+	registerModEntityRenderer(EntityMaelstromHealer.class, new ModelMaelstromHealer(), "maelstrom_healer.png");
 
 	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
 	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);

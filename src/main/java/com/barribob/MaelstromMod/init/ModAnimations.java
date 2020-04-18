@@ -31,6 +31,7 @@ public class ModAnimations
     public static int CHAOS_KNIGHT_LEAP_SLAM;
     public static int CHAOS_KNIGHT_DASH;
     public static int CHAOS_KNIGHT_SPIN_SLASH;
+    public static int HEALER_FLY;
 
     public static void registerAnimations()
     {

@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.animation;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -24,6 +25,8 @@ public class BBAnimation
     private JsonObject animation;
     private long ticksSinceStart = 0;
     private String animationId;
+    private float animationLength;
+    private boolean loop = false;
 
     /**
      * Animation id of the format: animation_filename.animation_name. For example if I have an animation file callsed "anim.json" and inside it there is one animation under the "animations" object named
@@ -35,17 +38,15 @@ public class BBAnimation
     {
 	this.animationId = animationId;
 	animation = ModBBAnimations.getAnimationUncached(animationId);
-    }
-
-    public void setModelRotations(ModelBase model, float limbSwing, float limbSwingAmount, float partialTicks)
-    {
-	boolean loop = false;
+	animationLength = animation.get("animation_length").getAsFloat();
 	if (animation.has("loop"))
 	{
 	    loop = animation.get("loop").getAsBoolean();
 	}
+    }
 
-	float animationLength = animation.get("animation_length").getAsFloat();
+    public void setModelRotations(ModelBase model, float limbSwing, float limbSwingAmount, float partialTicks)
+    {
 	float timeInSeconds;
 
 	// Looping is achieved by just using the remainder of the ticksSinceStart / animationLength
@@ -68,20 +69,33 @@ public class BBAnimation
 	    // Use reflection to get the component we want from the model
 	    try
 	    {
-		component = ((ModelRenderer) model.getClass().getField(elementEntry.getKey()).get(model));
+		Field field = model.getClass().getDeclaredField(elementEntry.getKey());
+		if (!field.isAccessible())
+		{
+		    field.setAccessible(true);
+		}
+		component = ((ModelRenderer) field.get(model));
 	    }
 	    catch (NoSuchFieldException | SecurityException | IllegalAccessException e)
 	    {
-		System.err.println("Animation failure: Failed to access field " + elementEntry.getKey() + " for animationid " + animationId + e);
+		System.err.println("Animation failure: Failed to access field " + elementEntry.getKey() + " for animationid " + animationId + " " + e);
 		break;
 	    }
 
 	    if (element.has("rotation"))
 	    {
 		float[] rotations = getInterpotatedValues(timeInSeconds, element.getAsJsonObject("rotation").entrySet());
-		component.rotateAngleX = (float) Math.toRadians(rotations[0]);
-		component.rotateAngleY = (float) Math.toRadians(rotations[1]);
-		component.rotateAngleZ = (float) Math.toRadians(rotations[2]);
+		component.rotateAngleX += (float) Math.toRadians(rotations[0]);
+		component.rotateAngleY += (float) Math.toRadians(rotations[1]);
+		component.rotateAngleZ += (float) Math.toRadians(rotations[2]);
+	    }
+
+	    if (element.has("position"))
+	    {
+		float[] offsets = getInterpotatedValues(timeInSeconds, element.getAsJsonObject("position").entrySet());
+		component.rotationPointX -= offsets[0];
+		component.rotationPointY -= offsets[1];
+		component.rotationPointZ -= offsets[2];
 	    }
 	}
     }
@@ -156,5 +170,21 @@ public class BBAnimation
     public void startAnimation()
     {
 	this.ticksSinceStart = 0;
+    }
+    
+    /**
+     * How many ticks since the animation began playing. Also effectively how many times update() has been called.
+     */
+    public long getTicksSinceStart()
+    {
+        return ticksSinceStart;
+    }
+
+    /**
+     * An animation is ended if it isn't looping and the time since it started has passed its animation length
+     */
+    public boolean isEnded()
+    {
+	return !loop && (this.ticksSinceStart * 0.05f) > this.animationLength;
     }
 }

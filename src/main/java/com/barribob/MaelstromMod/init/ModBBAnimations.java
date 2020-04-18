@@ -13,7 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 
 import com.barribob.MaelstromMod.Main;
-import com.barribob.MaelstromMod.entity.animation.AnimationManager;
+import com.barribob.MaelstromMod.entity.animation.AnimationManagerServer;
 import com.barribob.MaelstromMod.packets.MessageBBAnimation;
 import com.barribob.MaelstromMod.util.Reference;
 import com.google.gson.Gson;
@@ -54,15 +54,16 @@ public class ModBBAnimations
      * 
      * @param animationId
      */
-    public static void addAnimationToEntity(EntityLivingBase entity, String animationId)
+    public static void animation(EntityLivingBase entity, String animationId, boolean remove)
     {
-	if (!entity.world.isRemote)
+	Main.network.sendToAllTracking(new MessageBBAnimation(ModBBAnimations.getAnimationId(animationId), entity.getEntityId(), remove), entity);
+	JsonObject animation = ModBBAnimations.getAnimation(animationId);
+	if (animation.has("loop"))
 	{
-	    Main.network.sendToAllTracking(new MessageBBAnimation(ModBBAnimations.getAnimationId(animationId), entity.getEntityId()), entity);
-	}
-	else
-	{
-	    AnimationManager.addAnimation(entity, animationId);
+	    if (animation.get("loop").getAsBoolean())
+	    {
+		AnimationManagerServer.updateLooping(entity, animationId, remove);
+	    }
 	}
     }
 
