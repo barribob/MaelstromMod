@@ -51,6 +51,7 @@ import com.barribob.MaelstromMod.entity.model.ModelMaelstromWitch;
 import com.barribob.MaelstromMod.entity.model.ModelMageTrader;
 import com.barribob.MaelstromMod.entity.model.ModelNexusSaiyan;
 import com.barribob.MaelstromMod.entity.model.ModelSwampCrawler;
+import com.barribob.MaelstromMod.entity.projectile.EntityHealerOrb;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
@@ -140,6 +141,7 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileMonolithFireball.class, Items.FIRE_CHARGE);
 	registerProjectileRenderer(ProjectileGoldenMissile.class, ModItems.GOLD_PELLET);
 	registerProjectileRenderer(EntityCrimsonTowerSpawner.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(EntityHealerOrb.class, ModItems.INVISIBLE);
     }
 
     /**

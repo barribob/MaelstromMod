@@ -120,7 +120,7 @@ public class ModelMaelstromHealer extends ModelBBAnimated
 
 	left_wing = new ModelRenderer(this);
 	left_wing.setRotationPoint(0.0F, 0.5F, 0.5F);
-	setRotationAngle(left_wing, 0.0F, 0.0F, -0.3491F);
+	setRotationAngle(left_wing, 0.0F, (float) Math.toRadians(-75), -0.3491F);
 	wings.addChild(left_wing);
 	left_wing.cubeList.add(new ModelBox(left_wing, 24, 17, 0.0F, -0.5F, -0.5F, 10, 1, 1, 0.0F, false));
 	left_wing.cubeList.add(new ModelBox(left_wing, 44, 0, 0.0F, 0.5F, 0.0F, 12, 15, 0, 0.0F, false));
@@ -148,7 +148,7 @@ public class ModelMaelstromHealer extends ModelBBAnimated
 
 	right_wing5 = new ModelRenderer(this);
 	right_wing5.setRotationPoint(0.0F, 0.5F, 0.5F);
-	setRotationAngle(right_wing5, 0.0F, 0.0F, 0.3491F);
+	setRotationAngle(right_wing5, 0.0F, (float) Math.toRadians(75), 0.3491F);
 	wings.addChild(right_wing5);
 	right_wing5.cubeList.add(new ModelBox(right_wing5, 24, 17, -10.0F, -0.5F, -0.5F, 10, 1, 1, 0.0F, true));
 	right_wing5.cubeList.add(new ModelBox(right_wing5, 44, 0, -12.0F, 0.5F, 0.0F, 12, 15, 0, 0.0F, true));
@@ -187,11 +187,15 @@ public class ModelMaelstromHealer extends ModelBBAnimated
 	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
 	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 	this.head.rotateAngleX = headPitch * 0.017453292F;
-	this.root.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 12)) * 0.1f;
+	this.root.offsetY += (float) Math.cos(Math.toRadians(ageInTicks * 12)) * 0.1f;
+	this.leftArm.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 4)) * 0.05f;
+	this.rightArm.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 4)) * 0.05f;
+
 	if (entity instanceof EntityMaelstromHealer)
 	{
-	    double acceleration = ((EntityMaelstromHealer) entity).getAcceleration().dotProduct(entity.getForward());
-	    root.rotateAngleX = (float) Math.toRadians(acceleration * 300);
+	    EntityMaelstromHealer healer = ((EntityMaelstromHealer) entity);
+	    double acceleration = healer.getAcceleration().dotProduct(entity.getForward());
+	    root.rotateAngleX += (float) Math.toRadians(acceleration * 300 + (healer.isFlying() ? 20 : 0));
 	}
     }
 

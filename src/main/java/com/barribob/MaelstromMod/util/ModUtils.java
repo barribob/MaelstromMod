@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
@@ -194,9 +195,9 @@ public final class ModUtils
 	return new Vec3d(f1 * f2, f3, f * f2);
     }
 
-    public static Vec3d yVec(float y)
+    public static Vec3d yVec(double heightAboveGround)
     {
-	return new Vec3d(0, y, 0);
+	return new Vec3d(0, heightAboveGround, 0);
     }
 
     public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource)
@@ -607,13 +608,13 @@ public final class ModUtils
 	return (float) Math.max(min, Math.min(max, value));
     }
 
-    public static Vec3d findEntityGroupCenter(Entity mob, int boxDistance)
+    public static Vec3d findEntityGroupCenter(Entity mob, double d)
     {
 	Vec3d groupCenter = mob.getPositionVector();
 	float numMobs = 1;
-	for (EntityLivingBase entity : ModUtils.getEntitiesInBox(mob, new AxisAlignedBB(mob.getPosition()).grow(boxDistance)))
+	for (EntityLivingBase entity : ModUtils.getEntitiesInBox(mob, new AxisAlignedBB(mob.getPosition()).grow(d)))
 	{
-	    if (entity instanceof EntityMaelstromMob)
+	    if (entity instanceof EntityMaelstromMob && !(entity instanceof EntityMaelstromHealer))
 	    {
 		groupCenter = groupCenter.add(entity.getPositionVector());
 		numMobs += 1;
@@ -634,5 +635,35 @@ public final class ModUtils
 	    }
 	}
 	return !hasGround;
+    }
+
+    public static void facePosition(Vec3d pos, Entity entity, float maxYawIncrease, float maxPitchIncrease)
+    {
+	double d0 = pos.x - entity.posX;
+	double d2 = pos.z - entity.posZ;
+	double d1 = pos.y - entity.posY;
+
+	double d3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
+	float f = (float) (MathHelper.atan2(d2, d0) * (180D / Math.PI)) - 90.0F;
+	float f1 = (float) (-(MathHelper.atan2(d1, d3) * (180D / Math.PI)));
+	entity.rotationPitch = updateRotation(entity.rotationPitch, f1, maxPitchIncrease);
+	entity.rotationYaw = updateRotation(entity.rotationYaw, f, maxYawIncrease);
+    }
+
+    private static float updateRotation(float angle, float targetAngle, float maxIncrease)
+    {
+	float f = MathHelper.wrapDegrees(targetAngle - angle);
+
+	if (f > maxIncrease)
+	{
+	    f = maxIncrease;
+	}
+
+	if (f < -maxIncrease)
+	{
+	    f = -maxIncrease;
+	}
+
+	return angle + f;
     }
 }

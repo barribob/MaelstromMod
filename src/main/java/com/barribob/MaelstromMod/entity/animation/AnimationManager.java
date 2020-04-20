@@ -179,7 +179,7 @@ public class AnimationManager
 	{
 	    for (BBAnimation animation : animations.get(entity).values())
 	    {
-		animation.setModelRotations(model, limbSwing, limbSwingAmount, partialTicks);
+		animation.setModelRotations(model, limbSwing, limbSwingAmount, entity.getHealth() <= 0 ? 0 : partialTicks);
 	    }
 	}
     }
