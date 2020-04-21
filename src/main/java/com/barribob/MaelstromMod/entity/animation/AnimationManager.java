@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.EntityLivingBase;
@@ -86,7 +87,7 @@ public class AnimationManager
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event)
     {
-	if (event.phase == Phase.END)
+	if (event.phase == Phase.END && !Minecraft.getMinecraft().isGamePaused())
 	{
 	    List<EntityLivingBase> entitiesToRemove = new ArrayList<EntityLivingBase>();
 	    for (Entry<EntityLivingBase, Map<String, BBAnimation>> entry : animations.entrySet())
