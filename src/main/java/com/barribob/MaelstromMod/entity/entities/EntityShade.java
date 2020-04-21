@@ -2,10 +2,7 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
-import com.barribob.MaelstromMod.entity.animation.Animation;
-import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.util.IAttack;
-import com.barribob.MaelstromMod.init.ModAnimations;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
@@ -38,12 +35,6 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
     {
 	super(worldIn);
 	this.setSize(0.9f, 1.8f);
-    }
-
-    @Override
-    protected void initAnimation()
-    {
-	this.currentAnimation = createAnimation(ModAnimations.SCOUT_SLASH);
     }
 
     @Override
@@ -110,12 +101,6 @@ public class EntityShade extends EntityMaelstromMob implements IAttack
 	{
 	    super.handleStatusUpdate(id);
 	}
-    }
-
-    @Override
-    protected Animation createAnimation(int animationId)
-    {
-	return new AnimationNone();
     }
 
     @Override

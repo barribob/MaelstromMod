@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.proxy;
 
 import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
-import com.barribob.MaelstromMod.init.ModAnimations;
 import com.barribob.MaelstromMod.util.handlers.RenderHandler;
 
 import net.minecraft.block.Block;
@@ -42,7 +41,6 @@ public class ClientProxy extends CommonProxy
 	    Minecraft.getMinecraft().getFramebuffer().enableStencil();
 	}
 
-	ModAnimations.registerAnimations();
 	RenderHandler.registerEntityRenderers();
 	super.init();
     }

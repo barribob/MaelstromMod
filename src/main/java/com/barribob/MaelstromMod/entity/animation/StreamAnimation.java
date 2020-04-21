@@ -1,17 +1,10 @@
 package com.barribob.MaelstromMod.entity.animation;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-
-import com.barribob.MaelstromMod.init.ModAnimations;
-import com.barribob.MaelstromMod.init.ModObfuscation;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 /**
  * Allows for multiple streams of animations to proceed, using lists of
@@ -45,67 +38,6 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
     public static void initStaticAnimations(String csv)
     {
 
-    }
-
-    /**
-     * Constructs a stream animation from a csv file
-     * 
-     * @param csv
-     * @param modelMovers
-     */
-    public StreamAnimation(int id)
-    {
-	AnimationData data = ModAnimations.getAnimationByIdUncached(id);
-	List<List<AnimationClip<T>>> animation = new ArrayList<List<AnimationClip<T>>>();
-
-	int[] previousAngles = new int[data.numStreams]; // Stores the previous angles
-	int[] previousTicks = new int[data.numStreams]; // Stores the previous ticks that the previous angle was at
-	int ticks = 0; // Initialize ticks to be 0
-	List<BiConsumer<T, Float>> modelMovers = new ArrayList<BiConsumer<T, Float>>();
-	for (int stream = 0; stream < data.numStreams; stream++)
-	{
-	    // Build the model movers specified by the first line in the animation file
-	    final int streamFinal = stream;
-	    animation.add(new ArrayList<AnimationClip<T>>());
-	    modelMovers.add((model, f) -> {
-		String[] fields = data.movers[streamFinal].split(" ");
-		try
-		{
-		    Field modelBox = model.getClass().getField(fields[0]);
-		    String rotationName = "rotateAngle" + fields[1];
-		    String obfName = ModObfuscation.toObfuscated.get(rotationName);
-		    Field angle = ReflectionHelper.findField(modelBox.get(model).getClass(), rotationName, obfName);
-		    angle.set(modelBox.get(model), fields[1].startsWith("Z") ? f : -f); // Negative because blockbench makes x and y angle negative for some reason
-		}
-		catch (NoSuchFieldException | SecurityException | IllegalAccessException e)
-		{
-		    System.err.println("Animation failure: Failed to access field " + data.movers[streamFinal] + " " + e);
-		    return;
-		}
-	    });
-	}
-
-	for (int[] animationAngles : data.animations)
-	{
-	    ticks++;
-	    for (int stream = 0; stream < data.numStreams; stream++)
-	    {
-		int angle = animationAngles[stream];
-		if (angle != Integer.MAX_VALUE) // Only add an animation clip to a cell that has a number
-		{
-		    animation.get(stream).add(new AnimationClip<T>(ticks - previousTicks[stream], previousAngles[stream], angle, modelMovers.get(stream)));
-		    previousAngles[stream] = angle;
-		    previousTicks[stream] = ticks;
-		}
-	    }
-	}
-
-	this.animations = animation;
-	activeAnimations = new int[animations.size()];
-	for (int stream = 0; stream < animations.size(); stream++)
-	{
-	    activeAnimations[stream] = animations.get(stream).size() - 1;
-	}
     }
 
     @Override

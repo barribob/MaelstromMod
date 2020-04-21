@@ -191,6 +191,13 @@ public class ParticleManager
 	spawnParticleWithColor(particle, baseColor);
     }
 
+    public static void spawnSmoke2(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(15, 25), true);
+	particle.setParticleTextureRange(80, 23, 2);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
     private static void spawnParticleWithColor(Particle particle, Vec3d baseColor)
     {
 	baseColor = ModColors.variateColor(baseColor, 0.2f);

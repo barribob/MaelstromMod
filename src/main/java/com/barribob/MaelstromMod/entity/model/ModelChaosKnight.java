@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
-public class ModelChaosKnight extends ModelAnimated
+public class ModelChaosKnight extends ModelBBAnimated
 {
     public final ModelRenderer root;
     public final ModelRenderer Chest1;
