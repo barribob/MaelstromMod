@@ -33,13 +33,18 @@ public class BossSpawnerLogic extends DisappearingSpawnerLogic
 	    return;
 	}
 
-	Entity entity = ItemMonsterPlacer.spawnCreature(world.get(), new ResourceLocation(this.getEntityData().mobId), pos.get().getX() + 0.5, pos.get().getY(), pos.get().getZ() + 0.5);
-
-	if (entity != null && entity instanceof EntityLeveledMob)
+	while (this.count < this.maxCount)
 	{
-	    EntityLeveledMob leveledMob = (EntityLeveledMob) entity;
-	    leveledMob.setElement(ModRandom.choice(getEntityData().possibleElements, this.world.get().rand, getEntityData().elementalWeights).next());
-	    leveledMob.setLevel(level);
+	    MobSpawnData data = getEntityData();
+	    Entity entity = ItemMonsterPlacer.spawnCreature(world.get(), new ResourceLocation(data.mobId), pos.get().getX() + 0.5, pos.get().getY(), pos.get().getZ() + 0.5);
+
+	    if (entity != null && entity instanceof EntityLeveledMob)
+	    {
+		EntityLeveledMob leveledMob = (EntityLeveledMob) entity;
+		leveledMob.setElement(ModRandom.choice(data.possibleElements, this.world.get().rand, data.elementalWeights).next());
+		leveledMob.setLevel(level);
+	    }
+	    this.count += data.count;
 	}
 
 	this.onSpawn(world.get(), pos.get());
