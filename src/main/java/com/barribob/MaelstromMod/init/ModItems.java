@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.items.ItemBase;
+import com.barribob.MaelstromMod.items.ItemBlockvoid;
 import com.barribob.MaelstromMod.items.ItemCatalyst;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
@@ -46,6 +47,7 @@ import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
 import com.barribob.MaelstromMod.items.tools.ToolExplosiveDagger;
 import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
 import com.barribob.MaelstromMod.items.tools.ToolLongsword;
+import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
 import com.barribob.MaelstromMod.items.tools.ToolSword;
 import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
 import com.barribob.MaelstromMod.util.Element;
@@ -55,6 +57,7 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -81,6 +84,7 @@ public class ModItems
     private static final int GUN_USE_TIME = 12000;
     private static final int STAFF_USE_TIME = 9000;
     private static final ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0);
+    private static final ToolMaterial ENERGETIC_PICKAXE = EnumHelper.addToolMaterial("energetic_pickaxe", 5, 8000, 100, 6, 15);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
@@ -196,6 +200,7 @@ public class ModItems
     public static final Item KANSHOU = new ToolDagger("kanshou", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
     public static final Item BAKUYA = new ToolDagger("bakuya", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", DAGGER, LevelHandler.CLIFF_ENDGAME);
+    public static final Item ENERGETIC_STEEL_SWORD = new ToolSword("energetic_steel_sword", SWORD, LevelHandler.CRIMSON_START, Element.CRIMSON);
 
     /*
      * Armors
@@ -244,6 +249,20 @@ public class ModItems
     public static final Item BLACK_GOLD_LEGGINGS = new ModArmorBase("black_gold_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CLIFF_ENDGAME, "black_gold").setElement(Element.GOLDEN).setArmorBonusDesc("black_gold_full_set");
     public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CLIFF_ENDGAME, "black_gold").setElement(Element.GOLDEN).setArmorBonusDesc("black_gold_full_set");
 
+    public static final Item ENERGETIC_STEEL_HELMET =
+	    new ModArmorBase("energetic_steel_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+    public static final Item ENERGETIC_STEEL_CHESTPLATE =
+	    new ModArmorBase("energetic_steel_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+    public static final Item ENERGETIC_STEEL_LEGGINGS =
+	    new ModArmorBase("energetic_steel_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+    public static final Item ENERGETIC_STEEL_BOOTS =
+	    new ModArmorBase("energetic_steel_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+
+    public static final Item FADESTEEL_HELMET = new ModArmorBase("fadesteel_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
+    public static final Item FADESTEEL_CHESTPLATE = new ModArmorBase("fadesteel_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
+    public static final Item FADESTEEL_LEGGINGS = new ModArmorBase("fadesteel_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
+    public static final Item FADESTEEL_BOOTS = new ModArmorBase("fadesteel_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
+
     public static final Item AMMO_CASE = new ItemAmmoCase("ammo_case", LevelHandler.INVASION);
     public static final Item CHASMIUM_AMMO_CASE = new ItemAmmoCase("chasmium_ammo_case", LevelHandler.AZURE_OVERWORLD);
     public static final Item BLACK_GOLD_AMMO_CASE = new ItemAmmoCase("black_gold_ammo_case", LevelHandler.CLIFF_ENDGAME);
@@ -254,4 +273,14 @@ public class ModItems
     public static final Item GOLD_PELLET = new ItemBase("gold_pellet", null);
     public static final Item SWAMP_SLIME = new ItemTradable("swamp_slime", ModCreativeTabs.ITEMS);
     public static final Item FLY_WINGS = new ItemTradable("fly_wings", ModCreativeTabs.ITEMS);
+
+    /**
+     * Crimson Dimension Items
+     */
+    
+    public static final Item ENERGETIC_STEEL_PICKAXE = new ToolPickaxe("energetic_steel_pickaxe", ENERGETIC_PICKAXE);
+    public static final Item STONEBRICK_BLOCKVOID = new ItemBlockvoid("stonebrick_blockvoid", Blocks.STONEBRICK, 30);
+    public static final Item OBSIDIAN_BLOCKVOID = new ItemBlockvoid("obsidian_blockvoid", Blocks.OBSIDIAN, 1000);
+    public static final Item FURNACE_BRICKS_BLOCKVOID = new ItemBlockvoid("furnace_bricks_blockvoid", ModBlocks.FURNACE_BRICKS, 30);
+    public static final Item REDSTONE_BRICK_BLOCKVOID = new ItemBlockvoid("redstone_brick_blockvoid", ModBlocks.REDSTONE_BRICK, 30);
 }

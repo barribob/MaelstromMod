@@ -20,6 +20,11 @@ item.minotaur_horn.name=Maelstrom Minotaur Horn
 item.ammo_case.name=Ammo Case
 item.chasmium_ammo_case.name=Chasmium Ammo Case
 item.black_gold_ammo_case.name=Golden Ammo Case
+item.energetic_steel_pickaxe.name=Energetic Steel Pickaxe
+item.stonebrick_blockvoid.name=Stonebrick Blockvoid
+item.obsidian_blockvoid.name=Obsidian Blockvoid
+item.furnace_bricks_blockvoid.name=Furnace Bricks Blockvoid
+item.redstone_brick_blockvoid.name=Redstone Bricks Blockvoid
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -73,6 +78,7 @@ item.ancient_battleaxe.name=Ancient Battleaxe
 item.magisteel_sword.name=Magisteel Sword
 item.gold_stone_longsword.name=Emperor's Sword
 item.chasmium_sword.name=Chasmium Sword
+item.energetic_steel_sword.name=Energetic Steel Sword
 
 //———————————————————————————————————————————————————————————
 // Armor
@@ -111,6 +117,14 @@ item.goltox_helmet.name=Goltox Helmet
 item.goltox_chestplate.name=Goltox Chestplate
 item.goltox_leggings.name=Goltox Leggings
 item.goltox_boots.name=Goltox Boots
+item.energetic_steel_helmet.name=Energetic Steel Helmet
+item.energetic_steel_chestplate.name=Energetic Steel Chestplate
+item.energetic_steel_leggings.name=Energetic Steel Leggings
+item.energetic_steel_boots.name=Energetic Steel Boots
+item.fadesteel_helmet.name=Fadesteel Helmet
+item.fadesteel_chestplate.name=Fadesteel Chestplate
+item.fadesteel_leggings.name=Fadesteel Leggings
+item.fadesteel_boots.name=Fadesteel Boots
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
@@ -502,7 +516,10 @@ mm.desc.maelstrom_full_set=Full set: Resistance
 mm.desc.goltox_full_set=Full set: Poison Reduction
 mm.desc.swamp_full_set=Full set: Strength
 mm.desc.nyan_full_set=Full set: Rainbows when sprinting
+mm.desc.energetic_steel_full_set=Full set: Jump Boost and Speed
+mm.desc.fadesteel_full_set=Full set: Partial Knockback Resistance
 mm.desc.nexus_only_portal=In survival mode, accessed only in the Nexus dimension
+mm.desc.blockvoid=Can hold, place, and mine %s
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

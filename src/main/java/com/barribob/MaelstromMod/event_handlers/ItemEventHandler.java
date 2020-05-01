@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
@@ -109,6 +110,25 @@ public class ItemEventHandler
 		    player.ticksExisted % 40 == 0)
 	    {
 		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 0));
+	    }
+
+	    if (!player.world.isRemote && player.ticksExisted % 40 == 0)
+	    {
+		if (helmet.equals(ModItems.ENERGETIC_STEEL_HELMET) && chestplate.equals(ModItems.ENERGETIC_STEEL_CHESTPLATE) && leggings.equals(ModItems.ENERGETIC_STEEL_LEGGINGS) && boots.equals(ModItems.ENERGETIC_STEEL_BOOTS))
+		{
+		    player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
+		    player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 60, 1));
+		}
+
+		if (helmet.equals(ModItems.FADESTEEL_HELMET) && chestplate.equals(ModItems.FADESTEEL_CHESTPLATE) && leggings.equals(ModItems.FADESTEEL_LEGGINGS) && boots.equals(ModItems.FADESTEEL_BOOTS))
+		{
+		    player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.357);
+		}
+		// Using 0.357 as a value unlikely to be chosen by modders, so I can expect to enable and disable this without conflicting
+		else if (player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getAttributeValue() == 0.357)
+		{
+		    player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
+		}
 	    }
 	}
     }
