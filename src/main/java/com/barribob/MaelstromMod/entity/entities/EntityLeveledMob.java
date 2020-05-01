@@ -29,8 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * A base class for the mod's mobs. It includes a hodgepodge of attributes and
- * abilities. One is to scale nicely with the leveling system.
+ * A base class for the mod's mobs. It includes a hodgepodge of attributes and abilities. One is to scale nicely with the leveling system.
  *
  */
 public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob, IElement, LeapingEntity
@@ -115,18 +114,25 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	    currentAnimation.update();
 	}
 
-	if (!world.isRemote && this.getAttackTarget() == null)
+	if (!world.isRemote)
 	{
-	    if (this.regenStartTimer > this.regenStartTime)
+	    if (this.getAttackTarget() == null)
 	    {
-		if (this.ticksExisted % 20 == 0)
+		if (this.regenStartTimer > this.regenStartTime)
 		{
-		    this.heal(this.getMaxHealth() * 0.015f);
+		    if (this.ticksExisted % 20 == 0)
+		    {
+			this.heal(this.getMaxHealth() * 0.015f);
+		    }
+		}
+		else
+		{
+		    this.regenStartTimer++;
 		}
 	    }
 	    else
 	    {
-		this.regenStartTimer++;
+		this.regenStartTimer = 0;
 	    }
 	}
 
@@ -287,8 +293,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     }
 
     /**
-     * Adds an event to be executed at a later time. Negative ticks are executed
-     * immediately.
+     * Adds an event to be executed at a later time. Negative ticks are executed immediately.
      * 
      * @param runnable
      * @param ticksFromNow
