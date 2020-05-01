@@ -6,10 +6,12 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -74,6 +76,17 @@ public class ProjectileMonolithFireball extends ProjectileGun
 	int fireFactor = this.isBurning() ? 8 : 3;
 	ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getGunDamage((e)), this.shootingEntity, this.getPositionVector(),
 		DamageSource.causeExplosionDamage(this.shootingEntity), knockbackFactor, fireFactor);
+	if (!world.isRemote)
+	{
+	    for (int j = 0; j < 5; j++)
+	    {
+		Vec3d pos = getPositionVector().add(ModRandom.randVec().scale(EXPOSION_AREA_FACTOR - 1));
+		if (world.isBlockFullCube(new BlockPos(pos).down()) && world.isAirBlock(new BlockPos(pos)))
+		{
+		    world.setBlockState(new BlockPos(pos), Blocks.FIRE.getDefaultState());
+		}
+	    }
+	}
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
 	super.onHit(result);
     }
