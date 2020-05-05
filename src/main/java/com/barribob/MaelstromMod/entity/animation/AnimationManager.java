@@ -134,7 +134,12 @@ public class AnimationManager
 	}
     }
 
-    public static void setModelRotations(ModelBase model, EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks)
+    /**
+     * This has to be separate from the animation below because we want to add in passive head and arm animations in the model itself.
+     * 
+     * @param model
+     */
+    public static void resetModel(ModelBase model)
     {
 	/**
 	 * This part solves an issue that comes from the fact that all instances of a particular entity share the same model and thus will each alter the models values. Those values can carry over to the next
@@ -174,7 +179,10 @@ public class AnimationManager
 		});
 	    }
 	}
+    }
 
+    public static void setModelRotations(ModelBase model, EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks)
+    {
 	// Update all models for each entity
 	if (animations.containsKey(entity))
 	{

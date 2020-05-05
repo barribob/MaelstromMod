@@ -52,7 +52,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 	    float distance = getDistance(target);
 	    if (distance > 2)
 	    {
-		ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.45 * Math.sqrt(distance)), 0.4f);
+		ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.45 * Math.sqrt(distance)), 0.5f);
 	    }
 	}, 5);
 
@@ -119,7 +119,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 
     private final Consumer<EntityLivingBase> spinSlash = (target) -> {
 	ModBBAnimations.animation(this, "chaos_knight.triple_slash", false);
-	Runnable leap = () -> ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.4f * Math.sqrt(getDistance(target))), 0.4f);
+	Runnable leap = () -> ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.4f * Math.sqrt(getDistance(target))), 0.5f);
 	Runnable meleeAttack = () -> {
 	    ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.5f, 0, false);
 	    playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));

@@ -420,24 +420,17 @@ public class ModelChaosKnight extends ModelBBAnimated
     @Override
     public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTickTime)
     {
+	super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTickTime);
+
 	float limbSwingFactor = 1.0f;
 	this.Leg1.rotateAngleX = -limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 	this.leg2.rotateAngleX = limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 
 	this.leftShoulder.rotateAngleX = (float) Math.toRadians(90);
 	this.rightShoulder.rotateAngleX = (-0.2F - limbSwingFactor * this.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-	
-	this.rightShoulder.rotateAngleY = 0;
-	this.rightShoulder.rotateAngleZ = 0;
-	this.axe0.rotateAngleX = 0;
-	this.root.rotateAngleX = 0;
-	this.root.rotateAngleY = 0;
 
 	this.leftArm2.rotateAngleZ = (float) Math.toRadians(-90);
-	this.Chest1.rotateAngleX = 0;
 	this.Chest1.rotateAngleY = (float) Math.toRadians(-180);
-
-	super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTickTime);
     }
 
     @Override
@@ -445,6 +438,8 @@ public class ModelChaosKnight extends ModelBBAnimated
     {
 	this.Head.rotateAngleY = netHeadYaw * 0.017453292F;
 	this.Head.rotateAngleX = headPitch * 0.017453292F;
+
+	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
     }
 
     private float triangleWave(float p_78172_1_, float p_78172_2_)
