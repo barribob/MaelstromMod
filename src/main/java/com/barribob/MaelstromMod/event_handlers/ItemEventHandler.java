@@ -129,6 +129,15 @@ public class ItemEventHandler
 		{
 		    player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
 		}
+
+		if (helmet.equals(ModItems.ELYSIUM_HELMET) && chestplate.equals(ModItems.ELYSIUM_CHESTPLATE) && leggings.equals(ModItems.ELYSIUM_LEGGINGS) && boots.equals(ModItems.ELYSIUM_BOOTS))
+		{
+		    // Every 2 seconds * 60 = approximately every 2 minutes
+		    if (player.getRNG().nextInt(60) == 0)
+		    {
+			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 140, 3));
+		    }
+		}
 	    }
 	}
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileSwordSlash;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -19,9 +20,9 @@ import net.minecraft.world.World;
 
 public class ItemMagisteelSword extends ToolSword
 {
-    public ItemMagisteelSword(String name, ToolMaterial material, float level)
+    public ItemMagisteelSword(String name, ToolMaterial material, float level, Element element)
     {
-	super(name, material, level);
+	super(name, material, level, element);
     }
 
     @Override
@@ -37,6 +38,7 @@ public class ItemMagisteelSword extends ToolSword
 	    if (atkCooldown > 0.9F)
 	    {
 		Projectile proj = new ProjectileSwordSlash(player.world, player, attackDamage);
+		proj.setElement(this.getElement());
 		proj.setTravelRange(4);
 		proj.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5f, 0);
 		player.world.spawnEntity(proj);

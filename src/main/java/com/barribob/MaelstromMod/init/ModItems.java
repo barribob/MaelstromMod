@@ -194,13 +194,13 @@ public class ModItems
     public static final Item ANCIENT_BATTLEAXE = new ToolDragonslayer("ancient_battleaxe", BATTLEAXE, LevelHandler.CLIFF_OVERWORLD);
     public static final Item BROWNSTONE_SWORD = new ToolSword("brownstone_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
     public static final Item CRUSADE_SWORD = new ToolCrusadeSword("crusade_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
-    public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", SWORD, LevelHandler.CLIFF_OVERWORLD);
+    public static final Item MAGISTEEL_SWORD = new ItemMagisteelSword("magisteel_sword", SWORD, LevelHandler.CLIFF_OVERWORLD, Element.NONE);
     public static final Item GOLD_STONE_LONGSWORD = new ToolLongsword("gold_stone_longsword", SWORD, LevelHandler.CLIFF_ENDGAME);
     public static final Item BLACK_GOLD_SWORD = new ToolSword("black_gold_sword", SWORD, LevelHandler.CLIFF_ENDGAME, Element.GOLDEN);
     public static final Item KANSHOU = new ToolDagger("kanshou", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
     public static final Item BAKUYA = new ToolDagger("bakuya", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", DAGGER, LevelHandler.CLIFF_ENDGAME);
-    public static final Item ENERGETIC_STEEL_SWORD = new ToolSword("energetic_steel_sword", SWORD, LevelHandler.CRIMSON_START, Element.CRIMSON);
+    public static final Item ENERGETIC_STEEL_SWORD = new ItemMagisteelSword("energetic_steel_sword", SWORD, LevelHandler.CRIMSON_START, Element.CRIMSON);
 
     /*
      * Armors
@@ -262,6 +262,11 @@ public class ModItems
     public static final Item FADESTEEL_CHESTPLATE = new ModArmorBase("fadesteel_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
     public static final Item FADESTEEL_LEGGINGS = new ModArmorBase("fadesteel_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
     public static final Item FADESTEEL_BOOTS = new ModArmorBase("fadesteel_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
+
+    public static final Item ELYSIUM_HELMET = new ModArmorBase("elysium_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CRIMSON_END, "elysium").setArmorBonusDesc("elysium_full_set");
+    public static final Item ELYSIUM_CHESTPLATE = new ModArmorBase("elysium_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CRIMSON_END, "elysium").setArmorBonusDesc("elysium_full_set");
+    public static final Item ELYSIUM_LEGGINGS = new ModArmorBase("elysium_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CRIMSON_END, "elysium").setArmorBonusDesc("elysium_full_set");
+    public static final Item ELYSIUM_BOOTS = new ModArmorBase("elysium_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CRIMSON_END, "elysium").setArmorBonusDesc("elysium_full_set");
 
     public static final Item AMMO_CASE = new ItemAmmoCase("ammo_case", LevelHandler.INVASION);
     public static final Item CHASMIUM_AMMO_CASE = new ItemAmmoCase("chasmium_ammo_case", LevelHandler.AZURE_OVERWORLD);

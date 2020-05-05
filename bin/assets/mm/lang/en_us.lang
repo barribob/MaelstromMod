@@ -125,6 +125,10 @@ item.fadesteel_helmet.name=Fadesteel Helmet
 item.fadesteel_chestplate.name=Fadesteel Chestplate
 item.fadesteel_leggings.name=Fadesteel Leggings
 item.fadesteel_boots.name=Fadesteel Boots
+item.elysium_helmet.name=Elysium Helmet
+item.elysium_chestplate.name=Elysium Chestplate
+item.elysium_leggings.name=Elysium Leggings
+item.elysium_boots.name=Elysium Boots
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
@@ -518,6 +522,7 @@ mm.desc.swamp_full_set=Full set: Strength
 mm.desc.nyan_full_set=Full set: Rainbows when sprinting
 mm.desc.energetic_steel_full_set=Full set: Jump Boost and Speed
 mm.desc.fadesteel_full_set=Full set: Partial Knockback Resistance
+mm.desc.elysium_full_set=Full set: Random Strong Regeneration
 mm.desc.nexus_only_portal=In survival mode, accessed only in the Nexus dimension
 mm.desc.blockvoid=Can hold, place, and mine %s
 
