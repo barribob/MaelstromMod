@@ -1,5 +1,5 @@
 {
-   "parent": "mm:item/handheld125",
+   "parent": "item/handheld",
    "textures": {
        "layer0": "mm:items/venom_dagger"
    }
