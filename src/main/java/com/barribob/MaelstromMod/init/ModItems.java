@@ -201,6 +201,7 @@ public class ModItems
     public static final Item BAKUYA = new ToolDagger("bakuya", DAGGER, LevelHandler.CLIFF_ENDGAME).setInformation(kanshouBakuya);
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", DAGGER, LevelHandler.CLIFF_ENDGAME);
     public static final Item ENERGETIC_STEEL_SWORD = new ItemMagisteelSword("energetic_steel_sword", SWORD, LevelHandler.CRIMSON_START, Element.CRIMSON);
+    public static final Item ENERGETIC_STEEL_CLEAVER = new ToolDragonslayer("energetic_steel_cleaver", BATTLEAXE, LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
 
     /*
      * Armors

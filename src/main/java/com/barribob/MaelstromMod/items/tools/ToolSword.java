@@ -127,4 +127,10 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
     {
 	return element;
     }
+
+    public ToolSword setElement(Element element)
+    {
+	this.element = element;
+	return this;
+    }
 }
