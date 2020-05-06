@@ -55,6 +55,12 @@ item.brownstone_cannon.name=Brownstone Cannon
 item.golden_fireball_staff.name=Golden Inferno Staff
 item.cross_of_aqua.name=Poseidon's Cross
 item.golden_quake_staff.name=Golden Seismic Staff
+item.crimson_rune_staff.name=Crimson Rune Staff
+item.energized_pistol.name=Energized Pistol
+item.energized_repeater.name=Energized Repeater
+item.energized_shotgun.name=Energized Shotgun
+item.energized_piercer.name=Energized Piercer
+item.energized_musket.name=Energized Musket
 
 //———————————————————————————————————————————————————————————
 // Weapons
@@ -526,6 +532,7 @@ mm.desc.fadesteel_full_set=Full set: Partial Knockback Resistance
 mm.desc.elysium_full_set=Full set: Random Strong Regeneration
 mm.desc.nexus_only_portal=In survival mode, accessed only in the Nexus dimension
 mm.desc.blockvoid=Can hold, place, and mine %s
+mm.desc.rune_staff=Shoots short range magic
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

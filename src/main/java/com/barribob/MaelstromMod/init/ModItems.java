@@ -30,6 +30,7 @@ import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
 import com.barribob.MaelstromMod.items.gun.ItemRepeater;
 import com.barribob.MaelstromMod.items.gun.ItemRifle;
+import com.barribob.MaelstromMod.items.gun.ItemRuneStaff;
 import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.gun.bullet.BrownstoneCannon;
@@ -76,7 +77,7 @@ public class ModItems
     private static final ToolMaterial SWORD = EnumHelper.addToolMaterial("rare_sword", 2, 500, 8.0f, BASE_MELEE_DAMAGE, 20);
     private static final ToolMaterial BATTLEAXE = EnumHelper.addToolMaterial("rare_battleaxe", 2, 400, 8.0f, BASE_MELEE_DAMAGE, 20);
     public static final int GUN_USE_TIME = 12000;
-    private static final int STAFF_USE_TIME = 9000;
+    public static final int STAFF_USE_TIME = 9000;
     private static final ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0);
     private static final ToolMaterial ENERGETIC_PICKAXE = EnumHelper.addToolMaterial("energetic_pickaxe", 5, 8000, 100, 6, 15);
 
@@ -167,6 +168,7 @@ public class ModItems
     public static final Item GOLDEN_QUAKE_STAFF = new ItemQuakeStaff("golden_quake_staff", 25, STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS).setElement(Element.GOLDEN);
     public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 60, STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS);
     public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS).setFactory(new GoldenFireball()).setElement(Element.GOLDEN);
+    public static final Item CRIMSON_RUNE_STAFF = new ItemRuneStaff("crimson_rune_staff", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
 
     /**
      * Melee
