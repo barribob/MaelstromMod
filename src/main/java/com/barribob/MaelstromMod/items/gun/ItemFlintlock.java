@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -17,9 +16,9 @@ import net.minecraft.world.World;
 
 public class ItemFlintlock extends ItemGun
 {
-    public ItemFlintlock(String name, int cooldown, int useTime, float level, CreativeTabs tab)
+    public ItemFlintlock(String name, float level)
     {
-	super(name, cooldown, 8, useTime, level, tab);
+	super(name, 40, 8, level);
     }
 
     @Override
@@ -32,6 +31,7 @@ public class ItemFlintlock extends ItemGun
 	float velocity = 5.0f;
 
 	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
+	projectile.setElement(getElement());
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(50);
 

@@ -2,12 +2,13 @@ package com.barribob.MaelstromMod.items.gun;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,12 +25,11 @@ import net.minecraft.world.World;
  */
 public class ItemMusket extends ItemGun
 {
-    private float meleeDamage;
+    private float meleeDamage = 5;
     
-    public ItemMusket(String name, int cooldown, int maxDamage, float meleeDamage, float level, CreativeTabs tab)
+    public ItemMusket(String name, float level)
     {
-	super(name, cooldown, 8, maxDamage, level, tab);
-	this.meleeDamage = meleeDamage;
+	super(name, 40, 8, level);
     }
 
     /**
@@ -45,6 +45,7 @@ public class ItemMusket extends ItemGun
 	float velocity = 5.0f;
 
 	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
+	projectile.setElement(getElement());
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(50);
 
@@ -58,17 +59,15 @@ public class ItemMusket extends ItemGun
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("musket"));
     }
     
-    /**
-     * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-     */
     @Override
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
     {
-        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
+	Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+	float attackDamage = this.meleeDamage * LevelHandler.getMultiplierFromLevel(this.getLevel()) * ModConfig.balance.weapon_damage;
 
-        if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
+	if (slot == EntityEquipmentSlot.MAINHAND)
         {
-	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.meleeDamage, 0));
+	    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", attackDamage, 0));
             multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
         }
 

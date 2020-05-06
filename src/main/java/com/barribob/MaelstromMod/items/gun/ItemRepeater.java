@@ -3,10 +3,10 @@ package com.barribob.MaelstromMod.items.gun;
 import java.util.List;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileRepeater;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -21,9 +21,9 @@ public class ItemRepeater extends ItemGun
 {
     int maxRepeats = 5;
 
-    public ItemRepeater(String name, int cooldown, int useTime, float level, CreativeTabs tab)
+    public ItemRepeater(String name, float level)
     {
-	super(name, cooldown, 2, useTime, level, tab);
+	super(name, 60, 2, level);
     }
 
     @Override
@@ -55,7 +55,8 @@ public class ItemRepeater extends ItemGun
 	float inaccuracy = 4.0f;
 	float velocity = 3.0f;
 
-	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
+	Projectile projectile = new ProjectileRepeater(world, player, this.getEnchantedDamage(stack), stack);
+	projectile.setElement(getElement());
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(30);
 

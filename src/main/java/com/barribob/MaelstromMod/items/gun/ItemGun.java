@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModEnchantments;
+import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
@@ -16,7 +18,6 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,20 +52,20 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
     };
     private Element element = Element.NONE;
 
-    public ItemGun(String name, int cooldown, float damage, float useTime, float level, CreativeTabs tab)
+    public ItemGun(String name, int cooldown, float damage, float level)
     {
-	super(name, tab);
+	super(name, ModCreativeTabs.ITEMS);
 	this.maxStackSize = 1;
 	this.maxCooldown = cooldown;
 	this.level = level;
-	this.setMaxDamage((int) (useTime / cooldown));
+	this.setMaxDamage(ModItems.GUN_USE_TIME / cooldown);
 	this.damage = damage;
 	this.factory = new StandardBullet();
     }
 
-    public ItemGun(String name, int cooldown, float damage, float useTime, float level, CreativeTabs tab, Element element)
+    public ItemGun(String name, int cooldown, float damage, float level, Element element)
     {
-	this(name, cooldown, damage, useTime, level, tab);
+	this(name, cooldown, damage, level);
 	this.element = element;
     }
 

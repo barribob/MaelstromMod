@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileAzureBullet;
 import com.barribob.MaelstromMod.items.ItemBase;
 import com.barribob.MaelstromMod.items.ItemBlockvoid;
 import com.barribob.MaelstromMod.items.ItemCatalyst;
@@ -27,6 +25,7 @@ import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMeteorStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
+import com.barribob.MaelstromMod.items.gun.ItemPiercer;
 import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
 import com.barribob.MaelstromMod.items.gun.ItemRepeater;
@@ -34,11 +33,7 @@ import com.barribob.MaelstromMod.items.gun.ItemRifle;
 import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.gun.bullet.BrownstoneCannon;
-import com.barribob.MaelstromMod.items.gun.bullet.BulletFactory;
-import com.barribob.MaelstromMod.items.gun.bullet.GoldenBullet;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
-import com.barribob.MaelstromMod.items.gun.bullet.GoldenRepeater;
-import com.barribob.MaelstromMod.items.gun.bullet.RedstoneRepeater;
 import com.barribob.MaelstromMod.items.tools.ItemMagisteelSword;
 import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
 import com.barribob.MaelstromMod.items.tools.ToolCrusadeSword;
@@ -56,7 +51,6 @@ import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -81,7 +75,7 @@ public class ModItems
     private static final ToolMaterial DAGGER = EnumHelper.addToolMaterial("rare_dagger", 2, 600, 8.0f, BASE_MELEE_DAMAGE, 20);
     private static final ToolMaterial SWORD = EnumHelper.addToolMaterial("rare_sword", 2, 500, 8.0f, BASE_MELEE_DAMAGE, 20);
     private static final ToolMaterial BATTLEAXE = EnumHelper.addToolMaterial("rare_battleaxe", 2, 400, 8.0f, BASE_MELEE_DAMAGE, 20);
-    private static final int GUN_USE_TIME = 12000;
+    public static final int GUN_USE_TIME = 12000;
     private static final int STAFF_USE_TIME = 9000;
     private static final ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0);
     private static final ToolMaterial ENERGETIC_PICKAXE = EnumHelper.addToolMaterial("energetic_pickaxe", 5, 8000, 100, 6, 15);
@@ -129,34 +123,31 @@ public class ModItems
      * Guns
      */
 
-    public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", 40, GUN_USE_TIME, LevelHandler.INVASION, ModCreativeTabs.ITEMS);
-    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", 60, GUN_USE_TIME, LevelHandler.AZURE_OVERWORLD, ModCreativeTabs.ITEMS);
-    public static final Item MUSKET = new ItemMusket("musket", 40, GUN_USE_TIME, 5.0f, LevelHandler.AZURE_OVERWORLD, ModCreativeTabs.ITEMS);
-    public static final Item REPEATER = new ItemRepeater("repeater", 60, GUN_USE_TIME, LevelHandler.AZURE_OVERWORLD, ModCreativeTabs.ITEMS).setBullet(new RedstoneRepeater());
-    public static final Item RIFLE = new ItemRifle("rifle", 60, GUN_USE_TIME, LevelHandler.AZURE_OVERWORLD, ModCreativeTabs.ITEMS).setInformation((tooltip) -> {
+    public static final Item FLINTLOCK = new ItemFlintlock("flintlock_pistol", LevelHandler.INVASION);
+    public static final Item BOOMSTICK = new ItemBoomstick("boomstick", LevelHandler.AZURE_OVERWORLD);
+    public static final Item MUSKET = new ItemMusket("musket", LevelHandler.AZURE_OVERWORLD);
+    public static final Item REPEATER = new ItemRepeater("repeater", LevelHandler.AZURE_OVERWORLD);
+    public static final Item RIFLE = new ItemRifle("rifle", LevelHandler.AZURE_OVERWORLD).setInformation((tooltip) -> {
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("rifle"));
     });
-    public static final Item ELK_BLASTER = new ItemRifle("elk_blaster", 60, GUN_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS).setInformation((tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("elk_rifle"));
-    }).setBullet(new BulletFactory()
-    {
-	@Override
-	public Projectile get(World world, EntityPlayer player, ItemStack stack, float damage)
-	{
-	    return new ProjectileAzureBullet(world, player, damage, stack);
-	}
-    }).setElement(Element.AZURE);
-    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 80, GUN_USE_TIME, null, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
-    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", 40, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
-    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS).setBullet(new GoldenRepeater()).setElement(Element.GOLDEN);
-    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
-    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", 60, GUN_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS).setBullet(new GoldenBullet()).setElement(Element.GOLDEN);
+    public static final Item ELK_BLASTER = new ItemPiercer("elk_blaster", LevelHandler.AZURE_ENDGAME).setElement(Element.AZURE);
+    public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 80, null, LevelHandler.AZURE_ENDGAME);
+    public static final Item GOLDEN_FLINTLOCK = new ItemFlintlock("golden_pistol", LevelHandler.CLIFF_ENDGAME).setElement(Element.GOLDEN);
+    public static final Item GOLDEN_REPEATER = new ItemRepeater("golden_repeater", LevelHandler.CLIFF_ENDGAME).setElement(Element.GOLDEN);
+    public static final Item GOLDEN_SHOTGUN = new ItemBoomstick("golden_shotgun", LevelHandler.CLIFF_ENDGAME).setElement(Element.GOLDEN);
+    public static final Item GOLDEN_RIFLE = new ItemRifle("golden_rifle", LevelHandler.CLIFF_ENDGAME).setElement(Element.GOLDEN);
+
+    public static final Item ENERGIZED_PISTOL = new ItemFlintlock("energized_pistol", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
+    public static final Item ENERGIZED_REPEATER = new ItemRepeater("energized_repeater", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
+    public static final Item ENERGIZED_SHOTGUN = new ItemBoomstick("energized_shotgun", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
+    public static final Item ENERGIZED_PIERCER = new ItemPiercer("energized_piercer", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
+    public static final Item ENERGIZED_MUSKET = new ItemMusket("energized_musket", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
 
     /**
      * Staves
      */
 
-    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", GUN_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
+    public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
     public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 40, STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
     public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 25, STAFF_USE_TIME, LevelHandler.AZURE_OVERWORLD, ModCreativeTabs.ITEMS);
     public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 20, STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
@@ -171,7 +162,7 @@ public class ModItems
 	    tooltip.add(TextFormatting.GRAY + "Mana cost: " + TextFormatting.DARK_PURPLE + "0.5" + TextFormatting.GRAY + " per second");
 	};
     }).setMaxStackSize(1);
-    public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", GUN_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS).setFactory(new BrownstoneCannon());
+    public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS).setFactory(new BrownstoneCannon());
     public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 50, STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS);
     public static final Item GOLDEN_QUAKE_STAFF = new ItemQuakeStaff("golden_quake_staff", 25, STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS).setElement(Element.GOLDEN);
     public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 60, STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS);
@@ -283,10 +274,11 @@ public class ModItems
     /**
      * Crimson Dimension Items
      */
-    
+
     public static final Item ENERGETIC_STEEL_PICKAXE = new ToolPickaxe("energetic_steel_pickaxe", ENERGETIC_PICKAXE);
     public static final Item STONEBRICK_BLOCKVOID = new ItemBlockvoid("stonebrick_blockvoid", Blocks.STONEBRICK, 30);
     public static final Item OBSIDIAN_BLOCKVOID = new ItemBlockvoid("obsidian_blockvoid", Blocks.OBSIDIAN, 1000);
     public static final Item FURNACE_BRICKS_BLOCKVOID = new ItemBlockvoid("furnace_bricks_blockvoid", ModBlocks.FURNACE_BRICKS, 30);
     public static final Item REDSTONE_BRICK_BLOCKVOID = new ItemBlockvoid("redstone_brick_blockvoid", ModBlocks.REDSTONE_BRICK, 30);
+    public static final Item CRIMSON_PELLET = new ItemBase("crimson_pellet", null);
 }

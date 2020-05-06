@@ -7,7 +7,6 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -25,9 +24,9 @@ public class ItemBoomstick extends ItemGun
 {
     protected float pelletCount = 15;
 
-    public ItemBoomstick(String name, int cooldown, int maxDamage, float level, CreativeTabs tab)
+    public ItemBoomstick(String name, float level)
     {
-	super(name, cooldown, 1, maxDamage, level, tab);
+	super(name, 60, 1, level);
     }
 
     /**
@@ -47,6 +46,7 @@ public class ItemBoomstick extends ItemGun
 	    float yaw = player.rotationYaw + ModRandom.getFloat(15);
 
 	    Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
+	    projectile.setElement(getElement());
 	    projectile.shoot(player, pitch, yaw, 0.0F, speed, inaccuracy);
 	    projectile.setTravelRange(25f);
 

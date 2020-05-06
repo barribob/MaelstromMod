@@ -1,0 +1,6 @@
+{
+   "parent": "mm:item/flintlock_pistol",
+   "textures": {
+       "0": "mm:items/energized_pistol"
+   }
+}

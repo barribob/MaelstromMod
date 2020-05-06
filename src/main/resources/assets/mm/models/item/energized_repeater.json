@@ -1,0 +1,6 @@
+{
+   "parent": "mm:item/repeater",
+   "textures": {
+       "0": "mm:items/energized_repeater"
+   }
+}

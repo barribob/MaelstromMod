@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.entity.render;
 
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -31,9 +33,6 @@ public class RenderProjectile<T extends Entity> extends Render<T>
 	this.itemToRender = item;
     }
 
-    /**
-     * Renders the desired {@code T} type Entity.
-     */
     @Override
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
@@ -45,19 +44,22 @@ public class RenderProjectile<T extends Entity> extends Render<T>
 	GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 	this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-	this.itemRenderer.renderItem(new ItemStack(this.itemToRender), ItemCameraTransforms.TransformType.GROUND);
+	if (this.itemToRender != null)
+	{
+	    this.itemRenderer.renderItem(new ItemStack(this.itemToRender), ItemCameraTransforms.TransformType.GROUND);
+	}
+	else if (entity instanceof Projectile)
+	{
+	    this.itemRenderer.renderItem(new ItemStack(((Projectile) entity).getItemToRender()), ItemCameraTransforms.TransformType.GROUND);
+	}
 
 	GlStateManager.disableRescaleNormal();
 	GlStateManager.popMatrix();
 	super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless
-     * you call Render.bindEntityTexture.
-     */
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity)
+    protected ResourceLocation getEntityTexture(T entity)
     {
 	return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }

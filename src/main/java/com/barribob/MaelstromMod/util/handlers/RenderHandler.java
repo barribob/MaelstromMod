@@ -57,7 +57,6 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenBullet;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileHorrorAttack;
@@ -126,13 +125,12 @@ public class RenderHandler
 	registerModEntityRenderer(EntityChaosKnight.class, (manager) -> new RenderChaosKnight(manager, "chaos_knight.png"));
 	registerModEntityRenderer(EntityMaelstromHealer.class, new ModelMaelstromHealer(), "maelstrom_healer.png");
 
-	registerProjectileRenderer(Projectile.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(ProjectileBullet.class, ModItems.IRON_PELLET);
-	registerProjectileRenderer(EntityPortalSpawn.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(ProjectileGoldenBullet.class, ModItems.GOLD_PELLET);
-	registerProjectileRenderer(EntityNexusParticleSpawner.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(Projectile.class);
+	registerProjectileRenderer(ProjectileBullet.class);
+	registerProjectileRenderer(EntityPortalSpawn.class);
+	registerProjectileRenderer(EntityNexusParticleSpawner.class);
 	registerProjectileRenderer(ProjectileSwampSpittle.class, ModItems.SWAMP_SLIME);
-	registerProjectileRenderer(EntityParticleSpawner.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(EntityParticleSpawner.class);
 	registerProjectileRenderer(ProjectileBone.class, Items.BONE);
 	registerProjectileRenderer(ProjectileHorrorAttack.class, ModItems.MAELSTROM_PELLET);
 	registerProjectileRenderer(ProjectileFireball.class, Items.FIRE_CHARGE);
@@ -140,8 +138,8 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileGoldenFireball.class, Items.FIRE_CHARGE);
 	registerProjectileRenderer(ProjectileMonolithFireball.class, Items.FIRE_CHARGE);
 	registerProjectileRenderer(ProjectileGoldenMissile.class, ModItems.GOLD_PELLET);
-	registerProjectileRenderer(EntityCrimsonTowerSpawner.class, ModItems.INVISIBLE);
-	registerProjectileRenderer(EntityHealerOrb.class, ModItems.INVISIBLE);
+	registerProjectileRenderer(EntityCrimsonTowerSpawner.class);
+	registerProjectileRenderer(EntityHealerOrb.class);
     }
 
     /**
@@ -164,6 +162,11 @@ public class RenderHandler
 	});
     }
 
+    private static <T extends Entity> void registerProjectileRenderer(Class<T> projectileClass)
+    {
+	registerProjectileRenderer(projectileClass, null);
+    }
+
     /**
      * Makes a projectile render with the given item
      * 
@@ -176,7 +179,7 @@ public class RenderHandler
 	    @Override
 	    public Render<? super T> createRenderFor(RenderManager manager)
 	    {
-		return new RenderProjectile(manager, Minecraft.getMinecraft().getRenderItem(), item);
+		return new RenderProjectile<T>(manager, Minecraft.getMinecraft().getRenderItem(), item);
 	    }
 	});
     }

@@ -1,19 +1,32 @@
 package com.barribob.MaelstromMod.items.gun;
 
-import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import java.util.List;
 
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectilePiercingBullet;
+import com.barribob.MaelstromMod.util.ModUtils;
+
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemRifle extends ItemGun
-{    
-    public ItemRifle(String name, float level)
+public class ItemPiercer extends ItemGun
+{
+    public ItemPiercer(String name, float level)
     {
-	super(name, 60, 9, level);
+	super(name, 60, 8, level);
+    }
+
+    @Override
+    protected void getDamageTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("elk_rifle"));
+	super.getDamageTooltip(stack, worldIn, tooltip, flagIn);
     }
 
     @Override
@@ -25,7 +38,7 @@ public class ItemRifle extends ItemGun
 	float inaccuracy = 0.0f;
 	float velocity = 6.0f;
 
-	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
+	Projectile projectile = new ProjectilePiercingBullet(world, player, this.getEnchantedDamage(stack), stack);
 	projectile.setElement(getElement());
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(100);
