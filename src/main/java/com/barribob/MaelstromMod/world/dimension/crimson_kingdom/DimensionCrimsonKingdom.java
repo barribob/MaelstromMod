@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.world.dimension.crimson_kingdom;
 
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
-import com.barribob.MaelstromMod.world.dimension.nexus.ChunkGeneratorNexus;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -33,7 +32,7 @@ public class DimensionCrimsonKingdom extends WorldProvider
     @Override
     public IChunkGenerator createChunkGenerator()
     {
-	return new ChunkGeneratorNexus(world, world.getSeed(), true, "");
+	return new ChunkGeneratorCrimsonKingdom(world, world.getSeed(), true, "");
     }
 
     @Override

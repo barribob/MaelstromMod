@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenCrimsonKingdom;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -17,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -532,15 +532,15 @@ public class TileEntityMegaStructure extends TileEntityStructure
 	    BlockPos blockpos = this.getPos().add(this.position);
 	    // return saveStructure(writeToDisk, blockpos, this.size);
 
-	    // Split structure code
-	    double sliceY = this.size.getY() / ((float) WorldGenCrimsonKingdom.SLICES);
-	    double yOffset = 0;
-	    for (int i = 0; i < WorldGenCrimsonKingdom.SLICES; i++)
+	    // Split structure code into chunks
+	    for (int x = 0; x < this.size.getX(); x += 16)
 	    {
-		BlockPos bottom = blockpos.up((int) Math.floor(yOffset));
-		yOffset += sliceY;
-		BlockPos top = blockpos.up((int) Math.floor(yOffset));
-		saveStructure(writeToDisk, bottom.add(this.position), new BlockPos(this.size.getX(), top.getY() - bottom.getY(), this.size.getZ()), this.name + "_" + i);
+		for (int z = 0; z < this.size.getZ(); z += 16)
+		{
+		    BlockPos pos = blockpos.add(new BlockPos(x, 0, z));
+		    saveStructure(writeToDisk, pos, new BlockPos(16, this.size.getY(), 16), this.name + "_" + (x >> 4) + "_" + (z >> 4));
+		    System.out.println((x >> 4) + " " + (z >> 4));
+		}
 	    }
 	    return true;
 	}
@@ -556,8 +556,15 @@ public class TileEntityMegaStructure extends TileEntityStructure
 	MinecraftServer minecraftserver = this.world.getMinecraftServer();
 	TemplateManager templatemanager = worldserver.getStructureTemplateManager();
 	Template template = templatemanager.getTemplate(minecraftserver, new ResourceLocation(structureName));
-	System.out.println(size);
 	template.takeBlocksFromWorld(this.world, startPos, size, !this.ignoreEntities, Blocks.AIR);
+	NBTTagCompound nbt = new NBTTagCompound();
+	template.writeToNBT(nbt);
+	NBTTagList blocks = nbt.getTagList("blocks", nbt.getId());
+	if (blocks.hasNoTags())
+	{
+	    System.out.println("Empty chunk: not saving");
+	    return false;
+	}
 	template.setAuthor(this.author);
 	return !writeToDisk || templatemanager.writeTemplate(minecraftserver, new ResourceLocation(structureName));
     }

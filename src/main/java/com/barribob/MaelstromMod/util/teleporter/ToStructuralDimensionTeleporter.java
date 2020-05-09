@@ -1,5 +1,7 @@
 package com.barribob.MaelstromMod.util.teleporter;
 
+import javax.annotation.Nullable;
+
 import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
 
 import net.minecraft.entity.Entity;
@@ -18,7 +20,7 @@ public class ToStructuralDimensionTeleporter extends Teleporter
     private int spacing;
     private WorldGenerator structure;
 
-    public ToStructuralDimensionTeleporter(WorldServer worldIn, BlockPos portalOffset, WorldGenerator structure)
+    public ToStructuralDimensionTeleporter(WorldServer worldIn, BlockPos portalOffset, @Nullable WorldGenerator structure)
     {
 	super(worldIn);
 	this.portalOffset = portalOffset;
@@ -45,7 +47,7 @@ public class ToStructuralDimensionTeleporter extends Teleporter
 
 	if (entityIn instanceof EntityPlayerMP)
 	{
-	    if (!this.world.isChunkGeneratedAt(x >> 4, z >> 4))
+	    if (structure != null && !this.world.isChunkGeneratedAt(x >> 4, z >> 4))
 	    {
 		// Round the position to the nearest 64th chunk square
 		int chunkX = Math.floorDiv((x >> 4), DimensionNexus.NexusStructureSpacing) * DimensionNexus.NexusStructureSpacing;

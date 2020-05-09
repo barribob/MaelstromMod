@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.teleporter.ToNexusTeleporter;
 import com.barribob.MaelstromMod.util.teleporter.ToStructuralDimensionTeleporter;
-import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenCrimsonKingdom;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -27,7 +26,7 @@ public class BlockCrimsonPortal extends BlockPortal
     @Override
     protected Teleporter getEntranceTeleporter(World world)
     {
-	return new ToStructuralDimensionTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.crimson_kingdom_dimension_id), new BlockPos(100, 100, 100), new WorldGenCrimsonKingdom());
+	return new ToStructuralDimensionTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.crimson_kingdom_dimension_id), new BlockPos(100, 100, 100), null);
     }
     
     @Override

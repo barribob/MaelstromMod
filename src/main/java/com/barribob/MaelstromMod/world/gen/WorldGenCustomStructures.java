@@ -23,7 +23,9 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.biome.BiomeCliffSwamp;
+import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenCrimsonKingdomChunk;
 import com.barribob.MaelstromMod.world.dimension.dark_nexus.WorldGenDarkNexus;
+import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenCliffLedge;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenCliffStructureLedge;
 import com.barribob.MaelstromMod.world.gen.cliff.WorldGenMaelstromCave;
@@ -348,7 +350,13 @@ public class WorldGenCustomStructures implements IWorldGenerator
     {
 	int x = chunkX * 16;
 	int z = chunkZ * 16;
-	if (world.provider.getDimension() == ModConfig.world.cliff_dimension_id)
+	if (world.provider.getDimension() == ModConfig.world.crimson_kingdom_dimension_id)
+	{
+	    int chunkModX = Math.floorMod(chunkX, DimensionNexus.NexusStructureSpacing);
+	    int chunkModZ = Math.floorMod(chunkZ, DimensionNexus.NexusStructureSpacing);
+	    new WorldGenCrimsonKingdomChunk(chunkModX, chunkModZ).generate(world, world.rand, new BlockPos(x + 8, 0, z + 8));
+	}
+	else if (world.provider.getDimension() == ModConfig.world.cliff_dimension_id)
 	{
 	    int i = 2;
 	    if (chunkX % i == 0 && chunkZ % i == 0 && world.rand.nextInt(4) == 0)
