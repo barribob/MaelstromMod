@@ -26,13 +26,13 @@ public class BlockCrimsonPortal extends BlockPortal
     @Override
     protected Teleporter getEntranceTeleporter(World world)
     {
-	return new ToStructuralDimensionTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.crimson_kingdom_dimension_id), new BlockPos(100, 100, 100), null);
+	return new ToStructuralDimensionTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.crimson_kingdom_dimension_id), new BlockPos(135, 151, 155), null);
     }
     
     @Override
     protected Teleporter getExitTeleporter(World world)
     {
-	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(189, 103, 40));
+	return new ToNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.nexus_dimension_id), new BlockPos(69, 212, 163));
     }
     
     @Override

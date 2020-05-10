@@ -44,7 +44,7 @@ public abstract class EntityPortalSpawn extends Entity
 	portal = getPortal();
     }
     
-    public EntityPortalSpawn(World worldIn, float x, float y, float z)
+    public EntityPortalSpawn(World worldIn, double x, double y, double z)
     {
 	this(worldIn);
 	this.setPosition(x, y, z);
@@ -95,6 +95,7 @@ public abstract class EntityPortalSpawn extends Entity
 	return list;
     }
     
+    @Override
     public void onUpdate()
     {
 	super.onUpdate();
@@ -112,6 +113,7 @@ public abstract class EntityPortalSpawn extends Entity
 	}
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {

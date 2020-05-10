@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.entity.EntityCrimsonPortalSpawn;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureGolem;
 import com.barribob.MaelstromMod.entity.entities.EntityAzureVillager;
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
@@ -242,6 +243,7 @@ public class ModEntities
 	registerEntity("healer_orb", EntityHealerOrb.class, PROJECTILE_START_ID++, 40);
 	registerEntity("chaos_fireball", ProjectileChaosFireball.class, PROJECTILE_START_ID++, 40);
 	registerEntity("rune_wisp", ProjectileRuneWisp.class, PROJECTILE_START_ID++, 40);
+	registerEntity("crimson_portal_spawn", EntityCrimsonPortalSpawn.class, PROJECTILE_START_ID++, 40);
 
 	registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
 	registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

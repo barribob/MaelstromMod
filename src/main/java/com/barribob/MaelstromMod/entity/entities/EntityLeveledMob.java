@@ -333,6 +333,11 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	this.leaping = leaping;
     }
 
+    protected Vec3d getInitialPosition()
+    {
+	return initialPosition;
+    }
+
     @Override
     public void onStopLeaping()
     {

@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.entity.EntityCrimsonPortalSpawn;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileChaosFireball;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
+import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
 import com.barribob.MaelstromMod.util.ModColors;
@@ -18,6 +20,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
+import com.barribob.MaelstromMod.world.gen.nexus.WorldGenNexusTeleporter;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -29,6 +32,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -225,7 +229,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9f);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30f);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(450);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
     }
 
@@ -347,6 +351,25 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
     public void setLazerDir(Vec3d lazerDir)
     {
 	this.chargeDir = lazerDir;
+    }
+
+    @Override
+    public void onDeath(DamageSource cause)
+    {
+	super.onDeath(cause);
+	if (!world.isRemote && this.dimension == ModDimensions.NEXUS.getId() && this.getLevel() > 0)
+	{
+	    // Spawn portal entity
+	    Vec3d origin = this.getInitialPosition();
+	    EntityCrimsonPortalSpawn spawner = new EntityCrimsonPortalSpawn(world, origin.x, origin.y, origin.z);
+	    world.spawnEntity(spawner);
+
+	    // Spawn nexus teleporters
+	    BlockPos upperTeleporterPos = new BlockPos(origin).east(14).down().north();
+	    BlockPos lowerTeleporterPos = upperTeleporterPos.add(0, -81, -2);
+	    new WorldGenNexusTeleporter(new Vec3d(-1, -83, 2)).generate(world, rand, upperTeleporterPos, Rotation.NONE);
+	    new WorldGenNexusTeleporter(new Vec3d(-8, 81, 3)).generate(world, rand, lowerTeleporterPos, Rotation.CLOCKWISE_90);
+	}
     }
 
     @Override
