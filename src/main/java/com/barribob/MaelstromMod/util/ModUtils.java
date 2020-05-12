@@ -666,4 +666,46 @@ public final class ModUtils
 
 	return angle + f;
     }
+
+    /**
+     * Rotate a vector around an axis by given degrees https://stackoverflow.com/questions/31225062/rotating-a-vector-by-angle-and-axis-in-java
+     * 
+     * @param vec
+     * @param axis
+     * @param theta
+     * @return
+     */
+    public static Vec3d rotateVector(Vec3d vec, Vec3d axis, double theta)
+    {
+	double x, y, z;
+	double u, v, w;
+	x = vec.x;
+	y = vec.y;
+	z = vec.z;
+	u = axis.x;
+	v = axis.y;
+	w = axis.z;
+	double xPrime = u * (u * x + v * y + w * z) * (1d - Math.cos(theta))
+		+ x * Math.cos(theta)
+		+ (-w * y + v * z) * Math.sin(theta);
+	double yPrime = v * (u * x + v * y + w * z) * (1d - Math.cos(theta))
+		+ y * Math.cos(theta)
+		+ (w * x - u * z) * Math.sin(theta);
+	double zPrime = w * (u * x + v * y + w * z) * (1d - Math.cos(theta))
+		+ z * Math.cos(theta)
+		+ (-v * x + u * y) * Math.sin(theta);
+	return new Vec3d(xPrime, yPrime, zPrime);
+    }
+
+    // https://stackoverflow.com/questions/2150050/finding-signed-angle-between-vectors
+    public static double unsignedAngle(Vec3d a, Vec3d b)
+    {
+	return Math.abs(Math.atan2(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
+    }
+
+    public static double toPitch(Vec3d vec)
+    {
+	double angleBetweenYAxis = Math.toDegrees(unsignedAngle(vec, new Vec3d(0, 1, 0)));
+	return 90 - angleBetweenYAxis;
+    }
 }

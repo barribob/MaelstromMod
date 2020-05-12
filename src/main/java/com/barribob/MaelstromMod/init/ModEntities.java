@@ -19,6 +19,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityHerobrineOne;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromBeast;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGoldenBoss;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
@@ -201,6 +202,7 @@ public class ModEntities
 	registerEntityWithID("maelstrom_lancer", EntityMaelstromLancer.class, ENTITY_START_ID++, 50, maelstrom);
 	registerEntityWithID("chaos_knight", EntityChaosKnight.class, ENTITY_START_ID++, 70, maelstrom);
 	registerEntityWithID("maelstrom_healer", EntityMaelstromHealer.class, ENTITY_START_ID++, 50, maelstrom);
+	registerEntityWithID("maelstrom_gauntlet", EntityMaelstromGauntlet.class, ENTITY_START_ID++, 70, maelstrom);
 
 	registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
 	registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);
