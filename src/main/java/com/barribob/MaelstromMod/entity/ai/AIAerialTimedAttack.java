@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.ai;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGauntlet;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.util.ModUtils;
 
@@ -135,7 +135,6 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 		this.strafingBackwards = true;
 	    }
 
-	    this.entity.getLookHelper().setLookPositionWithEntity(target, this.lookSpeed, this.lookSpeed);
 	    boolean successful = this.aerialStrafe((this.strafingBackwards ? -1 : 1) * this.strafeAmount, this.strafeDirection);
 
 	    if (!successful)
@@ -143,10 +142,8 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 		this.strafeDirection = this.entity.getRNG().nextFloat() * MAX_STRAFE_ANGLE;
 	    }
 	}
-	else
-	{
-	    this.entity.getLookHelper().setLookPositionWithEntity(target, this.lookSpeed, this.lookSpeed);
-	}
+
+	this.entity.getLookHelper().setLookPositionWithEntity(target, this.lookSpeed, this.lookSpeed);
 	this.entity.faceEntity(target, this.lookSpeed, this.lookSpeed);
 	if (this.entity instanceof EntityMaelstromGauntlet)
 	{
@@ -160,8 +157,8 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
     private boolean aerialStrafe(float forward, float sidewaysRotation)
     {
 	Vec3d forwardVec = this.entity.getAttackTarget().getPositionVector().subtract(this.entity.getPositionVector()).normalize();
-	Vec3d sidewaysVec = ModUtils.rotateVector(forwardVec, forwardVec.crossProduct(new Vec3d(0, 1, 0)), Math.toRadians(90));
-	Vec3d strafeVec = ModUtils.rotateVector(sidewaysVec, forwardVec, Math.toRadians(sidewaysRotation));
+	Vec3d sidewaysVec = ModUtils.rotateVector(forwardVec, forwardVec.crossProduct(new Vec3d(0, 1, 0)), 90);
+	Vec3d strafeVec = ModUtils.rotateVector(sidewaysVec, forwardVec, sidewaysRotation);
 	Vec3d move = forwardVec.scale(forward).add(strafeVec).scale(4);
 	Vec3d pos = this.entity.getPositionVector().add(move);
 	return this.entity.getNavigator().tryMoveToXYZ(pos.x, pos.y, pos.z, this.moveSpeedAmp);

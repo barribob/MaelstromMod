@@ -320,6 +320,21 @@ public final class ModUtils
 	return look.scale(offset.x).add(yVec((float) offset.y)).add(side.scale(offset.z));
     }
 
+    /**
+     * Returns the xyz offset using the axis as the relative base
+     * 
+     * @param axis
+     * @param offset
+     * @return
+     */
+    public static Vec3d getAxisOffset(Vec3d axis, Vec3d offset)
+    {
+	Vec3d forward = axis.normalize().scale(offset.x);
+	Vec3d side = axis.crossProduct(new Vec3d(0, 1, 0)).normalize().scale(offset.z);
+	Vec3d up = axis.crossProduct(side).normalize().scale(offset.y);
+	return forward.add(side).add(up);
+    }
+
     public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile)
     {
 	throwProjectile(actor, target, projectile, 12.0f, 1.6f);
@@ -668,7 +683,7 @@ public final class ModUtils
     }
 
     /**
-     * Rotate a vector around an axis by given degrees https://stackoverflow.com/questions/31225062/rotating-a-vector-by-angle-and-axis-in-java
+     * Rotate a normalized vector around an axis by given degrees https://stackoverflow.com/questions/31225062/rotating-a-vector-by-angle-and-axis-in-java
      * 
      * @param vec
      * @param axis
@@ -677,6 +692,7 @@ public final class ModUtils
      */
     public static Vec3d rotateVector(Vec3d vec, Vec3d axis, double theta)
     {
+	theta = Math.toRadians(theta);
 	double x, y, z;
 	double u, v, w;
 	x = vec.x;
@@ -694,7 +710,7 @@ public final class ModUtils
 	double zPrime = w * (u * x + v * y + w * z) * (1d - Math.cos(theta))
 		+ z * Math.cos(theta)
 		+ (-v * x + u * y) * Math.sin(theta);
-	return new Vec3d(xPrime, yPrime, zPrime);
+	return new Vec3d(xPrime, yPrime, zPrime).normalize();
     }
 
     // https://stackoverflow.com/questions/2150050/finding-signed-angle-between-vectors
@@ -706,6 +722,6 @@ public final class ModUtils
     public static double toPitch(Vec3d vec)
     {
 	double angleBetweenYAxis = Math.toDegrees(unsignedAngle(vec, new Vec3d(0, 1, 0)));
-	return 90 - angleBetweenYAxis;
+	return angleBetweenYAxis - 90;
     }
 }

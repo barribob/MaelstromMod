@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.model;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromGauntlet;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
@@ -182,7 +182,7 @@ public class ModelMaelstromGauntlet extends ModelBBAnimated
     {
 	if (entityIn instanceof EntityMaelstromGauntlet)
 	{
-	    this.all.rotateAngleX = -(float) Math.toRadians(((EntityMaelstromGauntlet) entityIn).getLook());
+	    this.all.rotateAngleX = (float) Math.toRadians(((EntityMaelstromGauntlet) entityIn).getLook());
 	}
 
 	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
