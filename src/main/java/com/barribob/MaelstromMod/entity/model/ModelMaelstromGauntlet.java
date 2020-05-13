@@ -7,6 +7,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 // Made with Blockbench
+// Paste this code into your mod.
+// Make sure to generate all required imports
 
 public class ModelMaelstromGauntlet extends ModelBBAnimated
 {
@@ -83,6 +85,7 @@ public class ModelMaelstromGauntlet extends ModelBBAnimated
 
 	tophand = new ModelRenderer(this);
 	tophand.setRotationPoint(-5.0F, -7.0F, 2.4F);
+	setRotationAngle(tophand, 0.3491F, 0.0F, 0.0F);
 	all.addChild(tophand);
 	tophand.cubeList.add(new ModelBox(tophand, 0, 0, -15.0F, -10.0F, -5.4F, 30, 8, 9, 0.0F, false));
 
@@ -93,11 +96,13 @@ public class ModelMaelstromGauntlet extends ModelBBAnimated
 
 	bone7 = new ModelRenderer(this);
 	bone7.setRotationPoint(0.0F, -8.0F, 2.0F);
+	setRotationAngle(bone7, 0.3491F, 0.0F, 0.0F);
 	ring.addChild(bone7);
 	bone7.cubeList.add(new ModelBox(bone7, 28, 93, -4.0F, -11.0F, -5.5F, 7, 10, 7, 0.0F, false));
 
 	bone8 = new ModelRenderer(this);
 	bone8.setRotationPoint(0.0F, -10.0F, -2.0F);
+	setRotationAngle(bone8, 0.3491F, 0.0F, 0.0F);
 	bone7.addChild(bone8);
 	bone8.cubeList.add(new ModelBox(bone8, 56, 102, -4.0F, -10.0F, -3.5F, 7, 9, 7, 0.0F, false));
 
@@ -108,11 +113,13 @@ public class ModelMaelstromGauntlet extends ModelBBAnimated
 
 	bone9 = new ModelRenderer(this);
 	bone9.setRotationPoint(0.0F, -5.0F, 0.0F);
+	setRotationAngle(bone9, 0.3491F, 0.0F, 0.0F);
 	pinky.addChild(bone9);
 	bone9.cubeList.add(new ModelBox(bone9, 114, 41, -2.5F, -6.5F, -3.5F, 5, 6, 5, 0.0F, false));
 
 	bone10 = new ModelRenderer(this);
 	bone10.setRotationPoint(0.5F, -7.5F, -1.5F);
+	setRotationAngle(bone10, 0.3491F, 0.0F, 0.0F);
 	bone9.addChild(bone10);
 	bone10.cubeList.add(new ModelBox(bone10, 113, 74, -3.0F, -4.0F, -2.0F, 5, 5, 5, 0.0F, false));
 
@@ -123,11 +130,13 @@ public class ModelMaelstromGauntlet extends ModelBBAnimated
 
 	bone5 = new ModelRenderer(this);
 	bone5.setRotationPoint(0.0F, -11.0F, 2.0F);
+	setRotationAngle(bone5, 0.3491F, 0.0F, 0.0F);
 	middle.addChild(bone5);
 	bone5.cubeList.add(new ModelBox(bone5, 90, 90, -4.0F, -12.0F, -5.5F, 7, 11, 7, 0.0F, false));
 
 	bone6 = new ModelRenderer(this);
 	bone6.setRotationPoint(0.0F, -11.0F, -2.0F);
+	setRotationAngle(bone6, 0.3491F, 0.0F, 0.0F);
 	bone5.addChild(bone6);
 	bone6.cubeList.add(new ModelBox(bone6, 94, 25, -4.0F, -10.0F, -3.5F, 7, 9, 7, 0.0F, false));
 
@@ -138,11 +147,13 @@ public class ModelMaelstromGauntlet extends ModelBBAnimated
 
 	bone3 = new ModelRenderer(this);
 	bone3.setRotationPoint(-0.0006F, -9.0349F, 1.0F);
+	setRotationAngle(bone3, 0.3491F, 0.0F, 0.0F);
 	pointer.addChild(bone3);
 	bone3.cubeList.add(new ModelBox(bone3, 110, 110, -3.504F, -9.0522F, -4.5F, 7, 8, 6, 0.0F, false));
 
 	bone4 = new ModelRenderer(this);
 	bone4.setRotationPoint(0.0F, -8.0F, -2.0F);
+	setRotationAngle(bone4, 0.3491F, 0.0F, 0.0F);
 	bone3.addChild(bone4);
 	bone4.cubeList.add(new ModelBox(bone4, 110, 0, -3.504F, -9.0522F, -2.5F, 7, 8, 6, 0.0F, false));
 
@@ -161,7 +172,7 @@ public class ModelMaelstromGauntlet extends ModelBBAnimated
 
 	bottomthumb2 = new ModelRenderer(this);
 	bottomthumb2.setRotationPoint(2.0F, 7.0F, 1.5F);
-	setRotationAngle(bottomthumb2, 0.0F, 0.0F, 0.6981F);
+	setRotationAngle(bottomthumb2, 0.5236F, 0.0F, 0.6981F);
 	all.addChild(bottomthumb2);
 	bottomthumb2.cubeList.add(new ModelBox(bottomthumb2, 0, 66, 1.5199F, -10.6251F, -4.48F, 7, 12, 9, 0.0F, false));
 

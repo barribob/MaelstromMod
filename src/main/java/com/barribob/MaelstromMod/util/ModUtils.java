@@ -22,6 +22,9 @@ import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -723,5 +726,77 @@ public final class ModUtils
     {
 	double angleBetweenYAxis = Math.toDegrees(unsignedAngle(vec, new Vec3d(0, 1, 0)));
 	return angleBetweenYAxis - 90;
+    }
+
+    /**
+     * Taken from EntityDragon. Destroys blocks in a bounding box. Returns whether it failed to destroy some blocks.
+     * 
+     * @param box
+     * @param world
+     * @param entity
+     * @return
+     */
+    public static boolean destroyBlocksInAABB(AxisAlignedBB box, World world, Entity entity)
+    {
+	int i = MathHelper.floor(box.minX);
+	int j = MathHelper.floor(box.minY);
+	int k = MathHelper.floor(box.minZ);
+	int l = MathHelper.floor(box.maxX);
+	int i1 = MathHelper.floor(box.maxY);
+	int j1 = MathHelper.floor(box.maxZ);
+	boolean failedToDestroySomeBlocks = false;
+	boolean destroyedBlocks = false;
+
+	for (int k1 = i; k1 <= l; ++k1)
+	{
+	    for (int l1 = j; l1 <= i1; ++l1)
+	    {
+		for (int i2 = k; i2 <= j1; ++i2)
+		{
+		    BlockPos blockpos = new BlockPos(k1, l1, i2);
+		    IBlockState iblockstate = world.getBlockState(blockpos);
+		    Block block = iblockstate.getBlock();
+
+		    if (!block.isAir(iblockstate, world, blockpos) && iblockstate.getMaterial() != Material.FIRE)
+		    {
+			if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity))
+			{
+			    failedToDestroySomeBlocks = true;
+			}
+			else
+			{
+			    if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.BEDROCK)
+			    {
+				destroyedBlocks = world.setBlockToAir(blockpos) || destroyedBlocks;
+			    }
+			    else
+			    {
+				failedToDestroySomeBlocks = true;
+			    }
+			}
+		    }
+		}
+	    }
+	}
+
+	if (destroyedBlocks)
+	{
+	    world.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 2, false);
+	}
+
+	return failedToDestroySomeBlocks;
+    }
+
+    /**
+     * Pitch yaw converter above doesn't seem to work in all cases, so this is a subsitute function
+     * 
+     * @param pitch
+     * @param yaw
+     * @return
+     */
+    public static Vec3d getLookVec(float pitch, float yaw)
+    {
+	Vec3d yawVec = ModUtils.rotateVector(new Vec3d(0, 0, -1), new Vec3d(0, 1, 0), -yaw);
+	return ModUtils.rotateVector(yawVec, yawVec.crossProduct(new Vec3d(0, 1, 0)), pitch);
     }
 }

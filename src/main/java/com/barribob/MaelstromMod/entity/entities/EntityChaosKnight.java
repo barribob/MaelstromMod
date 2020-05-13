@@ -142,9 +142,9 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 	addEvent(() -> {
 	    this.motionY += 0.5;
 	}, 3);
+	ModBBAnimations.animation(this, "chaos_knight.summon", false);
 	for (int tick = 20; tick < 140; tick += 5)
 	{
-	    ModBBAnimations.animation(this, "chaos_knight.summon", false);
 	    addEvent(() -> {
 		ProjectileChaosFireball meteor = new ProjectileChaosFireball(world, this, this.getAttack(), null);
 		Vec3d pos = new Vec3d(ModRandom.getFloat(10), ModRandom.getFloat(1), ModRandom.getFloat(10)).add(target.getPositionVector()).add(ModUtils.yVec(10));
