@@ -42,8 +42,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart
-{
+public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart {
     // We keep track of the look ourselves because minecraft's look is clamped
     protected static final DataParameter<Float> LOOK = EntityDataManager.<Float>createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private MultiPartEntityPart[] hitboxParts;
@@ -80,8 +79,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	}, 50);
     };
 
-    public EntityMaelstromGauntlet(World worldIn)
-    {
+    public EntityMaelstromGauntlet(World worldIn) {
 	super(worldIn);
 	this.moveHelper = new FlyingMoveHelper(this);
 	this.navigator = new PathNavigateFlying(this, worldIn);
@@ -92,8 +90,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.26f);
@@ -103,15 +100,13 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    protected void initEntityAI()
-    {
+    protected void initEntityAI() {
 	super.initEntityAI();
 	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, 20, 0.8f));
     }
 
     @Override
-    public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards)
-    {
+    public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
 	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch));
 	double[] weights = {
 		1
@@ -122,21 +117,16 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage)
-    {
-	if (part == this.eye)
-	{
+    public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
+	if (part == this.eye) {
 	    return this.attackEntityFrom(source, damage);
 	}
 
-	if (damage > 0.0F && !source.isUnblockable())
-	{
-	    if (!source.isProjectile())
-	    {
+	if (damage > 0.0F && !source.isUnblockable()) {
+	    if (!source.isProjectile()) {
 		Entity entity = source.getImmediateSource();
 
-		if (entity instanceof EntityLivingBase)
-		{
+		if (entity instanceof EntityLivingBase) {
 		    this.blockUsingShield((EntityLivingBase) entity);
 		}
 	    }
@@ -149,19 +139,17 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    public void onLivingUpdate()
-    {
+    public void onLivingUpdate() {
 	super.onLivingUpdate();
 	Vec3d[] avec3d = new Vec3d[this.hitboxParts.length];
-	for (int j = 0; j < this.hitboxParts.length; ++j)
-	{
+	for (int j = 0; j < this.hitboxParts.length; ++j) {
 	    avec3d[j] = new Vec3d(this.hitboxParts[j].posX, this.hitboxParts[j].posY, this.hitboxParts[j].posZ);
 	}
 
 	/**
 	 * Set the hitbox pieces based on the entity's rotation so that even large pitch rotations don't mess up the hitboxes
 	 */
-	Vec3d lookVec = ModUtils.getLookVec(this.getLook(), this.rotationYaw);
+	Vec3d lookVec = ModUtils.getLookVec(this.getLook(), this.renderYawOffset);
 	Vec3d rotationVector = ModUtils.rotateVector(lookVec, lookVec.crossProduct(new Vec3d(0, 1, 0)), 90);
 
 	Vec3d eyePos = this.getPositionEyes(1).add(rotationVector.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(-0.2, 0, 0)));
@@ -188,15 +176,13 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	Vec3d fistPos = this.getPositionVector().subtract(ModUtils.yVec(0.5));
 	this.fist.setLocationAndAngles(fistPos.x, fistPos.y, fistPos.z, this.rotationYaw, this.rotationPitch);
 
-	for (int l = 0; l < this.hitboxParts.length; ++l)
-	{
+	for (int l = 0; l < this.hitboxParts.length; ++l) {
 	    this.hitboxParts[l].prevPosX = avec3d[l].x;
 	    this.hitboxParts[l].prevPosY = avec3d[l].y;
 	    this.hitboxParts[l].prevPosZ = avec3d[l].z;
 	}
 
-	if (this.isPunching)
-	{
+	if (this.isPunching) {
 	    ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
 	    Vec3d dir = this.targetPos.subtract(this.getPositionVector()).normalize().scale(0.2);
 	    this.addVelocity(dir.x, dir.y, dir.z);
@@ -205,13 +191,11 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    public float getEyeHeight()
-    {
+    public float getEyeHeight() {
 	return 1.6f;
     }
 
-    public EntityLeveledMob setLook(Vec3d look)
-    {
+    public EntityLeveledMob setLook(Vec3d look) {
 	float prevLook = this.getLook();
 	float newLook = (float) ModUtils.toPitch(look);
 	float deltaLook = 1;
@@ -220,36 +204,30 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	return this;
     }
 
-    public float getLook()
-    {
+    public float getLook() {
 	return this.dataManager == null ? 0 : this.dataManager.get(LOOK);
     }
 
     @Override
-    public void travel(float strafe, float vertical, float forward)
-    {
-	if (this.isInWater())
-	{
+    public void travel(float strafe, float vertical, float forward) {
+	if (this.isInWater()) {
 	    this.moveRelative(strafe, vertical, forward, 0.02F);
 	    this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 	    this.motionX *= 0.800000011920929D;
 	    this.motionY *= 0.800000011920929D;
 	    this.motionZ *= 0.800000011920929D;
 	}
-	else if (this.isInLava())
-	{
+	else if (this.isInLava()) {
 	    this.moveRelative(strafe, vertical, forward, 0.02F);
 	    this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 	    this.motionX *= 0.5D;
 	    this.motionY *= 0.5D;
 	    this.motionZ *= 0.5D;
 	}
-	else
-	{
+	else {
 	    float f = 0.91F;
 
-	    if (this.onGround)
-	    {
+	    if (this.onGround) {
 		BlockPos underPos = new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
 		IBlockState underState = this.world.getBlockState(underPos);
 		f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
@@ -259,8 +237,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    this.moveRelative(strafe, vertical, forward, this.onGround ? 0.1F * f1 : 0.02F);
 	    f = 0.91F;
 
-	    if (this.onGround)
-	    {
+	    if (this.onGround) {
 		BlockPos underPos = new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
 		IBlockState underState = this.world.getBlockState(underPos);
 		f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
@@ -277,8 +254,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	double d0 = this.posZ - this.prevPosZ;
 	float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
-	if (f2 > 1.0F)
-	{
+	if (f2 > 1.0F) {
 	    f2 = 1.0F;
 	}
 
@@ -286,49 +262,49 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	this.limbSwing += this.limbSwingAmount;
     }
 
+    /**
+     * Add a bit of brightness to the entity, because otherwise it looks pretty black
+     */
     @Override
-    protected void entityInit()
-    {
+    public int getBrightnessForRender() {
+	return Math.min(super.getBrightnessForRender() + 60, 200);
+    }
+
+    @Override
+    protected void entityInit() {
 	this.dataManager.register(LOOK, Float.valueOf(0));
 	super.entityInit();
     }
 
     @Override
-    public World getWorld()
-    {
+    public World getWorld() {
 	return world;
     }
 
     @Override
-    public Entity[] getParts()
-    {
+    public Entity[] getParts() {
 	return this.hitboxParts;
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier)
-    {
+    public void fall(float distance, float damageMultiplier) {
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos)
-    {
+    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
     }
 
     @Override
-    public boolean isOnLadder()
-    {
+    public boolean isOnLadder() {
 	return false;
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
-    {
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
     }
 
     @Override
-    public boolean canBeCollidedWith()
-    {
+    public boolean canBeCollidedWith() {
 	return false;
     }
 
@@ -336,12 +312,10 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
      * This is overriden because we do want the main hitbox to clip with blocks while still not clipping with anything else
      */
     @Override
-    public void move(MoverType type, double x, double y, double z)
-    {
+    public void move(MoverType type, double x, double y, double z) {
 	this.world.profiler.startSection("move");
 
-	if (this.isInWeb)
-	{
+	if (this.isInWeb) {
 	    this.isInWeb = false;
 	    x *= 0.25D;
 	    y *= 0.05000000074505806D;
@@ -358,52 +332,43 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	List<AxisAlignedBB> list1 = this.world.getCollisionBoxes(this, this.getEntityBoundingBox().expand(x, y, z));
 	AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
 
-	if (y != 0.0D)
-	{
+	if (y != 0.0D) {
 	    int k = 0;
 
-	    for (int l = list1.size(); k < l; ++k)
-	    {
+	    for (int l = list1.size(); k < l; ++k) {
 		y = list1.get(k).calculateYOffset(this.getEntityBoundingBox(), y);
 	    }
 
 	    this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, y, 0.0D));
 	}
 
-	if (x != 0.0D)
-	{
+	if (x != 0.0D) {
 	    int j5 = 0;
 
-	    for (int l5 = list1.size(); j5 < l5; ++j5)
-	    {
+	    for (int l5 = list1.size(); j5 < l5; ++j5) {
 		x = list1.get(j5).calculateXOffset(this.getEntityBoundingBox(), x);
 	    }
 
-	    if (x != 0.0D)
-	    {
+	    if (x != 0.0D) {
 		this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, 0.0D, 0.0D));
 	    }
 	}
 
-	if (z != 0.0D)
-	{
+	if (z != 0.0D) {
 	    int k5 = 0;
 
-	    for (int i6 = list1.size(); k5 < i6; ++k5)
-	    {
+	    for (int i6 = list1.size(); k5 < i6; ++k5) {
 		z = list1.get(k5).calculateZOffset(this.getEntityBoundingBox(), z);
 	    }
 
-	    if (z != 0.0D)
-	    {
+	    if (z != 0.0D) {
 		this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, 0.0D, z));
 	    }
 	}
 
 	boolean flag = this.onGround || d3 != y && d3 < 0.0D;
 
-	if (this.stepHeight > 0.0F && flag && (d2 != x || d4 != z))
-	{
+	if (this.stepHeight > 0.0F && flag && (d2 != x || d4 != z)) {
 	    double d14 = x;
 	    double d6 = y;
 	    double d7 = z;
@@ -416,8 +381,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    double d8 = y;
 	    int j1 = 0;
 
-	    for (int k1 = list.size(); j1 < k1; ++j1)
-	    {
+	    for (int k1 = list.size(); j1 < k1; ++j1) {
 		d8 = list.get(j1).calculateYOffset(axisalignedbb3, d8);
 	    }
 
@@ -425,8 +389,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    double d18 = d2;
 	    int l1 = 0;
 
-	    for (int i2 = list.size(); l1 < i2; ++l1)
-	    {
+	    for (int i2 = list.size(); l1 < i2; ++l1) {
 		d18 = list.get(l1).calculateXOffset(axisalignedbb2, d18);
 	    }
 
@@ -434,8 +397,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    double d19 = d4;
 	    int j2 = 0;
 
-	    for (int k2 = list.size(); j2 < k2; ++j2)
-	    {
+	    for (int k2 = list.size(); j2 < k2; ++j2) {
 		d19 = list.get(j2).calculateZOffset(axisalignedbb2, d19);
 	    }
 
@@ -444,8 +406,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    double d20 = y;
 	    int l2 = 0;
 
-	    for (int i3 = list.size(); l2 < i3; ++l2)
-	    {
+	    for (int i3 = list.size(); l2 < i3; ++l2) {
 		d20 = list.get(l2).calculateYOffset(axisalignedbb4, d20);
 	    }
 
@@ -453,8 +414,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    double d21 = d2;
 	    int j3 = 0;
 
-	    for (int k3 = list.size(); j3 < k3; ++j3)
-	    {
+	    for (int k3 = list.size(); j3 < k3; ++j3) {
 		d21 = list.get(j3).calculateXOffset(axisalignedbb4, d21);
 	    }
 
@@ -462,8 +422,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    double d22 = d4;
 	    int l3 = 0;
 
-	    for (int i4 = list.size(); l3 < i4; ++l3)
-	    {
+	    for (int i4 = list.size(); l3 < i4; ++l3) {
 		d22 = list.get(l3).calculateZOffset(axisalignedbb4, d22);
 	    }
 
@@ -471,15 +430,13 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    double d23 = d18 * d18 + d19 * d19;
 	    double d9 = d21 * d21 + d22 * d22;
 
-	    if (d23 > d9)
-	    {
+	    if (d23 > d9) {
 		x = d18;
 		z = d19;
 		y = -d8;
 		this.setEntityBoundingBox(axisalignedbb2);
 	    }
-	    else
-	    {
+	    else {
 		x = d21;
 		z = d22;
 		y = -d20;
@@ -488,15 +445,13 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
 	    int j4 = 0;
 
-	    for (int k4 = list.size(); j4 < k4; ++j4)
-	    {
+	    for (int k4 = list.size(); j4 < k4; ++j4) {
 		y = list.get(j4).calculateYOffset(this.getEntityBoundingBox(), y);
 	    }
 
 	    this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, y, 0.0D));
 
-	    if (d14 * d14 + d7 * d7 >= x * x + z * z)
-	    {
+	    if (d14 * d14 + d7 * d7 >= x * x + z * z) {
 		x = d14;
 		y = d6;
 		z = d7;
@@ -517,14 +472,12 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	BlockPos blockpos = new BlockPos(j6, i1, k6);
 	IBlockState iblockstate = this.world.getBlockState(blockpos);
 
-	if (iblockstate.getMaterial() == Material.AIR)
-	{
+	if (iblockstate.getMaterial() == Material.AIR) {
 	    BlockPos blockpos1 = blockpos.down();
 	    IBlockState iblockstate1 = this.world.getBlockState(blockpos1);
 	    Block block1 = iblockstate1.getBlock();
 
-	    if (block1 instanceof BlockFence || block1 instanceof BlockWall || block1 instanceof BlockFenceGate)
-	    {
+	    if (block1 instanceof BlockFence || block1 instanceof BlockWall || block1 instanceof BlockFenceGate) {
 		iblockstate = iblockstate1;
 		blockpos = blockpos1;
 	    }
@@ -532,29 +485,24 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
 	this.updateFallState(y, this.onGround, iblockstate, blockpos);
 
-	if (d2 != x)
-	{
+	if (d2 != x) {
 	    this.motionX = 0.0D;
 	}
 
-	if (d4 != z)
-	{
+	if (d4 != z) {
 	    this.motionZ = 0.0D;
 	}
 
 	Block block = iblockstate.getBlock();
 
-	if (d3 != y)
-	{
+	if (d3 != y) {
 	    block.onLanded(this.world, this);
 	}
 
-	try
-	{
+	try {
 	    this.doBlockCollisions();
 	}
-	catch (Throwable throwable)
-	{
+	catch (Throwable throwable) {
 	    CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Checking entity block collision");
 	    CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity being checked for collision");
 	    this.addEntityCrashInfo(crashreportcategory);
