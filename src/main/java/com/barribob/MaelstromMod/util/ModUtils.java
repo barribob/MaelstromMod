@@ -630,9 +630,11 @@ public final class ModUtils {
 	return new Vec3d(xPrime, yPrime, zPrime).normalize();
     }
 
-    // https://stackoverflow.com/questions/2150050/finding-signed-angle-between-vectors
+    // http://www.java-gaming.org/index.php/topic,28253
     public static double unsignedAngle(Vec3d a, Vec3d b) {
-	return Math.abs(Math.atan2(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
+	double dot = a.dotProduct(b);
+	double cos = dot / (a.lengthVector() * b.lengthVector());
+	return Math.acos(cos);
     }
 
     public static double toPitch(Vec3d vec) {

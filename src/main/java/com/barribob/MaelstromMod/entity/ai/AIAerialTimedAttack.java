@@ -147,7 +147,6 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 	    Vec3d targetPos = target.getPositionEyes(1);
 	    Vec3d entityPos = this.entity.getPositionEyes(1);
 	    Vec3d forwardVec = targetPos.subtract(entityPos).normalize();
-	    System.out.println(forwardVec.y);
 	    ((EntityMaelstromGauntlet) this.entity).setLook(forwardVec);
 	}
     }
