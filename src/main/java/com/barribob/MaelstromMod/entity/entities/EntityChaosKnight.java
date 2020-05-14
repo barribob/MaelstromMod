@@ -9,11 +9,12 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.EntityCrimsonPortalSpawn;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileChaosFireball;
+import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.init.ModEntities;
-import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
+import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -43,7 +44,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
+public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, DirectionalRender
 {
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
     private Vec3d chargeDir;
@@ -100,12 +101,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 	this.chargeDir = teleportPos;
 
 	// Send the aimed position to the client side
-	NBTTagCompound data = new NBTTagCompound();
-	data.setInteger("entityId", this.getEntityId());
-	data.setFloat("posX", (float) this.chargeDir.x);
-	data.setFloat("posY", (float) this.chargeDir.y);
-	data.setFloat("posZ", (float) this.chargeDir.z);
-	Main.network.sendToAllTracking(new MessageMonolithLazer(data), this);
+	Main.network.sendToAllTracking(new MessageDirectionForRender(this, this.chargeDir), this);
 
 	addEvent(() -> {
 	    world.createExplosion(this, posX, posY, posZ, 2, false);
@@ -347,8 +343,8 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack
 	return this.chargeDir;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void setLazerDir(Vec3d lazerDir)
+    @Override
+    public void setRenderDirection(Vec3d lazerDir)
     {
 	this.chargeDir = lazerDir;
     }

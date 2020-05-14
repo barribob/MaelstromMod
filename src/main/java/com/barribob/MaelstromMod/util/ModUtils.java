@@ -10,6 +10,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
@@ -41,6 +43,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -50,8 +53,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.MapStorage;
 
-public final class ModUtils
-{
+public final class ModUtils {
     public static char AZURE_SYMBOL = '\u03A6';
     public static char GOLDEN_SYMBOL = '\u03A9';
     public static char CRIMSON_SYMBOL = '\u03A3';
@@ -71,19 +73,15 @@ public final class ModUtils
     public static final DecimalFormat ROUND = new DecimalFormat("0");
     public static final ResourceLocation PARTICLE = new ResourceLocation(Reference.MOD_ID + ":textures/particle/particles.png");
 
-    static
-    {
+    static {
 	DF_0.setRoundingMode(RoundingMode.HALF_EVEN);
 	ROUND.setRoundingMode(RoundingMode.HALF_EVEN);
     }
 
-    public static Consumer<String> getPlayerAreaMessager(Entity entity)
-    {
+    public static Consumer<String> getPlayerAreaMessager(Entity entity) {
 	return (message) -> {
-	    if (message != "")
-	    {
-		for (EntityPlayer player : entity.world.getPlayers(EntityPlayer.class, (p) -> p.getDistanceSq(entity) < 100))
-		{
+	    if (message != "") {
+		for (EntityPlayer player : entity.world.getPlayers(EntityPlayer.class, (p) -> p.getDistanceSq(entity) < 100)) {
 		    player.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + entity.getDisplayName().getFormattedText() + ": " + TextFormatting.WHITE)
 			    .appendSibling(new TextComponentTranslation(ModUtils.LANG_CHAT + message)));
 		}
@@ -91,23 +89,19 @@ public final class ModUtils
 	};
     }
 
-    public static String translateDesc(String key, Object... params)
-    {
+    public static String translateDesc(String key, Object... params) {
 	return I18n.format(ModUtils.LANG_DESC + key, params);
     }
 
-    public static String translateDialog(String key)
-    {
+    public static String translateDialog(String key) {
 	return I18n.format(ModUtils.LANG_CHAT + key);
     }
 
-    public static String getDisplayLevel(float level)
-    {
+    public static String getDisplayLevel(float level) {
 	return ModUtils.translateDesc("level", "" + TextFormatting.DARK_PURPLE + Math.round(level));
     }
 
-    public static String getElementalTooltip(Element element)
-    {
+    public static String getElementalTooltip(Element element) {
 	return ModUtils.translateDesc("elemental_damage_desc",
 		"x" + ModUtils.DF_0.format(ModConfig.balance.elemental_factor),
 		element.textColor + element.symbol + TextFormatting.GRAY);
@@ -120,8 +114,7 @@ public final class ModUtils
      * @param world
      * @return
      */
-    public static boolean chunksGenerated(StructureBoundingBox box, World world)
-    {
+    public static boolean chunksGenerated(StructureBoundingBox box, World world) {
 	return world.isChunkGeneratedAt(box.minX >> 4, box.minZ >> 4) || world.isChunkGeneratedAt(box.minX >> 4, box.maxZ >> 4)
 		|| world.isChunkGeneratedAt(box.maxX >> 4, box.minZ >> 4) || world.isChunkGeneratedAt(box.maxX >> 4, box.maxZ >> 4);
     }
@@ -132,10 +125,8 @@ public final class ModUtils
      * @param n
      * @param func
      */
-    public static void performNTimes(int n, Consumer<Integer> func)
-    {
-	for (int i = 0; i < n; i++)
-	{
+    public static void performNTimes(int n, Consumer<Integer> func) {
+	for (int i = 0; i < n; i++) {
 	    func.accept(i);
 	}
     }
@@ -143,12 +134,10 @@ public final class ModUtils
     /**
      * Returns all EntityLivingBase entities in a certain bounding box
      */
-    public static List<EntityLivingBase> getEntitiesInBox(Entity entity, AxisAlignedBB bb)
-    {
+    public static List<EntityLivingBase> getEntitiesInBox(Entity entity, AxisAlignedBB bb) {
 	List<Entity> list = entity.world.getEntitiesWithinAABBExcludingEntity(entity, bb);
 
-	if (list != null)
-	{
+	if (list != null) {
 	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
 	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
 
@@ -161,19 +150,16 @@ public final class ModUtils
     /**
      * Returns the entity's position in vector form
      */
-    public static Vec3d entityPos(Entity entity)
-    {
+    public static Vec3d entityPos(Entity entity) {
 	return new Vec3d(entity.posX, entity.posY, entity.posZ);
     }
 
     /*
      * Generates a generator n times in a chunk
      */
-    public static void generateN(World worldIn, Random rand, BlockPos pos, int n, int baseY, int randY, WorldGenerator gen)
-    {
+    public static void generateN(World worldIn, Random rand, BlockPos pos, int n, int baseY, int randY, WorldGenerator gen) {
 	randY = randY > 0 ? randY : 1;
-	for (int i = 0; i < n; ++i)
-	{
+	for (int i = 0; i < n; ++i) {
 	    int x = rand.nextInt(16) + 8;
 	    int y = rand.nextInt(randY) + baseY;
 	    int z = rand.nextInt(16) + 8;
@@ -181,16 +167,14 @@ public final class ModUtils
 	}
     }
 
-    public static BlockPos posToChunk(BlockPos pos)
-    {
+    public static BlockPos posToChunk(BlockPos pos) {
 	return new BlockPos(pos.getX() / 16f, pos.getY(), pos.getZ() / 16f);
     }
 
     /**
      * Creates a Vec3 using the pitch and yaw of the entities rotation. Taken from entity, so it can be used anywhere
      */
-    public static Vec3d getVectorForRotation(float pitch, float yaw)
-    {
+    public static Vec3d getVectorForRotation(float pitch, float yaw) {
 	float f = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
 	float f1 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
 	float f2 = -MathHelper.cos(-pitch * 0.017453292F);
@@ -198,38 +182,31 @@ public final class ModUtils
 	return new Vec3d(f1 * f2, f3, f * f2);
     }
 
-    public static Vec3d yVec(double heightAboveGround)
-    {
+    public static Vec3d yVec(double heightAboveGround) {
 	return new Vec3d(0, heightAboveGround, 0);
     }
 
-    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource)
-    {
+    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource) {
 	handleAreaImpact(radius, maxDamage, source, pos, damageSource, 1, 0);
     }
 
     public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
-	    float knockbackFactor, int fireFactor)
-    {
+	    float knockbackFactor, int fireFactor) {
 	handleAreaImpact(radius, maxDamage, source, pos, damageSource, knockbackFactor, fireFactor, true);
     }
 
-    private static Vec3d getCenter(AxisAlignedBB box)
-    {
+    private static Vec3d getCenter(AxisAlignedBB box) {
 	return new Vec3d(box.minX + (box.maxX - box.minX) * 0.5D, box.minY + (box.maxY - box.minY) * 0.5D, box.minZ + (box.maxZ - box.minZ) * 0.5D);
     }
 
     public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
-	    float knockbackFactor, int fireFactor, boolean damageDecay)
-    {
-	if (source == null)
-	{
+	    float knockbackFactor, int fireFactor, boolean damageDecay) {
+	if (source == null) {
 	    return;
 	}
 	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
-	if (list != null)
-	{
+	if (list != null) {
 	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
 	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
 	    double radiusSq = Math.pow(radius, 2);
@@ -255,8 +232,7 @@ public final class ModUtils
 		// Damage decays by the square to make missed impacts less powerful
 		double damageFactorSq = Math.pow(damageFactor, 2);
 		double damage = maxDamage.apply(entity) * damageFactorSq;
-		if (damage > 0 && adjustedDistanceSq < radiusSq)
-		{
+		if (damage > 0 && adjustedDistanceSq < radiusSq) {
 		    entity.setFire((int) (fireFactor * damageFactorSq));
 		    entity.attackEntityFrom(damageSource, (float) damage);
 		    double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
@@ -270,45 +246,36 @@ public final class ModUtils
 	}
     }
 
-    public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource)
-    {
+    public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource) {
 	handleBulletImpact(hitEntity, projectile, damage, damageSource, 0);
     }
 
-    public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource, int knockback)
-    {
+    public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource, int knockback) {
 	handleBulletImpact(hitEntity, projectile, damage, damageSource, knockback, (p, e) -> {
 	}, (p, e) -> {
 	});
     }
 
     public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource, int knockback,
-	    BiConsumer<Projectile, Entity> beforeHit, BiConsumer<Projectile, Entity> afterHit)
-    {
+	    BiConsumer<Projectile, Entity> beforeHit, BiConsumer<Projectile, Entity> afterHit) {
 	handleBulletImpact(hitEntity, projectile, damage, damageSource, knockback, beforeHit, afterHit, true);
     }
 
     public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource, int knockback,
-	    BiConsumer<Projectile, Entity> beforeHit, BiConsumer<Projectile, Entity> afterHit, Boolean resetHurtTime)
-    {
-	if (hitEntity != null && projectile != null && projectile.shootingEntity != null && hitEntity != projectile.shootingEntity)
-	{
+	    BiConsumer<Projectile, Entity> beforeHit, BiConsumer<Projectile, Entity> afterHit, Boolean resetHurtTime) {
+	if (hitEntity != null && projectile != null && projectile.shootingEntity != null && hitEntity != projectile.shootingEntity) {
 	    beforeHit.accept(projectile, hitEntity);
-	    if (projectile.isBurning() && !(hitEntity instanceof EntityEnderman))
-	    {
+	    if (projectile.isBurning() && !(hitEntity instanceof EntityEnderman)) {
 		hitEntity.setFire(5);
 	    }
-	    if (resetHurtTime)
-	    {
+	    if (resetHurtTime) {
 		hitEntity.hurtResistantTime = 0;
 	    }
 	    hitEntity.attackEntityFrom(damageSource, damage);
-	    if (knockback > 0)
-	    {
+	    if (knockback > 0) {
 		float f1 = MathHelper.sqrt(projectile.motionX * projectile.motionX + projectile.motionZ * projectile.motionZ);
 
-		if (f1 > 0.0F)
-		{
+		if (f1 > 0.0F) {
 		    hitEntity.addVelocity(projectile.motionX * knockback * 0.6000000238418579D / f1, 0.1D, projectile.motionZ * knockback * 0.6000000238418579D / f1);
 		}
 	    }
@@ -316,8 +283,7 @@ public final class ModUtils
 	}
     }
 
-    public static Vec3d getRelativeOffset(EntityLivingBase actor, Vec3d offset)
-    {
+    public static Vec3d getRelativeOffset(EntityLivingBase actor, Vec3d offset) {
 	Vec3d look = ModUtils.getVectorForRotation(0, actor.renderYawOffset);
 	Vec3d side = look.rotateYaw((float) Math.PI * 0.5f);
 	return look.scale(offset.x).add(yVec((float) offset.y)).add(side.scale(offset.z));
@@ -330,28 +296,24 @@ public final class ModUtils
      * @param offset
      * @return
      */
-    public static Vec3d getAxisOffset(Vec3d axis, Vec3d offset)
-    {
+    public static Vec3d getAxisOffset(Vec3d axis, Vec3d offset) {
 	Vec3d forward = axis.normalize().scale(offset.x);
 	Vec3d side = axis.crossProduct(new Vec3d(0, 1, 0)).normalize().scale(offset.z);
 	Vec3d up = axis.crossProduct(side).normalize().scale(offset.y);
 	return forward.add(side).add(up);
     }
 
-    public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile)
-    {
+    public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile) {
 	throwProjectile(actor, target, projectile, 12.0f, 1.6f);
     }
 
-    public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity, Vec3d offset)
-    {
+    public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity, Vec3d offset) {
 	Vec3d pos = projectile.getPositionVector().add(offset);
 	projectile.setPosition(pos.x, pos.y, pos.z);
 	throwProjectile(actor, target, projectile, inaccuracy, velocity);
     }
 
-    public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity)
-    {
+    public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity) {
 	double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
 	double d1 = target.posX - projectile.posX;
 	double d2 = d0 - projectile.posY;
@@ -367,13 +329,10 @@ public final class ModUtils
      * @param entity
      * @param world
      */
-    public static void walkOnWater(EntityLivingBase entity, World world)
-    {
+    public static void walkOnWater(EntityLivingBase entity, World world) {
 	BlockPos pos = new BlockPos(entity.posX, Math.floor(entity.getEntityBoundingBox().minY), entity.posZ);
-	if (world.getBlockState(pos).getBlock() == Blocks.WATER || world.getBlockState(pos).getBlock() == Blocks.FLOWING_WATER)
-	{
-	    if (entity.motionY < 0)
-	    {
+	if (world.getBlockState(pos).getBlock() == Blocks.WATER || world.getBlockState(pos).getBlock() == Blocks.FLOWING_WATER) {
+	    if (entity.motionY < 0) {
 		entity.posY += -entity.motionY; // player is falling, so motionY is negative, but we want to reverse that
 		entity.motionY = 0.0D; // no longer falling
 	    }
@@ -389,8 +348,7 @@ public final class ModUtils
      * @param level
      * @return
      */
-    public static float getMobDamage(double baseAttackDamage, double healthScaledAttackFactor, float maxHealth, float health, float level, Element element)
-    {
+    public static float getMobDamage(double baseAttackDamage, double healthScaledAttackFactor, float maxHealth, float health, float level, Element element) {
 	double leveledAttack = baseAttackDamage * LevelHandler.getMultiplierFromLevel(level) * ModConfig.balance.mob_damage;
 	double healthScaledAttack = leveledAttack * healthScaledAttackFactor * (((maxHealth * 0.5) - health) / maxHealth);
 	double elementalScale = element != Element.NONE ? ModConfig.balance.elemental_factor : 1;
@@ -405,10 +363,8 @@ public final class ModUtils
      * @param v
      * @return
      */
-    public static boolean isBetween(int a, int b, int v)
-    {
-	if (a > b)
-	{
+    public static boolean isBetween(int a, int b, int v) {
+	if (a > b) {
 	    int t = a;
 	    a = b;
 	    b = t;
@@ -416,16 +372,14 @@ public final class ModUtils
 	return v >= a && v < b;
     }
 
-    public static int calculateGenerationHeight(World world, int x, int z)
-    {
+    public static int calculateGenerationHeight(World world, int x, int z) {
 	return world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();
     }
 
     /**
      * Returns -1 if the variation is too much
      */
-    public static int getAverageGroundHeight(World world, int x, int z, int sizeX, int sizeZ, int maxVariation)
-    {
+    public static int getAverageGroundHeight(World world, int x, int z, int sizeX, int sizeZ, int maxVariation) {
 	sizeX = x + sizeX;
 	sizeZ = z + sizeZ;
 	int corner1 = calculateGenerationHeight(world, x, z);
@@ -435,25 +389,21 @@ public final class ModUtils
 
 	int max = Math.max(Math.max(corner3, corner4), Math.max(corner1, corner2));
 	int min = Math.min(Math.min(corner3, corner4), Math.min(corner1, corner2));
-	if (max - min > maxVariation)
-	{
+	if (max - min > maxVariation) {
 	    return -1;
 	}
 	return min;
     }
 
-    public static String getDamageTooltip(float damage)
-    {
+    public static String getDamageTooltip(float damage) {
 	return ModUtils.translateDesc("damage_tooltip", "" + TextFormatting.BLUE + DF_0.format(damage) + TextFormatting.GRAY);
     }
 
-    public static String getCooldownTooltip(float cooldown)
-    {
+    public static String getCooldownTooltip(float cooldown) {
 	return ModUtils.translateDesc("gun_reload_time", TextFormatting.BLUE + "" + DF_0.format(cooldown * 0.05) + TextFormatting.GRAY);
     }
 
-    public static float getEnchantedDamage(ItemStack stack, float level, float damage)
-    {
+    public static float getEnchantedDamage(ItemStack stack, float level, float damage) {
 	float maxPower = ModEnchantments.gun_power.getMaxLevel();
 	float power = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gun_power, stack);
 	float maxDamageBonus = (float) Math.pow(ModConfig.balance.progression_scale, 2); // Maximum damage is two levels above
@@ -461,47 +411,38 @@ public final class ModUtils
 	return damage * enchantmentBonus * LevelHandler.getMultiplierFromLevel(level);
     }
 
-    public static int getGunAmmoUse(float level)
-    {
+    public static int getGunAmmoUse(float level) {
 	return Math.round(LevelHandler.getMultiplierFromLevel(level));
     }
 
-    public static InvasionWorldSaveData getInvasionData(World world)
-    {
+    public static InvasionWorldSaveData getInvasionData(World world) {
 	MapStorage storage = world.getMapStorage();
 	InvasionWorldSaveData instance = (InvasionWorldSaveData) storage.getOrLoadData(InvasionWorldSaveData.class, InvasionWorldSaveData.DATA_NAME);
 
-	if (instance == null)
-	{
+	if (instance == null) {
 	    instance = new InvasionWorldSaveData();
 	    storage.setData(InvasionWorldSaveData.DATA_NAME, instance);
 	}
 	return instance;
     }
 
-    public static float calculateElementalDamage(Element mobElement, Element damageElement, float amount)
-    {
-	if (mobElement.matchesElement(damageElement))
-	{
+    public static float calculateElementalDamage(Element mobElement, Element damageElement, float amount) {
+	if (mobElement.matchesElement(damageElement)) {
 	    return amount * 1.5f;
 	}
 	return amount;
     }
 
-    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity)
-    {
+    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity) {
 	doSweepAttack(player, target, element, perEntity, 9, 1);
     }
 
-    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity, float maxDistanceSq, float areaSize)
-    {
+    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity, float maxDistanceSq, float areaSize) {
 	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
 
-	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(areaSize, 0.25D, areaSize)))
-	{
-	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq)
-	    {
+	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(areaSize, 0.25D, areaSize))) {
+	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq) {
 		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F), (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 		entitylivingbase.attackEntityFrom(ModDamageSource.causeElementalPlayerDamage(player, element), sweepDamage);
 		perEntity.accept(entitylivingbase);
@@ -511,8 +452,7 @@ public final class ModUtils
 	player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 0.9F);
 
 	// Spawn colored sweep particles
-	if (!player.world.isRemote)
-	{
+	if (!player.world.isRemote) {
 	    double d0 = (-MathHelper.sin(player.rotationYaw * 0.017453292F));
 	    double d1 = MathHelper.cos(player.rotationYaw * 0.017453292F);
 	    Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, (float) (player.posX + d0), (float) (player.posY + player.height * 0.5D),
@@ -534,11 +474,9 @@ public final class ModUtils
      *            The number of points around the circle
      * @param particleSpawner
      */
-    public static void circleCallback(float radius, int points, Consumer<Vec3d> particleSpawner)
-    {
+    public static void circleCallback(float radius, int points, Consumer<Vec3d> particleSpawner) {
 	float degrees = 360f / points;
-	for (int i = 0; i < points; i++)
-	{
+	for (int i = 0; i < points; i++) {
 	    double radians = Math.toRadians(i * degrees);
 	    Vec3d offset = new Vec3d(Math.sin(radians), Math.cos(radians), 0).scale(radius);
 	    particleSpawner.accept(offset);
@@ -548,34 +486,28 @@ public final class ModUtils
     /*
      * Does the elemental and leveled calculations for damage
      */
-    public static float getArmoredDamage(DamageSource source, float amount, float level, Element element)
-    {
+    public static float getArmoredDamage(DamageSource source, float amount, float level, Element element) {
 	amount *= ModConfig.balance.mob_armor;
 
-	if (!source.isUnblockable())
-	{
-	    if (element != element.NONE)
-	    {
+	if (!source.isUnblockable()) {
+	    if (element != element.NONE) {
 		amount /= ModConfig.balance.elemental_factor;
 	    }
 	    amount = amount * LevelHandler.getArmorFromLevel(level);
 	}
 
-	if (source instanceof IElement)
-	{
+	if (source instanceof IElement) {
 	    amount = ModUtils.calculateElementalDamage(element, ((IElement) source).getElement(), amount);
 	}
 
 	return amount;
     }
 
-    public static void leapTowards(EntityLivingBase entity, Vec3d target, float horzVel, float yVel)
-    {
+    public static void leapTowards(EntityLivingBase entity, Vec3d target, float horzVel, float yVel) {
 	Vec3d dir = target.subtract(entity.getPositionVector()).normalize();
 	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(horzVel).add(ModUtils.yVec(yVel));
 	entity.motionX += leap.x;
-	if (entity.motionY < 0.1)
-	{
+	if (entity.motionY < 0.1) {
 	    entity.motionY += leap.y;
 	}
 	entity.motionZ += leap.z;
@@ -583,8 +515,7 @@ public final class ModUtils
 	// Normalize to make sure the velocity doesn't go beyond what we expect
 	double horzMag = Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionZ, 2));
 	double scale = horzVel / horzMag;
-	if (scale < 1)
-	{
+	if (scale < 1) {
 	    entity.motionX *= scale;
 	    entity.motionZ *= scale;
 	}
@@ -598,42 +529,33 @@ public final class ModUtils
      * @param points
      * @param callback
      */
-    public static void lineCallback(Vec3d start, Vec3d end, int points, BiConsumer<Vec3d, Integer> callback)
-    {
+    public static void lineCallback(Vec3d start, Vec3d end, int points, BiConsumer<Vec3d, Integer> callback) {
 	Vec3d dir = end.subtract(start).scale(1 / (float) (points - 1));
 	Vec3d pos = start;
-	for (int i = 0; i < points; i++)
-	{
+	for (int i = 0; i < points; i++) {
 	    callback.accept(pos, i);
 	    pos = pos.add(dir);
 	}
     }
 
-    public static int tryParseInt(String s, int defaultValue)
-    {
-	try
-	{
+    public static int tryParseInt(String s, int defaultValue) {
+	try {
 	    return Integer.parseInt(s);
 	}
-	catch (NumberFormatException e)
-	{
+	catch (NumberFormatException e) {
 	    return defaultValue;
 	}
     }
 
-    public static float clamp(double value, double min, double max)
-    {
+    public static float clamp(double value, double min, double max) {
 	return (float) Math.max(min, Math.min(max, value));
     }
 
-    public static Vec3d findEntityGroupCenter(Entity mob, double d)
-    {
+    public static Vec3d findEntityGroupCenter(Entity mob, double d) {
 	Vec3d groupCenter = mob.getPositionVector();
 	float numMobs = 1;
-	for (EntityLivingBase entity : ModUtils.getEntitiesInBox(mob, new AxisAlignedBB(mob.getPosition()).grow(d)))
-	{
-	    if (entity instanceof EntityMaelstromMob && !(entity instanceof EntityMaelstromHealer))
-	    {
+	for (EntityLivingBase entity : ModUtils.getEntitiesInBox(mob, new AxisAlignedBB(mob.getPosition()).grow(d))) {
+	    if (entity instanceof EntityMaelstromMob && !(entity instanceof EntityMaelstromHealer)) {
 		groupCenter = groupCenter.add(entity.getPositionVector());
 		numMobs += 1;
 	    }
@@ -642,21 +564,17 @@ public final class ModUtils
 	return groupCenter.scale(1 / numMobs);
     }
 
-    public static boolean isAirBelow(World world, BlockPos pos, int blocksBelow)
-    {
+    public static boolean isAirBelow(World world, BlockPos pos, int blocksBelow) {
 	boolean hasGround = false;
-	for (int i = 0; i >= -blocksBelow; i--)
-	{
-	    if (!world.isAirBlock(pos.add(new BlockPos(0, i, 0))))
-	    {
+	for (int i = 0; i >= -blocksBelow; i--) {
+	    if (!world.isAirBlock(pos.add(new BlockPos(0, i, 0)))) {
 		hasGround = true;
 	    }
 	}
 	return !hasGround;
     }
 
-    public static void facePosition(Vec3d pos, Entity entity, float maxYawIncrease, float maxPitchIncrease)
-    {
+    public static void facePosition(Vec3d pos, Entity entity, float maxYawIncrease, float maxPitchIncrease) {
 	double d0 = pos.x - entity.posX;
 	double d2 = pos.z - entity.posZ;
 	double d1 = pos.y - entity.posY;
@@ -668,17 +586,14 @@ public final class ModUtils
 	entity.rotationYaw = updateRotation(entity.rotationYaw, f, maxYawIncrease);
     }
 
-    private static float updateRotation(float angle, float targetAngle, float maxIncrease)
-    {
+    private static float updateRotation(float angle, float targetAngle, float maxIncrease) {
 	float f = MathHelper.wrapDegrees(targetAngle - angle);
 
-	if (f > maxIncrease)
-	{
+	if (f > maxIncrease) {
 	    f = maxIncrease;
 	}
 
-	if (f < -maxIncrease)
-	{
+	if (f < -maxIncrease) {
 	    f = -maxIncrease;
 	}
 
@@ -690,12 +605,11 @@ public final class ModUtils
      * 
      * @param vec
      * @param axis
-     * @param theta
+     * @param degrees
      * @return
      */
-    public static Vec3d rotateVector(Vec3d vec, Vec3d axis, double theta)
-    {
-	theta = Math.toRadians(theta);
+    public static Vec3d rotateVector(Vec3d vec, Vec3d axis, double degrees) {
+	double theta = Math.toRadians(degrees);
 	double x, y, z;
 	double u, v, w;
 	x = vec.x;
@@ -717,13 +631,11 @@ public final class ModUtils
     }
 
     // https://stackoverflow.com/questions/2150050/finding-signed-angle-between-vectors
-    public static double unsignedAngle(Vec3d a, Vec3d b)
-    {
+    public static double unsignedAngle(Vec3d a, Vec3d b) {
 	return Math.abs(Math.atan2(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
     }
 
-    public static double toPitch(Vec3d vec)
-    {
+    public static double toPitch(Vec3d vec) {
 	double angleBetweenYAxis = Math.toDegrees(unsignedAngle(vec, new Vec3d(0, 1, 0)));
 	return angleBetweenYAxis - 90;
     }
@@ -736,8 +648,7 @@ public final class ModUtils
      * @param entity
      * @return
      */
-    public static boolean destroyBlocksInAABB(AxisAlignedBB box, World world, Entity entity)
-    {
+    public static boolean destroyBlocksInAABB(AxisAlignedBB box, World world, Entity entity) {
 	int i = MathHelper.floor(box.minX);
 	int j = MathHelper.floor(box.minY);
 	int k = MathHelper.floor(box.minZ);
@@ -747,30 +658,22 @@ public final class ModUtils
 	boolean failedToDestroySomeBlocks = false;
 	boolean destroyedBlocks = false;
 
-	for (int k1 = i; k1 <= l; ++k1)
-	{
-	    for (int l1 = j; l1 <= i1; ++l1)
-	    {
-		for (int i2 = k; i2 <= j1; ++i2)
-		{
+	for (int k1 = i; k1 <= l; ++k1) {
+	    for (int l1 = j; l1 <= i1; ++l1) {
+		for (int i2 = k; i2 <= j1; ++i2) {
 		    BlockPos blockpos = new BlockPos(k1, l1, i2);
 		    IBlockState iblockstate = world.getBlockState(blockpos);
 		    Block block = iblockstate.getBlock();
 
-		    if (!block.isAir(iblockstate, world, blockpos) && iblockstate.getMaterial() != Material.FIRE)
-		    {
-			if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity))
-			{
+		    if (!block.isAir(iblockstate, world, blockpos) && iblockstate.getMaterial() != Material.FIRE) {
+			if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity)) {
 			    failedToDestroySomeBlocks = true;
 			}
-			else
-			{
-			    if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.BEDROCK)
-			    {
+			else {
+			    if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.BEDROCK) {
 				destroyedBlocks = world.setBlockToAir(blockpos) || destroyedBlocks;
 			    }
-			    else
-			    {
+			    else {
 				failedToDestroySomeBlocks = true;
 			    }
 			}
@@ -779,8 +682,7 @@ public final class ModUtils
 	    }
 	}
 
-	if (destroyedBlocks)
-	{
+	if (destroyedBlocks) {
 	    world.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 2, false);
 	}
 
@@ -794,9 +696,24 @@ public final class ModUtils
      * @param yaw
      * @return
      */
-    public static Vec3d getLookVec(float pitch, float yaw)
-    {
+    public static Vec3d getLookVec(float pitch, float yaw) {
 	Vec3d yawVec = ModUtils.rotateVector(new Vec3d(0, 0, -1), new Vec3d(0, 1, 0), -yaw);
 	return ModUtils.rotateVector(yawVec, yawVec.crossProduct(new Vec3d(0, 1, 0)), pitch);
+    }
+
+    /**
+     * Finds all entities that collide with the line specified by two vectors, excluding a certain entity
+     * 
+     * @param start
+     * @param end
+     * @param world
+     * @param toExclude
+     * @return
+     */
+    public static List<Entity> findEntitiesInLine(Vec3d start, Vec3d end, World world, @Nullable Entity toExclude) {
+	return world.getEntitiesInAABBexcluding(toExclude, new AxisAlignedBB(start.x, start.y, start.z, end.x, end.y, end.z), (e) -> {
+	    RayTraceResult raytraceresult = e.getEntityBoundingBox().calculateIntercept(start, end);
+	    return raytraceresult != null;
+	});
     }
 }

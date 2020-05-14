@@ -12,7 +12,7 @@ import com.barribob.MaelstromMod.packets.MessageLoopAnimationUpdate;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.packets.MessageManaUnlock;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
-import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
+import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.packets.MessageSyncConfig;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -49,7 +49,7 @@ public class CommonProxy
 	Main.network.registerMessage(MessageMana.MessageHandler.class, MessageMana.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageLeap.MessageHandler.class, MessageLeap.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageManaUnlock.MessageHandler.class, MessageManaUnlock.class, packetId++, Side.CLIENT);
-	Main.network.registerMessage(MessageMonolithLazer.Handler.class, MessageMonolithLazer.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageDirectionForRender.Handler.class, MessageDirectionForRender.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageModParticles.MessageHandler.class, MessageModParticles.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageSyncConfig.Handler.class, MessageSyncConfig.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageBBAnimation.Handler.class, MessageBBAnimation.class, packetId++, Side.CLIENT);

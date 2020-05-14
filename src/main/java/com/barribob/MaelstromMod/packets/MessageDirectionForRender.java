@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.packets;
 
-import com.barribob.MaelstromMod.entity.entities.EntityChaosKnight;
-import com.barribob.MaelstromMod.entity.entities.EntityMonolith;
+import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -13,16 +12,21 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageMonolithLazer implements IMessage
+public class MessageDirectionForRender implements IMessage
 {
     private NBTTagCompound data;
 
-    public MessageMonolithLazer()
+    public MessageDirectionForRender()
     {
     }
 
-    public MessageMonolithLazer(NBTTagCompound data)
+    public MessageDirectionForRender(Entity entity, Vec3d vec)
     {
+	NBTTagCompound data = new NBTTagCompound();
+	data.setInteger("entityId", entity.getEntityId());
+	data.setFloat("posX", (float) vec.x);
+	data.setFloat("posY", (float) vec.y);
+	data.setFloat("posZ", (float) vec.z);
 	this.data = data;
     }
 
@@ -38,10 +42,10 @@ public class MessageMonolithLazer implements IMessage
 	ByteBufUtils.writeTag(buf, data);
     }
 
-    public static class Handler implements IMessageHandler<MessageMonolithLazer, IMessage>
+    public static class Handler implements IMessageHandler<MessageDirectionForRender, IMessage>
     {
 	@Override
-	public IMessage onMessage(MessageMonolithLazer message, MessageContext ctx)
+	public IMessage onMessage(MessageDirectionForRender message, MessageContext ctx)
 	{
 	    if (PacketUtils.getPlayer() != null)
 	    {
@@ -49,13 +53,9 @@ public class MessageMonolithLazer implements IMessage
 		if (message.data.hasKey("entityId") && message.data.hasKey("posX") && message.data.hasKey("posY") && message.data.hasKey("posZ"))
 		{
 		    Entity entity = player.world.getEntityByID(message.data.getInteger("entityId"));
-		    if (entity instanceof EntityMonolith)
+		    if (entity instanceof DirectionalRender)
 		    {
-			((EntityMonolith) entity).setLazerDir(new Vec3d(message.data.getFloat("posX"), message.data.getFloat("posY"), message.data.getFloat("posZ")));
-		    }
-		    else if (entity instanceof EntityChaosKnight)
-		    {
-			((EntityChaosKnight) entity).setLazerDir(new Vec3d(message.data.getFloat("posX"), message.data.getFloat("posY"), message.data.getFloat("posZ")));
+			((DirectionalRender) entity).setRenderDirection(new Vec3d(message.data.getFloat("posX"), message.data.getFloat("posY"), message.data.getFloat("posZ")));
 		    }
 		}
 	    }

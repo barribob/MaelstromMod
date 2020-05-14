@@ -5,15 +5,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.ai.AIAerialTimedAttack;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
+import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
+import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.RenderUtils;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
@@ -21,6 +27,8 @@ import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.entity.RenderDragon;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -39,10 +47,11 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart {
+public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender {
     // We keep track of the look ourselves because minecraft's look is clamped
     protected static final DataParameter<Float> LOOK = EntityDataManager.<Float>createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private MultiPartEntityPart[] hitboxParts;
@@ -57,7 +66,12 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private MultiPartEntityPart fist = new MultiPartEntityPart(this, "fist", 0, 0);
     private Consumer<EntityLivingBase> prevAttack;
     private boolean isPunching;
+    private boolean isShootingLazer;
     private Vec3d targetPos;
+    private Vec3d renderLazerPos;
+    private Vec3d prevRenderLazerPos;
+    private byte stopLazerByte = 39;
+    private int beamLag = 7;
 
     private final Consumer<EntityLivingBase> punch = (target) -> {
 	ModBBAnimations.animation(this, "gauntlet.punch", false);
@@ -77,6 +91,25 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    this.fist.height = 0;
 	    this.height = 4;
 	}, 50);
+    };
+
+    private final Consumer<EntityLivingBase> lazer = (target) -> {
+	ModBBAnimations.animation(this, "gauntlet.lazer_eye", false);
+	for (int i = 0; i < 25; i++) {
+	    this.addEvent(() -> {
+		world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+	    }, i);
+	}
+	this.addEvent(() -> {
+	    this.isShootingLazer = true;
+	}, 25);
+	this.addEvent(() -> {
+	    this.isShootingLazer = false;
+	    // Have to add delay because there will be 5 more ticks of lazers
+	    this.addEvent(() -> {
+		world.setEntityState(this, stopLazerByte);
+	    }, beamLag + 1);
+	}, 60);
     };
 
     public EntityMaelstromGauntlet(World worldIn) {
@@ -102,14 +135,14 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     protected void initEntityAI() {
 	super.initEntityAI();
-	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, 20, 0.8f));
+	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, 40, 20, 0.8f, 20));
     }
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
-	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch));
+	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch, lazer));
 	double[] weights = {
-		1
+		1, 1
 	};
 	this.prevAttack = ModRandom.choice(attacks, rand, weights).next();
 	this.prevAttack.accept(target);
@@ -182,12 +215,60 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    this.hitboxParts[l].prevPosZ = avec3d[l].z;
 	}
 
+	if (world.isRemote) {
+	    return;
+	}
+
 	if (this.isPunching) {
 	    ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
 	    Vec3d dir = this.targetPos.subtract(this.getPositionVector()).normalize().scale(0.2);
 	    this.addVelocity(dir.x, dir.y, dir.z);
 	    ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), ModDamageSource.causeElementalMeleeDamage(this, this.getElement()), 1.5f, 0, false);
 	}
+
+	if (this.isShootingLazer) {
+	    if (this.getAttackTarget() != null) {
+		Vec3d lazerShootPos = this.getAttackTarget().getPositionVector();
+		this.addEvent(() -> {
+
+		    // Extend shooting beyond the target position up to 40 blocks
+		    Vec3d lazerPos = lazerShootPos.add(lazerShootPos.subtract(this.getPositionEyes(1)).normalize().scale(40));
+		    // Ray trace both blocks and entities
+		    RayTraceResult raytraceresult = this.world.rayTraceBlocks(this.getPositionEyes(1), lazerPos, false, true, false);
+		    if (raytraceresult != null) {
+			world.createExplosion(this, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 1, true);
+
+			// If we hit a block, make sure that any collisions with entities are detected up to the hit block
+			lazerPos = raytraceresult.hitVec;
+		    }
+
+		    for (Entity entity : ModUtils.findEntitiesInLine(this.getPositionEyes(1), lazerPos, world, this)) {
+			entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), this.getAttack());
+		    }
+
+		    Main.network.sendToAllTracking(new MessageDirectionForRender(this, lazerPos), this);
+		}, beamLag);
+	    }
+	    else {
+		// Prevent the gauntlet from instantly locking onto other targets with the lazer.
+		this.isShootingLazer = false;
+		this.addEvent(() -> {
+		    world.setEntityState(this, stopLazerByte);
+		}, beamLag + 1);
+	    }
+	}
+    }
+
+    @Override
+    public void doRender(RenderManager renderManager, double x, double y, double z, float entityYaw, float partialTicks) {
+	if (this.renderLazerPos != null) {
+	    // This sort of jenky way of binding the wrong texture to the original guardian beam creates quite a nice particle beam visual
+	    renderManager.renderEngine.bindTexture(RenderDragon.ENDERCRYSTAL_BEAM_TEXTURES);
+	    // We must interpolate between positions to make the move smoothly
+	    Vec3d interpolatedPos = renderLazerPos.subtract(this.prevRenderLazerPos).scale(partialTicks).add(prevRenderLazerPos);
+	    RenderUtils.drawBeam(renderManager, this.getPositionEyes(partialTicks), interpolatedPos, new Vec3d(x, y, z), ModColors.RED, this, partialTicks);
+	}
+	super.doRender(renderManager, x, y, z, entityYaw, partialTicks);
     }
 
     @Override
@@ -198,7 +279,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     public EntityLeveledMob setLook(Vec3d look) {
 	float prevLook = this.getLook();
 	float newLook = (float) ModUtils.toPitch(look);
-	float deltaLook = 1;
+	float deltaLook = 5;
 	float clampedLook = MathHelper.clamp(newLook, prevLook - deltaLook, prevLook + deltaLook);
 	this.dataManager.set(LOOK, clampedLook);
 	return this;
@@ -206,6 +287,25 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     public float getLook() {
 	return this.dataManager == null ? 0 : this.dataManager.get(LOOK);
+    }
+
+    @Override
+    public void handleStatusUpdate(byte id) {
+	if (id == stopLazerByte) {
+	    this.renderLazerPos = null;
+	}
+	else if (id == ModUtils.PARTICLE_BYTE) {
+	    // Render particles in a sucking in motion
+	    for (int i = 0; i < 5; i++) {
+		Vec3d lookVec = ModUtils.getLookVec(this.getLook(), this.renderYawOffset);
+		Vec3d randOffset = ModUtils.rotateVector(lookVec, lookVec.crossProduct(new Vec3d(0, 1, 0)), ModRandom.range(-70, 70));
+		randOffset = ModUtils.rotateVector(randOffset, lookVec, ModRandom.range(0, 360)).scale(1.5f);
+		Vec3d velocity = Vec3d.ZERO.subtract(randOffset).normalize().scale(0.15f).add(new Vec3d(this.motionX, this.motionY, this.motionZ));
+		Vec3d particlePos = this.getPositionEyes(1).add(ModUtils.getAxisOffset(lookVec, new Vec3d(-2, 0, 0))).add(randOffset);
+		ParticleManager.spawnDust(world, particlePos, ModColors.RED, velocity, ModRandom.range(5, 7));
+	    }
+	}
+	super.handleStatusUpdate(id);
     }
 
     @Override
@@ -510,5 +610,16 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	}
 
 	this.world.profiler.endSection();
+    }
+
+    @Override
+    public void setRenderDirection(Vec3d dir) {
+	if (this.renderLazerPos != null) {
+	    this.prevRenderLazerPos = this.renderLazerPos;
+	}
+	else {
+	    this.prevRenderLazerPos = dir;
+	}
+	this.renderLazerPos = dir;
     }
 }

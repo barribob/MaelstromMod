@@ -14,9 +14,10 @@ import com.barribob.MaelstromMod.entity.model.ModelMonolith;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMeteor;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMonolithFireball;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
+import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
-import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
+import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -46,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityMonolith extends EntityMaelstromMob implements IAttack
+public class EntityMonolith extends EntityMaelstromMob implements IAttack, DirectionalRender
 {
     // Maelstrom minion AI stuff
     private static final int maxShades = 5;
@@ -427,8 +428,8 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack
 	return false;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void setLazerDir(Vec3d lazerDir)
+    @Override
+    public void setRenderDirection(Vec3d lazerDir)
     {
 	this.lazerDir = lazerDir;
     }
@@ -561,12 +562,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack
 		    .subtract(getPositionVector().add(ModUtils.yVec(this.getEyeHeight()))).normalize().scale(20).add(getPositionVector());
 
 	    // Send the aimed position to the client side
-	    NBTTagCompound data = new NBTTagCompound();
-	    data.setInteger("entityId", this.getEntityId());
-	    data.setFloat("posX", (float) this.lazerDir.x);
-	    data.setFloat("posY", (float) this.lazerDir.y);
-	    data.setFloat("posZ", (float) this.lazerDir.z);
-	    Main.network.sendToAllTracking(new MessageMonolithLazer(data), this);
+	    Main.network.sendToAllTracking(new MessageDirectionForRender(this, this.lazerDir), this);
 	}
 
 	world.setEntityState(this, attackHandler.getCurrentAttack());

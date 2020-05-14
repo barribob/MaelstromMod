@@ -28,6 +28,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
     private int strafingTime = -1;
     private final float strafeAmount;
     private float lookSpeed;
+    private final float idealAttackDistanceSq;
 
     private static final float STRAFING_STOP_FACTOR = 0.75f;
     private static final float STRAFING_BACKWARDS_FACTOR = 0.25f;
@@ -35,12 +36,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
     private static final float STRAFING_DIRECTION_CHANGE_CHANCE = 0.3f;
     private static final int MAX_STRAFE_ANGLE = 360;
 
-    public AIAerialTimedAttack(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance, float strafeAmount)
-    {
-	this(entity, moveSpeedAmp, attackCooldown, maxAttackDistance, strafeAmount, 30.0f);
-    }
-
-    public AIAerialTimedAttack(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance, float strafeAmount, float lookSpeed)
+    public AIAerialTimedAttack(T entity, double moveSpeedAmp, int attackCooldown, float maxAttackDistance, float idealAttackDistance, float strafeAmount, float lookSpeed)
     {
 	this.entity = entity;
 	this.moveSpeedAmp = moveSpeedAmp;
@@ -49,6 +45,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 	this.strafeAmount = strafeAmount;
 	this.attackTime = attackCooldown;
 	this.lookSpeed = lookSpeed;
+	this.idealAttackDistanceSq = idealAttackDistance * idealAttackDistance;
 	this.setMutexBits(3);
     }
 
@@ -126,11 +123,11 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 
 	if (this.strafingTime > -1)
 	{
-	    if (distSq > this.maxAttackDistSq * STRAFING_STOP_FACTOR)
+	    if (distSq > this.idealAttackDistanceSq * STRAFING_STOP_FACTOR)
 	    {
 		this.strafingBackwards = false;
 	    }
-	    else if (distSq < this.maxAttackDistSq * STRAFING_BACKWARDS_FACTOR)
+	    else if (distSq < this.idealAttackDistanceSq * STRAFING_BACKWARDS_FACTOR)
 	    {
 		this.strafingBackwards = true;
 	    }
@@ -150,6 +147,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 	    Vec3d targetPos = target.getPositionEyes(1);
 	    Vec3d entityPos = this.entity.getPositionEyes(1);
 	    Vec3d forwardVec = targetPos.subtract(entityPos).normalize();
+	    System.out.println(forwardVec.y);
 	    ((EntityMaelstromGauntlet) this.entity).setLook(forwardVec);
 	}
     }

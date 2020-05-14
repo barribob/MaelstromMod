@@ -358,6 +358,7 @@ death.attack.mm:arrowMaelstrom=%1$s was shot to death by a maelstrom mob
 death.attack.mm:thrownMaelstrom=%1$s was pummeled to death by a maelstrom mob
 death.attack.mm:explosionMaelstrom=%1$s was blown up by the maelstrom
 death.attack.mm:explosionMaelstrom.player=%1$s was blown up by the maelstrom while fighting %2$s
+death.attack.mm:magicMaelstrom=%1$s was magicked by a maelstrom mob
 
 //———————————————————————————————————————————————————————————
 // Item Attributes
