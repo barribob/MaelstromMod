@@ -135,14 +135,16 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     protected void initEntityAI() {
 	super.initEntityAI();
-	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, 40, 20, 0.8f, 20));
+	float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
+	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, attackDistance, 20, 0.8f, 20));
     }
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
 	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch, lazer));
 	double[] weights = {
-		1, 1
+		distanceSq / Math.pow(20, 2),
+		distanceSq < Math.pow(35, 2) ? 1 : 0
 	};
 	this.prevAttack = ModRandom.choice(attacks, rand, weights).next();
 	this.prevAttack.accept(target);
