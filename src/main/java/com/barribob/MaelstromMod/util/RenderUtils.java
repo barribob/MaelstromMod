@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
@@ -56,7 +57,11 @@ public class RenderUtils
      * @param entity
      * @param partialTicks
      */
-    public static void drawBeam(RenderManager renderManager, Vec3d startPos, Vec3d endPos, Vec3d offset, Vec3d color, EntityLiving entity, float partialTicks) {
+    public static void drawBeam(RenderManager renderManager, Vec3d startPos, Vec3d endPos, Vec3d offset, Vec3d color, Entity entity, float partialTicks) {
+	drawBeam(renderManager, startPos, endPos, offset, color, entity, partialTicks, new Vec3d(1, 1, 1));
+    }
+
+    public static void drawBeam(RenderManager renderManager, Vec3d startPos, Vec3d endPos, Vec3d offset, Vec3d color, Entity entity, float partialTicks, Vec3d scale) {
 	Tessellator tessellator = Tessellator.getInstance();
 	BufferBuilder bufferbuilder = tessellator.getBuffer();
 	GlStateManager.glTexParameteri(3553, 10242, 10497);
@@ -84,6 +89,7 @@ public class RenderUtils
 
 	GlStateManager.rotate((float) Math.toDegrees((Math.PI / 2F + -angle2)), 0.0F, 1.0F, 0.0F);
 	GlStateManager.rotate((float) Math.toDegrees(angle1), 1.0F, 0.0F, 0.0F);
+	GlStateManager.scale(scale.x, scale.y, scale.z);
 
 	bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 

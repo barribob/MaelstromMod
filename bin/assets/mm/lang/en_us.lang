@@ -25,6 +25,7 @@ item.stonebrick_blockvoid.name=Stonebrick Blockvoid
 item.obsidian_blockvoid.name=Obsidian Blockvoid
 item.furnace_bricks_blockvoid.name=Furnace Bricks Blockvoid
 item.redstone_brick_blockvoid.name=Redstone Bricks Blockvoid
+item.elysium_wings.name=Elysium Wings
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -61,6 +62,8 @@ item.energized_repeater.name=Energized Repeater
 item.energized_shotgun.name=Energized Shotgun
 item.energized_piercer.name=Energized Piercer
 item.energized_musket.name=Energized Musket
+item.energized_caduceus.name=Energized Caduceus
+item.tuning_fork.name=Tuning Fork of Doom
 
 //———————————————————————————————————————————————————————————
 // Weapons
@@ -86,6 +89,7 @@ item.gold_stone_longsword.name=Emperor's Sword
 item.chasmium_sword.name=Chasmium Sword
 item.energetic_steel_sword.name=Energetic Steel Sword
 item.energetic_steel_cleaver.name=Energetic Steel Cleaver
+item.fadesteel_sword.name=Fadesteel Sword
 
 //———————————————————————————————————————————————————————————
 // Armor
@@ -534,6 +538,9 @@ mm.desc.elysium_full_set=Full set: Random Strong Regeneration
 mm.desc.nexus_only_portal=In survival mode, accessed only in the Nexus dimension
 mm.desc.blockvoid=Can hold, place, and mine %s
 mm.desc.rune_staff=Shoots short range magic
+mm.desc.energized_caduceus=Grants extreme regeneration and absorption
+mm.desc.tuning_fork=Shoots a medium range beam
+mm.desc.elysium_wings=An Elytra forged in an unbreaking metal.
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

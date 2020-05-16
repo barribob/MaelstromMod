@@ -7,6 +7,9 @@ import com.barribob.MaelstromMod.init.ModPotions;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
+import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -138,6 +141,12 @@ public class ItemEventHandler
 			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 140, 3));
 		    }
 		}
+	    }
+
+	    if (player.world.isRemote && chestplate.equals(ModItems.ELYSIUM_WINGS) && player.isElytraFlying()) {
+		double speed = Math.max(0.1, Math.min(1, new Vec3d(player.motionX, 0, player.motionZ).lengthVector() + player.motionY));
+		ParticleManager.spawnFirework(player.world, player.getPositionEyes(1).add(ModUtils.getRelativeOffset(player, new Vec3d(0, 0, -speed))), ModColors.RED);
+		ParticleManager.spawnFirework(player.world, player.getPositionEyes(1).add(ModUtils.getRelativeOffset(player, new Vec3d(0, 0, speed))), ModColors.RED);
 	    }
 	}
     }

@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.items.ItemBlockvoid;
 import com.barribob.MaelstromMod.items.ItemCatalyst;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
+import com.barribob.MaelstromMod.items.ItemModElytra;
 import com.barribob.MaelstromMod.items.ItemSingleDescription;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
 import com.barribob.MaelstromMod.items.ItemTradable;
@@ -26,12 +27,14 @@ import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
 import com.barribob.MaelstromMod.items.gun.ItemMeteorStaff;
 import com.barribob.MaelstromMod.items.gun.ItemMusket;
 import com.barribob.MaelstromMod.items.gun.ItemPiercer;
+import com.barribob.MaelstromMod.items.gun.ItemPotionEffectStaff;
 import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
 import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
 import com.barribob.MaelstromMod.items.gun.ItemRepeater;
 import com.barribob.MaelstromMod.items.gun.ItemRifle;
 import com.barribob.MaelstromMod.items.gun.ItemRuneStaff;
 import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
+import com.barribob.MaelstromMod.items.gun.ItemTuningFork;
 import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
 import com.barribob.MaelstromMod.items.gun.bullet.BrownstoneCannon;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
@@ -53,12 +56,14 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -169,6 +174,9 @@ public class ModItems
     public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 60, STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS);
     public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS).setFactory(new GoldenFireball()).setElement(Element.GOLDEN);
     public static final Item CRIMSON_RUNE_STAFF = new ItemRuneStaff("crimson_rune_staff", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
+    public static final Item ENERGIZED_CADUCEUS = new ItemPotionEffectStaff("energized_caduceus", LevelHandler.CRIMSON_END, 15, 150,
+	    () -> new PotionEffect[] { new PotionEffect(MobEffects.REGENERATION, 150, 3), new PotionEffect(MobEffects.ABSORPTION, 2400, 4) }, "energized_caduceus");
+    public static final Item TUNING_FORK = new ItemTuningFork("tuning_fork", LevelHandler.CRIMSON_END).setElement(Element.CRIMSON);
 
     /**
      * Melee
@@ -195,6 +203,7 @@ public class ModItems
     public static final Item EXPLOSIVE_DAGGER = new ToolExplosiveDagger("explosive_dagger", DAGGER, LevelHandler.CLIFF_ENDGAME);
     public static final Item ENERGETIC_STEEL_SWORD = new ItemMagisteelSword("energetic_steel_sword", SWORD, LevelHandler.CRIMSON_START, Element.CRIMSON);
     public static final Item ENERGETIC_STEEL_CLEAVER = new ToolDragonslayer("energetic_steel_cleaver", BATTLEAXE, LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
+    public static final Item FADESTEEL_SWORD = new ToolSword("fadesteel_sword", SWORD, LevelHandler.CRIMSON_START);
 
     /*
      * Armors
@@ -283,4 +292,5 @@ public class ModItems
     public static final Item FURNACE_BRICKS_BLOCKVOID = new ItemBlockvoid("furnace_bricks_blockvoid", ModBlocks.FURNACE_BRICKS, 30);
     public static final Item REDSTONE_BRICK_BLOCKVOID = new ItemBlockvoid("redstone_brick_blockvoid", ModBlocks.REDSTONE_BRICK, 30);
     public static final Item CRIMSON_PELLET = new ItemBase("crimson_pellet", null);
+    public static final Item ELYSIUM_WINGS = new ItemModElytra("elysium_wings", ARMOR);
 }

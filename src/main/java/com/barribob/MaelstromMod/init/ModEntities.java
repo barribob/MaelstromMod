@@ -87,6 +87,7 @@ import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityCrimsonTowerSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
+import com.barribob.MaelstromMod.entity.util.EntityTuningForkLazer;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.entity.Entity;
@@ -246,6 +247,7 @@ public class ModEntities
 	registerEntity("chaos_fireball", ProjectileChaosFireball.class, PROJECTILE_START_ID++, 40);
 	registerEntity("rune_wisp", ProjectileRuneWisp.class, PROJECTILE_START_ID++, 40);
 	registerEntity("crimson_portal_spawn", EntityCrimsonPortalSpawn.class, PROJECTILE_START_ID++, 40);
+	registerEntity("tuning_fork_lazer_renderer", EntityTuningForkLazer.class, PROJECTILE_START_ID++, 60);
 
 	registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
 	registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

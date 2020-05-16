@@ -46,6 +46,7 @@ public class ItemBlockvoid extends ItemBase
 	this.block = block;
 	this.setMaxDamage(1000);
 	this.efficiency = efficiency;
+	this.maxStackSize = 1;
     }
 
     // Taken from ItemBlock

@@ -73,11 +73,13 @@ import com.barribob.MaelstromMod.entity.render.RenderMaelstromIllager;
 import com.barribob.MaelstromMod.entity.render.RenderModEntity;
 import com.barribob.MaelstromMod.entity.render.RenderMonolith;
 import com.barribob.MaelstromMod.entity.render.RenderProjectile;
+import com.barribob.MaelstromMod.entity.render.RenderTuningForkLazer;
 import com.barribob.MaelstromMod.entity.render.RenderWhiteMonolith;
 import com.barribob.MaelstromMod.entity.util.EntityCrimsonTowerSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityNexusParticleSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityParticleSpawner;
 import com.barribob.MaelstromMod.entity.util.EntityPortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityTuningForkLazer;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -127,6 +129,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityChaosKnight.class, (manager) -> new RenderChaosKnight(manager, "chaos_knight.png"));
 	registerModEntityRenderer(EntityMaelstromHealer.class, new ModelMaelstromHealer(), "maelstrom_healer.png");
 	registerModEntityRenderer(EntityMaelstromGauntlet.class, (manager) -> new RenderMaelstromGauntlet(manager, "maelstrom_gauntlet.png"));
+	registerModEntityRenderer(EntityTuningForkLazer.class, (manager) -> new RenderTuningForkLazer(manager));
 
 	registerProjectileRenderer(Projectile.class);
 	registerProjectileRenderer(ProjectileBullet.class);

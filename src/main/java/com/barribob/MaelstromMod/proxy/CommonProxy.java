@@ -6,13 +6,14 @@ import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.Mana;
 import com.barribob.MaelstromMod.mana.ManaStorage;
 import com.barribob.MaelstromMod.packets.MessageBBAnimation;
+import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.packets.MessageLeap;
 import com.barribob.MaelstromMod.packets.MessageLoopAnimationUpdate;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.packets.MessageManaUnlock;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
-import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
+import com.barribob.MaelstromMod.packets.MessageStartElytraFlying;
 import com.barribob.MaelstromMod.packets.MessageSyncConfig;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -54,6 +55,7 @@ public class CommonProxy
 	Main.network.registerMessage(MessageSyncConfig.Handler.class, MessageSyncConfig.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageBBAnimation.Handler.class, MessageBBAnimation.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageLoopAnimationUpdate.Handler.class, MessageLoopAnimationUpdate.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageStartElytraFlying.Handler.class, MessageStartElytraFlying.class, packetId++, Side.SERVER);
 
 	CapabilityManager.INSTANCE.register(IMana.class, new ManaStorage(), Mana.class);
 	// CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(),

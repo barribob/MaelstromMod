@@ -31,6 +31,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
@@ -717,5 +718,69 @@ public final class ModUtils {
 	    RayTraceResult raytraceresult = e.getEntityBoundingBox().calculateIntercept(start, end);
 	    return raytraceresult != null;
 	});
+    }
+
+    /**
+     * Taken from {@code EntityLivingBase#travel(float, float, float)} The purpose is to let my custom elytras still have the fly into wall damage
+     * 
+     * @param strafe
+     * @param vertical
+     * @param forward
+     * @param entity
+     */
+    public static void handleElytraTravel(EntityLivingBase entity) {
+	if (entity.isServerWorld() || entity.canPassengerSteer()) {
+	    if (!entity.isInWater() || entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isFlying) {
+		if (!entity.isInLava() || entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isFlying) {
+		    if (entity.motionY > -0.5D) {
+			entity.fallDistance = 1.0F;
+		    }
+
+		    Vec3d vec3d = entity.getLookVec();
+		    float f = entity.rotationPitch * 0.017453292F;
+		    double d6 = Math.sqrt(vec3d.x * vec3d.x + vec3d.z * vec3d.z);
+		    double d8 = Math.sqrt(entity.motionX * entity.motionX + entity.motionZ * entity.motionZ);
+		    double d1 = vec3d.lengthVector();
+		    float f4 = MathHelper.cos(f);
+		    f4 = (float) ((double) f4 * (double) f4 * Math.min(1.0D, d1 / 0.4D));
+		    entity.motionY += -0.08D + f4 * 0.06D;
+
+		    if (entity.motionY < 0.0D && d6 > 0.0D) {
+			double d2 = entity.motionY * -0.1D * f4;
+			entity.motionY += d2;
+			entity.motionX += vec3d.x * d2 / d6;
+			entity.motionZ += vec3d.z * d2 / d6;
+		    }
+
+		    if (f < 0.0F) {
+			double d10 = d8 * (-MathHelper.sin(f)) * 0.04D;
+			entity.motionY += d10 * 3.2D;
+			entity.motionX -= vec3d.x * d10 / d6;
+			entity.motionZ -= vec3d.z * d10 / d6;
+		    }
+
+		    if (d6 > 0.0D) {
+			entity.motionX += (vec3d.x / d6 * d8 - entity.motionX) * 0.1D;
+			entity.motionZ += (vec3d.z / d6 * d8 - entity.motionZ) * 0.1D;
+		    }
+
+		    entity.motionX *= 0.9900000095367432D;
+		    entity.motionY *= 0.9800000190734863D;
+		    entity.motionZ *= 0.9900000095367432D;
+		    entity.move(MoverType.SELF, entity.motionX, entity.motionY, entity.motionZ);
+
+		    if (entity.collidedHorizontally && !entity.world.isRemote) {
+			double d11 = Math.sqrt(entity.motionX * entity.motionX + entity.motionZ * entity.motionZ);
+			double d3 = d8 - d11;
+			float f5 = (float) (d3 * 10.0D - 3.0D);
+
+			if (f5 > 0.0F) {
+			    entity.playSound(SoundEvents.ENTITY_PLAYER_SMALL_FALL, 1.0F, 1.0F);
+			    entity.attackEntityFrom(DamageSource.FLY_INTO_WALL, f5);
+			}
+		    }
+		}
+	    }
+	}
     }
 }

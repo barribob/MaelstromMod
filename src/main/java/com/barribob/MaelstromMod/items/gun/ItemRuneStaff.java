@@ -26,7 +26,7 @@ public class ItemRuneStaff extends ItemStaff
 
     public float getBaseDamage()
     {
-	return 6 * ModConfig.balance.weapon_damage;
+	return 7f * ModConfig.balance.weapon_damage;
     }
 
     @Override
