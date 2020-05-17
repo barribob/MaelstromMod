@@ -167,6 +167,8 @@ tile.azure_stone_5.name=Blue Glowstone
 tile.furnace_pillar.name=Furnace Pillar
 tile.redstone_brick.name=Redstone Bricks
 tile.iron_grate.name=Iron Grate
+tile.furnace_bricks.name=Darkened Stonebrick
+tile.furnace_bricks_lit.name=Darkened Stonebrick
 
 //———————————————————————————————————————————————————————————
 // Plants

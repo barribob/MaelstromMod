@@ -202,6 +202,7 @@ public class ModBlocks
     public static final Block FURNACE_BRICKS = new BlockBase("furnace_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block FURNACE_STAIRS = new BlockStairsBase("furnace_stairs", FURNACE_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRACKED_FURNACE_BRICKS = new BlockBase("cracked_furnace_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block FURNACE_BRICKS_LIT = new BlockLamp("furnace_bricks_lit", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, true).setCreativeTab(ModCreativeTabs.BLOCKS).setLightLevel(1.0f);
 
     /*
      * Key blocks and nexus stuff

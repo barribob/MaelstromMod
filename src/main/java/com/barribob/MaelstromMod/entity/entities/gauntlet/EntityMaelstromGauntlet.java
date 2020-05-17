@@ -138,7 +138,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	}, 210);
 
 	// Schedule spawning a bunch of enemies
-	for (int i = 1; i < 10; i++) {
+	for (int i = 1; i < 200; i += 30) {
 	    this.addEvent(() -> {
 		EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(),
 			new MobSpawnData[] {
@@ -151,7 +151,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 		if (mob != null) {
 		    ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
 		}
-	    }, i * 20);
+	    }, i);
 	}
     };
 
