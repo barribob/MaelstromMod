@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class ProjectileChaosFireball extends ProjectileGun
 {
     private static final int IMPACT_PARTICLE_AMOUNT = 20;
-    private static final int EXPOSION_AREA_FACTOR = 3;
+    private static final int EXPOSION_AREA_FACTOR = 2;
     public static final Vec3d FIREBALL_COLOR = new Vec3d(1.0, 0.6, 0.5);
 
     public ProjectileChaosFireball(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack)
@@ -41,7 +41,7 @@ public class ProjectileChaosFireball extends ProjectileGun
     @Override
     public void onUpdate()
     {
-	if (this.ticksExisted % 3 == 0)
+	if ((this.ticksExisted / 5.0f) % 5 == 0)
 	{
 	    this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 0.2f, ModRandom.getFloat(0.2f) + 1.0f);
 	}
@@ -51,15 +51,18 @@ public class ProjectileChaosFireball extends ProjectileGun
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	}
 
-	this.motionY = -0.2; // Constantly go down
+	Vec3d vel = new Vec3d(this.motionX, this.motionY, this.motionZ);
 
 	super.onUpdate();
+
+	// Maintain the velocity the entity has
+	ModUtils.setEntityVelocity(this, vel);
     }
 
     @Override
     protected void spawnParticles()
     {
-	ParticleManager.spawnSmoke2(world, this.getPositionVector(), ModColors.GREY, ModUtils.yVec(0.1));
+	ParticleManager.spawnSmoke2(world, this.getPositionVector().add(ModUtils.yVec(0.3f)), ModColors.FADED_RED, ModUtils.yVec(0.1));
     }
 
     @Override

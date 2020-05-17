@@ -852,4 +852,8 @@ public final class ModUtils {
     public static void setEntityPosition(Entity entity, Vec3d vec) {
 	entity.setPosition(vec.x, vec.y, vec.z);
     }
+
+    public static void setEntityVelocity(Entity entity, Vec3d vec) {
+	entity.setVelocity(vec.x, vec.y, vec.z);
+    }
 }

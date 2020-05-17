@@ -185,7 +185,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
 	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch, lazer, defend));
-	int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(20, 2, 20)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
+	int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(20, 10, 20)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
 	double defendWeight = this.prevAttack == this.defend || numMinions > 3 ? 0 : 0.8;
 
 	double[] weights = {

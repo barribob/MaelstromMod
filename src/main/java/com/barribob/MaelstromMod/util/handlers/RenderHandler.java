@@ -57,6 +57,7 @@ import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBullet;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileChaosFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
@@ -146,6 +147,7 @@ public class RenderHandler
 	registerProjectileRenderer(ProjectileGoldenMissile.class, ModItems.GOLD_PELLET);
 	registerProjectileRenderer(EntityCrimsonTowerSpawner.class);
 	registerProjectileRenderer(EntityHealerOrb.class);
+	registerProjectileRenderer(ProjectileChaosFireball.class, ModItems.CRIMSON_PELLET);
     }
 
     /**
