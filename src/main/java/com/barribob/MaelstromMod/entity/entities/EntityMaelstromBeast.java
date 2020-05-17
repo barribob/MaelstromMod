@@ -41,8 +41,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-public class EntityMaelstromBeast extends EntityMaelstromMob
-{
+public class EntityMaelstromBeast extends EntityMaelstromMob {
     private ComboAttack attackHandler = new ComboAttack();
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
     private byte hammerSwing = 4;
@@ -54,24 +53,19 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     private byte rageParticles = 9;
     private int ragedAttackDamage = 12;
 
-    public EntityMaelstromBeast(World worldIn)
-    {
+    public EntityMaelstromBeast(World worldIn) {
 	super(worldIn);
 	this.healthScaledAttackFactor = 0.2;
 	this.setSize(1.4f, 2.5f);
 	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 	this.setLevel(1.5f);
-	if (!world.isRemote)
-	{
-	    attackHandler.setAttack(hammerSwing, new Action()
-	    {
+	if (!world.isRemote) {
+	    attackHandler.setAttack(hammerSwing, new Action() {
 		@Override
-		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
-		{
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
 		    Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 0, 0)));
 		    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 1, 0, false);
-		    if (EntityMaelstromBeast.this.isRaged())
-		    {
+		    if (EntityMaelstromBeast.this.isRaged()) {
 			ModUtils.performNTimes(8, (i) -> {
 			    spawnBone(worldIn, offset.add(ModRandom.randVec().scale(3)), EntityMaelstromBeast.this);
 			});
@@ -79,19 +73,17 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 		}
 	    });
-	    attackHandler.setAttack(battleShout, new Action()
-	    {
+	    attackHandler.setAttack(battleShout, new Action() {
 		@Override
-		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
-		{
-		    if (EntityMaelstromBeast.this.isRaged())
-		    {
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
+		    if (EntityMaelstromBeast.this.isRaged()) {
 			new ActionSpawnEnemy(() -> new EntityFloatingSkull(worldIn)).performAction(actor, target);
 		    }
-		    else
-		    {
+		    else {
 			ModUtils.handleAreaImpact(20, (e) -> {
-			    e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
+			    if (e instanceof EntityLivingBase) {
+				((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
+			    }
 			    return actor.getAttack() * 0.5f;
 			}, actor, actor.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0, 0, false);
 		    }
@@ -99,21 +91,17 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 		}
 	    });
 	    attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> {
-		if (EntityMaelstromBeast.this.isRaged())
-		{
+		if (EntityMaelstromBeast.this.isRaged()) {
 		    return new ProjectileBoneQuake(worldIn, this, this.getAttack());
 		}
-		else
-		{
+		else {
 		    return new ProjectileBeastQuake(worldIn, this, this.getAttack());
 		}
 	    }));
-	    attackHandler.setAttack(leap, new Action()
-	    {
+	    attackHandler.setAttack(leap, new Action() {
 
 		@Override
-		public void performAction(EntityLeveledMob actor, EntityLivingBase target)
-		{
+		public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
 		    ModUtils.leapTowards(actor, target.getPositionVector(), 1.4f, 0.7f);
 		}
 
@@ -122,10 +110,8 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 
     }
 
-    public static void spawnBone(World world, Vec3d pos, EntityLeveledMob entity)
-    {
-	if (!world.isRemote)
-	{
+    public static void spawnBone(World world, Vec3d pos, EntityLeveledMob entity) {
+	if (!world.isRemote) {
 	    ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack() * 0.5f);
 	    projectile.setPosition(pos.x, pos.y + 1.5, pos.z);
 	    double xDir = (world.rand.nextFloat() - world.rand.nextFloat()) * 0.5f;
@@ -137,8 +123,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     }
 
     @Override
-    protected void initAnimation()
-    {
+    protected void initAnimation() {
 	List<List<AnimationClip<ModelMaelstromBeast>>> animationHammer = new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>();
 	List<AnimationClip<ModelMaelstromBeast>> body = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
 	List<AnimationClip<ModelMaelstromBeast>> rightArmXStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
@@ -282,8 +267,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     }
 
     @Override
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
 	super.applyEntityAttributes();
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
 	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
@@ -291,43 +275,35 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     }
 
     @Override
-    protected void initEntityAI()
-    {
+    protected void initEntityAI() {
 	super.initEntityAI();
 	this.tasks.addTask(4, new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 50, 20, 9.0f, 0.5f));
     }
 
     @Override
-    protected boolean canDespawn()
-    {
+    protected boolean canDespawn() {
 	return false;
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
-    {
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
 	this.attackHandler.getCurrentAttackAction().performAction(this, target);
-	if (attackHandler.getCurrentAttack() == leap)
-	{
+	if (attackHandler.getCurrentAttack() == leap) {
 	    setLeaping(true);
 	}
     }
 
     @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
+    public void setSwingingArms(boolean swingingArms) {
 	super.setSwingingArms(swingingArms);
-	if (this.isSwingingArms())
-	{
+	if (this.isSwingingArms()) {
 	    Byte[] attack = { groundSlash, battleShout };
 	    double[] weights = { 0.8, 0.2 };
 	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
-	    if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) > 8)
-	    {
+	    if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) > 8) {
 		attackHandler.setCurrentAttack(leap);
 	    }
-	    if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) < 4)
-	    {
+	    if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) < 4) {
 		attackHandler.setCurrentAttack(hammerSwing);
 	    }
 	    world.setEntityState(this, attackHandler.getCurrentAttack());
@@ -335,43 +311,35 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
 	super.onUpdate();
-	if (this.isRaged())
-	{
+	if (this.isRaged()) {
 	    world.setEntityState(this, rageParticles);
 	}
     }
 
     @Override
-    public void handleStatusUpdate(byte id)
-    {
-	if (id >= 4 && id <= 7)
-	{
+    public void handleStatusUpdate(byte id) {
+	if (id >= 4 && id <= 7) {
 	    currentAnimation = attackHandler.getAnimation(id);
 	    getCurrentAnimation().startAnimation();
 	}
-	else if (id == explosionParticles)
-	{
+	else if (id == explosionParticles) {
 	    ModUtils.performNTimes(100, (i) -> {
 		ParticleManager.spawnMaelstromExplosion(world, rand, ModRandom.randVec().scale(5).add(getPositionVector()));
 	    });
 	}
-	else if (id == rageParticles)
-	{
+	else if (id == rageParticles) {
 	    ParticleManager.spawnEffect(world, getPositionVector().add(ModRandom.randVec().scale(2)).add(ModUtils.yVec(this.getEyeHeight())), ModColors.RED);
 	}
 	super.handleStatusUpdate(id);
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
-    {
+    public boolean attackEntityFrom(DamageSource source, float amount) {
 	float prevHealth = this.getHealth();
 	boolean flag = super.attackEntityFrom(source, amount);
-	if (prevHealth > this.getMaxHealth() * 0.3f && this.getHealth() <= this.getMaxHealth() * 0.3f)
-	{
+	if (prevHealth > this.getMaxHealth() * 0.3f && this.getHealth() <= this.getMaxHealth() * 0.3f) {
 	    this.dataManager.set(RAGED, true);
 	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
 	    this.isImmuneToFire = true;
@@ -380,18 +348,14 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound)
-    {
-	if (this.hasCustomName())
-	{
+    public void readEntityFromNBT(NBTTagCompound compound) {
+	if (this.hasCustomName()) {
 	    this.bossInfo.setName(this.getDisplayName());
 	}
 
-	if (compound.hasKey("rage"))
-	{
+	if (compound.hasKey("rage")) {
 	    this.dataManager.set(RAGED, Boolean.valueOf(compound.getBoolean("rage")));
-	    if (this.isRaged())
-	    {
+	    if (this.isRaged()) {
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
 		this.isImmuneToFire = true;
 	    }
@@ -401,98 +365,83 @@ public class EntityMaelstromBeast extends EntityMaelstromMob
 
     }
 
-    public boolean isRaged()
-    {
+    public boolean isRaged() {
 	return this.dataManager.get(RAGED).booleanValue();
     }
 
     @Override
-    protected void entityInit()
-    {
+    protected void entityInit() {
 	super.entityInit();
 	this.dataManager.register(RAGED, Boolean.valueOf(false));
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound)
-    {
+    public void writeEntityToNBT(NBTTagCompound compound) {
 	compound.setBoolean("rage", this.isRaged());
 
 	super.writeEntityToNBT(compound);
     }
 
     @Override
-    public void setCustomNameTag(String name)
-    {
+    public void setCustomNameTag(String name) {
 	super.setCustomNameTag(name);
 	this.bossInfo.setName(this.getDisplayName());
     }
 
     @Override
-    protected void updateAITasks()
-    {
+    protected void updateAITasks() {
 	this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	super.updateAITasks();
     }
 
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player)
-    {
+    public void addTrackingPlayer(EntityPlayerMP player) {
 	super.addTrackingPlayer(player);
 	this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player)
-    {
+    public void removeTrackingPlayer(EntityPlayerMP player) {
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
     }
 
     @Override
-    protected SoundEvent getAmbientSound()
-    {
+    protected SoundEvent getAmbientSound() {
 	return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 	return SoundEvents.ENTITY_POLAR_BEAR_HURT;
     }
 
     @Override
-    protected SoundEvent getDeathSound()
-    {
+    protected SoundEvent getDeathSound() {
 	return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
     }
 
     @Override
-    protected ResourceLocation getLootTable()
-    {
+    protected ResourceLocation getLootTable() {
 	return LootTableHandler.BEAST;
     }
 
     @Override
-    protected float getSoundPitch()
-    {
+    protected float getSoundPitch() {
 	return super.getSoundPitch() * 0.8f;
     }
 
     @Override
-    protected float getSoundVolume()
-    {
+    protected float getSoundVolume() {
 	return 0.6F;
     }
 
     @Override
-    public void onStopLeaping()
-    {
+    public void onStopLeaping() {
 	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeElementalExplosionDamage(this, getElement()));
 	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
 	this.world.setEntityState(this, this.explosionParticles);
-	if (this.isRaged())
-	{
+	if (this.isRaged()) {
 	    ModUtils.performNTimes(9, (i) -> {
 		spawnBone(world, this.getPositionVector().add(ModRandom.randVec().scale(3)), this);
 	    });

@@ -54,10 +54,10 @@ public abstract class MobSpawnerLogic
      */
     public static class MobSpawnData
     {
-	String mobId;
+	public String mobId;
 	int count;
-	Element[] possibleElements;
-	int[] elementalWeights;
+	public Element[] possibleElements;
+	public int[] elementalWeights;
 
 	public MobSpawnData(String mobId, Element element)
 	{

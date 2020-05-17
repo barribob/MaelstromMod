@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.barribob.MaelstromMod.init.ModBBAnimations;
+import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -109,7 +110,16 @@ public class BBAnimation
      */
     private static float[] getInterpotatedValues(float timeInSeconds, Set<Entry<String, JsonElement>> set)
     {
-	List<Entry<String, JsonElement>> values = findElementsBetweenTime(timeInSeconds, set);
+	List<Entry<String, JsonElement>> entries = Lists.newArrayList(set);
+
+	// Sort the event because the animations aren't guarenteed to be in order
+	entries.sort((entry1, entry2) -> {
+	    float timeStamp1 = Float.parseFloat(entry1.getKey());
+	    float timeStamp2 = Float.parseFloat(entry2.getKey());
+	    return timeStamp1 > timeStamp2 ? 1 : -1;
+	});
+
+	List<Entry<String, JsonElement>> values = findElementsBetweenTime(timeInSeconds, entries);
 	float clipBegin = Float.parseFloat(values.get(0).getKey());
 	float clipEnd = Float.parseFloat(values.get(1).getKey());
 	float clipLength = clipEnd - clipBegin;
@@ -131,14 +141,14 @@ public class BBAnimation
      * Returns a list of two elements that correspond to the previous state and the current state the current time will be in between the two of these elements
      * 
      * @param timeInSeconds
-     * @param set
+     * @param allEntries
      * @return
      */
-    private static List<Entry<String, JsonElement>> findElementsBetweenTime(float timeInSeconds, Set<Entry<String, JsonElement>> set)
+    private static List<Entry<String, JsonElement>> findElementsBetweenTime(float timeInSeconds, List<Entry<String, JsonElement>> allEntries)
     {
 	Entry<String, JsonElement> previousEntry = null;
 	List<Entry<String, JsonElement>> entries = new ArrayList<Entry<String, JsonElement>>();
-	for (Entry<String, JsonElement> rotationEntry : set)
+	for (Entry<String, JsonElement> rotationEntry : allEntries)
 	{
 	    float timeStamp = Float.parseFloat(rotationEntry.getKey());
 	    if (timeStamp > timeInSeconds)

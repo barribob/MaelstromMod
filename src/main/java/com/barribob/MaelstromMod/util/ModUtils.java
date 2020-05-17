@@ -14,10 +14,12 @@ import javax.annotation.Nullable;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
@@ -30,8 +32,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
@@ -187,11 +192,11 @@ public final class ModUtils {
 	return new Vec3d(0, heightAboveGround, 0);
     }
 
-    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource) {
+    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource) {
 	handleAreaImpact(radius, maxDamage, source, pos, damageSource, 1, 0);
     }
 
-    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
+    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
 	    float knockbackFactor, int fireFactor) {
 	handleAreaImpact(radius, maxDamage, source, pos, damageSource, knockbackFactor, fireFactor, true);
     }
@@ -200,7 +205,7 @@ public final class ModUtils {
 	return new Vec3d(box.minX + (box.maxX - box.minX) * 0.5D, box.minY + (box.maxY - box.minY) * 0.5D, box.minZ + (box.maxZ - box.minZ) * 0.5D);
     }
 
-    public static void handleAreaImpact(float radius, Function<EntityLivingBase, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
+    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
 	    float knockbackFactor, int fireFactor, boolean damageDecay) {
 	if (source == null) {
 	    return;
@@ -208,11 +213,10 @@ public final class ModUtils {
 	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
 	if (list != null) {
-	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
-	    Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
+	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart;
 	    double radiusSq = Math.pow(radius, 2);
 
-	    list.stream().filter(isInstance).map(cast).forEach((entity) -> {
+	    list.stream().filter(isInstance).forEach((entity) -> {
 
 		// Get the hitbox size of the entity because otherwise explosions are less
 		// effective against larger mobs
@@ -782,5 +786,70 @@ public final class ModUtils {
 		}
 	    }
 	}
+    }
+
+    /**
+     * Attempts to spawn a mob around the actor within a certain range. Returns null if the spawning failed. Otherwise returns the spawned mob
+     * 
+     * @param actor
+     * @param target
+     * @param mob
+     * @param range
+     * @return
+     */
+    public static EntityLeveledMob spawnMob(World world, BlockPos pos, float level, MobSpawnData[] mobs, int weights[], BlockPos range) {
+	Random random = new Random();
+	MobSpawnData data = ModRandom.choice(mobs, random, weights).next();
+	int tries = 100;
+	for (int i = 0; i < tries; i++) {
+	    // Find a random position to spawn the enemy
+	    int i1 = pos.getX() + ModRandom.range(0, range.getX()) * ModRandom.randSign();
+	    int k1 = pos.getZ() + ModRandom.range(0, range.getY()) * ModRandom.randSign();
+
+	    int y = range.getY();
+	    while (y > -range.getY()) {
+		if (!world.isAirBlock(new BlockPos(i1, pos.getY() + y - 1, k1))) {
+		    break;
+		}
+		y--;
+	    }
+
+	    int j1 = pos.getY() + y;
+
+	    if (world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(world, new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP)) {
+		Entity mob = EntityList.createEntityByIDFromName(new ResourceLocation(data.mobId), world);
+
+		if (mob == null) {
+		    System.out.println("Failed to spawn entity with id" + data.mobId);
+		    return null;
+		}
+
+		mob.setLocationAndAngles(i1, j1, k1, random.nextFloat() * 360.0F, 0.0F);
+
+		// Make sure that the position is a proper spawning position
+		if (!world.isAnyPlayerWithinRangeAt(i1, j1, k1, 3.0D) && world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(mob.getEntityBoundingBox())) {
+
+		    if (mob instanceof EntityLeveledMob) {
+
+			EntityLeveledMob leveledMob = (EntityLeveledMob) mob;
+
+			// Spawn the entity
+			world.spawnEntity(leveledMob);
+			leveledMob.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(mob)), (IEntityLivingData) null);
+			leveledMob.spawnExplosionParticle();
+
+			leveledMob.setElement(ModRandom.choice(data.possibleElements, random, data.elementalWeights).next());
+			leveledMob.setLevel(level);
+
+			return leveledMob;
+		    }
+		}
+	    }
+	}
+	return null;
+    }
+
+    public static void setEntityPosition(Entity entity, Vec3d vec) {
+	entity.setPosition(vec.x, vec.y, vec.z);
     }
 }
