@@ -71,6 +71,7 @@ public class EntityBeast extends EntityMaelstromMob
 			double d2 = d0 - projectile.posY;
 			double d3 = target.posZ - actor.posZ;
 			float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+			projectile.setElement(getElement());
 			projectile.shoot(d1, d2 + f, d3, 1, 8);
 			actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 			actor.world.spawnEntity(projectile);

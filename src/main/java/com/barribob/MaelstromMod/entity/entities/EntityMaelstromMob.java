@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.EntityAIAvoidCrowding;
 import com.barribob.MaelstromMod.entity.ai.EntityAIFollowAttackers;
 import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
+import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
@@ -284,5 +285,10 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 	    }
 	}
 	super.handleStatusUpdate(id);
+    }
+
+    @Override
+    protected boolean canDespawn() {
+	return this.dimension != ModDimensions.CRIMSON_KINGDOM.getId();
     }
 }

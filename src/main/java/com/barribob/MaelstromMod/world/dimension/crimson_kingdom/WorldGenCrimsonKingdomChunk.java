@@ -2,16 +2,19 @@ package com.barribob.MaelstromMod.world.dimension.crimson_kingdom;
 
 import java.util.Random;
 
+import com.barribob.MaelstromMod.entity.entities.EntityBeast;
 import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.tileentity.TileEntityMobSpawner;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -19,6 +22,7 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.ResourceLocation;
@@ -64,7 +68,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new int[] { 2, 2, 2, 1 },
 			ModRandom.range(3, 5),
 			level,
-			25);
+			20);
 	    }
 	}
 	else if (function.startsWith("ranger 5") || function.startsWith("ranger 6"))
@@ -78,7 +82,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 2 }, 1),
 			1,
 			level,
-			25);
+			20);
 	    }
 	}
 	else if (function.startsWith("miniboss"))
@@ -91,7 +95,18 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData(ModEntities.getID(EntityIronShade.class), Element.CRIMSON),
 			1,
 			LevelHandler.CRIMSON_END,
-			25);
+			20);
+	    }
+	}
+	else if (function.startsWith("beast")) {
+	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
+	    TileEntity tileentity = worldIn.getTileEntity(pos);
+	    if (tileentity instanceof TileEntityMobSpawner) {
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
+			new MobSpawnData(ModEntities.getID(EntityBeast.class), Element.CRIMSON),
+			1,
+			LevelHandler.CRIMSON_END,
+			20);
 	    }
 	}
 	else if (function.startsWith("healer"))
@@ -105,7 +120,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData(ModEntities.getID(EntityMaelstromHealer.class), Element.NONE),
 			1,
 			level,
-			25);
+			20);
 	    }
 	}
 	else if (function.startsWith("chest minecart"))
@@ -135,6 +150,39 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 	    if (tileentity instanceof TileEntityLockableLoot)
 	    {
 		((TileEntityLockableLoot) tileentity).setLootTable(loot, rand.nextLong());
+	    }
+	}
+	else if (function.startsWith("artifact 1")) {
+	    TileEntity tileentity = worldIn.getTileEntity(pos.down());
+
+	    if (tileentity instanceof TileEntityLockableLoot) {
+		// 13 is the middle of the shulker box
+		((TileEntityLockableLoot) tileentity).setInventorySlotContents(13, new ItemStack(ModItems.ENERGIZED_CADUCEUS));
+	    }
+	}
+	else if (function.startsWith("artifact 2")) {
+	    TileEntity tileentity = worldIn.getTileEntity(pos.down());
+
+	    if (tileentity instanceof TileEntityLockableLoot) {
+		((TileEntityLockableLoot) tileentity).setInventorySlotContents(13, new ItemStack(ModItems.ELYSIUM_WINGS));
+	    }
+	}
+	else if (function.startsWith("artifact 3")) {
+	    TileEntity tileentity = worldIn.getTileEntity(pos.down());
+
+	    if (tileentity instanceof TileEntityLockableLoot) {
+		((TileEntityLockableLoot) tileentity).setInventorySlotContents(13, new ItemStack(ModItems.TUNING_FORK));
+	    }
+	}
+	else if (function.startsWith("boss")) {
+	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
+	    TileEntity tileentity = worldIn.getTileEntity(pos);
+	    if (tileentity instanceof TileEntityMobSpawner) {
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
+			new MobSpawnData(ModEntities.getID(EntityMaelstromGauntlet.class), Element.NONE),
+			1,
+			LevelHandler.CRIMSON_END,
+			60);
 	    }
 	}
     }

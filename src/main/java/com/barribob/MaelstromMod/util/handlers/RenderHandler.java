@@ -105,7 +105,7 @@ public class RenderHandler
 	registerModEntityRenderer(EntityShade.class, new ModelMaelstromWarrior(), "shade_base.png", "shade_azure.png", "shade_golden.png", "shade_crimson.png");
 	registerModEntityRenderer(EntityHorror.class, new ModelHorror(), "horror.png");
 	registerModEntityRenderer(EntityDreamElk.class, new ModelDreamElk(), "dream_elk.png");
-	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), "beast.png");
+	registerModEntityRenderer(EntityBeast.class, new ModelBeast(), "beast.png", "beast.png", "beast.png", "beast_crimson.png");
 	registerModEntityRenderer(EntityMaelstromMage.class, new ModelMaelstromMage(), "maelstrom_mage.png", "maelstrom_mage_azure.png", "maelstrom_mage_golden.png", "maelstrom_mage_crimson.png");
 	registerModEntityRenderer(EntityFloatingSkull.class, new ModelFloatingSkull(), "floating_skull.png");
 	registerModEntityRenderer(Herobrine.class, (manager) -> new RenderHerobrine(manager, new ResourceLocation(Reference.MOD_ID + ":textures/entity/herobrine_1.png")));

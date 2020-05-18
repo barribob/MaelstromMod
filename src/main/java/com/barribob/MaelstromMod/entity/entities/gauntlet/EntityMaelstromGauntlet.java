@@ -11,6 +11,7 @@ import com.barribob.MaelstromMod.entity.ai.AiFistWander;
 import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
@@ -171,8 +172,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
 				new MobSpawnData(ModEntities.getID(EntityMaelstromLancer.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
 				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
+				new MobSpawnData(ModEntities.getID(EntityMaelstromHealer.class), Element.NONE),
 			},
-			new int[] { 2, 2, 1 },
+			new int[] { 3, 2, 1, 1 },
 			new BlockPos(8, 6, 8));
 		if (mob != null) {
 		    ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
@@ -230,7 +232,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	super.initEntityAI();
 	float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
 	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, attackDistance + 20, 20, 0.8f, 20));
-	this.tasks.addTask(7, new AiFistWander(this, 40, 10));
+	this.tasks.addTask(7, new AiFistWander(this, 80, 8));
 	ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
     }
 

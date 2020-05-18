@@ -20,12 +20,12 @@ import net.minecraft.util.math.Vec3d;
 public class AiFistWander extends EntityAIBase {
     protected final EntityMaelstromGauntlet entity;
     protected Vec3d direction;
-    protected int executionChance;
+    protected int cooldown;
     protected float heightAboveGround;
 
-    public AiFistWander(EntityMaelstromGauntlet entity, int executionChance, float heightAboveGround) {
+    public AiFistWander(EntityMaelstromGauntlet entity, int cooldown, float heightAboveGround) {
 	this.entity = entity;
-	this.executionChance = executionChance;
+	this.cooldown = cooldown;
 	this.heightAboveGround = heightAboveGround;
     }
 
@@ -63,7 +63,7 @@ public class AiFistWander extends EntityAIBase {
 	    return false;
 	}
 
-	if (this.entity.ticksExisted % 100 != this.executionChance) {
+	if (this.entity.ticksExisted % 100 != this.cooldown) {
 	    return false;
 	}
 

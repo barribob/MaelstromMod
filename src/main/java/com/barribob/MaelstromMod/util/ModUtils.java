@@ -29,6 +29,7 @@ import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -682,7 +683,7 @@ public final class ModUtils {
 			    failedToDestroySomeBlocks = true;
 			}
 			else {
-			    if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.BEDROCK) {
+			    if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.BEDROCK && !(block instanceof BlockLiquid)) {
 				destroyedBlocks = world.setBlockToAir(blockpos) || destroyedBlocks;
 			    }
 			    else {

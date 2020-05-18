@@ -1,13 +1,15 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -43,27 +45,31 @@ public class ProjectileBeastAttack extends Projectile
     @Override
     protected void spawnParticles()
     {
-	for (int i = 0; i < this.PARTICLE_AMOUNT; i++)
+	for (int i = 0; i < PARTICLE_AMOUNT; i++)
 	{
-	    ParticleManager.spawnMaelstromSmoke(world, rand,
-		    new Vec3d(this.posX + ModRandom.getFloat(0.25f), this.posY + ModRandom.getFloat(0.25f), this.posZ + ModRandom.getFloat(0.25f)), true);
+	    ParticleManager.spawnSmoke2(world, this.getPositionVector().add(ModRandom.randVec().scale(0.5f)), this.getElement().particleColor, ModUtils.yVec(0.1f));
 	}
     }
 
     @Override
     protected void spawnImpactParticles()
     {
-	for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++)
+	for (int i = 0; i < IMPACT_PARTICLE_AMOUNT; i++)
 	{
-	    Vec3d vec1 = new Vec3d(this.posX + ModRandom.getFloat(0.5f), this.posY + ModRandom.getFloat(0.5f), this.posZ + ModRandom.getFloat(0.5f));
-	    ParticleManager.spawnMaelstromSmoke(world, rand, vec1, true);
+	    ParticleManager.spawnSmoke2(world, this.getPositionVector().add(ModRandom.randVec()), this.getElement().particleColor, ModUtils.yVec(0.1f));
 	}
     }
 
     @Override
     protected void onHit(RayTraceResult result)
     {
-	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
+	ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()), 1, (proj, entity) -> {
+	    if (this.getElement().equals(Element.CRIMSON) && entity instanceof EntityLivingBase)
+	    {
+		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, 100));
+	    }
+	}, (proj, entity) -> {
+	});
 	super.onHit(result);
     }
 }
