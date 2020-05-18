@@ -63,7 +63,7 @@ public class AiFistWander extends EntityAIBase {
 	    return false;
 	}
 
-	if (this.entity.ticksExisted % 100 == this.executionChance) {
+	if (this.entity.ticksExisted % 100 != this.executionChance) {
 	    return false;
 	}
 
