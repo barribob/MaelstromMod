@@ -4,6 +4,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -25,6 +26,7 @@ import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
+import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -38,6 +40,9 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -863,5 +868,35 @@ public final class ModUtils {
 
     public static Vec3d getEntityVelocity(Entity entity) {
 	return new Vec3d(entity.motionX, entity.motionY, entity.motionZ);
+    }
+
+    /**
+     * Removes all entity ai of a certain class type.
+     */
+    public static <T extends EntityAIBase> void removeTaskOfType(EntityAITasks tasks, Class<T> clazz) {
+	Set<EntityAIBase> toRemove = Sets.newHashSet();
+
+	for (EntityAITaskEntry entry : tasks.taskEntries) {
+	    if (clazz.isInstance(entry.action)) {
+		toRemove.add(entry.action);
+	    }
+	}
+
+	for (EntityAIBase ai : toRemove) {
+	    tasks.removeTask(ai);
+	}
+    }
+
+    /**
+     * Finds the first solid block below the specified position and returns the position of that block
+     */
+    public static BlockPos findGroundBelow(World world, BlockPos pos) {
+	for (int i = pos.getY(); i > 0; i--) {
+	    BlockPos tempPos = new BlockPos(pos.getX(), i, pos.getZ());
+	    if (world.getBlockState(tempPos).isFullCube()) {
+		return tempPos;
+	    }
+	}
+	return new BlockPos(pos.getX(), 0, pos.getZ());
     }
 }

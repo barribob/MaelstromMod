@@ -29,7 +29,9 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
     private final float strafeAmount;
     private float lookSpeed;
     private final float idealAttackDistanceSq;
+    private int unseeTime;
 
+    private static final int MEMORY = 100;
     private static final float STRAFING_STOP_FACTOR = 0.75f;
     private static final float STRAFING_BACKWARDS_FACTOR = 0.25f;
     private static final float STRAFING_DIRECTION_TICK = 20;
@@ -80,6 +82,16 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 
 	double distSq = this.entity.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ);
 	boolean canSee = this.entity.getEntitySenses().canSee(target);
+
+	// Implements some sort of memory mechanism (can still attack a short while after the enemy isn't seen)
+	if (canSee) {
+	    unseeTime = 0;
+	}
+	else {
+	    unseeTime += 1;
+	}
+
+	canSee = canSee || unseeTime < MEMORY;
 
 	move(target, distSq, canSee);
 

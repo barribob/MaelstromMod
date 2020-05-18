@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.ai.AIAerialTimedAttack;
+import com.barribob.MaelstromMod.entity.ai.AiFistWander;
+import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
@@ -47,7 +49,9 @@ import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -59,11 +63,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
 public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender {
     // We keep track of the look ourselves because minecraft's look is clamped
     protected static final DataParameter<Float> LOOK = EntityDataManager.<Float>createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
+    private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
     private MultiPartEntityPart[] hitboxParts;
     private float boxSize = 0.8f;
     private MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", boxSize, boxSize);
@@ -87,11 +94,11 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     private boolean isDefending;
 
-    private final Consumer<EntityLivingBase> punch = (target) -> {
+    public final Consumer<Vec3d> punchAtPos = (target) -> {
 	ModBBAnimations.animation(this, "gauntlet.punch", false);
 	this.addVelocity(0, 0.5, 0);
 	this.addEvent(() -> {
-	    this.targetPos = target.getPositionVector().add(ModUtils.yVec(1));
+	    this.targetPos = target;
 	    this.isPunching = true;
 	    this.fist.width = 2.5f;
 	    this.fist.height = 4.5f;
@@ -103,6 +110,13 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 		}, i);
 	    }
 	}, 20);
+	for (int i = 0; i < 12; i++) {
+	    this.addEvent(() -> {
+		ModUtils.facePosition(target, this, 15, 15);
+		this.getLookHelper().setLookPosition(target.x, target.y, target.z, 15, 15);
+		this.setLook(target.subtract(this.getPositionEyes(1)));
+	    }, i);
+	}
 	this.addEvent(() -> {
 	    this.isPunching = false;
 	}, 40);
@@ -111,6 +125,10 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    this.fist.height = 0;
 	    this.height = 4;
 	}, 50);
+    };
+
+    private final Consumer<EntityLivingBase> punch = (target) -> {
+	punchAtPos.accept(target.getPositionVector());
     };
 
     private final Consumer<EntityLivingBase> lazer = (target) -> {
@@ -211,7 +229,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     protected void initEntityAI() {
 	super.initEntityAI();
 	float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, attackDistance, 20, 0.8f, 20));
+	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, attackDistance + 20, 20, 0.8f, 20));
+	this.tasks.addTask(7, new AiFistWander(this, 40, 10));
+	ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
     }
 
     @Override
@@ -267,6 +287,8 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     public void onLivingUpdate() {
+	bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+
 	super.onLivingUpdate();
 	Vec3d[] avec3d = new Vec3d[this.hitboxParts.length];
 	for (int j = 0; j < this.hitboxParts.length; ++j) {
@@ -730,5 +752,32 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    this.prevRenderLazerPos = dir;
 	}
 	this.renderLazerPos = dir;
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+	if (this.hasCustomName()) {
+	    this.bossInfo.setName(this.getDisplayName());
+	}
+
+	super.readEntityFromNBT(compound);
+    }
+
+    @Override
+    public void setCustomNameTag(String name) {
+	super.setCustomNameTag(name);
+	this.bossInfo.setName(this.getDisplayName());
+    }
+
+    @Override
+    public void addTrackingPlayer(EntityPlayerMP player) {
+	super.addTrackingPlayer(player);
+	this.bossInfo.addPlayer(player);
+    }
+
+    @Override
+    public void removeTrackingPlayer(EntityPlayerMP player) {
+	super.removeTrackingPlayer(player);
+	this.bossInfo.removePlayer(player);
     }
 }
