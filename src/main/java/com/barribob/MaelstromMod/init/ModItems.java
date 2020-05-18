@@ -277,6 +277,7 @@ public class ModItems
     public static final Item AMMO_CASE = new ItemAmmoCase("ammo_case", LevelHandler.INVASION);
     public static final Item CHASMIUM_AMMO_CASE = new ItemAmmoCase("chasmium_ammo_case", LevelHandler.AZURE_OVERWORLD);
     public static final Item BLACK_GOLD_AMMO_CASE = new ItemAmmoCase("black_gold_ammo_case", LevelHandler.CLIFF_ENDGAME);
+    public static final Item CRIMSON_AMMO_CASE = new ItemAmmoCase("crimson_ammo_case", LevelHandler.CRIMSON_START);
 
     /*
      * Cliff Dimension Items
