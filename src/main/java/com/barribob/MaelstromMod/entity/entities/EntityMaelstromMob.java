@@ -289,6 +289,6 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 
     @Override
     protected boolean canDespawn() {
-	return this.dimension != ModDimensions.CRIMSON_KINGDOM.getId();
+	return this.dimension != ModDimensions.CRIMSON_KINGDOM.getId() && this.dimension != ModDimensions.NEXUS.getId();
     }
 }

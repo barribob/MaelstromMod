@@ -52,7 +52,7 @@ public class WorldGenCrimsonTower extends WorldGenStructure
 	}
 	else if (function.startsWith("scout"))
 	{
-	    worldIn.setBlockState(pos, ModBlocks.DISAPPEARING_SPAWNER.getDefaultState());
+	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState());
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 
 	    if (tileentity instanceof TileEntityMobSpawner)
@@ -62,9 +62,9 @@ public class WorldGenCrimsonTower extends WorldGenStructure
 				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 3 }, 1)
 			},
 			new int[] { 1 },
-			3,
+			2,
 			LevelHandler.CRIMSON_START,
-			10);
+			15);
 	    }
 	}
 	else if (function.startsWith("exe"))
@@ -98,7 +98,7 @@ public class WorldGenCrimsonTower extends WorldGenStructure
 			new int[] { 1 },
 			1,
 			LevelHandler.CLIFF_ENDGAME,
-			10);
+			20);
 	    }
 	}
     }
