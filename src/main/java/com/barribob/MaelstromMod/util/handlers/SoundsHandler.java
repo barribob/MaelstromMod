@@ -28,6 +28,7 @@ public class SoundsHandler
     public static SoundEvent ENTITY_CHAOS_KNIGHT_AMBIENT;
     public static SoundEvent ENTITY_CHAOS_KNIGHT_HURT;
     public static SoundEvent ENTITY_CHAOS_KNIGHT_DEATH;
+    public static SoundEvent MUSIC_NEW_WORLD;
 
     public static void registerSounds()
     {
@@ -46,6 +47,7 @@ public class SoundsHandler
 	ENTITY_CHAOS_KNIGHT_AMBIENT = registerSound("entity.chaos_knight.ambient");
 	ENTITY_CHAOS_KNIGHT_HURT = registerSound("entity.chaos_knight.hurt");
 	ENTITY_CHAOS_KNIGHT_DEATH = registerSound("entity.chaos_knight.death");
+	MUSIC_NEW_WORLD = registerSound("music.new_world");
     }
 
     private static SoundEvent registerSound(String name)

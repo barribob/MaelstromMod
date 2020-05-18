@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.items.ItemCatalyst;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
 import com.barribob.MaelstromMod.items.ItemModElytra;
+import com.barribob.MaelstromMod.items.ItemModRecord;
 import com.barribob.MaelstromMod.items.ItemSingleDescription;
 import com.barribob.MaelstromMod.items.ItemTBDKey;
 import com.barribob.MaelstromMod.items.ItemTradable;
@@ -64,6 +65,8 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -293,4 +296,12 @@ public class ModItems
     public static final Item REDSTONE_BRICK_BLOCKVOID = new ItemBlockvoid("redstone_brick_blockvoid", ModBlocks.REDSTONE_BRICK, 30);
     public static final Item CRIMSON_PELLET = new ItemBase("crimson_pellet", null);
     public static final Item ELYSIUM_WINGS = new ItemModElytra("elysium_wings", ARMOR);
+
+    /**
+     * Random
+     */
+
+    // The sound events are unregistered because they are null at the point in the loading procedure
+    public static final Item NEW_WORLD_RECORD = new ItemModRecord("music_disc_new_world", new SoundEvent(new ResourceLocation(Reference.MOD_ID, "music.new_world")));
+    public static final Item WANDERING_RECORD = new ItemModRecord("music_disc_wandering", new SoundEvent(new ResourceLocation(Reference.MOD_ID, "music.wandering")));
 }

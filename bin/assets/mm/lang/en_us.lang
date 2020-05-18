@@ -26,6 +26,8 @@ item.obsidian_blockvoid.name=Obsidian Blockvoid
 item.furnace_bricks_blockvoid.name=Furnace Bricks Blockvoid
 item.redstone_brick_blockvoid.name=Redstone Bricks Blockvoid
 item.elysium_wings.name=Elysium Wings
+item.music_disc_new_world.name=Music Disc
+item.music_disc_wandering.name=Music Disc
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -543,6 +545,8 @@ mm.desc.rune_staff=Shoots short range magic
 mm.desc.energized_caduceus=Grants extreme regeneration and absorption
 mm.desc.tuning_fork=Shoots a medium range beam
 mm.desc.elysium_wings=An Elytra forged in an unbreaking metal.
+item.record.music_disc_new_world.desc=Barribob - New World
+item.record.music_disc_wandering.desc=Barribob - Wandering
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog
