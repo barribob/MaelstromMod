@@ -856,4 +856,12 @@ public final class ModUtils {
     public static void setEntityVelocity(Entity entity, Vec3d vec) {
 	entity.setVelocity(vec.x, vec.y, vec.z);
     }
+
+    public static void addEntityVelocity(Entity entity, Vec3d vec) {
+	entity.addVelocity(vec.x, vec.y, vec.z);
+    }
+
+    public static Vec3d getEntityVelocity(Entity entity) {
+	return new Vec3d(entity.motionX, entity.motionY, entity.motionZ);
+    }
 }

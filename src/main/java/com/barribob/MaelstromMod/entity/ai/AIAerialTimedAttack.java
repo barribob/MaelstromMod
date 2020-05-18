@@ -95,7 +95,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 
     public void move(EntityLivingBase target, double distSq, boolean canSee)
     {
-	if (distSq <= this.maxAttackDistSq && canSee)
+	if (distSq <= this.idealAttackDistanceSq && canSee)
 	{
 	    this.entity.getNavigator().clearPath();
 	    ++this.strafingTime;

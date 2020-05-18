@@ -13,6 +13,8 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMage;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMegaFireball;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
@@ -87,13 +89,19 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     private final Consumer<EntityLivingBase> punch = (target) -> {
 	ModBBAnimations.animation(this, "gauntlet.punch", false);
-	this.targetPos = target.getPositionVector().add(ModUtils.yVec(1));
 	this.addVelocity(0, 0.5, 0);
 	this.addEvent(() -> {
+	    this.targetPos = target.getPositionVector().add(ModUtils.yVec(1));
 	    this.isPunching = true;
 	    this.fist.width = 2.5f;
-	    this.fist.height = 2f;
+	    this.fist.height = 4.5f;
 	    this.height = 2;
+	    for (int i = 0; i < 10; i++) {
+		this.addEvent(() -> {
+		    Vec3d dir = this.targetPos.subtract(this.getPositionVector()).normalize().scale(0.32);
+		    ModUtils.addEntityVelocity(this, dir);
+		}, i);
+	    }
 	}, 20);
 	this.addEvent(() -> {
 	    this.isPunching = false;
@@ -142,17 +150,41 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    this.addEvent(() -> {
 		EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(),
 			new MobSpawnData[] {
-				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 3 }, 1),
+				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
 				new MobSpawnData(ModEntities.getID(EntityMaelstromLancer.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
 				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
 			},
-			new int[] { 2, 2, 2 },
+			new int[] { 2, 2, 1 },
 			new BlockPos(8, 6, 8));
 		if (mob != null) {
 		    ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
 		}
 	    }, i);
 	}
+    };
+
+    private final Consumer<EntityLivingBase> fireball = (target) -> {
+	ModBBAnimations.animation(this, "gauntlet.fireball", false);
+	Projectile proj = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null);
+	proj.setTravelRange(30);
+
+	this.addEvent(() -> {
+	    world.spawnEntity(proj);
+	}, 10);
+
+	// Hold the fireball in place
+	for (int i = 10; i < 27; i++) {
+	    this.addEvent(() -> {
+		Vec3d fireballPos = this.getPositionEyes(1).add(ModUtils.getAxisOffset(ModUtils.getLookVec(this.getLook(), this.renderYawOffset), new Vec3d(-1, -2, 0)));
+		ModUtils.setEntityPosition(proj, fireballPos);
+	    }, i);
+	}
+
+	// Throw the fireball
+	this.addEvent(() -> {
+	    Vec3d vel = target.getPositionEyes(1).subtract(ModUtils.yVec(1)).subtract(proj.getPositionVector());
+	    proj.shoot(vel.x, vel.y, vel.z, 0.8f, 0.3f);
+	}, 27);
     };
 
     public EntityMaelstromGauntlet(World worldIn) {
@@ -168,10 +200,10 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     protected void applyEntityAttributes() {
 	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
+	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
 	this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.26f);
 	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(64);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9f);
+	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(12f);
 	this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
     }
 
@@ -184,20 +216,24 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
-	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch, lazer, defend));
+	List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch, lazer, defend, fireball));
 	int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(20, 10, 20)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
-	double defendWeight = this.prevAttack == this.defend || numMinions > 3 ? 0 : 0.8;
+	float healthRatio = this.getHealth() / this.getMaxHealth();
+	double defendWeight = this.prevAttack == this.defend || numMinions > 3 || healthRatio > 0.55 ? 0 : 0.8;
+	double fireballWeight = distanceSq < Math.pow(25, 2) && healthRatio < 0.85 ? 1 : 0;
+	double lazerWeight = distanceSq < Math.pow(35, 2) && healthRatio < 0.7 ? 1 : 0;
 
 	double[] weights = {
-		distanceSq / Math.pow(20, 2),
-		distanceSq < Math.pow(35, 2) ? 1 : 0,
-		defendWeight
+		Math.sqrt(distanceSq) / 25,
+		lazerWeight,
+		defendWeight,
+		fireballWeight
 	};
 	this.prevAttack = ModRandom.choice(attacks, rand, weights).next();
 	this.prevAttack.accept(target);
 	return this.prevAttack == this.defend ? 240 : 100;
     }
-    
+
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
 	if (!source.isUnblockable()) {
@@ -279,14 +315,12 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
 	if (this.isPunching) {
 	    ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
-	    Vec3d dir = this.targetPos.subtract(this.getPositionVector()).normalize().scale(0.2);
-	    this.addVelocity(dir.x, dir.y, dir.z);
 	    ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), ModDamageSource.causeElementalMeleeDamage(this, this.getElement()), 1.5f, 0, false);
 	}
 
 	if (this.isShootingLazer) {
 	    if (this.getAttackTarget() != null) {
-		Vec3d lazerShootPos = this.getAttackTarget().getPositionVector();
+		Vec3d lazerShootPos = this.getAttackTarget().getPositionEyes(1).subtract(ModUtils.yVec(1));
 		this.addEvent(() -> {
 
 		    // Extend shooting beyond the target position up to 40 blocks
@@ -301,7 +335,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 		    }
 
 		    for (Entity entity : ModUtils.findEntitiesInLine(this.getPositionEyes(1), lazerPos, world, this)) {
-			entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), this.getAttack() * 0.5f);
+			entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), this.getAttack() * 0.3f);
 		    }
 
 		    Main.network.sendToAllTracking(new MessageDirectionForRender(this, lazerPos), this);
@@ -454,6 +488,11 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     public Entity[] getParts() {
 	return this.hitboxParts;
+    }
+
+    @Override
+    protected boolean canDespawn() {
+	return false;
     }
 
     @Override

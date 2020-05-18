@@ -26,9 +26,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class Projectile extends EntityModThrowable implements IElement
 {
-    private float travelRange;
+    protected float travelRange;
     private final Vec3d startPos;
-    private static final byte IMPACT_PARTICLE_BYTE = 3;
+    protected static final byte IMPACT_PARTICLE_BYTE = 3;
     private static final byte PARTICLE_BYTE = 4;
     private float damage = 0;
     protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(Projectile.class, DataSerializers.VARINT);
