@@ -69,7 +69,7 @@ public class ProjectileMegaFireball extends ProjectileGun {
 
 	boolean isShootingEntity = result != null && result.entityHit != null && result.entityHit == this.shootingEntity;
 	boolean isPartOfShootingEntity = result != null && result.entityHit != null && (result.entityHit instanceof MultiPartEntityPart && ((MultiPartEntityPart) result.entityHit).parent == this.shootingEntity);
-	if (isShootingEntity || isPartOfShootingEntity || world.isRemote) {
+	if (isShootingEntity || isPartOfShootingEntity || world.isRemote || this.shootingEntity == null) {
 	    return;
 	}
 
