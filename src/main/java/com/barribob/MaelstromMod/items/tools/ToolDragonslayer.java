@@ -65,7 +65,7 @@ public class ToolDragonslayer extends ToolSword implements IExtendedReach, ISwee
     @Override
     public float getAttackDamage()
     {
-	return super.getAttackDamage() * 1.25f;
+	return super.getAttackDamage() * 1.5f;
     }
 
     @Override
