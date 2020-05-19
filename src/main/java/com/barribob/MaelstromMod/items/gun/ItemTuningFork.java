@@ -13,6 +13,8 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -54,8 +56,21 @@ public class ItemTuningFork extends ItemStaff {
 	}
 
 	if (closestEntity != null) {
-	    lazerEnd = closestEntity.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd).hitVec;
-	    closestEntity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(player, null, getElement()), ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
+	    if (closestEntity instanceof IEntityMultiPart) {
+		for (Entity entity : closestEntity.getParts()) {
+		    RayTraceResult result = entity.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd);
+		    if (result != null) {
+			if (entity instanceof MultiPartEntityPart) {
+			    ((IEntityMultiPart) closestEntity).attackEntityFromPart((MultiPartEntityPart) entity, ModDamageSource.causeElementalPlayerDamage(player, getElement()),
+				    ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
+			}
+		    }
+		}
+	    }
+	    else {
+		lazerEnd = closestEntity.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd).hitVec;
+		closestEntity.attackEntityFrom(ModDamageSource.causeElementalPlayerDamage(player, getElement()), ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
+	    }
 	}
 
 	// Spawn an entity to render the ray and additional particles

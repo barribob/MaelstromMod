@@ -56,6 +56,7 @@ public class ServerElytraEventHandler {
 	    if (isFlying(mpPlayer)) {
 		if (event.phase == TickEvent.Phase.END) {
 		    ModUtils.handleElytraTravel(mpPlayer);
+		    mpPlayer.fallDistance = 1.0f;
 		}
 		setFlying(mpPlayer, canContinueFly);
 	    }

@@ -32,6 +32,7 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.RenderUtils;
+import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.block.Block;
@@ -74,7 +75,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
     private MultiPartEntityPart[] hitboxParts;
     private float boxSize = 0.8f;
-    private MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", boxSize, boxSize);
+    private MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", 1.0f, 1.0f);
     private MultiPartEntityPart bottomPalm = new MultiPartEntityPart(this, "bottomPalm", 1.2f, 1.2f);
     private MultiPartEntityPart upLeftPalm = new MultiPartEntityPart(this, "upLeftPalm", boxSize, boxSize);
     private MultiPartEntityPart upRightPalm = new MultiPartEntityPart(this, "upRightPalm", boxSize, boxSize);
@@ -94,6 +95,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private int beamLag = 7;
 
     private boolean isDefending;
+
+    // Used to filter damage from parts
+    private boolean damageFromEye;
 
     public final Consumer<Vec3d> punchAtPos = (target) -> {
 	ModBBAnimations.animation(this, "gauntlet.punch", false);
@@ -215,6 +219,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	this.setSize(2, 4);
 	this.noClip = true;
 	this.isImmuneToFire = true;
+	this.setLevel(LevelHandler.CRIMSON_END);
     }
 
     @Override
@@ -258,16 +263,17 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-	if (!source.isUnblockable()) {
+	if (!this.damageFromEye && !source.isUnblockable()) {
 	    return false;
 	}
+	this.damageFromEye = false;
 	return super.attackEntityFrom(source, amount);
     }
 
     @Override
     public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
 	if (part == this.eye && !this.isPunching && !this.isDefending) {
-	    source.setDamageBypassesArmor();
+	    this.damageFromEye = true;
 	    return this.attackEntityFrom(source, damage);
 	}
 
@@ -359,7 +365,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 		    }
 
 		    for (Entity entity : ModUtils.findEntitiesInLine(this.getPositionEyes(1), lazerPos, world, this)) {
-			entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), this.getAttack() * 0.3f);
+			entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), 4);
 		    }
 
 		    Main.network.sendToAllTracking(new MessageDirectionForRender(this, lazerPos), this);
