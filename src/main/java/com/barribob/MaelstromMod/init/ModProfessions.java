@@ -110,6 +110,7 @@ public class ModProfessions
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 5, Item.getItemFromBlock(Blocks.OBSIDIAN), 16, ModItems.ELUCIDATOR, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 4, Item.getItemFromBlock(Blocks.PUMPKIN), 16, ModItems.PUMPKIN, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 6, null, 0, ModItems.DRAGON_SLAYER, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5, null, 0, ModItems.NEW_WORLD_RECORD, 1));
 
 	/**
 	 * Level 3 (Cliff Overworld)
@@ -125,8 +126,9 @@ public class ModProfessions
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.FLY_WINGS, 32, null, 0, Items.ELYTRA, 1));
 
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, null, 0, ModItems.GOLDEN_QUAKE_STAFF, 1));
+
 	/**
-	 * Level 3 (Cliff Endgame)
+	 * Level 4 (Cliff Endgame)
 	 */
 
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 3, ModItems.BLACK_GOLD_AMMO_CASE, 3));
@@ -141,8 +143,34 @@ public class ModProfessions
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, ModItems.MAELSTROM_CORE, 6, ModItems.NYAN_CHESTPLATE, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 6, ModItems.NYAN_LEGGINGS, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 4, ModItems.NYAN_BOOTS, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.WANDERING_RECORD, 1));
 
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_DAGGER, 1));
+
+	/**
+	 * Level 5 (Crimson Start)
+	 */
+
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 3, ModItems.CRIMSON_AMMO_CASE, 3));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_PISTOL, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_SHOTGUN, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_REPEATER, 1));
+
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 3, ModItems.MAELSTROM_CORE, 3, ModItems.CRIMSON_RUNE_STAFF, 1));
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 3, ModItems.STONEBRICK_BLOCKVOID, 1));
+
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 4, ModItems.FADESTEEL_SWORD, 1));
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 3, ModItems.MAELSTROM_CORE, 5, ModItems.ENERGETIC_STEEL_CLEAVER, 1));
+
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 5, ModItems.FADESTEEL_HELMET, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 8, ModItems.FADESTEEL_CHESTPLATE, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 7, ModItems.FADESTEEL_LEGGINGS, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 4, ModItems.FADESTEEL_BOOTS, 1));
+
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 5, ModItems.ELYSIUM_HELMET, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 7, ModItems.MAELSTROM_CORE, 8, ModItems.ELYSIUM_CHESTPLATE, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 6, ModItems.MAELSTROM_CORE, 7, ModItems.ELYSIUM_LEGGINGS, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 3, ModItems.MAELSTROM_CORE, 4, ModItems.ELYSIUM_BOOTS, 1));
 
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.MoreComing());
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.MoreComing());
