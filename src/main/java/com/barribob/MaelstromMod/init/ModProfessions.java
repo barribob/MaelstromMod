@@ -131,7 +131,7 @@ public class ModProfessions
 	 * Level 4 (Cliff Endgame)
 	 */
 
-	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 3, ModItems.BLACK_GOLD_AMMO_CASE, 3));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 1, null, 0, ModItems.BLACK_GOLD_AMMO_CASE, 1));
 
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2, ModItems.CROSS_OF_AQUA, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_STAFF, 1));
@@ -151,7 +151,7 @@ public class ModProfessions
 	 * Level 5 (Crimson Start)
 	 */
 
-	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 3, ModItems.CRIMSON_AMMO_CASE, 3));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, null, 0, ModItems.CRIMSON_AMMO_CASE, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_PISTOL, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_SHOTGUN, 1));
 	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_REPEATER, 1));
