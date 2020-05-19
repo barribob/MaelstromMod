@@ -444,15 +444,25 @@ public final class ModUtils {
 	return amount;
     }
 
-    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity) {
+    public static void doSweepAttack(EntityPlayer player, @Nullable EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity) {
 	doSweepAttack(player, target, element, perEntity, 9, 1);
     }
 
-    public static void doSweepAttack(EntityPlayer player, EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity, float maxDistanceSq, float areaSize) {
+    public static void doSweepAttack(EntityPlayer player, @Nullable EntityLivingBase target, Element element, Consumer<EntityLivingBase> perEntity, float maxDistanceSq, float areaSize) {
 	float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 	float sweepDamage = Math.min(0.15F + EnchantmentHelper.getSweepingDamageRatio(player), 1) * attackDamage;
 
-	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(areaSize, 0.25D, areaSize))) {
+	AxisAlignedBB box;
+
+	if (target != null) {
+	    box = target.getEntityBoundingBox();
+	}
+	else {
+	    Vec3d center = ModUtils.getAxisOffset(player.getLookVec(), new Vec3d(areaSize * 1.5, 0, 0)).add(player.getPositionVector());
+	    box = makeBox(center, center).grow(areaSize * 0.5, areaSize, areaSize * 0.5);
+	}
+
+	for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, box.grow(areaSize, 0.25D, areaSize))) {
 	    if (entitylivingbase != player && entitylivingbase != target && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < maxDistanceSq) {
 		entitylivingbase.knockBack(player, 0.4F, MathHelper.sin(player.rotationYaw * 0.017453292F), (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 		entitylivingbase.attackEntityFrom(ModDamageSource.causeElementalPlayerDamage(player, element), sweepDamage);
@@ -472,7 +482,7 @@ public final class ModUtils {
 	}
 
 	Entity particle = new ParticleSpawnerSwordSwing(player.world);
-	particle.copyLocationAndAnglesFrom(target);
+	ModUtils.setEntityPosition(particle, box.getCenter());
 	player.world.spawnEntity(particle);
     }
 
@@ -900,4 +910,11 @@ public final class ModUtils {
 	}
 	return new BlockPos(pos.getX(), 0, pos.getZ());
     }
+    /**
+     * Because the stupid constructor is client side only
+     */
+    public static AxisAlignedBB makeBox(Vec3d pos1, Vec3d pos2) {
+	return new AxisAlignedBB(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
+    }
+
 }

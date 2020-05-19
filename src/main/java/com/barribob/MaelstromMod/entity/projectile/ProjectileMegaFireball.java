@@ -111,6 +111,7 @@ public class ProjectileMegaFireball extends ProjectileGun {
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
 	if (!this.isDead) {
+	    this.setDead();
 	    this.onHit(null);
 	}
 	return super.attackEntityFrom(source, amount);
@@ -118,6 +119,11 @@ public class ProjectileMegaFireball extends ProjectileGun {
 
     @Override
     public boolean canBeCollidedWith() {
+	return true;
+    }
+
+    @Override
+    public boolean canBeAttackedWithItem() {
 	return true;
     }
 

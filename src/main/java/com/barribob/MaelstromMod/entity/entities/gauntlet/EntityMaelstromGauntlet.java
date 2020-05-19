@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.entity.ai.AIAerialTimedAttack;
 import com.barribob.MaelstromMod.entity.ai.AiFistWander;
 import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
+import com.barribob.MaelstromMod.entity.ai.ModEntitySenses;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
@@ -51,6 +52,7 @@ import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntitySenses;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -59,6 +61,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -98,6 +101,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     // Used to filter damage from parts
     private boolean damageFromEye;
+
+    // Custom entity see ai
+    private EntitySenses senses = new ModEntitySenses(this);
 
     public final Consumer<Vec3d> punchAtPos = (target) -> {
 	ModBBAnimations.animation(this, "gauntlet.punch", false);
@@ -237,8 +243,8 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	super.initEntityAI();
 	float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
 	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, attackDistance + 20, 20, 0.8f, 20));
-	this.tasks.addTask(7, new AiFistWander(this, 80, 8));
 	ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
+	this.tasks.addTask(7, new AiFistWander(this, 80, 8));
     }
 
     @Override
@@ -439,6 +445,12 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 		ParticleManager.spawnSplit(world, pos.add(ModUtils.yVec(y)), ModColors.PURPLE, ModUtils.yVec(-y * 0.1));
 	    });
 	}
+	else if (id == ModUtils.THIRD_PARTICLE_BYTE) {
+	    for (int i = 0; i < 2; i++) {
+		Vec3d pos = this.getPositionVector().add(ModRandom.gaussVec());
+		world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.x, pos.y, pos.z, 0, 0, 0);
+	    }
+	}
 	super.handleStatusUpdate(id);
     }
 
@@ -508,6 +520,11 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     protected void entityInit() {
 	this.dataManager.register(LOOK, Float.valueOf(0));
 	super.entityInit();
+    }
+
+    @Override
+    public EntitySenses getEntitySenses() {
+	return this.senses;
     }
 
     @Override
