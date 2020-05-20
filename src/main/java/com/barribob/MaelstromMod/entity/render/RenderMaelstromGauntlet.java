@@ -20,6 +20,9 @@ public class RenderMaelstromGauntlet extends RenderModEntity<EntityMaelstromGaun
 	if (entity.hurtTime > 0) {
 	    return new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_gauntlet_hurt.png");
 	}
+	else if (entity.getHealth() / entity.getMaxHealth() < 0.55) {
+	    return new ResourceLocation(Reference.MOD_ID + ":textures/entity/maelstrom_gauntlet_low_health.png");
+	}
 	return super.getEntityTexture(entity);
     }
 }
