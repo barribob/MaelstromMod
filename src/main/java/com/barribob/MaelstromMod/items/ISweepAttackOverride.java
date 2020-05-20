@@ -1,8 +1,9 @@
 package com.barribob.MaelstromMod.items;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 /**
  * 
@@ -11,5 +12,5 @@ import net.minecraft.item.ItemStack;
  */
 public interface ISweepAttackOverride
 {
-    public void doSweepAttack(EntityPlayer player, EntityLivingBase target);
+    public void doSweepAttack(EntityPlayer player, @Nullable EntityLivingBase entity);
 }

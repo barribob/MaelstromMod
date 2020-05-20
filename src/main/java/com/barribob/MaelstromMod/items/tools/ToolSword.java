@@ -111,9 +111,8 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
     }
 
     @Override
-    public void doSweepAttack(EntityPlayer player, EntityLivingBase target)
-    {
-	ModUtils.doSweepAttack(player, target, element, (e) -> {
+    public void doSweepAttack(EntityPlayer player, EntityLivingBase entity) {
+	ModUtils.doSweepAttack(player, entity, element, (e) -> {
 	});
     }
 

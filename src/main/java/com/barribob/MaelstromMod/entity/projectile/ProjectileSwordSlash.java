@@ -44,7 +44,7 @@ public class ProjectileSwordSlash extends Projectile
 		Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, getPositionVector(), Vec3d.ZERO, this.getElement().sweepColor), this);
 	    }
 
-	    ModUtils.handleAreaImpact(1, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()),
+	    ModUtils.handleAreaImpact(1.5f, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()),
 		    0.2f, 0);
 	}
     }

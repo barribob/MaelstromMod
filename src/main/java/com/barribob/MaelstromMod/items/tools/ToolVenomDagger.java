@@ -17,39 +17,35 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ToolVenomDagger extends ToolDagger implements ISweepAttackParticles
-{
-    public ToolVenomDagger(String name, ToolMaterial material, float level)
-    {
+public class ToolVenomDagger extends ToolDagger implements ISweepAttackParticles {
+    public ToolVenomDagger(String name, ToolMaterial material, float level) {
 	super(name, material, level);
     }
 
     // Add a poison effect on a full attack
     @Override
-    public void doSweepAttack(EntityPlayer player, EntityLivingBase target)
-    {	
-	target.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
-	Entity particle = new ParticleSpawnerSwordSwing(player.world);
-	particle.copyLocationAndAnglesFrom(target);
-	player.world.spawnEntity(particle);
+    public void doSweepAttack(EntityPlayer player, EntityLivingBase target) {
+	if (target != null) {
+	    target.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
+	    Entity particle = new ParticleSpawnerSwordSwing(player.world);
+	    particle.copyLocationAndAnglesFrom(target);
+	    player.world.spawnEntity(particle);
+	}
     }
-    
+
     @Override
-    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+	super.addInformation(stack, worldIn, tooltip, flagIn);
 	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("venom_dagger"));
     }
 
     @Override
-    public Vec3d getColor()
-    {
+    public Vec3d getColor() {
 	return new Vec3d(0.2, 0.5, 0.2);
     }
 
     @Override
-    public float getSize()
-    {
+    public float getSize() {
 	return 0.5f;
     }
 }

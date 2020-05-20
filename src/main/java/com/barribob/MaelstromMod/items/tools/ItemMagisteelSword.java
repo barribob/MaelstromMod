@@ -12,9 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -32,14 +30,13 @@ public class ItemMagisteelSword extends ToolSword
 	{
 	    EntityPlayer player = (EntityPlayer) entityLiving;
 	    float attackDamage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-	    Item heldItem = player.getHeldItem(EnumHand.MAIN_HAND).getItem();
 	    float atkCooldown = player.getCooledAttackStrength(0.5F);
 
 	    if (atkCooldown > 0.9F)
 	    {
 		Projectile proj = new ProjectileSwordSlash(player.world, player, attackDamage);
 		proj.setElement(this.getElement());
-		proj.setTravelRange(4);
+		proj.setTravelRange(4.5f);
 		proj.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5f, 0);
 		player.world.spawnEntity(proj);
 		player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F,
@@ -50,7 +47,7 @@ public class ItemMagisteelSword extends ToolSword
 		}
 	    }
 	}
-	return super.onEntitySwing(entityLiving, stack);
+	return false;
     }
 
     @Override

@@ -52,6 +52,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -219,7 +220,7 @@ public final class ModUtils {
 	List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
 	if (list != null) {
-	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart;
+	    Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart || i.canBeCollidedWith();
 	    double radiusSq = Math.pow(radius, 2);
 
 	    list.stream().filter(isInstance).forEach((entity) -> {
@@ -458,7 +459,7 @@ public final class ModUtils {
 	    box = target.getEntityBoundingBox();
 	}
 	else {
-	    Vec3d center = ModUtils.getAxisOffset(player.getLookVec(), new Vec3d(areaSize * 1.5, 0, 0)).add(player.getPositionVector());
+	    Vec3d center = ModUtils.getAxisOffset(player.getLookVec(), new Vec3d(areaSize * 1.5, 0, 0)).add(player.getPositionEyes(1));
 	    box = makeBox(center, center).grow(areaSize * 0.5, areaSize, areaSize * 0.5);
 	}
 
@@ -474,11 +475,7 @@ public final class ModUtils {
 
 	// Spawn colored sweep particles
 	if (!player.world.isRemote) {
-	    double d0 = (-MathHelper.sin(player.rotationYaw * 0.017453292F));
-	    double d1 = MathHelper.cos(player.rotationYaw * 0.017453292F);
-	    Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, (float) (player.posX + d0), (float) (player.posY + player.height * 0.5D),
-		    (float) (player.posZ + d1), (float) d0, 0.0f, (float) d1, (float) element.sweepColor.x, (float) element.sweepColor.y, (float) element.sweepColor.z),
-		    (EntityPlayerMP) player);
+	    Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, box.getCenter(), Vec3d.ZERO, element.sweepColor), (EntityPlayerMP) player);
 	}
 
 	Entity particle = new ParticleSpawnerSwordSwing(player.world);
@@ -706,7 +703,8 @@ public final class ModUtils {
 	}
 
 	if (destroyedBlocks) {
-	    world.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 2, false);
+	    world.playSound((EntityPlayer) null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, 1.0f + ModRandom.getFloat(0.3f));
+	    world.setEntityState(entity, THIRD_PARTICLE_BYTE); // Right now this is just for the Gauntlet particles
 	}
 
 	return failedToDestroySomeBlocks;
@@ -910,6 +908,7 @@ public final class ModUtils {
 	}
 	return new BlockPos(pos.getX(), 0, pos.getZ());
     }
+
     /**
      * Because the stupid constructor is client side only
      */
@@ -917,4 +916,17 @@ public final class ModUtils {
 	return new AxisAlignedBB(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
     }
 
+    /**
+     * Lets entities see you through glass
+     */
+    public static boolean canEntityBeSeen(Entity viewer, Entity target) {
+	RayTraceResult result = viewer.world.rayTraceBlocks(viewer.getPositionEyes(1), target.getPositionEyes(1), false, true, false);
+	if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
+	    IBlockState blockState = viewer.world.getBlockState(result.getBlockPos());
+	    if (blockState.isFullCube()) {
+		return true;
+	    }
+	}
+	return true;
+    }
 }
