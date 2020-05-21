@@ -244,9 +244,13 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     protected void initEntityAI() {
 	super.initEntityAI();
+	ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
+	this.initGauntletAI();
+    }
+
+    private void initGauntletAI() {
 	float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
 	this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, attackDistance + 20, 20, 0.8f, 20));
-	ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
 	this.tasks.addTask(7, new AiFistWander(this, 80, 8));
     }
 
@@ -283,6 +287,12 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
 	if (part == this.eye && !this.isPunching && !this.isDefending) {
 	    this.damageFromEye = true;
+
+	    // Awaken the gauntlet
+	    if (damage > 0 && this.isImmovable()) {
+		this.setImmovable(false);
+	    }
+
 	    return this.attackEntityFrom(source, damage);
 	}
 
@@ -395,6 +405,31 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	if (this.isDefending) {
 	    world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
 	}
+    }
+
+    @Override
+    public void onUpdate() {
+	super.onUpdate();
+
+	if (this.isImmovable()) {
+	    this.setRotation(180, 0);
+	    this.setRotationYawHead(180);
+	}
+    }
+
+    /**
+     * Immovability doubles as the gauntlet not being "awakened" or active
+     */
+    @Override
+    protected void setImmovable(boolean immovable) {
+	if (this.isImmovable() && !immovable) {
+	    this.initGauntletAI(); // Start gauntlet attacks and movements after becoming mobile
+	}
+	else if (immovable) {
+	    ModUtils.removeTaskOfType(tasks, AIAerialTimedAttack.class);
+	    ModUtils.removeTaskOfType(tasks, AiFistWander.class);
+	}
+	super.setImmovable(immovable);
     }
 
     @Override

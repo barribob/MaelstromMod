@@ -23,6 +23,7 @@ import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.ResourceLocation;
@@ -178,11 +179,11 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 	    if (tileentity instanceof TileEntityMobSpawner) {
-		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(
-			new MobSpawnData(ModEntities.getID(EntityMaelstromGauntlet.class), Element.NONE),
-			1,
-			LevelHandler.CRIMSON_END,
-			60);
+		NBTTagCompound compound = new NBTTagCompound();
+		compound.setString("id", ModEntities.getID(EntityMaelstromGauntlet.class));
+		compound.setBoolean("isImmovable", true);
+
+		((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(compound), 1, LevelHandler.CRIMSON_END, 60);
 	    }
 	}
     }

@@ -62,6 +62,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.MapStorage;
@@ -811,18 +812,18 @@ public final class ModUtils {
      * @param range
      * @return
      */
-    public static EntityLeveledMob spawnMob(World world, BlockPos pos, float level, MobSpawnData[] mobs, int weights[], BlockPos range) {
+    public static @Nullable EntityLeveledMob spawnMob(World world, BlockPos pos, float level, MobSpawnData[] mobs, int weights[], BlockPos range) {
 	Random random = new Random();
 	MobSpawnData data = ModRandom.choice(mobs, random, weights).next();
 	int tries = 100;
 	for (int i = 0; i < tries; i++) {
 	    // Find a random position to spawn the enemy
-	    int i1 = pos.getX() + ModRandom.range(0, range.getX()) * ModRandom.randSign();
-	    int k1 = pos.getZ() + ModRandom.range(0, range.getY()) * ModRandom.randSign();
+	    int x = pos.getX() + ModRandom.range(0, range.getX()) * ModRandom.randSign();
+	    int z = pos.getZ() + ModRandom.range(0, range.getY()) * ModRandom.randSign();
 
 	    int y = range.getY();
 	    while (y > -range.getY()) {
-		if (!world.isAirBlock(new BlockPos(i1, pos.getY() + y - 1, k1))) {
+		if (!world.isAirBlock(new BlockPos(x, pos.getY() + y - 1, z))) {
 		    break;
 		}
 		y--;
@@ -830,18 +831,15 @@ public final class ModUtils {
 
 	    int j1 = pos.getY() + y;
 
-	    if (world.getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(world, new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP)) {
-		Entity mob = EntityList.createEntityByIDFromName(new ResourceLocation(data.mobId), world);
+	    if (world.getBlockState(new BlockPos(x, j1 - 1, z)).isSideSolid(world, new BlockPos(x, j1 - 1, z), net.minecraft.util.EnumFacing.UP)) {
+		Entity mob = createMobFromSpawnData(data, world, x, y, z);
 
 		if (mob == null) {
-		    System.out.println("Failed to spawn entity with id" + data.mobId);
 		    return null;
 		}
 
-		mob.setLocationAndAngles(i1, j1, k1, random.nextFloat() * 360.0F, 0.0F);
-
 		// Make sure that the position is a proper spawning position
-		if (!world.isAnyPlayerWithinRangeAt(i1, j1, k1, 3.0D) && world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(mob.getEntityBoundingBox())) {
+		if (!world.isAnyPlayerWithinRangeAt(x, j1, z, 3.0D) && world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(mob.getEntityBoundingBox())) {
 
 		    if (mob instanceof EntityLeveledMob) {
 
@@ -861,6 +859,30 @@ public final class ModUtils {
 	    }
 	}
 	return null;
+    }
+
+    /**
+     * Implements the way to create a mob from the spawn data object that most spawners in the mod uses
+     */
+    public static @Nullable Entity createMobFromSpawnData(MobSpawnData data, World world, double x, double y, double z) {
+	Entity entity;
+	if (data.mobData != null) {
+	    // Read entity with custom NBT
+	    entity = AnvilChunkLoader.readWorldEntityPos(data.mobData, world, x, y, z, true);
+	}
+	else {
+	    // Read just the default entity
+	    entity = EntityList.createEntityByIDFromName(new ResourceLocation(data.mobId), world);
+	}
+
+	if (entity == null) {
+	    System.out.println("Failed to spawn entity with id" + data.mobId);
+	    return null;
+	}
+
+	entity.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
+
+	return entity;
     }
 
     public static void setEntityPosition(Entity entity, Vec3d vec) {

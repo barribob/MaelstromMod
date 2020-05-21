@@ -235,21 +235,24 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	{
 	    this.setLevel(compound.getFloat("level"));
 	}
-	if (compound.hasKey("isImmovable"))
-	{
-	    this.dataManager.set(IMMOVABLE, compound.getBoolean("isImmovable"));
-	}
-	if (compound.hasKey("initialX"))
-	{
-	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
-	}
-	if (compound.hasKey("element"))
-	{
+	if (compound.hasKey("element")) {
 	    this.setElement(Element.getElementFromId(compound.getInteger("element")));
 	}
 	world.setEntityState(this, animationByte);
 
 	super.readFromNBT(compound);
+
+	if (compound.hasKey("isImmovable"))
+	{
+	    this.setImmovable(compound.getBoolean("isImmovable"));
+	}
+
+	// This is required because the position gets set at 0 0 0 from super.readFromNBT, which causes problems
+	this.initialPosition = null;
+	if (compound.hasKey("initialX"))
+	{
+	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
+	}
     }
 
     /**
