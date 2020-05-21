@@ -34,6 +34,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.RenderUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
+import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenGauntletSpike;
 
 import net.minecraft.block.Block;
@@ -63,6 +64,7 @@ import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ReportedException;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -821,5 +823,20 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     public void removeTrackingPlayer(EntityPlayerMP player) {
 	super.removeTrackingPlayer(player);
 	this.bossInfo.removePlayer(player);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+	return SoundsHandler.ENTITY_GAUNTLET_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+	return SoundsHandler.ENTITY_GAUNTLET_HURT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+	return SoundsHandler.ENTITY_GAUNTLET_HURT;
     }
 }

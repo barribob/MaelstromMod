@@ -178,5 +178,25 @@
 				"stream": true
 			}
 		]
+	},
+	"entity.gauntlet.hurt": {
+		"category": "entity",
+		"subtitle": "entity.gauntlet.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/gauntlet/hurt",
+				"stream": true
+			}
+		]
+	},
+		"entity.gauntlet.ambient": {
+		"category": "entity",
+		"subtitle": "entity.gauntlet.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/gauntlet/ambient",
+				"stream": true
+			}
+		]
 	}
 }
