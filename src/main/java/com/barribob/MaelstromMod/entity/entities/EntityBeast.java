@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -232,6 +233,9 @@ public class EntityBeast extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
+	if (this.getElement() == Element.CRIMSON) {
+	    return LootTableHandler.CRIMSON_MINIBOSS;
+	}
 	return LootTableHandler.SWAMP_BOSS;
     }
 

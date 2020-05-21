@@ -951,4 +951,23 @@ public final class ModUtils {
 	}
 	return true;
     }
+
+    /**
+     * Aims to reduce the number of instanceof checks for EntityLivingBase because of changes in the code can cause instanceof check to become insufficient
+     * 
+     * Currently also handles entities comprised of multiple hitboxes
+     */
+    public static @Nullable EntityLivingBase getLivingEntity(@Nullable Entity entity) {
+	if (entity instanceof EntityLivingBase) {
+	    return (EntityLivingBase) entity;
+	}
+	else if (entity instanceof MultiPartEntityPart && ((MultiPartEntityPart) entity).parent instanceof EntityLivingBase) {
+	    return (EntityLivingBase) ((MultiPartEntityPart) entity).parent;
+	}
+	return null;
+    }
+
+    public static boolean isMaelstromMob(@Nullable Entity entity) {
+	return entity instanceof EntityMaelstromMob;
+    }
 }

@@ -3,7 +3,6 @@ package com.barribob.MaelstromMod.world.dimension.crimson_kingdom;
 import java.util.Random;
 
 import com.barribob.MaelstromMod.entity.entities.EntityBeast;
-import com.barribob.MaelstromMod.entity.entities.EntityHorror;
 import com.barribob.MaelstromMod.entity.entities.EntityIronShade;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
@@ -51,6 +50,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
     protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand)
     {
 	super.handleDataMarker(function, pos, worldIn, rand);
+	int spawnRange = 25;
 	worldIn.setBlockToAir(pos);
 	if (function.startsWith("enemy 4") || function.startsWith("enemy 5") | function.startsWith("enemy 6"))
 	{
@@ -63,13 +63,12 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData[] {
 				new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 3 }, 1),
 				new MobSpawnData(ModEntities.getID(EntityMaelstromLancer.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
-				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1),
-				new MobSpawnData(ModEntities.getID(EntityHorror.class), Element.NONE)
+				new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 4 }, 1)
 			},
-			new int[] { 2, 2, 2, 1 },
-			ModRandom.range(3, 5),
+			new int[] { 2, 2, 2 },
+			ModRandom.range(2, 4),
 			level,
-			20);
+			spawnRange);
 	    }
 	}
 	else if (function.startsWith("ranger 5") || function.startsWith("ranger 6"))
@@ -83,7 +82,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[] { Element.CRIMSON, Element.NONE }, new int[] { 1, 2 }, 1),
 			1,
 			level,
-			20);
+			spawnRange);
 	    }
 	}
 	else if (function.startsWith("miniboss"))
@@ -96,7 +95,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData(ModEntities.getID(EntityIronShade.class), Element.CRIMSON),
 			1,
 			LevelHandler.CRIMSON_END,
-			20);
+			spawnRange);
 	    }
 	}
 	else if (function.startsWith("beast")) {
@@ -107,7 +106,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData(ModEntities.getID(EntityBeast.class), Element.CRIMSON),
 			1,
 			LevelHandler.CRIMSON_END,
-			20);
+			spawnRange);
 	    }
 	}
 	else if (function.startsWith("healer"))
@@ -121,7 +120,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 			new MobSpawnData(ModEntities.getID(EntityMaelstromHealer.class), Element.NONE),
 			1,
 			level,
-			20);
+			spawnRange);
 	    }
 	}
 	else if (function.startsWith("chest minecart"))
