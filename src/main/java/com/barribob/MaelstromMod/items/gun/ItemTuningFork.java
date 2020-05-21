@@ -57,14 +57,19 @@ public class ItemTuningFork extends ItemStaff {
 
 	if (closestEntity != null) {
 	    if (closestEntity instanceof IEntityMultiPart) {
+		MultiPartEntityPart closestPart = null;
 		for (Entity entity : closestEntity.getParts()) {
 		    RayTraceResult result = entity.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd);
 		    if (result != null) {
-			if (entity instanceof MultiPartEntityPart) {
-			    ((IEntityMultiPart) closestEntity).attackEntityFromPart((MultiPartEntityPart) entity, ModDamageSource.causeElementalPlayerDamage(player, getElement()),
-				    ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
+			if (entity instanceof MultiPartEntityPart && (closestPart == null || entity.getDistanceSq(player) < closestPart.getDistanceSq(player))) {
+			    closestPart = (MultiPartEntityPart) entity;
 			}
 		    }
+		}
+
+		if (closestPart != null) {
+		    ((IEntityMultiPart) closestEntity).attackEntityFromPart(closestPart, ModDamageSource.causeElementalPlayerDamage(player, getElement()),
+			    ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
 		}
 	    }
 	    else {
