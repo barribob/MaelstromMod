@@ -14,6 +14,7 @@ import com.barribob.MaelstromMod.packets.MessageLoopAnimationUpdate;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.packets.MessageManaUnlock;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
+import com.barribob.MaelstromMod.packets.MessagePlayDarkNexusWindSound;
 import com.barribob.MaelstromMod.packets.MessageStartElytraFlying;
 import com.barribob.MaelstromMod.packets.MessageSyncConfig;
 import com.barribob.MaelstromMod.util.Reference;
@@ -58,6 +59,7 @@ public class CommonProxy
 	Main.network.registerMessage(MessageLoopAnimationUpdate.Handler.class, MessageLoopAnimationUpdate.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageStartElytraFlying.Handler.class, MessageStartElytraFlying.class, packetId++, Side.SERVER);
 	Main.network.registerMessage(MessageEmptySwing.Handler.class, MessageEmptySwing.class, packetId++, Side.SERVER);
+	Main.network.registerMessage(MessagePlayDarkNexusWindSound.Handler.class, MessagePlayDarkNexusWindSound.class, packetId++, Side.CLIENT);
 
 	CapabilityManager.INSTANCE.register(IMana.class, new ManaStorage(), Mana.class);
 	// CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(),
