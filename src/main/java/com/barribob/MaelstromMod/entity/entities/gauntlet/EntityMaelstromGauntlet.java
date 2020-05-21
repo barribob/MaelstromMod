@@ -23,6 +23,7 @@ import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
+import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
@@ -461,7 +462,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     public void onDeath(DamageSource cause) {
-	if (!world.isRemote) {
+	if (!world.isRemote && this.getLevel() > 0 && this.dimension == ModDimensions.CRIMSON_KINGDOM.getId()) {
 
 	    for (int i = 0; i < 15; i++) {
 		final int i_final = i;
