@@ -309,10 +309,10 @@ public final class ModUtils {
      * @return
      */
     public static Vec3d getAxisOffset(Vec3d axis, Vec3d offset) {
-	Vec3d forward = axis.normalize().scale(offset.x);
-	Vec3d side = axis.crossProduct(new Vec3d(0, 1, 0)).normalize().scale(offset.z);
-	Vec3d up = axis.crossProduct(side).normalize().scale(offset.y);
-	return forward.add(side).add(up);
+	Vec3d forward = axis.normalize();
+	Vec3d side = axis.crossProduct(new Vec3d(0, 1, 0)).normalize();
+	Vec3d up = axis.crossProduct(side).normalize();
+	return forward.scale(offset.x).add(side.scale(offset.z)).add(up.scale(offset.y));
     }
 
     public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile) {

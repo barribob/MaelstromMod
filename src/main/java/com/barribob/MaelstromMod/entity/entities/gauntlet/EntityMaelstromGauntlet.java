@@ -79,6 +79,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private MultiPartEntityPart[] hitboxParts;
     private float boxSize = 0.8f;
     private MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", 1.0f, 1.0f);
+    private MultiPartEntityPart behindEye = new MultiPartEntityPart(this, "behindEye", 1.0f, 1.0f);
     private MultiPartEntityPart bottomPalm = new MultiPartEntityPart(this, "bottomPalm", 1.2f, 1.2f);
     private MultiPartEntityPart upLeftPalm = new MultiPartEntityPart(this, "upLeftPalm", boxSize, boxSize);
     private MultiPartEntityPart upRightPalm = new MultiPartEntityPart(this, "upRightPalm", boxSize, boxSize);
@@ -205,7 +206,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	// Hold the fireball in place
 	for (int i = 10; i < 27; i++) {
 	    this.addEvent(() -> {
-		Vec3d fireballPos = this.getPositionEyes(1).add(ModUtils.getAxisOffset(ModUtils.getLookVec(this.getLook(), this.renderYawOffset), new Vec3d(-1, -2, 0)));
+		Vec3d fireballPos = this.getPositionEyes(1).add(ModUtils.getAxisOffset(ModUtils.getLookVec(this.getLook(), this.renderYawOffset), new Vec3d(-1, 0, 0)));
 		ModUtils.setEntityPosition(proj, fireballPos);
 	    }, i);
 	}
@@ -221,7 +222,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	super(worldIn);
 	this.moveHelper = new FlyingMoveHelper(this);
 	this.navigator = new PathNavigateFlying(this, worldIn);
-	this.hitboxParts = new MultiPartEntityPart[] { eye, bottomPalm, upLeftPalm, upRightPalm, rightPalm, leftPalm, fingers, fist };
+	this.hitboxParts = new MultiPartEntityPart[] { eye, behindEye, bottomPalm, upLeftPalm, upRightPalm, rightPalm, leftPalm, fingers, fist };
 	this.setSize(2, 4);
 	this.noClip = true;
 	this.isImmuneToFire = true;
@@ -316,6 +317,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
 	Vec3d eyePos = this.getPositionEyes(1).add(rotationVector.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(-0.2, 0, 0)));
 	this.eye.setLocationAndAngles(eyePos.x, eyePos.y, eyePos.z, this.rotationYaw, this.rotationPitch);
+
+	Vec3d behindEyePos = this.getPositionEyes(1).add(rotationVector.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0.5, -0.1, 0)));
+	this.behindEye.setLocationAndAngles(behindEyePos.x, behindEyePos.y, behindEyePos.z, this.rotationYaw, this.rotationPitch);
 
 	Vec3d palmPos = this.getPositionEyes(1).add(rotationVector.scale(0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, 0.5)));
 	this.upLeftPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);

@@ -68,6 +68,7 @@ public class ItemTuningFork extends ItemStaff {
 		}
 
 		if (closestPart != null) {
+		    lazerEnd = closestPart.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd).hitVec;
 		    ((IEntityMultiPart) closestEntity).attackEntityFromPart(closestPart, ModDamageSource.causeElementalPlayerDamage(player, getElement()),
 			    ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
 		}
