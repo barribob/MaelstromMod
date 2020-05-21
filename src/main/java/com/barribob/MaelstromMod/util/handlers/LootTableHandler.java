@@ -34,6 +34,7 @@ public class LootTableHandler
     public static final ResourceLocation MAELSTROM_RUINS = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/maelstrom_ruins"));
     public static final ResourceLocation CRIMSON_5_CHEST = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/crimson_5_chest"));
     public static final ResourceLocation CRIMSON_6_CHEST = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/crimson_6_chest"));
+    public static final ResourceLocation GAUNTLET_CHEST = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "chest/gauntlet_chest"));
 
     // For testing purposes
     public static final ResourceLocation DIAMOND = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "util/diamond_level_loot"));

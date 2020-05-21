@@ -5,7 +5,7 @@ item.iron_pellet.name=Iron Pellet
 item.azure_maelstrom_core_crystal.name=Azure Maelstrom Core
 item.maelstrom_core.name=Maelstrom Core
 item.azure_key.name=Fracture Dimensional Key
-item.beast_key.name=Purple Dimensional Key
+item.maelstrom_key.name=Key of the Challenger
 item.invisible.name=Invisible
 item.brown_key.name=Golden Canyon Dimensional Key
 item.red_key.name=Crimson Dimensional Key
@@ -548,6 +548,7 @@ mm.desc.tuning_fork=Shoots a medium range beam
 mm.desc.elysium_wings=An Elytra forged in an unbreaking metal.
 item.record.music_disc_new_world.desc=Barribob - New World
 item.record.music_disc_wandering.desc=Barribob - Wandering
+mm.desc.maelstrom_key=Congrats! You have reached the ending. See the mod page for more details.
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

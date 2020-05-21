@@ -1,0 +1,14 @@
+{
+	"pools": [
+		{
+			"name": "crimson_5_chest",
+			"rolls": 2,
+			"entries": [
+				{
+					"type": "loot_table",
+					"name": "mm:chest/crimson_6_chest"
+				}
+			]
+		}
+	]
+}

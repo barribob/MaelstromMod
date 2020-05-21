@@ -33,8 +33,8 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.RenderUtils;
-import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
+import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenGauntletSpike;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
@@ -225,7 +225,6 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	this.setSize(2, 4);
 	this.noClip = true;
 	this.isImmuneToFire = true;
-	this.setLevel(LevelHandler.CRIMSON_END);
     }
 
     @Override
@@ -452,6 +451,20 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	    }
 	}
 	super.handleStatusUpdate(id);
+    }
+
+    @Override
+    public void onDeath(DamageSource cause) {
+	if (!world.isRemote) {
+
+	    for (int i = 0; i < 15; i++) {
+		final int i_final = i;
+		world.newExplosion(this, this.posX, this.posY + i_final * 2, this.posZ, 2, false, false);
+	    }
+
+	    new WorldGenGauntletSpike().generate(world, this.getRNG(), this.getPosition().add(new BlockPos(-3, 0, -3)));
+	    super.onDeath(cause);
+	}
     }
 
     @Override

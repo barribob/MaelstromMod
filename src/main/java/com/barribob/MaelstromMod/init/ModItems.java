@@ -12,7 +12,6 @@ import com.barribob.MaelstromMod.items.ItemKey;
 import com.barribob.MaelstromMod.items.ItemModElytra;
 import com.barribob.MaelstromMod.items.ItemModRecord;
 import com.barribob.MaelstromMod.items.ItemSingleDescription;
-import com.barribob.MaelstromMod.items.ItemTBDKey;
 import com.barribob.MaelstromMod.items.ItemTradable;
 import com.barribob.MaelstromMod.items.armor.ArmorNyanHelmet;
 import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
@@ -100,10 +99,10 @@ public class ModItems
     /*
      * Dimensional Items
      */
-    public static final Item AZURE_KEY = new ItemKey("azure_key", ModCreativeTabs.ITEMS);
-    public static final Item BROWN_KEY = new ItemKey("brown_key", ModCreativeTabs.ITEMS);
-    public static final Item BEASTS_KEY = new ItemTBDKey("beast_key", null);
-    public static final Item RED_KEY = new ItemTBDKey("red_key", ModCreativeTabs.ITEMS);
+    public static final Item AZURE_KEY = new ItemKey("azure_key", "dimensional_key", ModCreativeTabs.ITEMS);
+    public static final Item BROWN_KEY = new ItemKey("brown_key", "dimensional_key", ModCreativeTabs.ITEMS);
+    public static final Item MAELSTROM_KEY = new ItemKey("maelstrom_key", "maelstrom_key", null);
+    public static final Item RED_KEY = new ItemKey("red_key", "dimensional_key", ModCreativeTabs.ITEMS);
 
     public static final Item CLIFF_KEY_FRAGMENT = new ItemSingleDescription("cliff_key_fragment", keyDesc, ModCreativeTabs.ITEMS);
     public static final Item RED_KEY_FRAGMENT = new ItemSingleDescription("red_key_fragment", keyDesc, ModCreativeTabs.ITEMS);
