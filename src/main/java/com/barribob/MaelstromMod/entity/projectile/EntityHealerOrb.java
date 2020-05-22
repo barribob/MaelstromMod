@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.init.MobEffects;
@@ -296,7 +297,7 @@ public class EntityHealerOrb extends Entity
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	    this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 1.0F);
 	    ((EntityMaelstromMob) entity).addPotionEffect(new PotionEffect(MobEffects.SPEED, 100));
-	    ((EntityMaelstromMob) entity).heal(7);
+	    ((EntityMaelstromMob) entity).heal((float) (owner.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * 4));
 	}
 	else if (result.entityHit != null && owner != null)
 	{
