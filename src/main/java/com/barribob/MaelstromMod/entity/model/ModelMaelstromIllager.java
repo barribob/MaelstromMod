@@ -12,7 +12,6 @@ import net.minecraft.util.math.MathHelper;
  */
 public class ModelMaelstromIllager extends ModelAnimated
 {
-    private static final String leftArm = null;
     public ModelRenderer head;
     public ModelRenderer bipedRightArm;
     public ModelRenderer rightLeg;

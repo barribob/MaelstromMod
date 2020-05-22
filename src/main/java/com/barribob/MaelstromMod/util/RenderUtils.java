@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.util;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -9,9 +10,13 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderUtils
 {
     private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = new ResourceLocation("textures/entity/guardian_beam.png");
@@ -135,5 +140,29 @@ public class RenderUtils
 	bufferbuilder.pos(d8, lineLength, d9).tex(0.5D, d24).color(red, green, blue, 255).endVertex();
 	tessellator.draw();
 	GlStateManager.popMatrix();
+    }
+
+    /**
+     * Allows for a common way to generate the creeper charge effect without copying tons of gl code everywhere
+     */
+    public static void renderAura(EntityLivingBase entity, Runnable translationCallback, Runnable renderCallback) {
+	GlStateManager.matrixMode(5890);
+	GlStateManager.loadIdentity();
+
+	translationCallback.run();
+
+	GlStateManager.matrixMode(5888);
+	GlStateManager.enableBlend();
+	GlStateManager.disableLighting();
+	GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+
+	renderCallback.run();
+
+	Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
+	GlStateManager.matrixMode(5890);
+	GlStateManager.loadIdentity();
+	GlStateManager.matrixMode(5888);
+	GlStateManager.enableLighting();
+	GlStateManager.disableBlend();
     }
 }
