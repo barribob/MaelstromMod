@@ -492,6 +492,10 @@ mm.config.display_mob_level=Display Mob Level
 mm.config.server=Server
 mm.config.sync_config_on_login=Sync Config On Login
 
+mm.config.shaders=Shader Compatability
+mm.config.render_custom_sky=Render Custom Skies
+
+
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions
 //———————————————————————————————————————————————————————————

@@ -118,7 +118,7 @@ public class FogHandler
     @SubscribeEvent()
     public static void onRenderWorldLastEvent(RenderWorldLastEvent event)
     {
-	if (ModConfig.world.render_fog)
+	if (ModConfig.shaders.render_fog)
 	{
 	    Minecraft mc = Minecraft.getMinecraft();
 	    if (mc.getRenderViewEntity().dimension == ModConfig.world.cliff_dimension_id)
