@@ -89,14 +89,12 @@ public class DimensionCliff extends WorldProvider
     @Override
     public Vec3d getFogColor(float time, float p_76562_2_)
     {
-	float f = MathHelper.cos(time * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
-	f = MathHelper.clamp(f, 0.0F, 1.0F);
 	float f1 = 0.4f;
 	float f2 = 0.3f;
 	float f3 = 0.2F;
-	f1 = f1 * (f * 0.70F + 0.06F);
-	f2 = f2 * (f * 0.84F + 0.06F);
-	f3 = f3 * (f * 0.70F + 0.09F);
+	f1 = f1 * (0.70F + 0.06F);
+	f2 = f2 * (0.84F + 0.06F);
+	f3 = f3 * (0.70F + 0.09F);
 	return new Vec3d(f1, f2, f3);
     }
 
