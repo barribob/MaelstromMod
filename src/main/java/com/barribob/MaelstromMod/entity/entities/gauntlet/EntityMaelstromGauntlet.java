@@ -10,7 +10,7 @@ import com.barribob.MaelstromMod.entity.ai.AIAerialTimedAttack;
 import com.barribob.MaelstromMod.entity.ai.AiFistWander;
 import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
-import com.barribob.MaelstromMod.entity.ai.ModEntitySenses;
+import com.barribob.MaelstromMod.entity.ai.GauntletEntitySenses;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromLancer;
@@ -107,7 +107,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private boolean damageFromEye;
 
     // Custom entity see ai
-    private EntitySenses senses = new ModEntitySenses(this);
+    private EntitySenses senses = new GauntletEntitySenses(this);
 
     public final Consumer<Vec3d> punchAtPos = (target) -> {
 	ModBBAnimations.animation(this, "gauntlet.punch", false);
@@ -262,13 +262,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	double defendWeight = this.prevAttack == this.defend || numMinions > 3 || healthRatio > 0.55 ? 0 : 0.8;
 	double fireballWeight = distanceSq < Math.pow(25, 2) && healthRatio < 0.85 ? 1 : 0;
 	double lazerWeight = distanceSq < Math.pow(35, 2) && healthRatio < 0.7 ? 1 : 0;
+	double punchWeight = ModUtils.canEntityBeSeen(this, target) ? Math.sqrt(distanceSq) / 25 : 3;
 
-	double[] weights = {
-		Math.sqrt(distanceSq) / 25,
-		lazerWeight,
-		defendWeight,
-		fireballWeight
-	};
+	double[] weights = { punchWeight, lazerWeight, defendWeight, fireballWeight };
 	this.prevAttack = ModRandom.choice(attacks, rand, weights).next();
 	this.prevAttack.accept(target);
 	return this.prevAttack == this.defend ? 240 : 100;

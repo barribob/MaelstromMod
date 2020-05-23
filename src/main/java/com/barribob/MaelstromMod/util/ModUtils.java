@@ -946,7 +946,7 @@ public final class ModUtils {
 	if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
 	    IBlockState blockState = viewer.world.getBlockState(result.getBlockPos());
 	    if (blockState.isFullCube()) {
-		return true;
+		return false;
 	    }
 	}
 	return true;
