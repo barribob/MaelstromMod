@@ -93,6 +93,8 @@ public class ModBlocks
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRIMSON_PORTAL = new BlockCrimsonPortal("crimson_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
 
+    public static final Block BLACK_SKY = new BlockBase("black_sky", Material.AIR).setBlockUnbreakable();
+
     /**
      * Stone and ore
      */

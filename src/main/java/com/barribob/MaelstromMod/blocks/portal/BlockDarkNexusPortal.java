@@ -27,7 +27,7 @@ public class BlockDarkNexusPortal extends BlockPortal
     @Override
     protected Teleporter getEntranceTeleporter(World world)
     {
-	return new ToStructuralDimensionTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.dark_nexus_dimension_id), new BlockPos(24, 64, 24), WorldGenCustomStructures.DARK_NEXUS);
+	return new ToStructuralDimensionTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.dark_nexus_dimension_id), new BlockPos(30, 74, 30), WorldGenCustomStructures.DARK_NEXUS);
     }
     
     @Override
