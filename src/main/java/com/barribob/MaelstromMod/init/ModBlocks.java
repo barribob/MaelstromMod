@@ -188,7 +188,7 @@ public class ModBlocks
     public static final Block CRIMSON_MAELSTROM_BRICK_FENCE = new BlockFenceBase("crimson_maelstrom_brick_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRIMSON_MAELSTROM_BRICK_STAIRS =
 	    new BlockStairsBase("crimson_maelstrom_brick_stairs", CRIMSON_MAELSTROM_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block CRIMSON_LAMP = new BlockLamp("crimson_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, true)
+    public static final Block CRIMSON_LAMP = new BlockLamp("crimson_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false)
     {
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -200,11 +200,11 @@ public class ModBlocks
     public static final Block CHAIN = new BlockChain("chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.425D, 0.0D, 0.425D, 0.575D, 1.0D, 0.575D)).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block MULTI_CHAIN = new BlockChain("multi_chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D)).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block LARGE_CHAIN = new BlockChain("large_chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.30D, 0.0D, 0.3D, 0.7D, 1.0D, 0.7D)).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block METAL_LAMP = new BlockLamp("metal_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, true).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block METAL_LAMP = new BlockLamp("metal_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block FURNACE_BRICKS = new BlockBase("furnace_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block FURNACE_STAIRS = new BlockStairsBase("furnace_stairs", FURNACE_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRACKED_FURNACE_BRICKS = new BlockBase("cracked_furnace_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block FURNACE_BRICKS_LIT = new BlockLamp("furnace_bricks_lit", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, true).setCreativeTab(ModCreativeTabs.BLOCKS).setLightLevel(1.0f);
+    public static final Block FURNACE_BRICKS_LIT = new BlockLamp("furnace_bricks_lit", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false).setCreativeTab(ModCreativeTabs.BLOCKS).setLightLevel(1.0f);
 
     /*
      * Key blocks and nexus stuff
