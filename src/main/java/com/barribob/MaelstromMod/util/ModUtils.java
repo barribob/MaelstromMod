@@ -821,25 +821,25 @@ public final class ModUtils {
 	    int x = pos.getX() + ModRandom.range(0, range.getX()) * ModRandom.randSign();
 	    int z = pos.getZ() + ModRandom.range(0, range.getY()) * ModRandom.randSign();
 
-	    int y = range.getY();
-	    while (y > -range.getY()) {
-		if (!world.isAirBlock(new BlockPos(x, pos.getY() + y - 1, z))) {
+	    int yOffset = range.getY();
+	    while (yOffset > -range.getY()) {
+		if (!world.isAirBlock(new BlockPos(x, pos.getY() + yOffset - 1, z))) {
 		    break;
 		}
-		y--;
+		yOffset--;
 	    }
 
-	    int j1 = pos.getY() + y;
+	    int y = pos.getY() + yOffset;
 
-	    if (world.getBlockState(new BlockPos(x, j1 - 1, z)).isSideSolid(world, new BlockPos(x, j1 - 1, z), net.minecraft.util.EnumFacing.UP)) {
-		Entity mob = createMobFromSpawnData(data, world, x, y, z);
+	    if (world.getBlockState(new BlockPos(x, y - 1, z)).isSideSolid(world, new BlockPos(x, y - 1, z), net.minecraft.util.EnumFacing.UP)) {
+		Entity mob = createMobFromSpawnData(data, world, x + 0.5, y, z + 0.5);
 
 		if (mob == null) {
 		    return null;
 		}
 
 		// Make sure that the position is a proper spawning position
-		if (!world.isAnyPlayerWithinRangeAt(x, j1, z, 3.0D) && world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(mob.getEntityBoundingBox())) {
+		if (!world.isAnyPlayerWithinRangeAt(x, y, z, 3.0D) && world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(mob.getEntityBoundingBox())) {
 
 		    if (mob instanceof EntityLeveledMob) {
 
