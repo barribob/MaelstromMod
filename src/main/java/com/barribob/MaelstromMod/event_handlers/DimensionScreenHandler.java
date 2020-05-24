@@ -40,6 +40,9 @@ public class DimensionScreenHandler
 	    {
 		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/gui/chiseled_cliff_stone.png"), "cliff_dimension"));
 	    }
+	    else if (mc.player.dimension == ModConfig.world.crimson_kingdom_dimension_id) {
+		event.setGui(new GuiModDownloadTerrain(new ResourceLocation(Reference.MOD_ID + ":textures/blocks/redstone_brick.png"), "crimson_dimension"));
+	    }
 	}
     }
 }
