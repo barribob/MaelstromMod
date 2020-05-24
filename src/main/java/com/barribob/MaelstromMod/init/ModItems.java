@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.barribob.MaelstromMod.items.ItemBase;
-import com.barribob.MaelstromMod.items.ItemBlockvoid;
 import com.barribob.MaelstromMod.items.ItemCatalyst;
 import com.barribob.MaelstromMod.items.ItemFoodBase;
 import com.barribob.MaelstromMod.items.ItemKey;
@@ -55,7 +54,6 @@ import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -290,10 +288,6 @@ public class ModItems
      */
 
     public static final Item ENERGETIC_STEEL_PICKAXE = new ToolPickaxe("energetic_steel_pickaxe", ENERGETIC_PICKAXE);
-    public static final Item STONEBRICK_BLOCKVOID = new ItemBlockvoid("stonebrick_blockvoid", Blocks.STONEBRICK, 30);
-    public static final Item OBSIDIAN_BLOCKVOID = new ItemBlockvoid("obsidian_blockvoid", Blocks.OBSIDIAN, 1000);
-    public static final Item FURNACE_BRICKS_BLOCKVOID = new ItemBlockvoid("furnace_bricks_blockvoid", ModBlocks.FURNACE_BRICKS, 30);
-    public static final Item REDSTONE_BRICK_BLOCKVOID = new ItemBlockvoid("redstone_brick_blockvoid", ModBlocks.REDSTONE_BRICK, 30);
     public static final Item CRIMSON_PELLET = new ItemBase("crimson_pellet", null);
     public static final Item ELYSIUM_WINGS = new ItemModElytra("elysium_wings", ARMOR);
 

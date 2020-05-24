@@ -44,6 +44,7 @@ import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
 import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityCrimsonTowerSpawner;
+import com.barribob.MaelstromMod.items.ItemBlockvoid;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
@@ -53,6 +54,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
@@ -229,4 +231,9 @@ public class ModBlocks
     public static final Block IRON_GRATE = new BlockGrate("iron_grate", Material.IRON).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block FAN = new BlockFan("fan", Material.IRON, STONE_HARDNESS, STONE_RESISTANCE, SoundType.METAL);
 
+    // There are technically not blocks, but are in here because they depend on two of the block defined above
+    public static final Item STONEBRICK_BLOCKVOID = new ItemBlockvoid("stonebrick_blockvoid", Blocks.STONEBRICK, 30);
+    public static final Item OBSIDIAN_BLOCKVOID = new ItemBlockvoid("obsidian_blockvoid", Blocks.OBSIDIAN, 1000);
+    public static final Item FURNACE_BRICKS_BLOCKVOID = new ItemBlockvoid("furnace_bricks_blockvoid", ModBlocks.FURNACE_BRICKS, 30);
+    public static final Item REDSTONE_BRICK_BLOCKVOID = new ItemBlockvoid("redstone_brick_blockvoid", ModBlocks.REDSTONE_BRICK, 30);
 }

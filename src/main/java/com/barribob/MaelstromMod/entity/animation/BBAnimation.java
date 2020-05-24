@@ -38,7 +38,7 @@ public class BBAnimation
     public BBAnimation(String animationId)
     {
 	this.animationId = animationId;
-	animation = ModBBAnimations.getAnimationUncached(animationId);
+	animation = ModBBAnimations.getAnimation(animationId);
 	animationLength = animation.get("animation_length").getAsFloat();
 	if (animation.has("loop"))
 	{

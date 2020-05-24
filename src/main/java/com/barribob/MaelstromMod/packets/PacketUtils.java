@@ -1,8 +1,10 @@
 package com.barribob.MaelstromMod.packets;
 
+import com.barribob.MaelstromMod.sounds.DarkNexusWindSound;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleSweepAttack;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,5 +37,10 @@ public class PacketUtils
     public static void spawnEffect(MessageModParticles message)
     {
 	ParticleManager.spawnEffect(Minecraft.getMinecraft().world, new Vec3d(message.xCoord, message.yCoord, message.zCoord), new Vec3d(message.particleArguments[0], message.particleArguments[1], message.particleArguments[2]));
+    }
+
+    public static void playDarkNexusWindSound() {
+	EntityPlayer player = PacketUtils.getPlayer();
+	Minecraft.getMinecraft().getSoundHandler().playSound(new DarkNexusWindSound((EntityPlayerSP) player));
     }
 }

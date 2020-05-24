@@ -476,11 +476,11 @@ public final class ModUtils {
 
 	// Spawn colored sweep particles
 	if (!player.world.isRemote) {
-	    Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, box.getCenter(), Vec3d.ZERO, element.sweepColor), (EntityPlayerMP) player);
+	    Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, getCenter(box), Vec3d.ZERO, element.sweepColor), (EntityPlayerMP) player);
 	}
 
 	Entity particle = new ParticleSpawnerSwordSwing(player.world);
-	ModUtils.setEntityPosition(particle, box.getCenter());
+	ModUtils.setEntityPosition(particle, getCenter(box));
 	player.world.spawnEntity(particle);
     }
 
@@ -890,7 +890,9 @@ public final class ModUtils {
     }
 
     public static void setEntityVelocity(Entity entity, Vec3d vec) {
-	entity.setVelocity(vec.x, vec.y, vec.z);
+	entity.motionX = vec.x;
+	entity.motionY = vec.y;
+	entity.motionZ = vec.z;
     }
 
     public static void addEntityVelocity(Entity entity, Vec3d vec) {

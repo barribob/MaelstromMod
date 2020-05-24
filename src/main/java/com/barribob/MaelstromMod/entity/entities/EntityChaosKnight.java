@@ -32,6 +32,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
@@ -89,7 +90,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
 	    Vec3d proposedPos = teleportPos.add(dir);
 	    IBlockState state = world.getBlockState(new BlockPos(proposedPos).down());
 	    IBlockState aboveState = world.getBlockState(new BlockPos(proposedPos));
-	    if ((state.canEntitySpawn(this) || aboveState.getBlock() == Blocks.REDSTONE_WIRE || aboveState.getBlock() == Blocks.SKULL) && state.isTopSolid()) {
+	    if ((state.canEntitySpawn(this) || aboveState.getBlock() == Blocks.REDSTONE_WIRE || aboveState.getBlock() == Blocks.SKULL) && state.isSideSolid(world, new BlockPos(proposedPos).down(), EnumFacing.UP)) {
 		teleportPos = proposedPos;
 	    }
 	}
@@ -115,10 +116,14 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
 
     private final Consumer<EntityLivingBase> spinSlash = (target) -> {
 	ModBBAnimations.animation(this, "chaos_knight.triple_slash", false);
-	Runnable leap = () -> ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.35f * Math.sqrt(getDistance(target))), 0.5f);
+	Runnable leap = () -> {
+	    ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.35f * Math.sqrt(getDistance(target))), 0.5f);
+	    this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
+	};
 	Runnable meleeAttack = () -> {
 	    ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.5f, 0, false);
 	    playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
+	    this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
 	};
 
 	addEvent(leap, 10);
