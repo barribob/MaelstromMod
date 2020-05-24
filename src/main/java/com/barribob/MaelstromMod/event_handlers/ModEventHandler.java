@@ -86,12 +86,14 @@ public class ModEventHandler {
 
 	    InvasionWorldSaveData invasionCounter = ModUtils.getInvasionData(event.world);
 
+	    int previousTime = invasionCounter.getInvasionTime();
 	    long timeElapsed = System.nanoTime() - timeSinceServerTick;
 	    timeSinceServerTick = System.nanoTime();
 	    invasionCounter.update((int) (timeElapsed * 1e-6)); // Convert from nanoseconds to milleseconds
 
 	    // Issue a warning one tenth of the time left
-	    if (invasionCounter.getInvasionTime() > 0 && invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 60 * 1000 * 0.1f && !invasionCounter.isInvaded()) {
+	    float warningMessageTime = ModConfig.world.warningInvasionTime * 60 * 1000;
+	    if (invasionCounter.getInvasionTime() > 0 && previousTime >= warningMessageTime && invasionCounter.getInvasionTime() < warningMessageTime && !invasionCounter.isInvaded()) {
 		event.world.playerEntities.forEach((p) -> {
 		    p.sendMessage(
 			    new TextComponentString("" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_1").getFormattedText()));
@@ -164,8 +166,8 @@ public class ModEventHandler {
 			// If we don't find any good place to put the tower, put a cooldown because
 			// chances are there may be a lot of bad areas, so don't spend too much
 			// computing power
-			// every tick. Instead wait a second and try again
-			invasionCounter.setInvasionTime((int) (ModConfig.world.invasionTime * 0.09f));
+			// every tick. Instead wait 10 seconds and try again
+			invasionCounter.setInvasionTime(10 * 1000);
 		    }
 		}
 		else {

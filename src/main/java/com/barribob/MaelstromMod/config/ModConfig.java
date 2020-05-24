@@ -128,6 +128,11 @@ public class ModConfig {
 	@Config.Comment("How many minutes before attempting to spawn the invasion tower. Cannot be changed after the world is loaded.")
 	@Config.RangeInt(min = 0, max = 60 * 20) // Max set to 20 hours
 	public int invasionTime = 180; // Default 180 minutes before invasion
+
+	@Config.LangKey(config + "invasion_warning_time")
+	@Config.Comment("The number of minutes before the invasion when a warning message is sent to the players.")
+	@Config.RangeInt(min = 0, max = 60 * 20) // Max set to 20 hours
+	public int warningInvasionTime = 10; // Default 10 minutes before invasion
     }
 
     public static class EntityCat {
