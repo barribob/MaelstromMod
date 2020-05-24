@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+
 import com.barribob.MaelstromMod.util.IStructure;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -75,7 +77,7 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 	template = manager.get(mcServer, location);
 	if (template == null)
 	{
-	    System.out.println("The template, " + location + " could not be loaded");
+	    LogManager.getLogger().debug("The template, " + location + " could not be loaded");
 	    return null;
 	}
 	return template;
