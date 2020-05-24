@@ -29,6 +29,8 @@ item.elysium_wings.name=Elysium Wings
 item.music_disc_new_world.name=Music Disc
 item.music_disc_wandering.name=Music Disc
 item.crimson_ammo_case.name=Crimson Ammo Case
+item.crimson_maelstrom_core.name=Crimson Maelstrom Core
+item.crimson_maelstrom_fragment.name=Crimson Maelstrom Fragment
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -167,11 +169,6 @@ tile.azure_stone_2.name=Marine Rock
 tile.azure_stone_3.name=Blue Granite
 tile.azure_stone_4.name=Azure Cobblestone
 tile.azure_stone_5.name=Blue Glowstone
-tile.furnace_pillar.name=Furnace Pillar
-tile.redstone_brick.name=Redstone Bricks
-tile.iron_grate.name=Iron Grate
-tile.furnace_bricks.name=Darkened Stonebrick
-tile.furnace_bricks_lit.name=Darkened Stonebrick
 
 //———————————————————————————————————————————————————————————
 // Plants
@@ -283,6 +280,28 @@ tile.cracked_swamp_brick.name=Cracked Swamp Brick
 tile.cliff_portal.name=Golden Valley Portal
 tile.swamp_plank_stairs.name=Swamp Plank Stairs
 tile.swamp_fence.name=Swamp Plank Fence
+
+//———————————————————————————————————————————————————————————
+// Crimson Blocks
+//———————————————————————————————————————————————————————————
+tile.crimson_portal.name=Crimson Portal
+tile.crimson_maelstrom_bricks.name=Crimson Maelstrom Bricks
+tile.crimson_maelstrom_brick_fence.name=Crimson Maelstrom Brick Fence
+tile.crimson_maelstrom_brick_stairs.name=Crimson Maelstrom Brick Stairs
+tile.crimson_lamp.name=Crimson Lamp
+tile.chain.name=Chain
+tile.multi_chain.name=Chains
+tile.large_chain.name=Large Chain
+tile.metal_lamp.name=Industrial Lamp
+tile.furnace_stairs.name=Darkened Stonebrick Stairs
+tile.furnace_pillar.name=Darkened Stonebrick Pillar
+tile.redstone_brick.name=Redstone Bricks
+tile.iron_grate.name=Iron Grate
+tile.furnace_bricks.name=Darkened Stonebrick
+tile.furnace_bricks_lit.name=Darkened Stonebrick
+tile.cracked_furnace_bricks.name=Cracked Darkened Stonebrick
+tile.cracked_redstone_brick.name=Cracked Redstone Bricks
+
 //———————————————————————————————————————————————————————————
 // Entities
 //———————————————————————————————————————————————————————————
@@ -312,6 +331,9 @@ entity.iron_shade.name=Maelstrom Executioner
 entity.maelstrom_beast.name=Maelstrom Minotaur
 entity.cliff_fly.name=Swamp Fly
 entity.white_monolith.name=White Monolith
+entity.chaos_knight.name=Maelstrom Champion
+entity.maelstrom_healer.name=Maelstrom Healer
+entity.maelstrom_gauntlet.name=Maelstrom Gauntlet
 
 //———————————————————————————————————————————————————————————
 // Projectiles
