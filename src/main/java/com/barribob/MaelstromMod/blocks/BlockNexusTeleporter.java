@@ -18,8 +18,7 @@ public class BlockNexusTeleporter extends BlockLamp implements ITileEntityProvid
 {
     public BlockNexusTeleporter(String name, Material material, SoundType soundType)
     {
-	super(name, material, 1000, 1000, soundType);
-	this.setBlockUnbreakable();
+	super(name, material, 50, 2000, soundType);
 	this.hasTileEntity = true;
 	this.setTickRandomly(true);
     }
