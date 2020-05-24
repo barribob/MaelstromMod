@@ -91,7 +91,7 @@ public class ModEventHandler {
 	    invasionCounter.update((int) (timeElapsed * 1e-6)); // Convert from nanoseconds to milleseconds
 
 	    // Issue a warning one tenth of the time left
-	    if (invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 20 * 0.1f && !invasionCounter.isInvaded()) {
+	    if (invasionCounter.getInvasionTime() > 0 && invasionCounter.getInvasionTime() == ModConfig.world.invasionTime * 60 * 1000 * 0.1f && !invasionCounter.isInvaded()) {
 		event.world.playerEntities.forEach((p) -> {
 		    p.sendMessage(
 			    new TextComponentString("" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_1").getFormattedText()));
