@@ -289,6 +289,10 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 
     @Override
     protected boolean canDespawn() {
-	return this.dimension != ModDimensions.CRIMSON_KINGDOM.getId() && this.dimension != ModDimensions.NEXUS.getId();
+	if (this.dimension == ModDimensions.CRIMSON_KINGDOM.getId() || this.dimension == ModDimensions.NEXUS.getId()) {
+	    // Allow despawn after about twenty minutes of being idle
+	    return this.ticksExisted > 20 * 60 * 20;
+	}
+	return true;
     }
 }
