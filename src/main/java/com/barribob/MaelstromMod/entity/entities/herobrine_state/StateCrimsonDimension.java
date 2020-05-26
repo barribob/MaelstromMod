@@ -12,8 +12,8 @@ public class StateCrimsonDimension extends HerobrineState
     {
 	super(herobrine);
 	messager = new TimedMessager(
-		new String[] { "herobrine_crimson_dimension_0", "herobrine_crimson_dimension_1", "" },
-		new int[] { 60, 180, 181 },
+		new String[] { "herobrine_crimson_dimension_0", "" },
+		new int[] { 60, 61 },
 		(s) -> {
 	});
     }
@@ -29,7 +29,7 @@ public class StateCrimsonDimension extends HerobrineState
     {
 	if (!this.leftClickMessage)
 	{
-	    messageToPlayers.accept("herobrine_crimson_dimension_2");
+	    messageToPlayers.accept("herobrine_crimson_dimension_1");
 	    leftClickMessage = true;
 	}
 	super.leftClick(herobrine);

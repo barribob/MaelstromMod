@@ -603,9 +603,8 @@ mm.dialog.herobrine_cliff_2=Not bad. Now go get some more fragments for me.
 mm.dialog.herobrine_crimson_0=Do you have fragments for the next key? If not, then GTFO.
 mm.dialog.herobrine_crimson_1=How about you go left click some maelstrom instead?
 
-mm.dialog.herobrine_crimson_dimension_0=I have been informed by the mod creator that this is the current end of the mod.
-mm.dialog.herobrine_crimson_dimension_1=I have to sit here until an update happens. Lame.
-mm.dialog.herobrine_crimson_dimension_2=Guess you're too stupid to see that I'm ignoring you.
+mm.dialog.herobrine_crimson_dimension_0=Try taking on this dimension. I'm sure it won't be that bad.
+mm.dialog.herobrine_crimson_dimension_1=Guess you're too stupid to see that I'm ignoring you.
 
 mm.dialog.illager_1=What a fine being we have here! I must investigate!
 mm.dialog.illager_2=Come join our empire as a maelstrom zombie!
