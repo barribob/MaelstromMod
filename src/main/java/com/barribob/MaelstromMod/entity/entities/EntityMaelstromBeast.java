@@ -29,9 +29,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -49,9 +46,9 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
     private byte groundSlash = 6;
     private byte leap = 7;
     public static final byte explosionParticles = 8;
-    private static final DataParameter<Boolean> RAGED = EntityDataManager.<Boolean>createKey(EntityMaelstromBeast.class, DataSerializers.BOOLEAN);
     private byte rageParticles = 9;
-    private int ragedAttackDamage = 12;
+    private static final int RAGED_ATTACK_DAMAGE = 12;
+    private static final int NORMAL_ATTACK_DAMAGE = 9;
 
     public EntityMaelstromBeast(World worldIn) {
 	super(worldIn);
@@ -316,6 +313,16 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
 	if (this.isRaged()) {
 	    world.setEntityState(this, rageParticles);
 	}
+
+    }
+
+    @Override
+    public void heal(float healAmount) {
+	float prevHealth = this.getHealth();
+	super.heal(healAmount);
+	if (prevHealth < this.getMaxHealth() * 0.3f && this.getHealth() >= this.getMaxHealth() * 0.3f) {
+	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(NORMAL_ATTACK_DAMAGE);
+	}
     }
 
     @Override
@@ -340,11 +347,13 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
 	float prevHealth = this.getHealth();
 	boolean flag = super.attackEntityFrom(source, amount);
 	if (prevHealth > this.getMaxHealth() * 0.3f && this.getHealth() <= this.getMaxHealth() * 0.3f) {
-	    this.dataManager.set(RAGED, true);
-	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
-	    this.isImmuneToFire = true;
+	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(RAGED_ATTACK_DAMAGE);
 	}
 	return flag;
+    }
+
+    public boolean isRaged() {
+	return this.getHealth() <= this.getMaxHealth() * 0.3f;
     }
 
     @Override
@@ -353,33 +362,8 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
 	    this.bossInfo.setName(this.getDisplayName());
 	}
 
-	if (compound.hasKey("rage")) {
-	    this.dataManager.set(RAGED, Boolean.valueOf(compound.getBoolean("rage")));
-	    if (this.isRaged()) {
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.ragedAttackDamage);
-		this.isImmuneToFire = true;
-	    }
-	}
-
 	super.readEntityFromNBT(compound);
 
-    }
-
-    public boolean isRaged() {
-	return this.dataManager.get(RAGED).booleanValue();
-    }
-
-    @Override
-    protected void entityInit() {
-	super.entityInit();
-	this.dataManager.register(RAGED, Boolean.valueOf(false));
-    }
-
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-	compound.setBoolean("rage", this.isRaged());
-
-	super.writeEntityToNBT(compound);
     }
 
     @Override
