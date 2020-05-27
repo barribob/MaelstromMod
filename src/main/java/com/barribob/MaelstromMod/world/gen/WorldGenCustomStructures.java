@@ -342,6 +342,14 @@ public class WorldGenCustomStructures implements IWorldGenerator
 		entity.setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 		worldIn.spawnEntity(entity);
 	    }
+	    else if (function.startsWith("scout")) {
+		worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (tileentity instanceof TileEntityMobSpawner) {
+		    ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setData(new MobSpawnData(ModEntities.getID(EntityShade.class), Element.NONE), 1, LevelHandler.INVASION, 8);
+		}
+	    }
 	}
     };
 

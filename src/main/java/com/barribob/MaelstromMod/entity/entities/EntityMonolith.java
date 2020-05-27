@@ -49,12 +49,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityMonolith extends EntityMaelstromMob implements IAttack, DirectionalRender
 {
-    // Maelstrom minion AI stuff
-    private static final int maxShades = 5;
-    private List<CommandMob> commandMobs = new ArrayList<CommandMob>();
-    private Vec3d[] movementsDownTower = { new Vec3d(-11, -3, -1), new Vec3d(-5, -7, 0), new Vec3d(-11, -11, 0), new Vec3d(-5, -15, 0), new Vec3d(-11, -19, 0),
-	    new Vec3d(-5, -23, 0), new Vec3d(-11, -27, 0), new Vec3d(-5, -31, 0), new Vec3d(-11, -35, 0), new Vec3d(-5, -39, 0), new Vec3d(-21, -42, 0) };
-
     private ComboAttack attackHandler = new ComboAttack();
     public static final byte noAttack = 0;
     public static final byte blueAttack = 4;
@@ -282,43 +276,6 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
 	    world.spawnEntity(meteor);
 	}
 
-	// Spawn a new mob and add it to the list of mobs to command
-	int mobSpawnTime = 200;
-	if (!world.isRemote && commandMobs.size() < maxShades && this.getAttackTarget() == null && this.ticksExisted % mobSpawnTime == 0)
-	{
-	    EntityMaelstromMob mob = new EntityShade(world);
-	    mob.setLevel(getLevel());
-	    mob.copyLocationAndAnglesFrom(this);
-	    world.spawnEntity(mob);
-	    commandMobs.add(new CommandMob(mob));
-	}
-
-	// Command all summoned mobs to walk down the stairs of the tower
-	if (!world.isRemote)
-	{
-	    List<CommandMob> mobsToRemove = new ArrayList<CommandMob>();
-	    for (CommandMob commandMob : commandMobs)
-	    {
-		if (commandMob.mob.getAttackTarget() != null || commandMob.mob.isDead || commandMob.mob.ticksExisted > 1500
-			|| commandMob.towerProgress >= movementsDownTower.length)
-		{
-		    mobsToRemove.add(commandMob);
-		}
-		else
-		{
-		    Vec3d pos = movementsDownTower[commandMob.towerProgress].add(getPositionVector());
-		    commandMob.mob.getNavigator().tryMoveToXYZ(pos.x, pos.y, pos.z, 1.0);
-
-		    // When the mob reaches the nearest waypoint
-		    if (commandMob.mob.getDistanceSq(pos.x, pos.y, pos.z) < 2)
-		    {
-			commandMob.towerProgress++;
-		    }
-		}
-	    }
-	    commandMobs.removeAll(mobsToRemove);
-	}
-
 	world.setEntityState(this, ModUtils.PARTICLE_BYTE);
     }
 
@@ -386,17 +343,6 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
 	    }
 	}
 	super.handleStatusUpdate(id);
-    }
-
-    private static class CommandMob
-    {
-	public EntityMaelstromMob mob;
-	public int towerProgress = 0;
-
-	public CommandMob(EntityMaelstromMob mob)
-	{
-	    this.mob = mob;
-	}
     }
 
     @Override

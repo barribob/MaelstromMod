@@ -148,7 +148,7 @@ public class ModEventHandler {
 			if (!baseNearby) {
 			    int terrainVariation = GenUtils.getTerrainVariation(event.world, finalPos.getX(), finalPos.getZ(), finalPos.getX(),
 				    structureSize.getZ());
-			    positions.add(finalPos.down(3));
+			    positions.add(finalPos);
 			    variations.add(terrainVariation);
 			}
 		    });
