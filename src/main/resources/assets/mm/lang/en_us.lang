@@ -202,6 +202,8 @@ tile.azure_maelstrom_core.name=Fracture Maelstrom Core
 tile.maelstrom_bricks.name=Maelstrom Bricks
 tile.maelstrom_brick_fence.name=Maelstrom Brick Fence
 tile.maelstrom_brick_stairs.name=Maelstrom Brick Stairs
+tile.maelstrom_core_block.name=Maelstrom Core
+tile.cliff_maelstrom_core.name=Golden Maelstrom Core
 
 //———————————————————————————————————————————————————————————
 // Ore
@@ -247,7 +249,7 @@ tile.red_dungeon_key_block.name=Red Key Block
 tile.ice_key_block.name=Blue Key Block
 tile.ice_dungeon_key_block.name=Blue Dungeon Key Block
 tile.black_dungeon_key_block.name=Black Dungeon Key Block
-tile.nexus_herobrine_spawner.name=Mysterous Block
+tile.nexus_herobrine_spawner.name=Sinister Maelstrom
 tile.nexus_portal.name=Nexus Portal
 tile.dark_nexus_portal.name=Dark Nexus Portal
 
@@ -256,6 +258,8 @@ tile.dark_nexus_portal.name=Dark Nexus Portal
 //———————————————————————————————————————————————————————————
 tile.mega_structure_block.name=Mega Structure Block
 tile.disappearing_spawner.name=Disappearing Spawner
+tile.black_sky.name=Black Air
+tile.lighting_updater.name=Temporary Lighting Updater
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
