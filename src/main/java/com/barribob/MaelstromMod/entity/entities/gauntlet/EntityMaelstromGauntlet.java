@@ -112,6 +112,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     public final Consumer<Vec3d> punchAtPos = (target) -> {
 	ModBBAnimations.animation(this, "gauntlet.punch", false);
 	this.addVelocity(0, 0.5, 0);
+	this.healthScaledAttackFactor = 0.1;
 	this.addEvent(() -> {
 	    this.targetPos = target;
 	    this.isPunching = true;
@@ -383,7 +384,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 		    }
 
 		    for (Entity entity : ModUtils.findEntitiesInLine(this.getPositionEyes(1), lazerPos, world, this)) {
-			entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), 4);
+			entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), 6);
 		    }
 
 		    Main.network.sendToAllTracking(new MessageDirectionForRender(this, lazerPos), this);
