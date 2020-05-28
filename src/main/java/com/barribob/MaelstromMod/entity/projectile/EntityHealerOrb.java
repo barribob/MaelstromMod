@@ -34,8 +34,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityHealerOrb extends Entity
-{
+public class EntityHealerOrb extends Entity {
     private EntityMaelstromMob owner;
     private Entity target;
     private Vec3d tempTarget;
@@ -46,16 +45,14 @@ public class EntityHealerOrb extends Entity
     private UUID targetUniqueId;
     private BlockPos targetBlockPos;
 
-    public EntityHealerOrb(World worldIn)
-    {
+    public EntityHealerOrb(World worldIn) {
 	super(worldIn);
 	this.setSize(0.3125F, 0.3125F);
 	this.noClip = true;
     }
 
     @SideOnly(Side.CLIENT)
-    public EntityHealerOrb(World worldIn, double x, double y, double z, double motionXIn, double motionYIn, double motionZIn)
-    {
+    public EntityHealerOrb(World worldIn, double x, double y, double z, double motionXIn, double motionYIn, double motionZIn) {
 	this(worldIn);
 	this.setLocationAndAngles(x, y, z, this.rotationYaw, this.rotationPitch);
 	this.motionX = motionXIn;
@@ -63,8 +60,7 @@ public class EntityHealerOrb extends Entity
 	this.motionZ = motionZIn;
     }
 
-    public EntityHealerOrb(World worldIn, EntityMaelstromMob ownerIn, Entity targetIn)
-    {
+    public EntityHealerOrb(World worldIn, EntityMaelstromMob ownerIn, Entity targetIn) {
 	this(worldIn);
 	this.owner = ownerIn;
 	this.setLocationAndAngles(ownerIn.posX, owner.posY, owner.posZ, this.rotationYaw, this.rotationPitch);
@@ -72,10 +68,8 @@ public class EntityHealerOrb extends Entity
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound compound)
-    {
-	if (this.owner != null)
-	{
+    protected void writeEntityToNBT(NBTTagCompound compound) {
+	if (this.owner != null) {
 	    BlockPos blockpos = new BlockPos(this.owner);
 	    NBTTagCompound nbttagcompound = NBTUtil.createUUIDTag(this.owner.getUniqueID());
 	    nbttagcompound.setInteger("X", blockpos.getX());
@@ -84,8 +78,7 @@ public class EntityHealerOrb extends Entity
 	    compound.setTag("Owner", nbttagcompound);
 	}
 
-	if (this.target != null)
-	{
+	if (this.target != null) {
 	    BlockPos blockpos1 = new BlockPos(this.target);
 	    NBTTagCompound nbttagcompound1 = NBTUtil.createUUIDTag(this.target.getUniqueID());
 	    nbttagcompound1.setInteger("X", blockpos1.getX());
@@ -100,19 +93,16 @@ public class EntityHealerOrb extends Entity
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound compound)
-    {
+    protected void readEntityFromNBT(NBTTagCompound compound) {
 	this.tempTarget = new Vec3d(compound.getDouble("TXD"), compound.getDouble("TYD"), compound.getDouble("TZD"));
 
-	if (compound.hasKey("Owner", 10))
-	{
+	if (compound.hasKey("Owner", 10)) {
 	    NBTTagCompound nbttagcompound = compound.getCompoundTag("Owner");
 	    this.ownerUniqueId = NBTUtil.getUUIDFromTag(nbttagcompound);
 	    this.ownerBlockPos = new BlockPos(nbttagcompound.getInteger("X"), nbttagcompound.getInteger("Y"), nbttagcompound.getInteger("Z"));
 	}
 
-	if (compound.hasKey("Target", 10))
-	{
+	if (compound.hasKey("Target", 10)) {
 	    NBTTagCompound nbttagcompound1 = compound.getCompoundTag("Target");
 	    this.targetUniqueId = NBTUtil.getUUIDFromTag(nbttagcompound1);
 	    this.targetBlockPos = new BlockPos(nbttagcompound1.getInteger("X"), nbttagcompound1.getInteger("Y"), nbttagcompound1.getInteger("Z"));
@@ -120,8 +110,7 @@ public class EntityHealerOrb extends Entity
     }
 
     @Override
-    protected void entityInit()
-    {
+    protected void entityInit() {
     }
 
     @Override
@@ -181,9 +170,17 @@ public class EntityHealerOrb extends Entity
 		 */
 		if (this.target == null || !this.target.isEntityAlive() || this.target instanceof EntityPlayer && ((EntityPlayer) this.target).isSpectator())
 		{
+		    EntityLivingBase newTarget = ModUtils.closestEntityExcluding(this, this.getEntityBoundingBox().grow(10), (entity) -> {
+			return ModUtils.isMaelstromMob(entity) && entity != this.owner;
+		    });
+
+		    this.target = newTarget;
+
 		    if (!this.hasNoGravity())
 		    {
 			this.motionY -= 0.04D;
+			this.motionX = 0;
+			this.motionZ = 0;
 		    }
 		}
 		else
@@ -239,8 +236,7 @@ public class EntityHealerOrb extends Entity
      * 
      * @return
      */
-    public void findNextTargetPosition()
-    {
+    public void findNextTargetPosition() {
 	Vec3d targetPos = this.target.getPositionVector().add(new Vec3d(target.motionX, target.motionY, target.motionZ).scale(3));
 	Vec3d diff = targetPos.subtract(this.getPositionVector());
 	double xMag = Math.abs(diff.x);
@@ -250,12 +246,10 @@ public class EntityHealerOrb extends Entity
 	{
 	    // Randomly choose x or z position, with higher weight on the larger magnitude
 	    // This is random mostly because it shouldn't keep choosing a direction if it gets stuck
-	    if (rand.nextDouble() * xMag > rand.nextDouble() * zMag)
-	    {
+	    if (rand.nextDouble() * xMag > rand.nextDouble() * zMag) {
 		targetPos = new Vec3d(targetPos.x, this.posY, this.posZ); // Go in the x direction only
 	    }
-	    else
-	    {
+	    else {
 		targetPos = new Vec3d(this.posX, this.posY, targetPos.z); // Go in the z direction only
 	    }
 	}
@@ -264,43 +258,36 @@ public class EntityHealerOrb extends Entity
     }
 
     @Override
-    public boolean isBurning()
-    {
+    public boolean isBurning() {
 	return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isInRangeToRenderDist(double distance)
-    {
+    public boolean isInRangeToRenderDist(double distance) {
 	return distance < 16384.0D;
     }
 
     @Override
-    public float getBrightness()
-    {
+    public float getBrightness() {
 	return 1.0F;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getBrightnessForRender()
-    {
+    public int getBrightnessForRender() {
 	return 15728880;
     }
 
-    protected void bulletHit(RayTraceResult result)
-    {
+    protected void bulletHit(RayTraceResult result) {
 	Entity entity = ModUtils.getLivingEntity(result.entityHit);
-	if (ModUtils.isMaelstromMob(entity))
-	{
+	if (ModUtils.isMaelstromMob(entity)) {
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	    this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 1.0F);
 	    ((EntityMaelstromMob) entity).addPotionEffect(new PotionEffect(MobEffects.SPEED, 100));
 	    ((EntityMaelstromMob) entity).heal((float) (owner.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * 4));
 	}
-	else if (result.entityHit != null && owner != null)
-	{
+	else if (result.entityHit != null && owner != null) {
 	    result.entityHit.attackEntityFrom(ModDamageSource.causeElementalThrownDamage(this, owner, owner.getElement()), owner.getAttack());
 	}
 
@@ -311,12 +298,9 @@ public class EntityHealerOrb extends Entity
      * Spawn impact healing particles
      */
     @Override
-    public void handleStatusUpdate(byte id)
-    {
-	if (id == ModUtils.PARTICLE_BYTE)
-	{
-	    for (int i = -5; i < 2; i++)
-	    {
+    public void handleStatusUpdate(byte id) {
+	if (id == ModUtils.PARTICLE_BYTE) {
+	    for (int i = -5; i < 2; i++) {
 		final float yOff = i * 0.5f;
 		ModUtils.circleCallback(1, 20, (pos) -> {
 		    pos = new Vec3d(pos.x, yOff, pos.y);
@@ -328,16 +312,13 @@ public class EntityHealerOrb extends Entity
     }
 
     @Override
-    public boolean canBeCollidedWith()
-    {
+    public boolean canBeCollidedWith() {
 	return true;
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
-    {
-	if (!this.world.isRemote)
-	{
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+	if (!this.world.isRemote) {
 	    ((WorldServer) this.world).spawnParticle(EnumParticleTypes.CRIT, this.posX, this.posY, this.posZ, 15, 0.2D, 0.2D, 0.2D, 0.0D);
 	    this.setDead();
 	}
@@ -346,8 +327,7 @@ public class EntityHealerOrb extends Entity
     }
 
     @Override
-    public SoundCategory getSoundCategory()
-    {
+    public SoundCategory getSoundCategory() {
 	return SoundCategory.HOSTILE;
     }
 }

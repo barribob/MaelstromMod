@@ -972,4 +972,22 @@ public final class ModUtils {
     public static boolean isMaelstromMob(@Nullable Entity entity) {
 	return entity instanceof EntityMaelstromMob;
     }
+
+    /**
+     * Find the closest entity that satisfies the condition given
+     * 
+     * @param entityToExclude
+     * @param box
+     * @param condition
+     * @return
+     */
+    public static @Nullable EntityLivingBase closestEntityExcluding(@Nullable Entity entityToExclude, AxisAlignedBB box, Predicate<EntityLivingBase> condition) {
+	EntityLivingBase closestEntity = null;
+	for (EntityLivingBase entity : ModUtils.getEntitiesInBox(entityToExclude, box)) {
+	    if (condition.test(entity) && (closestEntity == null || entity.getDistance(entityToExclude) < closestEntity.getDistance(entityToExclude))) {
+		closestEntity = entity;
+	    }
+	}
+	return closestEntity;
+    }
 }
