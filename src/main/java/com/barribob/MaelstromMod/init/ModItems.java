@@ -204,6 +204,8 @@ public class ModItems
     public static final Item ENERGETIC_STEEL_SWORD = new ItemMagisteelSword("energetic_steel_sword", SWORD, LevelHandler.CRIMSON_START, Element.CRIMSON);
     public static final Item ENERGETIC_STEEL_CLEAVER = new ToolDragonslayer("energetic_steel_cleaver", BATTLEAXE, LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
     public static final Item FADESTEEL_SWORD = new ToolSword("fadesteel_sword", SWORD, LevelHandler.CRIMSON_START);
+    public static final Item HOMURAMARU = new ToolSword("homuramaru", SWORD, LevelHandler.CRIMSON_START);
+    public static final Item BLACK_MARCH = new ToolDagger("black_march", DAGGER, LevelHandler.CRIMSON_END);
 
     /*
      * Armors
