@@ -7,6 +7,7 @@ import java.util.List;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
+import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
@@ -24,6 +25,8 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
 import com.barribob.MaelstromMod.util.teleporter.NexusToOverworldTeleporter;
+import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenCrimsonKingdomChunk;
+import com.barribob.MaelstromMod.world.dimension.nexus.DimensionNexus;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.client.Minecraft;
@@ -31,6 +34,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -42,12 +46,14 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -66,6 +72,46 @@ public class ModEventHandler {
     // public static final ResourceLocation INVASION = new
     // ResourceLocation(Reference.MOD_ID, "invasion");
     private static long timeSinceServerTick = System.nanoTime();
+
+    /**
+     * The purpose of this hook is to detect chunk errors in the crimson kingdom and fill in those chunks automatically, or at the very least on world reload. It is very hard to figure out why these chunk
+     * error happen (although my guess is that the structure generates when its +x +z or +xz chunks are somehow not generated.) In any case, this is sort of a patch after the fact hack to fix chunk
+     * errors.
+     */
+    @SubscribeEvent
+    public static void chunkWatched(ChunkWatchEvent.Watch event) {
+	if (event.getPlayer().dimension == ModDimensions.CRIMSON_KINGDOM.getId()) {
+	    Chunk chunk = event.getChunkInstance();
+	    if (chunk.isPopulated() && chunk.isLoaded() && event.getPlayer().world == chunk.getWorld()) {
+		BlockPos chunkPos = new BlockPos(chunk.x * 16, 0, chunk.z * 16);
+
+		// Detect if this chunk is empty
+		// Try to generate the four generated structures that comprise the chunk
+		for (int x = -1; x <= 0; x++) {
+		    for (int z = -1; z <= 0; z++) {
+			int chunkX = chunk.x + x;
+			int chunkZ = chunk.z + z;
+
+			// Position to detect if a chunk is there or not (if the block is an air block)
+			// Take a look at the blocks place in the crimson empty spaces with chunk borders on to see how it works exactly
+			BlockPos detectionPos = new BlockPos(x * 8 + 12, 0, z * 8 + 12).add(chunkPos);
+
+			// Position to generate the structure at if the chunk is indeed missing
+			BlockPos generationPos = new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8);
+
+			if (chunk.getWorld().isAirBlock(detectionPos)) {
+			    int chunkModX = Math.floorMod(chunkX, DimensionNexus.NexusStructureSpacing);
+			    int chunkModZ = Math.floorMod(chunkZ, DimensionNexus.NexusStructureSpacing);
+			    new WorldGenCrimsonKingdomChunk(chunkModX, chunkModZ).generate(chunk.getWorld(), chunk.getWorld().rand, generationPos);
+
+			    // A hacky way of writing down that we've generated this chunk and it doesn't need to be looked at again
+			    chunk.getWorld().setBlockState(detectionPos, Blocks.BEDROCK.getDefaultState());
+			}
+		    }
+		}
+	    }
+	}
+    }
 
     @SubscribeEvent
     public static void playerLoggedInEvent(PlayerLoggedInEvent event) {
