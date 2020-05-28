@@ -15,7 +15,7 @@
 				{
 					"type": "loot_table",
 					"name": "mm:util/level_6_loot",
-					"weight": 3
+					"weight": 1
 				},
 				{
 					"type": "item",

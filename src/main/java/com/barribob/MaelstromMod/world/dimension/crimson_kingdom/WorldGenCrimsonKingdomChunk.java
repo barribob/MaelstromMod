@@ -73,7 +73,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 	}
 	else if (function.startsWith("ranger 5") || function.startsWith("ranger 6"))
 	{
-	    int level = ModUtils.tryParseInt(function.split(" ")[0], 5);
+	    int level = ModUtils.tryParseInt(function.split(" ")[1], 5);
 	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 	    if (tileentity instanceof TileEntityMobSpawner)
@@ -111,7 +111,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 	}
 	else if (function.startsWith("healer"))
 	{
-	    int level = ModUtils.tryParseInt(function.split(" ")[0], 5);
+	    int level = ModUtils.tryParseInt(function.split(" ")[1], 5);
 	    worldIn.setBlockState(pos, ModBlocks.BOSS_SPAWNER.getDefaultState(), 2);
 	    TileEntity tileentity = worldIn.getTileEntity(pos);
 	    if (tileentity instanceof TileEntityMobSpawner)
@@ -143,7 +143,7 @@ public class WorldGenCrimsonKingdomChunk extends WorldGenStructure
 	}
 	else if (function.startsWith("chest"))
 	{
-	    int level = ModUtils.tryParseInt(function.split(" ")[0], 5);
+	    int level = ModUtils.tryParseInt(function.split(" ")[1], 5);
 	    ResourceLocation loot = level == 5 ? LootTableHandler.CRIMSON_5_CHEST : LootTableHandler.CRIMSON_6_CHEST;
 	    TileEntity tileentity = worldIn.getTileEntity(pos.down());
 
