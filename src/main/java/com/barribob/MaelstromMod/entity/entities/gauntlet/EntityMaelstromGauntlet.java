@@ -63,7 +63,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -351,6 +350,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
 	Vec3d fistPos = this.getPositionVector().subtract(ModUtils.yVec(0.5));
 	this.fist.setLocationAndAngles(fistPos.x, fistPos.y, fistPos.z, this.rotationYaw, this.rotationPitch);
+	this.fist.width = 3;
 
 	for (int l = 0; l < this.hitboxParts.length; ++l) {
 	    this.hitboxParts[l].prevPosX = avec3d[l].x;
@@ -363,8 +363,11 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 	}
 
 	if (this.isPunching) {
-	    ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
-	    ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), ModDamageSource.causeElementalMeleeDamage(this, this.getElement()), 1.5f, 0, false);
+	    boolean destroyedBlocks = ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
+	    ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), ModDamageSource.causeElementalMeleeDamage(this, this.getElement()), (float) ModUtils.mag(this.motionX, this.motionY, this.motionZ), 0, false);
+	    if (destroyedBlocks) {
+		world.newExplosion(this, this.posX, this.posY + this.getEyeHeight(), this.posZ, 2, false, false);
+	    }
 	}
 
 	if (this.isShootingLazer) {
@@ -482,12 +485,6 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 		double y = Math.cos(pos.x + pos.z);
 		ParticleManager.spawnSplit(world, pos.add(ModUtils.yVec(y)), ModColors.PURPLE, ModUtils.yVec(-y * 0.1));
 	    });
-	}
-	else if (id == ModUtils.THIRD_PARTICLE_BYTE) {
-	    for (int i = 0; i < 2; i++) {
-		Vec3d pos = this.getPositionVector().add(ModRandom.gaussVec());
-		world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pos.x, pos.y, pos.z, 0, 0, 0);
-	    }
 	}
 	super.handleStatusUpdate(id);
     }

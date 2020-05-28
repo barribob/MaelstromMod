@@ -2,7 +2,7 @@
 	"pools": [
 		{
 			"name": "gauntlet_chest",
-			"rolls": 3,
+			"rolls": 6,
 			"entries": [
 				{
 					"type": "loot_table",

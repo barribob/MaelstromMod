@@ -52,7 +52,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -676,7 +675,6 @@ public final class ModUtils {
 	int l = MathHelper.floor(box.maxX);
 	int i1 = MathHelper.floor(box.maxY);
 	int j1 = MathHelper.floor(box.maxZ);
-	boolean failedToDestroySomeBlocks = false;
 	boolean destroyedBlocks = false;
 
 	for (int k1 = i; k1 <= l; ++k1) {
@@ -687,15 +685,9 @@ public final class ModUtils {
 		    Block block = iblockstate.getBlock();
 
 		    if (!block.isAir(iblockstate, world, blockpos) && iblockstate.getMaterial() != Material.FIRE) {
-			if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity)) {
-			    failedToDestroySomeBlocks = true;
-			}
-			else {
+			if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity)) {
 			    if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.BEDROCK && !(block instanceof BlockLiquid)) {
 				destroyedBlocks = world.setBlockToAir(blockpos) || destroyedBlocks;
-			    }
-			    else {
-				failedToDestroySomeBlocks = true;
 			    }
 			}
 		    }
@@ -703,12 +695,7 @@ public final class ModUtils {
 	    }
 	}
 
-	if (destroyedBlocks) {
-	    world.playSound((EntityPlayer) null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, 1.0f + ModRandom.getFloat(0.3f));
-	    world.setEntityState(entity, THIRD_PARTICLE_BYTE); // Right now this is just for the Gauntlet particles
-	}
-
-	return failedToDestroySomeBlocks;
+	return destroyedBlocks;
     }
 
     /**
@@ -989,5 +976,19 @@ public final class ModUtils {
 	    }
 	}
 	return closestEntity;
+    }
+
+    /**
+     * Treats input as a vector and finds the length of that vector
+     * 
+     * @param values
+     * @return
+     */
+    public static double mag(double... values) {
+	double sum = 0;
+	for (double value : values) {
+	    sum += Math.pow(value, 2);
+	}
+	return Math.sqrt(sum);
     }
 }
