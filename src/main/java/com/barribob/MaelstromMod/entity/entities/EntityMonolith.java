@@ -238,7 +238,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
 
     public boolean isTransformed()
     {
-	return this.dataManager.get(TRANSFORMED).booleanValue();
+	return this.dataManager.get(TRANSFORMED);
     }
 
     @Override
