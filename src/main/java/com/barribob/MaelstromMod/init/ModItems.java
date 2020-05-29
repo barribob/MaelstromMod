@@ -76,7 +76,6 @@ import net.minecraftforge.common.util.EnumHelper;
 public class ModItems
 {
     public static final float BASE_MELEE_DAMAGE = 6;
-    private static final String keyDesc = "Give to herobrine to craft";
 
     private static final ToolMaterial DAGGER = EnumHelper.addToolMaterial("rare_dagger", 2, 600, 8.0f, BASE_MELEE_DAMAGE, 20);
     private static final ToolMaterial SWORD = EnumHelper.addToolMaterial("rare_sword", 2, 500, 8.0f, BASE_MELEE_DAMAGE, 20);
@@ -99,11 +98,12 @@ public class ModItems
      */
     public static final Item AZURE_KEY = new ItemKey("azure_key", "dimensional_key", ModCreativeTabs.ITEMS);
     public static final Item BROWN_KEY = new ItemKey("brown_key", "dimensional_key", ModCreativeTabs.ITEMS);
-    public static final Item MAELSTROM_KEY = new ItemKey("maelstrom_key", "maelstrom_key", null);
+    public static final Item MAELSTROM_KEY = new ItemBase("maelstrom_key");
     public static final Item RED_KEY = new ItemKey("red_key", "dimensional_key", ModCreativeTabs.ITEMS);
 
-    public static final Item CLIFF_KEY_FRAGMENT = new ItemSingleDescription("cliff_key_fragment", keyDesc, ModCreativeTabs.ITEMS);
-    public static final Item RED_KEY_FRAGMENT = new ItemSingleDescription("red_key_fragment", keyDesc, ModCreativeTabs.ITEMS);
+    public static final Item CLIFF_KEY_FRAGMENT = new ItemSingleDescription("cliff_key_fragment", "key_desc", ModCreativeTabs.ITEMS);
+    public static final Item RED_KEY_FRAGMENT = new ItemSingleDescription("red_key_fragment", "key_desc", ModCreativeTabs.ITEMS);
+    public static final Item MAELSTROM_KEY_FRAGMENT = new ItemSingleDescription("maelstrom_key_fragments", "maelstrom_key", ModCreativeTabs.ITEMS);
 
     public static final Item MAELSTROM_CORE = new ItemTradable("maelstrom_core", ModCreativeTabs.ITEMS);
     public static final Item AZURE_MAELSTROM_CORE_CRYSTAL = new ItemTradable("azure_maelstrom_core_crystal", ModCreativeTabs.ITEMS);

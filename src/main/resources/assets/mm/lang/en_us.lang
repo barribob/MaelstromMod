@@ -31,6 +31,7 @@ item.music_disc_wandering.name=Music Disc
 item.crimson_ammo_case.name=Crimson Ammo Case
 item.crimson_maelstrom_core.name=Crimson Maelstrom Core
 item.crimson_maelstrom_fragment.name=Crimson Maelstrom Fragment
+item.maelstrom_key_fragments.name=Maelstrom Key Fragments
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -584,6 +585,7 @@ mm.desc.elysium_wings=An Elytra forged in an unbreaking metal.
 item.record.music_disc_new_world.desc=Barribob - New World
 item.record.music_disc_wandering.desc=Barribob - Wandering
 mm.desc.maelstrom_key=Congrats! You have reached the ending. See the mod page for more details.
+mm.desc.key_desc=Give to herobrine to craft
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog
@@ -611,6 +613,10 @@ mm.dialog.herobrine_crimson_1=How about you go left click some maelstrom instead
 
 mm.dialog.herobrine_crimson_dimension_0=Try taking on this dimension. I'm sure it won't be that bad.
 mm.dialog.herobrine_crimson_dimension_1=Guess you're too stupid to see that I'm ignoring you.
+
+mm.dialog.herobrine_leaving_0=Fantastic. You've proved very handy, but
+mm.dialog.herobrine_leaving_1=I'll be doing the rest. I can't let you have all the fun.
+mm.dialog.herobrine_leaving_2=Herobrine out!
 
 mm.dialog.illager_1=What a fine being we have here! I must investigate!
 mm.dialog.illager_2=Come join our empire as a maelstrom zombie!

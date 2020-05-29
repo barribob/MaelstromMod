@@ -2,9 +2,12 @@ package com.barribob.MaelstromMod.items;
 
 import java.util.List;
 
+import com.barribob.MaelstromMod.util.ModUtils;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class ItemSingleDescription extends ItemBase
@@ -20,7 +23,7 @@ public class ItemSingleDescription extends ItemBase
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(desc);
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc(desc));
 	super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }

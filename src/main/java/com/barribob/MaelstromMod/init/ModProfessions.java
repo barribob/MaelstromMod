@@ -40,6 +40,7 @@ public class ModProfessions {
     public static VillagerCareer HEROBRINE_ENDER_PEARLS;
     public static VillagerCareer HEROBRINE_CLIFF_KEY;
     public static VillagerCareer HEROBRINE_CRIMSON_KEY;
+    public static VillagerCareer HEROBRINE_MAELSTROM_KEY;
 
     public static void associateCareersAndTrades() {
 	AZURE_VILLAGER = new VillagerProfession(Reference.MOD_ID + ":azure_villager", Reference.MOD_ID + ":textures/entity/azure_villager.png",
@@ -189,6 +190,9 @@ public class ModProfessions {
 
 	HEROBRINE_CRIMSON_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_crimson");
 	HEROBRINE_CRIMSON_KEY.addTrade(1, new GeneralTrade(ModItems.RED_KEY_FRAGMENT, 1, null, 0, ModItems.RED_KEY, 1));
+
+	HEROBRINE_MAELSTROM_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_maelstrom");
+	HEROBRINE_MAELSTROM_KEY.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_KEY_FRAGMENT, 1, null, 0, ModItems.MAELSTROM_KEY, 1));
     }
 
     public static class GeneralTrade implements ITradeList {
