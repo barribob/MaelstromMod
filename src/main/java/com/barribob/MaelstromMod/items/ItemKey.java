@@ -12,14 +12,17 @@ import net.minecraft.world.World;
 
 public class ItemKey extends ItemBase
 {
-    public ItemKey(String name, CreativeTabs tab)
+    private String info_loc;
+
+    public ItemKey(String name, String info_loc, CreativeTabs tab)
     {
 	super(name, tab);
+	this.info_loc = info_loc;
     }
 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("dimensional_key"));
+	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc(info_loc));
     }
 }

@@ -5,12 +5,17 @@ import com.barribob.MaelstromMod.blocks.BlockLeavesBase;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.Mana;
 import com.barribob.MaelstromMod.mana.ManaStorage;
+import com.barribob.MaelstromMod.packets.MessageBBAnimation;
+import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
+import com.barribob.MaelstromMod.packets.MessageEmptySwing;
 import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.packets.MessageLeap;
+import com.barribob.MaelstromMod.packets.MessageLoopAnimationUpdate;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.packets.MessageManaUnlock;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
-import com.barribob.MaelstromMod.packets.MessageMonolithLazer;
+import com.barribob.MaelstromMod.packets.MessagePlayDarkNexusWindSound;
+import com.barribob.MaelstromMod.packets.MessageStartElytraFlying;
 import com.barribob.MaelstromMod.packets.MessageSyncConfig;
 import com.barribob.MaelstromMod.util.Reference;
 
@@ -47,9 +52,14 @@ public class CommonProxy
 	Main.network.registerMessage(MessageMana.MessageHandler.class, MessageMana.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageLeap.MessageHandler.class, MessageLeap.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageManaUnlock.MessageHandler.class, MessageManaUnlock.class, packetId++, Side.CLIENT);
-	Main.network.registerMessage(MessageMonolithLazer.Handler.class, MessageMonolithLazer.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageDirectionForRender.Handler.class, MessageDirectionForRender.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageModParticles.MessageHandler.class, MessageModParticles.class, packetId++, Side.CLIENT);
 	Main.network.registerMessage(MessageSyncConfig.Handler.class, MessageSyncConfig.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageBBAnimation.Handler.class, MessageBBAnimation.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageLoopAnimationUpdate.Handler.class, MessageLoopAnimationUpdate.class, packetId++, Side.CLIENT);
+	Main.network.registerMessage(MessageStartElytraFlying.Handler.class, MessageStartElytraFlying.class, packetId++, Side.SERVER);
+	Main.network.registerMessage(MessageEmptySwing.Handler.class, MessageEmptySwing.class, packetId++, Side.SERVER);
+	Main.network.registerMessage(MessagePlayDarkNexusWindSound.Handler.class, MessagePlayDarkNexusWindSound.class, packetId++, Side.CLIENT);
 
 	CapabilityManager.INSTANCE.register(IMana.class, new ManaStorage(), Mana.class);
 	// CapabilityManager.INSTANCE.register(IInvasion.class, new InvasionStorage(),

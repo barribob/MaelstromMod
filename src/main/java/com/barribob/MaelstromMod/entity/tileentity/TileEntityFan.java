@@ -38,7 +38,7 @@ public class TileEntityFan extends TileEntity implements ITickable
 	double strength = facing.getFrontOffsetY() != 0 ? 0.5 : 0.3;
 	if (triggered)
 	{
-	    AxisAlignedBB box = this.getRenderBoundingBox().expand(facing.getFrontOffsetX() * distance, facing.getFrontOffsetY() * distance,
+	    AxisAlignedBB box = new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(facing.getFrontOffsetX() * distance, facing.getFrontOffsetY() * distance,
 		    facing.getFrontOffsetZ() * distance);
 	    List<Entity> list = this.world.getEntitiesWithinAABB(Entity.class, box);
 

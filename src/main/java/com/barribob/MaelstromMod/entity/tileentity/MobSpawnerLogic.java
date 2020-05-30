@@ -5,22 +5,20 @@ import java.util.function.Supplier;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public abstract class MobSpawnerLogic
-{
+public abstract class MobSpawnerLogic {
     /** The delay to spawn. */
     protected int spawnDelay = 20;
     protected int maxNearbyEntities = 6;
@@ -45,37 +43,44 @@ public abstract class MobSpawnerLogic
      * 
      * Stores data for more advanced spawner logic
      *
-     * The count is the amound of spaces that spawning the mob takes up. So, if a
-     * certain mob is much more powerful than the other mobs, and not too many
-     * should be spawned, make its count higher.
+     * The count is the amound of spaces that spawning the mob takes up. So, if a certain mob is much more powerful than the other mobs, and not too many should be spawned, make its count higher.
      * 
-     * Basically the formula is number of mobs spawned = spawner.maxCount / average
-     * MobSpawnData.count
+     * Basically the formula is number of mobs spawned = spawner.maxCount / average MobSpawnData.count
+     * 
+     * The NBT is semi separate, and allows one to specify other attributes as well as the level and element (though not at random)
      */
-    public static class MobSpawnData
-    {
-	String mobId;
+    public static class MobSpawnData {
+	public String mobId;
 	int count;
-	Element[] possibleElements;
-	int[] elementalWeights;
+	public Element[] possibleElements;
+	public int[] elementalWeights;
+	public NBTTagCompound mobData;
 
-	public MobSpawnData(String mobId, Element element)
-	{
+	/**
+	 * Currently nbt is limited in that you can't specify the element
+	 * 
+	 * TODO: Rewrite the spawning to only use nbt tag compounds
+	 * 
+	 * @param entityData
+	 */
+	public MobSpawnData(NBTTagCompound entityData) {
+	    this(entityData.getString("id"), Element.NONE);
+	    this.mobData = entityData;
+	}
+
+	public MobSpawnData(String mobId, Element element) {
 	    this(mobId, element, 1);
 	}
 
-	public MobSpawnData(String mobId, Element element, int count)
-	{
+	public MobSpawnData(String mobId, Element element, int count) {
 	    this(mobId, new Element[] { element }, new int[] { 1 }, count);
 	}
 
-	public MobSpawnData(String mobId, Element[] possibleElements, int[] elementalWeights, int count)
-	{
+	public MobSpawnData(String mobId, Element[] possibleElements, int[] elementalWeights, int count) {
 	    super();
 	    this.mobId = mobId;
 
-	    if (possibleElements.length != elementalWeights.length)
-	    {
+	    if (possibleElements.length != elementalWeights.length) {
 		throw new IllegalArgumentException("Element and weight arrays not the same length.");
 	    }
 
@@ -85,27 +90,22 @@ public abstract class MobSpawnerLogic
 	}
     };
 
-    public MobSpawnerLogic(Supplier<World> world, Supplier<BlockPos> pos, Block block)
-    {
+    public MobSpawnerLogic(Supplier<World> world, Supplier<BlockPos> pos, Block block) {
 	this.world = world;
 	this.pos = pos;
 	this.block = block;
     }
 
-    public void setData(String mob, int maxCount, float level, int activationRange)
-    {
+    public void setData(String mob, int maxCount, float level, int activationRange) {
 	this.setData(new MobSpawnData(mob, Element.NONE, 1), maxCount, level, activationRange);
     }
 
-    public void setData(MobSpawnData mob, int maxCount, float level, int activationRange)
-    {
+    public void setData(MobSpawnData mob, int maxCount, float level, int activationRange) {
 	this.setData(new MobSpawnData[] { mob }, new int[] { 1 }, maxCount, level, activationRange);
     }
 
-    public void setData(MobSpawnData[] mobs, int[] mobWeights, int maxCount, float level, int activationRange)
-    {
-	if (mobs.length != mobWeights.length)
-	{
+    public void setData(MobSpawnData[] mobs, int[] mobWeights, int maxCount, float level, int activationRange) {
+	if (mobs.length != mobWeights.length) {
 	    throw new IllegalArgumentException("Mobs and weight arrays for spawner not the same length.");
 	}
 	this.mobs = mobs;
@@ -125,54 +125,42 @@ public abstract class MobSpawnerLogic
      * @param blockpos
      * @return
      */
-    protected boolean tooManyEntities(World world, Entity entity, BlockPos blockpos)
-    {
+    protected boolean tooManyEntities(World world, Entity entity, BlockPos blockpos) {
 	int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(),
 		blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1)).grow(this.spawnRange)).size();
 
-	if (k >= this.maxNearbyEntities)
-	{
+	if (k >= this.maxNearbyEntities) {
 	    return true;
 	}
 	return false;
     }
 
-    protected boolean tryToSpawnEntity()
-    {
+    protected boolean tryToSpawnEntity() {
 	MobSpawnData data = getEntityData();
 	// Get a random position
-	int i1 = pos.get().getX() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
-	int j1 = pos.get().getY() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
-	int k1 = pos.get().getZ() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
+	int x = pos.get().getX() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
+	int y = pos.get().getY() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
+	int z = pos.get().getZ() + MathHelper.getInt(world.get().rand, 0, this.spawnRange) * MathHelper.getInt(world.get().rand, -1, 1);
 
-	if (world.get().getBlockState(new BlockPos(i1, j1 - 1, k1)).isSideSolid(world.get(), new BlockPos(i1, j1 - 1, k1), net.minecraft.util.EnumFacing.UP))
-	{
-	    // Gets the entity data?
-	    Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(data.mobId), world.get());
+	if (world.get().getBlockState(new BlockPos(x, y - 1, z)).isSideSolid(world.get(), new BlockPos(x, y - 1, z), net.minecraft.util.EnumFacing.UP)) {
+	    Entity entity = ModUtils.createMobFromSpawnData(data, world.get(), x, y, z);
 
-	    if (entity == null)
-	    {
-		System.out.println("Failed to spawn entity with id" + data.mobId);
+	    if (entity == null) {
 		return false;
 	    }
 
-	    entity.setLocationAndAngles(i1, j1, k1, world.get().rand.nextFloat() * 360.0F, 0.0F);
-
 	    if (world.get().checkNoEntityCollision(entity.getEntityBoundingBox(), entity)
 		    && world.get().getCollisionBoxes(entity, entity.getEntityBoundingBox()).isEmpty() && !world.get().containsAnyLiquid(entity.getEntityBoundingBox())
-		    && !this.tooManyEntities(world.get(), entity, pos.get()))
-	    {
+		    && !this.tooManyEntities(world.get(), entity, pos.get())) {
 		EntityLiving entityliving = entity instanceof EntityLiving ? (EntityLiving) entity : null;
 
-		if (entityliving != null)
-		{
+		if (entityliving != null) {
 		    // A successful spawn of the entity
 		    world.get().spawnEntity(entity);
 		    world.get().playEvent(2004, pos.get(), 0);
 		    entityliving.spawnExplosionParticle();
 
-		    if (entity instanceof EntityLeveledMob)
-		    {
+		    if (entity instanceof EntityLeveledMob) {
 			EntityLeveledMob leveledMob = (EntityLeveledMob) entity;
 			leveledMob.setElement(ModRandom.choice(data.possibleElements, this.world.get().rand, data.elementalWeights).next());
 			leveledMob.setLevel(level);
@@ -187,59 +175,55 @@ public abstract class MobSpawnerLogic
 	return false;
     }
 
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
 	this.spawnDelay = nbt.getShort("Delay");
 
-	if (nbt.hasKey("MobWeights"))
-	{
+	if (nbt.hasKey("MobWeights")) {
 	    this.mobWeights = nbt.getIntArray("MobWeights");
 	}
-	
-	if(nbt.hasKey("MaxCount"))
-	{
+
+	if (nbt.hasKey("MaxCount")) {
 	    this.maxCount = nbt.getShort("MaxCount");
 	}
 
-	if (nbt.hasKey("Level"))
-	{
+	if (nbt.hasKey("Level")) {
 	    this.level = nbt.getFloat("Level");
 	}
 
-	if (nbt.hasKey("MaxNearbyEntities", 99))
-	{
+	if (nbt.hasKey("MaxNearbyEntities", 99)) {
 	    this.maxNearbyEntities = nbt.getShort("MaxNearbyEntities");
 	    this.activatingRangeFromPlayer = nbt.getShort("RequiredPlayerRange");
 	}
 
-	if (nbt.hasKey("SpawnRange", 99))
-	{
+	if (nbt.hasKey("SpawnRange", 99)) {
 	    this.spawnRange = nbt.getShort("SpawnRange");
 	}
 
-	if (nbt.hasKey("MobSpawnData"))
-	{
+	if (nbt.hasKey("MobSpawnData")) {
 	    // 10 is for NBTTagCompound
 	    NBTTagList nbttaglist = nbt.getTagList("MobSpawnData", 10);
 
 	    this.mobs = new MobSpawnData[nbttaglist.tagCount()];
-	    for (int i = 0; i < nbttaglist.tagCount(); i++)
-	    {
+	    for (int i = 0; i < nbttaglist.tagCount(); i++) {
 		NBTTagCompound compound = nbttaglist.getCompoundTagAt(i);
 
 		int[] elementIds = compound.getIntArray("Elements");
 		Element[] elements = new Element[elementIds.length];
-		for (int j = 0; j < elementIds.length; j++)
-		{
+		for (int j = 0; j < elementIds.length; j++) {
 		    elements[j] = Element.getElementFromId(elementIds[j]);
 		}
 
-		mobs[i] = new MobSpawnData(compound.getString("EntityId"), elements, compound.getIntArray("ElementWeights"), compound.getInteger("Count"));
+		MobSpawnData spawnData = new MobSpawnData(compound.getString("EntityId"), elements, compound.getIntArray("ElementWeights"), compound.getInteger("Count"));
+
+		if (compound.hasKey("SpawnData")) {
+		    spawnData.mobData = compound.getCompoundTag("SpawnData");
+		}
+
+		mobs[i] = spawnData;
 	    }
 	}
 
-	if (this.mobs.length != this.mobWeights.length)
-	{
+	if (this.mobs.length != this.mobWeights.length) {
 	    System.err.println("Error loading spawner tile entity data.");
 
 	    // Replace with a pig spawner
@@ -250,11 +234,9 @@ public abstract class MobSpawnerLogic
 	}
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 
-	if (mobs == null)
-	{
+	if (mobs == null) {
 	    return compound;
 	}
 	compound.setIntArray("MobWeights", mobWeights);
@@ -267,17 +249,21 @@ public abstract class MobSpawnerLogic
 	compound.setFloat("Level", this.level);
 
 	NBTTagList nbttaglist = new NBTTagList();
-	for (MobSpawnData data : this.mobs)
-	{
+	for (MobSpawnData data : this.mobs) {
+
 	    NBTTagCompound dataCompound = new NBTTagCompound();
-	    int[] elements = new int[data.possibleElements.length];
-	    for (int i = 0; i < data.possibleElements.length; i++)
-	    {
-		elements[i] = data.possibleElements[i].id;
+	    if (data.mobData != null) {
+		dataCompound.setTag("SpawnData", data.mobData);
 	    }
 
+	    int[] elements = new int[data.possibleElements.length];
+	    for (int i = 0; i < data.possibleElements.length; i++) {
+		elements[i] = data.possibleElements[i].id;
+	    }
 	    dataCompound.setIntArray("Elements", elements);
+
 	    dataCompound.setIntArray("ElementWeights", data.elementalWeights);
+
 	    dataCompound.setString("EntityId", data.mobId);
 	    dataCompound.setInteger("Count", data.count);
 	    nbttaglist.appendTag(dataCompound);
@@ -287,13 +273,11 @@ public abstract class MobSpawnerLogic
 	return compound;
     }
 
-    protected MobSpawnData getEntityData()
-    {
+    protected MobSpawnData getEntityData() {
 	return ModRandom.choice(this.mobs, this.world.get().rand, this.mobWeights).next();
     }
 
-    public void broadcastEvent(int id)
-    {
+    public void broadcastEvent(int id) {
 	this.world.get().addBlockEvent(this.pos.get(), this.block, id, 0);
     }
 }

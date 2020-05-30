@@ -1,9 +1,11 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IElement;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -24,13 +26,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class Projectile extends EntityModThrowable implements IElement
 {
-    private float travelRange;
+    protected float travelRange;
     private final Vec3d startPos;
-    private static final byte IMPACT_PARTICLE_BYTE = 3;
+    protected static final byte IMPACT_PARTICLE_BYTE = 3;
     private static final byte PARTICLE_BYTE = 4;
     private float damage = 0;
     protected static final DataParameter<Integer> ELEMENT = EntityDataManager.<Integer>createKey(Projectile.class, DataSerializers.VARINT);
     protected float maxAge = 20 * 20;
+    private Item itemToRender = ModItems.INVISIBLE;
 
     public Projectile(World worldIn, EntityLivingBase throwerIn, float damage)
     {
@@ -168,6 +171,17 @@ public class Projectile extends EntityModThrowable implements IElement
     public Projectile setElement(Element element)
     {
 	this.dataManager.set(ELEMENT, element.id);
+	return this;
+    }
+
+    public Item getItemToRender()
+    {
+	return itemToRender;
+    }
+
+    public Projectile setItemToRender(Item itemToRender)
+    {
+	this.itemToRender = itemToRender;
 	return this;
     }
 }

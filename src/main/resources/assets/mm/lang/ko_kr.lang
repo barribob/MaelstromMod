@@ -1,0 +1,559 @@
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Random Items
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+item.iron_pellet.name=철 탄환
+item.azure_maelstrom_core_crystal.name=푸른 마엘스트롬 코어
+item.maelstrom_core.name=마엘스트롬 코어
+item.azure_key.name=프랙쳐 차원문 열쇠
+item.beast_key.name=보라색 차원문 열쇠
+item.invisible.name=invisible
+item.brown_key.name=황금의 협곡 차원문 열쇠
+item.red_key.name=크림슨 차원문 열쇠
+item.cliff_key_fragment.name=황금 열쇠 조각
+item.red_key_fragment.name=크림슨 열쇠 조각
+item.maelstrom_fragment.name=마엘스트롬 조각
+item.azure_maelstrom_fragment.name=푸른 마엘스트롬 조각
+item.golden_maelstrom_fragment.name=황금 마엘스트롬 조각
+item.chasmium_ingot.name=채스미움 주괴
+item.catalyst.name=마나 카탈리스트
+item.minotaur_horn.name=마엘스트롬 미노타우 뿔
+item.ammo_case.name=탄약 케이스
+item.chasmium_ammo_case.name=채스미움 탄약 케이스
+item.black_gold_ammo_case.name=황금 탄약 케이스
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Food
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+item.elk_hide.name=엘크 가죽
+item.elk_strips.name=엘크 줄무늬
+item.elk_jerky.name=엘크 육포
+item.plum.name=자두
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Guns and Staffs
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+item.boomstick.name=붐스틱
+item.musket.name=머스킷
+item.maelstrom_cannon.name=마엘스트롬 캐논
+item.will-o-the-wisp_staff.name=도깨비불 지팡이
+item.quake_staff.name=지진 지팡이
+item.pumpkin.name=로만 아틸러리: 펌킨
+item.flintlock_pistol.name=플린트락 권총
+item.repeater.name=레드스톤 리피터
+item.rifle.name=라이플
+item.leap_staff.name=도약의 지팡이
+item.speed_staff.name=신속의 지팡이
+item.fireball_staff.name=지옥의 지팡이
+item.elk_blaster.name=푸른 송곳
+item.explosive_staff.name=폭발의 지팡이
+item.brownstone_cannon.name=브라운스톤 캐논
+item.golden_fireball_staff.name=황금의 지옥 스태프
+item.cross_of_aqua.name=포세이돈의 십자가
+item.golden_quake_staff.name=황금의 지진 스태프
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Weapons
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+item.beast_blade.name=마엘스트롬 크리스탈 검
+item.sword_of_shades.name=마엘스트롬 장검
+item.shadow_dagger.name=마엘스트롬 단검
+item.maelstrom_battleaxe.name=마엘스트롬 배틀액스
+item.elucidator.name=엘루시데이터
+item.dragon_slayer.name=드래곤 슬레이어
+item.frost_sword.name=서리의 검
+item.nexus_battleaxe.name=넥서스 배틀액스
+item.venom_dagger.name=독 단검
+item.kanshou.name=칸쇼우
+item.bakuya.name=바쿠야
+item.crusade_sword.name=십자군의 검
+item.explosive_dagger.name=폭발 단검
+item.black_gold_sword.name=쉐도우골드 검
+item.brownstone_sword.name=브라운스톤 검
+item.ancient_battleaxe.name=고대의 배틀액스
+item.magisteel_sword.name=매지스틸 검
+item.gold_stone_longsword.name=황제의 검
+item.chasmium_sword.name=채스미움 검
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Armor
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+item.maelstrom_helmet.name=마엘스트롬 헬멧
+item.maelstrom_chestplate.name=마엘스트롬 갑옷
+item.maelstrom_leggings.name=마엘스트롬 레깅스
+item.maelstrom_boots.name=마엘스트롬 부츠
+item.straw_hat.name=밀짚모자
+item.speed_boots.name=신속의 부츠
+item.elk_hide_helmet.name=크리스탈 가죽 헬멧
+item.elk_hide_chestplate.name=크리스탈 가죽 갑옷
+item.elk_hide_leggings.name=크리스탈 가죽 레깅스
+item.elk_hide_boots.name=크리스탈 가죽 부츠
+item.nexus_helmet.name=화이트 다이아몬드 헬멧
+item.nexus_chestplate.name=화이트 다이아몬드 갑옷
+item.nexus_leggings.name=화이트 다이아몬드 레깅스
+item.nexus_boots.name=화이트 다이아몬드 부츠
+item.swamp_helmet.name=엑소 헬멧
+item.swamp_chestplate.name=엑소 갑옷
+item.swamp_leggings.name=엑소 레깅스
+item.swamp_boots.name=엑소 부츠
+item.black_gold_helmet.name=쉐도우골드 헬멧
+item.black_gold_chestplate.name=쉐도우골드 갑옷
+item.black_gold_leggings.name=쉐도우골드 레깅스
+item.black_gold_boots.name=쉐도우골드 부츠
+item.nyan_helmet.name=냥캣 헬멧
+item.nyan_chestplate.name=냥캣 갑옷
+item.nyan_leggings.name=냥캣 레깅스
+item.nyan_boots.name=냥캣 부츠
+item.chasmium_helmet.name=채스미움 헬멧
+item.chasmium_chestplate.name=채스미움 헬멧
+item.chasmium_leggings.name=채스미움 레깅스
+item.chasmium_boots.name=채스미움 부츠
+item.goltox_helmet.name=골톡스 헬멧
+item.goltox_chestplate.name=골톡스 갑옷
+item.goltox_leggings.name=골톡스 레깅스
+item.goltox_boots.name=골톡스 부츠
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Cliff Dimension
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+item.gold_pellet.name=황금 탄환
+item.golden_pistol.name=황금 권총
+item.golden_repeater.name=골든 리피터
+item.golden_shotgun.name=황금 샷건
+item.golden_rifle.name=황금 라이플
+item.swamp_slime.name=늪 슬라임
+item.golden_maelstrom_core.name=골든 마엘스트롬 코어
+item.meteor_staff.name=유성우 지팡이
+item.fly_wings.name=비행 날개
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Blocks
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.dark_azure_stone.name=검은 프랙쳐 돌
+tile.light_azure_stone.name=밝은 프랙쳐 돌
+tile.azure_stone_1.name=프랙쳐 화강암
+tile.azure_stone_2.name=마린 돌
+tile.azure_stone_3.name=파란 화강암
+tile.azure_stone_4.name=푸른 조약돌
+tile.azure_stone_5.name=파란 발광석
+tile.furnace_pillar.name=용광로 기둥
+tile.redstone_brick.name=레드스톤 벽돌
+tile.iron_grate.name=쇠살대
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Plants
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.azure_grass.name=프랙쳐 잔디
+tile.azure_log.name=프랙쳐 나무 원목
+tile.azure_leaves.name=프랙쳐 나뭇잎
+tile.plum_log.name=자두 나무 원목
+tile.plum_leaves.name=자두 나뭇잎
+tile.plum_filled_leaves.name=자두가 열린 나뭇잎
+tile.azure_vines_block.name=협곡 덩굴 블럭
+tile.azure_vines.name=협곡 덩굴
+tile.browned_grass.name=갈색의 흙
+tile.blue_daisy.name=파란 데이지
+tile.ruby_orchid.name=루비 난초
+tile.double_browned_grass.name=큰 갈색의 흙
+tile.azure_planks.name=판자
+tile.azure_fence.name=울타리
+tile.azure_plank_stairs.name=푸른 판자 계단
+tile.azure_sapling.name=푸른 원목
+tile.plum_sapling.name=자두 원목
+tile.large_plum_sapling.name=큰 자두 원목
+tile.fire_grass.name=붉은 흙
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Maelstrom
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.azure_maelstrom.name=마엘스트롬 블록
+tile.azure_decaying_maelstrom.name=부패한 마엘스트롬 블록
+tile.azure_maelstrom_core.name=프랙쳐 마엘스트롬 코어
+tile.maelstrom_bricks.name=마엘스트롬 벽돌
+tile.maelstrom_brick_fence.name=마엘스트롬 벽돌 울타리
+tile.maelstrom_brick_stairs.name=마엘스트롬 벽돌 계단
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Ore
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.azure_coal_ore.name=프랙쳐 석탄 광석
+tile.azure_diamond_ore.name=프랙쳐 다이아몬드 광석
+tile.azure_emerald_ore.name=프랙쳐 에메랄드 광석
+tile.azure_lapis_ore.name=프랙쳐 청금석 광석
+tile.azure_iron_ore.name=프랙처 철 광석
+tile.azure_gold_ore.name=프랙쳐 금 광석
+tile.azure_redstone_ore.name=프랙쳐 레드스톤 광석
+tile.azure_lit_redostone_ore.name=빛나는 레드스톤 광석
+tile.chasmium_ore.name=채스미움 광석
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Overworld
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.maelstrom_stonebrick.name=마엘스트롬 석재벽돌
+tile.maelstrom_stonebrick_stairs.name=마엘스트롬 석재벽돌 계단
+tile.maelstrom_stonebrick_fence.name=마엘스트롬 석재벽돌 울타리
+tile.azure_portal.name=프랙쳐 차원문
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Maelstrom Fortress Blocks
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.azure_stonebrick.name=프랙쳐 석재벽돌
+tile.azure_stonebrick_stairs.name=프랙쳐 석재벽돌 계단
+tile.azure_stonebrick_cracked.name=금 간 프랙쳐 석재벽돌
+tile.azure_stonebrick_carved.name=조각된 프랙쳐 석재벽돌
+tile.azure_stonebrick_carved_2.name=조각된 프랙쳐 석재벽돌
+tile.azure_stonebrick_carved_3.name=조각된 프랙쳐 석재벽돌
+tile.azure_stonebrick_lit.name=프랙쳐 석재벽돌 램프
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Nexus
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.nexus_teleporter.name=넥서스 텔레포터
+tile.cracked_quartz.name=금 간 석영
+tile.azure_key_block.name=프랙쳐 열쇠구멍
+tile.azure_dungeon_key_block.name=프랙쳐 던전 열쇠구멍
+tile.brown_key_block.name=갈색 열쇠구멍
+tile.red_dungeon_key_block.name=빨간 열쇠구멍
+tile.ice_key_block.name=파란 열쇠구멍
+tile.ice_dungeon_key_block.name=파란 던전 열쇠구멍
+tile.black_dungeon_key_block.name=검은 던전 열쇠구멍
+tile.nexus_herobrine_spawner.name=수수께끼의 블록
+tile.nexus_portal.name=넥서스 차원문
+tile.dark_nexus_portal.name=다크 넥서스 차원문
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Util
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.mega_structure_block.name=메가 구조물 블럭
+tile.disappearing_spawner.name=사라지는 스포너
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Cliff Dimension
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+tile.cliff_stone.name=절벽 돌
+tile.red_cliff_stone.name=빨간 절벽 돌
+tile.swamp_log.name=늪 나무 원목
+tile.full_swamp_log.name=늪 나무 
+tile.swamp_leaves.name=늪 나뭇잎
+tile.swamp_sapling.name=늪 묘목
+tile.gold_stone.name=황금
+tile.cracked_gold_stone.name=금간 황금
+tile.gold_stone_fence.name=황금 울타리
+tile.gold_stone_stairs.name=황금 계단
+tile.browned_pillar.name=브라운스톤 기둥
+tile.browned_block.name=광나는 브라운스톤
+tile.gold_stone_lamp.name=황금 램프
+tile.swamp_planks.name=늪 판자
+tile.chiseled_cliff_stone.name=조각된 절벽 돌
+tile.swamp_brick.name=늪 벽돌
+tile.cracked_swamp_brick.name=금 간 늪 벽돌
+tile.cliff_portal.name=황금의 계곡 차원문
+tile.swamp_plank_stairs.name=늪 판자 계단
+tile.swamp_fence.name=늪 판자 울타리
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Entities
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+entity.shade.name=마엘스트롬 스카우트
+entity.horror.name=마엘스트롬 솥
+entity.dream_elk.name=푸른 엘크
+entity.beast.name=마엘스트롬 크롤러
+entity.maelstrom_illager.name=마엘스트롬 우민
+entity.azure_villager.name=프랙쳐 주민
+entity.maelstrom_mage.name=마엘스트롬 마법사
+entity.azure_golem.name=프랙쳐 골렘
+entity.floating_skull.name=떠다니는 해골
+entity.herobrine_1.name=히로빈
+entity.herobrine_controller.name=히로빈
+entity.nexus_gunsmith.name=넥서스 대장장이
+entity.nexus_mage.name=넥서스 마법사
+entity.nexus_armorer.name=넥서스 갑옷 제작자
+entity.nexus_saiyan.name=넥서스 사이어인
+entity.nexus_bladesmith.name=넥서스 검 제작자
+entity.golden_pillar.name=힘의 기둥
+entity.golden_boss.name=열반의 조각상
+entity.maelstrom_golden_boss.name=타락한 조각상
+entity.maelstrom_witch.name=마엘스트롬 마녀
+entity.cliff_golem.name=절벽 골렘
+entity.swamp_crawler.name=늪 크롤러
+entity.iron_shade.name=마엘스트롬 사형 집행인
+entity.maelstrom_beast.name=마엘스트롬 미노타우
+entity.cliff_fly.name=늪 벌레
+entity.white_monolith.name=정화된 모놀리스
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Projectiles
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+entity.projectile.name=발사체
+entity.shade_attack.name=둥글게 공격하기
+entity.horror_attack.name=마엘스트롬 파편
+entity.beast_attack.name=야수의 숨결
+entity.bullet.name=철 탄환
+entity.maelstrom_cannon.name=캐논 발사체
+entity.will-o-the-wisp.name=도깨비불
+entity.quake.name=충격파
+entity.skull_attack.name=해골의 공격
+entity.azure_portal_spawn.name=푸른 포탈
+entity.pumpkin.name=에너지 샷
+entity.repeater.name=레드스톤
+entity.fireball.name=화염구
+entity.herobrine_slash.name=검은 베기
+entity.black_fireball.name=검은 화염구
+entity.golden_bullet.name=황금 총알
+entity.golden_repeater.name=황금 중계기
+entity.pillar_flames.name=기둥의 불꽃
+entity.golden_rune.name=황금 룬
+entity.golden_shade_attack.name=Golden Shade Thrust
+entity.golden_mage_attack.name=Golden Projectile
+entity.octo_missiles.name=Golden Projectile
+entity.golden_fireball.name=Golden Fireball
+entity.maelstrom_quake.name=Maelstrom Quake
+entity.maelstrom_missile.name=Maelstrom Missile
+entity.geyser.name=Golem's Geyser
+entity.brownstone_cannon.name=Brownstone Bullet
+entity.cliff_portal_spawn.name=Cliff Portal
+entity.explosive_drill.name=Explosion
+entity.azure_bullet.name=Azure Bullet
+entity.swamp_spittle.name=Swamp Spittle
+entity.nexus_particle.name=Nexus Particle
+entity.iron_thrust.name=Iron Shade Attack
+entity.maelstrom_wisp.name=Maelstrom Wisp
+entity.meteor.name=Maelstrom Meteor
+entity.meteor_spawner.name=Meteor Summoner
+entity.beast_quake.name=Minotaur Fissure
+entity.monolith.name=마엘스트롬의 비석
+enttiy.white_monolith.name=비석
+entity.maelstrom_lancer.name=마엘스트롬 창병
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Damage Sources
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+death.attack.mm:maelstrom=%1$s이(가) 마엘스트롬에 굴복했습니다
+death.attack.mm:mobMaelstrom=%1$s이(가) 마엘스트롬에 패배하였습니다
+death.attack.mm:playerMaelstrom=%1$s이(가) 다른 플레이어가 사용한 마엘스트롬의 힘에 패배하였습니다
+death.attack.mm:arrowMaelstrom=%1$s이(가) 마엘스트롬에게 저격당했습니다
+death.attack.mm:thrownMaelstrom=%1$s이(가) 마엘스트롬에게 두들겨맞았습니다
+death.attack.mm:explosionMaelstrom=%1$s이(가) 마엘스트롬에 의해 폭사했습니다
+death.attack.mm:explosionMaelstrom.player=%1$s이(가) %2$s의 마엘스트롬과 싸우다 폭사했습니다
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Item Attributes
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+attribute.name.maelstrom_armor=마엘스트롬 갑옷
+attribute.name.extended_reach=사거리 확장
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Enchantments
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+enchantment.reload=재장전
+enchantment.gun_power=피해 증가
+enchantment.impact=영향
+enchantment.gun_flame=인플레임
+enchantment.maelstrom_destroyer=마엘스트롬 파괴자
+enchantment.maelstrom_protection=마엘스트롬 보호
+enchantment.sharpness_2=마엘스트롬 날카로움
+enchantment.critical_hit=크리티컬
+
+enchantment.level.11=11
+enchantment.level.12=12
+enchantment.level.13=13
+enchantment.level.14=14
+enchantment.level.15=15
+enchantment.level.16=16
+enchantment.level.17=17
+enchantment.level.18=18
+enchantment.level.19=19
+enchantment.level.20=20
+enchantment.level.21=21
+enchantment.level.22=22
+enchantment.level.23=23
+enchantment.level.24=24
+enchantment.level.25=25
+enchantment.level.26=26
+enchantment.level.27=27
+enchantment.level.28=28
+enchantment.level.29=29
+enchantment.level.30=30
+enchantment.level.31=31
+enchantment.level.32=32
+enchantment.level.33=33
+enchantment.level.34=34
+enchantment.level.35=35
+enchantment.level.36=36
+enchantment.level.37=37
+enchantment.level.38=38
+enchantment.level.39=39
+enchantment.level.40=40
+enchantment.level.41=41
+enchantment.level.42=42
+enchantment.level.43=43
+enchantment.level.44=44
+enchantment.level.45=45
+enchantment.level.46=46
+enchantment.level.47=47
+enchantment.level.48=48
+enchantment.level.49=49
+enchantment.level.50=50
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Potion
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+mm.effect.water_strider=물 위를 걷는자
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Loading Screens
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+multiplayer.entering=차원으로 이동합니다
+multiplayer.azure_dimension= 프랙쳐
+multiplayer.nexus_dimension= 넥서스
+multiplayer.cliff_dimension= 금빛 협곡
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Creative Tabs
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+itemGroup.items=마엘스트롬 : 아이템 
+itemGroup.blocks=마엘스트롬 : 블록
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Misc.
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+herobrine_trading=히로빈의 특별한 선물
+mana_locked=당신은 아직 마나를 해방하지 못했다!
+mm.invasion_1=무언가가 이 세계에 침입하려고 했다
+mm.invasion_2=무언가가 이 세계에 침입했다
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Config
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+mm.config.world=World (모드번역 : jason9727)
+mm.config.fracture_dimension_id=Fracture Dimension Id
+mm.config.nexus_dimension_id=Nexus Dimension Id
+mm.config.cliff_dimension_id=Cliff Dimension Id
+mm.config.dark_nexus_dimension_id=Dark Nexus Dimension Id
+mm.config.invasion_time=Invasion Time
+mm.config.render_cliff_fog=Render Cliff Fog
+
+mm.config.gui=Gui
+mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
+mm.config.armor_bar_y=Maelstrom Armor Bar Y Offset
+mm.config.mana_bar_x=Mana Bar X Offset
+mm.config.mana_bar_y=Mana Bar Y Offset
+mm.config.show_cooldown_bar=Show Gun Cooldown Bar
+mm.config.show_mana_bar=Show Mana Bar
+mm.config.show_armor_bar=Show Armor Bar
+
+mm.config.balancing=Balancing
+mm.config.armor_toughness=Base Armor Toughness
+mm.config.mob_armor=Base Mob Armor
+mm.config.weapon_damage=Base Weapon Damage
+mm.config.scale=Progression Scale
+mm.config.mob_damage=Base Mob Damage
+mm.config.elemental_factor=Elemental Factor
+
+mm.config.entities=Entities
+mm.config.use_vanilla_pathfinding=Use Vanilla Pathfinding
+mm.config.attack_all=Attack All Mobs
+mm.config.display_mob_level=Display Mob Level
+
+mm.config.server=Server
+mm.config.sync_config_on_login=Sync Config On Login
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Item and Block Descriptions
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+mm.desc.dimensional_key=넥서스에서 키 블록을 마우스 오른쪽 버튼으로 클릭하여 활성화
+mm.desc.tbd_key=차원에 대한 열쇠,Comming soon
+mm.desc.boomstick=근접 산탄총 공격
+mm.desc.musket=중거리 및 근거리 공격
+mm.desc.maelstrom_cannon=근접 폭발 공격
+mm.desc.wisp_staff=단거리 불꽃 공격
+mm.desc.quake_staff=단거리 충격파 공격
+mm.desc.level=마엘스트롬 레벨 : %s
+mm.desc.pumpkin=정확한 에너지 저격용 소총
+mm.desc.pumpkin_damage=더 멀리 이동할수록 더 많은 데미지 발생
+mm.desc.gun_ammo=남은 탄환 : %s
+mm.desc.gun_reload_time=재장전까지 %s
+mm.desc.dragonslayer=대규모 쓸기 공격
+mm.desc.dagger=쓸기 공격 없음
+mm.desc.flintlock=중거리 총
+mm.desc.repeater=단거리 리피팅 총
+mm.desc.kanshou_bakuya=칸쇼우와 바쿠야를 함께 휘두를 시 힘 II를 부여한다.
+mm.desc.rifle=장거리 총
+mm.desc.elk_rifle=여러 몹을 관통한다
+mm.desc.frost_sword=쓸기 공격시 적 속도 저하
+mm.desc.large_sweep_attack=대규모 휩쓸기 공격
+mm.desc.venom_dagger=차징 공격에 독이 깃듬
+mm.desc.crusade_sword=휩쓸기 공격에 저항 부여
+mm.desc.explosive_dagger=차징 공격에 폭발이 깃듬
+mm.desc.magisteel_sword=휩쓸기 공격
+mm.desc.leap_staff=약간의 상승효과
+mm.desc.fall_damage_reduction=낙하 데미지 감소
+mm.desc.speed_staff=짧은 속도 증가
+mm.desc.fireball_staff=단거리 화염구 발사
+mm.desc.explosive_staff=파괴의 신들을 숭배하기 위해 만들어졌다
+mm.desc.potion_add=%s 추가
+mm.desc.meteor_staff=최대 50블록 떨어진 유성 소환
+mm.desc.mana_cost=마나 소모
+mm.desc.catalyst=마나를 해방하는데에 사용한다
+mm.desc.elemental_damage_desc=%s 데미지 %s 몹에게
+mm.desc.elemental_armor_desc=%s 타입 데미지 %s 감소
+mm.desc.damage_tooltip=%s 데미지
+mm.desc.damage_per_meter_tooltip=미터당 %s 데미지
+mm.desc.black_gold_full_set=Full set: 신속
+mm.desc.maelstrom_full_set=Full set: 저항
+mm.desc.goltox_full_set=Full set: 독 데미지 감소
+mm.desc.swamp_full_set=Full set: 힘
+mm.desc.nyan_full_set=Full set: 달리기 시 무지개가 생김
+mm.desc.nexus_only_portal=서바이벌 모드일때,넥서스 차원에서만 발동함
+
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+// Entity Dialog
+//뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?
+mm.dialog.herobrine_pearl_0=이봐 거기에 너 모험가처럼 보이는데.
+mm.dialog.herobrine_pearl_1=네가 내게 진주를 가져다주면,난 너에게 좋은걸 줄게.
+mm.dialog.herobrine_pearl_2=어서,폭력은 쓸 필요가 없어.
+
+mm.dialog.herobrine_battle_0=고마워! 이제 난 널 죽이도록 할게.
+mm.dialog.herobrine_battle_1=나는 그저 네가 얼마나 강한지 보고 싶을 뿐이야.
+
+mm.dialog.herobrine_battle_2=흥미로워. 내가 보기엔 넌 잘 싸울 수 있을 것 같네
+mm.dialog.herobrine_battle_3=널 죽이는 대신 네가 날 도와줄 수 있을지도 몰라.
+mm.dialog.herobrine_battle_4=만약 네가 차원문 열쇠 조각을 찾아 나한테 주면 다른 열쇠를 만들어줄게.
+mm.dialog.herobrine_battle_5=그래야 그 짜증나는 마엘스트롬 떨거지들에게 가는 길을 열어줄 수 있거든.
+mm.dialog.herobrine_battle_6=그리고 탐험이든 뭐든 할 수 있어. 모두가 이긴다.
+mm.dialog.herobrine_battle_7=긴장 풀어. 전투는 끝났어.
+
+mm.dialog.herobrine_cliff_0=다음 열쇠에 필요한 조각이 있어? 아니면 얼른 가져와.
+mm.dialog.herobrine_cliff_1=날 공격하지 마, 이 사람아. 오직 나만이 이유 없이 공격할 수 있으니까.
+mm.dialog.herobrine_cliff_2=나쁘지 않네. 이제 가서 조각 좀 더 가져와.
+
+mm.dialog.herobrine_crimson_0=다음 열쇠에 필요한 조각이 있어? 아니면 얼른 가져와.
+mm.dialog.herobrine_crimson_1=대신 왼쪽으로 가서 마엘스트롬을 좀 클릭해 보는 게 어때?
+
+mm.dialog.illager_1=넌 우리에게 정말 좋은 존재야! 조사해야겠어!
+mm.dialog.illager_2=우리 제국에 좀비로 들어와라!
+mm.dialog.illager_3=이런 성가신 녀석 같으니라고!
+
+mm.dialog.azure_villager_1=우리에겐 이 차원을 침범한 마엘스트롬이라는 문제가 있어
+mm.dialog.azure_villager_2=넌 전사처럼 보이는데, 우리를 위해 그 마엘스트롬 침략자들을 물리칠 수 있겠니?
+mm.dialog.azure_villager_3=마엘스트롬을 물리친 것에 대해 큰 보상을 해줄게.
+mm.dialog.azure_villager_4=유용한 기어와 아이템이 있는지 갱도 주위를 둘러봐.
+mm.dialog.azure_villager_5=마엘스트롬의 지하에는 마엘스트롬을 생성하는 코어가 있어. 그것들을 없애줘!
+mm.dialog.azure_villager_6=마엘스트롬 요새를 뒤져봐. 그놈들 보스는 그곳에 있어.
+mm.dialog.no_mana=넌 아직 마나를 해방하지 않았어! 마엘스트롬 미노타우의 뿔을 가져온다면 마나를 해방하게 해줄게
+mm.dialog.mage_1=좋아, 그 구슬이 네가 마나를 해방하게 해줄거야.
+mm.dialog.mage_2=무슨 스태프이든 일정량의 마나를 사용해.
+mm.dialog.mage_3=마력은 시간이 지나면 서서히 다시 채워질 거야.
+mm.dialog.mage_4=마엘스트롬을 죽이면 마나가 회복돼. 보스들이 네 마나를 가득 채워줄거야!
+mm.dialog.mage_5=마력을 소모하는 적을 조심해. 자, 행운을 빌어, 견습생아!
+mm.dialog.gun_1=그 총은 시작 총으로 좋지. 총은 처음 쏴보나?
+mm.dialog.gun_2=어쨌든 네 기억을 되살리기 위해 설명해줄게.
+mm.dialog.gun_3=총은 모든 총이 발사된 후에 재장전되어야 해.
+mm.dialog.gun_4=그것들은 네 손에서 자동으로 재장전될거야.
+mm.dialog.gun_5=총은 탄약이 필요하니, 충분히 가지고 있는게 좋아
+mm.dialog.gun_6=나는 개인적으로 탄약을 사용해. 왜냐고?
+mm.dialog.gun_7=왜냐하면 총은 엄청난 양의 탄약을 필요로 하기 때문이야!
+mm.dialog.armor_1=변형된 무기를 조심해. 어떤 것들은 사기꾼들이 만든 무기야!
+mm.dialog.armor_2=무엇을 물어볼거야? 내 연구 결과를 공유해줄게.
+mm.dialog.armor_3=갑옷 포인트가 20을 넘는다면 그건 다이아몬드 슈트야, 사실 중요하진 않아!
+mm.dialog.armor_4=손상 계산은 갑옷이 더 강해도 갑옷이 20으로 캡을 씌우기 때문이야.
+mm.dialog.armor_5=나의 갑옷은 좀 달라. 다이아몬드보다 더 강해지기 위해 마엘스트롬 갑옷을 사용했어.
+mm.dialog.armor_6=그러니 항상 신뢰할 수 있는 무기상인에게 구입해야해!

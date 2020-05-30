@@ -25,3 +25,13 @@ run/*
 !run/saves/
 run/saves/*
 !run/saves/BUILDING_WORLD/
+
+!TestMaelstromMod/
+TestMaelstromMod/*
+!TestMaelstromMod/.settings/
+TestMaelstromMod/.settings/*
+!TestMaelstromMod/.settings/org.eclipse.jdt.core.prefs
+!TestMaelstromMod/src/
+!TestMaelstromMod/.classpath
+!TestMaelstromMod/.project
+

@@ -177,6 +177,27 @@ public class ParticleManager
 	spawnParticleWithColor(particle, baseColor);
     }
 
+    public static void spawnCircles(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(10, 20), true);
+	particle.setParticleTextureRange(48, 7, 2);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
+    public static void spawnDust(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion, int age)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, age, true);
+	particle.setParticleTextureRange(64, 14, 2);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
+    public static void spawnSmoke2(World worldIn, Vec3d pos, Vec3d baseColor, Vec3d motion)
+    {
+	ModParticle particle = new ModParticle(worldIn, pos, motion, 3, ModRandom.range(15, 25), true);
+	particle.setParticleTextureRange(80, 23, 2);
+	spawnParticleWithColor(particle, baseColor);
+    }
+
     private static void spawnParticleWithColor(Particle particle, Vec3d baseColor)
     {
 	baseColor = ModColors.variateColor(baseColor, 0.2f);
@@ -199,6 +220,14 @@ public class ParticleManager
 	float f = ModRandom.getFloat(0.1f);
 	particle.setRBGColorF(0.1f + f, 0, 0.1f + f);
 
+	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    public static void spawnColoredFire(World worldIn, Random rand, Vec3d pos, Vec3d color)
+    {
+	Particle particle = new ParticleFlame.Factory().createParticle(0, worldIn, pos.x, pos.y, pos.z, 0, 0, 0);
+	color = ModColors.variateColor(color, 0.2f);
+	particle.setRBGColorF((float) color.x, (float) color.y, (float) color.z);
 	Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 

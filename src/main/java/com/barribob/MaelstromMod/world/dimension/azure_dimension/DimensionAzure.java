@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.world.dimension.azure_dimension;
 import java.util.Arrays;
 import java.util.List;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.renderer.AzureSkyRenderHandler;
@@ -99,7 +100,7 @@ public class DimensionAzure extends WorldProvider
     @Override
     public IRenderHandler getSkyRenderer()
     {
-	return new AzureSkyRenderHandler();
+	return ModConfig.shaders.render_custom_sky ? new AzureSkyRenderHandler() : null;
     }
 
     @Override

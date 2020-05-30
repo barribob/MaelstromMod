@@ -21,6 +21,7 @@ public class ModDamageSource
     private static final String THROWN_MAELSTROM = Reference.MOD_ID + ":" + "thrownMaelstrom";
     private static final String EXPLOSION_MAELSTROM = Reference.MOD_ID + ":" + "explosionMaelstrom";
     private static final String EXPLOSION_MAELSTROM_ENTITY = Reference.MOD_ID + ":" + "explosionMaelstrom.player";
+    private static final String MAGIC_MAELSTROM = Reference.MOD_ID + ":" + "magicMaelstrom";
 
     public static final DamageSource MAELSTROM_DAMAGE = (new DamageSource(MAELSTROM));
 
@@ -49,6 +50,10 @@ public class ModDamageSource
     public static DamageSource causeElementalThrownDamage(Entity source, @Nullable Entity indirectEntityIn, Element element)
     {
 	return (new EntityElementalDamageSourceIndirect(THROWN_MAELSTROM, source, indirectEntityIn, element)).setProjectile();
+    }
+
+    public static DamageSource causeElementalMagicDamage(Entity source, @Nullable Entity indirectEntityIn, Element element) {
+	return (new EntityElementalDamageSourceIndirect(MAGIC_MAELSTROM, source, indirectEntityIn, element)).setDamageBypassesArmor();
     }
 
     public static DamageSource causeElementalExplosionDamage(@Nullable EntityLivingBase entityLivingBaseIn, Element element)

@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.world.dimension.nexus;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.BiomeInit;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.renderer.AzureSkyRenderHandler;
@@ -91,7 +92,7 @@ public class DimensionNexus extends WorldProvider
     @Override
     public IRenderHandler getSkyRenderer()
     {
-	return new AzureSkyRenderHandler();
+	return ModConfig.shaders.render_custom_sky ? new AzureSkyRenderHandler() : null;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.items.gun;
 
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -12,9 +11,9 @@ import net.minecraft.world.World;
 
 public class ItemRifle extends ItemGun
 {    
-    public ItemRifle(String name, int cooldown, int useTime, float level, CreativeTabs tab)
+    public ItemRifle(String name, float level)
     {
-	super(name, cooldown, 9, useTime, level, tab);
+	super(name, 60, 9, level);
     }
 
     @Override
@@ -27,6 +26,7 @@ public class ItemRifle extends ItemGun
 	float velocity = 6.0f;
 
 	Projectile projectile = factory.get(world, player, stack, this.getEnchantedDamage(stack));
+	projectile.setElement(getElement());
 	projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity, inaccuracy);
 	projectile.setTravelRange(100);
 

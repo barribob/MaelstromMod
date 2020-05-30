@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures.CliffMaelstromStructure;
 import com.barribob.MaelstromMod.world.gen.WorldGenStructure;
 
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -18,9 +19,9 @@ public class WorldGenCliffStructureLedge extends WorldGenCliffLedge
     }
 
     @Override
-    public void generateStructure(World world, BlockPos pos, Boolean doRandomRotation)
+    public void generateStructure(World world, BlockPos pos, Rotation rotation)
     {
-	super.generateStructure(world, pos, doRandomRotation);
+	super.generateStructure(world, pos, rotation);
 	if (world.rand.nextInt(2) == 0)
 	{
 	    WorldGenStructure ruin = ModRandom.choice(secondRuin);

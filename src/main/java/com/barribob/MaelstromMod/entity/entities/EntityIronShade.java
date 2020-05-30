@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.action.ActionSpinSlash;
-import com.barribob.MaelstromMod.entity.action.ActionThrust;
+import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelIronShade;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileIronShadeAttack;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.util.Element;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
@@ -22,6 +24,7 @@ import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -42,13 +45,17 @@ public class EntityIronShade extends EntityMaelstromMob
     public EntityIronShade(World worldIn)
     {
 	super(worldIn);
-	this.setLevel(1.5f);
 	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
 	this.healthScaledAttackFactor = 0.2;
 	this.setSize(0.9f, 2.2f);
 	if (!worldIn.isRemote)
 	{
-	    attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack()), 1));
+	    attackHandler.setAttack(frontFlip, (actor, target) -> {
+		Vec3d pos = this.getPositionVector().add(ModUtils.yVec(1)).add(this.getLookVec().scale(2.0f));
+		this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+		ModUtils.handleAreaImpact(1.0f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, this.getElement() == Element.CRIMSON ? 3 : 0, false);
+		actor.world.setEntityState(actor, ModUtils.SECOND_PARTICLE_BYTE);
+	    });
 	    attackHandler.setAttack(spin, new ActionSpinSlash(3.0f));
 	}
     }
@@ -65,7 +72,7 @@ public class EntityIronShade extends EntityMaelstromMob
 		attackHandler.getCurrentAttackAction().performAction(this, null);
 	    }
 	}
-	else if (!world.isRemote)
+	else if (!world.isRemote && !this.isSwingingArms())
 	{
 	    world.setEntityState(this, ModUtils.PARTICLE_BYTE);
 	}
@@ -146,7 +153,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	flipAnimations.add(body);
 	flipAnimations.add(lowerChains);
 	flipAnimations.add(upperChains);
-	attackHandler.setAttack(frontFlip, new ActionThrust(() -> new ProjectileIronShadeAttack(world, this, this.getAttack())), () -> new StreamAnimation(flipAnimations));
+	attackHandler.setAttack(frontFlip, Action.NONE, () -> new StreamAnimation(flipAnimations));
 
 	List<List<AnimationClip<ModelIronShade>>> spinAnimations = new ArrayList<List<AnimationClip<ModelIronShade>>>();
 	wisps = new ArrayList<AnimationClip<ModelIronShade>>();
@@ -198,7 +205,8 @@ public class EntityIronShade extends EntityMaelstromMob
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.3f, 60, 10, 5.0f, 0.4f));
+	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.3f, 60, 10, 4.5f, 0.4f));
+	this.tasks.addTask(0, new AIJumpAtTarget(this, 0.4f, 0.5f));
     }
 
     @Override
@@ -223,7 +231,7 @@ public class EntityIronShade extends EntityMaelstromMob
 
 	    if (attackHandler.getCurrentAttack() == frontFlip)
 	    {
-		this.motionY = 0.5f;
+		ModUtils.leapTowards(this, this.getAttackTarget().getPositionVector(), 0.2f, 0.5f);
 	    }
 	}
     }
@@ -231,6 +239,8 @@ public class EntityIronShade extends EntityMaelstromMob
     @Override
     public void handleStatusUpdate(byte id)
     {
+	// We want a special black flame for the non-elemental shade, and red flames for the crimson element.
+	Vec3d flameColor = getElement() == Element.NONE ? new Vec3d(0.1f, 0, 0.1f) : getElement().sweepColor;
 	if (id >= 4 && id <= 6)
 	{
 	    currentAnimation = attackHandler.getAnimation(id);
@@ -240,7 +250,7 @@ public class EntityIronShade extends EntityMaelstromMob
 	{
 	    ModUtils.performNTimes(4, (i) -> {
 		ModUtils.circleCallback(i, 15, (pos) -> {
-		    ParticleManager.spawnDarkFlames(world, rand, getPositionVector().add(new Vec3d(pos.x, this.getEyeHeight(), pos.y)));
+		    ParticleManager.spawnColoredFire(world, rand, getPositionVector().add(new Vec3d(pos.x, this.getEyeHeight() - 0.3f + ModRandom.getFloat(0.2f), pos.y)), flameColor);
 		});
 	    });
 	}
@@ -249,9 +259,17 @@ public class EntityIronShade extends EntityMaelstromMob
 	    Vec3d look = this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
 	    Vec3d side = look.rotateYaw((float) Math.PI * -0.5f);
 	    Vec3d offset = getPositionVector().add(side.scale(0.5f * ModRandom.randSign())).add(ModUtils.yVec(rand.nextFloat()));
-	    ParticleManager.spawnDarkFlames(world, rand, offset);
+	    ParticleManager.spawnColoredFire(world, rand, offset, flameColor);
 	    offset = getPositionVector().add(side.scale(0.5f * ModRandom.randSign())).add(look.scale(-rand.nextFloat())).add(ModUtils.yVec(0.1f));
-	    ParticleManager.spawnDarkFlames(world, rand, offset);
+	    ParticleManager.spawnColoredFire(world, rand, offset, flameColor);
+	}
+	else if (id == ModUtils.SECOND_PARTICLE_BYTE)
+	{
+	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(1)).add(this.getLookVec().scale(2.0f));
+	    for (int i = 0; i < 30; i++)
+	    {
+		ParticleManager.spawnColoredFire(world, rand, pos.add(ModRandom.randVec().add(ModUtils.yVec(ModRandom.getFloat(1.5f)))), flameColor);
+	    }
 	}
 	else
 	{
@@ -280,6 +298,11 @@ public class EntityIronShade extends EntityMaelstromMob
     @Override
     protected ResourceLocation getLootTable()
     {
+	if (getElement() == Element.CRIMSON)
+	{
+	    return LootTableHandler.CRIMSON_MINIBOSS;
+	}
+
 	return LootTableHandler.IRON_SHADE;
     }
 

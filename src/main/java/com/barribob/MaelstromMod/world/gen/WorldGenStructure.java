@@ -1,8 +1,11 @@
 package com.barribob.MaelstromMod.world.gen;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+
+import org.apache.logging.log4j.LogManager;
 
 import com.barribob.MaelstromMod.util.IStructure;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -13,7 +16,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -58,7 +60,7 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
     @Override
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
-	this.generateStructure(worldIn, position, true);
+	this.generateStructure(worldIn, position, ModRandom.choice(Rotation.values()));
 	return true;
     }
 
@@ -75,7 +77,7 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
 	template = manager.get(mcServer, location);
 	if (template == null)
 	{
-	    System.out.println("The template, " + location + " could not be loaded");
+	    LogManager.getLogger().debug("The template, " + location + " could not be loaded");
 	    return null;
 	}
 	return template;
@@ -133,18 +135,19 @@ public class WorldGenStructure extends WorldGenerator implements IStructure
      * @param world
      * @param pos
      */
-    public void generateStructure(World world, BlockPos pos, Boolean doRandomRotation)
+    public void generateStructure(World world, BlockPos pos, Rotation rotation)
     {
 	if (getTemplate(world) != null)
 	{
-	    Tuple<Rotation, BlockPos>[] rotations = new Tuple[] { new Tuple(Rotation.NONE, new BlockPos(0, 0, 0)),
-		    new Tuple(Rotation.CLOCKWISE_90, new BlockPos(template.getSize().getX() - 1, 0, 0)),
-		    new Tuple(Rotation.COUNTERCLOCKWISE_90, new BlockPos(0, 0, template.getSize().getZ() - 1)),
-		    new Tuple(Rotation.CLOCKWISE_180, new BlockPos(template.getSize().getX() - 1, 0, template.getSize().getZ() - 1)) };
+	    Map<Rotation, BlockPos> rotations = new HashMap<Rotation, BlockPos>();
+	    rotations.put(Rotation.NONE, new BlockPos(0, 0, 0));
+	    rotations.put(Rotation.CLOCKWISE_90, new BlockPos(template.getSize().getX() - 1, 0, 0));
+	    rotations.put(Rotation.COUNTERCLOCKWISE_90, new BlockPos(0, 0, template.getSize().getZ() - 1));
+	    rotations.put(Rotation.CLOCKWISE_180, new BlockPos(template.getSize().getX() - 1, 0, template.getSize().getZ() - 1));
 
-	    Tuple<Rotation, BlockPos> randomRotation = doRandomRotation ? ModRandom.choice(rotations, world.rand) : rotations[0];
-	    PlacementSettings rotatedSettings = settings.setRotation(randomRotation.getFirst());
-	    BlockPos rotatedPos = pos.add(randomRotation.getSecond());
+	    BlockPos rotationOffset = rotations.get(rotation);
+	    PlacementSettings rotatedSettings = settings.setRotation(rotation);
+	    BlockPos rotatedPos = pos.add(rotationOffset);
 
 	    template.addBlocksToWorld(world, rotatedPos, rotatedSettings, 18);
 	    Map<BlockPos, String> dataBlocks = template.getDataBlocks(rotatedPos, rotatedSettings);

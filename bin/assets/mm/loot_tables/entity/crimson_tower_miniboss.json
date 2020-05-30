@@ -1,0 +1,15 @@
+{
+    "pools": [
+        {
+            "name": "crimson_miniboss",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:crimson_maelstrom_core"
+                }
+            ]
+        }
+    ]
+}

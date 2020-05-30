@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectilePumpkin;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -18,9 +17,9 @@ import net.minecraft.world.World;
 
 public class ItemPumpkin extends ItemGun
 {
-    public ItemPumpkin(String name, int cooldown, float useTime, Item ammo, float level, CreativeTabs tab)
+    public ItemPumpkin(String name, int cooldown, Item ammo, float level)
     {
-	super(name, cooldown, 0.5f, useTime, level, tab);
+	super(name, cooldown, 0.5f, level);
     }
 
     /**

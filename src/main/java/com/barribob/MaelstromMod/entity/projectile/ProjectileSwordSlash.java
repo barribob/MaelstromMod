@@ -1,11 +1,14 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.packets.MessageModParticles;
+import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -38,10 +41,10 @@ public class ProjectileSwordSlash extends Projectile
 	{
 	    if (this.world instanceof WorldServer)
 	    {
-		((WorldServer) this.world).spawnParticle(EnumParticleTypes.SWEEP_ATTACK, this.posX, this.posY, this.posZ, 0, 0, 0.0D, 0, 0.0D);
+		Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, getPositionVector(), Vec3d.ZERO, this.getElement().sweepColor), this);
 	    }
 
-	    ModUtils.handleAreaImpact(1, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()),
+	    ModUtils.handleAreaImpact(1.5f, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()),
 		    0.2f, 0);
 	}
     }

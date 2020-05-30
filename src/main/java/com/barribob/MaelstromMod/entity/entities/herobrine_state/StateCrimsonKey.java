@@ -88,6 +88,7 @@ public class StateCrimsonKey extends HerobrineState implements IMerchant
     @Override
     public void useRecipe(MerchantRecipe recipe)
     {
+	messageToPlayers.accept("herobrine_crimson_dimension_0");
 	herobrine.state = new StateCrimsonDimension(herobrine);
     }
 

@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.blocks.BlockAzureVines;
 import com.barribob.MaelstromMod.blocks.BlockAzureVinesBlock;
 import com.barribob.MaelstromMod.blocks.BlockBase;
 import com.barribob.MaelstromMod.blocks.BlockBossSpawner;
+import com.barribob.MaelstromMod.blocks.BlockChain;
 import com.barribob.MaelstromMod.blocks.BlockDecayingMaelstrom;
 import com.barribob.MaelstromMod.blocks.BlockDisappearingSpawner;
 import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
@@ -30,15 +31,20 @@ import com.barribob.MaelstromMod.blocks.BlockNexusTeleporter;
 import com.barribob.MaelstromMod.blocks.BlockPillarBase;
 import com.barribob.MaelstromMod.blocks.BlockPlumFilledLeaves;
 import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
+import com.barribob.MaelstromMod.blocks.BlockRedstoneBrick;
 import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
 import com.barribob.MaelstromMod.blocks.BlockStairsBase;
 import com.barribob.MaelstromMod.blocks.BlockSwampLeaves;
-import com.barribob.MaelstromMod.blocks.key_blocks.BlockAzureKey;
-import com.barribob.MaelstromMod.blocks.key_blocks.BlockBrownKey;
+import com.barribob.MaelstromMod.blocks.key_blocks.BlockKey;
 import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockCliffPortal;
+import com.barribob.MaelstromMod.blocks.portal.BlockCrimsonPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockDarkNexusPortal;
 import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
+import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
+import com.barribob.MaelstromMod.entity.util.EntityCrimsonTowerSpawner;
+import com.barribob.MaelstromMod.items.ItemBlockvoid;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
@@ -48,6 +54,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
@@ -82,6 +93,9 @@ public class ModBlocks
     public static final Block DARK_NEXUS_PORTAL = new BlockDarkNexusPortal("dark_nexus_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block AZURE_PORTAL = new BlockAzurePortal("azure_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CLIFF_PORTAL = new BlockCliffPortal("cliff_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRIMSON_PORTAL = new BlockCrimsonPortal("crimson_portal").setCreativeTab(ModCreativeTabs.BLOCKS);
+
+    public static final Block BLACK_SKY = new BlockBase("black_sky", Material.AIR).setBlockUnbreakable();
 
     /**
      * Stone and ore
@@ -172,40 +186,54 @@ public class ModBlocks
     public static final Block SWAMP_BRICK = new BlockBase("swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRACKED_SWAMP_BRICK = new BlockBase("cracked_swamp_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
 
+    public static final Block CRIMSON_MAELSTROM_BRICKS = new BlockBase("crimson_maelstrom_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRIMSON_MAELSTROM_BRICK_FENCE = new BlockFenceBase("crimson_maelstrom_brick_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRIMSON_MAELSTROM_BRICK_STAIRS =
+	    new BlockStairsBase("crimson_maelstrom_brick_stairs", CRIMSON_MAELSTROM_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRIMSON_LAMP = new BlockLamp("crimson_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false)
+    {
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer()
+	{
+	    return BlockRenderLayer.CUTOUT;
+	}
+    }.setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CHAIN = new BlockChain("chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.425D, 0.0D, 0.425D, 0.575D, 1.0D, 0.575D)).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block MULTI_CHAIN = new BlockChain("multi_chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D)).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block LARGE_CHAIN = new BlockChain("large_chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.30D, 0.0D, 0.3D, 0.7D, 1.0D, 0.7D)).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block METAL_LAMP = new BlockLamp("metal_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false).setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block FURNACE_BRICKS = new BlockBase("furnace_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block FURNACE_STAIRS = new BlockStairsBase("furnace_stairs", FURNACE_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRACKED_FURNACE_BRICKS = new BlockBase("cracked_furnace_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block FURNACE_BRICKS_LIT = new BlockLamp("furnace_bricks_lit", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false).setLightLevel(1.0f);
+
     /*
      * Key blocks and nexus stuff
      */
 
     public static final Block CRACKED_QUARTZ = new BlockBase("cracked_quartz", Material.ROCK, 0.8f, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block AZURE_KEY_BLOCK = new BlockAzureKey("azure_key_block", ModItems.AZURE_KEY).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockAzureKey("azure_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block BROWN_KEY_BLOCK = new BlockBrownKey("brown_key_block", ModItems.BROWN_KEY).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block RED_DUNGEON_KEY_BLOCK = new BlockAzureKey("red_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block ICE_KEY_BLOCK = new BlockAzureKey("ice_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockAzureKey("ice_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockAzureKey("black_dungeon_key_block", null).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block AZURE_KEY_BLOCK = new BlockKey("azure_key_block", ModItems.AZURE_KEY, (world, pos) -> new EntityAzurePortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
+    public static final Block MAELSTROM_DUNGEON_KEY_BLOCK = new BlockKey("azure_dungeon_key_block");
+    public static final Block BROWN_KEY_BLOCK = new BlockKey("brown_key_block", ModItems.BROWN_KEY, (world, pos) -> new EntityCliffPortalSpawn(world, pos.getX(), pos.getY(), pos.getZ()));
+    public static final Block RED_DUNGEON_KEY_BLOCK = new BlockKey("red_dungeon_key_block", ModItems.RED_KEY, (world, pos) -> new EntityCrimsonTowerSpawner(world, pos.getX(), pos.getY(), pos.getZ()));
+    public static final Block ICE_KEY_BLOCK = new BlockKey("ice_key_block");
+    public static final Block ICE_DUNGEON_KEY_BLOCK = new BlockKey("ice_dungeon_key_block");
+    public static final Block BLACK_DUNGEON_KEY_BLOCK = new BlockKey("black_dungeon_key_block");
 
     /*
      * Crimson dimension
      */
 
     public static final Block FURNACE_PILLAR = new BlockPillarBase("furnace_pillar", Material.ROCK).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block REDSTONE_BRICK = new BlockBase("redstone_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE)
-    {
-	@Override
-	public boolean canProvidePower(net.minecraft.block.state.IBlockState state)
-	{
-	    return true;
-	};
-
-	@Override
-	public int getWeakPower(net.minecraft.block.state.IBlockState blockState, net.minecraft.world.IBlockAccess blockAccess, net.minecraft.util.math.BlockPos pos,
-		net.minecraft.util.EnumFacing side)
-	{
-	    return 15;
-	};
-    }.setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block REDSTONE_BRICK = new BlockRedstoneBrick("redstone_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRACKED_REDSTONE_BRICK = new BlockRedstoneBrick("cracked_redstone_brick", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block IRON_GRATE = new BlockGrate("iron_grate", Material.IRON).setHardness(BRICK_HARDNESS).setResistance(STONE_RESISTANCE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block FAN = new BlockFan("fan", Material.IRON, STONE_HARDNESS, STONE_RESISTANCE, SoundType.METAL);
 
+    // There are technically not blocks, but are in here because they depend on two of the block defined above
+    public static final Item STONEBRICK_BLOCKVOID = new ItemBlockvoid("stonebrick_blockvoid", Blocks.STONEBRICK, 30);
+    public static final Item OBSIDIAN_BLOCKVOID = new ItemBlockvoid("obsidian_blockvoid", Blocks.OBSIDIAN, 1000);
+    public static final Item FURNACE_BRICKS_BLOCKVOID = new ItemBlockvoid("furnace_bricks_blockvoid", ModBlocks.FURNACE_BRICKS, 30);
+    public static final Item REDSTONE_BRICK_BLOCKVOID = new ItemBlockvoid("redstone_brick_blockvoid", ModBlocks.REDSTONE_BRICK, 30);
 }

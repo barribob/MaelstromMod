@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.world.biome.BiomeAzure;
 import com.barribob.MaelstromMod.world.biome.BiomeCliffPlateau;
 import com.barribob.MaelstromMod.world.biome.BiomeCliffSwamp;
+import com.barribob.MaelstromMod.world.biome.BiomeCrimsonKingdom;
 import com.barribob.MaelstromMod.world.biome.BiomeNexus;
 
 import net.minecraft.world.biome.Biome;
@@ -29,6 +30,7 @@ public class BiomeInit
     public static final Biome NEXUS = null;
     public static final Biome HIGH_CLIFF = null;
     public static final Biome CLIFF_SWAMP = null;
+    public static final Biome CRIMSON_KINGDOM = null;
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
     public static class RegistrationHandler
@@ -44,6 +46,7 @@ public class BiomeInit
 	    initBiome(registry, new BiomeNexus(), "nexus", BiomeType.WARM, Type.PLAINS);
 	    initBiome(registry, new BiomeCliffPlateau(), "high_cliff", BiomeType.WARM, Type.PLAINS);
 	    initBiome(registry, new BiomeCliffSwamp(), "cliff_swamp", BiomeType.WARM, Type.SWAMP);
+	    initBiome(registry, new BiomeCrimsonKingdom(), "crimson_kingdom", BiomeType.WARM, Type.PLAINS);
 	}
     }
 

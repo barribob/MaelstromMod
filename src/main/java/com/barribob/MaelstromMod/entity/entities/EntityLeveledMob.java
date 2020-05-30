@@ -1,9 +1,12 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import java.util.PriorityQueue;
+
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.IAnimatedMob;
 import com.barribob.MaelstromMod.util.IElement;
@@ -26,11 +29,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 
- * A base class for mob to scale nicely with the leveling system. Also
- * streamlines some of the attribute setting, namely attack and max health
+ * A base class for the mod's mobs. It includes a hodgepodge of attributes and abilities. One is to scale nicely with the leveling system.
  *
  */
-public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob, IElement
+public abstract class EntityLeveledMob extends EntityCreature implements IAnimatedMob, IElement, LeapingEntity
 {
     protected static final DataParameter<Float> LEVEL = EntityDataManager.<Float>createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private float regenStartTimer;
@@ -43,6 +45,8 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     protected static final DataParameter<Boolean> IMMOVABLE = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
     private Vec3d initialPosition = null;
     protected double healthScaledAttackFactor = 0.0; // Factor that determines how much attack is affected by health
+    private PriorityQueue<TimedEvent> events = new PriorityQueue<TimedEvent>();
+    private boolean leaping = false;
 
     public EntityLeveledMob(World worldIn)
     {
@@ -87,23 +91,48 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     {
 	super.onLivingUpdate();
 
+	if (!isDead && this.getHealth() > 0)
+	{
+	    boolean foundEvent = true;
+	    while (foundEvent)
+	    {
+		TimedEvent event = events.peek();
+		if (event != null && event.ticks <= this.ticksExisted)
+		{
+		    events.remove();
+		    event.callback.run();
+		}
+		else
+		{
+		    foundEvent = false;
+		}
+	    }
+	}
+
 	if (world.isRemote && currentAnimation != null && this.getHealth() > 0)
 	{
 	    currentAnimation.update();
 	}
 
-	if (!world.isRemote && this.getAttackTarget() == null)
+	if (!world.isRemote)
 	{
-	    if (this.regenStartTimer > this.regenStartTime)
+	    if (this.getAttackTarget() == null)
 	    {
-		if (this.ticksExisted % 20 == 0)
+		if (this.regenStartTimer > this.regenStartTime)
 		{
-		    this.heal(this.getMaxHealth() * 0.015f);
+		    if (this.ticksExisted % 20 == 0)
+		    {
+			this.heal(this.getMaxHealth() * 0.015f);
+		    }
+		}
+		else
+		{
+		    this.regenStartTimer++;
 		}
 	    }
 	    else
 	    {
-		this.regenStartTimer++;
+		this.regenStartTimer = 0;
 	    }
 	}
 
@@ -206,21 +235,24 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 	{
 	    this.setLevel(compound.getFloat("level"));
 	}
-	if (compound.hasKey("isImmovable"))
-	{
-	    this.dataManager.set(IMMOVABLE, compound.getBoolean("isImmovable"));
-	}
-	if (compound.hasKey("initialX"))
-	{
-	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
-	}
-	if (compound.hasKey("element"))
-	{
+	if (compound.hasKey("element")) {
 	    this.setElement(Element.getElementFromId(compound.getInteger("element")));
 	}
 	world.setEntityState(this, animationByte);
 
 	super.readFromNBT(compound);
+
+	if (compound.hasKey("isImmovable"))
+	{
+	    this.setImmovable(compound.getBoolean("isImmovable"));
+	}
+
+	// This is required because the position gets set at 0 0 0 from super.readFromNBT, which causes problems
+	this.initialPosition = null;
+	if (compound.hasKey("initialX"))
+	{
+	    this.initialPosition = new Vec3d(compound.getDouble("initialX"), compound.getDouble("initialY"), compound.getDouble("initialZ"));
+	}
     }
 
     /**
@@ -260,6 +292,57 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     }
 
     public void doRender(RenderManager renderManager, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+    }
+
+    /**
+     * Adds an event to be executed at a later time. Negative ticks are executed immediately.
+     * 
+     * @param runnable
+     * @param ticksFromNow
+     */
+    protected void addEvent(Runnable runnable, int ticksFromNow)
+    {
+	events.add(new TimedEvent(runnable, this.ticksExisted + ticksFromNow));
+    }
+
+    private static class TimedEvent implements Comparable<TimedEvent>
+    {
+	Runnable callback;
+	int ticks;
+
+	public TimedEvent(Runnable callback, int ticks)
+	{
+	    this.callback = callback;
+	    this.ticks = ticks;
+	}
+
+	@Override
+	public int compareTo(TimedEvent event)
+	{
+	    return event.ticks < ticks ? 1 : -1;
+	}
+    }
+
+    @Override
+    public boolean isLeaping()
+    {
+	return leaping;
+    }
+
+    @Override
+    public void setLeaping(boolean leaping)
+    {
+	this.leaping = leaping;
+    }
+
+    protected Vec3d getInitialPosition()
+    {
+	return initialPosition;
+    }
+
+    @Override
+    public void onStopLeaping()
     {
     }
 }

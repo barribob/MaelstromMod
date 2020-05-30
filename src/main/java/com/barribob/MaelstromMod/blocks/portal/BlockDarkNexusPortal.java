@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.teleporter.ToDarkNexusTeleporter;
 import com.barribob.MaelstromMod.util.teleporter.ToNexusTeleporter;
+import com.barribob.MaelstromMod.util.teleporter.ToStructuralDimensionTeleporter;
+import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -26,7 +27,7 @@ public class BlockDarkNexusPortal extends BlockPortal
     @Override
     protected Teleporter getEntranceTeleporter(World world)
     {
-	return new ToDarkNexusTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.dark_nexus_dimension_id), new BlockPos(24, 64, 24));
+	return new ToStructuralDimensionTeleporter(world.getMinecraftServer().getWorld(ModConfig.world.dark_nexus_dimension_id), new BlockPos(30, 74, 30), WorldGenCustomStructures.DARK_NEXUS);
     }
     
     @Override

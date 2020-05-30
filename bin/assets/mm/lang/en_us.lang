@@ -5,7 +5,7 @@ item.iron_pellet.name=Iron Pellet
 item.azure_maelstrom_core_crystal.name=Azure Maelstrom Core
 item.maelstrom_core.name=Maelstrom Core
 item.azure_key.name=Fracture Dimensional Key
-item.beast_key.name=Purple Dimensional Key
+item.maelstrom_key.name=Key of the Abandoned
 item.invisible.name=Invisible
 item.brown_key.name=Golden Canyon Dimensional Key
 item.red_key.name=Crimson Dimensional Key
@@ -20,6 +20,18 @@ item.minotaur_horn.name=Maelstrom Minotaur Horn
 item.ammo_case.name=Ammo Case
 item.chasmium_ammo_case.name=Chasmium Ammo Case
 item.black_gold_ammo_case.name=Golden Ammo Case
+item.energetic_steel_pickaxe.name=Energetic Steel Pickaxe
+item.stonebrick_blockvoid.name=Stonebrick Blockvoid
+item.obsidian_blockvoid.name=Obsidian Blockvoid
+item.furnace_bricks_blockvoid.name=Furnace Bricks Blockvoid
+item.redstone_brick_blockvoid.name=Redstone Bricks Blockvoid
+item.elysium_wings.name=Elysium Wings
+item.music_disc_new_world.name=Music Disc
+item.music_disc_wandering.name=Music Disc
+item.crimson_ammo_case.name=Crimson Ammo Case
+item.crimson_maelstrom_core.name=Crimson Maelstrom Core
+item.crimson_maelstrom_fragment.name=Crimson Maelstrom Fragment
+item.maelstrom_key_fragments.name=Maelstrom Key Fragments
 
 //———————————————————————————————————————————————————————————
 // Food
@@ -50,6 +62,14 @@ item.brownstone_cannon.name=Brownstone Cannon
 item.golden_fireball_staff.name=Golden Inferno Staff
 item.cross_of_aqua.name=Poseidon's Cross
 item.golden_quake_staff.name=Golden Seismic Staff
+item.crimson_rune_staff.name=Crimson Rune Staff
+item.energized_pistol.name=Energized Pistol
+item.energized_repeater.name=Energized Repeater
+item.energized_shotgun.name=Energized Shotgun
+item.energized_piercer.name=Energized Piercer
+item.energized_musket.name=Energized Musket
+item.energized_caduceus.name=Energized Caduceus
+item.tuning_fork.name=Tuning Fork of Doom
 
 //———————————————————————————————————————————————————————————
 // Weapons
@@ -73,6 +93,11 @@ item.ancient_battleaxe.name=Ancient Battleaxe
 item.magisteel_sword.name=Magisteel Sword
 item.gold_stone_longsword.name=Emperor's Sword
 item.chasmium_sword.name=Chasmium Sword
+item.energetic_steel_sword.name=Energetic Steel Sword
+item.energetic_steel_cleaver.name=Energetic Steel Cleaver
+item.fadesteel_sword.name=Fadesteel Sword
+item.black_march.name=Black March
+item.homuramaru.name=Blade One, Homuramaru
 
 //———————————————————————————————————————————————————————————
 // Armor
@@ -111,6 +136,18 @@ item.goltox_helmet.name=Goltox Helmet
 item.goltox_chestplate.name=Goltox Chestplate
 item.goltox_leggings.name=Goltox Leggings
 item.goltox_boots.name=Goltox Boots
+item.energetic_steel_helmet.name=Energetic Steel Helmet
+item.energetic_steel_chestplate.name=Energetic Steel Chestplate
+item.energetic_steel_leggings.name=Energetic Steel Leggings
+item.energetic_steel_boots.name=Energetic Steel Boots
+item.fadesteel_helmet.name=Fadesteel Helmet
+item.fadesteel_chestplate.name=Fadesteel Chestplate
+item.fadesteel_leggings.name=Fadesteel Leggings
+item.fadesteel_boots.name=Fadesteel Boots
+item.elysium_helmet.name=Elysium Helmet
+item.elysium_chestplate.name=Elysium Chestplate
+item.elysium_leggings.name=Elysium Leggings
+item.elysium_boots.name=Elysium Boots
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
@@ -135,9 +172,6 @@ tile.azure_stone_2.name=Marine Rock
 tile.azure_stone_3.name=Blue Granite
 tile.azure_stone_4.name=Azure Cobblestone
 tile.azure_stone_5.name=Blue Glowstone
-tile.furnace_pillar.name=Furnace Pillar
-tile.redstone_brick.name=Redstone Bricks
-tile.iron_grate.name=Iron Grate
 
 //———————————————————————————————————————————————————————————
 // Plants
@@ -171,6 +205,8 @@ tile.azure_maelstrom_core.name=Fracture Maelstrom Core
 tile.maelstrom_bricks.name=Maelstrom Bricks
 tile.maelstrom_brick_fence.name=Maelstrom Brick Fence
 tile.maelstrom_brick_stairs.name=Maelstrom Brick Stairs
+tile.maelstrom_core_block.name=Maelstrom Core
+tile.cliff_maelstrom_core.name=Golden Maelstrom Core
 
 //———————————————————————————————————————————————————————————
 // Ore
@@ -216,7 +252,7 @@ tile.red_dungeon_key_block.name=Red Key Block
 tile.ice_key_block.name=Blue Key Block
 tile.ice_dungeon_key_block.name=Blue Dungeon Key Block
 tile.black_dungeon_key_block.name=Black Dungeon Key Block
-tile.nexus_herobrine_spawner.name=Mysterous Block
+tile.nexus_herobrine_spawner.name=Sinister Maelstrom
 tile.nexus_portal.name=Nexus Portal
 tile.dark_nexus_portal.name=Dark Nexus Portal
 
@@ -225,6 +261,8 @@ tile.dark_nexus_portal.name=Dark Nexus Portal
 //———————————————————————————————————————————————————————————
 tile.mega_structure_block.name=Mega Structure Block
 tile.disappearing_spawner.name=Disappearing Spawner
+tile.black_sky.name=Black Air
+tile.lighting_updater.name=Temporary Lighting Updater
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
@@ -249,6 +287,28 @@ tile.cracked_swamp_brick.name=Cracked Swamp Brick
 tile.cliff_portal.name=Golden Valley Portal
 tile.swamp_plank_stairs.name=Swamp Plank Stairs
 tile.swamp_fence.name=Swamp Plank Fence
+
+//———————————————————————————————————————————————————————————
+// Crimson Blocks
+//———————————————————————————————————————————————————————————
+tile.crimson_portal.name=Crimson Portal
+tile.crimson_maelstrom_bricks.name=Crimson Maelstrom Bricks
+tile.crimson_maelstrom_brick_fence.name=Crimson Maelstrom Brick Fence
+tile.crimson_maelstrom_brick_stairs.name=Crimson Maelstrom Brick Stairs
+tile.crimson_lamp.name=Crimson Lamp
+tile.chain.name=Chain
+tile.multi_chain.name=Chains
+tile.large_chain.name=Large Chain
+tile.metal_lamp.name=Industrial Lamp
+tile.furnace_stairs.name=Darkened Stonebrick Stairs
+tile.furnace_pillar.name=Darkened Stonebrick Pillar
+tile.redstone_brick.name=Redstone Bricks
+tile.iron_grate.name=Iron Grate
+tile.furnace_bricks.name=Darkened Stonebrick
+tile.furnace_bricks_lit.name=Darkened Stonebrick
+tile.cracked_furnace_bricks.name=Cracked Darkened Stonebrick
+tile.cracked_redstone_brick.name=Cracked Redstone Bricks
+
 //———————————————————————————————————————————————————————————
 // Entities
 //———————————————————————————————————————————————————————————
@@ -278,6 +338,9 @@ entity.iron_shade.name=Maelstrom Executioner
 entity.maelstrom_beast.name=Maelstrom Minotaur
 entity.cliff_fly.name=Swamp Fly
 entity.white_monolith.name=White Monolith
+entity.chaos_knight.name=Maelstrom Champion
+entity.maelstrom_healer.name=Maelstrom Healer
+entity.maelstrom_gauntlet.name=Maelstrom Gauntlet
 
 //———————————————————————————————————————————————————————————
 // Projectiles
@@ -333,6 +396,7 @@ death.attack.mm:arrowMaelstrom=%1$s was shot to death by a maelstrom mob
 death.attack.mm:thrownMaelstrom=%1$s was pummeled to death by a maelstrom mob
 death.attack.mm:explosionMaelstrom=%1$s was blown up by the maelstrom
 death.attack.mm:explosionMaelstrom.player=%1$s was blown up by the maelstrom while fighting %2$s
+death.attack.mm:magicMaelstrom=%1$s was magicked by a maelstrom mob
 
 //———————————————————————————————————————————————————————————
 // Item Attributes
@@ -405,6 +469,7 @@ multiplayer.entering=Now Entering:
 multiplayer.azure_dimension=The Fracture
 multiplayer.nexus_dimension=The Nexus
 multiplayer.cliff_dimension=The Golden Canyon
+multiplayer.crimson_dimension=The Crimson Kingdom
 
 //———————————————————————————————————————————————————————————
 // Creative Tabs
@@ -419,6 +484,7 @@ herobrine_trading=Herobrine's Epic Crafts
 mana_locked=You haven't unlocked mana yet!
 mm.invasion_1=Something is trying to enter this world
 mm.invasion_2=Something has entered this world
+herobrines_cookies=Herobrine's Cookies PLZ DONT TAKE
 
 //———————————————————————————————————————————————————————————
 // Config
@@ -430,6 +496,7 @@ mm.config.cliff_dimension_id=Cliff Dimension Id
 mm.config.dark_nexus_dimension_id=Dark Nexus Dimension Id
 mm.config.invasion_time=Invasion Time
 mm.config.render_cliff_fog=Render Cliff Fog
+mm.config.invasion_warning_time=Invasion Warning Time
 
 mm.config.gui=Gui
 mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
@@ -455,6 +522,10 @@ mm.config.display_mob_level=Display Mob Level
 
 mm.config.server=Server
 mm.config.sync_config_on_login=Sync Config On Login
+
+mm.config.shaders=Shader Compatability
+mm.config.render_custom_sky=Render Custom Skies
+
 
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions
@@ -502,7 +573,19 @@ mm.desc.maelstrom_full_set=Full set: Resistance
 mm.desc.goltox_full_set=Full set: Poison Reduction
 mm.desc.swamp_full_set=Full set: Strength
 mm.desc.nyan_full_set=Full set: Rainbows when sprinting
+mm.desc.energetic_steel_full_set=Full set: Jump Boost and Speed
+mm.desc.fadesteel_full_set=Full set: Partial Knockback Resistance
+mm.desc.elysium_full_set=Full set: Random Strong Regeneration
 mm.desc.nexus_only_portal=In survival mode, accessed only in the Nexus dimension
+mm.desc.blockvoid=Can hold, place, and mine %s
+mm.desc.rune_staff=Shoots short range magic
+mm.desc.energized_caduceus=Grants extreme regeneration and absorption
+mm.desc.tuning_fork=Shoots a medium range beam
+mm.desc.elysium_wings=An Elytra forged in an unbreaking metal.
+item.record.music_disc_new_world.desc=Barribob - New World
+item.record.music_disc_wandering.desc=Barribob - Wandering
+mm.desc.maelstrom_key=Congrats! You have reached the ending. See the mod page for more details.
+mm.desc.key_desc=Give to herobrine to craft
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog
@@ -528,9 +611,12 @@ mm.dialog.herobrine_cliff_2=Not bad. Now go get some more fragments for me.
 mm.dialog.herobrine_crimson_0=Do you have fragments for the next key? If not, then GTFO.
 mm.dialog.herobrine_crimson_1=How about you go left click some maelstrom instead?
 
-mm.dialog.herobrine_crimson_dimension_0=I have been informed by the mod creator that this is the current end of the mod.
-mm.dialog.herobrine_crimson_dimension_1=I have to sit here until an update happens. Lame.
-mm.dialog.herobrine_crimson_dimension_2=Guess you're too stupid to see that I'm ignoring you.
+mm.dialog.herobrine_crimson_dimension_0=Try taking on this dimension. I'm sure it won't be that bad.
+mm.dialog.herobrine_crimson_dimension_1=Guess you're too stupid to see that I'm ignoring you.
+
+mm.dialog.herobrine_leaving_0=Fantastic. You've proved very handy, but
+mm.dialog.herobrine_leaving_1=I'll be doing the rest. I can't let you have all the fun.
+mm.dialog.herobrine_leaving_2=Herobrine out!
 
 mm.dialog.illager_1=What a fine being we have here! I must investigate!
 mm.dialog.illager_2=Come join our empire as a maelstrom zombie!

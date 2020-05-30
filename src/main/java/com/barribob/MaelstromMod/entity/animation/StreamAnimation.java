@@ -1,6 +1,8 @@
 package com.barribob.MaelstromMod.entity.animation;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.model.ModelBase;
 
@@ -12,9 +14,10 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
 {
     // First dimension represents the animation stream, and the second represents
     // the order of the animations
+    private static final Map<String, List<List<AnimationClip>>> animationsCache = new HashMap<String, List<List<AnimationClip>>>();
     private final List<List<AnimationClip<T>>> animations;
     private int[] activeAnimations;
-    private boolean loop = false;;
+    private boolean loop = false;
 
     public StreamAnimation<T> loop(boolean loop)
     {
@@ -30,6 +33,11 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
 	{
 	    activeAnimations[stream] = animations.get(stream).size() - 1;
 	}
+    }
+
+    public static void initStaticAnimations(String csv)
+    {
+
     }
 
     @Override
@@ -80,6 +88,24 @@ public class StreamAnimation<T extends ModelBase> implements Animation<T>
 	    {
 		animations.get(stream).get(activeAnimations[stream]).setModelRotations(model, limbSwing, limbSwingAmount, partialTicks);
 	    }
+	}
+    }
+
+    public static class AnimationData
+    {
+	public String[] movers;
+	public List<int[]> animations;
+	public int numStreams;
+
+	public AnimationData()
+	{
+	}
+
+	public AnimationData(String[] movers, List<int[]> animations, int numStreams)
+	{
+	    this.movers = movers;
+	    this.animations = animations;
+	    this.numStreams = numStreams;
 	}
     }
 }

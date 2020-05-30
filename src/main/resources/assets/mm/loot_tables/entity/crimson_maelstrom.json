@@ -1,0 +1,22 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "name":"crimson_maelstrom",
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "mm:crimson_maelstrom_fragment",
+                    "conditions": [
+                        {
+                            "condition": "random_chance_with_looting",
+                            "chance": 0.5,
+                            "looting_multiplier": 0.1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

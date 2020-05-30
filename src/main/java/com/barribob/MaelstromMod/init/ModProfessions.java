@@ -23,13 +23,11 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfessio
 
 /**
  * 
- * Based on Jabelar's villager profession tutorial
- * https://jabelarminecraft.blogspot.com/p/minecraft-forge-modding-villagers.html
+ * Based on Jabelar's villager profession tutorial https://jabelarminecraft.blogspot.com/p/minecraft-forge-modding-villagers.html
  *
  */
 @ObjectHolder(Reference.MOD_ID)
-public class ModProfessions
-{
+public class ModProfessions {
     private static VillagerProfession AZURE_VILLAGER = null;
     private static VillagerProfession NEXUS_VILLAGER = null;
 
@@ -42,9 +40,9 @@ public class ModProfessions
     public static VillagerCareer HEROBRINE_ENDER_PEARLS;
     public static VillagerCareer HEROBRINE_CLIFF_KEY;
     public static VillagerCareer HEROBRINE_CRIMSON_KEY;
+    public static VillagerCareer HEROBRINE_MAELSTROM_KEY;
 
-    public static void associateCareersAndTrades()
-    {
+    public static void associateCareersAndTrades() {
 	AZURE_VILLAGER = new VillagerProfession(Reference.MOD_ID + ":azure_villager", Reference.MOD_ID + ":textures/entity/azure_villager.png",
 		"minecraft:textures/entity/zombie_villager/zombie_farmer.png");
 
@@ -57,7 +55,7 @@ public class ModProfessions
 	NEXUS_ARMORER = new VillagerCareer(NEXUS_VILLAGER, "nexus_armorer");
 	NEXUS_SPECIAL_TRADER = new VillagerCareer(NEXUS_VILLAGER, "nexus_saiyan");
 	NEXUS_BLADESMITH = new VillagerCareer(NEXUS_VILLAGER, "nexus_bladesmith");
-	
+
 	ItemStack sharpness3Book = new ItemStack(Items.ENCHANTED_BOOK);
 	ItemStack sharpness5Book = new ItemStack(Items.ENCHANTED_BOOK);
 	ItemEnchantedBook.addEnchantment(sharpness3Book, new EnchantmentData(Enchantments.SHARPNESS, 3));
@@ -110,6 +108,7 @@ public class ModProfessions
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 5, Item.getItemFromBlock(Blocks.OBSIDIAN), 16, ModItems.ELUCIDATOR, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 4, Item.getItemFromBlock(Blocks.PUMPKIN), 16, ModItems.PUMPKIN, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_CORE, 6, null, 0, ModItems.DRAGON_SLAYER, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 5, null, 0, ModItems.NEW_WORLD_RECORD, 1));
 
 	/**
 	 * Level 3 (Cliff Overworld)
@@ -125,15 +124,15 @@ public class ModProfessions
 	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.FLY_WINGS, 32, null, 0, Items.ELYTRA, 1));
 
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, null, 0, ModItems.GOLDEN_QUAKE_STAFF, 1));
+
 	/**
-	 * Level 3 (Cliff Endgame)
+	 * Level 4 (Cliff Endgame)
 	 */
 
-	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 3, ModItems.BLACK_GOLD_AMMO_CASE, 3));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 1, null, 0, ModItems.BLACK_GOLD_AMMO_CASE, 1));
 
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, ModItems.AZURE_MAELSTROM_CORE_CRYSTAL, 2, ModItems.CROSS_OF_AQUA, 1));
 	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_STAFF, 1));
-
 
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 5, ModItems.BAKUYA, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 5, ModItems.KANSHOU, 1));
@@ -141,8 +140,41 @@ public class ModProfessions
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, ModItems.MAELSTROM_CORE, 6, ModItems.NYAN_CHESTPLATE, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 6, ModItems.NYAN_LEGGINGS, 1));
 	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 4, ModItems.NYAN_BOOTS, 1));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 5, null, 0, ModItems.WANDERING_RECORD, 1));
 
 	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.GOLDEN_MAELSTROM_CORE, 6, Items.GUNPOWDER, 64, ModItems.EXPLOSIVE_DAGGER, 1));
+
+	/**
+	 * Level 5 (Crimson Start)
+	 */
+
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, null, 0, ModItems.CRIMSON_AMMO_CASE, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_PISTOL, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_SHOTGUN, 1));
+	NEXUS_GUNSMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 2, ModItems.MAELSTROM_CORE, 3, ModItems.ENERGIZED_REPEATER, 1));
+
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 3, ModItems.MAELSTROM_CORE, 3, ModItems.CRIMSON_RUNE_STAFF, 1));
+	NEXUS_MAGE.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 3, ModBlocks.STONEBRICK_BLOCKVOID, 1));
+
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 4, ModItems.FADESTEEL_SWORD, 1));
+	NEXUS_BLADESMITH.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 3, ModItems.MAELSTROM_CORE, 5, ModItems.ENERGETIC_STEEL_CLEAVER, 1));
+
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 5, ModItems.FADESTEEL_HELMET, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 8, ModItems.FADESTEEL_CHESTPLATE, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 7, ModItems.FADESTEEL_LEGGINGS, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 1, ModItems.MAELSTROM_CORE, 4, ModItems.FADESTEEL_BOOTS, 1));
+
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 4, ModItems.MAELSTROM_CORE, 5, ModItems.ELYSIUM_HELMET, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 7, ModItems.MAELSTROM_CORE, 8, ModItems.ELYSIUM_CHESTPLATE, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 6, ModItems.MAELSTROM_CORE, 7, ModItems.ELYSIUM_LEGGINGS, 1));
+	NEXUS_ARMORER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 3, ModItems.MAELSTROM_CORE, 4, ModItems.ELYSIUM_BOOTS, 1));
+
+	ItemStack homuramaru = new ItemStack(ModItems.HOMURAMARU, 1);
+	homuramaru.addEnchantment(Enchantments.FIRE_ASPECT, 3);
+
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(new ItemStack(ModItems.CRIMSON_MAELSTROM_CORE, 1), new ItemStack(ModItems.MAELSTROM_CORE, 6), homuramaru));
+	NEXUS_SPECIAL_TRADER.addTrade(1, new GeneralTrade(ModItems.CRIMSON_MAELSTROM_CORE, 5, ModItems.MAELSTROM_CORE, 8, ModItems.BLACK_MARCH, 1));
+
 
 	NEXUS_BLADESMITH.addTrade(1, new NexusTrades.MoreComing());
 	NEXUS_SPECIAL_TRADER.addTrade(1, new NexusTrades.MoreComing());
@@ -158,70 +190,65 @@ public class ModProfessions
 
 	HEROBRINE_CRIMSON_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_crimson");
 	HEROBRINE_CRIMSON_KEY.addTrade(1, new GeneralTrade(ModItems.RED_KEY_FRAGMENT, 1, null, 0, ModItems.RED_KEY, 1));
+
+	HEROBRINE_MAELSTROM_KEY = new VillagerCareer(NEXUS_VILLAGER, "herobrine_maelstrom");
+	HEROBRINE_MAELSTROM_KEY.addTrade(1, new GeneralTrade(ModItems.MAELSTROM_KEY_FRAGMENT, 1, null, 0, ModItems.MAELSTROM_KEY, 1));
     }
 
-    public static class GeneralTrade implements ITradeList
-    {
+    public static class GeneralTrade implements ITradeList {
 	private final ItemStack base;
 	private final ItemStack cost;
 	private final ItemStack reward;
 
-	public GeneralTrade(Item cost, int amount, Item cost2, int amount2, Item reward, int amount3)
-	{
+	public GeneralTrade(Item cost, int amount, Item cost2, int amount2, Item reward, int amount3) {
 	    base = new ItemStack(cost, amount);
-	    if (cost2 != null)
-	    {
+	    if (cost2 != null) {
 		this.cost = new ItemStack(cost2, amount2);
 	    }
-	    else
-	    {
+	    else {
 		this.cost = null;
 	    }
 	    this.reward = new ItemStack(reward, amount3);
 	}
 
+	public GeneralTrade(ItemStack stack1, ItemStack stack2, ItemStack stack3) {
+	    base = stack1;
+	    this.cost = stack2;
+	    this.reward = stack3;
+	}
+
 	@Override
-	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
-	{
-	    if (cost != null)
-	    {
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+	    if (cost != null) {
 		recipeList.add(new MerchantRecipe(base, cost, reward));
 	    }
-	    else
-	    {
+	    else {
 		recipeList.add(new MerchantRecipe(base, reward));
 	    }
 	}
     }
 
-    public static class StackTrade implements ITradeList
-    {
+    public static class StackTrade implements ITradeList {
 	private final ItemStack base;
 	private final ItemStack cost;
 	private final ItemStack reward;
 
-	public StackTrade(ItemStack base, ItemStack cost, ItemStack reward)
-	{
+	public StackTrade(ItemStack base, ItemStack cost, ItemStack reward) {
 	    this.base = base;
 	    this.cost = cost;
 	    this.reward = reward;
 	}
-	
-	public StackTrade(ItemStack base, ItemStack reward)
-	{
+
+	public StackTrade(ItemStack base, ItemStack reward) {
 	    this(base, null, reward);
 	}
 
-
 	@Override
-	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
-	{
-	    if (cost != null)
-	    {
+	public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+	    if (cost != null) {
 		recipeList.add(new MerchantRecipe(base, cost, reward));
 	    }
-	    else
-	    {
+	    else {
 		recipeList.add(new MerchantRecipe(base, reward));
 	    }
 	}

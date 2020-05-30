@@ -24,6 +24,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
+import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -64,9 +65,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     private EntityAIRangedAttack phase2AttackAI;
     private boolean phase2Attack = false;
     private ComboAttack attackHandler = new ComboAttack();
-
-    // For rendering purposes
-    private boolean blockedBlow;
 
     // Responsible for the boss bar
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
@@ -247,11 +245,6 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
 	this.tasks.addTask(4, phase1AttackAI);
     }
 
-    public boolean blockedBlow()
-    {
-	return this.blockedBlow;
-    }
-
     @Override
     protected SoundEvent getAmbientSound()
     {
@@ -287,10 +280,19 @@ public class EntityMaelstromIllager extends EntityMaelstromMob
     {
 	if (!this.isSwingingArms())
 	{
-	    amount = 0;
-	}
+	    if (!source.isProjectile())
+	    {
+		Entity entity = source.getImmediateSource();
 
-	this.blockedBlow = !this.isSwingingArms();
+		if (entity instanceof EntityLivingBase)
+		{
+		    this.blockUsingShield((EntityLivingBase) entity);
+		}
+	    }
+	    this.playSound(SoundsHandler.ENTITY_CHAOS_KNIGHT_BLOCK, 1.0f, 0.9f + ModRandom.getFloat(0.2f));
+
+	    return false;
+	}
 
 	float prevHealth = this.getHealth();
 	boolean flag = super.attackEntityFrom(source, amount);

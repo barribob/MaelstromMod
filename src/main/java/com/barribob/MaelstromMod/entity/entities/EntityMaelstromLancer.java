@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
+import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelMaelstromLancer;
-import com.barribob.MaelstromMod.entity.util.LeapingEntity;
+import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -26,10 +27,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityMaelstromLancer extends EntityMaelstromMob implements LeapingEntity
+public class EntityMaelstromLancer extends EntityMaelstromMob implements IAttack
 {
-    boolean leaping = false;
-
     public EntityMaelstromLancer(World worldIn)
     {
 	super(worldIn);
@@ -119,7 +118,8 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
     protected void initEntityAI()
     {
 	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.0f, 40, 10, 5f, 0.5f));
+	this.tasks.addTask(4, new EntityAITimedAttack<EntityMaelstromLancer>(this, 1.0f, 10, 5, 0.5f, 20.0f));
+	this.tasks.addTask(0, new AIJumpAtTarget(this, 0.4f, 0.5f));
     }
 
     @Override
@@ -139,16 +139,6 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
     {
 	return SoundsHandler.ENTITY_SHADE_DEATH;
     }
-
-    @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
-	super.setSwingingArms(swingingArms);
-	if (swingingArms)
-	{
-	    this.world.setEntityState(this, (byte) 4);
-	}
-    };
 
     @Override
     public void onEntityUpdate()
@@ -187,7 +177,7 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
     @Override
     public void onLivingUpdate()
     {
-	if (!world.isRemote && this.leaping)
+	if (!world.isRemote && this.isLeaping())
 	{
 	    Vec3d dir = this.getLookVec().scale(2.2);
 	    Vec3d pos = this.getPositionVector().add(ModUtils.yVec(0.8f)).add(dir);
@@ -197,34 +187,21 @@ public class EntityMaelstromLancer extends EntityMaelstromMob implements Leaping
     }
 
     @Override
+    public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards)
+    {
+	this.world.setEntityState(this, (byte) 4);
+
+	addEvent(() -> {
+	    ModUtils.leapTowards(this, target.getPositionVector(), 0.9f, 0.3f);
+	    this.setLeaping(true);
+	    this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, ModRandom.getFloat(0.1f) + 1.2f);
+	}, 10);
+
+	return 40;
+    }
+
+    @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
-    {
-	Vec3d dir = target.getPositionVector().subtract(getPositionVector()).normalize();
-	Vec3d leap = new Vec3d(dir.x, 0, dir.z).normalize().scale(0.9f).add(ModUtils.yVec(0.3f));
-	this.motionX += leap.x;
-	if (this.motionY < 0.1)
-	{
-	    this.motionY += leap.y;
-	}
-	this.motionZ += leap.z;
-	this.leaping = true;
-	this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, ModRandom.getFloat(0.1f) + 1.2f);
-    }
-
-    @Override
-    public boolean isLeaping()
-    {
-	return leaping;
-    }
-
-    @Override
-    public void setLeaping(boolean leaping)
-    {
-	this.leaping = leaping;
-    }
-
-    @Override
-    public void onStopLeaping()
     {
     }
 }

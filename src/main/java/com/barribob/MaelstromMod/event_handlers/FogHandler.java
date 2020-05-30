@@ -4,12 +4,14 @@ import java.lang.reflect.Method;
 
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.renderer.CliffCloudRenderer;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -23,6 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class FogHandler
 {
     public static float CLIFF_FOG_HEIGHT = 45.55f;
+    public static final int SWAMP_FOG_LAYERS = 8;
+    public static final int SWAMP_FOG_FADE_START = 5;
     private static final float CLOUD_FOG_HEIGHT = 239.25f;
 
     private static net.minecraftforge.client.IRenderHandler swampFogRenderer = new CliffCloudRenderer();
@@ -56,10 +60,16 @@ public class FogHandler
 	}
 	else if (event.getEntity().dimension == ModConfig.world.cliff_dimension_id)
 	{
-	    if (event.getEntity().posY < CLIFF_FOG_HEIGHT)
+	    double posY = event.getEntity().getPositionEyes((float) event.getRenderPartialTicks()).y;
+	    if (posY < CLIFF_FOG_HEIGHT + SWAMP_FOG_LAYERS + SWAMP_FOG_FADE_START)
 	    {
+		double maxFogThickness = 0.07f;
+		double minFogThickness = 0.005f;
+		double distanceFromMax = posY - CLIFF_FOG_HEIGHT;
+		double closenessToMax = distanceFromMax / (SWAMP_FOG_LAYERS + SWAMP_FOG_FADE_START);
+		double fogThickness = maxFogThickness * MathHelper.clamp(1 - closenessToMax, 0, 1);
 		GlStateManager.setFog(GlStateManager.FogMode.EXP);
-		GlStateManager.setFogDensity(0.07f);
+		GlStateManager.setFogDensity((float) Math.max(fogThickness, minFogThickness));
 	    }
 	    else
 	    {
@@ -98,9 +108,8 @@ public class FogHandler
 	{
 	    Vec3d originalColor = new Vec3d(event.getRed(), event.getGreen(), event.getBlue());
 	    Vec3d cloudColor = new Vec3d(0.5, 0.43, 0.5);
-	    Vec3d swampFogColor = new Vec3d(0.4, 0.35, 0.2);
 	    Vec3d color = interpolateFogColor(event.getEntity(), originalColor, cloudColor.scale(Math.sqrt(originalColor.lengthSquared() / cloudColor.lengthSquared())), CLOUD_FOG_HEIGHT, 2);
-	    Vec3d color2 = interpolateFogColor(event.getEntity(), swampFogColor.scale(Math.sqrt(color.lengthSquared() / swampFogColor.lengthSquared())), color, CLIFF_FOG_HEIGHT, 1);
+	    Vec3d color2 = interpolateFogColor(event.getEntity(), ModColors.SWAMP_FOG.scale(Math.sqrt(color.lengthSquared() / ModColors.SWAMP_FOG.lengthSquared())), color, CLIFF_FOG_HEIGHT, 1);
 	    event.setRed((float) color2.x);
 	    event.setGreen((float) color2.y);
 	    event.setBlue((float) color2.z);
@@ -118,7 +127,7 @@ public class FogHandler
     @SubscribeEvent()
     public static void onRenderWorldLastEvent(RenderWorldLastEvent event)
     {
-	if (ModConfig.world.render_fog)
+	if (ModConfig.shaders.render_fog)
 	{
 	    Minecraft mc = Minecraft.getMinecraft();
 	    if (mc.getRenderViewEntity().dimension == ModConfig.world.cliff_dimension_id)

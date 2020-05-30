@@ -7,8 +7,12 @@ import com.barribob.MaelstromMod.init.ModPotions;
 import com.barribob.MaelstromMod.mana.IMana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
+import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
@@ -109,6 +113,40 @@ public class ItemEventHandler
 		    player.ticksExisted % 40 == 0)
 	    {
 		player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 0));
+	    }
+
+	    if (!player.world.isRemote && player.ticksExisted % 40 == 0)
+	    {
+		if (helmet.equals(ModItems.ENERGETIC_STEEL_HELMET) && chestplate.equals(ModItems.ENERGETIC_STEEL_CHESTPLATE) && leggings.equals(ModItems.ENERGETIC_STEEL_LEGGINGS) && boots.equals(ModItems.ENERGETIC_STEEL_BOOTS))
+		{
+		    player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
+		    player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 60, 1));
+		}
+
+		if (helmet.equals(ModItems.FADESTEEL_HELMET) && chestplate.equals(ModItems.FADESTEEL_CHESTPLATE) && leggings.equals(ModItems.FADESTEEL_LEGGINGS) && boots.equals(ModItems.FADESTEEL_BOOTS))
+		{
+		    player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.357);
+		}
+		// Using 0.357 as a value unlikely to be chosen by modders, so I can expect to enable and disable this without conflicting
+		else if (player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getAttributeValue() == 0.357)
+		{
+		    player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
+		}
+
+		if (helmet.equals(ModItems.ELYSIUM_HELMET) && chestplate.equals(ModItems.ELYSIUM_CHESTPLATE) && leggings.equals(ModItems.ELYSIUM_LEGGINGS) && boots.equals(ModItems.ELYSIUM_BOOTS))
+		{
+		    // Every 2 seconds * 60 = approximately every 2 minutes
+		    if (player.getRNG().nextInt(60) == 0)
+		    {
+			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 140, 3));
+		    }
+		}
+	    }
+
+	    if (player.world.isRemote && chestplate.equals(ModItems.ELYSIUM_WINGS) && player.isElytraFlying()) {
+		double speed = Math.max(0.1, Math.min(1, new Vec3d(player.motionX, 0, player.motionZ).lengthVector() + player.motionY));
+		ParticleManager.spawnFirework(player.world, player.getPositionEyes(1).add(ModUtils.getRelativeOffset(player, new Vec3d(0, 0, -speed))), ModColors.RED);
+		ParticleManager.spawnFirework(player.world, player.getPositionEyes(1).add(ModUtils.getRelativeOffset(player, new Vec3d(0, 0, speed))), ModColors.RED);
 	    }
 	}
     }

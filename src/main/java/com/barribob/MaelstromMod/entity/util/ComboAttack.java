@@ -1,12 +1,15 @@
 package com.barribob.MaelstromMod.entity.util;
 
 import java.util.HashMap;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import com.barribob.MaelstromMod.entity.action.Action;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -48,6 +51,17 @@ public class ComboAttack
 	}
 	setAttack(b, action);
 	animations.put(b, anim);
+    }
+    
+    public void setAttack(byte b, BiConsumer<EntityLeveledMob, EntityLivingBase> action)
+    {
+	actions.put(b, new Action() {
+	    @Override
+	    public void performAction(EntityLeveledMob actor, EntityLivingBase target)
+	    {
+		action.accept(actor, target);
+	    }
+	});
     }
 
     public void setAttack(byte b, Action action)

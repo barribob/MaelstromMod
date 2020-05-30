@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import org.lwjgl.opengl.GL11;
 
 import com.barribob.MaelstromMod.event_handlers.FogHandler;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.Reference;
 
 import net.minecraft.client.Minecraft;
@@ -56,6 +57,24 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
     @Override
     public void render(float partialTicks, WorldClient world, Minecraft mc)
     {
+	Entity entity = mc.getRenderViewEntity();
+	GlStateManager.alphaFunc(GL11.GL_GREATER, 0.0f);
+
+	for (int i = 0; i < FogHandler.SWAMP_FOG_LAYERS; i++) {
+	    float y = FogHandler.CLIFF_FOG_HEIGHT + i;
+	    int maxAlpha = 80;
+	    double entityHeight = entity.getPositionEyes(partialTicks).y;
+	    double distanceFromPlane = entityHeight - (y + entity.getEyeHeight());
+	    // As the player approaches the plane, fade it out
+	    double alpha = maxAlpha * MathHelper.clamp(distanceFromPlane / FogHandler.SWAMP_FOG_FADE_START, 0, 1);
+
+	    this.renderPlane(partialTicks, world, mc, y, ModColors.SWAMP_FOG.scale(255), (int) alpha);
+	}
+
+	GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
+    }
+
+    public void renderPlane(float partialTicks, WorldClient world, Minecraft mc, float height, Vec3d colorTweak, int alpha) {
 	if (!isBuilt())
 	{
 	    reloadTextures();
@@ -63,15 +82,11 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
 	checkSettings();
 
 	Entity entity = mc.getRenderViewEntity();
-	if (entity.posY < FogHandler.CLIFF_FOG_HEIGHT)
-	{
-	    return;
-	}
 
 	double totalOffset = partialTicks + entity.ticksExisted;
 
 	double x = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks + totalOffset * 0.01;
-	double y = FogHandler.CLIFF_FOG_HEIGHT + entity.getEyeHeight() - (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks);
+	double y = height + entity.getEyeHeight() - (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks);
 	double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
 
 	int scale = getScale();
@@ -97,31 +112,13 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
 	GlStateManager.disableCull();
 
 	GlStateManager.enableBlend();
-	GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-		GlStateManager.DestFactor.ZERO);
-
-	// Color multiplier.
-	Vec3d color = mc.world.getCloudColour(partialTicks);
-	float r = (float) color.x;
-	float g = (float) color.y;
-	float b = (float) color.z;
-
-	if (mc.gameSettings.anaglyph)
-	{
-	    float tempR = r * 0.3F + g * 0.59F + b * 0.11F;
-	    float tempG = r * 0.3F + g * 0.7F;
-	    float tempB = r * 0.3F + b * 0.7F;
-	    r = tempR;
-	    g = tempG;
-	    b = tempB;
-	}
+	GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
 	if (COLOR_TEX == null)
 	    COLOR_TEX = new DynamicTexture(1, 1);
 
-	// Apply a color multiplier through a texture upload if shaders aren't
-	// supported.
-	COLOR_TEX.getTextureData()[0] = 255 << 24 | ((int) (r * 255)) << 16 | ((int) (g * 255)) << 8 | (int) (b * 255);
+	// Apply a color multiplier through a texture upload if shaders aren't supported.
+	COLOR_TEX.getTextureData()[0] = alpha << 24 | ((int) (colorTweak.x)) << 16 | ((int) (colorTweak.y)) << 8 | (int) (colorTweak.z);
 	COLOR_TEX.updateDynamicTexture();
 
 	GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
@@ -302,7 +299,6 @@ public class CliffCloudRenderer extends IRenderHandler implements ISelectiveReso
     private void vertices(BufferBuilder buffer)
     {
 	float scale = getScale();
-	float CULL_DIST = 2 * scale;
 
 	float bCol = 1F;
 

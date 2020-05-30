@@ -1,122 +1,202 @@
 {
-    "entity.shade.ambient": {
-        "category": "entity",
-        "subtitle": "entity.shade.ambient",
-        "sounds": [
-            {
-                "name": "mm:entity/shade/ambient",
-                "stream": true
-            }
-        ]
-    },
-    "entity.shade.hurt": {
-        "category": "entity",
-        "subtitle": "entity.shade.hurt",
-        "sounds": [
-            {
-                "name": "mm:entity/shade/hurt",
-                "stream": true
-            }
-        ]
-    },
-    "entity.shade.death": {
-        "category": "entity",
-        "subtitle": "entity.shade.hurt",
-        "sounds": [
-            {
-                "name": "mm:entity/shade/hurt",
-                "stream": true
-            }
-        ]
-    },
-    "entity.horror.ambient": {
-        "category": "entity",
-        "subtitle": "entity.shade.ambient",
-        "sounds": [
-            {
-                "name": "mm:entity/horror/ambient",
-                "stream": true
-            }
-        ]
-    },
-    "entity.horror.hurt": {
-        "category": "entity",
-        "subtitle": "entity.shade.hurt",
-        "sounds": [
-            {
-                "name": "mm:entity/horror/hurt",
-                "stream": true
-            }
-        ]
-    },
-    "entity.horror.death": {
-        "category": "entity",
-        "subtitle": "entity.shade.hurt",
-        "sounds": [
-            {
-                "name": "mm:entity/horror/hurt",
-                "stream": true
-            }
-        ]
-    },
-    "entity.beast.ambient": {
-        "category": "entity",
-        "subtitle": "entity.beast.ambient",
-        "sounds": [
-            {
-                "name": "mm:entity/beast/ambient",
-                "stream": true
-            }
-        ]
-    },
-    "entity.beast.hurt": {
-        "category": "entity",
-        "subtitle": "entity.beast.hurt",
-        "sounds": [
-            {
-                "name": "mm:entity/beast/hurt",
-                "stream": true
-            }
-        ]
-    },
-    "item.gun.shoot": {
-        "category": "item",
-        "subtitle": "item.gun.shoot",
-        "sounds": [
-            {
-                "name": "mm:item/gun/shoot",
-                "stream": true
-            }
-        ]
-    },
-    "entity.swamp_crawler.ambient": {
-        "category": "entity",
-        "subtitle": "entity.swamp_crawler.ambient",
-        "sounds": [
-            {
-                "name": "mm:entity/swamp_crawler/ambient",
-                "stream": true
-            }
-        ]
-    },
-    "entity.swamp_crawler.hurt": {
-        "category": "entity",
-        "subtitle": "entity.swamp_crawler.hurt",
-        "sounds": [
-            {
-                "name": "mm:entity/swamp_crawler/hurt",
-                "stream": true
-            }
-        ]
-    },
-    "entity.monolith.ambient": {
-        "category": "entity",
-        "subtitle": "entity.monolith.ambient",
-        "sounds": [
-            {
-                "name": "mm:entity/monolith/ambient",
-                "stream": true
-            }
-        ]
-    }
+	"entity.shade.ambient": {
+		"category": "entity",
+		"subtitle": "entity.shade.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/shade/ambient",
+				"stream": true
+			}
+		]
+	},
+	"entity.shade.hurt": {
+		"category": "entity",
+		"subtitle": "entity.shade.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/shade/hurt",
+				"stream": true
+			}
+		]
+	},
+	"entity.shade.death": {
+		"category": "entity",
+		"subtitle": "entity.shade.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/shade/hurt",
+				"stream": true
+			}
+		]
+	},
+	"entity.horror.ambient": {
+		"category": "entity",
+		"subtitle": "entity.shade.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/horror/ambient",
+				"stream": true
+			}
+		]
+	},
+	"entity.horror.hurt": {
+		"category": "entity",
+		"subtitle": "entity.shade.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/horror/hurt",
+				"stream": true
+			}
+		]
+	},
+	"entity.horror.death": {
+		"category": "entity",
+		"subtitle": "entity.shade.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/horror/hurt",
+				"stream": true
+			}
+		]
+	},
+	"entity.beast.ambient": {
+		"category": "entity",
+		"subtitle": "entity.beast.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/beast/ambient",
+				"stream": true
+			}
+		]
+	},
+	"entity.beast.hurt": {
+		"category": "entity",
+		"subtitle": "entity.beast.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/beast/hurt",
+				"stream": true
+			}
+		]
+	},
+	"item.gun.shoot": {
+		"category": "item",
+		"subtitle": "item.gun.shoot",
+		"sounds": [
+			{
+				"name": "mm:item/gun/shoot",
+				"stream": true
+			}
+		]
+	},
+	"entity.swamp_crawler.ambient": {
+		"category": "entity",
+		"subtitle": "entity.swamp_crawler.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/swamp_crawler/ambient",
+				"stream": true
+			}
+		]
+	},
+	"entity.swamp_crawler.hurt": {
+		"category": "entity",
+		"subtitle": "entity.swamp_crawler.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/swamp_crawler/hurt",
+				"stream": true
+			}
+		]
+	},
+	"entity.monolith.ambient": {
+		"category": "entity",
+		"subtitle": "entity.monolith.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/monolith/ambient",
+				"stream": true
+			}
+		]
+	},
+	"entity.chaos_knight.block": {
+		"category": "entity",
+		"subtitle": "entity.chaos_knight.block",
+		"sounds": [
+			{
+				"name": "mm:entity/chaos_knight/block",
+				"stream": true
+			}
+		]
+	},
+	"entity.chaos_knight.ambient": {
+		"category": "entity",
+		"subtitle": "entity.chaos_knight.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/chaos_knight/ambient",
+				"stream": true
+			}
+		]
+	},
+	"entity.chaos_knight.death": {
+		"category": "entity",
+		"subtitle": "entity.chaos_knight.death",
+		"sounds": [
+			{
+				"name": "mm:entity/chaos_knight/death",
+				"stream": true
+			}
+		]
+	},
+	"entity.chaos_knight.hurt": {
+		"category": "entity",
+		"subtitle": "entity.chaos_knight.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/chaos_knight/hurt",
+				"stream": true
+			}
+		]
+	},
+	"music.new_world": {
+		"category": "music",
+		"subtitle": "music.new_world",
+		"sounds": [
+			{
+				"name": "mm:music/new_world",
+				"stream": true
+			}
+		]
+	},
+	"music.wandering": {
+		"category": "music",
+		"subtitle": "music.wandering",
+		"sounds": [
+			{
+				"name": "mm:music/wandering",
+				"stream": true
+			}
+		]
+	},
+	"entity.gauntlet.hurt": {
+		"category": "entity",
+		"subtitle": "entity.gauntlet.hurt",
+		"sounds": [
+			{
+				"name": "mm:entity/gauntlet/hurt",
+				"stream": true
+			}
+		]
+	},
+		"entity.gauntlet.ambient": {
+		"category": "entity",
+		"subtitle": "entity.gauntlet.ambient",
+		"sounds": [
+			{
+				"name": "mm:entity/gauntlet/ambient",
+				"stream": true
+			}
+		]
+	}
 }

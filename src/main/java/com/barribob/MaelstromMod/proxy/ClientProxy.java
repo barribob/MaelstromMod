@@ -40,6 +40,7 @@ public class ClientProxy extends CommonProxy
 	{
 	    Minecraft.getMinecraft().getFramebuffer().enableStencil();
 	}
+
 	RenderHandler.registerEntityRenderers();
 	super.init();
     }

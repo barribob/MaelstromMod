@@ -1,23 +1,24 @@
-|||||||||||||||||||||||||||||||||||||||||||||| Update 0.5
-The Mantle
-|||||||||||||||||||||||||||||||||||||||||||||| Update 0.4 (May 1)
-Crimson Dungeon [85]
-    [DONE] Dungeon Blocks (6)
-    Dungeon Generation [35]
+|||||||||||||||||||||||||||||||||||||||||||||| Update 0.3.4 [TENTATIVE]
+
+    Make changing invasion time able to reload with the world (basically that the number is a live countdown of sorts) (4)
+    Make animations and all movement stop when the entity is dead as well (1)
+    Fix blend error with illager armor(3)
+
+|||||||||||||||||||||||||||||||||||||||||||||| Update 0.4 (June 1)
+
+Crimson Dungeon Dimension
+    Dungeon Generation
         Connect dimension with portal (2)
-        Build the dungeon (30)
+        World painter background landscape (5)
+        The rest of the buildings and dungeon (10)
+        Boss area (5)
         Basic generation to place dungeon in (3)
-    Mobs [32]
-        Engineer with advanced AI (6)
-        Knight (4)
+    Mobs
         Eyerock (9)
-        Maelstrom Knight (8)
-        Mage (3)
-    Items [12]
+        Maelstrom Healer (4)
+        Two minibosses (10)
+    Items
         3 sets of armor (5)
-            common for level 3
-            common for level 3.5
-            rare for nexus trading 3.5
         4 guns (4)
             4 for chests
             1 for nexus
@@ -25,74 +26,67 @@ Crimson Dungeon [85]
             2 for chests
             1 for nexus
 
+    Polish attacks of maelstrom goons (3)
+    When a maelstrom mob dies, make it look like it's turning into ash using a effects (5)
+    Illager has blocking sound (1)
+
+||||||| Release prep
+
+    Complete playthrough on a server (can only be done on a better computer)
+    Reflected methods will may change, so when changing versions, you have to check that those still work
+    Change animation function to use caching before using in production
+    
+|||||||||||||||||||||||||||||||||||||||||||||| In Progress 0.4
+
+    Crimson version of executioner and scout (3)
+    Chaos Knight (8)
+        A hulking beast of a commander that throws attacks like an unstoppable truck, and defends with a magical shield
+
+        When not actively attacking, the knight defends with its shield, immune to attacks from the front.
+        Jump Slam - jump high into the air, front-flip and slam down, dealing area damage nearby
+        Side swipe - A close melee attack and an immediate feint to the side.
+        Teleportation Slice - does an epic ninja slice that teleports him across the room instantly
+
+        Double slice - jumps forward twice and takes two wide swings at the player, dealing heavy damage and knockback.
+
+        Shield charge - A fast charge using the shield to deal damage
+
+        No second stage: just start with two moves, and throw in a few moves as the health depletes.
+
+|||||||||||||||||||||||||||||||||||||||||||||| DONE 0.4
+
+    Nexus Invasion tower thingy (6)
+    Dungeon Blocks (6)
+    Retexture weapons to match a more vanilla style
+    Animation api needs a major update (10)
+
 ||||||||||||||||||||||||||||||||||||||||||||||| Backlog
 
+Bows (5)
+Enchanted effect for elemental weapons (5)
+Make damage III max enchantable and loot damage up to V
+Some sort of prior indicator that the tower is going to appear in a certain spot
+Enchanted effect for elemental entities.
+Improve dimension efficiency
+Add some test cases to mod utils
 Gargoyles (3)
 Fix witch animation
 Key beacons actually should be beacons
 Maelstrom pearls (1)
-Golden Ruins spawn more consistently (2)
 Fireflies
 Put actual illagers in the fortress
-Translations for some item descriptions
 Maelstrom health
 Combo attacks
-Fix swamp fog cliff top fog problems
-More ruined houses for Fracture(5)
-Spawners with different spawn ranges
+More ruined houses for Fracture (5)
 Fix maelstrom illager faceless when another illager exists (3)
 Add more variable chest placement in structures (3)
 More minibosses that the player can stumble across
-Specifying blend only for entities that need it.
+Specifying blend only for entities that need it
 MAelstrom generation sometimes exposes the core
-Make damage III max enchantable and loot damage up to V
-
-||||||||||||||||||||||||||||||||||||||||||||||| Things to watch out for when updating
-
-Reflected methods will may change, so when changing versions, you have to check that those still work
 
 ||||||||||||||||||||||||||||||||||||||||||||||| Next Update Essential Content
 
-Theme: Black and red, nether hell inferno castle.
-
-LEVEL 1 THE MAELSTROM GENERATOR:
-    The player finds themselves in a massive cave, where in the center is a massive cylindrical contraption, which represents an engineering complex.
-        The story behind this is that the maelstrom have punctured though bedrock to get to the maelstrom energy source down below.
-    The void will be visible, and there will be bridges from the cylinder to islands, and rooms in the wall.
-    There will be towers that hang from the ceiling.
-    Include airships, drills, prisons (for villagers and maelstrom henchmen)
-    Most of this stuff will be static, but we could consider making the main gear shafts actual entities that move (we can model this)
-    We could consider adding other gadges, like lazers and stuff.
-    There will be a lot of redstone contraptions.
-    The mobs here will be engineers, maelstrom knights, and overseers. The goal here is to find the key fragments to unlock the next layer of the dungeon.
-    Most blocks will be minecraft blocks, but the door will be unblockable.
-    Takes about 100 Blocks
-    Level (3.0)
-
-Level 3 THE ROYAL CASTLE:
-    The castle holds the strongest knights and mages. Fight or sneak your way though the tower to encounter the main boss, which will take an 15-45 mins to defeat.
-
-First two levels will be a long hallway with a door at the end that requires three keys. The three keys will be rendered on a pedestal guarded by hordes of mob spawners.
-
-Second two levels will also have three keys but these are held by tough bosses. It will not be a bunch of hallways, but a bunch of similarly sized rooms that is closer
-to a maze.
-
-Final levels will be closer to a tower format where the player has to ascend 5 or more smaller levels, and at the top is the megaboss, which is a fight that hopefully takes 
-at least 10 - 15 mins. And the boss should have at least 8 unique attacks and two phases.
-
-This whole structure should take at least a few hours to clear, just like the previous two dimensions. We need to have really strong mobs (maybe have the same mobs but 
-with different levels)
+Crimson Dungeon
 
 What the experience will be:
-I want it to feel like the player is making progress somehow. So use multiple levels that look slightly different.
-Dungeon blocks will be unbreakable.
-
-||||||||||||||||||||||||||||||||||||||||||||||| Story ideas
-
-Herobrine cares for Minecraft, although is excuse is that the maelstrom are more of a nusiance than he is, and that is
-unacceptable. He is also embarrased that he has to ask the player to help him because he doesn't have the freedom and
-artificial intelligence to do so. 
-
-||||||||||||||||||||||||||||||||||||||||||||| Far out ideas
-Final boss takes literally an entire hour to defeat - with a story that personally speaks to what minecraft means to me.
-Research minecraft village to see how they generate those villages
+An epic combat experience with interesting navigation problems, and a background story of a fallen kingdom. The player should understand why the maelstrom are to be feared after this.
