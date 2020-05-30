@@ -8,7 +8,7 @@
   "url": "https://www.curseforge.com/minecraft/mc-mods/into-the-maelstrom",
   "updateJSON": "https://raw.githubusercontent.com/miyo6032/MaelstromMod/LibraryIntegration/update.json",
   "authorList": ["Barribob"],
-  "credits": "Tutorials: Loremaster, Harry Talks, Julian Abelar, and Darkhax. Twilight Forest, and Powered Elytras for implementation assistance. Blockbench, Tabula, GIMP, Piskel, Eclipse, and World Edit as invaluable development tools.",
+  "credits": "Tutorials: Loremaster, Harry Talks, Julian Abelar, and Darkhax. Twilight Forest, and Powered Elytras for implementation assistance. Blockbench, Tabula, GIMP, Piskel, Eclipse, World Painter, and World Edit as invaluable development tools.",
   "logoFile": "into_the_maelstrom.png",
   "screenshots": [],
   "dependencies": []
