@@ -1,6 +1,5 @@
 package com.barribob.MaelstromMod.entity.model;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
@@ -183,17 +182,16 @@ public class ModelGoldenBoss extends ModelAnimated {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
-    
+
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
-	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-	this.head.rotateAngleX = headPitch * 0.017453292F;
-	
-	this.body.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 2)) * 0.2f - 0.5f;
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.head.rotateAngleX = headPitch * 0.017453292F;
+
+        this.body.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 2)) * 0.2f - 0.5f;
     }
 
     /**

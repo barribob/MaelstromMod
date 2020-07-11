@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.init.ModProfessions;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.TimedMessager;
-
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,51 +28,51 @@ public class StateCrimsonDimension extends HerobrineState implements IMerchant {
     private TimedMessager messager;
 
     public StateCrimsonDimension(Herobrine herobrine) {
-	super(herobrine);
-	for (EntityVillager.ITradeList list : ModProfessions.HEROBRINE_MAELSTROM_KEY.getTrades(0)) {
-	    list.addMerchantRecipe(this, this.buyingList, this.herobrine.getRNG());
-	}
+        super(herobrine);
+        for (EntityVillager.ITradeList list : ModProfessions.HEROBRINE_MAELSTROM_KEY.getTrades(0)) {
+            list.addMerchantRecipe(this, this.buyingList, this.herobrine.getRNG());
+        }
     }
 
     @Override
     public String getNbtString() {
-	return "crimson_dimension";
+        return "crimson_dimension";
     }
 
     @Override
     public void rightClick(EntityPlayer player) {
-	if (!this.gtfo) {
-	    this.messageToPlayers.accept("herobrine_crimson_0");
-	    this.gtfo = true;
-	}
-	if (herobrine.isEntityAlive() && this.buyingPlayer == null) {
-	    this.setCustomer(player);
-	    player.displayVillagerTradeGui(this);
-	}
+        if (!this.gtfo) {
+            this.messageToPlayers.accept("herobrine_crimson_0");
+            this.gtfo = true;
+        }
+        if (herobrine.isEntityAlive() && this.buyingPlayer == null) {
+            this.setCustomer(player);
+            player.displayVillagerTradeGui(this);
+        }
     }
 
     @Override
     public void leftClick(Herobrine herobrine) {
-	if (!this.leftClickMessage) {
-	    messageToPlayers.accept("herobrine_crimson_dimension_1");
-	    leftClickMessage = true;
-	}
-	super.leftClick(herobrine);
+        if (!this.leftClickMessage) {
+            messageToPlayers.accept("herobrine_crimson_dimension_1");
+            leftClickMessage = true;
+        }
+        super.leftClick(herobrine);
     }
 
     @Override
     public void setCustomer(EntityPlayer player) {
-	this.buyingPlayer = player;
+        this.buyingPlayer = player;
     }
 
     @Override
     public EntityPlayer getCustomer() {
-	return this.buyingPlayer;
+        return this.buyingPlayer;
     }
 
     @Override
     public MerchantRecipeList getRecipes(EntityPlayer player) {
-	return this.buyingList;
+        return this.buyingList;
     }
 
     @Override
@@ -82,24 +81,24 @@ public class StateCrimsonDimension extends HerobrineState implements IMerchant {
 
     @Override
     public void useRecipe(MerchantRecipe recipe) {
-	messager = new TimedMessager(
-		new String[] { "herobrine_leaving_0", "herobrine_leaving_1", "herobrine_leaving_2", "" },
-		new int[] { 60, 180, 240, 280 },
-		(s) -> {
-		    if (!world.isRemote) {
-			world.newExplosion(this.herobrine, this.herobrine.posX, this.herobrine.posY, this.herobrine.posZ, 2, false, false);
-			world.playSound(null, this.herobrine.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f);
-			for (int i = 0; i < 10; i++) {
-			    Vec3d pos = ModRandom.randVec().scale(3);
-			    pos = pos.subtract(ModUtils.yVec(pos.y));
-			    BlockPos blockPos = this.herobrine.getPosition().down().add(new BlockPos(pos));
-			    if (!world.isAirBlock(blockPos)) {
-				world.setBlockState(blockPos, ModBlocks.BLACK_SKY.getDefaultState());
-			    }
-			}
-			this.herobrine.setDead();
-		    }
-		});
+        messager = new TimedMessager(
+                new String[]{"herobrine_leaving_0", "herobrine_leaving_1", "herobrine_leaving_2", ""},
+                new int[]{60, 180, 240, 280},
+                (s) -> {
+                    if (!world.isRemote) {
+                        world.newExplosion(this.herobrine, this.herobrine.posX, this.herobrine.posY, this.herobrine.posZ, 2, false, false);
+                        world.playSound(null, this.herobrine.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f);
+                        for (int i = 0; i < 10; i++) {
+                            Vec3d pos = ModRandom.randVec().scale(3);
+                            pos = pos.subtract(ModUtils.yVec(pos.y));
+                            BlockPos blockPos = this.herobrine.getPosition().down().add(new BlockPos(pos));
+                            if (!world.isAirBlock(blockPos)) {
+                                world.setBlockState(blockPos, ModBlocks.BLACK_SKY.getDefaultState());
+                            }
+                        }
+                        this.herobrine.setDead();
+                    }
+                });
     }
 
     @Override
@@ -108,26 +107,26 @@ public class StateCrimsonDimension extends HerobrineState implements IMerchant {
 
     @Override
     public ITextComponent getDisplayName() {
-	ITextComponent itextcomponent = new TextComponentTranslation("herobrine_trading", new Object[0]);
-	itextcomponent.getStyle().setInsertion(herobrine.getCachedUniqueIdString());
-	return itextcomponent;
+        ITextComponent itextcomponent = new TextComponentTranslation("herobrine_trading", new Object[0]);
+        itextcomponent.getStyle().setInsertion(herobrine.getCachedUniqueIdString());
+        return itextcomponent;
     }
 
     @Override
     public World getWorld() {
-	return this.world;
+        return this.world;
     }
 
     @Override
     public BlockPos getPos() {
-	return new BlockPos(herobrine);
+        return new BlockPos(herobrine);
     }
 
     @Override
     public void update() {
-	if (messager != null) {
-	    messager.Update(world, messageToPlayers);
-	}
-	super.update();
+        if (messager != null) {
+            messager.Update(world, messageToPlayers);
+        }
+        super.update();
     }
 }

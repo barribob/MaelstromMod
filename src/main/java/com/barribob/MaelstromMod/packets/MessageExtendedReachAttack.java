@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.packets;
 
 import com.barribob.MaelstromMod.items.IExtendedReach;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,84 +12,69 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 /**
- * 
  * Taken from Jabelar's extended reach tutorial
- *
  */
-public class MessageExtendedReachAttack implements IMessage
-{
+public class MessageExtendedReachAttack implements IMessage {
     private int entityId;
 
-    public MessageExtendedReachAttack()
-    {
+    public MessageExtendedReachAttack() {
     }
 
-    public MessageExtendedReachAttack(int entityId)
-    {
-	this.entityId = entityId;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf)
-    {
-	entityId = ByteBufUtils.readVarInt(buf, 4);
+    public MessageExtendedReachAttack(int entityId) {
+        this.entityId = entityId;
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
-	ByteBufUtils.writeVarInt(buf, entityId, 4);
+    public void fromBytes(ByteBuf buf) {
+        entityId = ByteBufUtils.readVarInt(buf, 4);
     }
 
-    public static class Handler implements IMessageHandler<MessageExtendedReachAttack, IMessage>
-    {
-	// Double checks from the server that the sword reach is valid (to prevent
-	// hacking)
-	@Override
-	public IMessage onMessage(MessageExtendedReachAttack message, MessageContext ctx)
-	{
-	    final EntityPlayerMP player = ctx.getServerHandler().player;
+    @Override
+    public void toBytes(ByteBuf buf) {
+        ByteBufUtils.writeVarInt(buf, entityId, 4);
+    }
 
-	    player.getServer().addScheduledTask(new Runnable()
-	    {
-		@Override
-		public void run()
-		{
-		    Entity entity = player.world.getEntityByID(message.entityId);
+    public static class Handler implements IMessageHandler<MessageExtendedReachAttack, IMessage> {
+        // Double checks from the server that the sword reach is valid (to prevent
+        // hacking)
+        @Override
+        public IMessage onMessage(MessageExtendedReachAttack message, MessageContext ctx) {
+            final EntityPlayerMP player = ctx.getServerHandler().player;
 
-		    if (player.getHeldItemMainhand() == null)
-		    {
-			return;
-		    }
+            player.getServer().addScheduledTask(new Runnable() {
+                @Override
+                public void run() {
+                    Entity entity = player.world.getEntityByID(message.entityId);
 
-		    if (entity == null) // Miss
-		    {
-			// On a miss, reset cooldown anyways
-			player.resetCooldown();
-			net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(player);
-		    }
-		    else // Hit
-		    {
-			Item sword = player.getHeldItemMainhand().getItem();
+                    if (player.getHeldItemMainhand() == null) {
+                        return;
+                    }
 
-			if (sword instanceof IExtendedReach)
-			{
-			    // Factor in the size of the entity's bounding box to handle issues with large
-			    // mobs
-			    if (entity.getDistance(player) < ((IExtendedReach) sword).getReach() + (entity.getEntityBoundingBox().getAverageEdgeLength() * 0.5f))
-			    {
-				player.attackTargetEntityWithCurrentItem(entity);
-			    }
-			}
-		    }
+                    if (entity == null) // Miss
+                    {
+                        // On a miss, reset cooldown anyways
+                        player.resetCooldown();
+                        net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(player);
+                    } else // Hit
+                    {
+                        Item sword = player.getHeldItemMainhand().getItem();
 
-		    player.swingArm(EnumHand.MAIN_HAND);
-		}
-	    });
+                        if (sword instanceof IExtendedReach) {
+                            // Factor in the size of the entity's bounding box to handle issues with large
+                            // mobs
+                            if (entity.getDistance(player) < ((IExtendedReach) sword).getReach() + (entity.getEntityBoundingBox().getAverageEdgeLength() * 0.5f)) {
+                                player.attackTargetEntityWithCurrentItem(entity);
+                            }
+                        }
+                    }
 
-	    // No response message
-	    return null;
-	}
+                    player.swingArm(EnumHand.MAIN_HAND);
+                }
+            });
+
+            // No response message
+            return null;
+        }
 
     }
 }

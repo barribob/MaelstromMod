@@ -1,46 +1,8 @@
 package com.barribob.MaelstromMod.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.barribob.MaelstromMod.blocks.BlockAzureFlower;
-import com.barribob.MaelstromMod.blocks.BlockAzureGrass;
-import com.barribob.MaelstromMod.blocks.BlockAzureLeaves;
-import com.barribob.MaelstromMod.blocks.BlockAzureOre;
-import com.barribob.MaelstromMod.blocks.BlockAzureRedstoneOre;
-import com.barribob.MaelstromMod.blocks.BlockAzureVines;
-import com.barribob.MaelstromMod.blocks.BlockAzureVinesBlock;
-import com.barribob.MaelstromMod.blocks.BlockBase;
-import com.barribob.MaelstromMod.blocks.BlockBossSpawner;
-import com.barribob.MaelstromMod.blocks.BlockChain;
-import com.barribob.MaelstromMod.blocks.BlockDecayingMaelstrom;
-import com.barribob.MaelstromMod.blocks.BlockDisappearingSpawner;
-import com.barribob.MaelstromMod.blocks.BlockDoubleBrownedGrass;
-import com.barribob.MaelstromMod.blocks.BlockFan;
-import com.barribob.MaelstromMod.blocks.BlockFenceBase;
-import com.barribob.MaelstromMod.blocks.BlockFullLog;
-import com.barribob.MaelstromMod.blocks.BlockGrate;
-import com.barribob.MaelstromMod.blocks.BlockLamp;
-import com.barribob.MaelstromMod.blocks.BlockLightingUpdater;
-import com.barribob.MaelstromMod.blocks.BlockLogBase;
-import com.barribob.MaelstromMod.blocks.BlockMaelstrom;
-import com.barribob.MaelstromMod.blocks.BlockMaelstromCore;
-import com.barribob.MaelstromMod.blocks.BlockMegaStructure;
-import com.barribob.MaelstromMod.blocks.BlockModTallGrass;
-import com.barribob.MaelstromMod.blocks.BlockNexusTeleporter;
-import com.barribob.MaelstromMod.blocks.BlockPillarBase;
-import com.barribob.MaelstromMod.blocks.BlockPlumFilledLeaves;
-import com.barribob.MaelstromMod.blocks.BlockPlumLeaves;
-import com.barribob.MaelstromMod.blocks.BlockRedstoneBrick;
-import com.barribob.MaelstromMod.blocks.BlockSaplingBase;
-import com.barribob.MaelstromMod.blocks.BlockStairsBase;
-import com.barribob.MaelstromMod.blocks.BlockSwampLeaves;
+import com.barribob.MaelstromMod.blocks.*;
 import com.barribob.MaelstromMod.blocks.key_blocks.BlockKey;
-import com.barribob.MaelstromMod.blocks.portal.BlockAzurePortal;
-import com.barribob.MaelstromMod.blocks.portal.BlockCliffPortal;
-import com.barribob.MaelstromMod.blocks.portal.BlockCrimsonPortal;
-import com.barribob.MaelstromMod.blocks.portal.BlockDarkNexusPortal;
-import com.barribob.MaelstromMod.blocks.portal.BlockNexusPortal;
+import com.barribob.MaelstromMod.blocks.portal.*;
 import com.barribob.MaelstromMod.entity.util.EntityAzurePortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityCliffPortalSpawn;
 import com.barribob.MaelstromMod.entity.util.EntityCrimsonTowerSpawner;
@@ -49,7 +11,6 @@ import com.barribob.MaelstromMod.world.gen.foliage.WorldGenAzureTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenBigPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenPlumTree;
 import com.barribob.MaelstromMod.world.gen.foliage.WorldGenSwampTree;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -60,13 +21,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
  * Holds all of our new blocks
- *
  */
-public class ModBlocks
-{
+public class ModBlocks {
     public static final List<Block> BLOCKS = new ArrayList<Block>();
     public static final float STONE_HARDNESS = 1.7f;
     public static final float STONE_RESISTANCE = 10f;
@@ -189,15 +150,13 @@ public class ModBlocks
     public static final Block CRIMSON_MAELSTROM_BRICKS = new BlockBase("crimson_maelstrom_bricks", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRIMSON_MAELSTROM_BRICK_FENCE = new BlockFenceBase("crimson_maelstrom_brick_fence", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CRIMSON_MAELSTROM_BRICK_STAIRS =
-	    new BlockStairsBase("crimson_maelstrom_brick_stairs", CRIMSON_MAELSTROM_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
-    public static final Block CRIMSON_LAMP = new BlockLamp("crimson_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false)
-    {
-	@Override
-	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer()
-	{
-	    return BlockRenderLayer.CUTOUT;
-	}
+            new BlockStairsBase("crimson_maelstrom_brick_stairs", CRIMSON_MAELSTROM_BRICKS.getDefaultState(), BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE).setCreativeTab(ModCreativeTabs.BLOCKS);
+    public static final Block CRIMSON_LAMP = new BlockLamp("crimson_lamp", Material.ROCK, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.STONE, false) {
+        @Override
+        @SideOnly(Side.CLIENT)
+        public BlockRenderLayer getBlockLayer() {
+            return BlockRenderLayer.CUTOUT;
+        }
     }.setLightLevel(1.0f).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block CHAIN = new BlockChain("chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.425D, 0.0D, 0.425D, 0.575D, 1.0D, 0.575D)).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block MULTI_CHAIN = new BlockChain("multi_chain", Material.IRON, BRICK_HARDNESS, STONE_RESISTANCE, SoundType.METAL, new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D)).setCreativeTab(ModCreativeTabs.BLOCKS);

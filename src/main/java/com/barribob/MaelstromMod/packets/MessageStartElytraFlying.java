@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.packets;
 
 import com.barribob.MaelstromMod.event_handlers.ServerElytraEventHandler;
 import com.barribob.MaelstromMod.init.ModItems;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -31,23 +30,23 @@ public class MessageStartElytraFlying implements IMessage {
     }
 
     public static class Handler implements IMessageHandler<MessageStartElytraFlying, IMessage> {
-	@Override
-	public IMessage onMessage(MessageStartElytraFlying message, MessageContext ctx) {
-	    final EntityPlayerMP player = ctx.getServerHandler().player;
+        @Override
+        public IMessage onMessage(MessageStartElytraFlying message, MessageContext ctx) {
+            final EntityPlayerMP player = ctx.getServerHandler().player;
 
-	    player.getServer().addScheduledTask(() -> {
-		boolean canFly = false;
-		if (!player.onGround && player.motionY < 0.0D && !player.isElytraFlying() && !player.isInWater()) {
-		    ItemStack itemstack = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-		    // Hardcoded for security reasons. If an instanceof check is used, someone could extend and add a new elytra item to hack on the client
-		    canFly = itemstack.getItem() == ModItems.ELYSIUM_WINGS;
-		}
-		ServerElytraEventHandler.setFlying(player, canFly);
-	    });
+            player.getServer().addScheduledTask(() -> {
+                boolean canFly = false;
+                if (!player.onGround && player.motionY < 0.0D && !player.isElytraFlying() && !player.isInWater()) {
+                    ItemStack itemstack = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+                    // Hardcoded for security reasons. If an instanceof check is used, someone could extend and add a new elytra item to hack on the client
+                    canFly = itemstack.getItem() == ModItems.ELYSIUM_WINGS;
+                }
+                ServerElytraEventHandler.setFlying(player, canFly);
+            });
 
-	    // No response message
-	    return null;
-	}
+            // No response message
+            return null;
+        }
 
     }
 }

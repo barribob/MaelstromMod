@@ -1,12 +1,6 @@
 package com.barribob.MaelstromMod.world.gen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.barribob.MaelstromMod.util.Reference;
-import com.barribob.MaelstromMod.world.gen.mineshaft.AzureMineshaftTemplate;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -21,20 +15,21 @@ import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
- * 
  * The template class that holds all placement positions and settings as well as the template itself
  * Used for generating large structures from templates
- *
  */
-public abstract class ModStructureTemplate extends StructureComponentTemplate
-{
+public abstract class ModStructureTemplate extends StructureComponentTemplate {
     private static final PlacementSettings OVERWRITE = (new PlacementSettings()).setIgnoreEntities(true);
     private static final PlacementSettings INSERT = (new PlacementSettings()).setIgnoreEntities(true).setReplacedBlock(Blocks.AIR);
 
     private String pieceName;
     private Rotation rotation;
-    
+
     private int distance;
     private static int numTemplates = 0;
     private int templateId;
@@ -45,150 +40,127 @@ public abstract class ModStructureTemplate extends StructureComponentTemplate
      */
     private boolean overwrite;
 
-    public ModStructureTemplate()
-    {
+    public ModStructureTemplate() {
     }
 
-    public ModStructureTemplate(TemplateManager manager, String type, BlockPos pos, Rotation rotation, boolean overwriteIn)
-    {
-	super(0);
-	this.pieceName = type;
-	this.templatePosition = pos;
-	this.rotation = rotation;
-	this.overwrite = overwriteIn;
-	templateId = numTemplates++;
-	this.loadTemplate(manager);
-    }   
-    
-    public ModStructureTemplate(TemplateManager manager, String type, BlockPos pos, int distance, Rotation rotation, boolean overwriteIn)
-    {
-	this(manager, type, pos, rotation, overwriteIn);
-	this.distance = distance;
-    }
-    
-    public int getDistance()
-    {
-	return this.distance;
-    }
-    
-    public int getId()
-    {
-	return this.templateId;
+    public ModStructureTemplate(TemplateManager manager, String type, BlockPos pos, Rotation rotation, boolean overwriteIn) {
+        super(0);
+        this.pieceName = type;
+        this.templatePosition = pos;
+        this.rotation = rotation;
+        this.overwrite = overwriteIn;
+        templateId = numTemplates++;
+        this.loadTemplate(manager);
     }
 
-    public static void resetTemplateCount()
-    {
-	numTemplates = 0;
+    public ModStructureTemplate(TemplateManager manager, String type, BlockPos pos, int distance, Rotation rotation, boolean overwriteIn) {
+        this(manager, type, pos, rotation, overwriteIn);
+        this.distance = distance;
     }
-    
+
+    public int getDistance() {
+        return this.distance;
+    }
+
+    public int getId() {
+        return this.templateId;
+    }
+
+    public static void resetTemplateCount() {
+        numTemplates = 0;
+    }
+
     public abstract String templateLocation();
 
-    public void setComponentType(int i)
-    {
-	this.componentType = i;
+    public void setComponentType(int i) {
+        this.componentType = i;
     }
 
-    public PlacementSettings getPlacementSettings()
-    {
-	return this.placeSettings;
+    public PlacementSettings getPlacementSettings() {
+        return this.placeSettings;
     }
 
-    public BlockPos getTemplatePosition()
-    {
-	return this.templatePosition;
+    public BlockPos getTemplatePosition() {
+        return this.templatePosition;
     }
 
-    public Template getTemplate()
-    {
-	return this.template;
+    public Template getTemplate() {
+        return this.template;
     }
 
     /**
      * Discover if bounding box can fit within the current bounding box object.
      * Excludes bounding boxes that touch each other and are not actually inside
      */
-    public static StructureComponent findIntersectingExclusive(List<StructureComponent> listIn, StructureBoundingBox box)
-    {
-	for (StructureComponent structurecomponent : listIn)
-	{
-	    if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(box.minX + 1, box.minZ + 1, box.maxX - 1, box.maxZ - 1))
-	    {
-		return structurecomponent;
-	    }
-	}
+    public static StructureComponent findIntersectingExclusive(List<StructureComponent> listIn, StructureBoundingBox box) {
+        for (StructureComponent structurecomponent : listIn) {
+            if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(box.minX + 1, box.minZ + 1, box.maxX - 1, box.maxZ - 1)) {
+                return structurecomponent;
+            }
+        }
 
-	return null;
+        return null;
     }
 
-    private void loadTemplate(TemplateManager manager)
-    {
-	Template template = manager.getTemplate((MinecraftServer) null, new ResourceLocation(Reference.MOD_ID, this.templateLocation() + "/" + this.pieceName));
-	PlacementSettings placementsettings = (this.overwrite ? OVERWRITE : INSERT).copy().setRotation(this.rotation);
-	this.setup(template, this.templatePosition, placementsettings);
+    private void loadTemplate(TemplateManager manager) {
+        Template template = manager.getTemplate((MinecraftServer) null, new ResourceLocation(Reference.MOD_ID, this.templateLocation() + "/" + this.pieceName));
+        PlacementSettings placementsettings = (this.overwrite ? OVERWRITE : INSERT).copy().setRotation(this.rotation);
+        this.setup(template, this.templatePosition, placementsettings);
     }
 
     /**
      * (abstract) Helper method to write subclass data to NBT
      */
-    protected void writeStructureToNBT(NBTTagCompound tagCompound)
-    {
-	super.writeStructureToNBT(tagCompound);
-	tagCompound.setString("Template", this.pieceName);
-	tagCompound.setString("Rot", this.rotation.name());
-	tagCompound.setBoolean("OW", this.overwrite);
+    protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        super.writeStructureToNBT(tagCompound);
+        tagCompound.setString("Template", this.pieceName);
+        tagCompound.setString("Rot", this.rotation.name());
+        tagCompound.setBoolean("OW", this.overwrite);
     }
 
     /**
      * (abstract) Helper method to read subclass data from NBT
      */
-    protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_)
-    {
-	super.readStructureFromNBT(tagCompound, p_143011_2_);
-	this.pieceName = tagCompound.getString("Template");
-	this.rotation = Rotation.valueOf(tagCompound.getString("Rot"));
-	this.overwrite = tagCompound.getBoolean("OW");
-	this.loadTemplate(p_143011_2_);
+    protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_) {
+        super.readStructureFromNBT(tagCompound, p_143011_2_);
+        this.pieceName = tagCompound.getString("Template");
+        this.rotation = Rotation.valueOf(tagCompound.getString("Rot"));
+        this.overwrite = tagCompound.getBoolean("OW");
+        this.loadTemplate(p_143011_2_);
     }
-    
+
     /**
      * Determines if the new template is overlapping with another template,
      * excluding the parent
      */
-    public boolean isCollidingExcParent(TemplateManager manager, ModStructureTemplate parent, List<StructureComponent> structures)
-    {
-	List<StructureComponent> collisions = findAllIntersecting(structures);
+    public boolean isCollidingExcParent(TemplateManager manager, ModStructureTemplate parent, List<StructureComponent> structures) {
+        List<StructureComponent> collisions = findAllIntersecting(structures);
 
-	boolean foundCollision = false;
+        boolean foundCollision = false;
 
-	for (StructureComponent collision : collisions)
-	{
-	    if (((ModStructureTemplate) collision).getId() != parent.getId())
-	    {
-		foundCollision = true;
-	    }
-	}
+        for (StructureComponent collision : collisions) {
+            if (((ModStructureTemplate) collision).getId() != parent.getId()) {
+                foundCollision = true;
+            }
+        }
 
-	return foundCollision;
+        return foundCollision;
     }
 
     /**
      * Loads structure block data markers and handles them by their name
      */
-    protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand, StructureBoundingBox sbb)
-    {
+    protected void handleDataMarker(String function, BlockPos pos, World worldIn, Random rand, StructureBoundingBox sbb) {
     }
-    
+
     /**
      * Discover if bounding box can fit within the current bounding box object.
      */
-    public List<StructureComponent> findAllIntersecting(List<StructureComponent> listIn)
-    {
-	List<StructureComponent> list = new ArrayList<StructureComponent>();
-        for (StructureComponent structurecomponent : listIn)
-        {
+    public List<StructureComponent> findAllIntersecting(List<StructureComponent> listIn) {
+        List<StructureComponent> list = new ArrayList<StructureComponent>();
+        for (StructureComponent structurecomponent : listIn) {
             StructureBoundingBox intersection = new StructureBoundingBox(this.boundingBox.minX + 1, this.boundingBox.minY + 1, this.boundingBox.minZ + 1, this.boundingBox.maxX - 1, this.boundingBox.maxY - 1, this.boundingBox.maxZ - 1);
-            if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(intersection))
-            {
+            if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(intersection)) {
                 list.add(structurecomponent);
             }
         }

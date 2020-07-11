@@ -10,22 +10,19 @@ import com.barribob.MaelstromMod.world.gen.maelstrom_stronghold.MapGenMaelstromS
 import com.barribob.MaelstromMod.world.gen.maelstrom_stronghold.StrongholdTemplate;
 import com.barribob.MaelstromMod.world.gen.mineshaft.AzureMineshaftTemplate;
 import com.barribob.MaelstromMod.world.gen.mineshaft.MapGenAzureMineshaft;
-
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 
-public class ModStructures
-{
-    public static void registerStructures()
-    {
-	MapGenStructureIO.registerStructure(MapGenAzureMineshaft.Start.class, "Azure Mineshaft");
-	MapGenStructureIO.registerStructureComponent(AzureMineshaftTemplate.class, "AMP");
-	MapGenStructureIO.registerStructure(MapGenMaelstromFortress.Start.class, "Maelstrom Fortress");
-	MapGenStructureIO.registerStructureComponent(FortressTemplate.class, "MFP");
-	MapGenStructureIO.registerStructure(MapGenMaelstromStronghold.Start.class, "Maelstrom Stronghold");
-	MapGenStructureIO.registerStructureComponent(StrongholdTemplate.class, "MSP");
-	MapGenStructureIO.registerStructure(MapGenGoldenRuins.Start.class, "Golden Ruins");
-	MapGenStructureIO.registerStructureComponent(RuinsTemplate.class, "GRP");
-	MapGenStructureIO.registerStructure(MapGenHoleTemple.Start.class, "Hole Temple");
-	MapGenStructureIO.registerStructureComponent(HoleTempleTemplate.class, "HTP");
+public class ModStructures {
+    public static void registerStructures() {
+        MapGenStructureIO.registerStructure(MapGenAzureMineshaft.Start.class, "Azure Mineshaft");
+        MapGenStructureIO.registerStructureComponent(AzureMineshaftTemplate.class, "AMP");
+        MapGenStructureIO.registerStructure(MapGenMaelstromFortress.Start.class, "Maelstrom Fortress");
+        MapGenStructureIO.registerStructureComponent(FortressTemplate.class, "MFP");
+        MapGenStructureIO.registerStructure(MapGenMaelstromStronghold.Start.class, "Maelstrom Stronghold");
+        MapGenStructureIO.registerStructureComponent(StrongholdTemplate.class, "MSP");
+        MapGenStructureIO.registerStructure(MapGenGoldenRuins.Start.class, "Golden Ruins");
+        MapGenStructureIO.registerStructureComponent(RuinsTemplate.class, "GRP");
+        MapGenStructureIO.registerStructure(MapGenHoleTemple.Start.class, "Hole Temple");
+        MapGenStructureIO.registerStructureComponent(HoleTempleTemplate.class, "HTP");
     }
 }

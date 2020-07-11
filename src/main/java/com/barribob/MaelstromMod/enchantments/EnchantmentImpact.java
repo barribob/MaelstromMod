@@ -2,33 +2,27 @@ package com.barribob.MaelstromMod.enchantments;
 
 import com.barribob.MaelstromMod.items.gun.ItemGun;
 import com.barribob.MaelstromMod.items.gun.ItemStaff;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 /**
- * 
  * The punch enchantment for ItemGun
- *
  */
-public class EnchantmentImpact extends Enchantment
-{
-    public EnchantmentImpact(String registryName, Rarity rarityIn, EntityEquipmentSlot[] slots)
-    {
-	// The enum enchantment type doesn't matter here
-	super(rarityIn, EnumEnchantmentType.ALL, slots);
-	this.setRegistryName(registryName);
-	this.setName(registryName);
+public class EnchantmentImpact extends Enchantment {
+    public EnchantmentImpact(String registryName, Rarity rarityIn, EntityEquipmentSlot[] slots) {
+        // The enum enchantment type doesn't matter here
+        super(rarityIn, EnumEnchantmentType.ALL, slots);
+        this.setRegistryName(registryName);
+        this.setName(registryName);
     }
 
     /**
      * Returns the minimal value of enchantability needed on the enchantment level passed.
      */
     @Override
-    public int getMinEnchantability(int enchantmentLevel)
-    {
+    public int getMinEnchantability(int enchantmentLevel) {
         return 12 + (enchantmentLevel - 1) * 20;
     }
 
@@ -36,8 +30,7 @@ public class EnchantmentImpact extends Enchantment
      * Returns the maximum value of enchantability nedded on the enchantment level passed.
      */
     @Override
-    public int getMaxEnchantability(int enchantmentLevel)
-    {
+    public int getMaxEnchantability(int enchantmentLevel) {
         return this.getMinEnchantability(enchantmentLevel) + 25;
     }
 
@@ -45,14 +38,12 @@ public class EnchantmentImpact extends Enchantment
      * Returns the maximum level that the enchantment can have.
      */
     @Override
-    public int getMaxLevel()
-    {
+    public int getMaxLevel() {
         return 2;
     }
-    
+
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack)
-    {
-	return stack.getItem() instanceof ItemGun || (stack.getItem() instanceof ItemStaff && ((ItemStaff) stack.getItem()).doesDamage());
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        return stack.getItem() instanceof ItemGun || (stack.getItem() instanceof ItemStaff && ((ItemStaff) stack.getItem()).doesDamage());
     }
 }

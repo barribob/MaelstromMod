@@ -1,19 +1,13 @@
 package com.barribob.MaelstromMod;
 
 import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
-import com.barribob.MaelstromMod.init.ModBBAnimations;
-import com.barribob.MaelstromMod.init.ModDimensions;
-import com.barribob.MaelstromMod.init.ModEntities;
-import com.barribob.MaelstromMod.init.ModProfessions;
-import com.barribob.MaelstromMod.init.ModRecipes;
-import com.barribob.MaelstromMod.init.ModStructures;
+import com.barribob.MaelstromMod.init.*;
 import com.barribob.MaelstromMod.loot.functions.ModEnchantWithLevels;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 import com.barribob.MaelstromMod.world.gen.WorldGenOre;
-
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -27,64 +21,56 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
- * 
  * Main mod class Many of the base boilerplate here is thanks to loremaster's
  * tutorials https://www.youtube.com/channel/UC3n-lKS-MYlunVtErgzSFZg Entities,
  * world generation, and dimension frameworks are thanks to Harry Talks
  * https://www.youtube.com/channel/UCUAawSqNFBEj-bxguJyJL9g Also thanks to
  * Julian Abelar for a bunch of modding tutorials and articles
  * https://jabelarminecraft.blogspot.com/
- * 
+ * <p>
  * Also other tools that I used: World Edit from Single Player Commands, as well as MCEdit
- *
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, updateJSON = "https://raw.githubusercontent.com/miyo6032/MaelstromMod/LibraryIntegration/update.json")
-public class Main
-{
+public class Main {
     @Instance
     public static Main instance;
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
     public static SimpleNetworkWrapper network;
-    
+
     /**
-     * 
      * Basically initializes the entire mod by calling all of the init methods in
      * the static classes
      */
     @EventHandler
-    public static void PreInit(FMLPreInitializationEvent event)
-    {
-	GameRegistry.registerWorldGenerator(new WorldGenOre(), 2);
-	GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 3);
+    public static void PreInit(FMLPreInitializationEvent event) {
+        GameRegistry.registerWorldGenerator(new WorldGenOre(), 2);
+        GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 3);
 
-	ModEntities.registerEntities();
-	proxy.init();
+        ModEntities.registerEntities();
+        proxy.init();
 
-	ModBBAnimations.registerAnimations();
-	ModDimensions.registerDimensions();
-	LootFunctionManager.registerFunction(new ModEnchantWithLevels.Serializer());
+        ModBBAnimations.registerAnimations();
+        ModDimensions.registerDimensions();
+        LootFunctionManager.registerFunction(new ModEnchantWithLevels.Serializer());
     }
 
     @EventHandler
-    public static void Init(FMLInitializationEvent event)
-    {
-	ModRecipes.init();
-	SoundsHandler.registerSounds();
-	ModStructures.registerStructures();
-	ModProfessions.associateCareersAndTrades();
+    public static void Init(FMLInitializationEvent event) {
+        ModRecipes.init();
+        SoundsHandler.registerSounds();
+        ModStructures.registerStructures();
+        ModProfessions.associateCareersAndTrades();
     }
 
     @EventHandler
-    public static void PostInit(FMLPostInitializationEvent event)
-    {
+    public static void PostInit(FMLPostInitializationEvent event) {
 
     }
 
     @EventHandler
-    public static void serverLoad(FMLServerStartingEvent event)
-    {
-	event.registerServerCommand(new CommandDimensionTeleport());
+    public static void serverLoad(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandDimensionTeleport());
     }
 }

@@ -12,45 +12,36 @@ import net.minecraft.world.IBlockAccess;
 /**
  * A block desined to update lighting in a seamless manner
  */
-public class BlockLightingUpdater extends BlockBase
-{
-    public BlockLightingUpdater(String name, Material material)
-    {
-	super(name, material);
+public class BlockLightingUpdater extends BlockBase {
+    public BlockLightingUpdater(String name, Material material) {
+        super(name, material);
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
+    public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.INVISIBLE;
     }
-    
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-    {
+
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return NULL_AABB;
     }
-    
-    public boolean isOpaqueCube(IBlockState state)
-    {
+
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-    public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid)
-    {
+    public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
         return false;
     }
-    
-    public boolean isFullCube(IBlockState state)
-    {
+
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
-    
-    public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos)
-    {
+
+    public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {
         return true;
     }
-    
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
-    {
+
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 }

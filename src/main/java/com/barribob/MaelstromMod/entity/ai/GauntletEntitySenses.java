@@ -10,7 +10,7 @@ import net.minecraft.entity.ai.EntitySenses;
 public class GauntletEntitySenses extends EntitySenses {
 
     public GauntletEntitySenses(EntityLiving entityIn) {
-	super(entityIn);
+        super(entityIn);
     }
 
     @Override
@@ -19,6 +19,6 @@ public class GauntletEntitySenses extends EntitySenses {
 
     @Override
     public boolean canSee(Entity entityIn) {
-	return true;
+        return true;
     }
 }

@@ -1,16 +1,12 @@
 package com.barribob.MaelstromMod.entity.model;
 
-import com.barribob.MaelstromMod.entity.entities.EntityFloatingSkull;
-
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
  * FloatingSkull - by Daniel Yoshimura Created using Tabula 7.0.0
  */
-public class ModelFloatingSkull extends ModelAnimated
-{
+public class ModelFloatingSkull extends ModelAnimated {
     public ModelRenderer headBase;
     public ModelRenderer jaw;
     public ModelRenderer upperJaw;
@@ -135,29 +131,27 @@ public class ModelFloatingSkull extends ModelAnimated
         this.jaw.addChild(this.jaw2);
         this.jaw.addChild(this.jaw1);
     }
-    
+
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.headBase.render(f5);
     }
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
-    {
-	modelRenderer.rotateAngleX = x;
-	modelRenderer.rotateAngleY = y;
-	modelRenderer.rotateAngleZ = z;
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
     }
 
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
-	super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-	
-	// The up and down bobbing motion of the skull
-	this.headBase.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 10)) * 0.2f;
-	
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+
+        // The up and down bobbing motion of the skull
+        this.headBase.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 10)) * 0.2f;
+
         this.headBase.rotateAngleY = netHeadYaw * 0.017453292F;
         this.headBase.rotateAngleX = headPitch * 0.017453292F;
     }

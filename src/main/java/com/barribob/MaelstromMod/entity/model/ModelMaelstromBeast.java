@@ -7,8 +7,7 @@ import net.minecraft.util.math.MathHelper;
 /**
  * Barribob Created using Tabula 7.0.0
  */
-public class ModelMaelstromBeast extends ModelAnimated
-{
+public class ModelMaelstromBeast extends ModelAnimated {
     public ModelRenderer body;
     public ModelRenderer leftLeg;
     public ModelRenderer rightLeg;
@@ -183,11 +182,11 @@ public class ModelMaelstromBeast extends ModelAnimated
         this.neck.addChild(this.head);
         this.head.addChild(this.horseRightEar);
         this.leftHorn3.addChild(this.leftHorn4);
-	this.body.addChild(tail);
+        this.body.addChild(tail);
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
         this.leftLeg.render(f5);
         this.rightLeg.render(f5);
@@ -203,13 +202,12 @@ public class ModelMaelstromBeast extends ModelAnimated
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
-	float limbSwingFactor = 0.4f;
-	this.leftLeg.rotateAngleX = defaultLegRotation + MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * limbSwingFactor;
-	this.rightLeg.rotateAngleX = defaultLegRotation + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * limbSwingFactor;
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        float limbSwingFactor = 0.4f;
+        this.leftLeg.rotateAngleX = defaultLegRotation + MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * limbSwingFactor;
+        this.rightLeg.rotateAngleX = defaultLegRotation + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * limbSwingFactor;
 
-	this.neck.rotateAngleY = Math.min(Math.max(netHeadYaw * 0.017453292F, -0.20F * (float) Math.PI), 0.20F * (float) Math.PI);
-	this.neck.rotateAngleX = this.defaultNeckRotation;
+        this.neck.rotateAngleY = Math.min(Math.max(netHeadYaw * 0.017453292F, -0.20F * (float) Math.PI), 0.20F * (float) Math.PI);
+        this.neck.rotateAngleX = this.defaultNeckRotation;
     }
 }

@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.packets;
 
 import com.barribob.MaelstromMod.items.tools.ToolSword;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -11,9 +10,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 /**
  * This packet sends info to the server that the player missed
- * 
- * @author Barribob
  *
+ * @author Barribob
  */
 public class MessageEmptySwing implements IMessage {
     public MessageEmptySwing() {
@@ -28,30 +26,30 @@ public class MessageEmptySwing implements IMessage {
     }
 
     public static class Handler implements IMessageHandler<MessageEmptySwing, IMessage> {
-	@Override
-	public IMessage onMessage(MessageEmptySwing message, MessageContext ctx) {
-	    final EntityPlayerMP player = ctx.getServerHandler().player;
+        @Override
+        public IMessage onMessage(MessageEmptySwing message, MessageContext ctx) {
+            final EntityPlayerMP player = ctx.getServerHandler().player;
 
-	    player.getServer().addScheduledTask(new Runnable() {
-		@Override
-		public void run() {
-		    if (player.getHeldItemMainhand() == null) {
-			return;
-		    }
-		    Item sword = player.getHeldItemMainhand().getItem();
+            player.getServer().addScheduledTask(new Runnable() {
+                @Override
+                public void run() {
+                    if (player.getHeldItemMainhand() == null) {
+                        return;
+                    }
+                    Item sword = player.getHeldItemMainhand().getItem();
 
-		    if (sword instanceof ToolSword) {
-			float atkCooldown = player.getCooledAttackStrength(0.5F);
-			if (atkCooldown > 0.9F) {
-			    ((ToolSword) sword).doSweepAttack(player, null);
-			}
-		    }
-		}
-	    });
+                    if (sword instanceof ToolSword) {
+                        float atkCooldown = player.getCooledAttackStrength(0.5F);
+                        if (atkCooldown > 0.9F) {
+                            ((ToolSword) sword).doSweepAttack(player, null);
+                        }
+                    }
+                }
+            });
 
-	    // No response message
-	    return null;
-	}
+            // No response message
+            return null;
+        }
 
     }
 }

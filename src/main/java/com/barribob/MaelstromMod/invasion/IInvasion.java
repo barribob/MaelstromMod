@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.invasion;
 
-public interface IInvasion
-{
+public interface IInvasion {
     public boolean isInvaded();
 
     public void setInvaded(boolean invaded);

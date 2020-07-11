@@ -1,11 +1,9 @@
 package com.barribob.MaelstromMod.entity.model;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Created using Tabula 7.0.0
@@ -85,7 +83,7 @@ public class ModelMaelstromWitch extends ModelAnimated {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.leftLeg.render(f5);
         GlStateManager.pushMatrix();
         GlStateManager.translate(this.cloak.offsetX, this.cloak.offsetY, this.cloak.offsetZ);
@@ -98,22 +96,21 @@ public class ModelMaelstromWitch extends ModelAnimated {
         this.body.render(f5);
         this.rightLeg.render(f5);
     }
-    
+
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         this.nose.offsetX = 0.0F;
         this.nose.offsetY = 0.0F;
         this.nose.offsetZ = 0.0F;
-        float f = 0.01F * (float)(entityIn.getEntityId() % 10);
-        this.nose.rotateAngleX = MathHelper.sin((float)entityIn.ticksExisted * f) * 4.5F * 0.017453292F;
+        float f = 0.01F * (float) (entityIn.getEntityId() % 10);
+        this.nose.rotateAngleX = MathHelper.sin((float) entityIn.ticksExisted * f) * 4.5F * 0.017453292F;
         this.nose.rotateAngleY = 0.0F;
-        this.nose.rotateAngleZ = MathHelper.cos((float)entityIn.ticksExisted * f) * 2.5F * 0.017453292F;
+        this.nose.rotateAngleZ = MathHelper.cos((float) entityIn.ticksExisted * f) * 2.5F * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-        this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
         this.rightLeg.rotateAngleY = 0.0F;
         this.leftLeg.rotateAngleY = 0.0F;
     }
