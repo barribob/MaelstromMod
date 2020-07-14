@@ -1,6 +1,8 @@
 package com.barribob.MaelstromMod;
 
 import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
+import com.barribob.MaelstromMod.commands.CommandReloadConfigs;
+import com.barribob.MaelstromMod.config.JsonConfigManager;
 import com.barribob.MaelstromMod.init.*;
 import com.barribob.MaelstromMod.loot.functions.ModEnchantWithLevels;
 import com.barribob.MaelstromMod.proxy.CommonProxy;
@@ -8,6 +10,7 @@ import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 import com.barribob.MaelstromMod.world.gen.WorldGenOre;
+import com.typesafe.config.Config;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -19,6 +22,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Main mod class Many of the base boilerplate here is thanks to loremaster's
@@ -39,13 +43,23 @@ public class Main {
     public static CommonProxy proxy;
     public static SimpleNetworkWrapper network;
 
+    public static final JsonConfigManager CONFIG_MANAGER = new JsonConfigManager();
+    public static Config dimensionConfig;
+
+    public static Logger log;
+
     public static final String CONFIG_DIRECTORY_NAME = "Maelstrom Mod";
+
     /**
      * Basically initializes the entire mod by calling all of the init methods in
      * the static classes
      */
     @EventHandler
     public static void PreInit(FMLPreInitializationEvent event) {
+        log = event.getModLog();
+
+        loadConfigs();
+
         GameRegistry.registerWorldGenerator(new WorldGenOre(), 2);
         GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 3);
 
@@ -73,5 +87,9 @@ public class Main {
     @EventHandler
     public static void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandDimensionTeleport());
+        event.registerServerCommand(new CommandReloadConfigs());
+    }
+
+    public static void loadConfigs() {
     }
 }
