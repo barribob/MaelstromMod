@@ -39,6 +39,7 @@ public class Main {
     public static CommonProxy proxy;
     public static SimpleNetworkWrapper network;
 
+    public static final String CONFIG_DIRECTORY_NAME = "Maelstrom Mod";
     /**
      * Basically initializes the entire mod by calling all of the init methods in
      * the static classes

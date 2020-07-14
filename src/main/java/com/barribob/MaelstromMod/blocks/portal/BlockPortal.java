@@ -1,22 +1,30 @@
 package com.barribob.MaelstromMod.blocks.portal;
 
 import com.barribob.MaelstromMod.blocks.BlockBase;
+import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.teleporter.Teleport;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -42,7 +50,7 @@ public abstract class BlockPortal extends BlockBase {
      */
     @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-        if (entityIn instanceof EntityPlayerMP && !entityIn.isRiding() && !entityIn.isBeingRidden()) {
+        if (entityIn instanceof EntityPlayerMP && !entityIn.isRiding() && !entityIn.isBeingRidden() && !ModConfig.world.disableDimensions) {
             /**
              * Find the corner of the portal, so that the entire portal is treated as one
              * position.
@@ -64,9 +72,8 @@ public abstract class BlockPortal extends BlockBase {
 
             if (player.dimension == entranceDimension) {
                 Teleport.teleportToDimension(player, exitDimension, getExitTeleporter(worldIn));
-            } else // Entering the portal from any other dimension will teleport the player to that dimension
-            {
-                Teleport.teleportToDimension(player, entranceDimension, getEntranceTeleporter(worldIn));
+            } else {
+                player.connection.setPlayerLocation(portalCorner.getX(), portalCorner.getY(), portalCorner.getZ(), player.rotationYaw, player.rotationPitch);
             }
         }
     }
@@ -132,5 +139,12 @@ public abstract class BlockPortal extends BlockBase {
     @Override
     public int quantityDropped(Random p_149745_1_) {
         return 0;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        if(ModConfig.world.disableDimensions) {
+            tooltip.add(TextFormatting.RED + ModUtils.translateDesc("disabled"));
+        }
     }
 }

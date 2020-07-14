@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.config;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.util.Reference;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Type;
@@ -11,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Configuration file for the mod
  */
-@Config(modid = Reference.MOD_ID, name = "MaelstromMod")
+@Config(modid = Reference.MOD_ID, name = Main.CONFIG_DIRECTORY_NAME + "/config")
 @Mod.EventBusSubscriber()
 public class ModConfig {
     @Config.Ignore
@@ -120,6 +121,10 @@ public class ModConfig {
         @Config.RequiresMcRestart
         @Config.LangKey(config + "crimson_kingdom_dimension_id")
         public int crimson_kingdom_dimension_id = 129;
+
+        @Config.RequiresMcRestart
+        @Config.LangKey(config + "disable_dimensions")
+        public boolean disableDimensions = false;
 
         @Config.LangKey(config + "invasion_time")
         @Config.Comment("How many minutes before attempting to spawn the invasion tower. Cannot be changed after the world is loaded.")

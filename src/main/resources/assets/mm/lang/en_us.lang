@@ -497,6 +497,7 @@ mm.config.dark_nexus_dimension_id=Dark Nexus Dimension Id
 mm.config.invasion_time=Invasion Time
 mm.config.render_cliff_fog=Render Cliff Fog
 mm.config.invasion_warning_time=Invasion Warning Time
+mm.config.disable_dimensions=Disable Dimensions
 
 mm.config.gui=Gui
 mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
@@ -586,6 +587,7 @@ item.record.music_disc_new_world.desc=Barribob - New World
 item.record.music_disc_wandering.desc=Barribob - Wandering
 mm.desc.maelstrom_key=Congrats! You have reached the ending. See the mod page for more details.
 mm.desc.key_desc=Give to herobrine to craft
+mm.desc.disabled=DISABLED
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog
