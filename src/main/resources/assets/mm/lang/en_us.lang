@@ -527,6 +527,8 @@ mm.config.sync_config_on_login=Sync Config On Login
 mm.config.shaders=Shader Compatability
 mm.config.render_custom_sky=Render Custom Skies
 
+mm.config_load_failed=Config Load Failed! View logs for more info.
+mm.config_load_success=Maelstrom Configs Reloaded Successfully
 
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions
