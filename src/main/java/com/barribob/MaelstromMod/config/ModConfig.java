@@ -63,6 +63,10 @@ public class ModConfig {
         @Config.Comment("Option to visually remove Maelstrom Level and Maelstrom Armor. (To remove the leveling system, set the progression scale to 1)")
         public boolean disableMaelstromArmorItemTooltips = false;
 
+        @Config.LangKey(config + "disable_elemental_visuals")
+        @Config.Comment("Disables elemental system visuals (tooltips/entity badges)")
+        public boolean disableElementalVisuals = false;
+
         public GuiCat(int x, int y, int mana_x, int mana_y, boolean showCooldown, boolean showMana) {
             this.maelstrom_armor_bar_offset_x = x;
             this.maelstrom_armor_bar_offset_y = y;

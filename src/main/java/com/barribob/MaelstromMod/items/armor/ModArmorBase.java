@@ -114,7 +114,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
             tooltip.add(ModUtils.getDisplayLevel((this.getLevel())));
         }
 
-        if (!element.equals(element.NONE)) {
+        if (!element.equals(element.NONE) && !ModConfig.gui.disableElementalVisuals) {
             tooltip.add(ModUtils.translateDesc("elemental_armor_desc", element.textColor + element.symbol + TextFormatting.GRAY,
                     ModUtils.ROUND.format(100 * getElementalArmor(element)) + "%"));
         }

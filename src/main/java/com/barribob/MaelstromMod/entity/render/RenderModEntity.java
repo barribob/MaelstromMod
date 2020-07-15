@@ -131,7 +131,7 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T> {
                 }
             }
 
-            if (entity instanceof IElement && !((IElement) entity).getElement().equals(Element.NONE)) {
+            if (entity instanceof IElement && !((IElement) entity).getElement().equals(Element.NONE) && !ModConfig.gui.disableElementalVisuals) {
                 double d0 = entity.getDistanceSq(this.renderManager.renderViewEntity);
                 double maxDistance = 20;
 

@@ -147,7 +147,7 @@ public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reload
         }
         tooltip.add(ModUtils.getCooldownTooltip(this.getEnchantedCooldown(stack)));
         tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("mana_cost") + ": " + TextFormatting.DARK_PURPLE + this.manaCost);
-        if (!element.equals(element.NONE)) {
+        if (!element.equals(element.NONE) && !ModConfig.gui.disableElementalVisuals) {
             tooltip.add(ModUtils.getElementalTooltip(element));
         }
         information.accept(tooltip);

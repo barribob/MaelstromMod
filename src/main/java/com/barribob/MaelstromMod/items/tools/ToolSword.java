@@ -93,7 +93,7 @@ public class ToolSword extends ItemSword implements IHasModel, ISweepAttackOverr
         if(!ModConfig.gui.disableMaelstromArmorItemTooltips) {
             tooltip.add(ModUtils.getDisplayLevel(level));
         }
-        if (!element.equals(element.NONE)) {
+        if (!element.equals(element.NONE) && !ModConfig.gui.disableElementalVisuals) {
             tooltip.add(ModUtils.getElementalTooltip(element));
         }
         information.accept(tooltip);

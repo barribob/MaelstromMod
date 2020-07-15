@@ -498,6 +498,8 @@ mm.config.invasion_time=Invasion Time
 mm.config.render_cliff_fog=Render Cliff Fog
 mm.config.invasion_warning_time=Invasion Warning Time
 mm.config.disable_dimensions=Disable Dimensions
+mm.config.disable_maelstrom_item_tooltips=Disable Maelstrom Item Tooltips and Armor
+mm.config.disable_elemental_visuals=Disable Elemental System Visuals
 
 mm.config.gui=Gui
 mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
@@ -530,7 +532,6 @@ mm.config.render_custom_sky=Render Custom Skies
 mm.config_load_failed=Config Load Failed! View logs for more info.
 mm.config_load_success=Maelstrom Configs Reloaded Successfully
 
-mm.config.disable_maelstrom_item_tooltips=Disable Maelstrom Item Tooltips and Armor
 
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions

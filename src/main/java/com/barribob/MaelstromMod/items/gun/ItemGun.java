@@ -235,7 +235,7 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 
         tooltip.add(ModUtils.translateDesc("gun_ammo", TextFormatting.DARK_PURPLE + "" + ModUtils.getGunAmmoUse(this.level)));
         tooltip.add(ModUtils.getCooldownTooltip(this.getEnchantedCooldown(stack)));
-        if (!element.equals(element.NONE)) {
+        if (!element.equals(element.NONE) && !ModConfig.gui.disableElementalVisuals) {
             tooltip.add(ModUtils.getElementalTooltip(element));
         }
         information.accept(tooltip);
