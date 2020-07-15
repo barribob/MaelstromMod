@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.init;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.items.*;
 import com.barribob.MaelstromMod.items.armor.ArmorNyanHelmet;
 import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
@@ -51,7 +52,9 @@ public class ModItems {
     public static final Item INVISIBLE = new ItemBase("invisible", null);
 
     static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
-        tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
+        if(Main.itemsConfig.getBoolean("full_set_bonuses.kanshou_bakuya")) {
+            tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
+        }
     };
 
     /*

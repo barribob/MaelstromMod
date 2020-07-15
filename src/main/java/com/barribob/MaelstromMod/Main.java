@@ -44,7 +44,7 @@ public class Main {
     public static SimpleNetworkWrapper network;
 
     public static final JsonConfigManager CONFIG_MANAGER = new JsonConfigManager();
-    public static Config dimensionConfig;
+    public static Config itemsConfig;
 
     public static Logger log;
 
@@ -91,5 +91,6 @@ public class Main {
     }
 
     public static void loadConfigs() {
+        itemsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "items");
     }
 }

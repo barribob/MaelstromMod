@@ -118,7 +118,7 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
             tooltip.add(ModUtils.translateDesc("elemental_armor_desc", element.textColor + element.symbol + TextFormatting.GRAY,
                     ModUtils.ROUND.format(100 * getElementalArmor(element)) + "%"));
         }
-        if (!this.armorBonusDesc.isEmpty()) {
+        if (!this.armorBonusDesc.isEmpty() && Main.itemsConfig.getBoolean("full_set_bonuses." + armorBonusDesc.replace("_full_set", ""))) {
             tooltip.add(ModUtils.translateDesc(this.armorBonusDesc));
         }
     }

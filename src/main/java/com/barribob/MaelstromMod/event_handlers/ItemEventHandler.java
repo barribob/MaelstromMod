@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
+import com.typesafe.config.Config;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,8 +37,10 @@ public class ItemEventHandler {
             Item chestplate = player.inventory.armorInventory.get(2).getItem();
             Item leggings = player.inventory.armorInventory.get(1).getItem();
             Item boots = player.inventory.armorInventory.get(0).getItem();
+            
+            Config bonusConfig = Main.itemsConfig.getConfig("full_set_bonuses");
 
-            if ((heldItem.equals(ModItems.BAKUYA) && offhandItem.equals(ModItems.KANSHOU)) || (heldItem.equals(ModItems.KANSHOU) && offhandItem.equals(ModItems.BAKUYA))) {
+            if (((heldItem.equals(ModItems.BAKUYA) && offhandItem.equals(ModItems.KANSHOU)) || (heldItem.equals(ModItems.KANSHOU) && offhandItem.equals(ModItems.BAKUYA))) && bonusConfig.getBoolean("kanshou_bakuya")) {
                 player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 1));
             }
 
@@ -52,7 +55,8 @@ public class ItemEventHandler {
                 }
             }
 
-            if (helmet.equals(ModItems.NYAN_HELMET) &&
+            if (bonusConfig.getBoolean("nyan") &&
+                    helmet.equals(ModItems.NYAN_HELMET) &&
                     chestplate.equals(ModItems.NYAN_CHESTPLATE) &&
                     leggings.equals(ModItems.NYAN_LEGGINGS) &&
                     boots.equals(ModItems.NYAN_BOOTS) && player.isSprinting()) {
@@ -62,25 +66,8 @@ public class ItemEventHandler {
                 player.world.spawnEntity(particle);
             }
 
-            if (!player.world.isRemote &&
-                    helmet.equals(ModItems.BLACK_GOLD_HELMET) &&
-                    chestplate.equals(ModItems.BLACK_GOLD_CHESTPLATE) &&
-                    leggings.equals(ModItems.BLACK_GOLD_LEGGINGS) &&
-                    boots.equals(ModItems.BLACK_GOLD_BOOTS) &&
-                    player.ticksExisted % 40 == 0) {
-                player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
-            }
-
-            if (!player.world.isRemote &&
-                    helmet.equals(ModItems.MAELSTROM_HELMET) &&
-                    chestplate.equals(ModItems.MAELSTROM_CHESTPLATE) &&
-                    leggings.equals(ModItems.MAELSTROM_LEGGINGS) &&
-                    boots.equals(ModItems.MAELSTROM_BOOTS) &&
-                    player.ticksExisted % 40 == 0) {
-                player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 0));
-            }
-
-            if (helmet.equals(ModItems.GOLTOX_HELMET) &&
+            if (bonusConfig.getBoolean("goltox") &&
+                    helmet.equals(ModItems.GOLTOX_HELMET) &&
                     chestplate.equals(ModItems.GOLTOX_CHESTPLATE) &&
                     leggings.equals(ModItems.GOLTOX_LEGGINGS) &&
                     boots.equals(ModItems.GOLTOX_BOOTS) &&
@@ -92,22 +79,45 @@ public class ItemEventHandler {
                 }
             }
 
-            if (!player.world.isRemote &&
-                    helmet.equals(ModItems.SWAMP_HELMET) &&
-                    chestplate.equals(ModItems.SWAMP_CHESTPLATE) &&
-                    leggings.equals(ModItems.SWAMP_LEGGINGS) &&
-                    boots.equals(ModItems.SWAMP_BOOTS) &&
-                    player.ticksExisted % 40 == 0) {
-                player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 0));
-            }
-
             if (!player.world.isRemote && player.ticksExisted % 40 == 0) {
-                if (helmet.equals(ModItems.ENERGETIC_STEEL_HELMET) && chestplate.equals(ModItems.ENERGETIC_STEEL_CHESTPLATE) && leggings.equals(ModItems.ENERGETIC_STEEL_LEGGINGS) && boots.equals(ModItems.ENERGETIC_STEEL_BOOTS)) {
+                if (bonusConfig.getBoolean("black_gold") &&
+                        helmet.equals(ModItems.BLACK_GOLD_HELMET) &&
+                        chestplate.equals(ModItems.BLACK_GOLD_CHESTPLATE) &&
+                        leggings.equals(ModItems.BLACK_GOLD_LEGGINGS) &&
+                        boots.equals(ModItems.BLACK_GOLD_BOOTS)) {
+                    player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
+                }
+
+                if (bonusConfig.getBoolean("maelstrom") &&
+                        helmet.equals(ModItems.MAELSTROM_HELMET) &&
+                        chestplate.equals(ModItems.MAELSTROM_CHESTPLATE) &&
+                        leggings.equals(ModItems.MAELSTROM_LEGGINGS) &&
+                        boots.equals(ModItems.MAELSTROM_BOOTS)) {
+                    player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 0));
+                }
+
+                if (bonusConfig.getBoolean("swamp") &&
+                        helmet.equals(ModItems.SWAMP_HELMET) &&
+                        chestplate.equals(ModItems.SWAMP_CHESTPLATE) &&
+                        leggings.equals(ModItems.SWAMP_LEGGINGS) &&
+                        boots.equals(ModItems.SWAMP_BOOTS)) {
+                    player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 0));
+                }
+
+                if (bonusConfig.getBoolean("energetic_steel") &&
+                        helmet.equals(ModItems.ENERGETIC_STEEL_HELMET) &&
+                        chestplate.equals(ModItems.ENERGETIC_STEEL_CHESTPLATE) &&
+                        leggings.equals(ModItems.ENERGETIC_STEEL_LEGGINGS) &&
+                        boots.equals(ModItems.ENERGETIC_STEEL_BOOTS)) {
                     player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
                     player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 60, 1));
                 }
 
-                if (helmet.equals(ModItems.FADESTEEL_HELMET) && chestplate.equals(ModItems.FADESTEEL_CHESTPLATE) && leggings.equals(ModItems.FADESTEEL_LEGGINGS) && boots.equals(ModItems.FADESTEEL_BOOTS)) {
+                if (bonusConfig.getBoolean("fadesteel") &&
+                        helmet.equals(ModItems.FADESTEEL_HELMET) &&
+                        chestplate.equals(ModItems.FADESTEEL_CHESTPLATE) &&
+                        leggings.equals(ModItems.FADESTEEL_LEGGINGS) &&
+                        boots.equals(ModItems.FADESTEEL_BOOTS)) {
                     player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.357);
                 }
                 // Using 0.357 as a value unlikely to be chosen by modders, so I can expect to enable and disable this without conflicting
@@ -115,7 +125,11 @@ public class ItemEventHandler {
                     player.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
                 }
 
-                if (helmet.equals(ModItems.ELYSIUM_HELMET) && chestplate.equals(ModItems.ELYSIUM_CHESTPLATE) && leggings.equals(ModItems.ELYSIUM_LEGGINGS) && boots.equals(ModItems.ELYSIUM_BOOTS)) {
+                if (bonusConfig.getBoolean("elysium") &&
+                        helmet.equals(ModItems.ELYSIUM_HELMET) &&
+                        chestplate.equals(ModItems.ELYSIUM_CHESTPLATE) &&
+                        leggings.equals(ModItems.ELYSIUM_LEGGINGS) &&
+                        boots.equals(ModItems.ELYSIUM_BOOTS)) {
                     // Every 2 seconds * 60 = approximately every 2 minutes
                     if (player.getRNG().nextInt(60) == 0) {
                         player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 140, 3));
