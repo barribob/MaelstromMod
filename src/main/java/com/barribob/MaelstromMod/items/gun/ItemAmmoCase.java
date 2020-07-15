@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.items.gun;
 
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.items.ItemBase;
@@ -28,6 +29,8 @@ public class ItemAmmoCase extends ItemBase implements ILeveledItem {
 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(ModUtils.getDisplayLevel(this.level));
+        if(!ModConfig.gui.disableMaelstromArmorItemTooltips) {
+            tooltip.add(ModUtils.getDisplayLevel(this.level));
+        }
     }
 }

@@ -225,7 +225,9 @@ public abstract class ItemGun extends ItemBase implements ILeveledItem, Reloadab
 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(ModUtils.getDisplayLevel(this.level));
+        if(!ModConfig.gui.disableMaelstromArmorItemTooltips) {
+            tooltip.add(ModUtils.getDisplayLevel(this.level));
+        }
 
         if (this.getEnchantedDamage(stack) > 0) {
             this.getDamageTooltip(stack, worldIn, tooltip, flagIn);

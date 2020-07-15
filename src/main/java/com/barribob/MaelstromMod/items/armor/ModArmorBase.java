@@ -81,6 +81,9 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
      * armor set
      */
     public float getMaelstromArmorBars() {
+        if(ModConfig.gui.disableMaelstromArmorItemTooltips) {
+            return 0;
+        }
         float armor_type_fraction = this.armor_fractions[this.armorType.getIndex()] / (float) armor_total;
         return this.getLevel() * armor_type_fraction;
     }
@@ -107,7 +110,10 @@ public class ModArmorBase extends ItemArmor implements IHasModel, ILeveledItem, 
 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(ModUtils.getDisplayLevel((this.getLevel())));
+        if(!ModConfig.gui.disableMaelstromArmorItemTooltips) {
+            tooltip.add(ModUtils.getDisplayLevel((this.getLevel())));
+        }
+
         if (!element.equals(element.NONE)) {
             tooltip.add(ModUtils.translateDesc("elemental_armor_desc", element.textColor + element.symbol + TextFormatting.GRAY,
                     ModUtils.ROUND.format(100 * getElementalArmor(element)) + "%"));

@@ -530,6 +530,8 @@ mm.config.render_custom_sky=Render Custom Skies
 mm.config_load_failed=Config Load Failed! View logs for more info.
 mm.config_load_success=Maelstrom Configs Reloaded Successfully
 
+mm.config.disable_maelstrom_item_tooltips=Disable Maelstrom Item Tooltips and Armor
+
 //———————————————————————————————————————————————————————————
 // Item and Block Descriptions
 //———————————————————————————————————————————————————————————

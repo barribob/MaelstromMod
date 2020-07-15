@@ -59,6 +59,10 @@ public class ModConfig {
         @Config.LangKey(config + "show_armor_bar")
         public boolean showArmorBar = true;
 
+        @Config.LangKey(config + "disable_maelstrom_item_tooltips")
+        @Config.Comment("Option to visually remove Maelstrom Level and Maelstrom Armor. (To remove the leveling system, set the progression scale to 1)")
+        public boolean disableMaelstromArmorItemTooltips = false;
+
         public GuiCat(int x, int y, int mana_x, int mana_y, boolean showCooldown, boolean showMana) {
             this.maelstrom_armor_bar_offset_x = x;
             this.maelstrom_armor_bar_offset_y = y;
@@ -71,8 +75,8 @@ public class ModConfig {
 
     public static class BalanceCat {
         @Config.LangKey(config + "scale")
-        @Config.RangeDouble(min = 1.1, max = 3)
-        @Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty.")
+        @Config.RangeDouble(min = 1.0, max = 3)
+        @Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty. (To remove the leveling system, set the progression scale to 1)")
         public float progression_scale = 1.3f;
 
         @Config.LangKey(config + "mob_damage")

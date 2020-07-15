@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.items.gun;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.items.ILeveledItem;
 import com.barribob.MaelstromMod.items.ItemBase;
@@ -141,7 +142,9 @@ public abstract class ItemStaff extends ItemBase implements ILeveledItem, Reload
     // List the required ammo for the gun
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(ModUtils.getDisplayLevel(this.level));
+        if(!ModConfig.gui.disableMaelstromArmorItemTooltips) {
+            tooltip.add(ModUtils.getDisplayLevel(this.level));
+        }
         tooltip.add(ModUtils.getCooldownTooltip(this.getEnchantedCooldown(stack)));
         tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("mana_cost") + ": " + TextFormatting.DARK_PURPLE + this.manaCost);
         if (!element.equals(element.NONE)) {
