@@ -73,7 +73,7 @@ public abstract class BlockPortal extends BlockBase {
             if (player.dimension == entranceDimension) {
                 Teleport.teleportToDimension(player, exitDimension, getExitTeleporter(worldIn));
             } else {
-                player.connection.setPlayerLocation(portalCorner.getX(), portalCorner.getY(), portalCorner.getZ(), player.rotationYaw, player.rotationPitch);
+                Teleport.teleportToDimension(player, entranceDimension, getEntranceTeleporter(worldIn));
             }
         }
     }
