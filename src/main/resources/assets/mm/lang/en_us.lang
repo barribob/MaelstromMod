@@ -390,13 +390,12 @@ entity.maelstrom_lancer.name=Maelstrom Lancer
 // Damage Sources
 //———————————————————————————————————————————————————————————
 death.attack.mm:maelstrom=%1$s succumbed to the maelstrom
-death.attack.mm:mobMaelstrom=%1$s was pwned by a maelstrom mob
-death.attack.mm:playerMaelstrom=%1$s was pwned by another player using maelstrom powers
-death.attack.mm:arrowMaelstrom=%1$s was shot to death by a maelstrom mob
-death.attack.mm:thrownMaelstrom=%1$s was pummeled to death by a maelstrom mob
-death.attack.mm:explosionMaelstrom=%1$s was blown up by the maelstrom
-death.attack.mm:explosionMaelstrom.player=%1$s was blown up by the maelstrom while fighting %2$s
-death.attack.mm:magicMaelstrom=%1$s was magicked by a maelstrom mob
+death.attack.mm:mobMaelstrom=%1$s was killed by a %2$s
+death.attack.mm:playerMaelstrom=%1$s was killed by %2$s
+death.attack.mm:thrownMaelstrom=%1$s was pummeled to death by a %2$s
+death.attack.mm:explosionMaelstrom=%1$s was blown up
+death.attack.mm:explosionMaelstrom.player=%1$s was blown up while fighting a %2$s
+death.attack.mm:magicMaelstrom=%1$s was magicked by a %2$s
 
 //———————————————————————————————————————————————————————————
 // Item Attributes
