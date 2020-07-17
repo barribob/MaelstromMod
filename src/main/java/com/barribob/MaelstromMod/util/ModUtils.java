@@ -45,6 +45,7 @@ import net.minecraft.world.storage.MapStorage;
 import javax.annotation.Nullable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -484,6 +485,12 @@ public final class ModUtils {
             Vec3d offset = new Vec3d(Math.sin(radians), Math.cos(radians), 0).scale(radius);
             particleSpawner.accept(offset);
         }
+    }
+
+    public static List<Vec3d> circlePoints(float radius, int numPoints) {
+        List<Vec3d> points = new ArrayList<>();
+        circleCallback(radius, numPoints, points::add);
+        return points;
     }
 
     /*

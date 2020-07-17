@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod;
 
 import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
+import com.barribob.MaelstromMod.commands.CommandInvasion;
 import com.barribob.MaelstromMod.commands.CommandReloadConfigs;
 import com.barribob.MaelstromMod.config.JsonConfigManager;
 import com.barribob.MaelstromMod.init.*;
@@ -88,6 +89,7 @@ public class Main {
     public static void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandDimensionTeleport());
         event.registerServerCommand(new CommandReloadConfigs());
+        event.registerServerCommand(new CommandInvasion());
     }
 
     public static void loadConfigs() {
