@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.init.ModDimensions;
+import com.barribob.MaelstromMod.invasion.InvasionUtils;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.items.IExtendedReach;
 import com.barribob.MaelstromMod.items.ISweepAttackOverride;
@@ -120,100 +121,104 @@ public class ModEventHandler {
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.WorldTickEvent event) {
-        // Only tick in the overworld
-        if (event.side == Side.SERVER && event.world.provider.getDimension() == 0 && event.phase == TickEvent.Phase.END) {
-            // Do not generate the structure on superflat worlds
-            if (event.world.getWorldType().equals(WorldType.FLAT)) {
-                return;
-            }
+        boolean correctTickPhase = event.side == Side.SERVER && event.phase == TickEvent.Phase.END;
+        boolean isSuperflat = event.world.getWorldType().equals(WorldType.FLAT);
+        boolean isInOverworld = event.world.provider.getDimension() == 0;
+        if (!correctTickPhase || isSuperflat || !isInOverworld) {
+            return;
+        }
 
-            InvasionWorldSaveData invasionCounter = ModUtils.getInvasionData(event.world);
+        if(InvasionUtils.hasMultipleInvasionsConfigured()) {
+            InvasionUtils.getInvasionData(event.world).tick(event.world);
+            return;
+        }
 
-            int previousTime = invasionCounter.getInvasionTime();
-            long timeElapsed = System.nanoTime() - timeSinceServerTick;
-            timeSinceServerTick = System.nanoTime();
-            invasionCounter.update((int) (timeElapsed * 1e-6)); // Convert from nanoseconds to milleseconds
+        InvasionWorldSaveData invasionCounter = ModUtils.getInvasionData(event.world);
 
-            // Issue a warning one tenth of the time left
-            float warningMessageTime = ModConfig.world.warningInvasionTime * 60 * 1000;
-            if (invasionCounter.getInvasionTime() > 0 && previousTime >= warningMessageTime && invasionCounter.getInvasionTime() < warningMessageTime && !invasionCounter.isInvaded()) {
-                event.world.playerEntities.forEach((p) -> {
-                    p.sendMessage(
-                            new TextComponentString("" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_1").getFormattedText()));
-                });
-            }
+        int previousTime = invasionCounter.getInvasionTime();
+        long timeElapsed = System.nanoTime() - timeSinceServerTick;
+        timeSinceServerTick = System.nanoTime();
+        invasionCounter.update((int) (timeElapsed * 1e-6)); // Convert from nanoseconds to milleseconds
 
-            if (invasionCounter.shouldDoInvasion()) {
-                if (event.world.playerEntities.size() > 0) {
-                    // Get the player closest to the origin
-                    EntityPlayer player = event.world.playerEntities.stream().reduce(event.world.playerEntities.get(0),
-                            (p1, p2) -> p1.getDistance(0, 0, 0) < p2.getDistance(0, 0, 0) ? p1 : p2);
+        // Issue a warning one tenth of the time left
+        float warningMessageTime = ModConfig.world.warningInvasionTime * 60 * 1000;
+        if (invasionCounter.getInvasionTime() > 0 && previousTime >= warningMessageTime && invasionCounter.getInvasionTime() < warningMessageTime && !invasionCounter.isInvaded()) {
+            event.world.playerEntities.forEach((p) -> {
+                p.sendMessage(
+                        new TextComponentString("" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_1").getFormattedText()));
+            });
+        }
 
-                    List<BlockPos> positions = new ArrayList<BlockPos>();
-                    List<Integer> variations = new ArrayList<Integer>();
+        if (invasionCounter.shouldDoInvasion()) {
+            if (event.world.playerEntities.size() > 0) {
+                // Get the player closest to the origin
+                EntityPlayer player = event.world.playerEntities.stream().reduce(event.world.playerEntities.get(0),
+                        (p1, p2) -> p1.getDistance(0, 0, 0) < p2.getDistance(0, 0, 0) ? p1 : p2);
 
-                    // Find the flattest area
-                    ModUtils.circleCallback(50, 16, (pos) -> {
-                        BlockPos structureSize = WorldGenCustomStructures.invasionTower.getSize(event.world);
-                        BlockPos structurePos = new BlockPos(player.getPositionVector().x, 0, player.getPositionVector().z); // Start with player xz position
-                        BlockPos mainTowerSize = new BlockPos(structureSize.getX() * 0.5f, 0, structureSize.getZ() * 0.5f);
+                List<BlockPos> positions = new ArrayList<BlockPos>();
+                List<Integer> variations = new ArrayList<Integer>();
 
-                        structurePos = structurePos.add(new BlockPos(pos.x, 0, pos.y)); // Add the circle position
-                        structurePos = structurePos.subtract(new BlockPos(mainTowerSize)); // Center the structure
+                // Find the flattest area
+                ModUtils.circleCallback(50, 16, (pos) -> {
+                    BlockPos structureSize = WorldGenCustomStructures.invasionTower.getSize(event.world);
+                    BlockPos structurePos = new BlockPos(player.getPositionVector().x, 0, player.getPositionVector().z); // Start with player xz position
+                    BlockPos mainTowerSize = new BlockPos(structureSize.getX() * 0.5f, 0, structureSize.getZ() * 0.5f);
 
-                        // The tower template edges are not very good indicators for what the height
-                        // should be.
-                        // This adjusts so that the height is based more on the center of the tower
-                        int y = ModUtils.getAverageGroundHeight(event.world, structurePos.getX() + (int) (mainTowerSize.getX() * 0.5f),
-                                structurePos.getZ() + (int) (mainTowerSize.getZ() * 0.5f), mainTowerSize.getX(), mainTowerSize.getZ(), 8);
+                    structurePos = structurePos.add(new BlockPos(pos.x, 0, pos.y)); // Add the circle position
+                    structurePos = structurePos.subtract(new BlockPos(mainTowerSize)); // Center the structure
 
-                        // There is too much terrain variation for the tower to be here
-                        if (y == -1 || y > NexusToOverworldTeleporter.yPortalOffset - structureSize.getY()) {
-                            return;
+                    // The tower template edges are not very good indicators for what the height
+                    // should be.
+                    // This adjusts so that the height is based more on the center of the tower
+                    int y = ModUtils.getAverageGroundHeight(event.world, structurePos.getX() + (int) (mainTowerSize.getX() * 0.5f),
+                            structurePos.getZ() + (int) (mainTowerSize.getZ() * 0.5f), mainTowerSize.getX(), mainTowerSize.getZ(), 8);
+
+                    // There is too much terrain variation for the tower to be here
+                    if (y == -1 || y > NexusToOverworldTeleporter.yPortalOffset - structureSize.getY()) {
+                        return;
+                    }
+
+                    // Add the y height
+                    final BlockPos finalPos = structurePos.add(new BlockPos(0, y, 0));
+
+                    // Avoid spawning in water (mostly for oceans because they can be very deep)
+                    if (event.world.containsAnyLiquid(new AxisAlignedBB(finalPos, structureSize.add(finalPos)))) {
+                        return;
+                    }
+
+                    // Try to avoid bases with beds (spawnpoints) in them
+                    boolean baseNearby = event.world.playerEntities.stream().anyMatch((p) -> {
+                        if (event.world.getSpawnPoint().equals(p.getBedLocation()) || p.getBedLocation() == null) {
+                            return false;
                         }
-
-                        // Add the y height
-                        final BlockPos finalPos = structurePos.add(new BlockPos(0, y, 0));
-
-                        // Avoid spawning in water (mostly for oceans because they can be very deep)
-                        if (event.world.containsAnyLiquid(new AxisAlignedBB(finalPos, structureSize.add(finalPos)))) {
-                            return;
-                        }
-
-                        // Try to avoid bases with beds (spawnpoints) in them
-                        boolean baseNearby = event.world.playerEntities.stream().anyMatch((p) -> {
-                            if (event.world.getSpawnPoint().equals(p.getBedLocation()) || p.getBedLocation() == null) {
-                                return false;
-                            }
-                            return finalPos.distanceSq(p.getBedLocation()) < Math.pow(75, 2);
-                        });
-
-                        if (!baseNearby) {
-                            int terrainVariation = GenUtils.getTerrainVariation(event.world, finalPos.getX(), finalPos.getZ(), finalPos.getX(),
-                                    structureSize.getZ());
-                            positions.add(finalPos);
-                            variations.add(terrainVariation);
-                        }
+                        return finalPos.distanceSq(p.getBedLocation()) < Math.pow(75, 2);
                     });
 
-                    if (positions.size() > 0) {
-                        event.world.playerEntities.forEach((p) -> {
-                            p.sendMessage(new TextComponentString(
-                                    "" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_2").getFormattedText()));
-                        });
-                        invasionCounter.setInvaded(true);
-                        BlockPos structurePos = positions.get(variations.indexOf(Collections.min(variations)));
-                        WorldGenCustomStructures.invasionTower.generateStructure(event.world, structurePos, Rotation.NONE);
-                    } else {
-                        // If we don't find any good place to put the tower, put a cooldown because
-                        // chances are there may be a lot of bad areas, so don't spend too much
-                        // computing power
-                        // every tick. Instead wait 10 seconds and try again
-                        invasionCounter.setInvasionTime(10 * 1000);
+                    if (!baseNearby) {
+                        int terrainVariation = GenUtils.getTerrainVariation(event.world, finalPos.getX(), finalPos.getZ(), finalPos.getX(),
+                                structureSize.getZ());
+                        positions.add(finalPos);
+                        variations.add(terrainVariation);
                     }
+                });
+
+                if (positions.size() > 0) {
+                    event.world.playerEntities.forEach((p) -> {
+                        p.sendMessage(new TextComponentString(
+                                "" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(Reference.MOD_ID + ".invasion_2").getFormattedText()));
+                    });
+                    invasionCounter.setInvaded(true);
+                    BlockPos structurePos = positions.get(variations.indexOf(Collections.min(variations)));
+                    WorldGenCustomStructures.invasionTower.generateStructure(event.world, structurePos, Rotation.NONE);
                 } else {
-                    invasionCounter.setDimensionCooldownTime();
+                    // If we don't find any good place to put the tower, put a cooldown because
+                    // chances are there may be a lot of bad areas, so don't spend too much
+                    // computing power
+                    // every tick. Instead wait 10 seconds and try again
+                    invasionCounter.setInvasionTime(10 * 1000);
                 }
+            } else {
+                invasionCounter.setDimensionCooldownTime();
             }
         }
     }

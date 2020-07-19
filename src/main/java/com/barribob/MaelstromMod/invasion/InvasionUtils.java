@@ -1,14 +1,22 @@
 package com.barribob.MaelstromMod.invasion;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.util.GenUtils;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.teleporter.NexusToOverworldTeleporter;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.MapStorage;
 
 import java.util.Optional;
 import java.util.function.BinaryOperator;
@@ -60,5 +68,30 @@ public class InvasionUtils {
 
         towerPos.ifPresent(blockPos -> WorldGenCustomStructures.invasionTower.generateStructure(world, blockPos, Rotation.NONE));
         return towerPos.isPresent();
+    }
+
+    public static EntityPlayer getPlayerClosestToOrigin(World world) {
+        return world.playerEntities.stream().reduce(world.playerEntities.get(0),
+                (p1, p2) -> p1.getDistanceSq(BlockPos.ORIGIN) < p2.getDistanceSq(BlockPos.ORIGIN) ? p1 : p2);
+    }
+
+    public static void sendInvasionMessage(World world, String translation) {
+        world.playerEntities.forEach((p) -> p.sendMessage(
+                new TextComponentString("" + TextFormatting.DARK_PURPLE + new TextComponentTranslation(translation).getFormattedText())));
+    }
+
+    public static MultiInvasionWorldSavedData getInvasionData(World world) {
+        MapStorage storage = world.getMapStorage();
+        MultiInvasionWorldSavedData instance = (MultiInvasionWorldSavedData) storage.getOrLoadData(MultiInvasionWorldSavedData.class, MultiInvasionWorldSavedData.DATA_NAME);
+
+        if (instance == null) {
+            instance = new MultiInvasionWorldSavedData();
+            storage.setData(MultiInvasionWorldSavedData.DATA_NAME, instance);
+        }
+        return instance;
+    }
+
+    public static boolean hasMultipleInvasionsConfigured() {
+        return Main.invasionsConfig.getConfigList("invasions").size() > 0;
     }
 }

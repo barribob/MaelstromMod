@@ -11,6 +11,7 @@ public class InvasionWorldSaveData extends WorldSavedData {
     private int dimensionTime = 1000; // An additional second when coming out of a dimension to let the server get the correct player position
     public static final String DATA_NAME = Reference.MOD_ID + "_InvasionData";
 
+    @SuppressWarnings("unused")
     public InvasionWorldSaveData(String s) {
         super(s);
     }

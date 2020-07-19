@@ -984,4 +984,12 @@ public final class ModUtils {
         }
         return Math.sqrt(sum);
     }
+
+    public static int minutesToTicks(int minutes) {
+        return minutes * 60 * 20;
+    }
+
+    public static int secondsToTicks(int seconds) {
+        return seconds * 20;
+    }
 }

@@ -46,6 +46,7 @@ public class Main {
 
     public static final JsonConfigManager CONFIG_MANAGER = new JsonConfigManager();
     public static Config itemsConfig;
+    public static Config invasionsConfig;
 
     public static Logger log;
 
@@ -94,5 +95,6 @@ public class Main {
 
     public static void loadConfigs() {
         itemsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "items");
+        invasionsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "invasions");
     }
 }
