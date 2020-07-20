@@ -70,7 +70,6 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
         this.setSize(2.2f, 4.5f);
         this.healthScaledAttackFactor = 0.2;
         this.isImmuneToFire = true;
-        this.experienceValue = ModEntities.BOSS_EXPERIENCE;
 
         BiConsumer<EntityLeveledMob, EntityLivingBase> fireballs = (EntityLeveledMob actor, EntityLivingBase target) -> {
             ModUtils.performNTimes(3, (i) -> {
@@ -193,10 +192,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9f);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(600);
         this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30);
     }
 
     @Override
@@ -369,17 +365,25 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
     public void onDeath(DamageSource cause) {
         world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE); // Explode on death
 
-        // Spawn the second half of the boss
-        EntityWhiteMonolith boss = new EntityWhiteMonolith(world);
-        boss.copyLocationAndAnglesFrom(this);
-        boss.setRotationYawHead(this.rotationYawHead);
-        if (!world.isRemote) {
-            world.spawnEntity(boss);
+        if(getMobConfig().getBoolean("spawn_nexus_portal_on_death")) {
+            // Spawn the second half of the boss
+            EntityWhiteMonolith boss = new EntityWhiteMonolith(world);
+            boss.copyLocationAndAnglesFrom(this);
+            boss.setRotationYawHead(this.rotationYawHead);
+            if (!world.isRemote) {
+                world.spawnEntity(boss);
+            }
+
+            // Teleport away so that the player doens't see the death animation
+            this.setImmovable(false);
+            this.setPosition(0, 0, 0);
         }
 
-        // Teleport away so that the player doens't see the death animation
-        this.setImmovable(false);
-        this.setPosition(0, 0, 0);
+        ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(15, 2, 15)).stream().filter((e) -> e instanceof EntityMaelstromMob).forEach((e) -> {
+            e.hurtResistantTime = 0;
+            e.attackEntityFrom(DamageSource.MAGIC, 50);
+        });
+
         super.onDeath(cause);
     }
 
@@ -432,7 +436,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
         double[] weights = {numMinions == 0 ? 0.8 : 0.1, 0.5, yellowWeight};
         attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
 
-        if (!isTransformed() && this.getHealth() < this.getMaxHealth() * 0.5) {
+        if (!isTransformed() && this.getHealth() < getMobConfig().getInt("second_boss_phase_hp")) {
             attackHandler.setCurrentAttack(stageTransform);
         }
 

@@ -14,6 +14,8 @@ import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.google.common.collect.Sets;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigRenderOptions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -30,6 +32,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.*;
@@ -991,5 +996,14 @@ public final class ModUtils {
 
     public static int secondsToTicks(int seconds) {
         return seconds * 20;
+    }
+
+    public static NBTTagCompound parseNBTFromConfig(Config config) {
+        try {
+            return JsonToNBT.getTagFromJson(config.root().render(ConfigRenderOptions.concise()));
+        } catch (NBTException e) {
+            Main.log.error("Malformed NBT tag", e);
+        }
+        return new NBTTagCompound();
     }
 }

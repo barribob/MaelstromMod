@@ -54,14 +54,6 @@ public class EntityWhiteMonolith extends EntityLeveledMob {
             world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
         }
 
-        // Remove minions after the boss fight
-        if (this.ticksExisted == 1) {
-            ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(15, 2, 15)).stream().filter((e) -> e instanceof EntityMaelstromMob).forEach((e) -> {
-                e.hurtResistantTime = 0;
-                e.attackEntityFrom(DamageSource.causeMobDamage(this), 50);
-            });
-        }
-
         if (this.ticksExisted > DEATH_TIME - 40) {
             world.setEntityState(this, ModUtils.PARTICLE_BYTE);
             world.playSound(this.posX, NexusToOverworldTeleporter.yPortalOffset, this.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.AMBIENT, 5.0f, 1.0f, false);

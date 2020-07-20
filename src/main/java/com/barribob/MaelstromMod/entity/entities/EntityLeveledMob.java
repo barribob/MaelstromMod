@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
@@ -10,6 +11,8 @@ import com.barribob.MaelstromMod.util.IAnimatedMob;
 import com.barribob.MaelstromMod.util.IElement;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,6 +24,7 @@ import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -48,6 +52,17 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
         super(worldIn);
         this.setLevel(LevelHandler.INVASION);
         this.experienceValue = 5;
+        if(getMobConfig().hasPath("nbt_spawn_data")) {
+            this.readFromNBT(ModUtils.parseNBTFromConfig(getMobConfig().getConfig("nbt_spawn_data")));
+        }
+    }
+
+    protected Config getMobConfig() {
+        String entityName = EntityRegistry.getEntry(this.getClass()).getName();
+        if (Main.mobsConfig.hasPath(entityName)) {
+            return Main.mobsConfig.getConfig(entityName);
+        }
+        return ConfigFactory.empty();
     }
 
     // Because for some reason the default entity ai for 1.12 sends entities
@@ -177,6 +192,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
         compound.setFloat("level", getLevel());
         compound.setBoolean("isImmovable", this.isImmovable());
         compound.setInteger("element", getElement().id);
+        compound.setInteger("experienceValue", this.experienceValue);
         if (initialPosition != null) {
             compound.setDouble("initialX", initialPosition.x);
             compound.setDouble("initialY", initialPosition.y);
@@ -197,6 +213,9 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 
         super.readFromNBT(compound);
 
+        if(compound.hasKey("experienceValue")) {
+            this.experienceValue = compound.getInteger("experienceValue");
+        }
         if (compound.hasKey("isImmovable")) {
             this.setImmovable(compound.getBoolean("isImmovable"));
         }
