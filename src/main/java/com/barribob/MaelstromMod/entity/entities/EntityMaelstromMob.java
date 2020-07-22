@@ -46,11 +46,9 @@ import javax.annotation.Nullable;
 public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob {
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
-    protected static int reinforcementsCallDistance = 20;
 
     public EntityMaelstromMob(World worldIn) {
         super(worldIn);
-        this.experienceValue = 10;
     }
 
     @Override

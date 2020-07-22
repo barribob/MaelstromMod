@@ -210,10 +210,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.26f);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(64);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(12f);
         this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
     }
 
@@ -234,10 +231,14 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
         List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch, lazer, defend, fireball));
         int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(20, 10, 20)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
-        float healthRatio = this.getHealth() / this.getMaxHealth();
-        double defendWeight = this.prevAttack == this.defend || numMinions > 3 || healthRatio > 0.55 ? 0 : 0.8;
-        double fireballWeight = distanceSq < Math.pow(25, 2) && healthRatio < 0.85 ? 1 : 0;
-        double lazerWeight = distanceSq < Math.pow(35, 2) && healthRatio < 0.7 ? 1 : 0;
+
+        double fireballHealth = getMobConfig().getDouble("use_fireball_at_health");
+        double lazerHealth = getMobConfig().getDouble("use_lazer_at_health");
+        double spawnHealth = getMobConfig().getDouble("use_spawning_at_health");
+
+        double defendWeight = this.prevAttack == this.defend || numMinions > 3 || this.getHealth() > spawnHealth ? 0 : 0.8;
+        double fireballWeight = distanceSq < Math.pow(25, 2) && this.getHealth() < fireballHealth ? 1 : 0;
+        double lazerWeight = distanceSq < Math.pow(35, 2) && this.getHealth() < lazerHealth ? 1 : 0;
         double punchWeight = ModUtils.canEntityBeSeen(this, target) ? Math.sqrt(distanceSq) / 25 : 3;
 
         double[] weights = {punchWeight, lazerWeight, defendWeight, fireballWeight};
@@ -340,7 +341,14 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
         if (this.isPunching) {
             boolean destroyedBlocks = ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
-            ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), ModDamageSource.causeElementalMeleeDamage(this, this.getElement()), (float) ModUtils.mag(this.motionX, this.motionY, this.motionZ), 0, false);
+
+            DamageSource source = ModDamageSource.builder()
+                    .type(ModDamageSource.MOB)
+                    .directEntity(this)
+                    .stoppedByArmorNotShields()
+                    .element(this.getElement()).build();
+
+            ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), source, (float) ModUtils.mag(this.motionX, this.motionY, this.motionZ), 0, false);
             if (destroyedBlocks) {
                 world.newExplosion(this, this.posX, this.posY + this.getEyeHeight(), this.posZ, 2, false, false);
             }
@@ -466,8 +474,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         if (!world.isRemote && this.getLevel() > 0 && this.dimension == ModDimensions.CRIMSON_KINGDOM.getId()) {
 
             for (int i = 0; i < 15; i++) {
-                final int i_final = i;
-                world.newExplosion(this, this.posX, this.posY + i_final * 2, this.posZ, 2, false, false);
+                world.newExplosion(this, this.posX, this.posY + i * 2, this.posZ, 2, false, false);
             }
 
             new WorldGenGauntletSpike().generate(world, this.getRNG(), this.getPosition().add(new BlockPos(-3, 0, -3)));

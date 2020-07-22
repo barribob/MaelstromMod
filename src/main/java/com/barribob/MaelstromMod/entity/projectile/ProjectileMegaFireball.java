@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
 import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -72,7 +73,15 @@ public class ProjectileMegaFireball extends ProjectileGun {
         }
 
         int fireFactor = this.isBurning() ? 10 : 5;
-        ModUtils.handleAreaImpact(7, (e) -> this.getGunDamage((e)), this.shootingEntity, this.getPositionVector(), DamageSource.causeExplosionDamage(this.shootingEntity), 0, fireFactor);
+
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.EXPLOSION)
+                .directEntity(this)
+                .indirectEntity(this.shootingEntity)
+                .element(this.getElement())
+                .stoppedByArmorNotShields().build();
+
+        ModUtils.handleAreaImpact(7, this::getGunDamage, this.shootingEntity, this.getPositionVector(), source, 0, fireFactor);
         boolean flag = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.shootingEntity);
         super.onHit(result);
         this.world.newExplosion((Entity) null, this.posX, this.posY, this.posZ, 3, true, flag);
