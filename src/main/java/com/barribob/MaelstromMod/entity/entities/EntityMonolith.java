@@ -12,7 +12,6 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileMonolithFireball;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
-import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
@@ -91,7 +90,14 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
             Vec3d dir = lazerDir.subtract(actor.getPositionVector().add(ModUtils.yVec(actor.getEyeHeight()))).scale(1 / numParticles);
             Vec3d currentPos = actor.getPositionVector().add(ModUtils.yVec(actor.getEyeHeight()));
             for (int i = 0; i < numParticles; i++) {
-                ModUtils.handleAreaImpact(lazerRadius, (e) -> actor.getAttack(), actor, currentPos, ModDamageSource.causeElementalExplosionDamage(actor, actor.getElement()), 0.5f,
+
+                DamageSource source = ModDamageSource.builder()
+                        .type(ModDamageSource.EXPLOSION)
+                        .directEntity(actor)
+                        .stoppedByArmorNotShields()
+                        .element(getElement()).build();
+
+                ModUtils.handleAreaImpact(lazerRadius, (e) -> actor.getAttack(), actor, currentPos, source, 0.5f,
                         5, false);
                 currentPos = currentPos.add(dir);
                 for (int j = 0; j < 20; j++) {
@@ -122,7 +128,13 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
             attackHandler.setAttack(yellowAttack, new Action() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    ModUtils.handleAreaImpact(7, (e) -> getAttack(), actor, getPositionVector(), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 2.0f, 0, true);
+                    DamageSource source = ModDamageSource.builder()
+                            .type(ModDamageSource.MAGIC)
+                            .directEntity(actor)
+                            .stoppedByArmorNotShields()
+                            .element(getElement()).build();
+
+                    ModUtils.handleAreaImpact(7, (e) -> getAttack(), actor, getPositionVector(), source, 2.0f, 0, true);
                     actor.playSound(SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, 1.0f, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
                     actor.world.setEntityState(actor, ModUtils.SECOND_PARTICLE_BYTE);
                 }
@@ -302,7 +314,13 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
 
     @Override
     public void onStopLeaping() {
-        ModUtils.handleAreaImpact(5, (e) -> this.getAttack() * 1.3f, this, this.getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalExplosionDamage(this, getElement()));
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.EXPLOSION)
+                .directEntity(this)
+                .stoppedByArmorNotShields()
+                .element(getElement()).build();
+
+        ModUtils.handleAreaImpact(5, (e) -> this.getAttack() * 1.3f, this, this.getPositionVector().add(ModUtils.yVec(1)), source);
         this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
         this.world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE);
         addEvent(() -> {

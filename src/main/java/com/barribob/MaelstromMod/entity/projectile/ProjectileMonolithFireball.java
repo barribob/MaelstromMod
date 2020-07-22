@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
 import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -64,8 +65,16 @@ public class ProjectileMonolithFireball extends ProjectileGun {
     protected void onHit(RayTraceResult result) {
         float knockbackFactor = 1.1f + this.getKnockback() * 0.4f;
         int fireFactor = this.isBurning() ? 8 : 3;
-        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getGunDamage((e)), this.shootingEntity, this.getPositionVector(),
-                DamageSource.causeExplosionDamage(this.shootingEntity), knockbackFactor, fireFactor);
+
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.EXPLOSION)
+                .directEntity(this)
+                .indirectEntity(shootingEntity)
+                .stoppedByArmorNotShields()
+                .element(getElement()).build();
+
+        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, this::getGunDamage, this.shootingEntity, this.getPositionVector(),
+                source, knockbackFactor, fireFactor);
         if (!world.isRemote) {
             for (int j = 0; j < 5; j++) {
                 Vec3d pos = getPositionVector().add(ModRandom.randVec().scale(EXPOSION_AREA_FACTOR - 1));

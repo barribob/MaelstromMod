@@ -1,10 +1,16 @@
 package com.barribob.MaelstromMod.util;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 
-public class EntityElementalDamageSourceIndirect extends EntityDamageSourceIndirect implements IElement {
+public class EntityElementalDamageSourceIndirect extends EntityDamageSourceIndirect implements IElement, IShieldArmorDamageSource {
     Element element;
+    boolean stoppedByArmor;
 
     public EntityElementalDamageSourceIndirect(String damageTypeIn, Entity source, Entity indirectEntityIn, Element element) {
         super(damageTypeIn, source, indirectEntityIn);
@@ -16,4 +22,22 @@ public class EntityElementalDamageSourceIndirect extends EntityDamageSourceIndir
         return element;
     }
 
+    public EntityElementalDamageSourceIndirect setStoppedByArmor(boolean stoppedByArmor) {
+        this.stoppedByArmor = stoppedByArmor;
+        return this;
+    }
+
+    @Override
+    public boolean getStoppedByArmor() {
+        return stoppedByArmor;
+    }
+
+    @Override
+    public ITextComponent getDeathMessage(EntityLivingBase entity)
+    {
+        ITextComponent itextcomponent = this.getTrueSource() == null ? this.damageSourceEntity.getDisplayName() : this.getTrueSource().getDisplayName();
+
+        String s = "death.attack." + this.damageType;
+        return new TextComponentTranslation(s, entity.getDisplayName(), itextcomponent);
+    }
 }

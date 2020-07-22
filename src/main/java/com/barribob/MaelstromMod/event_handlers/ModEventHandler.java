@@ -16,10 +16,7 @@ import com.barribob.MaelstromMod.packets.MessageExtendedReachAttack;
 import com.barribob.MaelstromMod.packets.MessageSyncConfig;
 import com.barribob.MaelstromMod.player.PlayerMeleeAttack;
 import com.barribob.MaelstromMod.renderer.InputOverrides;
-import com.barribob.MaelstromMod.util.GenUtils;
-import com.barribob.MaelstromMod.util.IElement;
-import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.Reference;
+import com.barribob.MaelstromMod.util.*;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
 import com.barribob.MaelstromMod.util.teleporter.NexusToOverworldTeleporter;
 import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenCrimsonKingdomChunk;
@@ -67,9 +64,14 @@ import java.util.List;
 @Mod.EventBusSubscriber()
 public class ModEventHandler {
     public static final ResourceLocation MANA = new ResourceLocation(Reference.MOD_ID, "mana");
-    // public static final ResourceLocation INVASION = new
-    // ResourceLocation(Reference.MOD_ID, "invasion");
     private static long timeSinceServerTick = System.nanoTime();
+
+    @SubscribeEvent
+    public static void afterShieldAndBeforeArmor(LivingHurtEvent event) {
+        if(event.getSource() instanceof IShieldArmorDamageSource && ((IShieldArmorDamageSource)event.getSource()).getStoppedByArmor()) {
+            event.getSource().isUnblockable = false;
+        }
+    }
 
     /**
      * The purpose of this hook is to detect chunk errors in the crimson kingdom and fill in those chunks automatically, or at the very least on world reload. It is very hard to figure out why these chunk
