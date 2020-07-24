@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
@@ -46,6 +47,8 @@ import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.MapStorage;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import javax.annotation.Nullable;
 import java.math.RoundingMode;
@@ -724,11 +727,6 @@ public final class ModUtils {
 
     /**
      * Taken from {@code EntityLivingBase#travel(float, float, float)} The purpose is to let my custom elytras still have the fly into wall damage
-     *
-     * @param strafe
-     * @param vertical
-     * @param forward
-     * @param entity
      */
     public static void handleElytraTravel(EntityLivingBase entity) {
         if (entity.isServerWorld() || entity.canPassengerSteer()) {
@@ -786,16 +784,69 @@ public final class ModUtils {
         }
     }
 
+    public static @Nullable
+    EntityLeveledMob spawnMob(World world, BlockPos pos, float level, Config algorithmConfig) {
+        List<? extends Config> configs = algorithmConfig.getConfigList("mobs");
+
+        BlockPos spawnRange = new BlockPos(algorithmConfig.getInt("spawning_area.width"),
+                algorithmConfig.getInt("spawning_area.height"),
+                algorithmConfig.getInt("spawning_area.width"));
+
+        AxisAlignedBB spawningArea = new AxisAlignedBB(pos).expand(spawnRange.getX(), spawnRange.getY(), spawnRange.getZ());
+
+        Function<String, Integer> getCountOfMobsById = mobId -> (int) world.getEntitiesWithinAABB(EntityLivingBase.class, spawningArea).stream()
+                .filter((e) -> {
+                    EntityEntry registry = EntityRegistry.getEntry(e.getClass());
+                    if (registry != null) {
+                        return registry.getRegistryName() != null && registry.getRegistryName().toString().equals(mobId);
+                    }
+                    return false;
+                }).count();
+
+        Function<Config, Integer> filterOutMobsOverCap = config -> {
+            if (config.hasPath("max_nearby") && getCountOfMobsById.apply(config.getString("entity_id")) > config.getInt("max_nearby")) {
+                return 0;
+            }
+            return config.hasPath("spawn_weight") ? config.getInt("spawn_weight") : 1;
+        };
+
+        int[] mobWeights = configs.stream().map(filterOutMobsOverCap).mapToInt(x -> x).toArray();
+
+        Function<Config, int[]> getElementalWeights = config -> config.getConfigList("elements").stream()
+                .mapToInt(c -> c.getInt("weight")).toArray();
+
+        Function<Config, Element[]> getElementalIds = config -> config.getConfigList("elements").stream()
+                .mapToInt(c -> c.getInt("id"))
+                .mapToObj(Element::getElementFromId)
+                .toArray(Element[]::new);
+
+        MobSpawnerLogic.MobSpawnData[] data = configs.stream().map(config -> {
+            MobSpawnData newSpawnData;
+
+            if (config.hasPath("elements")) {
+                int[] elementWeights = getElementalWeights.apply(config);
+                Element[] elementIds = getElementalIds.apply(config);
+                newSpawnData = new MobSpawnerLogic.MobSpawnData(config.getString("entity_id"), elementIds, elementWeights, 1);
+            } else {
+                newSpawnData = new MobSpawnerLogic.MobSpawnData(config.getString("entity_id"), Element.NONE);
+            }
+
+            if (config.hasPath("nbt_spawn_data")) {
+                NBTTagCompound spawnData = parseNBTFromConfig(config.getConfig("nbt_spawn_data"));
+                spawnData.setString("id", config.getString("entity_id"));
+                newSpawnData.addMobNBT(spawnData);
+            }
+
+            return newSpawnData;
+        }).toArray(MobSpawnerLogic.MobSpawnData[]::new);
+
+        return ModUtils.spawnMob(world, pos, level, data, mobWeights, spawnRange);
+    }
+
     /**
      * Attempts to spawn a mob around the actor within a certain range. Returns null if the spawning failed. Otherwise returns the spawned mob
-     *
-     * @param actor
-     * @param target
-     * @param mob
-     * @param range
-     * @return
      */
-    public static @Nullable
+    private static @Nullable
     EntityLeveledMob spawnMob(World world, BlockPos pos, float level, MobSpawnData[] mobs, int weights[], BlockPos range) {
         Random random = new Random();
         MobSpawnData data = ModRandom.choice(mobs, random, weights).next();
@@ -860,7 +911,7 @@ public final class ModUtils {
         }
 
         if (entity == null) {
-            System.out.println("Failed to spawn entity with id" + data.mobId);
+            System.out.println("Failed to spawn entity with id " + data.mobId);
             return null;
         }
 

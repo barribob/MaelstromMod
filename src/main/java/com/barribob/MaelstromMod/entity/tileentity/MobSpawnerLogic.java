@@ -92,9 +92,11 @@ public abstract class MobSpawnerLogic {
             this.elementalWeights = elementalWeights;
             this.count = count;
         }
-    }
 
-    ;
+        public void addMobNBT(NBTTagCompound mobData) {
+            this.mobData = mobData;
+        }
+    }
 
     public MobSpawnerLogic(Supplier<World> world, Supplier<BlockPos> pos, Block block) {
         this.world = world;

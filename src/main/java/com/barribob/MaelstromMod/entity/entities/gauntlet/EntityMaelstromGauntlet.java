@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities.gauntlet;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.*;
 import com.barribob.MaelstromMod.entity.entities.*;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
@@ -157,15 +158,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         // Schedule spawning a bunch of enemies
         for (int i = 1; i < 200; i += 30) {
             this.addEvent(() -> {
-                EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(),
-                        new MobSpawnData[]{
-                                new MobSpawnData(ModEntities.getID(EntityShade.class), new Element[]{Element.CRIMSON, Element.NONE}, new int[]{1, 4}, 1),
-                                new MobSpawnData(ModEntities.getID(EntityMaelstromLancer.class), new Element[]{Element.CRIMSON, Element.NONE}, new int[]{1, 4}, 1),
-                                new MobSpawnData(ModEntities.getID(EntityMaelstromMage.class), new Element[]{Element.CRIMSON, Element.NONE}, new int[]{1, 4}, 1),
-                                new MobSpawnData(ModEntities.getID(EntityMaelstromHealer.class), Element.NONE),
-                        },
-                        new int[]{3, 2, 1, 1},
-                        new BlockPos(8, 6, 8));
+                EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(), getMobConfig().getConfig("summoning_algorithm"));
                 if (mob != null) {
                     ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
                 }
@@ -223,7 +216,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     private void initGauntletAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<EntityMaelstromGauntlet>(this, 1.0f, 60, attackDistance + 20, 20, 0.8f, 20));
+        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 60, attackDistance + 20, 20, 0.8f, 20));
         this.tasks.addTask(7, new AiFistWander(this, 80, 8));
     }
 
@@ -236,7 +229,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         double lazerHealth = getMobConfig().getDouble("use_lazer_at_health");
         double spawnHealth = getMobConfig().getDouble("use_spawning_at_health");
 
-        double defendWeight = this.prevAttack == this.defend || numMinions > 3 || this.getHealth() > spawnHealth ? 0 : 0.8;
+        double defendWeight = this.prevAttack == this.defend || numMinions > 3 || this.getHealth() > spawnHealth ? 90 : 0.8;
         double fireballWeight = distanceSq < Math.pow(25, 2) && this.getHealth() < fireballHealth ? 1 : 0;
         double lazerWeight = distanceSq < Math.pow(35, 2) && this.getHealth() < lazerHealth ? 1 : 0;
         double punchWeight = ModUtils.canEntityBeSeen(this, target) ? Math.sqrt(distanceSq) / 25 : 3;
