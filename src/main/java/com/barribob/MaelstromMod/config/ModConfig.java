@@ -60,7 +60,7 @@ public class ModConfig {
         public boolean showArmorBar = true;
 
         @Config.LangKey(config + "disable_maelstrom_item_tooltips")
-        @Config.Comment("Option to visually remove Maelstrom Level and Maelstrom Armor. (To remove the leveling system, set the progression scale to 1)")
+        @Config.Comment("Option to visually remove Maelstrom Level and Maelstrom Armor. (To remove the leveling system, set the progression scale to 1). ")
         public boolean disableMaelstromArmorItemTooltips = false;
 
         @Config.LangKey(config + "disable_elemental_visuals")
@@ -80,7 +80,7 @@ public class ModConfig {
     public static class BalanceCat {
         @Config.LangKey(config + "scale")
         @Config.RangeDouble(min = 1.0, max = 3)
-        @Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty. (To remove the leveling system, set the progression scale to 1)")
+        @Config.Comment("Determines how rapidly the weapons, armor, and mobs grow in difficulty. (To remove the leveling system, set the progression scale to 1 and disable maelstrom tooltips in the gui category.)")
         public float progression_scale = 1.3f;
 
         @Config.LangKey(config + "mob_damage")
@@ -105,7 +105,7 @@ public class ModConfig {
 
         @Config.LangKey(config + "elemental_factor")
         @Config.RangeDouble(min = 1.0, max = 3)
-        @Config.Comment("Represents how important using the correct color (or element) is")
+        @Config.Comment("Represents how important using the correct color (or element) is. To disable entirely, set to 1.0, and in the gui category disable elemental visuals.")
         public float elemental_factor = 1.6f;
     }
 
