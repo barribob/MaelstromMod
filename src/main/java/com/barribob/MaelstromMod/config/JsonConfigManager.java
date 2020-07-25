@@ -55,6 +55,11 @@ public class JsonConfigManager {
         return defaultConfig;
     }
 
+    public Config loadDefaultConfig(String configName) {
+        String defaultConfigPath = "default_configs/" + configName + "_default.conf";
+        return ConfigFactory.load(defaultConfigPath);
+    }
+
     private void CopyDefaultConfig(String defaultConfigPath, File configFile) {
         InputStream defaultResourcePath = this.getClass().getClassLoader().getResourceAsStream(defaultConfigPath);
         if (defaultResourcePath != null) {

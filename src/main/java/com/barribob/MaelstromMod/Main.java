@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod;
 import com.barribob.MaelstromMod.commands.CommandDimensionTeleport;
 import com.barribob.MaelstromMod.commands.CommandInvasion;
 import com.barribob.MaelstromMod.commands.CommandReloadConfigs;
+import com.barribob.MaelstromMod.commands.CommandRunUnitTests;
 import com.barribob.MaelstromMod.config.JsonConfigManager;
 import com.barribob.MaelstromMod.init.*;
 import com.barribob.MaelstromMod.loot.functions.ModEnchantWithLevels;
@@ -92,6 +93,7 @@ public class Main {
         event.registerServerCommand(new CommandDimensionTeleport());
         event.registerServerCommand(new CommandReloadConfigs());
         event.registerServerCommand(new CommandInvasion());
+        event.registerServerCommand(new CommandRunUnitTests());
     }
 
     public static void loadConfigs() {

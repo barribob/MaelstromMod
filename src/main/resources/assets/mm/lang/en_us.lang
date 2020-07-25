@@ -263,6 +263,7 @@ tile.mega_structure_block.name=Mega Structure Block
 tile.disappearing_spawner.name=Disappearing Spawner
 tile.black_sky.name=Black Air
 tile.lighting_updater.name=Temporary Lighting Updater
+mm.unit_test_failed=One or more unit tests failed!
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension

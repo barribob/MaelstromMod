@@ -156,7 +156,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         }, 210);
 
         // Schedule spawning a bunch of enemies
-        for (int i = 1; i < 200; i += 30) {
+        int time = 200;
+        int spawnInterval = Math.max(1, time / getMobConfig().getInt("summoning_algorithm.mobs_per_spawn"));
+        for (int i = 1; i < time; i += spawnInterval) {
             this.addEvent(() -> {
                 EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(), getMobConfig().getConfig("summoning_algorithm"));
                 if (mob != null) {
