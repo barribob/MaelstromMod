@@ -231,7 +231,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         double lazerHealth = getMobConfig().getDouble("use_lazer_at_health");
         double spawnHealth = getMobConfig().getDouble("use_spawning_at_health");
 
-        double defendWeight = this.prevAttack == this.defend || numMinions > 3 || this.getHealth() > spawnHealth ? 90 : 0.8;
+        double defendWeight = this.prevAttack == this.defend || numMinions > 3 || this.getHealth() > spawnHealth ? 0 : 0.8;
         double fireballWeight = distanceSq < Math.pow(25, 2) && this.getHealth() < fireballHealth ? 1 : 0;
         double lazerWeight = distanceSq < Math.pow(35, 2) && this.getHealth() < lazerHealth ? 1 : 0;
         double punchWeight = ModUtils.canEntityBeSeen(this, target) ? Math.sqrt(distanceSq) / 25 : 3;

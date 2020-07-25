@@ -114,13 +114,9 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
             attackHandler.setAttack(blueAttack, new Action() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    int numMobs = 2;
+                    int numMobs = getMobConfig().getInt("summoning_algorithm.mobs_per_spawn");
                     for (int i = 0; i < numMobs; i++) {
-                        EntityMaelstromMob mob = new EntityShade(world);
-                        mob.setLevel(getLevel());
-                        mob.copyLocationAndAnglesFrom(EntityMonolith.this);
-                        mob.posX -= 1;
-                        world.spawnEntity(mob);
+                        ModUtils.spawnMob(world, getPosition(), getLevel(), getMobConfig().getConfig("summoning_algorithm"));
                     }
                 }
             });

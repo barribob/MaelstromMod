@@ -2,7 +2,6 @@ package com.barribob.MaelstromMod.commands;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.test.InGameTests;
-import com.barribob.MaelstromMod.test.TestUtils;
 import com.google.common.collect.Lists;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
