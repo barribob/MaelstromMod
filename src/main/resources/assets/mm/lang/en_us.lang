@@ -264,6 +264,7 @@ tile.disappearing_spawner.name=Disappearing Spawner
 tile.black_sky.name=Black Air
 tile.lighting_updater.name=Temporary Lighting Updater
 mm.unit_test_failed=One or more unit tests failed!
+mm.test_success=Test Successful
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension

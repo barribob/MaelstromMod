@@ -7,6 +7,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class CommandRunUnitTests extends CommandBase {
             } else {
                 InGameTests.runSingleTest(server, sender, args[0]);
             }
+            sender.sendMessage(new TextComponentTranslation("mm.test_success"));
         } catch (Exception e) {
             Main.log.error("Test case failed: ");
             e.printStackTrace();

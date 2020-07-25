@@ -41,6 +41,13 @@ public class TestUtils {
         }
     }
 
+    public static void AssertAlmostEquals(Double expected, Double actual, double precision) throws Exception {
+        if (Math.abs(expected - actual) < 1.5 * Math.pow(10, -precision)) {
+            return;
+        }
+        throw new Exception("Expected " + expected + " to be almost equal to " + actual);
+    }
+
     public static void AssertTrue(boolean value, String message) throws Exception {
         if(!value) {
             throw new Exception(message);

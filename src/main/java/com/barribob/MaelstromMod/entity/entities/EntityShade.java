@@ -33,18 +33,9 @@ public class EntityShade extends EntityMaelstromMob implements IAttack {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6f);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.26f);
-        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.3f);
-    }
-
-    @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(4, new EntityAITimedAttack<EntityShade>(this, 1.0f, 5, 3f, 0.5f));
+        this.tasks.addTask(4, new EntityAITimedAttack<>(this, 1.0f, 5, 3f, 0.5f));
         this.tasks.addTask(0, new AIJumpAtTarget(this, 0.4f, 0.5f));
     }
 
