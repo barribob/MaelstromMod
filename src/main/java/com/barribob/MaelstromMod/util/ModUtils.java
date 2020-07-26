@@ -53,10 +53,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import javax.annotation.Nullable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -791,26 +788,7 @@ public final class ModUtils {
         BlockPos spawnRange = new BlockPos(algorithmConfig.getInt("spawning_area.width"),
                 algorithmConfig.getInt("spawning_area.height"),
                 algorithmConfig.getInt("spawning_area.width"));
-
-        AxisAlignedBB spawningArea = new AxisAlignedBB(pos).expand(spawnRange.getX(), spawnRange.getY(), spawnRange.getZ());
-
-        Function<String, Integer> getCountOfMobsById = mobId -> (int) world.getEntitiesWithinAABB(EntityLivingBase.class, spawningArea).stream()
-                .filter((e) -> {
-                    EntityEntry registry = EntityRegistry.getEntry(e.getClass());
-                    if (registry != null) {
-                        return registry.getRegistryName() != null && registry.getRegistryName().toString().equals(mobId);
-                    }
-                    return false;
-                }).count();
-
-        Function<Config, Integer> filterOutMobsOverCap = config -> {
-            if (config.hasPath("max_nearby") && getCountOfMobsById.apply(config.getString("entity_id")) > config.getInt("max_nearby")) {
-                return 0;
-            }
-            return config.hasPath("spawn_weight") ? config.getInt("spawn_weight") : 1;
-        };
-
-        int[] mobWeights = configs.stream().map(filterOutMobsOverCap).mapToInt(x -> x).toArray();
+        int[] mobWeights = getMobsThatCanSpawn(world, pos, algorithmConfig);
 
         Function<Config, int[]> getElementalWeights = config -> config.getConfigList("elements").stream()
                 .mapToInt(c -> c.getInt("weight")).toArray();
@@ -843,12 +821,42 @@ public final class ModUtils {
         return ModUtils.spawnMob(world, pos, level, data, mobWeights, spawnRange);
     }
 
+    private static int[] getMobsThatCanSpawn(World world, BlockPos pos, Config algorithmConfig) {
+        List<? extends Config> configs = algorithmConfig.getConfigList("mobs");
+        BlockPos mobDetectionRange = new BlockPos(algorithmConfig.getInt("mob_cap_detection_area.width"),
+                algorithmConfig.getInt("mob_cap_detection_area.height"),
+                algorithmConfig.getInt("mob_cap_detection_area.width"));
+
+        AxisAlignedBB detectionArea = new AxisAlignedBB(pos).grow(mobDetectionRange.getX() * 0.5, mobDetectionRange.getY() * 0.5, mobDetectionRange.getZ() * 0.5);
+
+        Function<String, Integer> getCountOfMobsById = mobId -> (int) world.getEntitiesWithinAABB(EntityLivingBase.class, detectionArea).stream()
+                .filter((e) -> {
+                    EntityEntry registry = EntityRegistry.getEntry(e.getClass());
+                    if (registry != null) {
+                        return registry.getRegistryName() != null && registry.getRegistryName().toString().equals(mobId);
+                    }
+                    return false;
+                }).count();
+
+        Function<Config, Integer> filterOutMobsOverCap = config -> {
+            if (config.hasPath("max_nearby") && getCountOfMobsById.apply(config.getString("entity_id")) > config.getInt("max_nearby")) {
+                return 0;
+            }
+            return config.hasPath("spawn_weight") ? config.getInt("spawn_weight") : 1;
+        };
+
+        return configs.stream().map(filterOutMobsOverCap).mapToInt(x -> x).toArray();
+    }
+
     /**
      * Attempts to spawn a mob around the actor within a certain range. Returns null if the spawning failed. Otherwise returns the spawned mob
      */
     private static @Nullable
     EntityLeveledMob spawnMob(World world, BlockPos pos, float level, MobSpawnData[] mobs, int weights[], BlockPos range) {
         Random random = new Random();
+
+        if(weights.length == 0 || Arrays.stream(weights).reduce(Integer::sum).getAsInt() == 0) return null;
+
         MobSpawnData data = ModRandom.choice(mobs, random, weights).next();
         int tries = 100;
         for (int i = 0; i < tries; i++) {
