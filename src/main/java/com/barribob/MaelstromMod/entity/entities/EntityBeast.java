@@ -200,7 +200,7 @@ public class EntityBeast extends EntityMaelstromMob {
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundsHandler.ENTITY_BEAST_HURT;
+        return SoundsHandler.get("beast.death");
     }
 
     @Override

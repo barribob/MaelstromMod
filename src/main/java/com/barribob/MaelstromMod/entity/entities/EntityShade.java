@@ -10,6 +10,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
@@ -84,7 +85,7 @@ public class EntityShade extends EntityMaelstromMob implements IAttack {
 
         addEvent(() -> {
             Vec3d pos = this.getPositionVector().add(ModUtils.yVec(1)).add(this.getLookVec());
-            this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+            this.playSound(SoundsHandler.get("shade.attack"), 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
             ModUtils.handleAreaImpact(0.6f, (e) -> this.getAttack(), this, pos, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.20f, 0, false);
         }, 10);
 
