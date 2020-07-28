@@ -14,7 +14,7 @@ import net.minecraft.entity.ai.EntityAIBase;
 public class EntityAIRangedAttack<T extends EntityLiving & IRangedAttackMob> extends EntityAIBase {
     private final T entity;
     private final double moveSpeedAmp;
-    private final int attackCooldown;
+    private int attackCooldown;
     private final float maxAttackDistance;
     private int attackTime;
     private boolean strafingClockwise;
@@ -46,6 +46,11 @@ public class EntityAIRangedAttack<T extends EntityLiving & IRangedAttackMob> ext
 
     public EntityAIRangedAttack(T entity, double moveSpeedAmp, int attackCooldown, float raiseArmsTime, float maxAttackDistance, float strafeAmount) {
         this(entity, moveSpeedAmp, attackCooldown, maxAttackDistance, strafeAmount);
+        this.arms_raised_time = raiseArmsTime;
+    }
+
+    public void setAttackCooldowns(int attackCooldown, float raiseArmsTime) {
+        this.attackCooldown = attackCooldown;
         this.arms_raised_time = raiseArmsTime;
     }
 

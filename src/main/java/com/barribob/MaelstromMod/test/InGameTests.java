@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.test;
 
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
 import com.barribob.MaelstromMod.entity.entities.EntityShade;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -56,5 +57,16 @@ public class InGameTests {
         TestUtils.AssertAlmostEquals(6.0, scout.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
         TestUtils.AssertAlmostEquals(0.26, scout.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue(), 3);
         TestUtils.AssertAlmostEquals(0.3, scout.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getBaseValue(), 3);
+    }
+
+    public static void defaultIllager(World world, BlockPos pos) throws Exception {
+        EntityLeveledMob entity = new EntityMaelstromIllager(world);
+        NBTTagCompound compound = new NBTTagCompound();
+        entity.writeToNBT(compound);
+
+        TestUtils.AssertEquals(1000, compound.getInteger("experienceValue"));
+        TestUtils.AssertEquals(300f, entity.getHealth());
+        TestUtils.AssertEquals(300f, entity.getMaxHealth());
+        TestUtils.AssertAlmostEquals(8.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
     }
 }
