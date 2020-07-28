@@ -39,9 +39,6 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob {
         super(worldIn);
         this.setSize(1.6f, 3.6f);
         this.healthScaledAttackFactor = 0.2;
-        this.experienceValue = ModEntities.BOSS_EXPERIENCE;
-        this.setLevel(4);
-        this.setElement(Element.GOLDEN);
         if (!worldIn.isRemote) {
             this.attackHandler.setAttack(spawnEnemy, new ActionSpawnEnemy(() -> {
                 EntityLeveledMob enemy = rand.nextInt(3) == 0 ? new EntityShade(world) : new EntityMaelstromLancer(world);
@@ -72,14 +69,6 @@ public class EntityMaelstromGoldenBoss extends EntityMaelstromMob {
     protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromGoldenBoss>(this, 1.0f, 40, 20.0f, 0.4f));
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
     }
 
     @Override

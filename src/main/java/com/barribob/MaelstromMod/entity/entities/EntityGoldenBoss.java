@@ -64,10 +64,10 @@ public class EntityGoldenBoss extends EntityMaelstromMob {
     @Override
     @SideOnly(Side.CLIENT)
     protected void initAnimation() {
-        this.attackHandler.setAttack(octoMissile, new ActionOctoMissiles(), () -> new AnimationOctoMissiles());
-        this.attackHandler.setAttack(megaMissile, new ActionGoldenFireball(), () -> new AnimationMegaMissile());
-        this.attackHandler.setAttack(runes, Action.NONE, () -> new AnimationRuneSummon());
-        this.attackHandler.setAttack(spawnPillar, Action.NONE, this.getSpawnPillarAnimation());
+        this.attackHandler.setAttack(octoMissile, new ActionOctoMissiles(), AnimationOctoMissiles::new);
+        this.attackHandler.setAttack(megaMissile, new ActionGoldenFireball(), AnimationMegaMissile::new);
+        this.attackHandler.setAttack(runes, Action.NONE, AnimationRuneSummon::new);
+        this.attackHandler.setAttack(spawnPillar, Action.NONE, getSpawnPillarAnimation());
         this.currentAnimation = new AnimationOctoMissiles();
     }
 
@@ -119,15 +119,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(4, new EntityAIRangedAttack<EntityGoldenBoss>(this, 1.0f, 40, 20.0f, 0.4f));
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
+        this.tasks.addTask(4, new EntityAIRangedAttack<>(this, 1.0f, 40, 20.0f, 0.4f));
     }
 
     @Override

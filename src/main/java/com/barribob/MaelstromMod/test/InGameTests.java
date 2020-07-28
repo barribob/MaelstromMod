@@ -1,8 +1,6 @@
 package com.barribob.MaelstromMod.test;
 
-import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromIllager;
-import com.barribob.MaelstromMod.entity.entities.EntityShade;
+import com.barribob.MaelstromMod.entity.entities.*;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.typesafe.config.Config;
@@ -20,6 +18,8 @@ public class InGameTests {
     public static void runAllTests(MinecraftServer server, ICommandSender sender) throws Exception {
         spawnAlgorithm(server.getEntityWorld(), sender.getPosition());
         defaultScout(server.getEntityWorld(), sender.getPosition());
+        defaultIllager(server.getEntityWorld(), sender.getPosition());
+
     }
 
     public static void runSingleTest(MinecraftServer server, ICommandSender sender, String testName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -68,5 +68,29 @@ public class InGameTests {
         TestUtils.AssertEquals(300f, entity.getHealth());
         TestUtils.AssertEquals(300f, entity.getMaxHealth());
         TestUtils.AssertAlmostEquals(8.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
+    }
+
+    public static void defaultGoldenBoss(World world, BlockPos pos) throws Exception {
+        EntityLeveledMob entity = new EntityGoldenBoss(world);
+        NBTTagCompound compound = new NBTTagCompound();
+        entity.writeToNBT(compound);
+
+        TestUtils.AssertEquals(0, compound.getInteger("experienceValue"));
+        TestUtils.AssertEquals(250f, entity.getHealth());
+        TestUtils.AssertEquals(250f, entity.getMaxHealth());
+        TestUtils.AssertAlmostEquals(5.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
+    }
+
+    public static void defaultMaelstromGoldenBoss(World world, BlockPos pos) throws Exception {
+        EntityLeveledMob entity = new EntityMaelstromGoldenBoss(world);
+        NBTTagCompound compound = new NBTTagCompound();
+        entity.writeToNBT(compound);
+
+        TestUtils.AssertEquals(1000, compound.getInteger("experienceValue"));
+        TestUtils.AssertEquals(Element.GOLDEN, entity.getElement());
+        TestUtils.AssertAlmostEquals(4.0, (double) entity.getLevel(), 3);
+        TestUtils.AssertEquals(250f, entity.getHealth());
+        TestUtils.AssertEquals(250f, entity.getMaxHealth());
+        TestUtils.AssertAlmostEquals(5.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
     }
 }
