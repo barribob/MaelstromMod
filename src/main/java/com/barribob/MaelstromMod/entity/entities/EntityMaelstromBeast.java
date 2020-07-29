@@ -53,8 +53,6 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
         super(worldIn);
         this.healthScaledAttackFactor = 0.2;
         this.setSize(1.4f, 2.5f);
-        this.experienceValue = ModEntities.BOSS_EXPERIENCE;
-        this.setLevel(1.5f);
         if (!world.isRemote) {
             attackHandler.setAttack(hammerSwing, new Action() {
                 @Override
@@ -73,7 +71,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     if (EntityMaelstromBeast.this.isRaged()) {
-                        new ActionSpawnEnemy(() -> new EntityFloatingSkull(worldIn)).performAction(actor, target);
+                        ModUtils.spawnMob(world, getPosition(), getLevel(), getMobConfig().getConfig("spawning_algorithm"));
                     } else {
                         ModUtils.handleAreaImpact(20, (e) -> {
                             if (e instanceof EntityLivingBase) {
@@ -258,14 +256,6 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
         attackHandler.setAttack(leap, Action.NONE, () -> new AnimationMaelstromBeast(animationLeap));
 
         currentAnimation = new AnimationMaelstromBeast(new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>());
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
     }
 
     @Override
