@@ -39,14 +39,12 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
 
     public EntityCliffGolem(World worldIn) {
         super(worldIn);
-        this.setLevel(LevelHandler.CLIFF_OVERWORLD);
         this.setSize(1.4F * RenderAzureGolem.AZURE_GOLEM_SIZE, 2.7F * RenderAzureGolem.AZURE_GOLEM_SIZE);
         if (!worldIn.isRemote) {
             attackHandler.setAttack(groundPoundByte, new ActionGolemSlam());
             attackHandler.setAttack(this.geyserByte, new ActionGeyser());
         }
         this.healthScaledAttackFactor = 0.2;
-        this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
     }
 
     @Override
@@ -60,16 +58,6 @@ public class EntityCliffGolem extends EntityLeveledMob implements IRangedAttackM
     @Override
     public float getRenderSizeModifier() {
         return RenderAzureGolem.AZURE_GOLEM_SIZE;
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(18);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
     }
 
     @Override

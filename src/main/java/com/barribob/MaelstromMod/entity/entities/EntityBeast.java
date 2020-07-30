@@ -44,7 +44,6 @@ public class EntityBeast extends EntityMaelstromMob {
     public EntityBeast(World worldIn) {
         super(worldIn);
         this.setSize(2.8f, 2.2f);
-        this.experienceValue = ModEntities.BOSS_EXPERIENCE;
         this.healthScaledAttackFactor = 0.2;
         if (!worldIn.isRemote) {
             attackHandler.setAttack(leap, new Action() {
@@ -127,10 +126,6 @@ public class EntityBeast extends EntityMaelstromMob {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
-        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.5);
         this.getEntityAttribute(SWIM_SPEED).setBaseValue(1.0D);
     }
 

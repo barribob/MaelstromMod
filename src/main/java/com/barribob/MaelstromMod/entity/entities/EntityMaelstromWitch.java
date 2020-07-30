@@ -36,10 +36,8 @@ public class EntityMaelstromWitch extends EntityMaelstromMob {
 
     public EntityMaelstromWitch(World worldIn) {
         super(worldIn);
-        this.setLevel(2);
         threshold = this.getMaxHealth() * 0.3f;
         this.healthScaledAttackFactor = 0.2;
-        this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
         this.setSize(0.9f, 1.8f);
         if (!worldIn.isRemote) {
             attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION));
@@ -92,13 +90,6 @@ public class EntityMaelstromWitch extends EntityMaelstromMob {
 
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150);
     }
 
     @Override

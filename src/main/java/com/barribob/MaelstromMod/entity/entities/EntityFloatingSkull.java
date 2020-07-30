@@ -18,19 +18,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityFloatingSkull extends EntityMaelstromMob {
-    public static final float PROJECTILE_INACCURACY = 0;
-    public static final float PROJECTILE_VELOCITY = 0.4f;
-
     public EntityFloatingSkull(World worldIn) {
         super(worldIn);
-        this.setLevel(1.5f);
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
     @Override

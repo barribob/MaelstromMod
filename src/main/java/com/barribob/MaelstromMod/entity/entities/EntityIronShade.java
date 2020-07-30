@@ -42,7 +42,6 @@ public class EntityIronShade extends EntityMaelstromMob {
 
     public EntityIronShade(World worldIn) {
         super(worldIn);
-        this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
         this.healthScaledAttackFactor = 0.2;
         this.setSize(0.9f, 2.2f);
         if (!worldIn.isRemote) {
@@ -196,15 +195,6 @@ public class EntityIronShade extends EntityMaelstromMob {
         super.initEntityAI();
         this.tasks.addTask(4, new EntityAIRangedAttack<EntityMaelstromMob>(this, 1.3f, 60, 10, 4.5f, 0.4f));
         this.tasks.addTask(0, new AIJumpAtTarget(this, 0.4f, 0.5f));
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.24D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200);
-        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.2);
     }
 
     @Override

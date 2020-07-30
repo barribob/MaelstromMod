@@ -16,20 +16,11 @@ import net.minecraft.world.World;
 public class EntityHorror extends EntityMaelstromMob {
     public static final float PROJECTILE_INACCURACY = 0;
     public static final float PROJECTILE_VELOCITY = 0.5f;
-    public static final float PROJECTILE_AMOUNT = 8;
     public static final float PROJECTILE_VARIATION_FACTOR = 0.5f;
 
     public EntityHorror(World worldIn) {
         super(worldIn);
         this.setSize(1.3F, 1.3F);
-        this.setLevel(1.5f);
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25);
     }
 
     @Override
