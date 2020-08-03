@@ -65,6 +65,7 @@ import java.util.List;
 public class ModEventHandler {
     public static final ResourceLocation MANA = new ResourceLocation(Reference.MOD_ID, "mana");
     private static long timeSinceServerTick = System.nanoTime();
+    public static boolean isInvasionEnabledViaGamestage = true;
 
     @SubscribeEvent
     public static void afterShieldAndBeforeArmor(LivingHurtEvent event) {
@@ -126,7 +127,7 @@ public class ModEventHandler {
         boolean correctTickPhase = event.side == Side.SERVER && event.phase == TickEvent.Phase.END;
         boolean isSuperflat = event.world.getWorldType().equals(WorldType.FLAT);
         boolean isInOverworld = event.world.provider.getDimension() == 0;
-        if (!correctTickPhase || isSuperflat || !isInOverworld) {
+        if (!correctTickPhase || isSuperflat || !isInOverworld || !isInvasionEnabledViaGamestage) {
             return;
         }
 
