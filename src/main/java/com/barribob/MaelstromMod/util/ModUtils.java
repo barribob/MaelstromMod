@@ -213,43 +213,41 @@ public final class ModUtils {
         }
         List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
-        if (list != null) {
-            Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart || i.canBeCollidedWith();
-            double radiusSq = Math.pow(radius, 2);
+        Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart || i.canBeCollidedWith();
+        double radiusSq = Math.pow(radius, 2);
 
-            list.stream().filter(isInstance).forEach((entity) -> {
+        list.stream().filter(isInstance).forEach((entity) -> {
 
-                // Get the hitbox size of the entity because otherwise explosions are less
-                // effective against larger mobs
-                double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
+            // Get the hitbox size of the entity because otherwise explosions are less
+            // effective against larger mobs
+            double avgEntitySize = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.75;
 
-                // Choose the closest distance from the center or the head to encourage
-                // headshots
-                double distance = Math.min(Math.min(getCenter(entity.getEntityBoundingBox()).distanceTo(pos),
-                        entity.getPositionVector().add(ModUtils.yVec(entity.getEyeHeight())).distanceTo(pos)),
-                        entity.getPositionVector().distanceTo(pos));
+            // Choose the closest distance from the center or the head to encourage
+            // headshots
+            double distance = Math.min(Math.min(getCenter(entity.getEntityBoundingBox()).distanceTo(pos),
+                    entity.getPositionVector().add(ModUtils.yVec(entity.getEyeHeight())).distanceTo(pos)),
+                    entity.getPositionVector().distanceTo(pos));
 
-                // Subtracting the average size makes it so that the full damage can be dealt
-                // with a direct hit
-                double adjustedDistance = Math.max(distance - avgEntitySize, 0);
-                double adjustedDistanceSq = Math.pow(adjustedDistance, 2);
-                double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - adjustedDistanceSq) / radiusSq)) : 1;
+            // Subtracting the average size makes it so that the full damage can be dealt
+            // with a direct hit
+            double adjustedDistance = Math.max(distance - avgEntitySize, 0);
+            double adjustedDistanceSq = Math.pow(adjustedDistance, 2);
+            double damageFactor = damageDecay ? Math.max(0, Math.min(1, (radiusSq - adjustedDistanceSq) / radiusSq)) : 1;
 
-                // Damage decays by the square to make missed impacts less powerful
-                double damageFactorSq = Math.pow(damageFactor, 2);
-                double damage = maxDamage.apply(entity) * damageFactorSq;
-                if (damage > 0 && adjustedDistanceSq < radiusSq) {
-                    entity.setFire((int) (fireFactor * damageFactorSq));
-                    entity.attackEntityFrom(damageSource, (float) damage);
-                    double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
-                    double entitySizeFactorSq = Math.pow(entitySizeFactor, 2);
+            // Damage decays by the square to make missed impacts less powerful
+            double damageFactorSq = Math.pow(damageFactor, 2);
+            double damage = maxDamage.apply(entity) * damageFactorSq;
+            if (damage > 0 && adjustedDistanceSq < radiusSq) {
+                entity.setFire((int) (fireFactor * damageFactorSq));
+                entity.attackEntityFrom(damageSource, (float) damage);
+                double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
+                double entitySizeFactorSq = Math.pow(entitySizeFactor, 2);
 
-                    // Velocity depends on the entity's size and the damage dealt squared
-                    Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactorSq).scale(knockbackFactor).scale(entitySizeFactorSq);
-                    entity.addVelocity(velocity.x, velocity.y, velocity.z);
-                }
-            });
-        }
+                // Velocity depends on the entity's size and the damage dealt squared
+                Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactorSq).scale(knockbackFactor).scale(entitySizeFactorSq);
+                entity.addVelocity(velocity.x, velocity.y, velocity.z);
+            }
+        });
     }
 
     public static void handleBulletImpact(Entity hitEntity, Projectile projectile, float damage, DamageSource damageSource) {
@@ -1064,5 +1062,27 @@ public final class ModUtils {
             Main.log.error("Malformed NBT tag", e);
         }
         return new NBTTagCompound();
+    }
+
+    public static boolean canBlockDamageSource(DamageSource damageSourceIn, EntityLivingBase entity)
+    {
+        if (!damageSourceIn.isUnblockable() && entity.isActiveItemStackBlocking())
+        {
+            Vec3d vec3d = damageSourceIn.getDamageLocation();
+
+            if (vec3d != null)
+            {
+                Vec3d vec3d1 = entity.getLook(1.0F);
+                Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
+                vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
+
+                if (vec3d2.dotProduct(vec3d1) < 0.0D)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

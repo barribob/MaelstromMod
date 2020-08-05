@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -51,13 +52,19 @@ public class EntityLargeGoldenRune extends Projectile {
         if (result != null) {
             return;
         }
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.MAGIC)
+                .indirectEntity(shootingEntity)
+                .directEntity(this)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
+
         ModUtils.handleAreaImpact(blastRadius, (e) -> {
                     if (e instanceof EntityLivingBase) {
                         ((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));
                     }
                     return this.getDamage();
-                }, this.shootingEntity, this.getPositionVector(),
-                ModDamageSource.causeElementalExplosionDamage(this.shootingEntity, getElement()));
+                }, this.shootingEntity, this.getPositionVector(), source);
         this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
         super.onHit(result);
     }

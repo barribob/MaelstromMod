@@ -58,7 +58,14 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 0, 0)));
-                    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 1, 0, false);
+                    DamageSource source = ModDamageSource.builder()
+                            .type(ModDamageSource.MOB)
+                            .directEntity(actor)
+                            .element(actor.getElement())
+                            .stoppedByArmorNotShields()
+                            .disablesShields().build();
+
+                    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, offset,source, 1, 0, false);
                     if (EntityMaelstromBeast.this.isRaged()) {
                         ModUtils.performNTimes(8, (i) -> {
                             spawnBone(worldIn, offset.add(ModRandom.randVec().scale(3)), EntityMaelstromBeast.this);
@@ -75,10 +82,10 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
                     } else {
                         ModUtils.handleAreaImpact(20, (e) -> {
                             if (e instanceof EntityLivingBase) {
-                                ((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
+                                ((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 120, 1));
                             }
-                            return actor.getAttack() * 0.5f;
-                        }, actor, actor.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0, 0, false);
+                            return 0.0f;
+                        }, actor, actor.getPositionVector(), ModDamageSource.MAELSTROM_DAMAGE);
                     }
                     actor.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1.0F, 0.9F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
                 }
@@ -407,7 +414,13 @@ public class EntityMaelstromBeast extends EntityMaelstromMob {
 
     @Override
     public void onStopLeaping() {
-        ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeElementalExplosionDamage(this, getElement()));
+        DamageSource source = ModDamageSource.builder()
+                .directEntity(this)
+                .type(ModDamageSource.EXPLOSION)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
+
+        ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), source);
         this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
         this.world.setEntityState(this, this.explosionParticles);
         if (this.isRaged()) {

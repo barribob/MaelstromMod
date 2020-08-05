@@ -50,6 +50,7 @@ public class ModDamageSource {
         private Entity indirectEntity;
         private String damageType = MOB;
         private boolean stoppedByArmorNotShields;
+        private boolean disablesShields;
 
         public DamageSourceBuilder element(Element element) {
             this.element = element;
@@ -76,12 +77,22 @@ public class ModDamageSource {
             return this;
         }
 
+        public DamageSourceBuilder disablesShields() {
+            disablesShields = true;
+            return this;
+        }
+
         public DamageSource build() {
+            if(damageType == null || directEntity == null) {
+                throw new NullPointerException("Damage source type or entity cannot be null");
+            }
+
             EntityElementalDamageSourceIndirect source = new EntityElementalDamageSourceIndirect(damageType, directEntity, indirectEntity, element);
             if(stoppedByArmorNotShields) {
                 source.setStoppedByArmor(true);
                 source.isUnblockable = true;
             }
+            source.setDisablesShields(disablesShields);
             return source;
         }
     }

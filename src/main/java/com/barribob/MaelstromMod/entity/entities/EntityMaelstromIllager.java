@@ -90,7 +90,13 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
             attackHandler.setAttack(shield, new Action() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack(), actor, getPositionVector(), ModDamageSource.causeElementalExplosionDamage(actor, getElement()));
+                    DamageSource damageSource = ModDamageSource.builder()
+                            .directEntity(actor)
+                            .type(ModDamageSource.MAGIC)
+                            .element(getElement())
+                            .stoppedByArmorNotShields().build();
+
+                    ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack(), actor, getPositionVector(), damageSource);
                     actor.playSound(SoundsHandler.get("illager.shield_attack"), 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
                     actor.world.setEntityState(actor, ModUtils.THIRD_PARTICLE_BYTE);
                 }

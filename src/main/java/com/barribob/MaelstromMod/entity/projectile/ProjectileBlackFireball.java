@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -33,11 +34,6 @@ public class ProjectileBlackFireball extends Projectile {
         this.setNoGravity(true);
     }
 
-    /**
-     * Called every update to spawn particles
-     *
-     * @param world
-     */
     @Override
     protected void spawnParticles() {
         float size = 0.5f;
@@ -65,13 +61,19 @@ public class ProjectileBlackFireball extends Projectile {
 
     @Override
     protected void onHit(RayTraceResult result) {
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.EXPLOSION)
+                .directEntity(this)
+                .indirectEntity(shootingEntity)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
+
         ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> {
                     if (e instanceof EntityLivingBase) {
                         ((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 80, 0));
                     }
                     return this.getDamage();
-                }, this.shootingEntity, this.getPositionVector(),
-                ModDamageSource.causeElementalExplosionDamage(this.shootingEntity, getElement()), 1, 0);
+                }, this.shootingEntity, this.getPositionVector(), source, 1, 0);
         this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
         super.onHit(result);
     }

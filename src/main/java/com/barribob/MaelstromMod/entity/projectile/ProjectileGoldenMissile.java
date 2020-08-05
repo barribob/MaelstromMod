@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -22,11 +23,6 @@ public class ProjectileGoldenMissile extends Projectile {
         super(worldIn, x, y, z);
     }
 
-    /**
-     * Called every update to spawn particles
-     *
-     * @param world
-     */
     @Override
     protected void spawnParticles() {
         ParticleManager.spawnSwirl2(world, this.getPositionVector(), ModColors.YELLOW, Vec3d.ZERO);
@@ -34,7 +30,14 @@ public class ProjectileGoldenMissile extends Projectile {
 
     @Override
     protected void onHit(RayTraceResult result) {
-        ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.PROJECTILE)
+                .directEntity(this)
+                .indirectEntity(shootingEntity)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
+
+        ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), source);
         super.onHit(result);
     }
 }

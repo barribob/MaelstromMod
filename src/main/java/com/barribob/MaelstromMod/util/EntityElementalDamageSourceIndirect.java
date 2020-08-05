@@ -2,15 +2,14 @@ package com.barribob.MaelstromMod.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.translation.I18n;
 
 public class EntityElementalDamageSourceIndirect extends EntityDamageSourceIndirect implements IElement, IShieldArmorDamageSource {
     Element element;
     boolean stoppedByArmor;
+    boolean disablesShields;
 
     public EntityElementalDamageSourceIndirect(String damageTypeIn, Entity source, Entity indirectEntityIn, Element element) {
         super(damageTypeIn, source, indirectEntityIn);
@@ -30,6 +29,14 @@ public class EntityElementalDamageSourceIndirect extends EntityDamageSourceIndir
     @Override
     public boolean getStoppedByArmor() {
         return stoppedByArmor;
+    }
+
+    public void setDisablesShields(boolean disablesShields) {
+        this.disablesShields = disablesShields;
+    }
+
+    public boolean getDisablesShields() {
+        return disablesShields;
     }
 
     @Override

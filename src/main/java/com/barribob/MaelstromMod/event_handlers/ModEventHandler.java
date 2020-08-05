@@ -69,8 +69,15 @@ public class ModEventHandler {
 
     @SubscribeEvent
     public static void afterShieldAndBeforeArmor(LivingHurtEvent event) {
-        if(event.getSource() instanceof IShieldArmorDamageSource && ((IShieldArmorDamageSource)event.getSource()).getStoppedByArmor()) {
-            event.getSource().isUnblockable = false;
+        if(event.getSource() instanceof EntityElementalDamageSourceIndirect) {
+            EntityElementalDamageSourceIndirect damageSource = ((EntityElementalDamageSourceIndirect)event.getSource());
+            if(damageSource.getStoppedByArmor()) {
+                damageSource.isUnblockable = false;
+            }
+
+            if(damageSource.getDisablesShields() && event.getEntityLiving() != null && ModUtils.canBlockDamageSource(damageSource, event.getEntityLiving()) && event.getEntityLiving() instanceof EntityPlayer) {
+                ((EntityPlayer)event.getEntityLiving()).disableShield(true);
+            }
         }
     }
 

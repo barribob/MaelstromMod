@@ -56,7 +56,13 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
 
         addEvent(() -> {
             Vec3d offset = getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(0.5, 1, -1)));
-            ModUtils.handleAreaImpact(2, (e) -> getAttack(), this, offset, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.5f, 0, false);
+            DamageSource source = ModDamageSource.builder()
+                    .type(ModDamageSource.MOB)
+                    .directEntity(this)
+                    .element(getElement())
+                    .disablesShields().build();
+
+            ModUtils.handleAreaImpact(2, (e) -> getAttack(), this, offset, source, 0.5f, 0, false);
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
             Vec3d away = this.getPositionVector().subtract(target.getPositionVector()).normalize();
             ModUtils.leapTowards(this, away, 0.4f, 0.4f);
@@ -97,7 +103,13 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         addEvent(() -> {
             world.createExplosion(this, posX, posY, posZ, 2, false);
             ModUtils.lineCallback(getPositionVector(), chargeDir, (int) Math.sqrt(chargeDir.subtract(getPositionVector()).lengthSquared()), (vec, i) -> {
-                ModUtils.handleAreaImpact(dashRadius, (e) -> getAttack() * 1.5f, this, vec, ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.3f, 5);
+                DamageSource source = ModDamageSource.builder()
+                        .type(ModDamageSource.MOB)
+                        .directEntity(this)
+                        .element(getElement())
+                        .stoppedByArmorNotShields().build();
+
+                ModUtils.handleAreaImpact(dashRadius, (e) -> getAttack() * 1.5f, this, vec, source, 0.3f, 5);
                 world.playSound(vec.x, vec.y, vec.z, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 1.0f, 1.0f + ModRandom.getFloat(0.1f), false);
             });
             this.setPositionAndUpdate(chargeDir.x, chargeDir.y, chargeDir.z);
@@ -115,7 +127,13 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
             this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
         };
         Runnable meleeAttack = () -> {
-            ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.5f, 0, false);
+            DamageSource source = ModDamageSource.builder()
+                    .type(ModDamageSource.MOB)
+                    .directEntity(this)
+                    .element(getElement())
+                    .disablesShields().build();
+
+            ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), source, 0.5f, 0, false);
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
             this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
         };
@@ -297,7 +315,13 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
 
     @Override
     public void onStopLeaping() {
-        ModUtils.handleAreaImpact(3, (e) -> this.getAttack() * 1.5f, this, this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 0))), ModDamageSource.causeElementalExplosionDamage(this, getElement()));
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.EXPLOSION)
+                .directEntity(this)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
+
+        ModUtils.handleAreaImpact(3, (e) -> this.getAttack() * 1.5f, this, this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 0))), source);
         this.playSound(SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
         this.world.setEntityState(this, ModUtils.PARTICLE_BYTE);
     }

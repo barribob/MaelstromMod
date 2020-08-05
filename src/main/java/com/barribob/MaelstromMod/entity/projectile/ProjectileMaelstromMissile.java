@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -31,9 +32,14 @@ public class ProjectileMaelstromMissile extends Projectile {
     @Override
     protected void onHit(RayTraceResult result) {
         if (result.entityHit != null && !(result.entityHit instanceof EntityMaelstromMob) && this.shootingEntity != null) {
-            if (this.shootingEntity instanceof EntityLivingBase) {
-                result.entityHit.attackEntityFrom(ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()), this.getDamage());
-            }
+            DamageSource source = ModDamageSource.builder()
+                    .type(ModDamageSource.MAGIC)
+                    .indirectEntity(this)
+                    .directEntity(shootingEntity)
+                    .element(getElement())
+                    .stoppedByArmorNotShields().build();
+
+            result.entityHit.attackEntityFrom(source, this.getDamage());
         }
         this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 1.0f + ModRandom.getFloat(0.2f), 1.0f + ModRandom.getFloat(0.2f));
         super.onHit(result);

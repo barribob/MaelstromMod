@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
 import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -69,8 +70,15 @@ public class ProjectileChaosFireball extends ProjectileGun {
     protected void onHit(RayTraceResult result) {
         float knockbackFactor = 1.1f + this.getKnockback() * 0.4f;
         int fireFactor = this.isBurning() ? 8 : 3;
-        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getGunDamage((e)), this.shootingEntity, this.getPositionVector(),
-                DamageSource.causeExplosionDamage(this.shootingEntity), knockbackFactor, fireFactor);
+
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.EXPLOSION)
+                .element(getElement())
+                .indirectEntity(shootingEntity)
+                .directEntity(this)
+                .stoppedByArmorNotShields().build();
+
+        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, this::getGunDamage, this.shootingEntity, this.getPositionVector(), source, knockbackFactor, fireFactor);
         this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
         super.onHit(result);
     }

@@ -4,6 +4,7 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -45,8 +46,14 @@ public class ProjectileMaelstromWisp extends Projectile {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        ModUtils.handleAreaImpact(AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, getPositionVector(),
-                ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()));
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.MAGIC)
+                .directEntity(this)
+                .indirectEntity(shootingEntity)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
+
+        ModUtils.handleAreaImpact(AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, getPositionVector(), source);
     }
 
     @Override

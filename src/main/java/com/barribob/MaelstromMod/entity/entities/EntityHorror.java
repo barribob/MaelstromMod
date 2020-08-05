@@ -42,9 +42,6 @@ public class EntityHorror extends EntityMaelstromMob {
         }
     }
 
-    /**
-     * Launches 8 projectiles upwards randomly
-     */
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
         if (!world.isRemote) {

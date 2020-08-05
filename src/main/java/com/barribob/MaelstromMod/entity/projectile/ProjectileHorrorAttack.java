@@ -6,6 +6,7 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -27,11 +28,6 @@ public class ProjectileHorrorAttack extends Projectile {
         super(worldIn, x, y, z);
     }
 
-    /**
-     * Called every update to spawn particles
-     *
-     * @param world
-     */
     @Override
     protected void spawnParticles() {
         for (int i = 0; i < this.PARTICLE_AMOUNT; i++) {
@@ -49,8 +45,14 @@ public class ProjectileHorrorAttack extends Projectile {
 
     @Override
     protected void onHit(RayTraceResult result) {
-        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(),
-                ModDamageSource.causeElementalExplosionDamage(shootingEntity, getElement()));
+        DamageSource source = ModDamageSource.builder()
+                .indirectEntity(shootingEntity)
+                .directEntity(this)
+                .type(ModDamageSource.EXPLOSION)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
+
+        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getDamage(), this.shootingEntity, this.getPositionVector(), source);
         this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
         super.onHit(result);
     }

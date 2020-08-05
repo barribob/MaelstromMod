@@ -6,9 +6,11 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -21,7 +23,6 @@ import java.util.List;
  * Projectile from the quake staff
  */
 public class ProjectileQuake extends ProjectileGun {
-    private static final int PARTICLE_AMOUNT = 10;
     protected static final float AREA_FACTOR = 0.5f;
 
     public ProjectileQuake(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack) {
@@ -37,11 +38,6 @@ public class ProjectileQuake extends ProjectileGun {
         super(worldIn, x, y, z);
     }
 
-    /**
-     * Called every update to spawn particles
-     *
-     * @param world
-     */
     @Override
     protected void spawnParticles() {
         IBlockState block = world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ));
@@ -74,23 +70,28 @@ public class ProjectileQuake extends ProjectileGun {
         /*
          * Find all entities in a certain area and deal damage to them
          */
-        List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(AREA_FACTOR).expand(0, 0.25f, 0));
-        if (list != null) {
-            for (Object entity : list) {
-                if (entity instanceof EntityLivingBase && this.shootingEntity != null && entity != this.shootingEntity) {
-                    int burnTime = this.isBurning() ? 5 : 0;
-                    ((EntityLivingBase) entity).setFire(burnTime);
+        List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(AREA_FACTOR).expand(0, 0.25f, 0));
+        for (Entity entity : list) {
+            if (entity instanceof EntityLivingBase && this.shootingEntity != null && entity != this.shootingEntity) {
+                int burnTime = this.isBurning() ? 5 : 0;
+                entity.setFire(burnTime);
 
-                    ((EntityLivingBase) entity).attackEntityFrom(ModDamageSource.causeElementalThrownDamage(this, shootingEntity, getElement()), this.getGunDamage(((EntityLivingBase) entity)));
+                DamageSource source = ModDamageSource.builder()
+                        .type(ModDamageSource.PROJECTILE)
+                        .indirectEntity(shootingEntity)
+                        .directEntity(this)
+                        .element(getElement())
+                        .stoppedByArmorNotShields().build();
 
-                    // Apply knockback enchantment
-                    if (this.getKnockback() > 0) {
-                        float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+                entity.attackEntityFrom(source, this.getGunDamage(entity));
 
-                        if (f1 > 0.0F) {
-                            ((EntityLivingBase) entity).addVelocity(this.motionX * this.getKnockback() * 0.6000000238418579D / f1, 0.1D,
-                                    this.motionZ * this.getKnockback() * 0.6000000238418579D / f1);
-                        }
+                // Apply knockback enchantment
+                if (this.getKnockback() > 0) {
+                    float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+
+                    if (f1 > 0.0F) {
+                        entity.addVelocity(this.motionX * this.getKnockback() * 0.6000000238418579D / f1, 0.1D,
+                                this.motionZ * this.getKnockback() * 0.6000000238418579D / f1);
                     }
                 }
             }
