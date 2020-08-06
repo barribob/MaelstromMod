@@ -1,17 +1,15 @@
 package com.barribob.MaelstromMod.entity.entities.gauntlet;
 
 import com.barribob.MaelstromMod.Main;
-import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.ai.*;
-import com.barribob.MaelstromMod.entity.entities.*;
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMegaFireball;
-import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.init.ModDimensions;
-import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
@@ -53,19 +51,19 @@ import java.util.function.Consumer;
 
 public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender {
     // We keep track of the look ourselves because minecraft's look is clamped
-    protected static final DataParameter<Float> LOOK = EntityDataManager.<Float>createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
+    protected static final DataParameter<Float> LOOK = EntityDataManager.createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
-    private MultiPartEntityPart[] hitboxParts;
-    private float boxSize = 0.8f;
-    private MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", 1.0f, 1.0f);
-    private MultiPartEntityPart behindEye = new MultiPartEntityPart(this, "behindEye", 1.0f, 1.0f);
-    private MultiPartEntityPart bottomPalm = new MultiPartEntityPart(this, "bottomPalm", 1.2f, 1.2f);
-    private MultiPartEntityPart upLeftPalm = new MultiPartEntityPart(this, "upLeftPalm", boxSize, boxSize);
-    private MultiPartEntityPart upRightPalm = new MultiPartEntityPart(this, "upRightPalm", boxSize, boxSize);
-    private MultiPartEntityPart rightPalm = new MultiPartEntityPart(this, "rightPalm", boxSize, boxSize);
-    private MultiPartEntityPart leftPalm = new MultiPartEntityPart(this, "leftPalm", boxSize, boxSize);
-    private MultiPartEntityPart fingers = new MultiPartEntityPart(this, "fingers", 1.2f, 1.2f);
-    private MultiPartEntityPart fist = new MultiPartEntityPart(this, "fist", 0, 0);
+    private final MultiPartEntityPart[] hitboxParts;
+    private final float boxSize = 0.8f;
+    private final MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", 1.0f, 1.0f);
+    private final MultiPartEntityPart behindEye = new MultiPartEntityPart(this, "behindEye", 1.0f, 1.0f);
+    private final MultiPartEntityPart bottomPalm = new MultiPartEntityPart(this, "bottomPalm", 1.2f, 1.2f);
+    private final MultiPartEntityPart upLeftPalm = new MultiPartEntityPart(this, "upLeftPalm", boxSize, boxSize);
+    private final MultiPartEntityPart upRightPalm = new MultiPartEntityPart(this, "upRightPalm", boxSize, boxSize);
+    private final MultiPartEntityPart rightPalm = new MultiPartEntityPart(this, "rightPalm", boxSize, boxSize);
+    private final MultiPartEntityPart leftPalm = new MultiPartEntityPart(this, "leftPalm", boxSize, boxSize);
+    private final MultiPartEntityPart fingers = new MultiPartEntityPart(this, "fingers", 1.2f, 1.2f);
+    private final MultiPartEntityPart fist = new MultiPartEntityPart(this, "fist", 0, 0);
     private Consumer<EntityLivingBase> prevAttack;
     private boolean isPunching;
 
@@ -74,8 +72,8 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private Vec3d targetPos;
     private Vec3d renderLazerPos;
     private Vec3d prevRenderLazerPos;
-    private byte stopLazerByte = 39;
-    private int beamLag = 7;
+    private final byte stopLazerByte = 39;
+    private final int beamLag = 7;
 
     private boolean isDefending;
 
@@ -83,7 +81,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private boolean damageFromEye;
 
     // Custom entity see ai
-    private EntitySenses senses = new GauntletEntitySenses(this);
+    private final EntitySenses senses = new GauntletEntitySenses(this);
 
     public final Consumer<Vec3d> punchAtPos = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.punch", false);
@@ -109,9 +107,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
                 this.setLook(target.subtract(this.getPositionEyes(1)));
             }, i);
         }
-        this.addEvent(() -> {
-            this.isPunching = false;
-        }, 40);
+        this.addEvent(() -> this.isPunching = false, 40);
         this.addEvent(() -> {
             this.fist.width = 0;
             this.fist.height = 0;
@@ -119,26 +115,18 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         }, 50);
     };
 
-    private final Consumer<EntityLivingBase> punch = (target) -> {
-        punchAtPos.accept(target.getPositionVector());
-    };
+    private final Consumer<EntityLivingBase> punch = (target) -> punchAtPos.accept(target.getPositionVector());
 
     private final Consumer<EntityLivingBase> lazer = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.lazer_eye", false);
         for (int i = 0; i < 25; i++) {
-            this.addEvent(() -> {
-                world.setEntityState(this, ModUtils.PARTICLE_BYTE);
-            }, i);
+            this.addEvent(() -> world.setEntityState(this, ModUtils.PARTICLE_BYTE), i);
         }
-        this.addEvent(() -> {
-            this.isShootingLazer = true;
-        }, 25);
+        this.addEvent(() -> this.isShootingLazer = true, 25);
         this.addEvent(() -> {
             this.isShootingLazer = false;
             // Have to add delay because there will be 5 more ticks of lazers
-            this.addEvent(() -> {
-                world.setEntityState(this, stopLazerByte);
-            }, beamLag + 1);
+            this.addEvent(() -> world.setEntityState(this, stopLazerByte), beamLag + 1);
         }, 60);
     };
 
@@ -173,9 +161,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         Projectile proj = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null);
         proj.setTravelRange(30);
 
-        this.addEvent(() -> {
-            world.spawnEntity(proj);
-        }, 10);
+        this.addEvent(() -> world.spawnEntity(proj), 10);
 
         // Hold the fireball in place
         for (int i = 10; i < 27; i++) {
@@ -290,7 +276,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
             avec3d[j] = new Vec3d(this.hitboxParts[j].posX, this.hitboxParts[j].posY, this.hitboxParts[j].posZ);
         }
 
-        /**
+        /*
          * Set the hitbox pieces based on the entity's rotation so that even large pitch rotations don't mess up the hitboxes
          */
         Vec3d lookVec = ModUtils.getLookVec(this.getLook(), this.renderYawOffset);
@@ -322,7 +308,6 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
         Vec3d fistPos = this.getPositionVector().subtract(ModUtils.yVec(0.5));
         this.fist.setLocationAndAngles(fistPos.x, fistPos.y, fistPos.z, this.rotationYaw, this.rotationPitch);
-        this.fist.width = 3;
 
         for (int l = 0; l < this.hitboxParts.length; ++l) {
             this.hitboxParts[l].prevPosX = avec3d[l].x;
