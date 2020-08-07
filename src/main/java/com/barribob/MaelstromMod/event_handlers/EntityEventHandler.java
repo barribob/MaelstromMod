@@ -15,6 +15,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -31,17 +32,20 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber()
 public class EntityEventHandler {
     // Queues players to receive the wind sound packet
-    private static final Set<EntityPlayerMP> DARK_NEXUS_PLAYERS = Collections.newSetFromMap(new WeakHashMap<EntityPlayerMP, Boolean>());
+    private static final Set<EntityPlayerMP> DARK_NEXUS_PLAYERS = Collections.newSetFromMap(new WeakHashMap<>());
+    private static final Map<EntityLivingBase, Integer> FALLING_ENTITIES = new WeakHashMap<>();
 
     @SubscribeEvent
     public static void onLivingFallEvent(LivingFallEvent event) {
         if (event.getEntityLiving() instanceof LeapingEntity && ((LeapingEntity) event.getEntityLiving()).isLeaping()) {
+            event.setDistance(event.getDistance() - 3);
             ((LeapingEntity) event.getEntityLiving()).onStopLeaping();
             ((LeapingEntity) event.getEntityLiving()).setLeaping(false);
         }
@@ -68,7 +72,20 @@ public class EntityEventHandler {
     @SubscribeEvent
     public static void onEntityUpdateEvent(LivingUpdateEvent event) {
 
-        // Play wind sound for players in dark nexus
+        if (event.getEntityLiving() instanceof LeapingEntity &&
+                !event.getEntityLiving().world.isRemote &&
+                ((LeapingEntity) event.getEntityLiving()).isLeaping() &&
+                event.getEntityLiving().onGround) {
+
+            FALLING_ENTITIES.put(event.getEntityLiving(), FALLING_ENTITIES.getOrDefault(event.getEntityLiving(), 0) + 1);
+
+            if(FALLING_ENTITIES.get(event.getEntityLiving()) >= 10) {
+                ((LeapingEntity) event.getEntityLiving()).setLeaping(false);
+                FALLING_ENTITIES.remove(event.getEntityLiving());
+            }
+        }
+
+            // Play wind sound for players in dark nexus
         if (DARK_NEXUS_PLAYERS.contains(event.getEntity()) && event.getEntity().dimension == ModDimensions.DARK_NEXUS.getId()) {
             Main.network.sendTo(new MessagePlayDarkNexusWindSound(), (EntityPlayerMP) event.getEntity());
             DARK_NEXUS_PLAYERS.remove(event.getEntity());

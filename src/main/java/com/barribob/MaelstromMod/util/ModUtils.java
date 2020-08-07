@@ -14,6 +14,7 @@ import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
+import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.collect.Sets;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigRenderOptions;
@@ -212,6 +213,9 @@ public final class ModUtils {
             return;
         }
         List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
+
+        // TODO: Remove after finishing boss configuration
+        ParticleManager.spawnParticleSphere(source.world, pos, radius);
 
         Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart || i.canBeCollidedWith();
         double radiusSq = Math.pow(radius, 2);

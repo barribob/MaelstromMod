@@ -75,7 +75,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         ModBBAnimations.animation(this, "chaos_knight.leap_slam", false);
         addEvent(() -> {
             ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.45f * Math.sqrt(getDistance(target))), 0.9f);
-            fallDistance = -3;
             setLeaping(true);
         }, 20);
         addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 60);
@@ -148,9 +147,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
     };
 
     private final Consumer<EntityLivingBase> summonMeteors = (target) -> {
-        addEvent(() -> {
-            this.motionY += 0.5;
-        }, 3);
+        addEvent(() -> this.motionY += 0.5, 3);
         ModBBAnimations.animation(this, "chaos_knight.summon", false);
         for (int tick = 20; tick < 140; tick += 5) {
             addEvent(() -> {
@@ -209,13 +206,13 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         float healthRatio = this.getHealth() / this.getMaxHealth();
         setSwingingArms(true);
         double distance = Math.sqrt(distanceFactor);
-        List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(sideSwipe, leapSlam, dash, spinSlash, summonMeteors));
+        List<Consumer<EntityLivingBase>> attacks = new ArrayList<>(Arrays.asList(sideSwipe, leapSlam, dash, spinSlash, summonMeteors));
         double[] weights = {
-                (1 - (distance / 10)) * (prevAttack != sideSwipe ? 1.5 : 1.0), // More likely at closer range
-                healthRatio < 0.75 ? 0.2 + 0.04 * distance : 0, // Most likely as longer range, and only appears below 75% health
-                healthRatio < 0.5 ? 0.2 + 0.04 * distance : 0, // Only appears below 50% health
-                0.5 - (prevAttack == spinSlash ? 0.3 : 0.0), // A powerful move that shouldn't happen too often in a row.
-                prevAttack == summonMeteors || healthRatio > 0.4 ? 0.0 : (1 - healthRatio) // Meteor move becomes more common with less health
+                (1 - (distance / 10)) * (prevAttack != sideSwipe ? 1.5 : 1.0), // Swipe
+                0.2 + 0.04 * distance, // Leap
+                healthRatio < 0.5 ? 0.2 + 0.04 * distance : 0, // Dash
+                healthRatio < 0.75 ? 0.5 - (prevAttack == spinSlash ? 0.3 : 0.0) : 0, // Spin slash
+                prevAttack == summonMeteors || healthRatio > 0.4 ? 0.0 : (1 - healthRatio) // Meteors
         };
 
         prevAttack = ModRandom.choice(attacks, rand, weights).next();
@@ -236,7 +233,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (amount > 0.0F && this.canBlockDamageSource(source)) {
             this.damageShield(amount);
-            amount = 0.0F;
 
             if (!source.isProjectile()) {
                 Entity entity = source.getImmediateSource();
@@ -261,9 +257,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                 Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(this.posX, this.posY, this.posZ)).normalize();
                 vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
 
-                if (vec3d2.dotProduct(vec3d1) < 0.0D) {
-                    return true;
-                }
+                return vec3d2.dotProduct(vec3d1) < 0.0D;
             }
         }
 
@@ -278,7 +272,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(4, new EntityAITimedAttack<EntityChaosKnight>(this, 1.0f, 60, 15, 0.5f));
+        this.tasks.addTask(4, new EntityAITimedAttack<>(this, 1.0f, 60, 15, 0.5f));
     }
 
     @Override
@@ -293,15 +287,13 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         } else if (id == ModUtils.SECOND_PARTICLE_BYTE) {
             if (chargeDir != null) {
                 Vec3d particleVel = chargeDir.subtract(getPositionVector()).normalize().scale(0.5);
-                ModUtils.lineCallback(getPositionVector(), chargeDir, 20, (vec, i) -> {
-                    ModUtils.performNTimes(10, (j) -> {
-                        ParticleManager.spawnSplit(world, vec.add(ModRandom.randVec().scale(dashRadius * 2)), ModColors.RED, particleVel.add(ModRandom.randVec().scale(0.2f)));
-                        ParticleManager.spawnCustomSmoke(world, vec.add(ModRandom.randVec().scale(dashRadius * 2)), ModColors.GREY, particleVel.add(ModRandom.randVec().scale(0.2f)));
-                        Vec3d flamePos = vec.add(ModRandom.randVec().scale(dashRadius * 2));
-                        Vec3d flameVel = particleVel.add(ModRandom.randVec().scale(0.2f));
-                        world.spawnParticle(EnumParticleTypes.FLAME, flamePos.x, flamePos.y, flamePos.z, flameVel.x, flameVel.y, flameVel.z);
-                    });
-                });
+                ModUtils.lineCallback(getPositionVector(), chargeDir, 20, (vec, i) -> ModUtils.performNTimes(10, (j) -> {
+                    ParticleManager.spawnSplit(world, vec.add(ModRandom.randVec().scale(dashRadius * 2)), ModColors.RED, particleVel.add(ModRandom.randVec().scale(0.2f)));
+                    ParticleManager.spawnCustomSmoke(world, vec.add(ModRandom.randVec().scale(dashRadius * 2)), ModColors.GREY, particleVel.add(ModRandom.randVec().scale(0.2f)));
+                    Vec3d flamePos = vec.add(ModRandom.randVec().scale(dashRadius * 2));
+                    Vec3d flameVel = particleVel.add(ModRandom.randVec().scale(0.2f));
+                    world.spawnParticle(EnumParticleTypes.FLAME, flamePos.x, flamePos.y, flamePos.z, flameVel.x, flameVel.y, flameVel.z);
+                }));
                 this.chargeDir = null; // So that the lazer doesn't render anymore
             }
         } else if (id == ModUtils.THIRD_PARTICLE_BYTE) {
@@ -321,8 +313,9 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                 .element(getElement())
                 .stoppedByArmorNotShields().build();
 
-        ModUtils.handleAreaImpact(3, (e) -> this.getAttack() * 1.5f, this, this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 0))), source);
-        this.playSound(SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
+        Vec3d pos = this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 0)));
+        ModUtils.handleAreaImpact(3, (e) -> this.getAttack() * 1.5f, this, pos, source);
+        this.world.newExplosion(this, pos.x, pos.y + 1, pos.z, 2.0f, false, true);
         this.world.setEntityState(this, ModUtils.PARTICLE_BYTE);
     }
 
@@ -407,5 +400,10 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
 
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+    }
+
+    @Override
+    public int getBrightnessForRender() {
+        return Math.min(super.getBrightnessForRender() + 60, 200);
     }
 }
