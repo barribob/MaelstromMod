@@ -5,17 +5,24 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.typesafe.config.Config;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class MultiInvasionWorldSavedData extends WorldSavedData {
     public static final String DATA_NAME = Reference.MOD_ID + "_MultiInvasionData";
     private int ticks;
     private int invasionIndex;
     public static final int INVASION_RESET_TIME = ModUtils.secondsToTicks(10);
+    private final Set<BlockPos> spawnedInvasionPositions = new HashSet<>();
 
     @SuppressWarnings("unused")
     public MultiInvasionWorldSavedData(String s) {
@@ -26,10 +33,20 @@ public class MultiInvasionWorldSavedData extends WorldSavedData {
         super(DATA_NAME);
     }
 
+    public void addSpawnedInvasionPosition(BlockPos pos) {
+        if (spawnedInvasionPositions.add(pos)) {
+            this.markDirty();
+        }
+    }
+
+    public Set<BlockPos> getSpawnedInvasionPositions() {
+        return spawnedInvasionPositions;
+    }
+
     public Config getCurrentInvasion() {
         List<? extends Config> invasions = Main.invasionsConfig.getConfigList("invasions");
 
-        if(invasions.size() > invasionIndex) {
+        if (invasions.size() > invasionIndex) {
             return invasions.get(invasionIndex);
         }
 
@@ -39,7 +56,7 @@ public class MultiInvasionWorldSavedData extends WorldSavedData {
     public void tick(World world) {
         Config invasion = getCurrentInvasion();
 
-        if(invasion == null) {
+        if (invasion == null) {
             return;
         }
 
@@ -56,7 +73,10 @@ public class MultiInvasionWorldSavedData extends WorldSavedData {
             if (world.playerEntities.size() > 0) {
                 EntityPlayer player = InvasionUtils.getPlayerClosestToOrigin(world);
 
-                if (InvasionUtils.trySpawnInvasionTower(player.getPosition(), player.world)) {
+                Optional<BlockPos> spawnedPos = InvasionUtils.trySpawnInvasionTower(player.getPosition(), player.world, spawnedInvasionPositions);
+
+                if (spawnedPos.isPresent()) {
+                    spawnedInvasionPositions.add(spawnedPos.get());
                     InvasionUtils.sendInvasionMessage(world, Reference.MOD_ID + ".invasion_2");
                     invasionIndex++;
                     ticks = 0;
@@ -74,12 +94,30 @@ public class MultiInvasionWorldSavedData extends WorldSavedData {
     public void readFromNBT(NBTTagCompound nbt) {
         this.ticks = nbt.getInteger("ticks");
         this.invasionIndex = nbt.getInteger("integerIndex");
+
+        spawnedInvasionPositions.clear();
+        NBTTagList nbtList = nbt.getTagList("spawnedInvasionPositions", new NBTTagCompound().getId());
+        for (NBTBase nbtBase : nbtList) {
+            NBTTagCompound posNbt = (NBTTagCompound) nbtBase;
+            int[] pos = posNbt.getIntArray("pos");
+            spawnedInvasionPositions.add(new BlockPos(pos[0], pos[1], pos[2]));
+        }
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setInteger("ticks", ticks);
         compound.setInteger("integerIndex", invasionIndex);
+
+        NBTTagList nbtList = new NBTTagList();
+        for (BlockPos pos : spawnedInvasionPositions) {
+            NBTTagCompound posCompound = new NBTTagCompound();
+            posCompound.setIntArray("pos", new int[]{pos.getX(), pos.getY(), pos.getZ()});
+            nbtList.appendTag(posCompound);
+        }
+
+        compound.setTag("spawnedInvasionPositions", nbtList);
+
         return compound;
     }
 }

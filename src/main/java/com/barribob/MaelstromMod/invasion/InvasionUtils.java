@@ -3,7 +3,6 @@ package com.barribob.MaelstromMod.invasion;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.util.GenUtils;
 import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.teleporter.NexusToOverworldTeleporter;
 import com.barribob.MaelstromMod.world.gen.WorldGenCustomStructures;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +10,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -19,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -29,7 +28,7 @@ public class InvasionUtils {
     public static int BED_DISTANCE = 75;
     public static int MAX_LAND_VARIATION = 8;
 
-    public static boolean trySpawnInvasionTower(BlockPos centralPos, World world) {
+    public static Optional<BlockPos> trySpawnInvasionTower(BlockPos centralPos, World world, Set<BlockPos> spawnedInvasionPositions) {
         BlockPos structureSize = WorldGenCustomStructures.invasionTower.getSize(world);
         BlockPos halfStructureSize = new BlockPos(structureSize.getX() * 0.5f, 0, structureSize.getZ() * 0.5f);
         BlockPos quarterStructureSize = new BlockPos(halfStructureSize.getX() * 0.5f, 0, halfStructureSize.getZ() * 0.5f);
@@ -52,6 +51,9 @@ public class InvasionUtils {
             return pos.distanceSq(p.getBedLocation()) < Math.pow(BED_DISTANCE, 2);
         });
 
+        Predicate<BlockPos> noPreviousInvasionNearby = pos -> spawnedInvasionPositions.stream()
+                .noneMatch(p -> p.distanceSq(pos) < Math.pow(Main.invasionsConfig.getInt("invasion_radius"), 2));
+
         BinaryOperator<BlockPos> minVariation = (prevPos, newPos) -> {
             int prevVariation = GenUtils.getTerrainVariation(world, prevPos.getX(), prevPos.getZ(), prevPos.getX(), structureSize.getZ());
             int newVariation = GenUtils.getTerrainVariation(world, newPos.getX(), newPos.getZ(), newPos.getX(), structureSize.getZ());
@@ -63,11 +65,13 @@ public class InvasionUtils {
                 .filter(pos -> pos.getY() != -1)
                 .filter(notTooHigh)
                 .filter(inLiquid)
+                .filter(noPreviousInvasionNearby)
                 .filter(noBaseNearby)
                 .reduce(minVariation);
 
         towerPos.ifPresent(blockPos -> WorldGenCustomStructures.invasionTower.generateStructure(world, blockPos, Rotation.NONE));
-        return towerPos.isPresent();
+
+        return towerPos;
     }
 
     public static EntityPlayer getPlayerClosestToOrigin(World world) {
