@@ -666,34 +666,35 @@ public final class ModUtils {
      * @param entity
      * @return
      */
-    public static boolean destroyBlocksInAABB(AxisAlignedBB box, World world, Entity entity) {
+    public static void destroyBlocksInAABB(AxisAlignedBB box, World world, Entity entity) {
         int i = MathHelper.floor(box.minX);
         int j = MathHelper.floor(box.minY);
         int k = MathHelper.floor(box.minZ);
         int l = MathHelper.floor(box.maxX);
         int i1 = MathHelper.floor(box.maxY);
         int j1 = MathHelper.floor(box.maxZ);
-        boolean destroyedBlocks = false;
 
-        for (int k1 = i; k1 <= l; ++k1) {
-            for (int l1 = j; l1 <= i1; ++l1) {
-                for (int i2 = k; i2 <= j1; ++i2) {
-                    BlockPos blockpos = new BlockPos(k1, l1, i2);
+        for (int x = i; x <= l; ++x) {
+            for (int y = j; y <= i1; ++y) {
+                for (int z = k; z <= j1; ++z) {
+                    BlockPos blockpos = new BlockPos(x, y, z);
                     IBlockState iblockstate = world.getBlockState(blockpos);
                     Block block = iblockstate.getBlock();
 
                     if (!block.isAir(iblockstate, world, blockpos) && iblockstate.getMaterial() != Material.FIRE) {
                         if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity)) {
-                            if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.BEDROCK && !(block instanceof BlockLiquid)) {
-                                destroyedBlocks = world.setBlockToAir(blockpos) || destroyedBlocks;
+                            if (block != Blocks.COMMAND_BLOCK &&
+                                    block != Blocks.REPEATING_COMMAND_BLOCK &&
+                                    block != Blocks.CHAIN_COMMAND_BLOCK &&
+                                    block != Blocks.BEDROCK &&
+                                    !(block instanceof BlockLiquid)) {
+                                world.destroyBlock(blockpos, false);
                             }
                         }
                     }
                 }
             }
         }
-
-        return destroyedBlocks;
     }
 
     /**

@@ -63,6 +63,8 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                     .disablesShields().build();
 
             ModUtils.handleAreaImpact(2, (e) -> getAttack(), this, offset, source, 0.5f, 0, false);
+            ModUtils.destroyBlocksInAABB(this.getEntityBoundingBox().grow(0.5).offset(offset.subtract(this.getPositionVector())), world, this);
+
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
             Vec3d away = this.getPositionVector().subtract(target.getPositionVector()).normalize();
             ModUtils.leapTowards(this, away, 0.4f, 0.4f);
@@ -126,6 +128,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
             this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
         };
         Runnable meleeAttack = () -> {
+            Vec3d offset = getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(0.5, 1, -1)));
             DamageSource source = ModDamageSource.builder()
                     .type(ModDamageSource.MOB)
                     .directEntity(this)
@@ -133,6 +136,8 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                     .disablesShields().build();
 
             ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), source, 0.5f, 0, false);
+            ModUtils.destroyBlocksInAABB(this.getEntityBoundingBox().grow(0.5).offset(offset.subtract(this.getPositionVector())), world, this);
+
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
             this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
         };

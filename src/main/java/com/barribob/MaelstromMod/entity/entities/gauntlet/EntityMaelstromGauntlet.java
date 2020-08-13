@@ -320,7 +320,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         }
 
         if (this.isPunching) {
-            boolean destroyedBlocks = ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
+            ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
 
             DamageSource source = ModDamageSource.builder()
                     .type(ModDamageSource.MOB)
@@ -329,9 +329,6 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
                     .element(this.getElement()).build();
 
             ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), source, (float) ModUtils.mag(this.motionX, this.motionY, this.motionZ), 0, false);
-            if (destroyedBlocks) {
-                world.newExplosion(this, this.posX, this.posY + this.getEyeHeight(), this.posZ, 2, false, false);
-            }
         }
 
         if (this.isShootingLazer) {
