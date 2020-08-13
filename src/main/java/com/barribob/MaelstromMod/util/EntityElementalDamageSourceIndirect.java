@@ -39,6 +39,16 @@ public class EntityElementalDamageSourceIndirect extends EntityDamageSourceIndir
         return disablesShields;
     }
 
+    public Entity getTrueSource()
+    {
+        if(super.getTrueSource() instanceof EntityLivingBase) {
+            return super.getTrueSource();
+        } else if (super.getImmediateSource() instanceof EntityLivingBase) {
+            return super.getImmediateSource();
+        }
+        return null;
+    }
+
     @Override
     public ITextComponent getDeathMessage(EntityLivingBase entity)
     {
