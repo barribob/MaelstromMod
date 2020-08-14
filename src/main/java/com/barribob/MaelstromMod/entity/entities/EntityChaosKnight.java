@@ -17,12 +17,10 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.barribob.MaelstromMod.world.gen.nexus.WorldGenNexusTeleporter;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
@@ -37,6 +35,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, DirectionalRender {
@@ -84,26 +83,37 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
 
     private final Consumer<EntityLivingBase> dash = (target) -> {
         ModBBAnimations.animation(this, "chaos_knight.dash", false);
-        Vec3d dir = getAttackTarget().getPositionVector().subtract(getPositionVector()).normalize();
-        Vec3d teleportPos = getAttackTarget().getPositionVector();
-        int maxDistance = 10;
-        for (int i = 0; i < maxDistance; i++) {
-            Vec3d proposedPos = teleportPos.add(dir);
-            IBlockState state = world.getBlockState(new BlockPos(proposedPos).down());
-            IBlockState aboveState = world.getBlockState(new BlockPos(proposedPos));
-            if ((state.canEntitySpawn(this) || aboveState.getBlock() == Blocks.REDSTONE_WIRE || aboveState.getBlock() == Blocks.SKULL) && state.isSideSolid(world, new BlockPos(proposedPos).down(), EnumFacing.UP)) {
-                teleportPos = proposedPos;
-            }
-        }
+        Vec3d targetPos = getAttackTarget().getPositionVector().add(ModUtils.yVec(1));
+        Vec3d startPos = getPositionVector().add(ModUtils.yVec(getEyeHeight()));
+        Vec3d dir = targetPos.subtract(startPos).normalize();
 
-        this.chargeDir = teleportPos;
+        AtomicReference<Vec3d> teleportPos = new AtomicReference<>(targetPos);
+        int maxDistance = 10;
+        ModUtils.lineCallback(
+                targetPos.add(dir),
+                targetPos.add(dir.scale(maxDistance)),
+                maxDistance * 2,
+                (pos, i) -> {
+            boolean safeLanding = ModUtils.cubePoints(0, -2, 0, 1, 0, 1).stream()
+                    .anyMatch(off -> world.getBlockState(new BlockPos(pos.add(off)))
+                            .isSideSolid(world, new BlockPos(pos.add(off)).down(), EnumFacing.UP));
+            boolean notOpen = ModUtils.cubePoints(0, 1, 0, 1, 3, 1).stream()
+                    .anyMatch(off -> world.getBlockState(new BlockPos(pos.add(off)))
+                            .causesSuffocation());
+
+            if (safeLanding && !notOpen) {
+                teleportPos.set(pos);
+            }
+        });
+
+        this.chargeDir = teleportPos.get();
 
         // Send the aimed position to the client side
         Main.network.sendToAllTracking(new MessageDirectionForRender(this, this.chargeDir), this);
 
         addEvent(() -> {
             world.createExplosion(this, posX, posY, posZ, 2, false);
-            ModUtils.lineCallback(getPositionVector(), chargeDir, (int) Math.sqrt(chargeDir.subtract(getPositionVector()).lengthSquared()), (vec, i) -> {
+            ModUtils.lineCallback(startPos, chargeDir, (int) Math.sqrt(chargeDir.subtract(startPos).lengthSquared()), (vec, i) -> {
                 DamageSource source = ModDamageSource.builder()
                         .type(ModDamageSource.MOB)
                         .directEntity(this)
@@ -111,6 +121,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                         .stoppedByArmorNotShields().build();
 
                 ModUtils.handleAreaImpact(dashRadius, (e) -> getAttack() * 1.5f, this, vec, source, 0.3f, 5);
+                ModUtils.destroyBlocksInAABB(this.getEntityBoundingBox().offset(getPositionVector().scale(-1)).offset(vec), world, this);
                 world.playSound(vec.x, vec.y, vec.z, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 1.0f, 1.0f + ModRandom.getFloat(0.1f), false);
             });
             this.setPositionAndUpdate(chargeDir.x, chargeDir.y, chargeDir.z);

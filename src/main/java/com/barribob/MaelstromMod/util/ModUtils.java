@@ -1090,4 +1090,16 @@ public final class ModUtils {
 
         return false;
     }
+
+    public static List<Vec3d> cubePoints(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
+        List<Vec3d> points = new ArrayList<>();
+        for(int x = xMin; x < xMax; x++) {
+            for(int y = yMin; y < yMax; y++) {
+                for(int z = zMin; z < zMax; z++) {
+                    points.add(new Vec3d(x, y, z));
+                }
+            }
+        }
+        return points;
+    }
 }
