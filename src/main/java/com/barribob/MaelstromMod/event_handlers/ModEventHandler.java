@@ -79,6 +79,19 @@ public class ModEventHandler {
                 ((EntityPlayer)event.getEntityLiving()).disableShield(true);
             }
         }
+
+        float damage = event.getAmount();
+        // Factor in elemental armor first
+        if (event.getSource() instanceof IElement) {
+            damage *= 1 - ArmorHandler.getElementalArmor(event.getEntity(), ((IElement) event.getSource()).getElement());
+        }
+
+        // Factor in maelstrom armor second
+        if (!event.getSource().isUnblockable()) {
+            damage *= 1 - ArmorHandler.getMaelstromArmor(event.getEntity());
+        }
+
+        event.setAmount(damage);
     }
 
     /**
@@ -308,22 +321,6 @@ public class ModEventHandler {
         if (event.getItemStack().getItem() instanceof ToolSword) {
             Main.network.sendToServer(new MessageEmptySwing());
         }
-    }
-
-    @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
-        float damage = event.getAmount();
-        // Factor in elemental armor first
-        if (event.getSource() instanceof IElement) {
-            damage *= 1 - ArmorHandler.getElementalArmor(event.getEntity(), ((IElement) event.getSource()).getElement());
-        }
-
-        // Factor in maelstrom armor second
-        if (!event.getSource().isUnblockable()) {
-            damage *= 1 - ArmorHandler.getMaelstromArmor(event.getEntity());
-        }
-
-        event.setAmount(damage);
     }
 
     /**
