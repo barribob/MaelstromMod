@@ -257,7 +257,7 @@ public class EntityHealerOrb extends Entity {
 
     protected void bulletHit(RayTraceResult result) {
         Entity entity = ModUtils.getLivingEntity(result.entityHit);
-        if (ModUtils.isMaelstromMob(entity)) {
+        if (ModUtils.isMaelstromMob(entity) && owner != null) {
             world.setEntityState(this, ModUtils.PARTICLE_BYTE);
             this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 1.0F);
             ((EntityMaelstromMob) entity).addPotionEffect(new PotionEffect(MobEffects.SPEED, 100));
