@@ -38,25 +38,24 @@ public class RenderHandler {
         registerModEntityRenderer(NexusBladesmith.class, new ModelBladesmith(), "bladesmith.png");
         registerModEntityRenderer(NexusSpecialTrader.class, new ModelNexusSaiyan(), "nexus_saiyan.png");
         registerModEntityRenderer(EntityGoldenPillar.class, new ModelGoldenPillar(), "golden_pillar.png");
-        registerModEntityRenderer(EntityGoldenBoss.class, new ModelGoldenBoss(), "golden_boss.png");
-        registerModEntityRenderer(EntityMaelstromGoldenBoss.class, new ModelGoldenBoss(), "maelstrom_golden_boss.png");
+        registerModEntityRenderer(EntityGoldenBoss.class, RenderStatueOfNirvana::new);
         registerModEntityRenderer(EntityMaelstromWitch.class, new ModelMaelstromWitch(), "maelstrom_witch.png");
         registerModEntityRenderer(EntitySwampCrawler.class, new ModelSwampCrawler(), "swamp_crawler.png");
         registerModEntityRenderer(EntityIronShade.class, new ModelIronShade(), "iron_shade.png", null, null, "iron_shade_crimson.png");
         registerModEntityRenderer(EntityCliffFly.class, new ModelCliffFly(), "cliff_fly.png");
-        registerModEntityRenderer(EntityAzureVillager.class, (manager) -> new RenderAzureVillager(manager));
-        registerModEntityRenderer(EntityMaelstromIllager.class, (manager) -> new RenderMaelstromIllager(manager));
+        registerModEntityRenderer(EntityAzureVillager.class, RenderAzureVillager::new);
+        registerModEntityRenderer(EntityMaelstromIllager.class, RenderMaelstromIllager::new);
         registerModEntityRenderer(EntityAzureGolem.class, (manager) -> new RenderAzureGolem(manager, "azure_golem.png"));
         registerModEntityRenderer(EntityCliffGolem.class, (manager) -> new RenderAzureGolem(manager, "cliff_golem.png"));
-        registerModEntityRenderer(EntityMaelstromBeast.class, (manager) -> new RenderMaelstromBeast(manager));
-        registerModEntityRenderer(EntityMonolith.class, (manager) -> new RenderMonolith(manager));
-        registerModEntityRenderer(EntityWhiteMonolith.class, (manager) -> new RenderWhiteMonolith(manager));
+        registerModEntityRenderer(EntityMaelstromBeast.class, RenderMaelstromBeast::new);
+        registerModEntityRenderer(EntityMonolith.class, RenderMonolith::new);
+        registerModEntityRenderer(EntityWhiteMonolith.class, RenderWhiteMonolith::new);
         registerModEntityRenderer(EntityMaelstromLancer.class, new ModelMaelstromLancer(), "maelstrom_lancer.png", "maelstrom_lancer_azure.png", "maelstrom_lancer_golden.png", "maelstrom_lancer_crimson.png");
         registerModEntityRenderer(EntityChaosKnight.class, (manager) -> new RenderChaosKnight(manager, "chaos_knight.png"));
         registerModEntityRenderer(EntityMaelstromHealer.class, new ModelMaelstromHealer(), "maelstrom_healer.png");
         registerModEntityRenderer(EntityMaelstromGauntlet.class, (manager) -> new RenderMaelstromGauntlet(manager, "maelstrom_gauntlet.png"));
-        registerModEntityRenderer(EntityTuningForkLazer.class, (manager) -> new RenderTuningForkLazer(manager));
-        registerModEntityRenderer(ProjectileMegaFireball.class, (manager) -> new RenderNonLivingEntity<ProjectileMegaFireball>(manager, "fireball.png", new ModelFireball()));
+        registerModEntityRenderer(EntityTuningForkLazer.class, RenderTuningForkLazer::new);
+        registerModEntityRenderer(ProjectileMegaFireball.class, (manager) -> new RenderNonLivingEntity<>(manager, "fireball.png", new ModelFireball()));
 
         registerProjectileRenderer(Projectile.class);
         registerProjectileRenderer(ProjectileBullet.class);
@@ -74,6 +73,7 @@ public class RenderHandler {
         registerProjectileRenderer(EntityCrimsonTowerSpawner.class);
         registerProjectileRenderer(EntityHealerOrb.class);
         registerProjectileRenderer(ProjectileChaosFireball.class, ModItems.CRIMSON_PELLET);
+        registerProjectileRenderer(ProjectileStatueMaelstromMissile.class, ModItems.MAELSTROM_PELLET);
     }
 
     /**

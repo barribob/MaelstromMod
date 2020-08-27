@@ -64,7 +64,7 @@ public class EntityLargeGoldenRune extends Projectile {
                         ((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));
                     }
                     return this.getDamage();
-                }, this.shootingEntity, this.getPositionVector(), source);
+                }, this.shootingEntity, this.getPositionVector(), source, 1, 0, false);
         this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
         super.onHit(result);
     }

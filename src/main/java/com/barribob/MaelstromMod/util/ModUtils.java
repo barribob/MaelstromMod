@@ -38,6 +38,7 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
@@ -145,14 +146,10 @@ public final class ModUtils {
     public static List<EntityLivingBase> getEntitiesInBox(Entity entity, AxisAlignedBB bb) {
         List<Entity> list = entity.world.getEntitiesWithinAABBExcludingEntity(entity, bb);
 
-        if (list != null) {
-            Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
-            Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
+        Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase;
+        Function<Entity, EntityLivingBase> cast = i -> (EntityLivingBase) i;
 
-            return list.stream().filter(isInstance).map(cast).collect(Collectors.toList());
-        }
-
-        return null;
+        return list.stream().filter(isInstance).map(cast).collect(Collectors.toList());
     }
 
     /**
@@ -215,7 +212,7 @@ public final class ModUtils {
         List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
         // TODO: Remove after finishing boss configuration
-        ParticleManager.spawnParticleSphere(source.world, pos, radius);
+//        ParticleManager.spawnParticleSphere(source.world, pos, radius);
 
         Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart || i.canBeCollidedWith();
         double radiusSq = Math.pow(radius, 2);
@@ -315,6 +312,12 @@ public final class ModUtils {
         throwProjectile(actor, target, projectile, 12.0f, 1.6f);
     }
 
+    public static void throwProjectile(EntityLivingBase actor, Vec3d target, Projectile projectile, float inaccuracy, float velocity, Vec3d offset) {
+        Vec3d pos = projectile.getPositionVector().add(offset);
+        projectile.setPosition(pos.x, pos.y, pos.z);
+        throwProjectile(actor, target, projectile, inaccuracy, velocity);
+    }
+
     public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity, Vec3d offset) {
         Vec3d pos = projectile.getPositionVector().add(offset);
         projectile.setPosition(pos.x, pos.y, pos.z);
@@ -322,11 +325,16 @@ public final class ModUtils {
     }
 
     public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity) {
-        double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
-        double d1 = target.posX - projectile.posX;
+        double d0 = target.posY + target.getEyeHeight() - 0.9;
+        throwProjectile(actor, new Vec3d(target.posX, d0, target.posY), projectile, inaccuracy, velocity);
+    }
+
+    public static void throwProjectile(EntityLivingBase actor, Vec3d target, Projectile projectile, float inaccuracy, float velocity) {
+        double d0 = target.y;
+        double d1 = target.x - projectile.posX;
         double d2 = d0 - projectile.posY;
-        double d3 = target.posZ - projectile.posZ;
-        float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+        double d3 = target.z - projectile.posZ;
+        float f = projectile.hasNoGravity() ? 0 : MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         projectile.shoot(d1, d2 + f, d3, velocity, inaccuracy);
         actor.world.spawnEntity(projectile);
     }
@@ -644,6 +652,17 @@ public final class ModUtils {
                 + z * Math.cos(theta)
                 + (-v * x + u * y) * Math.sin(theta);
         return new Vec3d(xPrime, yPrime, zPrime).normalize();
+    }
+
+    public static Vec3d rotateVector2(Vec3d v, Vec3d k, double degrees) {
+        double theta = Math.toRadians(degrees);
+        k = k.normalize();
+        return v
+                .scale(Math.cos(theta))
+                .add(k.crossProduct(v)
+                        .scale(Math.sin(theta)))
+                .add(k.scale(k.dotProduct(v))
+                        .scale(1 - Math.cos(theta)));
     }
 
     // http://www.java-gaming.org/index.php/topic,28253
@@ -1101,5 +1120,105 @@ public final class ModUtils {
             }
         }
         return points;
+    }
+
+    public static void aerialTravel(EntityLivingBase entity, float strafe, float vertical, float forward) {
+        if (entity.isInWater()) {
+            entity.moveRelative(strafe, vertical, forward, 0.02F);
+            entity.move(MoverType.SELF, entity.motionX, entity.motionY, entity.motionZ);
+            entity.motionX *= 0.800000011920929D;
+            entity.motionY *= 0.800000011920929D;
+            entity.motionZ *= 0.800000011920929D;
+        } else if (entity.isInLava()) {
+            entity.moveRelative(strafe, vertical, forward, 0.02F);
+            entity.move(MoverType.SELF, entity.motionX, entity.motionY, entity.motionZ);
+            entity.motionX *= 0.5D;
+            entity.motionY *= 0.5D;
+            entity.motionZ *= 0.5D;
+        } else {
+            float f = 0.91F;
+
+            if (entity.onGround) {
+                BlockPos underPos = new BlockPos(MathHelper.floor(entity.posX), MathHelper.floor(entity.getEntityBoundingBox().minY) - 1, MathHelper.floor(entity.posZ));
+                IBlockState underState = entity.world.getBlockState(underPos);
+                f = underState.getBlock().getSlipperiness(underState, entity.world, underPos, entity) * 0.91F;
+            }
+
+            float f1 = 0.16277136F / (f * f * f);
+            entity.moveRelative(strafe, vertical, forward, entity.onGround ? 0.1F * f1 : 0.02F);
+            f = 0.91F;
+
+            if (entity.onGround) {
+                BlockPos underPos = new BlockPos(MathHelper.floor(entity.posX), MathHelper.floor(entity.getEntityBoundingBox().minY) - 1, MathHelper.floor(entity.posZ));
+                IBlockState underState = entity.world.getBlockState(underPos);
+                f = underState.getBlock().getSlipperiness(underState, entity.world, underPos, entity) * 0.91F;
+            }
+
+            entity.move(MoverType.SELF, entity.motionX, entity.motionY, entity.motionZ);
+            entity.motionX *= f;
+            entity.motionY *= f;
+            entity.motionZ *= f;
+        }
+
+        entity.prevLimbSwingAmount = entity.limbSwingAmount;
+        double d1 = entity.posX - entity.prevPosX;
+        double d0 = entity.posZ - entity.prevPosZ;
+        float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
+
+        if (f2 > 1.0F) {
+            f2 = 1.0F;
+        }
+
+        entity.limbSwingAmount += (f2 - entity.limbSwingAmount) * 0.4F;
+        entity.limbSwing += entity.limbSwingAmount;
+    }
+
+    public static boolean attemptTeleport(Vec3d pos, EntityLivingBase entity)
+    {
+        double d0 = entity.posX;
+        double d1 = entity.posY;
+        double d2 = entity.posZ;
+        ModUtils.setEntityPosition(entity, pos);
+        boolean flag = false;
+        BlockPos blockpos = new BlockPos(entity);
+        World world = entity.world;
+        Random random = entity.getRNG();
+
+        if (world.isBlockLoaded(blockpos))
+        {
+            entity.setPositionAndUpdate(entity.posX, entity.posY, entity.posZ);
+
+            if (world.getCollisionBoxes(entity, entity.getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(entity.getEntityBoundingBox()))
+            {
+                flag = true;
+            }
+        }
+
+        if (!flag)
+        {
+            entity.setPositionAndUpdate(d0, d1, d2);
+            return false;
+        }
+        else
+        {
+            for (int j = 0; j < 128; ++j)
+            {
+                double d6 = (double)j / 127.0D;
+                float f = (random.nextFloat() - 0.5F) * 0.2F;
+                float f1 = (random.nextFloat() - 0.5F) * 0.2F;
+                float f2 = (random.nextFloat() - 0.5F) * 0.2F;
+                double d3 = d0 + (entity.posX - d0) * d6 + (random.nextDouble() - 0.5D) * (double)entity.width * 2.0D;
+                double d4 = d1 + (entity.posY - d1) * d6 + random.nextDouble() * (double)entity.height;
+                double d5 = d2 + (entity.posZ - d2) * d6 + (random.nextDouble() - 0.5D) * (double)entity.width * 2.0D;
+                world.spawnParticle(EnumParticleTypes.PORTAL, d3, d4, d5, f, f1, f2);
+            }
+
+            if (entity instanceof EntityCreature)
+            {
+                ((EntityCreature)entity).getNavigator().clearPath();
+            }
+
+            return true;
+        }
     }
 }

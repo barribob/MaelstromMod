@@ -44,7 +44,6 @@ public class ModEntities {
     public static final int NEXUS_BLADESMITH = 115;
     public static final int GOLDEN_PILLAR = 116;
     public static final int GOLDEN_BOSS = 119;
-    public static final int MAELSTROM_GOLDEN_BOSS = 120;
     public static final int MAELSTROM_WITCH = 121;
     public static final int CLIFF_GOLEM = 122;
 
@@ -63,12 +62,9 @@ public class ModEntities {
     public static final int FIREBALL_ID = 212;
     public static final int HEROBRINE_SLASH_ID = 213;
     public static final int BLACK_FIREBALL_ID = 214;
-    public static final int GOLDEN_BULLET_ID = 215;
-    public static final int GOLDEN_REPEATER_ID = 216;
     public static final int PILLAR_FLAMES_ID = 217;
     public static final int GOLDEN_RUNE_ID = 218;
     public static final int GOLDEN_MAGE_ATTACK_ID = 220;
-    public static final int OCTO_MISSILES_ID = 221;
     public static final int GOLDEN_FIREBALL_ID = 222;
     public static final int MAELSTROM_QUAKE_ID = 223;
     public static final int WOOD_ID = 224;
@@ -89,7 +85,6 @@ public class ModEntities {
     public static Vec3i cliff_maelstrom = new Vec3i(6433126, 0xe6e600, 0);
 
     public static final int BOSS_EXPERIENCE = 1000;
-    public static final int MINIBOSS_EXPERIENCE = 100;
 
     private static final Map<Class<? extends Entity>, String> ID_MAP = new HashMap<Class<? extends Entity>, String>();
 
@@ -112,7 +107,6 @@ public class ModEntities {
         registerEntity("nexus_bladesmith", NexusBladesmith.class, NEXUS_BLADESMITH, 50, nexus);
         registerEntityWithID("golden_pillar", EntityGoldenPillar.class, GOLDEN_PILLAR, 50, cliff_maelstrom);
         registerEntityWithID("golden_boss", EntityGoldenBoss.class, GOLDEN_BOSS, 70, cliff_maelstrom);
-        registerEntity("maelstrom_golden_boss", EntityMaelstromGoldenBoss.class, MAELSTROM_GOLDEN_BOSS, 70, cliff_maelstrom);
         registerEntityWithID("maelstrom_witch", EntityMaelstromWitch.class, MAELSTROM_WITCH, 70, cliff_maelstrom);
         registerEntityWithID("cliff_golem", EntityCliffGolem.class, CLIFF_GOLEM, 70, cliff);
         registerEntity("swamp_crawler", EntitySwampCrawler.class, ENTITY_START_ID++, 50, cliff);
@@ -142,7 +136,6 @@ public class ModEntities {
         registerEntity("pillar_flames", ProjectilePillarFlames.class, PILLAR_FLAMES_ID, 30);
         registerEntity("golden_rune", EntityGoldenRune.class, GOLDEN_RUNE_ID, 30);
         registerEntity("golden_mage_attack", ProjectileGoldenMissile.class, GOLDEN_MAGE_ATTACK_ID, 30);
-        registerEntity("octo_missiles", EntityOctoMissileLauncher.class, OCTO_MISSILES_ID, 30);
         registerEntity("golden_fireball", ProjectileGoldenFireball.class, GOLDEN_FIREBALL_ID, 30);
         registerEntity("maelstrom_quake", ProjectileMaelstromQuake.class, MAELSTROM_QUAKE_ID, 30);
         registerEntity("maelstrom_missile", ProjectileMaelstromMissile.class, WOOD_ID, 30);
@@ -170,6 +163,8 @@ public class ModEntities {
         registerEntity("crimson_portal_spawn", EntityCrimsonPortalSpawn.class, PROJECTILE_START_ID++, 40);
         registerEntity("tuning_fork_lazer_renderer", EntityTuningForkLazer.class, PROJECTILE_START_ID++, 60);
         registerEntity("mega_fireball", ProjectileMegaFireball.class, PROJECTILE_START_ID++, 40);
+        registerEntity("statue_maelstrom_missile", ProjectileStatueMaelstromMissile.class, PROJECTILE_START_ID++, 30);
+        registerEntity("maelstrom_rune", ProjectileMaelstromRune.class, PROJECTILE_START_ID++, 40);
 
         registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
         registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

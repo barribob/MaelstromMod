@@ -80,17 +80,4 @@ public class InGameTests {
         TestUtils.AssertEquals(250f, entity.getMaxHealth());
         TestUtils.AssertAlmostEquals(5.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
     }
-
-    public static void defaultMaelstromGoldenBoss(World world, BlockPos pos) throws Exception {
-        EntityLeveledMob entity = new EntityMaelstromGoldenBoss(world);
-        NBTTagCompound compound = new NBTTagCompound();
-        entity.writeToNBT(compound);
-
-        TestUtils.AssertEquals(1000, compound.getInteger("experienceValue"));
-        TestUtils.AssertEquals(Element.GOLDEN, entity.getElement());
-        TestUtils.AssertAlmostEquals(4.0, (double) entity.getLevel(), 3);
-        TestUtils.AssertEquals(250f, entity.getHealth());
-        TestUtils.AssertEquals(250f, entity.getMaxHealth());
-        TestUtils.AssertAlmostEquals(5.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
-    }
 }

@@ -78,9 +78,9 @@ public class BBAnimation {
 
             if (element.has("position")) {
                 float[] offsets = getInterpotatedValues(timeInSeconds, element.getAsJsonObject("position").entrySet());
-                component.rotationPointX -= offsets[0];
+                component.rotationPointX += offsets[0];
                 component.rotationPointY -= offsets[1];
-                component.rotationPointZ -= offsets[2];
+                component.rotationPointZ += offsets[2];
             }
         }
     }

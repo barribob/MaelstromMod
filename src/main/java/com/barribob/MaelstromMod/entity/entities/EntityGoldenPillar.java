@@ -1,16 +1,15 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.action.Action;
-import com.barribob.MaelstromMod.entity.action.ActionFireballBurst;
-import com.barribob.MaelstromMod.entity.action.ActionGoldenRunes;
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
+import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
+import com.barribob.MaelstromMod.entity.projectile.EntityGoldenRune;
+import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -20,11 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityGoldenPillar extends EntityMaelstromMob {
-    private Action fireballBurst = new ActionFireballBurst();
-    private Action goldenRune = new ActionGoldenRunes();
-    private Action currentAction = fireballBurst;
-
+public class EntityGoldenPillar extends EntityMaelstromMob implements IAttack {
     public EntityGoldenPillar(World worldIn) {
         super(worldIn);
         this.setSize(1.4f, 3.2f);
@@ -35,7 +30,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(4, new EntityAIRangedAttack<EntityGoldenPillar>(this, 0f, 40, 39, 30.0f, 0f));
+        this.tasks.addTask(4, new EntityAITimedAttack<>(this, 0f, 60, 40, 30.0f, 0f));
     }
 
     @Override
@@ -48,42 +43,20 @@ public class EntityGoldenPillar extends EntityMaelstromMob {
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id) {
         if (id == ModUtils.PARTICLE_BYTE) {
-            Vec3d particleColor = this.currentAction == fireballBurst ? new Vec3d(0.8, 0.4, 0.4) : ModColors.YELLOW;
-
             // Spawn particles as the eyes
             ModUtils.performNTimes(3, (i) -> {
                 Vec3d look = this.getVectorForRotation(0, this.renderYawOffset + (i * 120)).scale(0.5f);
                 Vec3d pos = this.getPositionVector().add(new Vec3d(0, this.getEyeHeight(), 0));
-                ParticleManager.spawnEffect(world, pos.add(look), particleColor);
+                ParticleManager.spawnEffect(world, pos.add(look), ModColors.YELLOW);
             });
-            if (this.isSwingingArms()) {
-                ParticleManager.spawnFirework(world, this.getPositionVector().add(new Vec3d(ModRandom.getFloat(0.25f), 1, ModRandom.getFloat(0.25f))), particleColor,
-                        new Vec3d(0, 0.15, 0));
-            }
+        }
+        else if (id == ModUtils.SECOND_PARTICLE_BYTE) {
+            ParticleManager.spawnFirework(world,
+                    this.getPositionVector().add(new Vec3d(ModRandom.getFloat(0.25f), 1, ModRandom.getFloat(0.25f))),
+                    ModColors.YELLOW,
+                    new Vec3d(0, 0.15, 0));
         }
         super.handleStatusUpdate(id);
-    }
-
-    @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-        if (!world.isRemote) {
-            currentAction.performAction(this, target);
-        }
-    }
-
-    @Override
-    public void setSwingingArms(boolean swingingArms) {
-        super.setSwingingArms(swingingArms);
-        if (this.getAttackTarget() == null) {
-            return;
-        }
-
-        double distance = this.getDistanceSq(this.getAttackTarget());
-        if (distance < Math.pow(8, 2)) {
-            currentAction = fireballBurst;
-        } else {
-            currentAction = goldenRune;
-        }
     }
 
     @Override
@@ -99,5 +72,44 @@ public class EntityGoldenPillar extends EntityMaelstromMob {
     @Override
     protected ResourceLocation getLootTable() {
         return LootTableHandler.GOLDEN_MAELSTROM;
+    }
+
+    private Runnable getRune(Vec3d target) {
+        return () -> {
+            Projectile projectile = new EntityGoldenRune(world, this, this.getAttack());
+            projectile.setTravelRange(30);
+            ModUtils.throwProjectile(this, target, projectile, 4, 0.5f);
+        };
+    }
+
+    @Override
+    public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
+
+        /*
+        Oscillate attacks between attack, and to the side
+         */
+
+        addEvent(() -> {
+            Vec3d centerTarget = target.getPositionEyes(1);
+            Vec3d offset = centerTarget
+                    .subtract(getPositionEyes(1))
+                    .crossProduct(ModUtils.yVec(1))
+                    .normalize()
+                    .scale(3 * ModRandom.randSign());
+
+            getRune(centerTarget).run();
+            addEvent(getRune(centerTarget.add(offset)), 10);
+            addEvent(getRune(centerTarget.subtract(offset)), 20);
+        }, 40);
+
+        for(int i = 0; i < 40; i++) {
+            addEvent(() -> world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE), i);
+        }
+
+        return 60;
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
     }
 }

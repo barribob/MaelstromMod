@@ -140,8 +140,8 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 
     private boolean aerialStrafe(float forward, float sidewaysRotation) {
         Vec3d forwardVec = this.entity.getAttackTarget().getPositionVector().subtract(this.entity.getPositionVector()).normalize();
-        Vec3d sidewaysVec = ModUtils.rotateVector(forwardVec, forwardVec.crossProduct(new Vec3d(0, 1, 0)), 90);
-        Vec3d strafeVec = ModUtils.rotateVector(sidewaysVec, forwardVec, sidewaysRotation);
+        Vec3d sidewaysVec = ModUtils.rotateVector2(forwardVec, forwardVec.crossProduct(new Vec3d(0, 1, 0)), 90);
+        Vec3d strafeVec = ModUtils.rotateVector2(sidewaysVec, forwardVec, sidewaysRotation);
         Vec3d move = forwardVec.scale(forward).add(strafeVec).scale(4);
         Vec3d pos = this.entity.getPositionVector().add(move);
         return this.entity.getNavigator().tryMoveToXYZ(pos.x, pos.y, pos.z, this.moveSpeedAmp);
