@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.init.ModDimensions;
-import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
@@ -191,7 +190,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         this.setImmovable(true);
         this.setSize(1.5f, 3.0f);
         this.healthScaledAttackFactor = 0.2;
-        this.experienceValue = ModEntities.BOSS_EXPERIENCE;
     }
 
     @Override
@@ -234,15 +232,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         prevAttack = ModRandom.choice(attacks, rand, weights).next();
         prevAttack.accept(target);
         return prevAttack == sideSwipe || prevAttack == summonMeteors ? 50 : 90 - (int) (10 * (1 - healthRatio));
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9f);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30f);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(450);
-        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
     }
 
     @Override

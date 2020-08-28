@@ -19,7 +19,8 @@ public class InGameTests {
         spawnAlgorithm(server.getEntityWorld(), sender.getPosition());
         defaultScout(server.getEntityWorld(), sender.getPosition());
         defaultIllager(server.getEntityWorld(), sender.getPosition());
-
+        defaultChaosKnight(server.getEntityWorld(), sender.getPosition());
+        defaultGoldenBoss(server.getEntityWorld(), sender.getPosition());
     }
 
     public static void runSingleTest(MinecraftServer server, ICommandSender sender, String testName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -76,8 +77,22 @@ public class InGameTests {
         entity.writeToNBT(compound);
 
         TestUtils.AssertEquals(0, compound.getInteger("experienceValue"));
-        TestUtils.AssertEquals(250f, entity.getHealth());
-        TestUtils.AssertEquals(250f, entity.getMaxHealth());
-        TestUtils.AssertAlmostEquals(5.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
+        TestUtils.AssertEquals(450f, entity.getHealth());
+        TestUtils.AssertEquals(450f, entity.getMaxHealth());
+        TestUtils.AssertAlmostEquals(9.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
+        TestUtils.AssertAlmostEquals(40.0, entity.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getBaseValue(), 3);
+    }
+
+    public static void defaultChaosKnight(World world, BlockPos pos) throws Exception {
+        EntityLeveledMob entity = new EntityChaosKnight(world);
+        NBTTagCompound compound = new NBTTagCompound();
+        entity.writeToNBT(compound);
+
+        TestUtils.AssertEquals(1000, compound.getInteger("experienceValue"));
+        TestUtils.AssertEquals(450f, entity.getHealth());
+        TestUtils.AssertEquals(450f, entity.getMaxHealth());
+        TestUtils.AssertAlmostEquals(9.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
+        TestUtils.AssertAlmostEquals(30.0, entity.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getBaseValue(), 3);
+        TestUtils.AssertAlmostEquals(1.0, entity.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getBaseValue(), 3);
     }
 }
