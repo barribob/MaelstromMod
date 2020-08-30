@@ -39,7 +39,7 @@ public class JsonConfigManager {
                 if (defaultVersion.compareTo(configVersion) <= 0) {
                     return config;
                 } else {
-                    File configBackup = new File(configDirectory, "config_" + configVersion.get() + ".conf");
+                    File configBackup = new File(configDirectory,  configVersion.get() + "_" + configName + ".conf");
                     Files.copy(configFile.toPath(), configBackup.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     Main.log.warn("Config file, " + configFile + " is outdated. Created backup of config (" + configBackup.toString() + "), and using new default.");
                 }

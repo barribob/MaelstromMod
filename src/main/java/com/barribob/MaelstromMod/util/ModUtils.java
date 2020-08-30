@@ -211,9 +211,6 @@ public final class ModUtils {
         }
         List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
-        // TODO: Remove after finishing boss configuration
-//        ParticleManager.spawnParticleSphere(source.world, pos, radius);
-
         Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart || i.canBeCollidedWith();
         double radiusSq = Math.pow(radius, 2);
 
