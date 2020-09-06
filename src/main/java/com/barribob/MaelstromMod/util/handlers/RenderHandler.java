@@ -74,6 +74,7 @@ public class RenderHandler {
         registerProjectileRenderer(EntityHealerOrb.class);
         registerProjectileRenderer(ProjectileChaosFireball.class, ModItems.CRIMSON_PELLET);
         registerProjectileRenderer(ProjectileStatueMaelstromMissile.class, ModItems.MAELSTROM_PELLET);
+        registerProjectileRenderer(ProjectileBeastFireball.class, Items.FIRE_CHARGE);
     }
 
     /**

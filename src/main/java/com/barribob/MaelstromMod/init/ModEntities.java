@@ -163,6 +163,7 @@ public class ModEntities {
         registerEntity("mega_fireball", ProjectileMegaFireball.class, PROJECTILE_START_ID++, 40);
         registerEntity("statue_maelstrom_missile", ProjectileStatueMaelstromMissile.class, PROJECTILE_START_ID++, 30);
         registerEntity("maelstrom_rune", ProjectileMaelstromRune.class, PROJECTILE_START_ID++, 40);
+        registerEntity("beast_fireball", ProjectileBeastFireball.class, PROJECTILE_START_ID++, 40);
 
         registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
         registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

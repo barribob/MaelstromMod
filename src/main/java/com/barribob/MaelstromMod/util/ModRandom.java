@@ -114,8 +114,9 @@ public class ModRandom {
         }
 
         public RandomCollection<E> add(double weight, E result) {
-            if (weight <= 0)
-                return this;
+            if(weight == 0) return this;
+            if (weight < 0 || Double.isNaN(weight) || Double.isInfinite(weight))
+                throw new IllegalArgumentException("The weight for random collection is invalid: " + weight);
             total += weight;
             map.put(total, result);
             return this;

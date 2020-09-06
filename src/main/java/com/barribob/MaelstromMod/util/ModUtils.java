@@ -14,7 +14,6 @@ import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.collect.Sets;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigRenderOptions;
@@ -71,6 +70,10 @@ public final class ModUtils {
     public static byte SECOND_PARTICLE_BYTE = 14;
     public static byte THIRD_PARTICLE_BYTE = 15;
     public static byte FOURTH_PARTICLE_BYTE = 16;
+
+    public static Vec3d X_AXIS = new Vec3d(1, 0, 0);
+    public static Vec3d Y_AXIS = new Vec3d(0, 1, 0);
+    public static Vec3d Z_AXIS = new Vec3d(0, 0, 1);
 
     /**
      * This is only for the maelstrom mob death particles so it doesn't intersect with the other particle bytes.
@@ -209,6 +212,9 @@ public final class ModUtils {
         if (source == null) {
             return;
         }
+
+//        ParticleManager.spawnParticleSphere(source.world, pos, radius);
+
         List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
         Predicate<Entity> isInstance = i -> i instanceof EntityLivingBase || i instanceof MultiPartEntityPart || i.canBeCollidedWith();
@@ -1217,5 +1223,14 @@ public final class ModUtils {
 
             return true;
         }
+    }
+
+    public static Vec3d planeProject(Vec3d vec, Vec3d plane)
+    {
+        return ModUtils.rotateVector2(vec.crossProduct(plane), plane, 90);
+    }
+
+    public static boolean mobGriefing(World world){
+        return world.getGameRules().getBoolean("mobGriefing");
     }
 }

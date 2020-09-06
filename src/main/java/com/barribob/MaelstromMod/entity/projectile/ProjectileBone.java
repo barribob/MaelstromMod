@@ -12,7 +12,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ProjectileBone extends Projectile {
-    private static final int IMPACT_PARTICLE_AMOUNT = 4;
+    private static final int IMPACT_PARTICLE_AMOUNT = 10;
     private static final int EXPOSION_AREA_FACTOR = 1;
 
     public ProjectileBone(World worldIn, EntityLivingBase throwerIn, float damage) {
@@ -29,8 +29,11 @@ public class ProjectileBone extends Projectile {
 
     @Override
     protected void spawnImpactParticles() {
-        for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++) {
-            Vec3d vec1 = ModRandom.randVec().scale(EXPOSION_AREA_FACTOR * 0.25).add(getPositionVector()).add(ModUtils.yVec(0.8f));
+        for (int i = 0; i < IMPACT_PARTICLE_AMOUNT; i++) {
+            Vec3d vec1 = ModRandom.randVec()
+                    .scale(EXPOSION_AREA_FACTOR * 2)
+                    .add(getPositionVector())
+                    .add(ModUtils.yVec(0.8f));
             ParticleManager.spawnEffect(world, vec1, ModColors.WHITE);
         }
     }

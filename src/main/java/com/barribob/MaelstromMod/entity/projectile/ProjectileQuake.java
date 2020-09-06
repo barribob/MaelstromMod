@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class ProjectileQuake extends ProjectileGun {
     protected static final float AREA_FACTOR = 0.5f;
+    protected int updates = 5;
 
     public ProjectileQuake(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack) {
         super(worldIn, throwerIn, baseDamage, stack);
@@ -56,7 +57,6 @@ public class ProjectileQuake extends ProjectileGun {
         super.onUpdate();
 
         // Keeps the projectile on the surface of the ground
-        int updates = 5;
         for (int i = 0; i < updates; i++) {
             if (!world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)).isFullCube()) {
                 this.setPosition(this.posX, this.posY - 0.25f, this.posZ);
@@ -67,9 +67,15 @@ public class ProjectileQuake extends ProjectileGun {
 
         playQuakeSound();
 
-        /*
-         * Find all entities in a certain area and deal damage to them
-         */
+        onQuakeUpdate();
+
+        // If the projectile hits water and looses all of its velocity, despawn
+        if (!world.isRemote && Math.abs(this.motionX) + Math.abs(this.motionZ) < 0.01f) {
+            this.setDead();
+        }
+    }
+
+    protected void onQuakeUpdate() {
         List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(AREA_FACTOR).expand(0, 0.25f, 0));
         for (Entity entity : list) {
             if (entity instanceof EntityLivingBase && this.shootingEntity != null && entity != this.shootingEntity) {
@@ -95,11 +101,6 @@ public class ProjectileQuake extends ProjectileGun {
                     }
                 }
             }
-        }
-
-        // If the projectile hits water and looses all of its velocity, despawn
-        if (!world.isRemote && Math.abs(this.motionX) + Math.abs(this.motionZ) < 0.01f) {
-            this.setDead();
         }
     }
 
