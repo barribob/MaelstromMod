@@ -58,6 +58,11 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements IAttack 
             this.setLeaping(false);
             onStopLeaping();
         }
+
+        if(!world.isRemote && this.isLeaping()) {
+            AxisAlignedBB box = getEntityBoundingBox().grow(0.25, 0.12, 0.25).offset(0, 0.12, 0);
+            ModUtils.destroyBlocksInAABB(box, world, this);
+        }
     }
 
     @Override
@@ -141,11 +146,10 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements IAttack 
             ModUtils.handleAreaImpact(2, (e) -> this.getAttack(), this, offset, source, 1, 0, false);
             ModUtils.handleAreaImpact(2, (e) -> this.getAttack(), this, offset2, source, 1, 0, false);
 
-            float width = getMobConfig().getInt("block_breaking_size.width");
-            float height = getMobConfig().getInt("block_breaking_size.height");
+            double width = getMobConfig().getDouble("swipe_width");
 
             ModUtils.destroyBlocksInAABB(new AxisAlignedBB(getPosition())
-                    .grow(width, height, width)
+                    .grow(width, 1, width)
                     .offset(ModUtils.getRelativeOffset(this, new Vec3d(1, 1, 0))), world, this);
 
             if (EntityMaelstromBeast.this.isRaged()) {

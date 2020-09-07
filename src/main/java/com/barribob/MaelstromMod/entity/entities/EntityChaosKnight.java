@@ -23,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
@@ -61,7 +62,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                     .disablesShields().build();
 
             ModUtils.handleAreaImpact(2, (e) -> getAttack(), this, offset, source, 0.5f, 0, false);
-            ModUtils.destroyBlocksInAABB(this.getEntityBoundingBox().grow(0.5).offset(offset.subtract(this.getPositionVector())), world, this);
+            swipeBlocks();
 
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
             Vec3d away = this.getPositionVector().subtract(target.getPositionVector()).normalize();
@@ -71,12 +72,30 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 35);
     };
 
+    private void swipeBlocks() {
+        double swipeWidth = getMobConfig().getDouble("swipe_width");
+        AxisAlignedBB box = new AxisAlignedBB(getPosition()).offset(-0.5, 1.5, -0.5).grow(swipeWidth, 1, swipeWidth);
+        ModUtils.destroyBlocksInAABB(box, world, this);
+    }
+
     private final Consumer<EntityLivingBase> leapSlam = (target) -> {
         ModBBAnimations.animation(this, "chaos_knight.leap_slam", false);
         addEvent(() -> {
             ModUtils.leapTowards(this, target.getPositionVector(), (float) (0.45f * Math.sqrt(getDistance(target))), 0.9f);
             setLeaping(true);
         }, 20);
+        addEvent(() -> {
+            DamageSource source = ModDamageSource.builder()
+                    .type(ModDamageSource.EXPLOSION)
+                    .directEntity(this)
+                    .element(getElement())
+                    .stoppedByArmorNotShields().build();
+
+            Vec3d pos = this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 0)));
+            ModUtils.handleAreaImpact(3, (e) -> this.getAttack() * 1.5f, this, pos, source);
+            this.world.newExplosion(this, pos.x, pos.y + 1, pos.z, (float) getMobConfig().getDouble("slam_explosion_strength"), false, true);
+            this.world.setEntityState(this, ModUtils.PARTICLE_BYTE);
+        }, 42);
         addEvent(() -> EntityChaosKnight.super.setSwingingArms(false), 60);
     };
 
@@ -146,7 +165,7 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                     .disablesShields().build();
 
             ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), source, 0.5f, 0, false);
-            ModUtils.destroyBlocksInAABB(this.getEntityBoundingBox().grow(0.5).offset(offset.subtract(this.getPositionVector())), world, this);
+            swipeBlocks();
 
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
             this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
@@ -196,6 +215,11 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
     public void onUpdate() {
         super.onUpdate();
         this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+
+        if(!world.isRemote && this.isLeaping()) {
+            AxisAlignedBB box = getEntityBoundingBox().grow(0.25, 0.12, 0.25).offset(0, 0.12, 0);
+            ModUtils.destroyBlocksInAABB(box, world, this);
+        }
 
         if (world.isRemote || this.ticksExisted % 5 != 0) {
             return;
@@ -308,20 +332,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
             });
         }
         super.handleStatusUpdate(id);
-    }
-
-    @Override
-    public void onStopLeaping() {
-        DamageSource source = ModDamageSource.builder()
-                .type(ModDamageSource.EXPLOSION)
-                .directEntity(this)
-                .element(getElement())
-                .stoppedByArmorNotShields().build();
-
-        Vec3d pos = this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 0)));
-        ModUtils.handleAreaImpact(3, (e) -> this.getAttack() * 1.5f, this, pos, source);
-        this.world.newExplosion(this, pos.x, pos.y + 1, pos.z, 2.0f, false, true);
-        this.world.setEntityState(this, ModUtils.PARTICLE_BYTE);
     }
 
     // For rendering the lazer
