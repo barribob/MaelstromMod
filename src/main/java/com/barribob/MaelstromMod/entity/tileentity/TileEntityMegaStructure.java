@@ -201,7 +201,7 @@ public class TileEntityMegaStructure extends TileEntityStructure {
 
     @Override
     public void setSize(BlockPos sizeIn) {
-        this.size = new BlockPos(640, 210 - 36, 656);
+        this.size = new BlockPos(27, 62, 27);
     }
 
     @Override
@@ -432,17 +432,17 @@ public class TileEntityMegaStructure extends TileEntityStructure {
     public boolean save(boolean writeToDisk) {
         if (this.mode == TileEntityStructure.Mode.SAVE && !this.world.isRemote && !StringUtils.isNullOrEmpty(this.name)) {
             BlockPos blockpos = this.getPos().add(this.position);
-            // return saveStructure(writeToDisk, blockpos, this.size, this.name);
+             return saveStructure(writeToDisk, blockpos, this.size, this.name);
 
             // Split structure code into chunks
-            for (int x = 0; x < this.size.getX(); x += 16) {
-                for (int z = 0; z < this.size.getZ(); z += 16) {
-                    BlockPos pos = blockpos.add(new BlockPos(x, 0, z));
-                    saveStructure(writeToDisk, pos, new BlockPos(16, this.size.getY(), 16), this.name + "_" + (x >> 4) + "_" + (z >> 4));
-                    System.out.println((x >> 4) + " " + (z >> 4));
-                }
-            }
-            return true;
+//            for (int x = 0; x < this.size.getX(); x += 16) {
+//                for (int z = 0; z < this.size.getZ(); z += 16) {
+//                    BlockPos pos = blockpos.add(new BlockPos(x, 0, z));
+//                    saveStructure(writeToDisk, pos, new BlockPos(16, this.size.getY(), 16), this.name + "_" + (x >> 4) + "_" + (z >> 4));
+//                    System.out.println((x >> 4) + " " + (z >> 4));
+//                }
+//            }
+//            return true;
         } else {
             return false;
         }

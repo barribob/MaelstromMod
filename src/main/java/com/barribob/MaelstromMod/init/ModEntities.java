@@ -168,6 +168,7 @@ public class ModEntities {
         registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
         registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);
         registerEntity("rainbow_particle", ParticleSpawnerRainbow.class, PARTICLE_START_ID++, 20);
+        registerEntity("maelstrom_tower_destroyer", EntityMaelstromTowerDestroyer.class, PARTICLE_START_ID++, 20);
 
         registerTileEntity(TileEntityMalestromSpawner.class, "spawner");
         registerTileEntity(TileEntityDisappearingSpawner.class, "maelstrom_spawner");

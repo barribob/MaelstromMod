@@ -12,6 +12,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileMonolithFireball;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
+import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
@@ -378,6 +379,8 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
     @Override
     public void onDeath(DamageSource cause) {
         world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE); // Explode on death
+
+        world.setBlockState(getPosition().down(2), ModBlocks.MAELSTROM_HEART.getDefaultState());
 
         if(getMobConfig().getBoolean("spawn_nexus_portal_on_death")) {
             // Spawn the second half of the boss

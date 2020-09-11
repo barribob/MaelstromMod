@@ -37,6 +37,8 @@ public class ModBlocks {
     public static final float PLANTS_HARDNESS = 0.2f;
     public static final float PLANTS_RESISTANCE = 2.0f;
     public static final float ORE_HARDNESS = 3.0F;
+    public static final float OBSIDIAN_HARDNESS = 50;
+    public static final float OBSIDIAN_RESISTANCE = 2000;
 
     public static final Block MEGA_STRUCTURE_BLOCK = new BlockMegaStructure("mega_structure_block");
     public static final Block LIGHTING_UPDATER = new BlockLightingUpdater("lighting_updater", Material.AIR).setLightLevel(0.1f);
@@ -48,6 +50,7 @@ public class ModBlocks {
     public static final Block CLIFF_MAELSTROM_CORE = new BlockMaelstromCore("cliff_maelstrom_core", Material.ROCK, ORE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, ModItems.GOLDEN_MAELSTROM_FRAGMENT);
     public static final Block AZURE_MAELSTROM = new BlockMaelstrom("azure_maelstrom", Material.ROCK, STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1).setLightLevel(0.5f).setCreativeTab(ModCreativeTabs.BLOCKS);
     public static final Block DECAYING_MAELSTROM = new BlockDecayingMaelstrom("azure_decaying_maelstrom", STONE_HARDNESS, STONE_RESISTANCE, SoundType.STONE, 1).setLightLevel(0.5f);
+    public static final Block MAELSTROM_HEART = new BlockMaelstromHeart("maelstrom_heart", Material.ROCK, OBSIDIAN_HARDNESS, OBSIDIAN_RESISTANCE, SoundType.STONE).setLightLevel(0.5f).setCreativeTab(ModCreativeTabs.BLOCKS);
 
     public static final Block NEXUS_TELEPORTER = new BlockNexusTeleporter("nexus_teleporter", Material.ROCK, SoundType.STONE).setLightLevel(1.0f);
     public static final Block NEXUS_PORTAL = new BlockNexusPortal("nexus_portal").setCreativeTab(ModCreativeTabs.BLOCKS);

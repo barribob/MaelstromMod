@@ -207,6 +207,7 @@ tile.maelstrom_brick_fence.name=Maelstrom Brick Fence
 tile.maelstrom_brick_stairs.name=Maelstrom Brick Stairs
 tile.maelstrom_core_block.name=Maelstrom Core
 tile.cliff_maelstrom_core.name=Golden Maelstrom Core
+tile.maelstrom_heart.name=Maelstrom Tower Core
 
 //———————————————————————————————————————————————————————————
 // Ore
