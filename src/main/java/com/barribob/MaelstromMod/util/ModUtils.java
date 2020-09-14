@@ -710,7 +710,11 @@ public final class ModUtils {
                                     block != Blocks.CHAIN_COMMAND_BLOCK &&
                                     block != Blocks.BEDROCK &&
                                     !(block instanceof BlockLiquid)) {
-                                world.destroyBlock(blockpos, false);
+                                if (world.getClosestPlayer(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 20, false) != null) {
+                                    world.destroyBlock(blockpos, false);
+                                } else {
+                                    world.setBlockToAir(blockpos);
+                                }
                             }
                         }
                     }
@@ -1230,7 +1234,11 @@ public final class ModUtils {
         return ModUtils.rotateVector2(vec.crossProduct(plane), plane, 90);
     }
 
-    public static boolean mobGriefing(World world){
-        return world.getGameRules().getBoolean("mobGriefing");
+    public static boolean mobGriefing(World world, Entity entity){
+        return net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity);
+    }
+
+    public static AxisAlignedBB vecBox(Vec3d vec1, Vec3d vec2) {
+        return new AxisAlignedBB(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
     }
 }

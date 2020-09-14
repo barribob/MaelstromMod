@@ -98,7 +98,7 @@ public class ProjectileMegaFireball extends ProjectileGun {
 
     @Override
     public void onUpdate() {
-        if ((this.ticksExisted / 5.0f) % 5 == 0) {
+        if (this.ticksExisted % 3 == 0) {
             this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 0.2f, ModRandom.getFloat(0.2f) + 1.0f);
         }
 

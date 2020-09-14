@@ -40,6 +40,7 @@ public class SoundsHandler {
     public static SoundEvent ENTITY_CHAOS_KNIGHT_DEATH;
     public static SoundEvent ENTITY_GAUNTLET_AMBIENT;
     public static SoundEvent ENTITY_GAUNTLET_HURT;
+    public static SoundEvent ENTITY_GAUNTLET_LAZER_CHARGE;
 
     public static void registerSounds() {
         ENTITY_HORROR_AMBIENT = registerSound("horror.ambient", "entity");
@@ -70,6 +71,7 @@ public class SoundsHandler {
         ENTITY_CHAOS_KNIGHT_DEATH = registerSound("chaos_knight.death", "entity");
         ENTITY_GAUNTLET_AMBIENT = registerSound("gauntlet.ambient", "entity");
         ENTITY_GAUNTLET_HURT = registerSound("gauntlet.hurt", "entity");
+        ENTITY_GAUNTLET_LAZER_CHARGE = registerSound("gauntlet.lazer_charge", "entity");
         registerSound("none", "entity");
     }
 

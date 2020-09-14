@@ -44,6 +44,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,7 +100,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
                     ModUtils.addEntityVelocity(this, dir);
                 }, i);
             }
-        }, 20);
+        }, 16);
         for (int i = 0; i < 12; i++) {
             this.addEvent(() -> {
                 ModUtils.facePosition(target, this, 15, 15);
@@ -119,6 +120,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     private final Consumer<EntityLivingBase> lazer = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.lazer_eye", false);
+        playSound(SoundsHandler.ENTITY_GAUNTLET_LAZER_CHARGE, 2.0f, ModRandom.getFloat(0.2f) + 1.5f);
         for (int i = 0; i < 25; i++) {
             this.addEvent(() -> world.setEntityState(this, ModUtils.PARTICLE_BYTE), i);
         }
@@ -151,6 +153,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
                 EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(), getMobConfig().getConfig("summoning_algorithm"));
                 if (mob != null) {
                     ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
+                    playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
                 }
             }, i);
         }
@@ -210,7 +213,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
-        List<Consumer<EntityLivingBase>> attacks = new ArrayList<Consumer<EntityLivingBase>>(Arrays.asList(punch, lazer, defend, fireball));
+        List<Consumer<EntityLivingBase>> attacks = new ArrayList<>(Arrays.asList(punch, lazer, defend, fireball));
         int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(20, 10, 20)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
 
         double fireballHealth = getMobConfig().getDouble("use_fireball_at_health");
@@ -341,10 +344,14 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
                     // Ray trace both blocks and entities
                     RayTraceResult raytraceresult = this.world.rayTraceBlocks(this.getPositionEyes(1), lazerPos, false, true, false);
                     if (raytraceresult != null) {
-                        world.createExplosion(this, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 1, true);
+                        world.createExplosion(this, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 1, ModUtils.mobGriefing(world, this));
 
                         // If we hit a block, make sure that any collisions with entities are detected up to the hit block
                         lazerPos = raytraceresult.hitVec;
+
+                        if(this.ticksExisted % 2 == 0) {
+                            ModUtils.destroyBlocksInAABB(ModUtils.vecBox(lazerPos, lazerPos).grow(0.1), world, this);
+                        }
                     }
 
                     for (Entity entity : ModUtils.findEntitiesInLine(this.getPositionEyes(1), lazerPos, world, this)) {
@@ -356,9 +363,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
             } else {
                 // Prevent the gauntlet from instantly locking onto other targets with the lazer.
                 this.isShootingLazer = false;
-                this.addEvent(() -> {
-                    world.setEntityState(this, stopLazerByte);
-                }, beamLag + 1);
+                this.addEvent(() -> world.setEntityState(this, stopLazerByte), beamLag + 1);
             }
         }
 
@@ -474,7 +479,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     protected void entityInit() {
-        this.dataManager.register(LOOK, Float.valueOf(0));
+        this.dataManager.register(LOOK, 0f);
         super.entityInit();
     }
 

@@ -75,7 +75,7 @@ public class ProjectileBeastFireball extends Projectile {
                 return this.getDamage();
             }, this.shootingEntity, this.getPositionVector(), source, 1, 0);
 
-            world.createExplosion(shootingEntity, posX, posY, posZ, 2.0f, ModUtils.mobGriefing(world));
+            world.createExplosion(shootingEntity, posX, posY, posZ, 2.0f, ModUtils.mobGriefing(world, this.shootingEntity));
         }
         super.onHit(result);
     }

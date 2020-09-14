@@ -79,6 +79,16 @@
 			}
 		]
 	},
+	"entity.gauntlet.lazer_charge": {
+		"category": "entity",
+		"subtitle": "entity.gauntlet.lazer_charge",
+		"sounds": [
+			{
+				"name": "mm:entity/gauntlet/lazer_charge",
+				"stream": true
+			}
+		]
+	},
 	"entity.beast.ambient": {
 		"category": "entity",
 		"subtitle": "entity.beast.ambient",
