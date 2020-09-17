@@ -50,7 +50,7 @@ public class EntityHorror extends EntityMaelstromMob {
             double yDir = 1;
             double zDir = (rand.nextFloat() - rand.nextFloat()) * PROJECTILE_VARIATION_FACTOR;
             projectile.shoot(xDir, yDir, zDir, PROJECTILE_VELOCITY, PROJECTILE_INACCURACY);
-            this.playSound(SoundsHandler.get("horror.attack"), 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+            this.playSound(SoundEvents.BLOCK_ANVIL_BREAK, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
             this.world.spawnEntity(projectile);
         }
     }
@@ -67,7 +67,7 @@ public class EntityHorror extends EntityMaelstromMob {
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundsHandler.ENTITY_HORROR_DEATH;
+        return SoundsHandler.ENTITY_HORROR_HURT;
     }
 
     @Override

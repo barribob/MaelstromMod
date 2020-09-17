@@ -58,7 +58,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
             for (int i = 0; i < mobCount; i++) {
                 ModUtils.spawnMob(world, getPosition(), getLevel(), getMobConfig().getConfig("summoning_algorithm"));
             }
-            actor.playSound(SoundsHandler.get("illager.summon_attack"), 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+            actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
         }
     };
 
@@ -75,7 +75,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     ModUtils.throwProjectile(actor, target, new ProjectileHorrorAttack(world, actor, getAttack()), 6.0f, 1.2f,
                             ModUtils.getRelativeOffset(actor, new Vec3d(0, 0, 1)));
-                    actor.playSound(SoundsHandler.get("illager.projectile_attack"), 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
+                    actor.playSound(SoundEvents.ENTITY_BLAZE_AMBIENT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
                 }
             });
             attackHandler.setAttack(wisp, new Action() {
@@ -84,7 +84,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
                     Projectile proj = new ProjectileMaelstromWisp(world, actor, getAttack());
                     proj.setTravelRange(15f);
                     ModUtils.throwProjectile(actor, target, proj, 1.0f, 1.0f);
-                    actor.playSound(SoundsHandler.get("illager.tunnel_attack"), 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
+                    actor.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
                 }
             });
             attackHandler.setAttack(shield, new Action() {
@@ -97,7 +97,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
                             .stoppedByArmorNotShields().build();
 
                     ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack(), actor, getPositionVector(), damageSource);
-                    actor.playSound(SoundsHandler.get("illager.shield_attack"), 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                    actor.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
                     actor.world.setEntityState(actor, ModUtils.THIRD_PARTICLE_BYTE);
                 }
             });

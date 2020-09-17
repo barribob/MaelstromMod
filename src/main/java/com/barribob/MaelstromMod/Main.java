@@ -49,6 +49,7 @@ public class Main {
     public static Config itemsConfig;
     public static Config invasionsConfig;
     public static Config mobsConfig;
+    public static Config soundsConfig;
 
     public static Logger log;
 
@@ -100,5 +101,6 @@ public class Main {
         itemsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "items");
         invasionsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "invasions");
         mobsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "mobs");
+        soundsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "sounds");
     }
 }

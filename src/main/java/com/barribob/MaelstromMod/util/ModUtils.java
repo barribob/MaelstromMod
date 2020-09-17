@@ -39,6 +39,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -1240,5 +1241,13 @@ public final class ModUtils {
 
     public static AxisAlignedBB vecBox(Vec3d vec1, Vec3d vec2) {
         return new AxisAlignedBB(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
+    }
+
+    public static SoundEvent getConfiguredSound(SoundEvent sound, SoundEvent fallback){
+        if (Main.soundsConfig.getBoolean(sound.getSoundName().getResourcePath())) {
+            return sound;
+        } else {
+            return fallback;
+        }
     }
 }

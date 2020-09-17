@@ -22,6 +22,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -302,5 +303,9 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 
     @Override
     public void onStopLeaping() {
+    }
+
+    public void playSoundWithFallback(SoundEvent sound, SoundEvent fallback, float volume, float pitch) {
+        playSound(ModUtils.getConfiguredSound(sound, fallback), volume, pitch);
     }
 }

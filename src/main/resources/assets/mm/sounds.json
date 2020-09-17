@@ -9,16 +9,6 @@
 			}
 		]
 	},
-	"entity.horror.death": {
-		"category": "entity",
-		"subtitle": "entity.horror.death",
-		"sounds": [
-			{
-				"name": "mm:entity/horror/death",
-				"stream": true
-			}
-		]
-	},
 	"entity.horror.ambient": {
 		"category": "entity",
 		"subtitle": "entity.horror.ambient",
@@ -29,42 +19,12 @@
 			}
 		]
 	},
-	"entity.beast.death": {
-		"category": "entity",
-		"subtitle": "entity.beast.death",
-		"sounds": [
-			{
-				"name": "mm:entity/beast/death",
-				"stream": true
-			}
-		]
-	},
 	"entity.gauntlet.hurt": {
 		"category": "entity",
 		"subtitle": "entity.gauntlet.hurt",
 		"sounds": [
 			{
 				"name": "mm:entity/gauntlet/hurt",
-				"stream": true
-			}
-		]
-	},
-	"entity.none": {
-		"category": "entity",
-		"subtitle": "entity.none",
-		"sounds": [
-			{
-				"name": "mm:entity/none",
-				"stream": true
-			}
-		]
-	},
-	"entity.shade.attack": {
-		"category": "entity",
-		"subtitle": "entity.shade.attack",
-		"sounds": [
-			{
-				"name": "mm:entity/shade/attack",
 				"stream": true
 			}
 		]
@@ -99,32 +59,12 @@
 			}
 		]
 	},
-	"entity.illager.tunnel_attack": {
-		"category": "entity",
-		"subtitle": "entity.illager.tunnel_attack",
-		"sounds": [
-			{
-				"name": "mm:entity/illager/tunnel_attack",
-				"stream": true
-			}
-		]
-	},
 	"entity.horror.hurt": {
 		"category": "entity",
 		"subtitle": "entity.horror.hurt",
 		"sounds": [
 			{
 				"name": "mm:entity/horror/hurt",
-				"stream": true
-			}
-		]
-	},
-	"entity.shade.death": {
-		"category": "entity",
-		"subtitle": "entity.shade.death",
-		"sounds": [
-			{
-				"name": "mm:entity/shade/death",
 				"stream": true
 			}
 		]
@@ -189,16 +129,6 @@
 			}
 		]
 	},
-	"entity.illager.shield_attack": {
-		"category": "entity",
-		"subtitle": "entity.illager.shield_attack",
-		"sounds": [
-			{
-				"name": "mm:entity/illager/shield_attack",
-				"stream": true
-			}
-		]
-	},
 	"entity.swamp_crawler.ambient": {
 		"category": "entity",
 		"subtitle": "entity.swamp_crawler.ambient",
@@ -209,42 +139,12 @@
 			}
 		]
 	},
-	"entity.illager.projectile_attack": {
-		"category": "entity",
-		"subtitle": "entity.illager.projectile_attack",
-		"sounds": [
-			{
-				"name": "mm:entity/illager/projectile_attack",
-				"stream": true
-			}
-		]
-	},
-	"entity.illager.summon_attack": {
-		"category": "entity",
-		"subtitle": "entity.illager.summon_attack",
-		"sounds": [
-			{
-				"name": "mm:entity/illager/summon_attack",
-				"stream": true
-			}
-		]
-	},
 	"entity.shade.hurt": {
 		"category": "entity",
 		"subtitle": "entity.shade.hurt",
 		"sounds": [
 			{
 				"name": "mm:entity/shade/hurt",
-				"stream": true
-			}
-		]
-	},
-	"entity.horror.attack": {
-		"category": "entity",
-		"subtitle": "entity.horror.attack",
-		"sounds": [
-			{
-				"name": "mm:entity/horror/attack",
 				"stream": true
 			}
 		]
