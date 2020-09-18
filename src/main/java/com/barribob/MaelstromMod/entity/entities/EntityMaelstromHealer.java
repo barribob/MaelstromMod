@@ -199,7 +199,7 @@ public class EntityMaelstromHealer extends EntityMaelstromMob {
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundsHandler.ENTITY_SHADE_DEATH;
+        return SoundsHandler.ENTITY_SHADE_HURT;
     }
 
     @Override

@@ -158,5 +158,15 @@
 				"stream": true
 			}
 		]
+	},
+	"none": {
+		"category": "entity",
+		"subtitle": "none",
+		"sounds": [
+			{
+				"name": "mm:none",
+				"stream": true
+			}
+		]
 	}
 }

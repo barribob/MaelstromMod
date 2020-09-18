@@ -27,6 +27,15 @@ public class SoundsHandler {
     public static SoundEvent ENTITY_GAUNTLET_AMBIENT;
     public static SoundEvent ENTITY_GAUNTLET_HURT;
     public static SoundEvent ENTITY_GAUNTLET_LAZER_CHARGE;
+    public static SoundEvent NONE;
+
+    // Sound hooks
+    public static class Hooks{
+        public static SoundEvent ENTITY_ILLAGER_SPELL_CHARGE;
+        public static SoundEvent ENTITY_ILLAGER_DOME_CHARGE;
+        public static SoundEvent ENTITY_ILLAGER_VORTEX;
+        public static SoundEvent ENTITY_ILLAGER_DOME;
+    }
 
     public static void registerSounds() {
         ENTITY_HORROR_AMBIENT = registerSound("horror.ambient", "entity");
@@ -48,6 +57,12 @@ public class SoundsHandler {
         ENTITY_GAUNTLET_AMBIENT = registerSound("gauntlet.ambient", "entity");
         ENTITY_GAUNTLET_HURT = registerSound("gauntlet.hurt", "entity");
         ENTITY_GAUNTLET_LAZER_CHARGE = registerSound("gauntlet.lazer_charge", "entity");
+        NONE = registerSound("none", "entity");
+
+        Hooks.ENTITY_ILLAGER_SPELL_CHARGE = registerSound("illager.spell_charge", "entity");
+        Hooks.ENTITY_ILLAGER_DOME_CHARGE = registerSound("illager.dome_charge", "entity");
+        Hooks.ENTITY_ILLAGER_VORTEX = registerSound("illager.vortex", "entity");
+        Hooks.ENTITY_ILLAGER_DOME = registerSound("illager.dome", "entity");
     }
 
     private static SoundEvent registerSound(String name, String category) {

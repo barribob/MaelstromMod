@@ -6,11 +6,9 @@ import com.barribob.MaelstromMod.entity.ai.ModGroundNavigator;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
-import com.barribob.MaelstromMod.util.Element;
-import com.barribob.MaelstromMod.util.IAnimatedMob;
-import com.barribob.MaelstromMod.util.IElement;
-import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.*;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
+import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -307,5 +305,17 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 
     public void playSoundWithFallback(SoundEvent sound, SoundEvent fallback, float volume, float pitch) {
         playSound(ModUtils.getConfiguredSound(sound, fallback), volume, pitch);
+    }
+
+    public void playSoundWithFallback(SoundEvent sound, SoundEvent fallback, float volume) {
+        playSound(ModUtils.getConfiguredSound(sound, fallback), volume, 1.0f + ModRandom.getFloat(0.2f));
+    }
+
+    public void playSoundWithFallback(SoundEvent sound, SoundEvent fallback) {
+        playSoundWithFallback(sound, fallback, 1.0f);
+    }
+
+    public void playSoundWithFallback(SoundEvent sound) {
+        playSoundWithFallback(sound, SoundsHandler.NONE);
     }
 }

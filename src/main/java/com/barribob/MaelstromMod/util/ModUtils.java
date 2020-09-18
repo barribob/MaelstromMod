@@ -330,7 +330,7 @@ public final class ModUtils {
 
     public static void throwProjectile(EntityLivingBase actor, EntityLivingBase target, Projectile projectile, float inaccuracy, float velocity) {
         double d0 = target.posY + target.getEyeHeight() - 0.9;
-        throwProjectile(actor, new Vec3d(target.posX, d0, target.posY), projectile, inaccuracy, velocity);
+        throwProjectile(actor, new Vec3d(target.posX, d0, target.posZ), projectile, inaccuracy, velocity);
     }
 
     public static void throwProjectile(EntityLivingBase actor, Vec3d target, Projectile projectile, float inaccuracy, float velocity) {
