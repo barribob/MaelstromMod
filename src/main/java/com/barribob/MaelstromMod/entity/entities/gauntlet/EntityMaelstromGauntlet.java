@@ -44,6 +44,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -241,7 +242,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
+    public boolean attackEntityFromPart(@Nonnull MultiPartEntityPart part, @Nonnull DamageSource source, float damage) {
         if (part == this.eye && !this.isPunching && !this.isDefending) {
             this.damageFromEye = true;
 
@@ -323,7 +324,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         }
 
         if (this.isPunching) {
-            ModUtils.destroyBlocksInAABB(this.fist.getEntityBoundingBox(), world, this);
+            double vel = ModUtils.getEntityVelocity(this).lengthVector();
+            AxisAlignedBB box = this.getEntityBoundingBox().grow(0.3, 0.3, 0.3);
+            ModUtils.destroyBlocksInAABB(box, world, this);
 
             DamageSource source = ModDamageSource.builder()
                     .type(ModDamageSource.MOB)
@@ -331,7 +334,8 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
                     .stoppedByArmorNotShields()
                     .element(this.getElement()).build();
 
-            ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack(), this, this.getPositionEyes(1), source, (float) ModUtils.mag(this.motionX, this.motionY, this.motionZ), 0, false);
+            ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack() * (float) vel, this,
+                    this.getPositionEyes(1), source, (float) vel, 0, false);
         }
 
         if (this.isShootingLazer) {
@@ -413,13 +417,12 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         return 1.6f;
     }
 
-    public EntityLeveledMob setLook(Vec3d look) {
+    public void setLook(Vec3d look) {
         float prevLook = this.getLook();
         float newLook = (float) ModUtils.toPitch(look);
         float deltaLook = 5;
         float clampedLook = MathHelper.clamp(newLook, prevLook - deltaLook, prevLook + deltaLook);
         this.dataManager.set(LOOK, clampedLook);
-        return this;
     }
 
     public float getLook() {
@@ -484,11 +487,13 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
+    @Nonnull
     public EntitySenses getEntitySenses() {
         return this.senses;
     }
 
     @Override
+    @Nonnull
     public World getWorld() {
         return world;
     }
@@ -508,7 +513,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+    protected void updateFallState(double y, boolean onGroundIn, @Nonnull IBlockState state, @Nonnull BlockPos pos) {
     }
 
     @Override
@@ -517,7 +522,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+    public void attackEntityWithRangedAttack(@Nullable EntityLivingBase target, float distanceFactor) {
     }
 
     @Override
@@ -529,7 +534,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
      * This is overriden because we do want the main hitbox to clip with blocks while still not clipping with anything else
      */
     @Override
-    public void move(MoverType type, double x, double y, double z) {
+    public void move(@Nonnull MoverType type, double x, double y, double z) {
         this.world.profiler.startSection("move");
 
         if (this.isInWeb) {
@@ -738,7 +743,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
         if (this.hasCustomName()) {
             this.bossInfo.setName(this.getDisplayName());
         }
@@ -747,19 +752,19 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     }
 
     @Override
-    public void setCustomNameTag(String name) {
+    public void setCustomNameTag(@Nonnull String name) {
         super.setCustomNameTag(name);
         this.bossInfo.setName(this.getDisplayName());
     }
 
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player) {
+    public void addTrackingPlayer(@Nonnull EntityPlayerMP player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player) {
+    public void removeTrackingPlayer(@Nonnull EntityPlayerMP player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }
