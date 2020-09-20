@@ -59,6 +59,9 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
         this.navigator = new PathNavigateFlying(this, worldIn);
         this.setSize(1.6f, 3.6f);
         this.healthScaledAttackFactor = 0.2;
+        if(!world.isRemote) {
+            initNirvanaAI();
+        }
     }
 
     private void executeRayAttack(EntityLivingBase target) {
@@ -133,7 +136,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
                     target.getPositionVector()
                             .add(new Vec3d(ModRandom.getFloat(2), 0.1, ModRandom.getFloat(2))));
             projectile.shoot(zeroish, zeroish, zeroish, zeroish, zeroish);
-            projectile.setTravelRange(25);
+            projectile.setTravelRange(50);
             this.world.spawnEntity(projectile);
         }, 12);
     };
@@ -154,7 +157,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
                             .add(ModUtils.rotateVector(randomDirection.scale(-2), ModUtils.yVec(1), ModRandom.range(-15, 15))));
             projectile.shoot(zeroish, zeroish, zeroish, zeroish, zeroish);
             projectile.setVelocity(randomDirection.x, 0, randomDirection.z);
-            projectile.setTravelRange(25);
+            projectile.setTravelRange(50);
             this.world.spawnEntity(projectile);
         }, 12);
     };
@@ -237,6 +240,9 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     protected void initEntityAI() {
         super.initEntityAI();
         ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
+    }
+
+    private void initNirvanaAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
         this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 40, attackDistance, 20, 0.4f, 30));
     }
@@ -267,7 +273,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
 
-        if(rand.nextInt(8) == 0) {
+        if(rand.nextInt(8) == 0 && amount > 1) {
             doTeleportNext = true;
         }
 
@@ -307,11 +313,13 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
             setAttackCount(ModRandom.range(4, 7));
         }
 
+        boolean canSee = world.rayTraceBlocks(target.getPositionEyes(1), getPositionEyes(1), false, true, false) == null;
         List<Consumer<EntityLivingBase>> attacks = new ArrayList<>(Arrays.asList(
                 volleyAttack,
                 isSecondPhase() ? secondPhaseRayAttack : rayAttack,
-                isSecondPhase() ? secondPhaseRuneAttack : runeAttack));
-        double[] weights = {1, 1, 1};
+                isSecondPhase() ? secondPhaseRuneAttack : runeAttack,
+                teleportAttack));
+        double[] weights = {1, 1, 1, canSee ? 0 : 2};
 
         Consumer<EntityLivingBase> nextAttack = ModRandom.choice(attacks, rand, weights).next();
 

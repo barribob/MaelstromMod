@@ -190,6 +190,9 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         this.setSize(2, 4);
         this.noClip = true;
         this.isImmuneToFire = true;
+        if(!world.isRemote) {
+            this.initGauntletAI();
+        }
     }
 
     @Override
@@ -203,12 +206,11 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     protected void initEntityAI() {
         super.initEntityAI();
         ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
-        this.initGauntletAI();
     }
 
     private void initGauntletAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 60, attackDistance + 20, 20, 0.8f, 20));
+        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 60, attackDistance, 20, 0.8f, 20));
         this.tasks.addTask(7, new AiFistWander(this, 80, 8));
     }
 
