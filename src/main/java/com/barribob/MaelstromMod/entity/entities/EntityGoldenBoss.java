@@ -167,8 +167,11 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
 
         this.addEvent(() -> {
             for(int i = 0; i < getMobConfig().getInt("summoning_algorithm.mobs_per_spawn"); i++) {
-                BlockPos spawnCenter = ModUtils.findGroundBelow(world, getPosition());
-                EntityLeveledMob mob = ModUtils.spawnMob(world, spawnCenter, this.getLevel(), getMobConfig().getConfig("summoning_algorithm"));
+                boolean findGround = !getMobConfig().getBoolean("pillar_can_be_summoned_in_air");
+                BlockPos spawnCenter = findGround ? ModUtils.findGroundBelow(world, getPosition()) : getPosition();
+                EntityLeveledMob mob = ModUtils.spawnMob(world, spawnCenter, this.getLevel(),
+                        getMobConfig().getConfig("summoning_algorithm"),
+                        findGround);
                 if (mob != null) {
                     mob.setAttackTarget(target);
                     ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) ->
@@ -297,15 +300,15 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
-        if(doSummonNext) {
+//        if(doSummonNext) {
             doSummonNext = false;
             spawnPillarAttack.accept(target);
             addEvent(() -> setAttackCount(0), 25);
 
             return 40;
-        }
-
-        return doNormalAttack(target);
+//        }
+//
+//        return doNormalAttack(target);
     }
 
     public int doNormalAttack(EntityLivingBase target) {

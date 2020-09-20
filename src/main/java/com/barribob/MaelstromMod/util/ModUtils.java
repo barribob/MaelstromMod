@@ -813,6 +813,11 @@ public final class ModUtils {
 
     public static @Nullable
     EntityLeveledMob spawnMob(World world, BlockPos pos, float level, Config algorithmConfig) {
+        return spawnMob(world, pos, level, algorithmConfig, true);
+    }
+
+    public static @Nullable
+    EntityLeveledMob spawnMob(World world, BlockPos pos, float level, Config algorithmConfig, boolean findGround) {
         List<? extends Config> configs = algorithmConfig.getConfigList("mobs");
 
         BlockPos spawnRange = new BlockPos(algorithmConfig.getInt("spawning_area.width"),
@@ -848,7 +853,7 @@ public final class ModUtils {
             return newSpawnData;
         }).toArray(MobSpawnerLogic.MobSpawnData[]::new);
 
-        return ModUtils.spawnMob(world, pos, level, data, mobWeights, spawnRange);
+        return ModUtils.spawnMob(world, pos, level, data, mobWeights, spawnRange, findGround);
     }
 
     private static int[] getMobsThatCanSpawn(World world, BlockPos pos, Config algorithmConfig) {
@@ -882,7 +887,7 @@ public final class ModUtils {
      * Attempts to spawn a mob around the actor within a certain range. Returns null if the spawning failed. Otherwise returns the spawned mob
      */
     private static @Nullable
-    EntityLeveledMob spawnMob(World world, BlockPos pos, float level, MobSpawnData[] mobs, int weights[], BlockPos range) {
+    EntityLeveledMob spawnMob(World world, BlockPos pos, float level, MobSpawnData[] mobs, int[] weights, BlockPos range, boolean findGround) {
         Random random = new Random();
 
         if(weights.length == 0 || Arrays.stream(weights).reduce(Integer::sum).getAsInt() == 0) return null;
@@ -892,19 +897,22 @@ public final class ModUtils {
         for (int i = 0; i < tries; i++) {
             // Find a random position to spawn the enemy
             int x = pos.getX() + ModRandom.range(0, range.getX()) * ModRandom.randSign();
-            int z = pos.getZ() + ModRandom.range(0, range.getY()) * ModRandom.randSign();
+            int y = pos.getY() + ModRandom.range(0, range.getY()) * ModRandom.randSign();
+            int z = pos.getZ() + ModRandom.range(0, range.getZ()) * ModRandom.randSign();
 
-            int yOffset = range.getY();
-            while (yOffset > -range.getY()) {
-                if (!world.isAirBlock(new BlockPos(x, pos.getY() + yOffset - 1, z))) {
-                    break;
+            if(findGround) {
+                int yOffset = range.getY();
+                while (yOffset > -range.getY()) {
+                    if (!world.isAirBlock(new BlockPos(x, pos.getY() + yOffset - 1, z))) {
+                        break;
+                    }
+                    yOffset--;
                 }
-                yOffset--;
+
+                y = pos.getY() + yOffset;
             }
 
-            int y = pos.getY() + yOffset;
-
-            if (world.getBlockState(new BlockPos(x, y - 1, z)).isSideSolid(world, new BlockPos(x, y - 1, z), net.minecraft.util.EnumFacing.UP)) {
+            if (!findGround || world.getBlockState(new BlockPos(x, y - 1, z)).isSideSolid(world, new BlockPos(x, y - 1, z), net.minecraft.util.EnumFacing.UP)) {
                 Entity mob = createMobFromSpawnData(data, world, x + 0.5, y, z + 0.5);
 
                 if (mob == null) {
