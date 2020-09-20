@@ -39,6 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +49,6 @@ import java.util.stream.Collectors;
 
 public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.NOTCHED_6));
-    private static final int pillarShieldRange = 15;
     protected static final DataParameter<Integer> ATTACK_COUNT = EntityDataManager.createKey(EntityLeveledMob.class, DataSerializers.VARINT);
     private static boolean doSummonNext;
     private static boolean doTeleportNext;
@@ -257,14 +257,14 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     }
 
     @Override
-    public boolean isEntityInvulnerable(DamageSource source) {
+    public boolean isEntityInvulnerable(@Nonnull DamageSource source) {
         long pillars = goldenPillars().size();
         return super.isEntityInvulnerable(source) || pillars > 0;
     }
 
     public List<EntityGoldenPillar> goldenPillars() {
         return ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox()
-                .grow(pillarShieldRange)).stream()
+                .grow(getMobConfig().getDouble("pillar_protection_range"))).stream()
                 .filter(e -> e instanceof EntityGoldenPillar)
                 .map(e -> (EntityGoldenPillar)e)
                 .collect(Collectors.toList());
@@ -369,19 +369,19 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     }
 
     @Override
-    public void setCustomNameTag(String name) {
+    public void setCustomNameTag(@Nonnull String name) {
         super.setCustomNameTag(name);
         this.bossInfo.setName(this.getDisplayName());
     }
 
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player) {
+    public void addTrackingPlayer(@Nonnull EntityPlayerMP player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player) {
+    public void removeTrackingPlayer(@Nonnull EntityPlayerMP player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }
@@ -420,7 +420,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+    public void attackEntityWithRangedAttack(@Nonnull EntityLivingBase target, float distanceFactor) {
     }
 
     @Override
@@ -433,7 +433,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+    protected void updateFallState(double y, boolean onGroundIn, @Nonnull IBlockState state, @Nonnull BlockPos pos) {
     }
 
     @Override
