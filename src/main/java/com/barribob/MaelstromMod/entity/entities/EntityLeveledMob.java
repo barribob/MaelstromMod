@@ -9,10 +9,12 @@ import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.util.*;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
+import com.oracle.jrockit.jfr.TimedEvent;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -86,6 +88,13 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
 
     @SideOnly(Side.CLIENT)
     protected void initAnimation() {
+    }
+
+    @Override
+    public void move(MoverType type, double x, double y, double z) {
+        if(!this.isImmovable()) {
+            super.move(type, x, y, z);
+        }
     }
 
     @Override
