@@ -41,6 +41,10 @@ public class ModRandom {
         return new Vec3d(getFloat(0.5f), getFloat(0.5f), getFloat(0.5f));
     }
 
+    public static Vec3d randFlatVec(Vec3d plane) {
+        return randVec().crossProduct(plane).normalize();
+    }
+
     /**
      * Returns a vector where each value is a gaussian of mean 0 and std dev 1
      */

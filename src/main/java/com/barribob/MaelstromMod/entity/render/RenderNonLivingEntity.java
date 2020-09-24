@@ -28,11 +28,13 @@ public class RenderNonLivingEntity<T extends Entity> extends Render<T> {
     protected String texture;
     protected FloatBuffer brightnessBuffer = GLAllocation.createDirectFloatBuffer(4);
     private static final DynamicTexture TEXTURE_BRIGHTNESS = new DynamicTexture(16, 16);
+    float yRenderOffset;
 
-    public RenderNonLivingEntity(RenderManager renderManagerIn, String texture, ModelBase mainModel) {
+    public RenderNonLivingEntity(RenderManager renderManagerIn, String texture, ModelBase mainModel, float yRenderOffset) {
         super(renderManagerIn);
         this.texture = texture;
         this.mainModel = mainModel;
+        this.yRenderOffset = yRenderOffset;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class RenderNonLivingEntity<T extends Entity> extends Render<T> {
         GlStateManager.translate(x, y, z);
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GlStateManager.translate(0.0F, -1.501F, 0.0F);
+        GlStateManager.translate(0.0F, yRenderOffset, 0.0F);
         GlStateManager.enableAlpha();
 
         boolean flag = this.setBrightness(entity, partialTicks, true);

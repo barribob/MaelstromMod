@@ -1,22 +1,18 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.entity.action.*;
 import com.barribob.MaelstromMod.entity.ai.AIAerialTimedAttack;
 import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
-import com.barribob.MaelstromMod.entity.projectile.EntityLargeGoldenRune;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileGoldenMissile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromRune;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileStatueMaelstromMissile;
+import com.barribob.MaelstromMod.entity.projectile.*;
 import com.barribob.MaelstromMod.entity.util.IAttack;
+import com.barribob.MaelstromMod.entity.adjustment.MovingRuneAdjustment;
+import com.barribob.MaelstromMod.entity.adjustment.RandomRuneAdjustment;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
-import com.barribob.MaelstromMod.util.ModColors;
-import com.barribob.MaelstromMod.util.ModRandom;
-import com.barribob.MaelstromMod.util.ModUtils;
-import com.barribob.MaelstromMod.util.RenderUtils;
-import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
+import com.barribob.MaelstromMod.util.*;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -29,7 +25,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -44,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
@@ -64,102 +59,41 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
         }
     }
 
-    private void executeRayAttack(EntityLivingBase target) {
-        Vec3d targetPos = target.getPositionEyes(1);
-        Vec3d fromTargetToActor = getPositionVector().subtract(targetPos);
-
-        Vec3d lineDirection = ModUtils.rotateVector2(
-                fromTargetToActor
-                        .crossProduct(ModUtils.yVec(1)),
-                fromTargetToActor,
-                ModRandom.range(0, 180))
-                .normalize()
-                .scale(6);
-
-        Vec3d lineStart = targetPos.subtract(lineDirection);
-        Vec3d lineEnd = targetPos.add(lineDirection);
-
-        ModUtils.lineCallback(lineStart, lineEnd, 10, (pos, i) -> {
-            ProjectileGoldenMissile projectile = new ProjectileGoldenMissile(world, this, this.getAttack());
-            projectile.setTravelRange(30);
-            projectile.setNoGravity(true);
-
-            ModUtils.throwProjectile(this, pos, projectile, 0, 1.1f);
-        });
-
-        this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, ModRandom.getFloat(0.2f) + 1.3f);
-    }
+    Supplier<Projectile> goldenMissile = () -> new ProjectileGoldenMissile(world, this, this.getAttack());
+    Supplier<Projectile> maelstromMissile = () -> new ProjectileStatueMaelstromMissile(world, this, this.getAttack());
+    Supplier<Projectile> goldenRune = () -> new EntityLargeGoldenRune(this.world, this, this.getAttack() * 2);
+    Supplier<Projectile> maelstromRune = () -> new ProjectileMaelstromRune(this.world, this, this.getAttack() * 2);
+    Supplier<Projectile> maelstromOrGoldenMissile = () -> rand.nextInt(2) == 0 ? goldenMissile.get() : maelstromMissile.get();
+    IAction goldenRayAction = new ActionRayAttack(goldenMissile, 1.1f);
+    IAction maelstromRayAction = new ActionRayAttack(maelstromMissile, 1.1f);
 
     private final Consumer<EntityLivingBase> rayAttack = target -> {
         ModBBAnimations.animation(this, "statue.fireball", false);
 
-        addEvent(() -> executeRayAttack(target), 22);
+        addEvent(() -> {
+            goldenRayAction.performAction(this, target);
+            this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, ModRandom.getFloat(0.2f) + 1.3f);
+        }, 22);
     };
 
     private final Consumer<EntityLivingBase> secondPhaseRayAttack = target -> {
         ModBBAnimations.animation(this, "statue.fireball", false);
 
         addEvent(() -> {
-            Vec3d targetPos = target.getPositionVector();
-            Vec3d fromTargetToActor = getPositionVector().subtract(targetPos);
-
-            Vec3d lineDirection = ModUtils.rotateVector2(
-                    fromTargetToActor
-                            .crossProduct(ModUtils.yVec(1)),
-                    fromTargetToActor,
-                    ModRandom.range(0, 180))
-                    .normalize()
-                    .scale(6);
-
-            Vec3d lineStart = targetPos.subtract(lineDirection);
-            Vec3d lineEnd = targetPos.add(lineDirection);
-
-            ModUtils.lineCallback(lineStart, lineEnd, 10, (pos, i) -> {
-                ProjectileStatueMaelstromMissile projectile = new ProjectileStatueMaelstromMissile(world, this, this.getAttack());
-                projectile.setTravelRange(30);
-                projectile.setNoGravity(true);
-
-                ModUtils.throwProjectile(this, pos, projectile, 0, 0.9f);
-            });
-
-            executeRayAttack(target);
+            goldenRayAction.performAction(this, target);
+            maelstromRayAction.performAction(this, target);
+            this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, ModRandom.getFloat(0.2f) + 1.3f);
         }, 22);
     };
 
     private final Consumer<EntityLivingBase> runeAttack = target -> {
         ModBBAnimations.animation(this, "statue.runes", false);
-
-        addEvent(() -> {
-            float zeroish = 0.001f;
-            EntityLargeGoldenRune projectile = new EntityLargeGoldenRune(this.world, this, this.getAttack() * 2);
-            ModUtils.setEntityPosition(projectile,
-                    target.getPositionVector()
-                            .add(new Vec3d(ModRandom.getFloat(2), 0.1, ModRandom.getFloat(2))));
-            projectile.shoot(zeroish, zeroish, zeroish, zeroish, zeroish);
-            projectile.setTravelRange(50);
-            this.world.spawnEntity(projectile);
-        }, 12);
+        addEvent(() -> new ActionRuneAttack(goldenRune, new RandomRuneAdjustment(target)).performAction(this, target), 12);
     };
 
     private final Consumer<EntityLivingBase> secondPhaseRuneAttack = target -> {
         ModBBAnimations.animation(this, "statue.runes", false);
-
-        addEvent(() -> {
-            float zeroish = 0.001f;
-            Vec3d randomDirection = ModRandom.randVec()
-                    .crossProduct(ModUtils.yVec(1))
-                    .normalize()
-                    .scale(0.13 + ModRandom.getFloat(0.05f));
-            ProjectileMaelstromRune projectile = new ProjectileMaelstromRune(this.world, this, this.getAttack() * 2);
-            ModUtils.setEntityPosition(projectile,
-                    target.getPositionVector()
-                            .add(ModUtils.yVec(0.1))
-                            .add(ModUtils.rotateVector(randomDirection.scale(-2), ModUtils.yVec(1), ModRandom.range(-15, 15))));
-            projectile.shoot(zeroish, zeroish, zeroish, zeroish, zeroish);
-            projectile.setVelocity(randomDirection.x, 0, randomDirection.z);
-            projectile.setTravelRange(50);
-            this.world.spawnEntity(projectile);
-        }, 12);
+        addEvent(() -> new ActionRuneAttack(maelstromRune, new MovingRuneAdjustment(target)).performAction(this, target), 12);
     };
 
     private final Consumer<EntityLivingBase> spawnPillarAttack = target -> {
@@ -183,60 +117,38 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
 
     private final Consumer<EntityLivingBase> volleyAttack = target -> {
         ModBBAnimations.animation(this, "statue.volley", false);
-
-        Function<Vec3d, Runnable> missile = (offset) -> () -> {
-            if(isSecondPhase() && rand.nextFloat() < 0.5) {
-                ProjectileStatueMaelstromMissile projectile = new ProjectileStatueMaelstromMissile(world, this, this.getAttack());
-                projectile.setTravelRange(25);
-
-                ModUtils.throwProjectile(this, target.getPositionEyes(1),
-                        projectile,
-                        18.0f,
-                        1.4f,
-                        offset);
-            }
-
-            ProjectileGoldenMissile projectile = new ProjectileGoldenMissile(world, this, this.getAttack());
-            projectile.setTravelRange(25);
-
-            ModUtils.throwProjectile(this, target.getPositionEyes(1),
-                    projectile,
-                    6.0f,
-                    1.6f,
-                    offset);
-
-            this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, ModRandom.getFloat(0.2f) + 1.3f);
-        };
-
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, 1, 1))), 20);
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, 1, -1))), 20);
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, 0.5, 1.7))), 25);
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, 0.5, -1.7))), 25);
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, 0, 2))), 30);
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, 0, -2))), 30);
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, -0.5, 2.5))), 35);
-        addEvent(missile.apply(ModUtils.getRelativeOffset(this, new Vec3d(0, -0.5, -2.5))), 35);
+        Supplier<Projectile> projectileSupplier = isSecondPhase() ? maelstromOrGoldenMissile : goldenMissile;
+        new ActionVolley(projectileSupplier, 1.6f).performAction(this, target);
     };
 
-    private final Consumer<EntityLivingBase> teleportAttack = target -> {
-        for(int i = 0; i < 50; i++) {
-            Vec3d pos = ModRandom.randVec().normalize().scale(12)
-                    .add(target.getPositionVector());
-
-            boolean canSee = world.rayTraceBlocks(target.getPositionEyes(1), pos, false, true, false) == null;
-            Vec3d prevPos = getPositionVector();
-            if(canSee && ModUtils.attemptTeleport(pos, this)){
-                ModUtils.lineCallback(prevPos, pos, 50, (particlePos, j) ->
-                        Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, particlePos, Vec3d.ZERO, ModColors.YELLOW), this));
-                world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
-                break;
-            }
-        }
-    };
+    private final Consumer<EntityLivingBase> teleportAttack = target -> new ActionAerialTeleport(ModColors.YELLOW).performAction(this, target);
 
     @Override
     protected boolean canDespawn() {
         return false;
+    }
+
+    @Override
+    public void onDeath(DamageSource cause) {
+        // Spawn the second half of the boss
+        EntityMaelstromStatueOfNirvana boss = new EntityMaelstromStatueOfNirvana(world);
+        boss.copyLocationAndAnglesFrom(this);
+        boss.setRotationYawHead(this.rotationYawHead);
+        if (!world.isRemote) {
+            boss.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(this)), null);
+            boss.setLevel(getLevel());
+            boss.setElement(getElement());
+            world.spawnEntity(boss);
+
+            EntityLivingBase attackTarget = this.getAttackTarget();
+            if(attackTarget != null) {
+                boss.setAttackTarget(attackTarget);
+                playSound(SoundEvents.ENTITY_ILLAGER_PREPARE_MIRROR, 2.5f, 1.0f + ModRandom.getFloat(0.2f));
+                new ActionRingAttack(boss.maelstromFlame).performAction(boss, attackTarget);
+            }
+        }
+        this.setPosition(0, 0, 0);
+        super.onDeath(cause);
     }
 
     @Override
@@ -269,6 +181,7 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
         return ModUtils.getEntitiesInBox(this, this.getEntityBoundingBox()
                 .grow(getMobConfig().getDouble("pillar_protection_range"))).stream()
                 .filter(e -> e instanceof EntityGoldenPillar)
+                .filter(e ->  world.rayTraceBlocks(e.getPositionEyes(1), getPositionEyes(1), false, true, false) == null)
                 .map(e -> (EntityGoldenPillar)e)
                 .collect(Collectors.toList());
     }
@@ -300,15 +213,15 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
-//        if(doSummonNext) {
+        if(doSummonNext) {
             doSummonNext = false;
             spawnPillarAttack.accept(target);
             addEvent(() -> setAttackCount(0), 25);
 
             return 40;
-//        }
-//
-//        return doNormalAttack(target);
+        }
+
+        return doNormalAttack(target);
     }
 
     public int doNormalAttack(EntityLivingBase target) {
@@ -410,11 +323,6 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.BLOCK_METAL_BREAK;
-    }
-
-    @Override
-    protected ResourceLocation getLootTable() {
-        return LootTableHandler.GOLDEN_BOSS;
     }
 
     @Override

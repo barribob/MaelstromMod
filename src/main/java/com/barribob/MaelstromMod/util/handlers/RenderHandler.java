@@ -55,7 +55,9 @@ public class RenderHandler {
         registerModEntityRenderer(EntityMaelstromHealer.class, new ModelMaelstromHealer(), "maelstrom_healer.png");
         registerModEntityRenderer(EntityMaelstromGauntlet.class, (manager) -> new RenderMaelstromGauntlet(manager, "maelstrom_gauntlet.png"));
         registerModEntityRenderer(EntityTuningForkLazer.class, RenderTuningForkLazer::new);
-        registerModEntityRenderer(ProjectileMegaFireball.class, (manager) -> new RenderNonLivingEntity<>(manager, "fireball.png", new ModelFireball()));
+        registerModEntityRenderer(ProjectileMegaFireball.class, (manager) -> new RenderNonLivingEntity<>(manager, "fireball.png", new ModelFireball(), -1.501F));
+        registerModEntityRenderer(EntityMaelstromStatueOfNirvana.class, new ModelStatueOfNirvana(), "maelstrom_statue.png");
+        registerModEntityRenderer(ProjectileHomingFlame.class, (manager) -> new RenderNonLivingEntity<>(manager, "homing_fireball.png", new ModelHomingFlame(), -0.2F));
 
         registerProjectileRenderer(Projectile.class);
         registerProjectileRenderer(ProjectileBullet.class);

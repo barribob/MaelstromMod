@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 
-public class ActionFireball extends Action {
+public class ActionFireball implements IAction {
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
         actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 0.4F / (actor.world.rand.nextFloat() * 0.4F + 0.8F));

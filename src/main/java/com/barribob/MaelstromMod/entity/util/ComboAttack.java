@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.util;
 
-import com.barribob.MaelstromMod.entity.action.Action;
+import com.barribob.MaelstromMod.entity.action.IAction;
 import com.barribob.MaelstromMod.entity.animation.Animation;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
@@ -17,7 +17,7 @@ import java.util.function.Supplier;
  * handle the animations on the server side smoothly
  */
 public class ComboAttack {
-    private HashMap<Byte, Action> actions = new HashMap<Byte, Action>();
+    private HashMap<Byte, IAction> actions = new HashMap<Byte, IAction>();
 
     @SideOnly(Side.CLIENT)
     private HashMap<Byte, Supplier<Animation>> animations;
@@ -31,12 +31,12 @@ public class ComboAttack {
         return currentAttack;
     }
 
-    public Action getCurrentAttackAction() {
+    public IAction getCurrentAttackAction() {
         return getAction(currentAttack);
     }
 
     @SideOnly(Side.CLIENT)
-    public void setAttack(byte b, Action action, Supplier<Animation> anim) {
+    public void setAttack(byte b, IAction action, Supplier<Animation> anim) {
         if (animations == null) {
             animations = new HashMap<Byte, Supplier<Animation>>();
         }
@@ -45,7 +45,7 @@ public class ComboAttack {
     }
 
     public void setAttack(byte b, BiConsumer<EntityLeveledMob, EntityLivingBase> action) {
-        actions.put(b, new Action() {
+        actions.put(b, new IAction() {
             @Override
             public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                 action.accept(actor, target);
@@ -53,7 +53,7 @@ public class ComboAttack {
         });
     }
 
-    public void setAttack(byte b, Action action) {
+    public void setAttack(byte b, IAction action) {
         actions.put(b, action);
     }
 
@@ -68,7 +68,7 @@ public class ComboAttack {
         return animations.get(b).get();
     }
 
-    private Action getAction(byte b) {
+    private IAction getAction(byte b) {
         if (!actions.containsKey(b)) {
             throw new IllegalArgumentException("The byte " + b + " does not correspond to an attack");
         }

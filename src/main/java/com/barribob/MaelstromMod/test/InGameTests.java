@@ -21,6 +21,7 @@ public class InGameTests {
         defaultIllager(server.getEntityWorld(), sender.getPosition());
         defaultChaosKnight(server.getEntityWorld(), sender.getPosition());
         defaultGoldenBoss(server.getEntityWorld(), sender.getPosition());
+        defaultMaelstromStatueOfNirvana(server.getEntityWorld(), sender.getPosition());
     }
 
     public static void runSingleTest(MinecraftServer server, ICommandSender sender, String testName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -94,5 +95,17 @@ public class InGameTests {
         TestUtils.AssertAlmostEquals(9.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
         TestUtils.AssertAlmostEquals(30.0, entity.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getBaseValue(), 3);
         TestUtils.AssertAlmostEquals(1.0, entity.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getBaseValue(), 3);
+    }
+
+    public static void defaultMaelstromStatueOfNirvana(World world, BlockPos pos) throws Exception {
+        EntityLeveledMob entity = new EntityMaelstromStatueOfNirvana(world);
+        NBTTagCompound compound = new NBTTagCompound();
+        entity.writeToNBT(compound);
+
+        TestUtils.AssertEquals(1000, compound.getInteger("experienceValue"));
+        TestUtils.AssertEquals(150f, entity.getHealth());
+        TestUtils.AssertEquals(150f, entity.getMaxHealth());
+        TestUtils.AssertAlmostEquals(10.0, entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue(), 3);
+        TestUtils.AssertAlmostEquals(40.0, entity.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getBaseValue(), 3);
     }
 }

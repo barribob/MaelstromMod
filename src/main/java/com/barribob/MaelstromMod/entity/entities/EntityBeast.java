@@ -1,13 +1,12 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.action.Action;
+import com.barribob.MaelstromMod.entity.action.IAction;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelBeast;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastAttack;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
-import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -15,7 +14,6 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -46,13 +44,13 @@ public class EntityBeast extends EntityMaelstromMob {
         this.setSize(2.8f, 2.2f);
         this.healthScaledAttackFactor = 0.2;
         if (!worldIn.isRemote) {
-            attackHandler.setAttack(leap, new Action() {
+            attackHandler.setAttack(leap, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     ModUtils.leapTowards(actor, target.getPositionVector(), 1.0f, 0.5f);
                 }
             });
-            attackHandler.setAttack(spit, new Action() {
+            attackHandler.setAttack(spit, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     for (int i = 0; i < 5; i++) {
@@ -103,8 +101,8 @@ public class EntityBeast extends EntityMaelstromMob {
 
         animationSpit.add(jaw);
 
-        attackHandler.setAttack(leap, Action.NONE, () -> new StreamAnimation(animationLeap));
-        attackHandler.setAttack(spit, Action.NONE, () -> new StreamAnimation(animationSpit));
+        attackHandler.setAttack(leap, IAction.NONE, () -> new StreamAnimation(animationLeap));
+        attackHandler.setAttack(spit, IAction.NONE, () -> new StreamAnimation(animationSpit));
 
         this.currentAnimation = new StreamAnimation(animationSpit);
     }

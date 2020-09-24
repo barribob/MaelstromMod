@@ -12,7 +12,7 @@ import net.minecraft.util.DamageSource;
 /*
  * Deals damage in an area around the entity
  */
-public class ActionSpinSlash extends Action {
+public class ActionSpinSlash implements IAction {
     private float size = 2.2f;
 
     public ActionSpinSlash() {

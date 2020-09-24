@@ -117,6 +117,7 @@ public class ModEntities {
         registerEntityWithID("chaos_knight", EntityChaosKnight.class, ENTITY_START_ID++, 70, maelstrom);
         registerEntityWithID("maelstrom_healer", EntityMaelstromHealer.class, ENTITY_START_ID++, 50, maelstrom);
         registerEntityWithID("maelstrom_gauntlet", EntityMaelstromGauntlet.class, ENTITY_START_ID++, 70, maelstrom);
+        registerEntityWithID("maelstrom_statue_of_nirvana", EntityMaelstromStatueOfNirvana.class, ENTITY_START_ID++, 70, cliff_maelstrom);
 
         registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
         registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);
@@ -164,6 +165,7 @@ public class ModEntities {
         registerEntity("statue_maelstrom_missile", ProjectileStatueMaelstromMissile.class, PROJECTILE_START_ID++, 30);
         registerEntity("maelstrom_rune", ProjectileMaelstromRune.class, PROJECTILE_START_ID++, 40);
         registerEntity("beast_fireball", ProjectileBeastFireball.class, PROJECTILE_START_ID++, 40);
+        registerEntity("homing_flame", ProjectileHomingFlame.class, PROJECTILE_START_ID++, 50);
 
         registerEntity("explosion_particle", ParticleSpawnerExplosion.class, PARTICLE_START_ID++, 20);
         registerEntity("black_gold_sword_particle", ParticleSpawnerSwordSwing.class, PARTICLE_START_ID++, 20);

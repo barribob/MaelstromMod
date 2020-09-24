@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 
 import java.util.function.Supplier;
 
-public class ActionGroundSlash extends Action {
+public class ActionGroundSlash implements IAction {
     public final Supplier<Projectile> supplier;
 
     public ActionGroundSlash(Supplier<Projectile> p) {

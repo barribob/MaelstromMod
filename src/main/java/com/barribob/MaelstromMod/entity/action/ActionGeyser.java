@@ -4,7 +4,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.projectile.EntityGeyser;
 import net.minecraft.entity.EntityLivingBase;
 
-public class ActionGeyser extends Action {
+public class ActionGeyser implements IAction {
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
         float zeroish = 0.001f;

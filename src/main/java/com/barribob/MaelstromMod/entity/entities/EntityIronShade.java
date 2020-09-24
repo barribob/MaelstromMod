@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.action.Action;
+import com.barribob.MaelstromMod.entity.action.IAction;
 import com.barribob.MaelstromMod.entity.action.ActionSpinSlash;
 import com.barribob.MaelstromMod.entity.ai.AIJumpAtTarget;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.StreamAnimation;
 import com.barribob.MaelstromMod.entity.model.ModelIronShade;
 import com.barribob.MaelstromMod.entity.util.ComboAttack;
-import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -17,7 +16,6 @@ import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
@@ -45,7 +43,7 @@ public class EntityIronShade extends EntityMaelstromMob {
         this.healthScaledAttackFactor = 0.2;
         this.setSize(0.9f, 2.2f);
         if (!worldIn.isRemote) {
-            attackHandler.setAttack(frontFlip, (actor, target) -> {
+            attackHandler.setAttack(frontFlip, (IAction) (actor, target) -> {
                 DamageSource source = ModDamageSource.builder()
                         .directEntity(this)
                         .element(getElement())
@@ -148,7 +146,7 @@ public class EntityIronShade extends EntityMaelstromMob {
         flipAnimations.add(body);
         flipAnimations.add(lowerChains);
         flipAnimations.add(upperChains);
-        attackHandler.setAttack(frontFlip, Action.NONE, () -> new StreamAnimation(flipAnimations));
+        attackHandler.setAttack(frontFlip, IAction.NONE, () -> new StreamAnimation(flipAnimations));
 
         List<List<AnimationClip<ModelIronShade>>> spinAnimations = new ArrayList<List<AnimationClip<ModelIronShade>>>();
         wisps = new ArrayList<AnimationClip<ModelIronShade>>();

@@ -5,7 +5,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromMissile;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 
-public class ActionDarkMissile extends Action {
+public class ActionDarkMissile implements IAction {
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
         float inaccuracy = 4.0f;

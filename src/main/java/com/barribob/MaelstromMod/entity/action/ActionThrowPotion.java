@@ -17,7 +17,7 @@ import net.minecraft.util.math.MathHelper;
  * Taken from EntityWitch.java
  * Throws a potion given the potion type
  */
-public class ActionThrowPotion extends Action {
+public class ActionThrowPotion implements IAction {
     private Item potionType;
 
     public ActionThrowPotion(Item potionType) {

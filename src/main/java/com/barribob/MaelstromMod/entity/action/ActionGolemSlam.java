@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 
-public class ActionGolemSlam extends Action {
+public class ActionGolemSlam implements IAction {
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
         Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 1, 0)));

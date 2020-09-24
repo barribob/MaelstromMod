@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 /*
  * Attempt to teleport around the target
  */
-public class ActionTeleport extends Action {
+public class ActionTeleport implements IAction {
     @Override
     public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
         int attempts = 100;

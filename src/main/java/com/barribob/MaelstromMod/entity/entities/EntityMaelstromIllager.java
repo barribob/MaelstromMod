@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import com.barribob.MaelstromMod.entity.action.Action;
+import com.barribob.MaelstromMod.entity.action.IAction;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttack;
 import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
@@ -50,7 +50,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
     private EntityAIRangedAttack<EntityMaelstromMob> phase1AttackAI;
     private final ComboAttack attackHandler = new ComboAttack();
 
-    private final Action spawnEnemy = new Action() {
+    private final IAction spawnEnemy = new IAction() {
         @Override
         public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
             int mobCount = phase2() ? getMobConfig().getInt("summoning_algorithm.second_phase_mobs_per_spawn") :
@@ -70,7 +70,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
         this.setSize(0.9f, 2.5f);
         this.healthScaledAttackFactor = 0.2;
         if (!world.isRemote) {
-            attackHandler.setAttack(magicMissile, new Action() {
+            attackHandler.setAttack(magicMissile, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     ModUtils.throwProjectile(actor, target, new ProjectileHorrorAttack(world, actor, getAttack()), 6.0f, 1.2f,
@@ -78,7 +78,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
                     actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
                 }
             });
-            attackHandler.setAttack(wisp, new Action() {
+            attackHandler.setAttack(wisp, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     Projectile proj = new ProjectileMaelstromWisp(world, actor, getAttack());
@@ -87,7 +87,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
                     playSoundWithFallback(SoundsHandler.Hooks.ENTITY_ILLAGER_VORTEX, SoundEvents.ENTITY_BLAZE_AMBIENT);
                 }
             });
-            attackHandler.setAttack(shield, new Action() {
+            attackHandler.setAttack(shield, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     DamageSource damageSource = ModDamageSource.builder()
@@ -133,7 +133,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
         animationMissile.add(rightArm);
         animationMissile.add(leftArm);
 
-        attackHandler.setAttack(magicMissile, Action.NONE, () -> new StreamAnimation(animationMissile));
+        attackHandler.setAttack(magicMissile, IAction.NONE, () -> new StreamAnimation(animationMissile));
 
         List<List<AnimationClip<ModelMaelstromIllager>>> animationWisp = new ArrayList<List<AnimationClip<ModelMaelstromIllager>>>();
         rightArm = new ArrayList<AnimationClip<ModelMaelstromIllager>>();
@@ -161,7 +161,7 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
         animationWisp.add(rightArm);
         animationWisp.add(leftArm);
 
-        attackHandler.setAttack(wisp, Action.NONE, () -> new StreamAnimation(animationWisp));
+        attackHandler.setAttack(wisp, IAction.NONE, () -> new StreamAnimation(animationWisp));
 
         List<List<AnimationClip<ModelMaelstromIllager>>> animationShield = new ArrayList<List<AnimationClip<ModelMaelstromIllager>>>();
 
@@ -190,8 +190,8 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
         animationShield.add(rightArm);
         animationShield.add(leftArm);
 
-        attackHandler.setAttack(shield, Action.NONE, () -> new StreamAnimation(animationShield));
-        attackHandler.setAttack(enemy, Action.NONE, () -> new AnimationOscillateArms(60, this));
+        attackHandler.setAttack(shield, IAction.NONE, () -> new StreamAnimation(animationShield));
+        attackHandler.setAttack(enemy, IAction.NONE, () -> new AnimationOscillateArms(60, this));
 
         this.currentAnimation = new AnimationOscillateArms(60, this);
     }

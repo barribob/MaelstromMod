@@ -266,7 +266,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
      * @param runnable
      * @param ticksFromNow
      */
-    protected void addEvent(Runnable runnable, int ticksFromNow) {
+    public void addEvent(Runnable runnable, int ticksFromNow) {
         events.add(new TimedEvent(runnable, this.ticksExisted + ticksFromNow));
     }
 

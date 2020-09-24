@@ -334,13 +334,17 @@ public final class ModUtils {
     }
 
     public static void throwProjectile(EntityLivingBase actor, Vec3d target, Projectile projectile, float inaccuracy, float velocity) {
+        throwProjectileNoSpawn(target, projectile, inaccuracy, velocity);
+        actor.world.spawnEntity(projectile);
+    }
+
+    public static void throwProjectileNoSpawn(Vec3d target, Projectile projectile, float inaccuracy, float velocity) {
         double d0 = target.y;
         double d1 = target.x - projectile.posX;
         double d2 = d0 - projectile.posY;
         double d3 = target.z - projectile.posZ;
         float f = projectile.hasNoGravity() ? 0 : MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         projectile.shoot(d1, d2 + f, d3, velocity, inaccuracy);
-        actor.world.spawnEntity(projectile);
     }
 
     /**
@@ -1257,5 +1261,12 @@ public final class ModUtils {
         } else {
             return fallback;
         }
+    }
+
+    public static Vec2f getPitchYaw(Vec3d look) {
+        double d3 = (double)MathHelper.sqrt(look.x * look.x + look.z * look.z);
+        float yaw = (float)(MathHelper.atan2(look.z, look.x) * (180D / Math.PI)) - 90.0F;
+        float pitch = (float)(-(MathHelper.atan2(look.y, d3) * (180D / Math.PI)));
+        return new Vec2f(pitch, yaw);
     }
 }

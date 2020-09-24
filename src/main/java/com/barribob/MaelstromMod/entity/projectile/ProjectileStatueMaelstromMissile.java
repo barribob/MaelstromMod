@@ -5,6 +5,8 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -30,6 +32,9 @@ public class ProjectileStatueMaelstromMissile extends Projectile {
 
     @Override
     protected void onHit(RayTraceResult result) {
+        if(!world.isRemote && result.entityHit instanceof EntityLivingBase) {
+            ((EntityLivingBase)result.entityHit).addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20, 0));
+        }
         DamageSource source = ModDamageSource.builder()
                 .type(ModDamageSource.PROJECTILE)
                 .directEntity(this)

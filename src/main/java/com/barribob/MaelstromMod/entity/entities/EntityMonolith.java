@@ -1,7 +1,7 @@
 package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.Main;
-import com.barribob.MaelstromMod.entity.action.Action;
+import com.barribob.MaelstromMod.entity.action.IAction;
 import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
 import com.barribob.MaelstromMod.entity.animation.AnimationClip;
 import com.barribob.MaelstromMod.entity.animation.AnimationNone;
@@ -112,7 +112,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
         };
 
         if (!world.isRemote) {
-            attackHandler.setAttack(blueAttack, new Action() {
+            attackHandler.setAttack(blueAttack, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     int numMobs = getMobConfig().getInt("summoning_algorithm.mobs_per_spawn");
@@ -122,7 +122,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
                 }
             });
             attackHandler.setAttack(redAttack, fireballs);
-            attackHandler.setAttack(yellowAttack, new Action() {
+            attackHandler.setAttack(yellowAttack, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     DamageSource source = ModDamageSource.builder()
@@ -136,12 +136,12 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
                     actor.world.setEntityState(actor, ModUtils.SECOND_PARTICLE_BYTE);
                 }
             });
-            attackHandler.setAttack(stageTransform, new Action() {
+            attackHandler.setAttack(stageTransform, new IAction() {
                 // Change the yellow and blue attacks to new attacks
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     actor.getDataManager().set(TRANSFORMED, Boolean.valueOf(true));
-                    attackHandler.setAttack(yellowAttack, new Action() {
+                    attackHandler.setAttack(yellowAttack, new IAction() {
                         @Override
                         public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                             actor.setImmovable(false);
@@ -192,10 +192,10 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
         middle.add(new AnimationClip(40, 0, (float) Math.toDegrees(Math.PI / 3), resize));
 
         animationStage2.add(middle);
-        attackHandler.setAttack(stageTransform, Action.NONE, () -> new StreamAnimation(animationStage2));
-        attackHandler.setAttack(blueAttack, Action.NONE, () -> new AnimationNone());
-        attackHandler.setAttack(redAttack, Action.NONE, () -> new AnimationNone());
-        attackHandler.setAttack(yellowAttack, Action.NONE, () -> new AnimationNone());
+        attackHandler.setAttack(stageTransform, IAction.NONE, () -> new StreamAnimation(animationStage2));
+        attackHandler.setAttack(blueAttack, IAction.NONE, () -> new AnimationNone());
+        attackHandler.setAttack(redAttack, IAction.NONE, () -> new AnimationNone());
+        attackHandler.setAttack(yellowAttack, IAction.NONE, () -> new AnimationNone());
     }
 
     @Override

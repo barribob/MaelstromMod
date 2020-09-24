@@ -57,7 +57,7 @@ public class EntityHerobrineOne extends EntityLeveledMob implements IRangedAttac
         if (!world.isRemote) {
             attackHandler.setAttack(spinSlash, new ActionSpinSlash());
             attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> new ProjectileHerobrineQuake(world, this, this.getAttack())));
-            attackHandler.setAttack(fireball, new Action() {
+            attackHandler.setAttack(fireball, new IAction() {
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 0.4F / (actor.world.rand.nextFloat() * 0.4F + 0.8F));

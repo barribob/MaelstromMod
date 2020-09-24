@@ -79,6 +79,7 @@ public class EntityGoldenPillar extends EntityMaelstromMob implements IAttack {
             Projectile projectile = new EntityGoldenRune(world, this, this.getAttack());
             projectile.setTravelRange(30);
             ModUtils.throwProjectile(this, target, projectile, 4, 0.5f);
+            playSound(SoundEvents.BLOCK_METAL_BREAK, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
         };
     }
 
