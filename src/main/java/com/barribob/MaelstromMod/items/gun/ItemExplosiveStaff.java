@@ -16,8 +16,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemExplosiveStaff extends ItemStaff {
-    public ItemExplosiveStaff(String name, int cooldown, int useTime, float level, CreativeTabs tab) {
-        super(name, 15, cooldown, useTime, level, tab);
+    public ItemExplosiveStaff(String name, int useTime, float level, CreativeTabs tab) {
+        super(name, useTime, level, tab);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class ItemMaelstromCannon extends ItemStaff {
     private BulletFactory factory = new MaelstromCannon();
 
     public ItemMaelstromCannon(String name, int maxDamage, float level, CreativeTabs tab) {
-        super(name, 2, 20, maxDamage, level, tab);
+        super(name, maxDamage, level, tab);
     }
 
     public float getBaseDamage() {

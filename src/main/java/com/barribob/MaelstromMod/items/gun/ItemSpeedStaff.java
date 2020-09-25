@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ItemSpeedStaff extends ItemStaff {
     public ItemSpeedStaff(String name, int maxDamage, float level, CreativeTabs tab) {
-        super(name, 20, 220, maxDamage, level, tab);
+        super(name, maxDamage, level, tab);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.barribob.MaelstromMod.gui;
 
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.event_handlers.ItemToManaSystem;
 import com.barribob.MaelstromMod.items.gun.Reloadable;
 import com.barribob.MaelstromMod.mana.Mana;
 import com.barribob.MaelstromMod.mana.ManaProvider;
@@ -88,29 +89,34 @@ public class InGameGui {
     private static void renderItemAmmo(ItemStack stack, int xPosition, int yPosition, Minecraft mc) {
         if (!stack.isEmpty()) {
             if (stack.getItem() instanceof Reloadable) {
-                GlStateManager.disableLighting();
-                GlStateManager.disableDepth();
-                GlStateManager.disableTexture2D();
-                GlStateManager.disableAlpha();
-                GlStateManager.disableBlend();
-                Tessellator tessellator = Tessellator.getInstance();
-                BufferBuilder bufferbuilder = tessellator.getBuffer();
-
-                double ammo = ((Reloadable) stack.getItem()).getCooldownForDisplay(stack);
-
-                if (ammo != 0) {
-                    int i = Math.round(13.0F - (float) ammo * 13.0F);
-                    draw(bufferbuilder, xPosition + 2, yPosition + 13 - 2, 13, 2, 0, 0, 0, 255);
-                    draw(bufferbuilder, xPosition + 2, yPosition + 13 - 2, i, 1, 177, 220, 255, 255);
-                }
-
-                GlStateManager.enableBlend();
-                GlStateManager.enableAlpha();
-                GlStateManager.enableTexture2D();
-                GlStateManager.enableLighting();
-                GlStateManager.enableDepth();
+                renderReload(xPosition, yPosition, ((Reloadable)stack.getItem()).getCooldownForDisplay(stack));
+            }
+            else if (ItemToManaSystem.getManaConfig(stack) != null) {
+                renderReload(xPosition, yPosition, ItemToManaSystem.getCooldownForDisplay(stack));
             }
         }
+    }
+
+    private static void renderReload(int xPosition, int yPosition, double ammo) {
+        GlStateManager.disableLighting();
+        GlStateManager.disableDepth();
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableAlpha();
+        GlStateManager.disableBlend();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+
+        if (ammo != 0) {
+            int i = Math.round(13.0F - (float) ammo * 13.0F);
+            draw(bufferbuilder, xPosition + 2, yPosition + 13 - 2, 13, 2, 0, 0, 0, 255);
+            draw(bufferbuilder, xPosition + 2, yPosition + 13 - 2, i, 1, 177, 220, 255, 255);
+        }
+
+        GlStateManager.enableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableLighting();
+        GlStateManager.enableDepth();
     }
 
     /**

@@ -21,7 +21,7 @@ public class ItemFireballStaff extends ItemStaff {
     private BulletFactory factory = new Fireball();
 
     public ItemFireballStaff(String name, int useTime, float level, CreativeTabs tab) {
-        super(name, 6, 40, useTime, level, tab);
+        super(name, useTime, level, tab);
     }
 
     private float getBaseDamage() {

@@ -19,8 +19,8 @@ import java.util.List;
  * A short range staff that burns enemies
  */
 public class ItemWispStaff extends ItemStaff {
-    public ItemWispStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab) {
-        super(name, 5, cooldown, maxDamage, level, tab);
+    public ItemWispStaff(String name, int maxDamage, float level, CreativeTabs tab) {
+        super(name, maxDamage, level, tab);
     }
 
     public float getBaseDamage() {

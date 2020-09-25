@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ItemRuneStaff extends ItemStaff {
     public ItemRuneStaff(String name, float level) {
-        super(name, 5, 40, ModItems.STAFF_USE_TIME, level, ModCreativeTabs.ITEMS);
+        super(name, ModItems.STAFF_USE_TIME, level, ModCreativeTabs.ITEMS);
     }
 
     public float getBaseDamage() {

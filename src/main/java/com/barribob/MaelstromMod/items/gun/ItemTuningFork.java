@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ItemTuningFork extends ItemStaff {
     public ItemTuningFork(String name, float level) {
-        super(name, 10, 60, ModItems.STAFF_USE_TIME, level, ModCreativeTabs.ITEMS);
+        super(name, ModItems.STAFF_USE_TIME, level, ModCreativeTabs.ITEMS);
     }
 
     public float getBaseDamage() {

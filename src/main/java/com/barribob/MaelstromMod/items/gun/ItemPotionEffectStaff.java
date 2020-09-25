@@ -24,8 +24,8 @@ public class ItemPotionEffectStaff extends ItemStaff {
     Supplier<PotionEffect[]> effects;
     String desc_loc;
 
-    public ItemPotionEffectStaff(String name, float level, int experienceUse, int cooldown, Supplier<PotionEffect[]> effects, String desc_loc) {
-        super(name, experienceUse, cooldown, ModItems.STAFF_USE_TIME, level, ModCreativeTabs.ITEMS);
+    public ItemPotionEffectStaff(String name, float level, Supplier<PotionEffect[]> effects, String desc_loc) {
+        super(name, ModItems.STAFF_USE_TIME, level, ModCreativeTabs.ITEMS);
         this.effects = effects;
         this.desc_loc = desc_loc;
     }

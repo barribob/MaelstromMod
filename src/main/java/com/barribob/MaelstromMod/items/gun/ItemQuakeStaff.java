@@ -17,8 +17,8 @@ import java.util.List;
  * A short range quake attack
  */
 public class ItemQuakeStaff extends ItemStaff {
-    public ItemQuakeStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab) {
-        super(name, 4, cooldown, maxDamage, level, tab);
+    public ItemQuakeStaff(String name, int maxDamage, float level, CreativeTabs tab) {
+        super(name, maxDamage, level, tab);
     }
 
     public float getBaseDamage() {

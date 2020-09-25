@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemLeapStaff extends ItemStaff {
-    public ItemLeapStaff(String name, int cooldown, int maxDamage, float level, CreativeTabs tab) {
-        super(name, 3, cooldown, maxDamage, level, tab);
+    public ItemLeapStaff(String name, int maxDamage, float level, CreativeTabs tab) {
+        super(name, maxDamage, level, tab);
     }
 
     @Override

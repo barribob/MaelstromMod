@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemMeteorStaff extends ItemStaff {
-    public ItemMeteorStaff(String name, int cooldown, int useTime, float level, CreativeTabs tab) {
-        super(name, 6, cooldown, useTime, level, tab);
+    public ItemMeteorStaff(String name, int useTime, float level, CreativeTabs tab) {
+        super(name, useTime, level, tab);
     }
 
     public float getBaseDamage() {

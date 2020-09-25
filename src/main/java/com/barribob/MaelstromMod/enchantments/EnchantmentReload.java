@@ -1,7 +1,7 @@
 package com.barribob.MaelstromMod.enchantments;
 
+import com.barribob.MaelstromMod.event_handlers.ItemToManaSystem;
 import com.barribob.MaelstromMod.items.gun.ItemGun;
-import com.barribob.MaelstromMod.items.gun.ItemStaff;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -44,6 +44,6 @@ public class EnchantmentReload extends Enchantment {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return stack.getItem() instanceof ItemGun || stack.getItem() instanceof ItemStaff;
+        return stack.getItem() instanceof ItemGun || ItemToManaSystem.getManaConfig(stack) != null;
     }
 }
