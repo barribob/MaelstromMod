@@ -133,6 +133,7 @@ public class ProjectileHomingFlame extends Projectile {
 
     @Override
     public int getBrightnessForRender() {
-        return 200;
+        float colorAge = ModUtils.clamp((AGE - ticksExisted) / (float)AGE, 0.0, 1) * 255;
+        return (int) colorAge;
     }
 }

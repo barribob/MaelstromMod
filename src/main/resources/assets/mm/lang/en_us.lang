@@ -333,7 +333,7 @@ entity.nexus_saiyan.name=Nexus Saiyan
 entity.nexus_bladesmith.name=Nexus Bladesmith
 entity.golden_pillar.name=Golden Pillar
 entity.golden_boss.name=Statue of Nirvana
-entity.maelstrom_golden_boss.name=Maelstrom Statue of Nirvana
+entity.maelstrom_golden_boss.name=Statue of Nirvana
 entity.maelstrom_witch.name=Maelstrom Witch
 entity.cliff_golem.name=Cliff Stone Golem
 entity.swamp_crawler.name=Swamp Crawler
@@ -344,6 +344,7 @@ entity.white_monolith.name=White Monolith
 entity.chaos_knight.name=Maelstrom Champion
 entity.maelstrom_healer.name=Maelstrom Healer
 entity.maelstrom_gauntlet.name=Maelstrom Gauntlet
+entity.maelstrom_statue_of_nirvana.name=Maelstrom Statue Of Nirvana
 
 //———————————————————————————————————————————————————————————
 // Projectiles
