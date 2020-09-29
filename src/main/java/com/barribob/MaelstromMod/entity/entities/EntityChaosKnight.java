@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
+import com.barribob.MaelstromMod.renderer.ITarget;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -29,16 +30,15 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, DirectionalRender {
+public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, DirectionalRender, ITarget {
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
     private Vec3d chargeDir;
     private static final float dashRadius = 2;
@@ -334,12 +334,6 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         super.handleStatusUpdate(id);
     }
 
-    // For rendering the lazer
-    @SideOnly(Side.CLIENT)
-    public Vec3d getLazerPosition() {
-        return this.chargeDir;
-    }
-
     @Override
     public void setRenderDirection(Vec3d lazerDir) {
         this.chargeDir = lazerDir;
@@ -420,5 +414,10 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
     @Override
     public int getBrightnessForRender() {
         return Math.min(super.getBrightnessForRender() + 60, 200);
+    }
+
+    @Override
+    public Optional<Vec3d> getTarget() {
+        return Optional.ofNullable(this.chargeDir);
     }
 }

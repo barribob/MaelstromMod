@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
+import com.barribob.MaelstromMod.renderer.ITarget;
 import com.barribob.MaelstromMod.util.*;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
@@ -49,9 +50,10 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
-public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender {
+public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender, ITarget {
     // We keep track of the look ourselves because minecraft's look is clamped
     protected static final DataParameter<Float> LOOK = EntityDataManager.createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
@@ -784,5 +786,10 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundsHandler.ENTITY_GAUNTLET_HURT;
+    }
+
+    @Override
+    public Optional<Vec3d> getTarget() {
+        return Optional.ofNullable(renderLazerPos);
     }
 }

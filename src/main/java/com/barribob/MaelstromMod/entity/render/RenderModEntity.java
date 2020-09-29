@@ -3,18 +3,21 @@ package com.barribob.MaelstromMod.entity.render;
 import com.barribob.MaelstromMod.config.ModConfig;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
-import com.barribob.MaelstromMod.util.Element;
-import com.barribob.MaelstromMod.util.IElement;
-import com.barribob.MaelstromMod.util.Reference;
-import com.barribob.MaelstromMod.util.RenderUtils;
+import com.barribob.MaelstromMod.renderer.ITarget;
+import com.barribob.MaelstromMod.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * Renders an entity with a generic type, texture, and model passed in.
@@ -151,5 +154,24 @@ public class RenderModEntity<T extends EntityLiving> extends RenderLiving<T> {
         } else {
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
         }
+    }
+
+    @Override
+    public boolean shouldRender(@Nonnull T livingEntity, @Nonnull ICamera camera, double camX, double camY, double camZ) {
+        if (super.shouldRender(livingEntity, camera, camX, camY, camZ))
+        {
+            return true;
+        }
+
+        if (livingEntity instanceof ITarget) {
+            Optional<Vec3d> optional = ((ITarget) livingEntity).getTarget();
+            if(optional.isPresent()) {
+                Vec3d end = optional.get();
+                Vec3d start = livingEntity.getPositionEyes(1);
+                return camera.isBoundingBoxInFrustum(ModUtils.makeBox(start, end));
+            }
+        }
+
+        return false;
     }
 }

@@ -14,6 +14,7 @@ import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.init.ModBlocks;
 import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
+import com.barribob.MaelstromMod.renderer.ITarget;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -39,14 +40,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
-public class EntityMonolith extends EntityMaelstromMob implements IAttack, DirectionalRender {
+public class EntityMonolith extends EntityMaelstromMob implements IAttack, DirectionalRender, ITarget {
     private ComboAttack attackHandler = new ComboAttack();
     public static final byte noAttack = 0;
     public static final byte blueAttack = 4;
@@ -210,13 +210,11 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
         this.tasks.addTask(4, new EntityAITimedAttack<EntityMonolith>(this, 0, 90, 30, 0, 30.0f));
     }
 
-    // For rendering the lazer
-    @SideOnly(Side.CLIENT)
-    public Vec3d getLazerPosition() {
+    public Optional<Vec3d> getTarget() {
         if (isTransformed() && getAttackColor() == redAttack && this.lazerDir != null) {
-            return this.lazerDir;
+            return Optional.of(this.lazerDir);
         }
-        return null;
+        return Optional.empty();
     }
 
     public boolean isTransformed() {
