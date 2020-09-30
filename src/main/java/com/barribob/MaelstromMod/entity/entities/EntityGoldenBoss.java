@@ -26,6 +26,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
@@ -57,6 +58,10 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
         if(!world.isRemote) {
             initNirvanaAI();
         }
+    }
+
+    protected AxisAlignedBB getTargetableArea(double targetDistance) {
+        return this.getEntityBoundingBox().grow(targetDistance);
     }
 
     Supplier<Projectile> goldenMissile = () -> new ProjectileGoldenMissile(world, this, this.getAttack());

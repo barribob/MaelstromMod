@@ -210,6 +210,10 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         ModUtils.removeTaskOfType(this.tasks, EntityAIWanderWithGroup.class);
     }
 
+    protected AxisAlignedBB getTargetableArea(double targetDistance) {
+        return this.getEntityBoundingBox().grow(targetDistance);
+    }
+
     private void initGauntletAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
         this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 60, attackDistance, 20, 0.8f, 20));

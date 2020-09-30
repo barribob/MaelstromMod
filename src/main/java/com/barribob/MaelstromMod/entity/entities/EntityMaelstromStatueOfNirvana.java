@@ -28,6 +28,7 @@ import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
@@ -62,6 +63,10 @@ public class EntityMaelstromStatueOfNirvana extends EntityMaelstromMob implement
     private void initNirvanaAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
         this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 80, attackDistance, 20, 0.4f, 30));
+    }
+
+    protected AxisAlignedBB getTargetableArea(double targetDistance) {
+        return this.getEntityBoundingBox().grow(targetDistance);
     }
 
     @Override

@@ -34,11 +34,12 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 /**
  * The base mob that most mobs in this mod will extend A lot of these methods are from the EntityMob class to make it behave similarly
@@ -58,18 +59,29 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
         this.tasks.addTask(6, new EntityAIAvoidCrowding(this, 1.0D));
         this.tasks.addTask(7, new EntityAIWanderWithGroup(this, 1.0D));
         this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true){
+            @Override
+            @Nonnull
+            protected AxisAlignedBB getTargetableArea(double targetDistance) {
+                return EntityMaelstromMob.this.getTargetableArea(targetDistance);
+            }
+        });
 
         if (ModConfig.entities.attackAll) {
             // This makes it so that the entity attack every entity except others of its kind
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, new Predicate<Entity>() {
+            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, (Predicate<Entity>) entity -> !(entity instanceof EntityMaelstromMob)){
                 @Override
-                public boolean apply(@Nullable Entity entity) {
-                    return !(entity instanceof EntityMaelstromMob);
+                @Nonnull
+                protected AxisAlignedBB getTargetableArea(double targetDistance) {
+                    return EntityMaelstromMob.this.getTargetableArea(targetDistance);
                 }
-            }));
+            });
         }
+    }
+
+    protected AxisAlignedBB getTargetableArea(double targetDistance) {
+        return this.getEntityBoundingBox().grow(targetDistance, 4.0D, targetDistance);
     }
 
     @Override
