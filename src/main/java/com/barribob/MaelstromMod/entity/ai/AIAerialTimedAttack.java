@@ -1,7 +1,7 @@
 package com.barribob.MaelstromMod.entity.ai;
 
-import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.entity.util.IAttack;
+import com.barribob.MaelstromMod.entity.util.IPitch;
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -130,11 +130,11 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
 
         this.entity.getLookHelper().setLookPositionWithEntity(target, this.lookSpeed, this.lookSpeed);
         this.entity.faceEntity(target, this.lookSpeed, this.lookSpeed);
-        if (this.entity instanceof EntityMaelstromGauntlet) {
+        if (this.entity instanceof IPitch) {
             Vec3d targetPos = target.getPositionEyes(1);
             Vec3d entityPos = this.entity.getPositionEyes(1);
             Vec3d forwardVec = targetPos.subtract(entityPos).normalize();
-            ((EntityMaelstromGauntlet) this.entity).setLook(forwardVec);
+            ((IPitch) this.entity).setPitch(forwardVec);
         }
     }
 

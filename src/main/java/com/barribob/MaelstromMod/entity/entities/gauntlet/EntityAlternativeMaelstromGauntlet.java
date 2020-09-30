@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender, ITarget, IPitch {
+public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender, ITarget, IPitch {
     // We keep track of the look ourselves because minecraft's look is clamped
     protected static final DataParameter<Float> LOOK = EntityDataManager.createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
@@ -185,7 +185,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         }, 27);
     };
 
-    public EntityMaelstromGauntlet(World worldIn) {
+    public EntityAlternativeMaelstromGauntlet(World worldIn) {
         super(worldIn);
         this.moveHelper = new FlyingMoveHelper(this);
         this.navigator = new PathNavigateFlying(this, worldIn);

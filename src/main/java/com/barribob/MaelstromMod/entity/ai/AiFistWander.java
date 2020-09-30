@@ -1,14 +1,15 @@
 package com.barribob.MaelstromMod.entity.ai;
 
-import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 /**
  * AI made specifically for the gauntlet to wander using its punch attack
@@ -16,15 +17,17 @@ import javax.annotation.Nullable;
  * @author Barribob
  */
 public class AiFistWander extends EntityAIBase {
-    protected final EntityMaelstromGauntlet entity;
+    protected final EntityLiving entity;
     protected Vec3d direction;
     protected int cooldown;
     protected float heightAboveGround;
+    Consumer<Vec3d> movement;
 
-    public AiFistWander(EntityMaelstromGauntlet entity, int cooldown, float heightAboveGround) {
+    public AiFistWander(EntityLiving entity, Consumer<Vec3d> movement, int cooldown, float heightAboveGround) {
         this.entity = entity;
         this.cooldown = cooldown;
         this.heightAboveGround = heightAboveGround;
+        this.movement = movement;
     }
 
     @Nullable
@@ -51,7 +54,7 @@ public class AiFistWander extends EntityAIBase {
     @Override
     public void startExecuting() {
         if (entity.getAttackTarget() == null) {
-            entity.punchAtPos.accept(direction);
+            movement.accept(direction);
         }
     }
 
