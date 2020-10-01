@@ -165,7 +165,7 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
 
     private final Consumer<EntityLivingBase> fireball = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.fireball", false);
-        Projectile proj = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null);
+        Projectile proj = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null, false);
         proj.setTravelRange(30);
 
         this.addEvent(() -> world.spawnEntity(proj), 10);

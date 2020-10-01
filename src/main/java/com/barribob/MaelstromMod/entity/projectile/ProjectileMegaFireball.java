@@ -5,7 +5,6 @@ import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.init.SoundEvents;
@@ -16,6 +15,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 /**
  * Fireball for the Gauntlet. Main things are that it can be collided with (shot down) and it spawns more projectiles on impact
  *
@@ -25,11 +26,13 @@ public class ProjectileMegaFireball extends ProjectileGun {
     private static final int PARTICLE_AMOUNT = 15;
     private static final int IMPACT_PARTICLE_AMOUNT = 30;
     private static final int EXPOSION_AREA_FACTOR = 4;
+    private boolean canTakeDamage;
 
-    public ProjectileMegaFireball(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack) {
+    public ProjectileMegaFireball(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack, boolean canTakeDamage) {
         super(worldIn, throwerIn, baseDamage, stack);
         this.setNoGravity(true);
         this.setSize(1, 1);
+        this.canTakeDamage = canTakeDamage;
     }
 
     public ProjectileMegaFireball(World worldIn) {
@@ -84,7 +87,7 @@ public class ProjectileMegaFireball extends ProjectileGun {
         ModUtils.handleAreaImpact(7, this::getGunDamage, this.shootingEntity, this.getPositionVector(), source, 0, fireFactor);
         boolean flag = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.shootingEntity);
         super.onHit(result);
-        this.world.newExplosion((Entity) null, this.posX, this.posY, this.posZ, 3, true, flag);
+        this.world.newExplosion(null, this.posX, this.posY, this.posZ, 3, true, flag);
         for (int i = 0; i < 10; i++) {
             Vec3d vel = ModRandom.randVec().normalize().scale(0.5f).add(ModUtils.yVec(1));
             ProjectileFireball shrapenel = new ProjectileFireball(world, shootingEntity, this.getDamage() * 0.5f, null);
@@ -116,8 +119,8 @@ public class ProjectileMegaFireball extends ProjectileGun {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (!this.isDead) {
+    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
+        if (!this.isDead && canTakeDamage) {
             this.setDead();
             this.onHit(null);
         }
@@ -131,7 +134,7 @@ public class ProjectileMegaFireball extends ProjectileGun {
 
     @Override
     public boolean canBeAttackedWithItem() {
-        return true;
+        return canTakeDamage;
     }
 
     @Override
