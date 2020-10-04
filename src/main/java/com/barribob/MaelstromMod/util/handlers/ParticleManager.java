@@ -221,7 +221,7 @@ public class ParticleManager {
             unit = unit.rotatePitch((float) (Math.PI * ModRandom.getFloat(1)));
             unit = unit.rotateYaw((float) (Math.PI * ModRandom.getFloat(1)));
             unit = unit.normalize().scale(radius);
-            ParticleManager.spawnMaelstromParticle(world, world.rand, pos.add(unit));
+            ParticleManager.spawnEffect(world, pos.add(unit), ModColors.MAELSTROM);
         }
         ParticleManager.spawnEffect(world, pos, ModColors.RED);
     }

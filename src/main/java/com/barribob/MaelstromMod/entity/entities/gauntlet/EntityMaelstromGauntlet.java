@@ -91,7 +91,6 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     public final Consumer<Vec3d> punchAtPos = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.punch", false);
         this.addVelocity(0, 0.5, 0);
-        this.healthScaledAttackFactor = 0.1;
         this.addEvent(() -> {
             this.targetPos = target;
             this.isPunching = true;
@@ -193,6 +192,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         this.setSize(2, 4);
         this.noClip = true;
         this.isImmuneToFire = true;
+        this.healthScaledAttackFactor = 0.1;
         if(!world.isRemote) {
             this.initGauntletAI();
         }

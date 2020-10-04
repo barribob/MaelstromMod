@@ -91,7 +91,6 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
     public final Consumer<Vec3d> punchAtPos = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.punch", false);
         this.addVelocity(0, 0.5, 0);
-        this.healthScaledAttackFactor = 0.1;
         this.addEvent(() -> {
             this.targetPos = target;
             this.isPunching = true;
@@ -193,6 +192,7 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
         this.setSize(2, 4);
         this.noClip = true;
         this.isImmuneToFire = true;
+        this.healthScaledAttackFactor = 0.1;
         if(!world.isRemote) {
             this.initGauntletAI();
         }
@@ -387,12 +387,34 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
 
     @Override
     public void onUpdate() {
+
+        Vec3d vel = ModUtils.getEntityVelocity(this);
+        double speed = vel.lengthVector();
+
         super.onUpdate();
+
+        boolean motionStopped = (motionX == 0 && vel.x != 0) || (motionY == 0 && vel.y != 0) || (motionZ == 0 && vel.z != 0);
+        if(motionStopped && this.isPunching && !world.isRemote && speed > 0.55f) {
+            onPunchImpact(speed);
+        }
 
         if (this.isImmovable()) {
             this.setRotation(180, 0);
             this.setRotationYawHead(180);
         }
+    }
+
+    private void onPunchImpact(double velocity) {
+        Vec3d pos = getPositionEyes(1);
+        DamageSource source = ModDamageSource.builder()
+                .directEntity(this)
+                .element(getElement())
+                .stoppedByArmorNotShields()
+                .type(ModDamageSource.MOB)
+                .build();
+
+        world.newExplosion(this, pos.x, pos.y, pos.z, (float) velocity * 1.5f, false, true);
+        ModUtils.handleAreaImpact((float) (velocity * 2), e -> getAttack(), this, pos, source);
     }
 
     /**
