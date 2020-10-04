@@ -11,6 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
+import java.util.function.Consumer;
 
 /**
  * A place to handle all of the regularly spawned particles rather than copy and

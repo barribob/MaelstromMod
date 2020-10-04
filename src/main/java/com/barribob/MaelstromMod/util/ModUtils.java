@@ -7,7 +7,6 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
@@ -36,10 +35,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -49,6 +45,7 @@ import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.MapStorage;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
@@ -56,10 +53,7 @@ import javax.annotation.Nullable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 public final class ModUtils {
@@ -709,7 +703,7 @@ public final class ModUtils {
                     Block block = iblockstate.getBlock();
 
                     if (!block.isAir(iblockstate, world, blockpos) && iblockstate.getMaterial() != Material.FIRE) {
-                        if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity)) {
+                        if (ForgeEventFactory.getMobGriefingEvent(world, entity)) {
                             if (block != Blocks.COMMAND_BLOCK &&
                                     block != Blocks.REPEATING_COMMAND_BLOCK &&
                                     block != Blocks.CHAIN_COMMAND_BLOCK &&
@@ -837,15 +831,15 @@ public final class ModUtils {
                 .mapToObj(Element::getElementFromId)
                 .toArray(Element[]::new);
 
-        MobSpawnerLogic.MobSpawnData[] data = configs.stream().map(config -> {
+        MobSpawnData[] data = configs.stream().map(config -> {
             MobSpawnData newSpawnData;
 
             if (config.hasPath("elements")) {
                 int[] elementWeights = getElementalWeights.apply(config);
                 Element[] elementIds = getElementalIds.apply(config);
-                newSpawnData = new MobSpawnerLogic.MobSpawnData(config.getString("entity_id"), elementIds, elementWeights, 1);
+                newSpawnData = new MobSpawnData(config.getString("entity_id"), elementIds, elementWeights, 1);
             } else {
-                newSpawnData = new MobSpawnerLogic.MobSpawnData(config.getString("entity_id"), Element.NONE);
+                newSpawnData = new MobSpawnData(config.getString("entity_id"), Element.NONE);
             }
 
             if (config.hasPath("nbt_spawn_data")) {
@@ -855,7 +849,7 @@ public final class ModUtils {
             }
 
             return newSpawnData;
-        }).toArray(MobSpawnerLogic.MobSpawnData[]::new);
+        }).toArray(MobSpawnData[]::new);
 
         return ModUtils.spawnMob(world, pos, level, data, mobWeights, spawnRange, findGround);
     }
@@ -916,7 +910,7 @@ public final class ModUtils {
                 y = pos.getY() + yOffset;
             }
 
-            if (!findGround || world.getBlockState(new BlockPos(x, y - 1, z)).isSideSolid(world, new BlockPos(x, y - 1, z), net.minecraft.util.EnumFacing.UP)) {
+            if (!findGround || world.getBlockState(new BlockPos(x, y - 1, z)).isSideSolid(world, new BlockPos(x, y - 1, z), EnumFacing.UP)) {
                 Entity mob = createMobFromSpawnData(data, world, x + 0.5, y, z + 0.5);
 
                 if (mob == null) {
@@ -1248,7 +1242,7 @@ public final class ModUtils {
     }
 
     public static boolean mobGriefing(World world, Entity entity){
-        return net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, entity);
+        return ForgeEventFactory.getMobGriefingEvent(world, entity);
     }
 
     public static AxisAlignedBB vecBox(Vec3d vec1, Vec3d vec2) {
@@ -1268,5 +1262,33 @@ public final class ModUtils {
         float yaw = (float)(MathHelper.atan2(look.z, look.x) * (180D / Math.PI)) - 90.0F;
         float pitch = (float)(-(MathHelper.atan2(look.y, d3) * (180D / Math.PI)));
         return new Vec2f(pitch, yaw);
+    }
+
+    public static void avoidOtherEntities(Entity entity, double speed, int detectionSize, Predicate<? super Entity> filter) {
+        double boundingBoxEdgeLength = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.5;
+        double distanceSq = Math.pow(detectionSize + boundingBoxEdgeLength, 2);
+
+        BiFunction<Vec3d, Entity, Vec3d> accumulator = (vec, e) ->
+                vec.add(entity.getPositionVector().subtract(e.getPositionVector()).normalize())
+                        .scale((distanceSq - entity.getDistanceSq(e)) / distanceSq);
+
+        Vec3d avoid = entity.world.getEntitiesInAABBexcluding(entity,
+                entity.getEntityBoundingBox().grow(detectionSize),
+                filter::test).parallelStream()
+                .reduce(Vec3d.ZERO, accumulator, Vec3d::add)
+                .scale(speed);
+
+        ModUtils.addEntityVelocity(entity, avoid);
+    }
+
+    public static void homeToPosition(Entity entity, double speed, Vec3d target) {
+        Vec3d velocityChange = getVelocityToTarget(entity, target).scale(speed);
+        ModUtils.addEntityVelocity(entity, velocityChange);
+    }
+
+    private static Vec3d getVelocityToTarget(Entity entity, Vec3d target) {
+        Vec3d velocityDirection = ModUtils.getEntityVelocity(entity).normalize();
+        Vec3d desiredDirection = target.subtract(entity.getPositionVector()).normalize();
+        return desiredDirection.subtract(velocityDirection).normalize();
     }
 }

@@ -5,6 +5,7 @@ import com.barribob.MaelstromMod.entity.ai.*;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileCrimsonWanderer;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMegaFireball;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
@@ -78,7 +79,6 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
     private Vec3d renderLazerPos;
     private Vec3d prevRenderLazerPos;
     private final byte stopLazerByte = 39;
-    private final int beamLag = 7;
 
     private boolean isDefending;
 
@@ -131,7 +131,7 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
         this.addEvent(() -> {
             this.isShootingLazer = false;
             // Have to add delay because there will be 5 more ticks of lazers
-            this.addEvent(() -> world.setEntityState(this, stopLazerByte), beamLag + 1);
+            this.addEvent(() -> world.setEntityState(this, stopLazerByte), getMobConfig().getInt("beam_lag") + 1);
         }, 60);
     };
 
@@ -349,40 +349,52 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
 
         if (this.isShootingLazer) {
             if (this.getAttackTarget() != null) {
-                Vec3d lazerShootPos = this.getAttackTarget().getPositionEyes(1).subtract(ModUtils.yVec(1));
+                Vec3d lazerShootPos = this.getAttackTarget().getPositionVector();
                 this.addEvent(() -> {
 
                     // Extend shooting beyond the target position up to 40 blocks
-                    Vec3d lazerPos = lazerShootPos.add(lazerShootPos.subtract(this.getPositionEyes(1)).normalize().scale(40));
+                    Vec3d laserDirection = lazerShootPos.subtract(this.getPositionEyes(1)).normalize();
+                    Vec3d lazerPos = lazerShootPos.add(laserDirection.scale(getMobConfig().getDouble("max_laser_distance")));
                     // Ray trace both blocks and entities
                     RayTraceResult raytraceresult = this.world.rayTraceBlocks(this.getPositionEyes(1), lazerPos, false, true, false);
                     if (raytraceresult != null) {
-                        world.createExplosion(this, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 1, ModUtils.mobGriefing(world, this));
-
-                        // If we hit a block, make sure that any collisions with entities are detected up to the hit block
-                        lazerPos = raytraceresult.hitVec;
-
-                        if(this.ticksExisted % 2 == 0) {
-                            ModUtils.destroyBlocksInAABB(ModUtils.vecBox(lazerPos, lazerPos).grow(0.1), world, this);
-                        }
+                        lazerPos = onLaserImpact(raytraceresult);
                     }
 
                     for (Entity entity : ModUtils.findEntitiesInLine(this.getPositionEyes(1), lazerPos, world, this)) {
                         entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), 6);
                     }
 
+                    ModUtils.addEntityVelocity(this, laserDirection.scale(-0.03f));
+
                     Main.network.sendToAllTracking(new MessageDirectionForRender(this, lazerPos), this);
-                }, beamLag);
+                }, getMobConfig().getInt("beam_lag"));
             } else {
                 // Prevent the gauntlet from instantly locking onto other targets with the lazer.
                 this.isShootingLazer = false;
-                this.addEvent(() -> world.setEntityState(this, stopLazerByte), beamLag + 1);
+                this.addEvent(() -> world.setEntityState(this, stopLazerByte), getMobConfig().getInt("beam_lag") + 1);
             }
         }
 
         if (this.isDefending) {
             world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
         }
+    }
+
+    private Vec3d onLaserImpact(RayTraceResult raytraceresult) {
+        world.createExplosion(this, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 1, ModUtils.mobGriefing(world, this));
+
+        // If we hit a block, make sure that any collisions with entities are detected up to the hit block
+        Vec3d lazerPos = raytraceresult.hitVec;
+
+        Projectile projectile = new ProjectileCrimsonWanderer(world, this, getAttack() * 0.5f);
+        projectile.setTravelRange((float) (getMobConfig().getDouble("max_laser_distance") + 20));
+        ModUtils.throwProjectile(this, lazerPos.add(ModUtils.Y_AXIS), projectile, 10f, 0.1f, lazerPos.subtract(getPositionEyes(1)).add(ModUtils.Y_AXIS));
+
+        if(this.ticksExisted % 2 == 0) {
+            ModUtils.destroyBlocksInAABB(ModUtils.vecBox(lazerPos, lazerPos).grow(0.1), world, this);
+        }
+        return lazerPos;
     }
 
     @Override

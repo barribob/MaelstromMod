@@ -43,27 +43,11 @@ public class ProjectileHomingFlame extends Projectile {
                 this.shootingEntity != null &&
                 this.shootingEntity instanceof EntityLiving &&
                 ((EntityLiving) this.shootingEntity).getAttackTarget() != null) {
-            Vec3d target = ((EntityLiving) this.shootingEntity).getAttackTarget().getPositionEyes(1);
-            Vec3d velocityChange = getVelocityToTarget(target).scale(speed);
-            ModUtils.addEntityVelocity(this, velocityChange);
+            ModUtils.homeToPosition(this, speed, ((EntityLiving) this.shootingEntity).getAttackTarget().getPositionEyes(1));
         }
 
         if(!world.isRemote) {
-            int detectionSize = 4;
-            double boundingBoxEdgeLength = this.getEntityBoundingBox().getAverageEdgeLength() * 0.5;
-            double distanceSq = Math.pow(detectionSize + boundingBoxEdgeLength, 2);
-
-            BiFunction<Vec3d, Entity, Vec3d> accumulator = (vec, e) ->
-                    vec.add(getPositionVector().subtract(e.getPositionVector()).normalize())
-                            .scale((distanceSq - getDistanceSq(e)) / distanceSq);
-
-            Vec3d avoid = world.getEntitiesInAABBexcluding(this,
-                    getEntityBoundingBox().grow(detectionSize),
-                    e -> e instanceof ProjectileHomingFlame).parallelStream()
-                    .reduce(Vec3d.ZERO, accumulator, Vec3d::add)
-                    .scale(speed);
-
-            ModUtils.addEntityVelocity(this, avoid);
+            ModUtils.avoidOtherEntities(this, speed, 4, e -> e instanceof ProjectileHomingFlame);
         }
 
         if(!this.world.isRemote && this.ticksExisted > AGE) {
@@ -77,12 +61,6 @@ public class ProjectileHomingFlame extends Projectile {
         if (!this.world.isRemote && this.ticksExisted % 3 == 0) {
             this.playSound(SoundEvents.BLOCK_STONE_BREAK, 0.2f, ModRandom.getFloat(0.2f) + 0.3f);
         }
-    }
-
-    public Vec3d getVelocityToTarget(Vec3d target) {
-        Vec3d velocityDirection = ModUtils.getEntityVelocity(this).normalize();
-        Vec3d desiredDirection = target.subtract(getPositionVector()).normalize();
-        return desiredDirection.subtract(velocityDirection).normalize();
     }
 
     @Override

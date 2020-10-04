@@ -47,6 +47,7 @@ import javax.annotation.Nonnull;
 public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob {
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
+    public static final Predicate<Entity> maelstromTargetFilter = entity -> !(entity instanceof EntityMaelstromMob);
 
     public EntityMaelstromMob(World worldIn) {
         super(worldIn);
@@ -70,7 +71,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 
         if (ModConfig.entities.attackAll) {
             // This makes it so that the entity attack every entity except others of its kind
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, (Predicate<Entity>) entity -> !(entity instanceof EntityMaelstromMob)){
+            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, maelstromTargetFilter){
                 @Override
                 @Nonnull
                 protected AxisAlignedBB getTargetableArea(double targetDistance) {
