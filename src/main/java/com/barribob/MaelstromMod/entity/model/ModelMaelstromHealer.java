@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.model;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromHealer;
+import com.barribob.MaelstromMod.entity.util.IAcceleration;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -186,10 +186,9 @@ public class ModelMaelstromHealer extends ModelBBAnimated {
         this.leftArm.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 4)) * 0.05f;
         this.rightArm.offsetY = (float) Math.cos(Math.toRadians(ageInTicks * 4)) * 0.05f;
 
-        if (entity instanceof EntityMaelstromHealer) {
-            EntityMaelstromHealer healer = ((EntityMaelstromHealer) entity);
-            double acceleration = healer.getAcceleration().dotProduct(entity.getForward());
-            root.rotateAngleX += (float) Math.toRadians(acceleration * 300 + (healer.isFlying() ? 20 : 0));
+        if (entity instanceof IAcceleration) {
+            double acceleration = ((IAcceleration) entity).getAcceleration().dotProduct(entity.getForward());
+            root.rotateAngleX += (float) Math.toRadians(acceleration * 300 + (acceleration * 20));
         }
     }
 

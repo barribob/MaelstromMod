@@ -120,6 +120,7 @@ public class ModEntities {
         registerEntityWithID("maelstrom_gauntlet", EntityMaelstromGauntlet.class, ENTITY_START_ID++, 70, maelstrom);
         registerEntityWithID("maelstrom_statue_of_nirvana", EntityMaelstromStatueOfNirvana.class, ENTITY_START_ID++, 70, cliff_maelstrom);
         registerEntityWithID("alternative_maelstrom_gauntlet", EntityAlternativeMaelstromGauntlet.class, ENTITY_START_ID++, 70, maelstrom);
+        registerEntityWithID("maelstrom_fury", EntityMaelstromFury.class, ENTITY_START_ID++, 70, maelstrom);
 
         registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
         registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);

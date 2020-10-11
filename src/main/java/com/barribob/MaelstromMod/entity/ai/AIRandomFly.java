@@ -1,8 +1,10 @@
 package com.barribob.MaelstromMod.entity.ai;
 
+import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.Random;
 
@@ -11,7 +13,7 @@ public class AIRandomFly extends EntityAIBase {
 
     public AIRandomFly(EntityLiving e) {
         this.parentEntity = e;
-        this.setMutexBits(1);
+        this.setMutexBits(3);
     }
 
     @Override
@@ -41,5 +43,13 @@ public class AIRandomFly extends EntityAIBase {
         double d1 = this.parentEntity.posY + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
         double d2 = this.parentEntity.posZ + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
         this.parentEntity.getMoveHelper().setMoveTo(d0, d1, d2, 1.0D);
+    }
+
+    @Override
+    public void updateTask() {
+        Vec3d pos = ModUtils.getEntityVelocity(parentEntity).normalize().scale(5).add(parentEntity.getPositionVector());
+        ModUtils.facePosition(pos, parentEntity, 10, 10);
+        parentEntity.getLookHelper().setLookPosition(pos.x, pos.y, pos.z, 3, 3);
+        super.updateTask();
     }
 }

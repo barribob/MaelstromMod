@@ -11,10 +11,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -26,8 +23,9 @@ import java.util.Map.Entry;
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 @SideOnly(Side.CLIENT)
 public class AnimationManager {
-    private static Map<EntityLivingBase, Map<String, BBAnimation>> animations = new HashMap<EntityLivingBase, Map<String, BBAnimation>>();
-    private static Map<ModelBase, Map<ModelRenderer, float[]>> defaultModelValues = new HashMap<ModelBase, Map<ModelRenderer, float[]>>();
+    private static Map<EntityLivingBase, Map<String, BBAnimation>> animations = new HashMap<>();
+    private static Map<ModelBase, Map<ModelRenderer, float[]>> defaultModelValues = new HashMap<>();
+    private static Map<EntityLivingBase, Set<String>> animationsToRemoveOnceEnded = new HashMap<>();
 
     public static void updateAnimation(EntityLivingBase entity, String animationId, boolean remove) {
         if (remove) {
@@ -36,7 +34,7 @@ public class AnimationManager {
         }
 
         if (!animations.containsKey(entity)) {
-            animations.put(entity, new HashMap<String, BBAnimation>());
+            animations.put(entity, new HashMap<>());
         }
 
         if (!animations.get(entity).containsKey(animationId)) {
@@ -49,7 +47,33 @@ public class AnimationManager {
     private static void removeAnimation(EntityLivingBase entity, String animationId) {
         if (animations.containsKey(entity)) {
             if (animations.get(entity).containsKey(animationId)) {
-                animations.get(entity).remove(animationId);
+                BBAnimation animation = animations.get(entity).get(animationId);
+                if(animation.isLoop()) {
+                    scheduleLoopingAnimationStop(entity, animationId);
+                }
+                else {
+                    animations.get(entity).remove(animationId);
+                }
+            }
+        }
+    }
+
+    private static void scheduleLoopingAnimationStop(EntityLivingBase entity, String animationId) {
+        if(!animationsToRemoveOnceEnded.containsKey(entity)) {
+            animationsToRemoveOnceEnded.put(entity, new HashSet<>());
+        }
+
+        animationsToRemoveOnceEnded.get(entity).add(animationId);
+    }
+
+    private static void removeEndedSheduledEndedLoopingAnimations(EntityLivingBase entity, Map<String, BBAnimation> animations, float partialTicks) {
+        if(animationsToRemoveOnceEnded.containsKey(entity)) {
+            for (String animationId : animationsToRemoveOnceEnded.get(entity)) {
+                BBAnimation animation = animations.get(animationId);
+                if(animation != null && animation.isLoop() && animation.isAtAnimationEnd(partialTicks)) {
+                    animations.remove(animationId);
+                    animationsToRemoveOnceEnded.get(entity).remove(animationId);
+                }
             }
         }
     }
@@ -59,7 +83,7 @@ public class AnimationManager {
      */
     public static void updateLoopingAnimation(EntityLivingBase entity, String animationId) {
         if (!animations.containsKey(entity)) {
-            animations.put(entity, new HashMap<String, BBAnimation>());
+            animations.put(entity, new HashMap<>());
         }
 
         if (!animations.get(entity).containsKey(animationId)) {
@@ -90,7 +114,8 @@ public class AnimationManager {
                 }
 
                 List<String> animsToRemove = new ArrayList<String>();
-                for (Entry<String, BBAnimation> kv : entry.getValue().entrySet()) {
+                Map<String, BBAnimation> animationMap = entry.getValue();
+                for (Entry<String, BBAnimation> kv : animationMap.entrySet()) {
                     if (kv.getValue().isEnded()) {
                         animsToRemove.add(kv.getKey());
                     } else {
@@ -100,7 +125,7 @@ public class AnimationManager {
 
                 // Remove ended animations
                 for (String id : animsToRemove) {
-                    entry.getValue().remove(id);
+                    animationMap.remove(id);
                 }
             }
 
@@ -158,6 +183,7 @@ public class AnimationManager {
             for (BBAnimation animation : animations.get(entity).values()) {
                 animation.setModelRotations(model, limbSwing, limbSwingAmount, entity.getHealth() <= 0 ? 0 : partialTicks);
             }
+            removeEndedSheduledEndedLoopingAnimations(entity, animations.get(entity), partialTicks);
         }
     }
 }

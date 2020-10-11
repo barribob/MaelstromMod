@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.entities;
 import com.barribob.MaelstromMod.entity.ai.AIFlyingSupport;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
 import com.barribob.MaelstromMod.entity.projectile.EntityHealerOrb;
+import com.barribob.MaelstromMod.entity.util.IAcceleration;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModColors;
@@ -13,7 +14,6 @@ import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityMoveHelper;
 import net.minecraft.network.datasync.DataParameter;
@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityMaelstromHealer extends EntityMaelstromMob {
+public class EntityMaelstromHealer extends EntityMaelstromMob implements IAcceleration {
     Vec3d acceleration = Vec3d.ZERO;
     protected static final DataParameter<Boolean> FLYING = EntityDataManager.<Boolean>createKey(EntityMaelstromHealer.class, DataSerializers.BOOLEAN);
     private EntityAIBase flyingAI = new AIFlyingSupport(this, 1.2f, 3.5f, 10f, 60);

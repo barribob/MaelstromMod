@@ -26,6 +26,10 @@ public class BBAnimation {
     private float animationLength;
     private boolean loop = false;
 
+    public boolean isLoop() {
+        return loop;
+    }
+
     /**
      * Animation id of the format: animation_filename.animation_name. For example if I have an animation file callsed "anim.json" and inside it there is one animation under the "animations" object named
      * "walk", then the id would be "anim.walk"
@@ -167,6 +171,10 @@ public class BBAnimation {
      * An animation is ended if it isn't looping and the time since it started has passed its animation length
      */
     public boolean isEnded() {
-        return !loop && (this.ticksSinceStart * 0.05f) > this.animationLength;
+        return !loop && ticksSinceStart * 0.05f > this.animationLength;
+    }
+
+    public boolean isAtAnimationEnd(float partialTicks) {
+        return ((ticksSinceStart + partialTicks) * 0.05f) % this.animationLength < 0.1;
     }
 }

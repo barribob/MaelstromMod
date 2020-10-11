@@ -200,11 +200,6 @@ public class EntityMaelstromStatueOfNirvana extends EntityMaelstromMob implement
     }
 
     @Override
-    protected float getManaExp() {
-        return 0;
-    }
-
-    @Override
     public void attackEntityWithRangedAttack(@Nonnull EntityLivingBase target, float distanceFactor) {
     }
 

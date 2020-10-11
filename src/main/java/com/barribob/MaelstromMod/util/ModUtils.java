@@ -634,6 +634,7 @@ public final class ModUtils {
      * @param degrees
      * @return
      */
+    @Deprecated
     public static Vec3d rotateVector(Vec3d vec, Vec3d axis, double degrees) {
         double theta = Math.toRadians(degrees);
         double x, y, z;
@@ -674,6 +675,9 @@ public final class ModUtils {
         return Math.acos(cos);
     }
 
+    /**
+     * Pitch of a vector in radians
+     */
     public static double toPitch(Vec3d vec) {
         double angleBetweenYAxis = Math.toDegrees(unsignedAngle(vec, new Vec3d(0, 1, 0)));
         return angleBetweenYAxis - 90;
@@ -1290,5 +1294,17 @@ public final class ModUtils {
         Vec3d velocityDirection = ModUtils.getEntityVelocity(entity).normalize();
         Vec3d desiredDirection = target.subtract(entity.getPositionVector()).normalize();
         return desiredDirection.subtract(velocityDirection).normalize();
+    }
+
+    public static List<Vec3d> getBoundingBoxCorners(AxisAlignedBB box) {
+        return new ArrayList<>(Arrays.asList(
+                new Vec3d(box.maxX, box.maxY, box.maxZ),
+                new Vec3d(box.maxX, box.maxY, box.minZ),
+                new Vec3d(box.maxX, box.minY, box.maxZ),
+                new Vec3d(box.maxX, box.minY, box.minZ),
+                new Vec3d(box.minX, box.maxY, box.maxZ),
+                new Vec3d(box.minX, box.maxY, box.minZ),
+                new Vec3d(box.minX, box.minY, box.maxZ),
+                new Vec3d(box.minX, box.minY, box.minZ)));
     }
 }
