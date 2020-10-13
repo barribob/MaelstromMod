@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.ai;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -32,7 +33,8 @@ public class AIPassiveCircle<T extends EntityLiving> extends EntityAIBase {
             Vec3d target = entity.getAttackTarget().getPositionVector();
             Vec3d nextPointToFollow = getNextPoint(target);
             Vec3d direction = nextPointToFollow.subtract(entity.getPositionVector()).normalize();
-            ModUtils.addEntityVelocity(entity, direction.scale(0.06f));
+            double speed = entity.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).getAttributeValue();
+            ModUtils.addEntityVelocity(entity, direction.scale(0.05f * speed));
 
             if (!hasClearPath(nextPointToFollow) || lineBlocked(nextPointToFollow, target)) {
                 planeVectorPath = getNewPlaneVector();
@@ -60,16 +62,18 @@ public class AIPassiveCircle<T extends EntityLiving> extends EntityAIBase {
 
     private Vec3d getNextPoint(Vec3d center) {
         Vec3d circlePointInWorld = entity.getPositionVector().add(ModRandom.randVec());
-        for(int radius = (int) circleRadius; radius > 1; radius--) {
-            Vec3d entityVelocity = ModUtils.getEntityVelocity(entity);
-            Vec3d entityDirection = entity.getPositionVector().subtract(center);
-            Vec3d projectedEntityDirection = ModUtils.planeProject(entityDirection, planeVectorPath).normalize().scale(radius);
-            Vec3d nextPointOnCircle = ModUtils.rotateVector2(projectedEntityDirection, planeVectorPath, 15 * entityVelocity.lengthVector());
-            circlePointInWorld = nextPointOnCircle.add(center);
-            if (hasClearPath(circlePointInWorld)) {
-                break;
-            } else {
-                planeVectorPath = getNewPlaneVector();
+        for(int i = 0; i < circleRadius; i++) {
+            for(int sign : new int[]{1, -1}) {
+                Vec3d entityVelocity = ModUtils.getEntityVelocity(entity);
+                Vec3d entityDirection = entity.getPositionVector().subtract(center);
+                Vec3d projectedEntityDirection = ModUtils.planeProject(entityDirection, planeVectorPath).normalize().scale(circleRadius + (i * sign));
+                Vec3d nextPointOnCircle = ModUtils.rotateVector2(projectedEntityDirection, planeVectorPath, 15 * entityVelocity.lengthVector());
+                circlePointInWorld = nextPointOnCircle.add(center);
+                if (hasClearPath(circlePointInWorld)) {
+                    return circlePointInWorld;
+                } else {
+                    planeVectorPath = getNewPlaneVector();
+                }
             }
         }
         return circlePointInWorld;

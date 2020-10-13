@@ -62,7 +62,7 @@ public class EntityMaelstromStatueOfNirvana extends EntityMaelstromMob implement
 
     private void initNirvanaAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 80, attackDistance, 20, 0.4f, 30));
+        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 80, attackDistance, 20, 30));
     }
 
     protected AxisAlignedBB getTargetableArea(double targetDistance) {

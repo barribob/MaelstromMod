@@ -150,17 +150,23 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
 
         // Schedule spawning a bunch of enemies
         int time = 200;
-        int spawnInterval = Math.max(1, time / getMobConfig().getInt("summoning_algorithm.mobs_per_spawn"));
+        int spawnInterval = Math.max(1, time / getMobConfig().getInt("mobs_per_spawn"));
         for (int i = 1; i < time; i += spawnInterval) {
             this.addEvent(() -> {
-                EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(), getMobConfig().getConfig("summoning_algorithm"));
-                if (mob != null) {
-                    ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
-                    playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
-                }
+                if(!trySpawnMob(false)) trySpawnMob(true);
             }, i);
         }
     };
+
+    private boolean trySpawnMob(boolean findGround) {
+        EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(), getMobConfig().getConfig(findGround ? "summoning_algorithm" : "aerial_summoning_algorithm"), findGround);
+        boolean successful = mob != null;
+        if (successful) {
+            ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
+            playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
+        }
+        return successful;
+    }
 
     private final Consumer<EntityLivingBase> fireball = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.fireball", false);
@@ -217,14 +223,14 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
 
     private void initGauntletAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 60, attackDistance, 20, 0.8f, 20));
+        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 60, attackDistance, 20, 20));
         this.tasks.addTask(7, new AiFistWander(this, punchAtPos, 80, 8));
     }
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
         List<Consumer<EntityLivingBase>> attacks = new ArrayList<>(Arrays.asList(punch, lazer, defend, fireball));
-        int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(20, 10, 20)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
+        int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(40, 40, 40)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
 
         double fireballHealth = getMobConfig().getDouble("use_fireball_at_health");
         double lazerHealth = getMobConfig().getDouble("use_lazer_at_health");

@@ -217,7 +217,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     private void initGauntletAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 1.0f, 60, attackDistance, 20, 0.8f, 20));
+        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 60, attackDistance, 20, 20));
         this.tasks.addTask(7, new AiFistWander(this, punchAtPos, 80, 8));
     }
 

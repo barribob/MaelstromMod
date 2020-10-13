@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.entity.ai;
 
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -71,7 +72,8 @@ public class AIFuryDive extends EntityAIBase {
             Vec3d target = entity.getAttackTarget().getPositionEyes(1);
             Vec3d pos = entity.getPositionVector();
             Vec3d directionToTarget = target.subtract(pos).normalize();
-            ModUtils.addEntityVelocity(entity, directionToTarget.scale(0.065));
+            double speed = entity.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).getAttributeValue();
+            ModUtils.addEntityVelocity(entity, directionToTarget.scale(0.055 * speed));
             Vec3d lookTarget = pos.add(directionToTarget);
 
             ModUtils.facePosition(lookTarget, entity, 10, 10);
@@ -80,7 +82,6 @@ public class AIFuryDive extends EntityAIBase {
 
             boolean diveInCriteria = target.squareDistanceTo(pos) < Math.pow(ModUtils.getEntityVelocity(entity).lengthVector() * 4, 2) || entity.collided;
 
-            System.out.println(cooldown - maxCooldown);
             if (diveInCriteria || !hasClearPath(target) || cooldown - maxCooldown > maxDiveTime) {
                 resetTask();
             }
