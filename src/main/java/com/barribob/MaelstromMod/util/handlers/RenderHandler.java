@@ -61,6 +61,7 @@ public class RenderHandler {
         registerModEntityRenderer(ProjectileHomingFlame.class, (manager) -> new RenderNonLivingEntity<>(manager, "homing_fireball.png", new ModelHomingFlame(), -0.2F));
         registerModEntityRenderer(EntityAlternativeMaelstromGauntlet.class, (manager) -> new RenderMaelstromGauntlet(manager, "maelstrom_gauntlet.png"));
         registerModEntityRenderer(EntityMaelstromFury.class, new ModelMaelstromFury(), "maelstrom_fury.png");
+        registerModEntityRenderer(ProjectileBlackHoleFireball.class, (manager) -> new RenderNonLivingEntity<>(manager, "black_hole_fireball.png", new ModelFireball(), -1.501F));
 
         registerProjectileRenderer(Projectile.class);
         registerProjectileRenderer(ProjectileBullet.class);

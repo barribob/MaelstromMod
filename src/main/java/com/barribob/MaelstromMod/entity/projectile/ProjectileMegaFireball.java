@@ -22,29 +22,21 @@ import javax.annotation.Nonnull;
  *
  * @author Barribob
  */
-public class ProjectileMegaFireball extends ProjectileGun {
+public class ProjectileMegaFireball extends ProjectileAbstractMegaFireball {
     private static final int PARTICLE_AMOUNT = 15;
     private static final int IMPACT_PARTICLE_AMOUNT = 30;
     private static final int EXPOSION_AREA_FACTOR = 4;
-    private boolean canTakeDamage;
 
     public ProjectileMegaFireball(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack, boolean canTakeDamage) {
-        super(worldIn, throwerIn, baseDamage, stack);
-        this.setNoGravity(true);
-        this.setSize(1, 1);
-        this.canTakeDamage = canTakeDamage;
+        super(worldIn, throwerIn, baseDamage, stack, canTakeDamage);
     }
 
     public ProjectileMegaFireball(World worldIn) {
         super(worldIn);
-        this.setNoGravity(true);
-        this.setSize(1, 1);
     }
 
     public ProjectileMegaFireball(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
-        this.setNoGravity(true);
-        this.setSize(1, 1);
     }
 
     @Override
@@ -67,14 +59,7 @@ public class ProjectileMegaFireball extends ProjectileGun {
     }
 
     @Override
-    protected void onHit(RayTraceResult result) {
-
-        boolean isShootingEntity = result != null && result.entityHit != null && result.entityHit == this.shootingEntity;
-        boolean isPartOfShootingEntity = result != null && result.entityHit != null && (result.entityHit instanceof MultiPartEntityPart && ((MultiPartEntityPart) result.entityHit).parent == this.shootingEntity);
-        if (isShootingEntity || isPartOfShootingEntity || world.isRemote || this.shootingEntity == null) {
-            return;
-        }
-
+    protected void onImpact(RayTraceResult result) {
         int fireFactor = this.isBurning() ? 10 : 5;
 
         DamageSource source = ModDamageSource.builder()
@@ -86,16 +71,18 @@ public class ProjectileMegaFireball extends ProjectileGun {
 
         ModUtils.handleAreaImpact(7, this::getGunDamage, this.shootingEntity, this.getPositionVector(), source, 0, fireFactor);
         boolean flag = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.shootingEntity);
-        super.onHit(result);
-        this.world.newExplosion(null, this.posX, this.posY, this.posZ, 3, true, flag);
-        for (int i = 0; i < 10; i++) {
-            Vec3d vel = ModRandom.randVec().normalize().scale(0.5f).add(ModUtils.yVec(1));
-            ProjectileFireball shrapenel = new ProjectileFireball(world, shootingEntity, this.getDamage() * 0.5f, null);
-            ModUtils.setEntityPosition(shrapenel, this.getPositionVector().add(ModUtils.yVec(1)).add(ModRandom.randVec()));
-            shrapenel.setNoGravity(false);
-            shrapenel.setTravelRange(50);
-            world.spawnEntity(shrapenel);
-            ModUtils.setEntityVelocity(shrapenel, vel);
+        if(!world.isRemote) {
+            this.world.newExplosion(null, this.posX, this.posY, this.posZ, 3, true, flag);
+
+            for (int i = 0; i < 10; i++) {
+                Vec3d vel = ModRandom.randVec().normalize().scale(0.5f).add(ModUtils.yVec(1));
+                ProjectileFireball shrapenel = new ProjectileFireball(world, shootingEntity, this.getDamage() * 0.5f, null);
+                ModUtils.setEntityPosition(shrapenel, this.getPositionVector().add(ModUtils.yVec(1)).add(ModRandom.randVec()));
+                shrapenel.setNoGravity(false);
+                shrapenel.setTravelRange(50);
+                world.spawnEntity(shrapenel);
+                ModUtils.setEntityVelocity(shrapenel, vel);
+            }
         }
     }
 
@@ -105,40 +92,6 @@ public class ProjectileMegaFireball extends ProjectileGun {
             this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 0.2f, ModRandom.getFloat(0.2f) + 1.0f);
         }
 
-        Vec3d vel = new Vec3d(this.motionX, this.motionY, this.motionZ);
-
         super.onUpdate();
-
-        // Maintain the velocity the entity has
-        ModUtils.setEntityVelocity(this, vel);
-
-        if (this.shootingEntity != null && getDistanceTraveled() > this.travelRange) {
-            this.world.setEntityState(this, IMPACT_PARTICLE_BYTE);
-            this.onHit(null);
-        }
-    }
-
-    @Override
-    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if (!this.isDead && canTakeDamage) {
-            this.setDead();
-            this.onHit(null);
-        }
-        return super.attackEntityFrom(source, amount);
-    }
-
-    @Override
-    public boolean canBeCollidedWith() {
-        return true;
-    }
-
-    @Override
-    public boolean canBeAttackedWithItem() {
-        return canTakeDamage;
-    }
-
-    @Override
-    public int getBrightnessForRender() {
-        return 200;
     }
 }

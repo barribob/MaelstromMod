@@ -189,11 +189,11 @@ public final class ModUtils {
         return new Vec3d(0, heightAboveGround, 0);
     }
 
-    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource) {
+    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, Entity source, Vec3d pos, DamageSource damageSource) {
         handleAreaImpact(radius, maxDamage, source, pos, damageSource, 1, 0);
     }
 
-    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
+    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, Entity source, Vec3d pos, DamageSource damageSource,
                                         float knockbackFactor, int fireFactor) {
         handleAreaImpact(radius, maxDamage, source, pos, damageSource, knockbackFactor, fireFactor, true);
     }
@@ -202,13 +202,11 @@ public final class ModUtils {
         return new Vec3d(box.minX + (box.maxX - box.minX) * 0.5D, box.minY + (box.maxY - box.minY) * 0.5D, box.minZ + (box.maxZ - box.minZ) * 0.5D);
     }
 
-    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, EntityLivingBase source, Vec3d pos, DamageSource damageSource,
+    public static void handleAreaImpact(float radius, Function<Entity, Float> maxDamage, Entity source, Vec3d pos, DamageSource damageSource,
                                         float knockbackFactor, int fireFactor, boolean damageDecay) {
         if (source == null) {
             return;
         }
-
-//        ParticleManager.spawnParticleSphere(source.world, pos, radius);
 
         List<Entity> list = source.world.getEntitiesWithinAABBExcludingEntity(source, new AxisAlignedBB(pos.x, pos.y, pos.z, pos.x, pos.y, pos.z).grow(radius));
 
@@ -1306,5 +1304,9 @@ public final class ModUtils {
                 new Vec3d(box.minX, box.maxY, box.minZ),
                 new Vec3d(box.minX, box.minY, box.maxZ),
                 new Vec3d(box.minX, box.minY, box.minZ)));
+    }
+
+    public static Vec3d direction(Vec3d from, Vec3d to) {
+        return to.subtract(from).normalize();
     }
 }

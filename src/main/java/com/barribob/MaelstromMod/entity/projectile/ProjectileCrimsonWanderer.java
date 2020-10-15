@@ -40,7 +40,7 @@ public class ProjectileCrimsonWanderer extends Projectile {
         ModUtils.setEntityVelocity(this, prevVel);
 
         if(!world.isRemote) {
-            if((target == null || target.isDead) && this.ticksExisted % 20 == 0) {
+            if((target == null || target.isDead) && this.ticksExisted % 10 == 0) {
                 Optional<EntityLivingBase> optionalTarget = ModUtils.getEntitiesInBox(this, ModUtils.makeBox(this.getPositionVector(), this.getPositionVector()).grow(10))
                         .stream().filter(EntityMaelstromMob.maelstromTargetFilter).findAny();
                 optionalTarget.ifPresent(entityLivingBase -> target = entityLivingBase);

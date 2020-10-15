@@ -83,12 +83,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
     }
 
     public void move(EntityLivingBase target, double distSq, boolean canSee) {
-        if (distSq <= this.idealAttackDistanceSq && canSee) {
-            this.entity.getNavigator().clearPath();
-            circleAI.updateTask();
-        } else {
-            this.entity.getNavigator().tryMoveToEntityLiving(target, 1.0f);
-        }
+        circleAI.updateTask();
 
         this.entity.getLookHelper().setLookPositionWithEntity(target, this.lookSpeed, this.lookSpeed);
         this.entity.faceEntity(target, this.lookSpeed, this.lookSpeed);

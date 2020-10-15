@@ -187,6 +187,7 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
         this.addEvent(() -> {
             Vec3d vel = target.getPositionEyes(1).subtract(ModUtils.yVec(1)).subtract(proj.getPositionVector());
             proj.shoot(vel.x, vel.y, vel.z, 0.8f, 0.3f);
+            ModUtils.addEntityVelocity(this, vel.normalize().scale(-0.8));
         }, 27);
     };
 
