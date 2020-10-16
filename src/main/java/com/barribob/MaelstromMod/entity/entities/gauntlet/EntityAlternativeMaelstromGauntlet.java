@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender, ITarget, IPitch {
@@ -88,8 +89,8 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
     // Custom entity see ai
     private final EntitySenses senses = new GauntletEntitySenses(this);
 
-    public final Consumer<Vec3d> punchAtPos = (target) -> {
-        ModBBAnimations.animation(this, "gauntlet.punch", false);
+    public final BiConsumer<Vec3d, String> punchAtPos = (target, animation) -> {
+        ModBBAnimations.animation(this, animation, false);
         this.addVelocity(0, 0.5, 0);
         this.addEvent(() -> {
             this.targetPos = target;
@@ -119,7 +120,11 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
         }, 50);
     };
 
-    private final Consumer<EntityLivingBase> punch = (target) -> punchAtPos.accept(target.getPositionVector());
+    private final Consumer<EntityLivingBase> punch = (target) ->
+            punchAtPos.accept(target.getPositionVector(), "gauntlet.punch");
+
+    private final Consumer<EntityLivingBase> swirlPunch = (target) ->
+            punchAtPos.accept(target.getPositionVector(), "gauntlet.swirl_punch");
 
     private final Consumer<EntityLivingBase> lazer = (target) -> {
         ModBBAnimations.animation(this, "gauntlet.lazer_eye", false);
@@ -225,7 +230,8 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
     private void initGauntletAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
         this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 60, attackDistance, 20, 20));
-        this.tasks.addTask(7, new AiFistWander(this, punchAtPos, 80, 8));
+        this.tasks.addTask(7, new AiFistWander(this,
+                (vec) -> punchAtPos.accept(vec, "gauntlet.punch"), 80, 8));
     }
 
     @Override
@@ -352,6 +358,11 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
 
             ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack() * (float) vel, this,
                     this.getPositionEyes(1), source, (float) vel, 0, false);
+
+            world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE);
+            if(this.ticksExisted % 2 == 0) {
+                summonCrimsonWanderer();
+            }
         }
 
         if (this.isShootingLazer) {
@@ -436,6 +447,19 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
         ModUtils.handleAreaImpact((float) (velocity * 2), e -> getAttack(), this, pos, source);
     }
 
+    private void summonCrimsonWanderer() {
+        ProjectileCrimsonWanderer shrapnel = new ProjectileCrimsonWanderer(world, this, getAttack() * 0.5f);
+        Vec3d lookVec = ModUtils.getLookVec(getPitch(), rotationYaw);
+        Vec3d shrapnelPos = this.getPositionVector()
+                .add(ModRandom.randVec().scale(3))
+                .subtract(lookVec.scale(6));
+        ModUtils.setEntityPosition(shrapnel, shrapnelPos);
+        shrapnel.setNoGravity(false);
+        shrapnel.setTravelRange(50);
+        world.spawnEntity(shrapnel);
+        ModUtils.setEntityVelocity(shrapnel, lookVec.scale(0.35));
+    }
+
     /**
      * Immovability doubles as the gauntlet not being "awakened" or active
      */
@@ -502,6 +526,12 @@ public class EntityAlternativeMaelstromGauntlet extends EntityMaelstromMob imple
                 double y = Math.cos(pos.x + pos.z);
                 ParticleManager.spawnSplit(world, pos.add(ModUtils.yVec(y)), ModColors.PURPLE, ModUtils.yVec(-y * 0.1));
             });
+        } else if (id == ModUtils.THIRD_PARTICLE_BYTE) {
+            for (int i = 0; i < 10; i++) {
+                Vec3d lookVec = ModUtils.getLookVec(getPitch(), rotationYaw);
+                Vec3d pos = ModRandom.randVec().scale(3).add(getPositionVector()).subtract(lookVec.scale(3));
+                ParticleManager.spawnFluff(world, pos, Vec3d.ZERO, lookVec.scale(0.1));
+            }
         }
         super.handleStatusUpdate(id);
     }

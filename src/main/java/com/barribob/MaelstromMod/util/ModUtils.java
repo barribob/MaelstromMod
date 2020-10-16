@@ -674,10 +674,10 @@ public final class ModUtils {
     }
 
     /**
-     * Pitch of a vector in radians
+     * Pitch of a vector in degrees 90 is up, -90 is down.
      */
     public static double toPitch(Vec3d vec) {
-        double angleBetweenYAxis = Math.toDegrees(unsignedAngle(vec, new Vec3d(0, 1, 0)));
+        double angleBetweenYAxis = Math.toDegrees(unsignedAngle(vec, ModUtils.Y_AXIS.scale(-1)));
         return angleBetweenYAxis - 90;
     }
 
@@ -725,15 +725,16 @@ public final class ModUtils {
     }
 
     /**
-     * Pitch yaw converter above doesn't seem to work in all cases, so this is a subsitute function
+     * Gets the look vector from pitch and yaw, where 0 pitch is forward, negative 90 pitch is down
+     * Yaw is the negative rotation of the z vector.
      *
      * @param pitch
      * @param yaw
      * @return
      */
     public static Vec3d getLookVec(float pitch, float yaw) {
-        Vec3d yawVec = ModUtils.rotateVector(new Vec3d(0, 0, -1), new Vec3d(0, 1, 0), -yaw);
-        return ModUtils.rotateVector(yawVec, yawVec.crossProduct(new Vec3d(0, 1, 0)), pitch);
+        Vec3d yawVec = ModUtils.rotateVector2(ModUtils.Z_AXIS, ModUtils.Y_AXIS, -yaw);
+        return ModUtils.rotateVector2(yawVec, yawVec.crossProduct(ModUtils.Y_AXIS), pitch);
     }
 
     /**

@@ -26,6 +26,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber()
 public class ItemEventHandler {
+
+    // Test function to make sure the lookVec and pitch utilities are correct
+//    public static void drawLookVec(EntityPlayer player) {
+//        Vec3d vec = ModUtils.getLookVec((float) ModUtils.toPitch(player.getLookVec()), player.rotationYaw).scale(6);
+//        ModUtils.lineCallback(player.getPositionVector(), vec.add(player.getPositionVector()), 20, (v, i) -> ParticleManager.spawnEffect(player.world, v, ModColors.BLUE));
+//    }
+
     @SubscribeEvent
     public static void onLivingUpdateEvent(LivingEvent.LivingUpdateEvent event) {
         if (event.getEntity() instanceof EntityPlayer) {

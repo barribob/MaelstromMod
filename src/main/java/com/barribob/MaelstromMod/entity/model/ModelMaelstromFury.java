@@ -198,7 +198,7 @@ public class ModelMaelstromFury extends ModelBBAnimated {
 
 		if (entity instanceof IAcceleration) {
 			Vec3d acceleration = ((IAcceleration) entity).getAcceleration();
-			this.root.rotateAngleX = (float) Math.toRadians(ModUtils.toPitch(acceleration.add(entity.getLookVec().scale(0.1))) + 90);
+			this.root.rotateAngleX = (float) Math.toRadians(90 - ModUtils.toPitch(acceleration.add(entity.getLookVec().scale(0.1))));
 		}
 	}
 
