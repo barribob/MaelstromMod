@@ -50,4 +50,9 @@ public class SummonMobsAction implements IGauntletAction {
     public boolean isImmuneToDamage() {
         return isDefending;
     }
+
+    @Override
+    public int attackCooldown() {
+        return 240;
+    }
 }
