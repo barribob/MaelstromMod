@@ -9,13 +9,14 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileMegaFireball;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
 import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.entity.util.IPitch;
-import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.init.ModDimensions;
-import com.barribob.MaelstromMod.packets.MessageDirectionForRender;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.renderer.ITarget;
-import com.barribob.MaelstromMod.util.*;
+import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.RenderUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import com.barribob.MaelstromMod.world.dimension.crimson_kingdom.WorldGenGauntletSpike;
@@ -41,7 +42,10 @@ import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
@@ -69,18 +73,16 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private final MultiPartEntityPart leftPalm = new MultiPartEntityPart(this, "leftPalm", boxSize, boxSize);
     private final MultiPartEntityPart fingers = new MultiPartEntityPart(this, "fingers", 1.2f, 1.2f);
     private final MultiPartEntityPart fist = new MultiPartEntityPart(this, "fist", 0, 0);
-    private Consumer<EntityLivingBase> prevAttack;
-    private boolean isPunching;
+    private IGauntletAction currentAction;
+    private static final byte stopLazerByte = 39;
+    private IGauntletAction punchAttack = new PunchAction("gauntlet.punch", () -> getAttackTarget().getPositionVector(), () -> {}, this, fist);
+    private IGauntletAction laserAttack = new LaserAction(this, stopLazerByte, (vec3d) -> {});
+    private IGauntletAction summonAttack = new SummonMobsAction(this::spawnMob, this, fist);
+    private IGauntletAction fireballAttack = new FireballThrowAction<>(() -> getAttackTarget().getPositionEyes(1), this::generateFireball, this);
 
     // Lazer state variables
-    private boolean isShootingLazer;
-    private Vec3d targetPos;
     private Vec3d renderLazerPos;
     private Vec3d prevRenderLazerPos;
-    private final byte stopLazerByte = 39;
-    private final int beamLag = 7;
-
-    private boolean isDefending;
 
     // Used to filter damage from parts
     private boolean damageFromEye;
@@ -89,100 +91,24 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
     private final EntitySenses senses = new GauntletEntitySenses(this);
 
     public final Consumer<Vec3d> punchAtPos = (target) -> {
-        ModBBAnimations.animation(this, "gauntlet.punch", false);
-        this.addVelocity(0, 0.5, 0);
-        this.addEvent(() -> {
-            this.targetPos = target;
-            this.isPunching = true;
-            this.fist.width = 2.5f;
-            this.fist.height = 4.5f;
-            this.height = 2;
-            for (int i = 0; i < 10; i++) {
-                this.addEvent(() -> {
-                    Vec3d dir = this.targetPos.subtract(this.getPositionVector()).normalize().scale(0.32);
-                    ModUtils.addEntityVelocity(this, dir);
-                }, i);
-            }
-        }, 16);
+        currentAction = new PunchAction("gauntlet.punch", () -> target, () -> {}, this, fist);
+        currentAction.doAction();
         for (int i = 0; i < 12; i++) {
-            this.addEvent(() -> {
-                ModUtils.facePosition(target, this, 15, 15);
-                this.getLookHelper().setLookPosition(target.x, target.y, target.z, 15, 15);
-                this.setPitch(target.subtract(this.getPositionEyes(1)));
-            }, i);
-        }
-        this.addEvent(() -> this.isPunching = false, 40);
-        this.addEvent(() -> {
-            this.fist.width = 0;
-            this.fist.height = 0;
-            this.height = 4;
-        }, 50);
-    };
-
-    private final Consumer<EntityLivingBase> punch = (target) -> punchAtPos.accept(target.getPositionVector());
-
-    private final Consumer<EntityLivingBase> lazer = (target) -> {
-        ModBBAnimations.animation(this, "gauntlet.lazer_eye", false);
-        playSound(SoundsHandler.ENTITY_GAUNTLET_LAZER_CHARGE, 2.0f, ModRandom.getFloat(0.2f) + 1.5f);
-        for (int i = 0; i < 25; i++) {
-            this.addEvent(() -> world.setEntityState(this, ModUtils.PARTICLE_BYTE), i);
-        }
-        this.addEvent(() -> this.isShootingLazer = true, 25);
-        this.addEvent(() -> {
-            this.isShootingLazer = false;
-            // Have to add delay because there will be 5 more ticks of lazers
-            this.addEvent(() -> world.setEntityState(this, stopLazerByte), beamLag + 1);
-        }, 60);
-    };
-
-    private final Consumer<EntityLivingBase> defend = (target) -> {
-        ModBBAnimations.animation(this, "gauntlet.defend", false);
-        this.addEvent(() -> {
-            this.isDefending = true;
-            this.fist.width = 2.5f;
-            this.fist.height = 2f;
-        }, 10);
-        this.addEvent(() -> {
-            this.isDefending = false;
-            this.fist.width = 0;
-            this.fist.height = 0;
-        }, 210);
-
-        // Schedule spawning a bunch of enemies
-        int time = 200;
-        int spawnInterval = Math.max(1, time / getMobConfig().getInt("summoning_algorithm.mobs_per_spawn"));
-        for (int i = 1; i < time; i += spawnInterval) {
-            this.addEvent(() -> {
-                EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(), getMobConfig().getConfig("summoning_algorithm"));
-                if (mob != null) {
-                    ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
-                    playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
-                }
-            }, i);
+            this.addEvent(() -> ModUtils.faceDirection(this, target, 15), i);
         }
     };
 
-    private final Consumer<EntityLivingBase> fireball = (target) -> {
-        ModBBAnimations.animation(this, "gauntlet.fireball", false);
-        Projectile proj = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null, true);
-        proj.setTravelRange(30);
-
-        this.addEvent(() -> world.spawnEntity(proj), 10);
-
-        // Hold the fireball in place
-        for (int i = 10; i < 27; i++) {
-            this.addEvent(() -> {
-                Vec3d fireballPos = this.getPositionEyes(1).add(ModUtils.getAxisOffset(ModUtils.getLookVec(this.getPitch(), this.renderYawOffset), new Vec3d(-1, 0, 0)));
-                ModUtils.setEntityPosition(proj, fireballPos);
-            }, i);
+    private void spawnMob() {
+        EntityLeveledMob mob = ModUtils.spawnMob(world, this.getPosition(), this.getLevel(), getMobConfig().getConfig("summoning_algorithm"));
+        if (mob != null) {
+            ModUtils.lineCallback(this.getPositionEyes(1), mob.getPositionVector(), 20, (pos, j) -> Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, pos, Vec3d.ZERO, mob.getElement().particleColor), this));
+            playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
         }
+    }
 
-        // Throw the fireball
-        this.addEvent(() -> {
-            Vec3d vel = target.getPositionEyes(1).subtract(ModUtils.yVec(1)).subtract(proj.getPositionVector());
-            proj.shoot(vel.x, vel.y, vel.z, 0.8f, 0.3f);
-        }, 27);
-    };
+    private Projectile generateFireball() {
+        return new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null, true);
+    }
 
     public EntityMaelstromGauntlet(World worldIn) {
         super(worldIn);
@@ -223,22 +149,22 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
-        List<Consumer<EntityLivingBase>> attacks = new ArrayList<>(Arrays.asList(punch, lazer, defend, fireball));
+        List<IGauntletAction> attacks = new ArrayList<>(Arrays.asList(punchAttack, laserAttack, summonAttack, fireballAttack));
         int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(20, 10, 20)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
 
         double fireballHealth = getMobConfig().getDouble("use_fireball_at_health");
         double lazerHealth = getMobConfig().getDouble("use_lazer_at_health");
         double spawnHealth = getMobConfig().getDouble("use_spawning_at_health");
 
-        double defendWeight = this.prevAttack == this.defend || numMinions > 3 || this.getHealth() > spawnHealth ? 0 : 0.8;
+        double defendWeight = this.currentAction == this.summonAttack || numMinions > 3 || this.getHealth() > spawnHealth ? 0 : 0.8;
         double fireballWeight = distanceSq < Math.pow(25, 2) && this.getHealth() < fireballHealth ? 1 : 0;
         double lazerWeight = distanceSq < Math.pow(35, 2) && this.getHealth() < lazerHealth ? 1 : 0;
         double punchWeight = ModUtils.canEntityBeSeen(this, target) ? Math.sqrt(distanceSq) / 25 : 3;
 
         double[] weights = {punchWeight, lazerWeight, defendWeight, fireballWeight};
-        this.prevAttack = ModRandom.choice(attacks, rand, weights).next();
-        this.prevAttack.accept(target);
-        return this.prevAttack == this.defend ? 240 : 100;
+        this.currentAction = ModRandom.choice(attacks, rand, weights).next();
+        this.currentAction.doAction();
+        return this.currentAction == this.summonAttack ? 240 : 100;
     }
 
     @Override
@@ -252,7 +178,7 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
 
     @Override
     public boolean attackEntityFromPart(@Nonnull MultiPartEntityPart part, @Nonnull DamageSource source, float damage) {
-        if (part == this.eye && !this.isPunching && !this.isDefending) {
+        if (part == this.eye && (this.currentAction == null || !this.currentAction.isImmuneToDamage())) {
             this.damageFromEye = true;
 
             // Awaken the gauntlet
@@ -292,31 +218,32 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
         /*
          * Set the hitbox pieces based on the entity's rotation so that even large pitch rotations don't mess up the hitboxes
          */
-        Vec3d lookVec = ModUtils.getLookVec(this.getPitch(), this.renderYawOffset);
-        Vec3d rotationVector = ModUtils.rotateVector(lookVec, lookVec.crossProduct(new Vec3d(0, 1, 0)), 90);
+        Vec3d lookVec = ModUtils.getLookVec(this.getPitch(), this.renderYawOffset).scale(-1);
+        Vec3d upVec = ModUtils.rotateVector2(lookVec, lookVec.crossProduct(ModUtils.Y_AXIS), 90);
 
-        Vec3d eyePos = this.getPositionEyes(1).add(rotationVector.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(-0.2, 0, 0)));
+        Vec3d center = this.getPositionEyes(1);
+        Vec3d eyePos = center.add(upVec.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(-0.2, 0, 0)));
         this.eye.setLocationAndAngles(eyePos.x, eyePos.y, eyePos.z, this.rotationYaw, this.rotationPitch);
 
-        Vec3d behindEyePos = this.getPositionEyes(1).add(rotationVector.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0.5, -0.1, 0)));
+        Vec3d behindEyePos = center.add(upVec.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0.5, -0.1, 0)));
         this.behindEye.setLocationAndAngles(behindEyePos.x, behindEyePos.y, behindEyePos.z, this.rotationYaw, this.rotationPitch);
 
-        Vec3d palmPos = this.getPositionEyes(1).add(rotationVector.scale(0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, 0.5)));
+        Vec3d palmPos = center.add(upVec.scale(0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, 0.5)));
         this.upLeftPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
 
-        palmPos = this.getPositionEyes(1).add(rotationVector.scale(0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, -0.5)));
+        palmPos = center.add(upVec.scale(0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, -0.5)));
         this.upRightPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
 
-        palmPos = this.getPositionEyes(1).add(rotationVector.scale(-1.7));
+        palmPos = center.add(upVec.scale(-1.7));
         this.bottomPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
 
-        palmPos = this.getPositionEyes(1).add(rotationVector.scale(-0.4)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, 0.7)));
+        palmPos = center.add(upVec.scale(-0.4)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, 0.7)));
         this.leftPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
 
-        palmPos = this.getPositionEyes(1).add(rotationVector.scale(-0.4)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, -0.7)));
+        palmPos = center.add(upVec.scale(-0.4)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, -0.7)));
         this.rightPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
 
-        palmPos = this.getPositionEyes(1).add(rotationVector.scale(1.3));
+        palmPos = center.add(upVec.scale(1.3));
         this.fingers.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
 
         Vec3d fistPos = this.getPositionVector().subtract(ModUtils.yVec(0.5));
@@ -328,60 +255,8 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
             this.hitboxParts[l].prevPosZ = avec3d[l].z;
         }
 
-        if (world.isRemote) {
-            return;
-        }
-
-        if (this.isPunching) {
-            double vel = ModUtils.getEntityVelocity(this).lengthVector();
-            AxisAlignedBB box = this.getEntityBoundingBox().grow(0.3, 0.3, 0.3);
-            ModUtils.destroyBlocksInAABB(box, world, this);
-
-            DamageSource source = ModDamageSource.builder()
-                    .type(ModDamageSource.MOB)
-                    .directEntity(this)
-                    .stoppedByArmorNotShields()
-                    .element(this.getElement()).build();
-
-            ModUtils.handleAreaImpact(1.3f, (e) -> this.getAttack() * (float) vel, this,
-                    this.getPositionEyes(1), source, (float) vel, 0, false);
-        }
-
-        if (this.isShootingLazer) {
-            if (this.getAttackTarget() != null) {
-                Vec3d lazerShootPos = this.getAttackTarget().getPositionEyes(1).subtract(ModUtils.yVec(1));
-                this.addEvent(() -> {
-
-                    // Extend shooting beyond the target position up to 40 blocks
-                    Vec3d lazerPos = lazerShootPos.add(lazerShootPos.subtract(this.getPositionEyes(1)).normalize().scale(40));
-                    // Ray trace both blocks and entities
-                    RayTraceResult raytraceresult = this.world.rayTraceBlocks(this.getPositionEyes(1), lazerPos, false, true, false);
-                    if (raytraceresult != null) {
-                        world.createExplosion(this, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 1, ModUtils.mobGriefing(world, this));
-
-                        // If we hit a block, make sure that any collisions with entities are detected up to the hit block
-                        lazerPos = raytraceresult.hitVec;
-
-                        if(this.ticksExisted % 2 == 0) {
-                            ModUtils.destroyBlocksInAABB(ModUtils.vecBox(lazerPos, lazerPos).grow(0.1), world, this);
-                        }
-                    }
-
-                    for (Entity entity : ModUtils.findEntitiesInLine(this.getPositionEyes(1), lazerPos, world, this)) {
-                        entity.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(this, null, this.getElement()), 6);
-                    }
-
-                    Main.network.sendToAllTracking(new MessageDirectionForRender(this, lazerPos), this);
-                }, beamLag);
-            } else {
-                // Prevent the gauntlet from instantly locking onto other targets with the lazer.
-                this.isShootingLazer = false;
-                this.addEvent(() -> world.setEntityState(this, stopLazerByte), beamLag + 1);
-            }
-        }
-
-        if (this.isDefending) {
-            world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
+        if (!world.isRemote && currentAction != null) {
+            currentAction.update();
         }
     }
 
@@ -448,10 +323,10 @@ public class EntityMaelstromGauntlet extends EntityMaelstromMob implements IAtta
             // Render particles in a sucking in motion
             for (int i = 0; i < 5; i++) {
                 Vec3d lookVec = ModUtils.getLookVec(this.getPitch(), this.renderYawOffset);
-                Vec3d randOffset = ModUtils.rotateVector(lookVec, lookVec.crossProduct(new Vec3d(0, 1, 0)), ModRandom.range(-70, 70));
-                randOffset = ModUtils.rotateVector(randOffset, lookVec, ModRandom.range(0, 360)).scale(1.5f);
+                Vec3d randOffset = ModUtils.rotateVector2(lookVec, lookVec.crossProduct(ModUtils.Y_AXIS), ModRandom.range(-70, 70));
+                randOffset = ModUtils.rotateVector2(randOffset, lookVec, ModRandom.range(0, 360)).scale(1.5f);
                 Vec3d velocity = Vec3d.ZERO.subtract(randOffset).normalize().scale(0.15f).add(new Vec3d(this.motionX, this.motionY, this.motionZ));
-                Vec3d particlePos = this.getPositionEyes(1).add(ModUtils.getAxisOffset(lookVec, new Vec3d(-2, 0, 0))).add(randOffset);
+                Vec3d particlePos = this.getPositionEyes(1).add(ModUtils.getAxisOffset(lookVec, new Vec3d(1, 0, 0))).add(randOffset);
                 ParticleManager.spawnDust(world, particlePos, ModColors.RED, velocity, ModRandom.range(5, 7));
             }
         } else if (id == ModUtils.SECOND_PARTICLE_BYTE) {

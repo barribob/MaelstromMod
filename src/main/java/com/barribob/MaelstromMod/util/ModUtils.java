@@ -8,6 +8,7 @@ import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerSwordSwing;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
 import com.barribob.MaelstromMod.entity.tileentity.MobSpawnerLogic.MobSpawnData;
+import com.barribob.MaelstromMod.entity.util.IPitch;
 import com.barribob.MaelstromMod.init.ModEnchantments;
 import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
@@ -1309,5 +1310,13 @@ public final class ModUtils {
 
     public static Vec3d direction(Vec3d from, Vec3d to) {
         return to.subtract(from).normalize();
+    }
+
+    public static void faceDirection(EntityLiving entity, Vec3d target, int maxDegreeIncrease) {
+        ModUtils.facePosition(target, entity, 15, 15);
+        entity.getLookHelper().setLookPosition(target.x, target.y, target.z, 15, 15);
+        if (entity instanceof IPitch) {
+            ((IPitch)entity).setPitch(target.subtract(entity.getPositionEyes(1)));
+        }
     }
 }

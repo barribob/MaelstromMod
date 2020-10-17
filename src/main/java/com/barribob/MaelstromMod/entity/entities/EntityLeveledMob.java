@@ -58,7 +58,7 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
         }
     }
 
-    protected Config getMobConfig() {
+    public Config getMobConfig() {
         String entityName = EntityRegistry.getEntry(this.getClass()).getName();
         if (Main.mobsConfig.hasPath(entityName)) {
             return Main.mobsConfig.getConfig(entityName);
