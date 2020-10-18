@@ -65,6 +65,7 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
     protected final MultiPartEntityPart fist = new MultiPartEntityPart(this, "fist", 0, 0);
     private IGauntletAction currentAction;
     protected static final byte stopLazerByte = 39;
+    private final double punchImpactSize = getMobConfig().getDouble("punch_impact_size");
 
     // Lazer state variables
     private Vec3d renderLazerPos;
@@ -250,8 +251,9 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
                 .type(ModDamageSource.MOB)
                 .build();
 
-        world.newExplosion(this, pos.x, pos.y, pos.z, (float) velocity * 1.5f, false, true);
-        ModUtils.handleAreaImpact((float) (velocity * 2), e -> getAttack(), this, pos, source);
+        boolean flag = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, this);
+        world.newExplosion(this, pos.x, pos.y, pos.z, (float) (velocity * 0.75f * punchImpactSize), false, flag);
+        ModUtils.handleAreaImpact((float) (velocity * punchImpactSize), e -> getAttack(), this, pos, source);
     }
 
     /**

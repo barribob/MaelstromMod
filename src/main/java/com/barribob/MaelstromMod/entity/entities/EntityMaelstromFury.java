@@ -1,11 +1,15 @@
 package com.barribob.MaelstromMod.entity.entities;
 
+import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.ai.AIFuryDive;
 import com.barribob.MaelstromMod.entity.ai.AIPassiveCircle;
 import com.barribob.MaelstromMod.entity.ai.AIRandomFly;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
 import com.barribob.MaelstromMod.entity.util.IAcceleration;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
+import com.barribob.MaelstromMod.packets.MessageModParticles;
+import com.barribob.MaelstromMod.particle.EnumModParticles;
+import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.block.state.IBlockState;
@@ -77,15 +81,17 @@ public class EntityMaelstromFury extends EntityMaelstromMob implements IAccelera
     }
 
     private void whileDiving() {
-        Vec3d spearPos = ModUtils.getAxisOffset(ModUtils.getEntityVelocity(this).normalize(), ModUtils.X_AXIS.scale(1.7)).add(getPositionVector());
+        Vec3d entityVelocity = ModUtils.getEntityVelocity(this);
+        Vec3d spearPos = ModUtils.getAxisOffset(entityVelocity.normalize(), ModUtils.X_AXIS.scale(1.7)).add(getPositionVector());
         DamageSource damageSource = ModDamageSource.builder()
                 .type(ModDamageSource.MOB)
                 .disablesShields()
                 .directEntity(this)
                 .element(getElement())
                 .build();
-        float velocity = (float) ModUtils.getEntityVelocity(this).lengthVector();
+        float velocity = (float) entityVelocity.lengthVector();
         ModUtils.handleAreaImpact(0.7f, e -> getAttack() * velocity * 2, this, spearPos, damageSource, 0.5f, 0);
+        Main.network.sendToAllTracking(new MessageModParticles(EnumModParticles.EFFECT, spearPos, entityVelocity, ModColors.PURPLE), this);
     }
 
     private void onDiveEnd() {

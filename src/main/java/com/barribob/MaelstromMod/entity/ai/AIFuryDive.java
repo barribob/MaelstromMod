@@ -34,7 +34,7 @@ public class AIFuryDive extends EntityAIBase {
     @Override
     public boolean shouldExecute() {
         cooldown++;
-        return shouldContinueExecuting() && entity.getAttackTarget().getLookVec().dotProduct(entity.getPositionVector().subtract(entity.getAttackTarget().getPositionEyes(1))) < 0;
+        return shouldContinueExecuting() && entity.getAttackTarget() != null && entity.getAttackTarget().getLookVec().dotProduct(entity.getPositionVector().subtract(entity.getAttackTarget().getPositionEyes(1))) < 0;
     }
 
     @Override
@@ -71,9 +71,12 @@ public class AIFuryDive extends EntityAIBase {
             cooldown++;
             Vec3d target = entity.getAttackTarget().getPositionEyes(1);
             Vec3d pos = entity.getPositionVector();
-            Vec3d directionToTarget = target.subtract(pos).normalize();
+            Vec3d toTarget = target.subtract(pos);
+            Vec3d directionToTarget = toTarget.normalize();
             double speed = entity.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).getAttributeValue();
-            ModUtils.addEntityVelocity(entity, directionToTarget.scale(0.055 * speed));
+            double speedForDistance = ModUtils.clamp((toTarget.lengthVector() / 20.0), 1, 1.5f);
+            Vec3d velocityCorrection = ModUtils.planeProject(ModUtils.getEntityVelocity(entity), directionToTarget);
+            ModUtils.addEntityVelocity(entity, directionToTarget.subtract(velocityCorrection).scale(0.055 * speed * speedForDistance));
             Vec3d lookTarget = pos.add(directionToTarget);
 
             ModUtils.facePosition(lookTarget, entity, 10, 10);

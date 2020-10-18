@@ -41,8 +41,9 @@ public class PunchAction implements IGauntletAction {
             entity.height = 2;
             for (int i = 0; i < 10; i++) {
                 entity.addEvent(() -> {
-                    Vec3d dir = target.subtract(entity.getPositionVector()).normalize().scale(0.32);
-                    ModUtils.addEntityVelocity(entity, dir);
+                    Vec3d dir = ModUtils.direction(entity.getPositionEyes(1), target);
+                    Vec3d velocityCorrection = ModUtils.planeProject(ModUtils.getEntityVelocity(entity), dir);
+                    ModUtils.addEntityVelocity(entity, dir.subtract(velocityCorrection).scale(0.32));
                 }, i);
             }
         }, 16);
