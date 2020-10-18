@@ -3,7 +3,8 @@ package com.barribob.MaelstromMod.init;
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.EntityCrimsonPortalSpawn;
 import com.barribob.MaelstromMod.entity.entities.*;
-import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntlet;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntletStage1;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntletStage2;
 import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.entity.entities.npc.*;
 import com.barribob.MaelstromMod.entity.particleSpawners.ParticleSpawnerExplosion;
@@ -85,7 +86,7 @@ public class ModEntities {
     public static Vec3i cliff = new Vec3i(0x999966, 0xe6e600, 0);
     public static Vec3i cliff_maelstrom = new Vec3i(6433126, 0xe6e600, 0);
 
-    private static final Map<Class<? extends Entity>, String> ID_MAP = new HashMap<Class<? extends Entity>, String>();
+    private static final Map<Class<? extends Entity>, String> ID_MAP = new HashMap<>();
 
     public static void registerEntities() {
         registerEntityWithID("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
@@ -119,8 +120,9 @@ public class ModEntities {
         registerEntityWithID("maelstrom_healer", EntityMaelstromHealer.class, ENTITY_START_ID++, 50, maelstrom);
         registerEntityWithID("maelstrom_gauntlet", EntityMaelstromGauntlet.class, ENTITY_START_ID++, 70, maelstrom);
         registerEntityWithID("maelstrom_statue_of_nirvana", EntityMaelstromStatueOfNirvana.class, ENTITY_START_ID++, 70, cliff_maelstrom);
-        registerEntityWithID("alternative_maelstrom_gauntlet", EntityAlternativeMaelstromGauntlet.class, ENTITY_START_ID++, 70, maelstrom);
-        registerEntityWithID("maelstrom_fury", EntityMaelstromFury.class, ENTITY_START_ID++, 70, maelstrom);
+        registerEntityWithID("alternative_maelstrom_gauntlet_stage_2", EntityAlternativeMaelstromGauntletStage2.class, ENTITY_START_ID++, 100, maelstrom);
+        registerEntityWithID("maelstrom_fury", EntityMaelstromFury.class, ENTITY_START_ID++, 100, maelstrom);
+        registerEntityWithID("alternative_maelstrom_gauntlet_stage_1", EntityAlternativeMaelstromGauntletStage1.class, ENTITY_START_ID++, 100, maelstrom);
 
         registerEntity("horror_attack", ProjectileHorrorAttack.class, HORROR_ATTACK_ID, 30);
         registerEntity("beast_attack", ProjectileBeastAttack.class, BEAST_ATTACK_ID, 100);

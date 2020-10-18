@@ -1,5 +1,6 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -104,17 +105,16 @@ public class ProjectileBlackHoleFireball extends ProjectileAbstractMegaFireball 
             this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 0.2f, ModRandom.getFloat(0.2f) + 1.0f);
         }
 
-        int attractionRadius = 15;
+        int attractionRadius = 20;
         AxisAlignedBB box = ModUtils.makeBox(getPositionVector(), getPositionVector()).grow(attractionRadius);
-        List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, box);
-        for(Entity entity: list) {
-            if(entity != this.shootingEntity) {
-                double distance = entity.getPositionVector().distanceTo(getPositionVector());
-                if (distance < attractionRadius) {
-                    Vec3d direction = getPositionVector().subtract(entity.getPositionVector()).normalize();
-                    Vec3d vel = direction.scale((attractionRadius - distance) / attractionRadius).scale(0.1);
-                    ModUtils.addEntityVelocity(entity, vel);
-                }
+        List<Entity> list = world.getEntitiesInAABBexcluding(this, box, EntityMaelstromMob.maelstromTargetFilter);
+        for (Entity entity : list) {
+            double distance = entity.getPositionVector().distanceTo(getPositionVector());
+            if (distance < attractionRadius) {
+                Vec3d direction = getPositionVector().subtract(entity.getPositionVector()).normalize();
+                double gravityFactor = entity.onGround ? 0.07 : 0.18;
+                Vec3d vel = direction.scale((attractionRadius - distance) / attractionRadius).scale(gravityFactor);
+                ModUtils.addEntityVelocity(entity, vel);
             }
         }
 

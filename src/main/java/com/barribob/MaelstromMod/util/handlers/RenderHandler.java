@@ -1,7 +1,8 @@
 package com.barribob.MaelstromMod.util.handlers;
 
 import com.barribob.MaelstromMod.entity.entities.*;
-import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntlet;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntletStage1;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntletStage2;
 import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.entity.entities.npc.*;
 import com.barribob.MaelstromMod.entity.model.*;
@@ -59,9 +60,10 @@ public class RenderHandler {
         registerModEntityRenderer(ProjectileMegaFireball.class, (manager) -> new RenderNonLivingEntity<>(manager, "fireball.png", new ModelFireball(), -1.501F));
         registerModEntityRenderer(EntityMaelstromStatueOfNirvana.class, new ModelStatueOfNirvana(), "maelstrom_statue.png");
         registerModEntityRenderer(ProjectileHomingFlame.class, (manager) -> new RenderNonLivingEntity<>(manager, "homing_fireball.png", new ModelHomingFlame(), -0.2F));
-        registerModEntityRenderer(EntityAlternativeMaelstromGauntlet.class, (manager) -> new RenderMaelstromGauntlet(manager, "maelstrom_gauntlet.png"));
+        registerModEntityRenderer(EntityAlternativeMaelstromGauntletStage2.class, new ModelMaelstromGauntlet(), "maelstrom_gauntlet_stage_2.png");
         registerModEntityRenderer(EntityMaelstromFury.class, new ModelMaelstromFury(), "maelstrom_fury.png");
         registerModEntityRenderer(ProjectileBlackHoleFireball.class, (manager) -> new RenderNonLivingEntity<>(manager, "black_hole_fireball.png", new ModelFireball(), -1.501F));
+        registerModEntityRenderer(EntityAlternativeMaelstromGauntletStage1.class, new ModelMaelstromGauntlet(), "maelstrom_gauntlet.png");
 
         registerProjectileRenderer(Projectile.class);
         registerProjectileRenderer(ProjectileBullet.class);

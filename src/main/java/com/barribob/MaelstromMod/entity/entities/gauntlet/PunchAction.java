@@ -34,6 +34,7 @@ public class PunchAction implements IGauntletAction {
         entity.addVelocity(0, 0.5, 0);
         entity.addEvent(() -> {
             Vec3d target = targetSupplier.get();
+            if (target == null) return;
             isPunching = true;
             fistHitbox.width = 2.5f;
             fistHitbox.height = 4.5f;

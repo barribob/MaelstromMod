@@ -6,19 +6,22 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileMegaFireball;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class EntityMaelstromGauntlet extends EntityAbstractMaelstromGauntlet {
-    private final IGauntletAction punchAttack = new PunchAction("gauntlet.punch", () -> getAttackTarget().getPositionVector(), () -> {
+    Supplier<Vec3d> position = () -> getAttackTarget() == null ? null : getAttackTarget().getPositionVector();
+    private final IGauntletAction punchAttack = new PunchAction("gauntlet.punch", position, () -> {
     }, this, fist);
     private final IGauntletAction laserAttack = new LaserAction(this, stopLazerByte, (vec3d) -> {
     });
     private final IGauntletAction summonAttack = new SummonMobsAction(this::spawnMob, this, fist);
-    private final IGauntletAction fireballAttack = new FireballThrowAction<>(() -> getAttackTarget().getPositionEyes(1), this::generateFireball, this);
+    private final IGauntletAction fireballAttack = new FireballThrowAction<>((target) -> target.getPositionEyes(1), this::generateFireball, this);
     private final double fireballHealth = getMobConfig().getDouble("use_fireball_at_health");
     private final double lazerHealth = getMobConfig().getDouble("use_lazer_at_health");
     private final double spawnHealth = getMobConfig().getDouble("use_spawning_at_health");
@@ -32,7 +35,9 @@ public class EntityMaelstromGauntlet extends EntityAbstractMaelstromGauntlet {
     }
 
     private Projectile generateFireball() {
-        return new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null, true);
+        ProjectileMegaFireball fireball = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null, true);
+        fireball.setTravelRange(30);
+        return fireball;
     }
 
     @Override
