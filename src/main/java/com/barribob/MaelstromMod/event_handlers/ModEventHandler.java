@@ -340,7 +340,7 @@ public class ModEventHandler {
             }
 
             if (ModConfig.gui.showGunCooldownBar) {
-                InGameGui.renderGunReload(mc, event, player);
+                InGameGui.renderGunReload(event, player);
             }
 
             IMana mana = player.getCapability(ManaProvider.MANA, null);

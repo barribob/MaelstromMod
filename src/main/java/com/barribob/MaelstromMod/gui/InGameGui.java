@@ -8,12 +8,12 @@ import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.ArmorHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
@@ -40,12 +40,8 @@ public class InGameGui {
      * Sourced from the render hotbar method in GuiIngame to display a cooldown bar
      */
     @SideOnly(Side.CLIENT)
-    public static void renderGunReload(Minecraft mc, RenderGameOverlayEvent.Post event, EntityPlayer player) {
+    public static void renderGunReload(RenderGameOverlayEvent.Post event, EntityPlayer player) {
         if (event.getType().equals(RenderGameOverlayEvent.ElementType.ALL)) {
-            GameSettings gamesettings = mc.gameSettings;
-            if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !player.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
-                return;
-            }
 
             GlStateManager.enableRescaleNormal();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
@@ -58,7 +54,7 @@ public class InGameGui {
             for (int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = event.getResolution().getScaledHeight() - 16 - 3;
-                renderItemAmmo(player.inventory.mainInventory.get(l), i1, j1, mc);
+                renderItemAmmo(player.inventory.mainInventory.get(l), i1, j1);
             }
 
             ItemStack itemstack = player.getHeldItemOffhand();
@@ -69,9 +65,9 @@ public class InGameGui {
                 int j1 = event.getResolution().getScaledHeight() - 16 - 3;
 
                 if (enumhandside == EnumHandSide.LEFT) {
-                    renderItemAmmo(itemstack, i - 91 - 26, j1, mc);
+                    renderItemAmmo(itemstack, i - 91 - 26, j1);
                 } else {
-                    renderItemAmmo(itemstack, i + 91 + 10, j1, mc);
+                    renderItemAmmo(itemstack, i + 91 + 10, j1);
                 }
             }
 
@@ -86,7 +82,7 @@ public class InGameGui {
      * ItemGun
      */
     @SideOnly(Side.CLIENT)
-    private static void renderItemAmmo(ItemStack stack, int xPosition, int yPosition, Minecraft mc) {
+    private static void renderItemAmmo(ItemStack stack, int xPosition, int yPosition) {
         if (!stack.isEmpty()) {
             if (stack.getItem() instanceof Reloadable) {
                 renderReload(xPosition, yPosition, ((Reloadable)stack.getItem()).getCooldownForDisplay(stack));
@@ -125,10 +121,10 @@ public class InGameGui {
     @SideOnly(Side.CLIENT)
     private static void draw(BufferBuilder renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha) {
         renderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        renderer.pos(x + 0, y + 0, 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos(x + 0, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos(x, y, 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos(x, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
         renderer.pos(x + width, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos(x + width, y + 0, 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos(x + width, y, 0.0D).color(red, green, blue, alpha).endVertex();
         Tessellator.getInstance().draw();
     }
 
@@ -177,7 +173,7 @@ public class InGameGui {
 
             GuiIngameForge.left_height += 10;
 
-            mc.getTextureManager().bindTexture(mc.ingameGUI.ICONS);
+            mc.getTextureManager().bindTexture(Gui.ICONS);
         }
     }
 
@@ -220,7 +216,7 @@ public class InGameGui {
             GlStateManager.color(1, 1, 1, 1);
 
             GlStateManager.disableBlend();
-            mc.getTextureManager().bindTexture(mc.ingameGUI.ICONS);
+            mc.getTextureManager().bindTexture(Gui.ICONS);
             GuiIngameForge.right_height += 10;
         }
     }
