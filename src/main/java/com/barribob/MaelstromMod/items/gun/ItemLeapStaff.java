@@ -23,10 +23,12 @@ public class ItemLeapStaff extends ItemStaff {
 
     @Override
     protected void shoot(World world, EntityPlayer player, EnumHand handIn, ItemStack stack) {
-        world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDERDRAGON_FLAP, SoundCategory.NEUTRAL, 0.5F,
-                0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        Main.network.sendTo(new MessageLeap(), (EntityPlayerMP) player);
-        player.fallDistance = -1;
+        if(player instanceof EntityPlayerMP) {
+            world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDERDRAGON_FLAP, SoundCategory.NEUTRAL, 0.5F,
+                    0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            Main.network.sendTo(new MessageLeap(), (EntityPlayerMP) player);
+            player.fallDistance = -1;
+        }
     }
 
     @Override

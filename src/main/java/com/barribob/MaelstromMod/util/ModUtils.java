@@ -478,7 +478,7 @@ public final class ModUtils {
         player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 0.9F);
 
         // Spawn colored sweep particles
-        if (!player.world.isRemote) {
+        if (!player.world.isRemote && player instanceof EntityPlayerMP) {
             Main.network.sendTo(new MessageModParticles(EnumModParticles.SWEEP_ATTACK, getCenter(box), Vec3d.ZERO, element.sweepColor), (EntityPlayerMP) player);
         }
 

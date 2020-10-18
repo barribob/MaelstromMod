@@ -62,7 +62,7 @@ public class EntityEventHandler {
     // Play wind sound when logging in and in dark nexus dimension
     @SubscribeEvent
     public static void onWorldLoad(PlayerLoggedInEvent event) {
-        if (!event.player.world.isRemote) {
+        if (event.player instanceof EntityPlayerMP) {
             if (event.player.dimension == ModDimensions.DARK_NEXUS.getId()) {
                 DARK_NEXUS_PLAYERS.add((EntityPlayerMP) event.player);
             }
@@ -86,9 +86,12 @@ public class EntityEventHandler {
         }
 
             // Play wind sound for players in dark nexus
-        if (DARK_NEXUS_PLAYERS.contains(event.getEntity()) && event.getEntity().dimension == ModDimensions.DARK_NEXUS.getId()) {
-            Main.network.sendTo(new MessagePlayDarkNexusWindSound(), (EntityPlayerMP) event.getEntity());
-            DARK_NEXUS_PLAYERS.remove(event.getEntity());
+        if (event.getEntity() instanceof EntityPlayerMP) {
+            EntityPlayerMP player = ((EntityPlayerMP) event.getEntity());
+            if (DARK_NEXUS_PLAYERS.contains(player) && event.getEntity().dimension == ModDimensions.DARK_NEXUS.getId()) {
+                Main.network.sendTo(new MessagePlayDarkNexusWindSound(), player);
+                DARK_NEXUS_PLAYERS.remove(player);
+            }
         }
 
         if (event.getEntityLiving() != null && event.getEntityLiving().isPotionActive(ModPotions.water_strider)) {
@@ -124,8 +127,8 @@ public class EntityEventHandler {
 
         }
 
-        if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer) {
-            EntityPlayer player = ((EntityPlayer) event.getEntity());
+        if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayerMP) {
+            EntityPlayerMP player = ((EntityPlayerMP) event.getEntity());
             if (event.getEntity().ticksExisted % 35 == 0) {
                 IMana currentMana = player.getCapability(ManaProvider.MANA, null);
                 if (!currentMana.isLocked()) {
@@ -133,7 +136,7 @@ public class EntityEventHandler {
                         currentMana.setRecentlyConsumed(false);
                     } else {
                         currentMana.replenish(1f);
-                        Main.network.sendTo(new MessageMana(currentMana.getMana()), (EntityPlayerMP) player);
+                        Main.network.sendTo(new MessageMana(currentMana.getMana()), player);
                     }
                 }
             }

@@ -22,6 +22,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ItemToManaSystem {
                 return;
             }
 
-            if (!player.capabilities.isCreativeMode && manaCost != 0) {
+            if (!player.capabilities.isCreativeMode && manaCost != 0 && player instanceof EntityPlayerMP) {
                 manaCapability.consume(manaCost);
                 Main.network.sendTo(new MessageMana(manaCapability.getMana()), (EntityPlayerMP) player);
             }
@@ -98,6 +99,7 @@ public class ItemToManaSystem {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void onTooltip(ItemTooltipEvent event) {
         Config config = getManaConfig(event.getItemStack());
         if (config != null) {

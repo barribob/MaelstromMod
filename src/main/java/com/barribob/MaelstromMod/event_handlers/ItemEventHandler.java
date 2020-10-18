@@ -51,7 +51,7 @@ public class ItemEventHandler {
                 player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20, 1));
             }
 
-            if (!player.world.isRemote && (heldItem.equals(ModItems.CROSS_OF_AQUA) || offhandItem.equals(ModItems.CROSS_OF_AQUA))) {
+            if (!player.world.isRemote && player instanceof EntityPlayerMP && (heldItem.equals(ModItems.CROSS_OF_AQUA) || offhandItem.equals(ModItems.CROSS_OF_AQUA))) {
                 IMana mana = player.getCapability(ManaProvider.MANA, null);
                 if (!mana.isLocked() && mana.getMana() > 0) {
                     if (!player.capabilities.isCreativeMode && player.ticksExisted % 40 == 0) {

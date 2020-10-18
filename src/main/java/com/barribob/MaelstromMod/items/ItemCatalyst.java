@@ -29,7 +29,7 @@ public class ItemCatalyst extends ItemBase {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
-        if (!worldIn.isRemote) {
+        if (!worldIn.isRemote && playerIn instanceof EntityPlayerMP) {
             IMana mana = playerIn.getCapability(ManaProvider.MANA, null);
             if (mana.isLocked()) {
                 mana.setLocked(false);

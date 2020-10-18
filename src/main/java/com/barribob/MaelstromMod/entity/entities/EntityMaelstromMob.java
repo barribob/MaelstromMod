@@ -206,8 +206,8 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 
     @Override
     public void onDeath(DamageSource cause) {
-        if (!world.isRemote && cause.getTrueSource() instanceof EntityPlayer) {
-            IMana mana = ((EntityPlayer) cause.getTrueSource()).getCapability(ManaProvider.MANA, null);
+        if (!world.isRemote && cause.getTrueSource() instanceof EntityPlayerMP) {
+            IMana mana = cause.getTrueSource().getCapability(ManaProvider.MANA, null);
             if (!mana.isLocked()) {
                 mana.replenish(getManaExp());
                 Main.network.sendTo(new MessageMana(mana.getMana()), (EntityPlayerMP) cause.getTrueSource());
