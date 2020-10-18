@@ -16,7 +16,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ProjectileFireball extends ProjectileGun {
-    private static final int PARTICLE_AMOUNT = 15;
     private static final int IMPACT_PARTICLE_AMOUNT = 30;
     private static final int EXPOSION_AREA_FACTOR = 4;
     public static final Vec3d FIREBALL_COLOR = new Vec3d(1.0, 0.6, 0.5);
@@ -39,7 +38,7 @@ public class ProjectileFireball extends ProjectileGun {
     @Override
     protected void spawnParticles() {
         float size = 0.25f;
-        for (int i = 0; i < PARTICLE_AMOUNT; i++) {
+        for (int i = 0; i < 2; i++) {
             ParticleManager.spawnCustomSmoke(this.world,
                     new Vec3d(this.posX, this.posY, this.posZ).add(new Vec3d(ModRandom.getFloat(size), ModRandom.getFloat(size), ModRandom.getFloat(size))),
                     FIREBALL_COLOR,
@@ -49,16 +48,11 @@ public class ProjectileFireball extends ProjectileGun {
 
     @Override
     protected void spawnImpactParticles() {
-        ModUtils.circleCallback(EXPOSION_AREA_FACTOR, 40, (pos) -> {
-            ParticleManager.spawnEffect(world, getPositionVector().add(pos), FIREBALL_COLOR);
-            ParticleManager.spawnEffect(world, getPositionVector().add(new Vec3d(pos.x, 0, pos.y)), FIREBALL_COLOR);
-            ParticleManager.spawnEffect(world, getPositionVector().add(new Vec3d(0, pos.x, pos.y)), FIREBALL_COLOR);
-        });
-
         for (int i = 0; i < IMPACT_PARTICLE_AMOUNT; i++) {
             ParticleManager.spawnColoredExplosion(world, this.getPositionVector().add(ModRandom.randVec().scale(EXPOSION_AREA_FACTOR * 2)), ModColors.FIREBALL_ORANGE);
             this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + ModRandom.getFloat(EXPOSION_AREA_FACTOR), this.posY + ModRandom.getFloat(EXPOSION_AREA_FACTOR),
                     this.posZ + ModRandom.getFloat(EXPOSION_AREA_FACTOR), 0, 0, 0);
+            ParticleManager.spawnEffect(world, getPositionVector().add(ModRandom.randVec().scale(EXPOSION_AREA_FACTOR * 2)), FIREBALL_COLOR);
         }
     }
 
@@ -66,7 +60,7 @@ public class ProjectileFireball extends ProjectileGun {
     protected void onHit(RayTraceResult result) {
         float knockbackFactor = 1.1f + this.getKnockback() * 0.4f;
         int fireFactor = this.isBurning() ? 10 : 5;
-        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, (e) -> this.getGunDamage((e)), this.shootingEntity, this.getPositionVector(),
+        ModUtils.handleAreaImpact(EXPOSION_AREA_FACTOR, this::getGunDamage, this.shootingEntity, this.getPositionVector(),
                 DamageSource.causeExplosionDamage(this.shootingEntity), knockbackFactor, fireFactor);
         this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
         super.onHit(result);

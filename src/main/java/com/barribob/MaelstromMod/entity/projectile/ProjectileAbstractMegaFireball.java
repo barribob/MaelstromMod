@@ -37,7 +37,7 @@ public abstract class ProjectileAbstractMegaFireball extends ProjectileGun {
     protected final void onHit(RayTraceResult result) {
         boolean isShootingEntity = result != null && result.entityHit != null && result.entityHit == this.shootingEntity;
         boolean isPartOfShootingEntity = result != null && result.entityHit != null && (result.entityHit instanceof MultiPartEntityPart && ((MultiPartEntityPart) result.entityHit).parent == this.shootingEntity);
-        if (isShootingEntity || isPartOfShootingEntity || world.isRemote || this.shootingEntity == null) {
+        if (isShootingEntity || isPartOfShootingEntity || world.isRemote || this.shootingEntity == null || this.isDead) {
             return;
         }
 
