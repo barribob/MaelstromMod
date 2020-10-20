@@ -17,10 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-/**
- * Link the gauntlet first stage to the second stage
- * Redo all of the configuration
- */
 public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMaelstromGauntlet {
     private final IGauntletAction summonAttack;
     private final List<IGauntletAction> attacks;
@@ -74,9 +70,11 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
     }
 
     private void onLaserImpact(Vec3d lazerPos) {
-        Projectile projectile = new ProjectileCrimsonWanderer(world, this, getAttack() * 0.5f);
-        projectile.setTravelRange((float) (getMobConfig().getDouble("max_laser_distance") + 20));
-        ModUtils.throwProjectile(this, lazerPos.add(ModUtils.Y_AXIS), projectile, 0, 0.05f, lazerPos.subtract(getPositionEyes(1)).add(ModUtils.Y_AXIS));
+        if (rand.nextInt(2) == 0) {
+            Projectile projectile = new ProjectileCrimsonWanderer(world, this, getAttack() * 0.5f);
+            projectile.setTravelRange((float) (getMobConfig().getDouble("max_laser_distance") + 20));
+            ModUtils.throwProjectile(this, lazerPos.add(ModUtils.Y_AXIS), projectile, 0, 0.05f, lazerPos.subtract(getPositionEyes(1)).add(ModUtils.Y_AXIS));
+        }
     }
 
     private void summonCrimsonWanderer() {

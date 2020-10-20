@@ -182,36 +182,18 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
         /*
          * Set the hitbox pieces based on the entity's rotation so that even large pitch rotations don't mess up the hitboxes
          */
-        Vec3d lookVec = ModUtils.getLookVec(this.getPitch(), this.renderYawOffset).scale(-1);
-        Vec3d upVec = ModUtils.rotateVector2(lookVec, lookVec.crossProduct(ModUtils.Y_AXIS), 90);
 
-        Vec3d center = this.getPositionEyes(1);
-        Vec3d eyePos = center.add(upVec.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(-0.2, 0, 0)));
-        this.eye.setLocationAndAngles(eyePos.x, eyePos.y, eyePos.z, this.rotationYaw, this.rotationPitch);
-
-        Vec3d behindEyePos = center.add(upVec.scale(-0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0.5, -0.1, 0)));
-        this.behindEye.setLocationAndAngles(behindEyePos.x, behindEyePos.y, behindEyePos.z, this.rotationYaw, this.rotationPitch);
-
-        Vec3d palmPos = center.add(upVec.scale(0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, 0.5)));
-        this.upLeftPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
-
-        palmPos = center.add(upVec.scale(0.5)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, -0.5)));
-        this.upRightPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
-
-        palmPos = center.add(upVec.scale(-1.7));
-        this.bottomPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
-
-        palmPos = center.add(upVec.scale(-0.4)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, 0.7)));
-        this.leftPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
-
-        palmPos = center.add(upVec.scale(-0.4)).add(ModUtils.getAxisOffset(lookVec, new Vec3d(0, 0, -0.7)));
-        this.rightPalm.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
-
-        palmPos = center.add(upVec.scale(1.3));
-        this.fingers.setLocationAndAngles(palmPos.x, palmPos.y, palmPos.z, this.rotationYaw, this.rotationPitch);
+        setHitboxPosition(fingers, new Vec3d(0, -1.5, 0));
+        setHitboxPosition(behindEye, new Vec3d(-0.5, -0.3, 0));
+        setHitboxPosition(eye, new Vec3d(0.3, -0.3, 0));
+        setHitboxPosition(bottomPalm, new Vec3d(-0.4, 0.7, 0));
+        setHitboxPosition(rightPalm, new Vec3d(0, 0, -0.7));
+        setHitboxPosition(leftPalm, new Vec3d(0, 0, 0.7));
+        setHitboxPosition(upRightPalm, new Vec3d(0, -1, -0.7));
+        setHitboxPosition(upLeftPalm, new Vec3d(0, -1, 0.7));
 
         Vec3d fistPos = this.getPositionVector().subtract(ModUtils.yVec(0.5));
-        this.fist.setLocationAndAngles(fistPos.x, fistPos.y, fistPos.z, this.rotationYaw, this.rotationPitch);
+        ModUtils.setEntityPosition(fist, fistPos);
 
         for (int l = 0; l < this.hitboxParts.length; ++l) {
             this.hitboxParts[l].prevPosX = avec3d[l].x;
@@ -222,6 +204,16 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
         if (!world.isRemote && currentAction != null) {
             currentAction.update();
         }
+    }
+
+    private void setHitboxPosition(Entity entity, Vec3d offset) {
+        Vec3d lookVec = ModUtils.getLookVec(this.getPitch(), this.renderYawOffset);
+        Vec3d center = this.getPositionVector().add(ModUtils.yVec(1.3));
+
+        Vec3d position = center.subtract(ModUtils.Y_AXIS
+                .scale(this.fingers.getEntityBoundingBox().getAverageEdgeLength() * 0.5))
+                .add(ModUtils.getAxisOffset(lookVec, offset));
+        ModUtils.setEntityPosition(entity, position);
     }
 
     @Override

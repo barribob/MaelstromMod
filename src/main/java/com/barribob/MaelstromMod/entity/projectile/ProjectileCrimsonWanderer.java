@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
-import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
@@ -40,13 +39,15 @@ public class ProjectileCrimsonWanderer extends Projectile {
 
         if(!world.isRemote) {
             if((target == null || target.isDead) && this.ticksExisted % 20 == 0) {
-                Optional<EntityLivingBase> optionalTarget = ModUtils.getEntitiesInBox(this, ModUtils.makeBox(this.getPositionVector(), this.getPositionVector()).grow(20))
-                        .stream().filter(EntityMaelstromMob.maelstromTargetFilter).findAny();
+                Vec3d pos = this.getPositionVector();
+                Optional<EntityLivingBase> optionalTarget = ModUtils.getEntitiesInBox(this, ModUtils.makeBox(pos, pos).grow(20))
+                        .stream().filter(EntityMaelstromMob.maelstromTargetFilter).max((e1, e2) ->
+                                (int) (e2.getPositionVector().squareDistanceTo(pos) - e1.getPositionVector().squareDistanceTo(pos)));
                 optionalTarget.ifPresent(entityLivingBase -> target = entityLivingBase);
             }
 
             if(target != null && this.ticksExisted % 20 == 0) {
-                ModUtils.homeToPosition(this, 0.15, target.getPositionVector());
+                ModUtils.homeToPosition(this, 0.2, target.getPositionVector());
             }
             ModUtils.avoidOtherEntities(this, 0.03, 3, e -> e instanceof ProjectileCrimsonWanderer || e == this.shootingEntity);
         }

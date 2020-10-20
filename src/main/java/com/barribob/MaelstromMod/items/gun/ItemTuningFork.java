@@ -9,7 +9,6 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,29 +46,30 @@ public class ItemTuningFork extends ItemStaff {
             lazerEnd = raytraceresult.hitVec;
         }
 
-        EntityLivingBase closestEntity = null;
+        Entity closestEntity = null;
         for (Entity entity : ModUtils.findEntitiesInLine(player.getPositionEyes(1), lazerEnd, world, player)) {
-            if (entity instanceof EntityLivingBase && (closestEntity == null || entity.getDistanceSq(player) < closestEntity.getDistanceSq(player))) {
-                closestEntity = (EntityLivingBase) entity;
+            if (entity.canBeCollidedWith() && (closestEntity == null || entity.getDistanceSq(player) < closestEntity.getDistanceSq(player))) {
+                closestEntity = entity;
             }
         }
 
         if (closestEntity != null) {
             if (closestEntity instanceof IEntityMultiPart) {
-                MultiPartEntityPart closestPart = null;
-                for (Entity entity : closestEntity.getParts()) {
-                    RayTraceResult result = entity.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd);
-                    if (result != null) {
-                        if (entity instanceof MultiPartEntityPart && (closestPart == null || entity.getDistanceSq(player) < closestPart.getDistanceSq(player))) {
-                            closestPart = (MultiPartEntityPart) entity;
+                if(closestEntity.getParts() != null) {
+                    MultiPartEntityPart closestPart = null;
+                    for (Entity entity : closestEntity.getParts()) {
+                        RayTraceResult result = entity.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd);
+                        if (result != null) {
+                            if (entity instanceof MultiPartEntityPart && (closestPart == null || entity.getDistanceSq(player) < closestPart.getDistanceSq(player))) {
+                                closestPart = (MultiPartEntityPart) entity;
+                            }
                         }
                     }
-                }
-
-                if (closestPart != null) {
-                    lazerEnd = closestPart.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd).hitVec;
-                    ((IEntityMultiPart) closestEntity).attackEntityFromPart(closestPart, ModDamageSource.causeElementalPlayerDamage(player, getElement()),
-                            ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
+                    if (closestPart != null) {
+                        lazerEnd = closestPart.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd).hitVec;
+                        ((IEntityMultiPart) closestEntity).attackEntityFromPart(closestPart, ModDamageSource.causeElementalPlayerDamage(player, getElement()),
+                                ModUtils.getEnchantedDamage(stack, this.getLevel(), this.getBaseDamage()));
+                    }
                 }
             } else {
                 lazerEnd = closestEntity.getEntityBoundingBox().calculateIntercept(player.getPositionEyes(1), lazerEnd).hitVec;

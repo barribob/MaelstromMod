@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 
 public abstract class ProjectileAbstractMegaFireball extends ProjectileGun {
     private boolean canTakeDamage;
+    private boolean isExploded;
 
     public ProjectileAbstractMegaFireball(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack, boolean canTakeDamage) {
         super(worldIn, throwerIn, baseDamage, stack);
@@ -63,11 +64,13 @@ public abstract class ProjectileAbstractMegaFireball extends ProjectileGun {
 
     @Override
     public final boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if (!this.isDead && canTakeDamage) {
-            this.setDead();
+        if (!isExploded && !isDead && canTakeDamage) {
+            isExploded = true;
             this.onHit(null);
+            this.setDead();
+            return super.attackEntityFrom(source, amount);
         }
-        return super.attackEntityFrom(source, amount);
+        return false;
     }
 
     @Override
