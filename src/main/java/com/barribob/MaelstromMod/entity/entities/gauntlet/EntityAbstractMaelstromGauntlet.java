@@ -54,7 +54,7 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
     private final MultiPartEntityPart[] hitboxParts;
     private final float boxSize = 0.8f;
-    private final MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", 1.0f, 1.0f);
+    private final MultiPartEntityPart eye = new MultiPartEntityPart(this, "eye", 1.2f, 1.2f);
     private final MultiPartEntityPart behindEye = new MultiPartEntityPart(this, "behindEye", 1.0f, 1.0f);
     private final MultiPartEntityPart bottomPalm = new MultiPartEntityPart(this, "bottomPalm", 1.2f, 1.2f);
     private final MultiPartEntityPart upLeftPalm = new MultiPartEntityPart(this, "upLeftPalm", boxSize, boxSize);
@@ -185,7 +185,7 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
 
         setHitboxPosition(fingers, new Vec3d(0, -1.5, 0));
         setHitboxPosition(behindEye, new Vec3d(-0.5, -0.3, 0));
-        setHitboxPosition(eye, new Vec3d(0.3, -0.3, 0));
+        setHitboxPosition(eye, new Vec3d(0.5, -0.3, 0));
         setHitboxPosition(bottomPalm, new Vec3d(-0.4, 0.7, 0));
         setHitboxPosition(rightPalm, new Vec3d(0, 0, -0.7));
         setHitboxPosition(leftPalm, new Vec3d(0, 0, 0.7));

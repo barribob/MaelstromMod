@@ -12,10 +12,12 @@ import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -118,5 +120,20 @@ public class EntityMaelstromFury extends EntityMaelstromMob implements IAccelera
 
     protected AxisAlignedBB getTargetableArea(double targetDistance) {
         return this.getEntityBoundingBox().grow(targetDistance);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundsHandler.ENTITY_SHADE_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundsHandler.ENTITY_SHADE_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundsHandler.ENTITY_SHADE_HURT;
     }
 }
