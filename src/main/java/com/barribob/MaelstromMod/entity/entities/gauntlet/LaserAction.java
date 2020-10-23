@@ -18,6 +18,7 @@ public class LaserAction implements IGauntletAction{
     private final EntityLeveledMob entity;
     private boolean isShootingLazer;
     double maxLaserDistance;
+    private final float laserExplosionSize;
     int beamLag;
     private final byte stopLaserByte;
     private final Consumer<Vec3d> onLaserImpact;
@@ -26,6 +27,7 @@ public class LaserAction implements IGauntletAction{
         this.entity = entity;
         maxLaserDistance = entity.getMobConfig().getDouble("max_laser_distance");
         beamLag = entity.getMobConfig().getInt("beam_lag");
+        laserExplosionSize = entity.getMobConfig().getInt("laser_explosion_size");
         this.stopLaserByte = stopLaserByte;
         this.onLaserImpact = onLaserImpact;
     }
@@ -80,16 +82,16 @@ public class LaserAction implements IGauntletAction{
     }
 
     private Vec3d onLaserImpact(RayTraceResult raytraceresult) {
-        entity.world.createExplosion(entity, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 1, ModUtils.mobGriefing(entity.world, entity));
+        Vec3d hitPos = raytraceresult.hitVec;
+        if(laserExplosionSize > 0) {
+            entity.world.createExplosion(entity, hitPos.x, hitPos.y, hitPos.z, laserExplosionSize, ModUtils.mobGriefing(entity.world, entity));
+        }
 
-        // If we hit a block, make sure that any collisions with entities are detected up to the hit block
-        Vec3d laserPos = raytraceresult.hitVec;
-
-        onLaserImpact.accept(laserPos);
+        onLaserImpact.accept(hitPos);
 
         if(entity.ticksExisted % 2 == 0) {
-            ModUtils.destroyBlocksInAABB(ModUtils.vecBox(laserPos, laserPos).grow(0.1), entity.world, entity);
+            ModUtils.destroyBlocksInAABB(ModUtils.vecBox(hitPos, hitPos).grow(0.1), entity.world, entity);
         }
-        return laserPos;
+        return hitPos;
     }
 }

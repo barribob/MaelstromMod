@@ -28,7 +28,7 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
         Supplier<Vec3d> position = () -> getAttackTarget() == null ? null : getAttackTarget().getPositionVector();
         IGauntletAction swirlPunchAttack = new PunchAction("gauntlet.swirl_punch", position, this::summonWanderersAndSmoke, this, fist);
         summonAttack = new SummonMobsAction(this::spawnMob, this, fist);
-        IGauntletAction laserAttack = new LaserAction(this, stopLazerByte, this::onLaserImpact);
+        IGauntletAction laserAttack = new LaserAction(this, stopLazerByte, (vec3d) -> {});
         IGauntletAction fireballAttack = new FireballThrowAction<>((target) -> target.getPositionEyes(1), this::generateFireball, this);
         attacks = new ArrayList<>(Arrays.asList(swirlPunchAttack, laserAttack, summonAttack, fireballAttack));
     }
@@ -67,14 +67,6 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
 
         double[] weights = {punchWeight, laserWeight, defendWeight, fireballWeight};
         return ModRandom.choice(attacks, rand, weights).next();
-    }
-
-    private void onLaserImpact(Vec3d lazerPos) {
-        if (rand.nextInt(2) == 0) {
-            Projectile projectile = new ProjectileCrimsonWanderer(world, this, getAttack() * 0.5f);
-            projectile.setTravelRange((float) (getMobConfig().getDouble("max_laser_distance") + 20));
-            ModUtils.throwProjectile(this, lazerPos.add(ModUtils.Y_AXIS), projectile, 0, 0.05f, lazerPos.subtract(getPositionEyes(1)).add(ModUtils.Y_AXIS));
-        }
     }
 
     private void summonCrimsonWanderer() {
