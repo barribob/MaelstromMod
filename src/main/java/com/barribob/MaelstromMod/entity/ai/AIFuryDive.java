@@ -83,7 +83,10 @@ public class AIFuryDive extends EntityAIBase {
             entity.getLookHelper().setLookPosition(lookTarget.x, lookTarget.y, lookTarget.z, 3, 3);
             whileDiving.run();
 
-            boolean diveInCriteria = target.squareDistanceTo(pos) < Math.pow(ModUtils.getEntityVelocity(entity).lengthVector() * 4, 2) || entity.collided;
+            double hitboxCompensation = entity.getEntityBoundingBox().getAverageEdgeLength() * 0.5 +
+                    entity.getAttackTarget().getEntityBoundingBox().getAverageEdgeLength() * 0.5;
+
+            boolean diveInCriteria = target.squareDistanceTo(pos) < Math.pow(hitboxCompensation + 1.5, 2) || entity.collided;
 
             if (diveInCriteria || !hasClearPath(target) || cooldown - maxCooldown > maxDiveTime) {
                 resetTask();

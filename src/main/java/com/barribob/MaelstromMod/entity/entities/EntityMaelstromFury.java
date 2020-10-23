@@ -15,6 +15,7 @@ import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -79,6 +80,7 @@ public class EntityMaelstromFury extends EntityMaelstromMob implements IAccelera
     }
 
     private void onDiveStart() {
+        playSound(SoundEvents.ENTITY_VEX_CHARGE, 7.0f, 1.7f);
         ModBBAnimations.animation(this, "fury.dive", false);
     }
 
