@@ -3,8 +3,8 @@ package com.barribob.MaelstromMod.entity.entities.gauntlet;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.projectile.Projectile;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBlackHoleFireball;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileCrimsonWanderer;
+import com.barribob.MaelstromMod.entity.projectile.ProjectileMegaFireball;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
@@ -43,7 +43,7 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
     }
 
     private Projectile generateFireball() {
-        ProjectileBlackHoleFireball fireball = new ProjectileBlackHoleFireball(world, this, this.getAttack() * 2f, null, false);
+        ProjectileMegaFireball fireball = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null, false);
         fireball.setTravelRange((float) maxFireballDistance);
         return fireball;
     }
