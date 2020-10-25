@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.util.handlers;
 import com.barribob.MaelstromMod.entity.entities.*;
 import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntletStage1;
 import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityAlternativeMaelstromGauntletStage2;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityCrimsonCrystal;
 import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityMaelstromGauntlet;
 import com.barribob.MaelstromMod.entity.entities.npc.*;
 import com.barribob.MaelstromMod.entity.model.*;
@@ -63,6 +64,7 @@ public class RenderHandler {
         registerModEntityRenderer(EntityAlternativeMaelstromGauntletStage2.class, new ModelMaelstromGauntlet(), "maelstrom_gauntlet_stage_2.png");
         registerModEntityRenderer(EntityMaelstromFury.class, new ModelMaelstromFury(), "maelstrom_fury.png");
         registerModEntityRenderer(EntityAlternativeMaelstromGauntletStage1.class, new ModelMaelstromGauntlet(), "maelstrom_gauntlet.png");
+        registerModEntityRenderer(EntityCrimsonCrystal.class, (manager) -> new RenderCrimsonCrystal(manager, "crystal.png", -0.2F));
 
         registerProjectileRenderer(Projectile.class);
         registerProjectileRenderer(ProjectileBullet.class);

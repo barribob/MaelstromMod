@@ -1,23 +1,19 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
-import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
-import com.barribob.MaelstromMod.util.ModDamageSource;
+import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
+import com.barribob.MaelstromMod.entity.entities.gauntlet.EntityCrimsonCrystal;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 public class ProjectileCrimsonWanderer extends Projectile {
     private static final int AGE = 20 * 4;
-    private EntityLivingBase target;
 
     public ProjectileCrimsonWanderer(World worldIn, EntityLivingBase throwerIn, float baseDamage) {
         super(worldIn, throwerIn, baseDamage);
@@ -38,47 +34,26 @@ public class ProjectileCrimsonWanderer extends Projectile {
         ModUtils.setEntityVelocity(this, prevVel);
 
         if(!world.isRemote) {
-            if((target == null || target.isDead) && this.ticksExisted % 20 == 0) {
-                Vec3d pos = this.getPositionVector();
-                Optional<EntityLivingBase> optionalTarget = ModUtils.getEntitiesInBox(this, ModUtils.makeBox(pos, pos).grow(20))
-                        .stream().filter(EntityMaelstromMob.maelstromTargetFilter).max((e1, e2) ->
-                                (int) (e2.getPositionVector().squareDistanceTo(pos) - e1.getPositionVector().squareDistanceTo(pos)));
-                optionalTarget.ifPresent(entityLivingBase -> target = entityLivingBase);
-            }
-
-            if(target != null && this.ticksExisted % 20 == 0) {
-                ModUtils.homeToPosition(this, 0.2, target.getPositionVector());
-            }
             ModUtils.avoidOtherEntities(this, 0.03, 3, e -> e instanceof ProjectileCrimsonWanderer || e == this.shootingEntity);
         }
 
         if(!this.world.isRemote && this.ticksExisted > AGE) {
-
-            if(shootingEntity != null) {
-                onImpact();
-            }
+             onImpact();
             this.setDead();
         }
     }
 
     private void onImpact() {
-        DamageSource source = ModDamageSource.builder()
-                .type(ModDamageSource.EXPLOSION)
-                .directEntity(this)
-                .indirectEntity(shootingEntity)
-                .element(getElement())
-                .stoppedByArmorNotShields().build();
-
-        ModUtils.handleAreaImpact(2, e -> getDamage(), this.shootingEntity, getPositionVector(), source);
-        world.setEntityState(this, ModUtils.PARTICLE_BYTE);
-        playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 0.5f, 1.0f + ModRandom.getFloat(0.2f));
-        boolean flag = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, this);
-        world.newExplosion(shootingEntity, posX, posY, posZ, 2, false, flag);
+        if(shootingEntity != null && shootingEntity instanceof EntityLeveledMob) {
+            EntityCrimsonCrystal crystal = new EntityCrimsonCrystal(world, (EntityLeveledMob) shootingEntity);
+            ModUtils.setEntityPosition(crystal, getPositionVector());
+            world.spawnEntity(crystal);
+        }
     }
 
     @Override
     protected void onHit(@Nullable RayTraceResult result) {
-        if(!world.isRemote && result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
+        if(!world.isRemote && result != null && result.typeOfHit == RayTraceResult.Type.ENTITY) {
             onImpact();
             super.onHit(result);
         }
