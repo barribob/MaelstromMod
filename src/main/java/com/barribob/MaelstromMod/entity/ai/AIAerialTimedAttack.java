@@ -1,6 +1,6 @@
 package com.barribob.MaelstromMod.entity.ai;
 
-import com.barribob.MaelstromMod.entity.util.IAttack;
+import com.barribob.MaelstromMod.entity.util.IAttackInitiator;
 import com.barribob.MaelstromMod.entity.util.IPitch;
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.entity.EntityLiving;
@@ -11,28 +11,23 @@ import net.minecraft.util.math.Vec3d;
 /**
  * A version of the timed attack that attempts to work for flying mobs a bit better.
  *
- * @param <T>
  * @author micha
  */
-public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends EntityAIBase {
-    private final T entity;
-    private final int attackCooldown;
+public class AIAerialTimedAttack extends EntityAIBase {
+    private final EntityLiving entity;
     private final float maxAttackDistSq;
-    private int attackTime;
     private final float lookSpeed;
-    private final float idealAttackDistanceSq;
+    private final IAttackInitiator attackInitiator;
     private int unseeTime;
-    private final AIPassiveCircle<T> circleAI;
+    private final AIPassiveCircle<EntityLiving> circleAI;
 
     private static final int MEMORY = 100;
 
-    public AIAerialTimedAttack(T entity, int attackCooldown, float maxAttackDistance, float idealAttackDistance, float lookSpeed) {
+    public AIAerialTimedAttack(EntityLiving entity, float maxAttackDistance, float idealAttackDistance, float lookSpeed, IAttackInitiator attackInitiator) {
         this.entity = entity;
-        this.attackCooldown = attackCooldown;
         this.maxAttackDistSq = maxAttackDistance * maxAttackDistance;
-        this.attackTime = attackCooldown;
         this.lookSpeed = lookSpeed;
-        this.idealAttackDistanceSq = idealAttackDistance * idealAttackDistance;
+        this.attackInitiator = attackInitiator;
         circleAI = new AIPassiveCircle<>(entity, idealAttackDistance);
         this.setMutexBits(3);
     }
@@ -50,7 +45,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
     @Override
     public void resetTask() {
         super.resetTask();
-        this.attackTime = Math.max(attackTime, attackCooldown);
+        attackInitiator.resetTask();
     }
 
     @Override
@@ -76,10 +71,7 @@ public class AIAerialTimedAttack<T extends EntityLiving & IAttack> extends Entit
         move(target, distSq, canSee);
 
         if (distSq <= this.maxAttackDistSq && canSee) {
-            this.attackTime--;
-            if (this.attackTime <= 0) {
-                this.attackTime = this.entity.startAttack(target, (float) distSq, false);
-            }
+            attackInitiator.update(target);
         }
     }
 

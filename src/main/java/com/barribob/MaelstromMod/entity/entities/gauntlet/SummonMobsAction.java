@@ -20,7 +20,7 @@ public class SummonMobsAction implements IGauntletAction {
 
     @Override
     public void doAction() {
-        ModBBAnimations.animation(entity, "gauntlet.defend", false);
+        ModBBAnimations.animation(entity, "gauntlet.summon", false);
         int closeFistTime = 10;
         int openFistTime = 210;
         int summoningTime = openFistTime - closeFistTime;
@@ -52,7 +52,7 @@ public class SummonMobsAction implements IGauntletAction {
     }
 
     @Override
-    public int attackCooldown() {
-        return 240;
+    public int attackLength() {
+        return 210;
     }
 }

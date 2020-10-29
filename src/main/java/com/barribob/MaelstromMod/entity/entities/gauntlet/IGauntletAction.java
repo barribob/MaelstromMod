@@ -10,7 +10,10 @@ public interface IGauntletAction {
     default boolean isImmuneToDamage() {
         return false;
     }
-    default int attackCooldown() {
+    default int attackLength() {
         return 100;
+    }
+    default int attackCooldown() {
+        return 50;
     }
 }

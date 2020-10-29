@@ -30,7 +30,12 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
         summonAttack = new SummonMobsAction(this::spawnMob, this, fist);
         IGauntletAction laserAttack = new LaserAction(this, stopLazerByte, (vec3d) -> {});
         IGauntletAction fireballAttack = new FireballThrowAction<>((target) -> target.getPositionEyes(1), this::generateFireball, this);
-        attacks = new ArrayList<>(Arrays.asList(swirlPunchAttack, laserAttack, summonAttack, fireballAttack));
+
+        IGauntletAction punchAttack = new PunchAction("gauntlet.punch", position, () -> {}, this, fist);
+        ModRandom.RandomCollection<IGauntletAction> punchAttacks =
+                ModRandom.choice(new IGauntletAction[]{ punchAttack, swirlPunchAttack }, rand, new double[] { 2, 1 });
+        IGauntletAction comboPunchAttack = new ComboPunchAction(punchAttacks, this);
+        attacks = new ArrayList<>(Arrays.asList(swirlPunchAttack, laserAttack, summonAttack, fireballAttack, comboPunchAttack));
     }
 
     private void spawnMob() {
@@ -60,12 +65,13 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
         int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(50)).stream()
                 .filter((e) -> e instanceof EntityMaelstromMob).count();
 
-        double defendWeight = previousAction == summonAttack || numMinions > 3 ? 0 : 0.8;
+        double summonWeight = previousAction == summonAttack || numMinions > 3 ? 0 : 0.8;
         double fireballWeight = distanceSq < Math.pow(maxFireballDistance, 2) ? 1 : 0;
         double laserWeight = distanceSq < Math.pow(maxLaserDistance, 2) ? 1 : 0;
         double punchWeight = ModUtils.canEntityBeSeen(this, target) ? Math.sqrt(distanceSq) / 25 : 3;
+        double comboPunchWeight = 0.8;
 
-        double[] weights = {punchWeight, laserWeight, defendWeight, fireballWeight};
+        double[] weights = {punchWeight, laserWeight, summonWeight, fireballWeight, comboPunchWeight};
         return ModRandom.choice(attacks, rand, weights).next();
     }
 

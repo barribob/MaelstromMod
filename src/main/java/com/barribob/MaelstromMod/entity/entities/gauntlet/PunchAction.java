@@ -19,6 +19,7 @@ public class PunchAction implements IGauntletAction {
     private final EntityLeveledMob entity;
     private final Entity fistHitbox;
     private boolean isPunching;
+    public static final int punchStopTime = 50;
 
     public PunchAction (String animation, Supplier<Vec3d> targetSupplier, Runnable whilePunching, EntityLeveledMob entity, Entity fistHitbox) {
         this.animation = animation;
@@ -52,7 +53,7 @@ public class PunchAction implements IGauntletAction {
             fistHitbox.width = 0;
             fistHitbox.height = 0;
             entity.height = 4;
-        }, 50);
+        }, punchStopTime);
     }
 
     @Override
@@ -83,5 +84,10 @@ public class PunchAction implements IGauntletAction {
     @Override
     public boolean isImmuneToDamage() {
         return isPunching;
+    }
+
+    @Override
+    public int attackLength() {
+        return 53;
     }
 }

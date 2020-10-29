@@ -13,6 +13,7 @@ import com.barribob.MaelstromMod.entity.projectile.ProjectileHomingFlame;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileMaelstromRune;
 import com.barribob.MaelstromMod.entity.projectile.ProjectileStatueMaelstromMissile;
 import com.barribob.MaelstromMod.entity.util.IAttack;
+import com.barribob.MaelstromMod.entity.util.TimedAttackInitiator;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModRandom;
@@ -62,7 +63,9 @@ public class EntityMaelstromStatueOfNirvana extends EntityMaelstromMob implement
 
     private void initNirvanaAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 80, attackDistance, 20, 30));
+        this.tasks.addTask(4,
+                new AIAerialTimedAttack(this, attackDistance, 20, 30,
+                        new TimedAttackInitiator<>(this, 80)));
     }
 
     protected AxisAlignedBB getTargetableArea(double targetDistance) {

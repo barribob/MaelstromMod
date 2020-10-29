@@ -48,4 +48,9 @@ public class FireballThrowAction<T extends EntityLeveledMob & IPitch> implements
             ModUtils.addEntityVelocity(entity, vel.normalize().scale(-0.8));
         }, 27);
     }
+
+    @Override
+    public int attackLength() {
+        return 52;
+    }
 }

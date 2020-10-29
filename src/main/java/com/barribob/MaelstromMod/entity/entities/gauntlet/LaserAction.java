@@ -94,4 +94,9 @@ public class LaserAction implements IGauntletAction{
         }
         return hitPos;
     }
+
+    @Override
+    public int attackLength() {
+        return 60;
+    }
 }

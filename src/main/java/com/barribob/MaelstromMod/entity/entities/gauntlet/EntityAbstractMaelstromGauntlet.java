@@ -4,7 +4,6 @@ import com.barribob.MaelstromMod.entity.ai.*;
 import com.barribob.MaelstromMod.entity.entities.EntityLeveledMob;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.util.DirectionalRender;
-import com.barribob.MaelstromMod.entity.util.IAttack;
 import com.barribob.MaelstromMod.entity.util.IPitch;
 import com.barribob.MaelstromMod.init.ModDimensions;
 import com.barribob.MaelstromMod.renderer.ITarget;
@@ -48,7 +47,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob implements IAttack, IEntityMultiPart, DirectionalRender, ITarget, IPitch {
+public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob implements IEntityMultiPart, DirectionalRender, ITarget, IPitch {
     // We keep track of the look ourselves because minecraft's look is clamped
     protected static final DataParameter<Float> LOOK = EntityDataManager.createKey(EntityLeveledMob.class, DataSerializers.FLOAT);
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.NOTCHED_6));
@@ -66,6 +65,8 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
     private IGauntletAction currentAction;
     protected static final byte stopLazerByte = 39;
     private final double punchImpactSize = getMobConfig().getDouble("punch_impact_size");
+    private @Nullable MovementTracker movement;
+    IGauntletAction defendAction = new DefendAction(this);
 
     // Lazer state variables
     private Vec3d renderLazerPos;
@@ -118,18 +119,54 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
 
     private void initGauntletAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 60, attackDistance, 20, 20));
+        this.tasks.addTask(4, new
+                AIAerialTimedAttack(this, attackDistance, 20, 20,
+                new GauntletAttackInitiator( 60, this::startAttack, this::defendAttack)));
         this.tasks.addTask(7, new AiFistWander(this, punchAtPos, 80, 8));
     }
 
-    @Override
-    public final int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
+    public final IGauntletAction startAttack(EntityLivingBase target) {
+        float distanceSq = (float) getDistanceSq(target);
         this.currentAction = getNextAttack(target, distanceSq, currentAction);
         this.currentAction.doAction();
-        return currentAction.attackCooldown();
+        return currentAction;
     }
 
     protected abstract IGauntletAction getNextAttack(EntityLivingBase target, float distanceSq, IGauntletAction previousAction);
+
+    public final @Nullable IGauntletAction defendAttack(EntityLivingBase target) {
+        if (seesDanger(movement, target)) {
+            currentAction = defendAction;
+            defendAction.doAction();
+            return defendAction;
+        }
+        return null;
+    }
+
+    @Override
+    public void setAttackTarget(@Nullable EntityLivingBase entity) {
+        if(entity != null && (movement == null || movement.entity != entity)) {
+            movement = new MovementTracker(entity, 5);
+        } else if (entity == null) {
+            movement = null;
+        }
+        super.setAttackTarget(entity);
+    }
+
+    @Override
+    public void onEntityUpdate() {
+        if(movement != null) movement.onUpdate();
+        super.onEntityUpdate();
+    }
+
+    private boolean seesDanger(@Nullable MovementTracker movementTracker, EntityLivingBase target) {
+        if(movementTracker == null) return false;
+        Vec3d targetMovement = movementTracker.getMovementOverTicks(5);
+        double velocityTowardsThis = ModUtils.direction(target.getPositionVector(), getPositionVector())
+                .dotProduct(targetMovement);
+        System.out.println(velocityTowardsThis);
+        return velocityTowardsThis > 3;
+    }
 
     @Override
     public final boolean attackEntityFrom(DamageSource source, float amount) {

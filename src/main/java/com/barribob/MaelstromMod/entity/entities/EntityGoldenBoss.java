@@ -2,17 +2,21 @@ package com.barribob.MaelstromMod.entity.entities;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.entity.action.*;
+import com.barribob.MaelstromMod.entity.adjustment.MovingRuneAdjustment;
+import com.barribob.MaelstromMod.entity.adjustment.RandomRuneAdjustment;
 import com.barribob.MaelstromMod.entity.ai.AIAerialTimedAttack;
 import com.barribob.MaelstromMod.entity.ai.EntityAIWanderWithGroup;
 import com.barribob.MaelstromMod.entity.ai.FlyingMoveHelper;
 import com.barribob.MaelstromMod.entity.projectile.*;
 import com.barribob.MaelstromMod.entity.util.IAttack;
-import com.barribob.MaelstromMod.entity.adjustment.MovingRuneAdjustment;
-import com.barribob.MaelstromMod.entity.adjustment.RandomRuneAdjustment;
+import com.barribob.MaelstromMod.entity.util.TimedAttackInitiator;
 import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
-import com.barribob.MaelstromMod.util.*;
+import com.barribob.MaelstromMod.util.ModColors;
+import com.barribob.MaelstromMod.util.ModRandom;
+import com.barribob.MaelstromMod.util.ModUtils;
+import com.barribob.MaelstromMod.util.RenderUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -164,7 +168,9 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
 
     private void initNirvanaAI() {
         float attackDistance = (float) this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
-        this.tasks.addTask(4, new AIAerialTimedAttack<>(this, 40, attackDistance, 20, 30));
+        this.tasks.addTask(4,
+                new AIAerialTimedAttack(this, attackDistance, 20, 30,
+                        new TimedAttackInitiator<>(this, 40)));
     }
 
     @Override

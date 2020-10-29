@@ -70,7 +70,7 @@ public class EntityMaelstromFury extends EntityMaelstromMob implements IAccelera
     protected void initEntityAI() {
         this.tasks.addTask(4, new AIRandomFly(this));
         this.tasks.addTask(3, new AIPassiveCircle<>(this, 30));
-        this.tasks.addTask(2, new AIFuryDive(40, 5 * 20, this, this::onDiveStart, this::onDiveEnd, this::whileDiving));
+        this.tasks.addTask(2, new AIFuryDive(100, 5 * 20, this, this::onDiveStart, this::onDiveEnd, this::whileDiving));
         super.initEntityAI();
     }
 
