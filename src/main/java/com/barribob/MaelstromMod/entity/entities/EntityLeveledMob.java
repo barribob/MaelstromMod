@@ -9,7 +9,6 @@ import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.util.*;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
-import com.oracle.jrockit.jfr.TimedEvent;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -25,6 +24,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -59,9 +59,12 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     }
 
     public Config getMobConfig() {
-        String entityName = EntityRegistry.getEntry(this.getClass()).getName();
-        if (Main.mobsConfig.hasPath(entityName)) {
-            return Main.mobsConfig.getConfig(entityName);
+        EntityEntry entry = EntityRegistry.getEntry(this.getClass());
+        if(entry != null) {
+            String entityName = entry.getName();
+            if (Main.mobsConfig.hasPath(entityName)) {
+                return Main.mobsConfig.getConfig(entityName);
+            }
         }
         return ConfigFactory.empty();
     }

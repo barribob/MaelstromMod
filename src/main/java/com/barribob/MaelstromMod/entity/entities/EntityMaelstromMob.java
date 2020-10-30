@@ -38,8 +38,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 /**
  * The base mob that most mobs in this mod will extend A lot of these methods are from the EntityMob class to make it behave similarly
@@ -47,7 +50,21 @@ import javax.annotation.Nonnull;
 public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob {
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
-    public static final Predicate<Entity> maelstromTargetFilter = entity -> !(entity instanceof EntityMaelstromMob);
+    private static final List<String> maelstromFriends = Main.maelstromFriendsConfig.getStringList("maelstrom_friends");
+    public static final Predicate<Entity> CAN_TARGET = entity -> {
+        boolean isConfigFriend = false;
+        if (entity != null) {
+            EntityEntry entry = EntityRegistry.getEntry(entity.getClass());
+            if(entry != null) {
+                ResourceLocation registryName = entry.getRegistryName();
+                if(registryName != null) {
+                    isConfigFriend = maelstromFriends.contains(registryName.toString());
+                }
+            }
+        }
+
+        return !(entity instanceof EntityMaelstromMob) && !isConfigFriend;
+    };
 
     public EntityMaelstromMob(World worldIn) {
         super(worldIn);
@@ -71,7 +88,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 
         if (ModConfig.entities.attackAll) {
             // This makes it so that the entity attack every entity except others of its kind
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, maelstromTargetFilter){
+            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, CAN_TARGET){
                 @Override
                 @Nonnull
                 protected AxisAlignedBB getTargetableArea(double targetDistance) {
@@ -183,7 +200,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (source.getTrueSource() instanceof EntityMaelstromMob) {
+        if (!CAN_TARGET.apply(source.getTrueSource())) {
             return false;
         }
         return super.attackEntityFrom(source, amount);

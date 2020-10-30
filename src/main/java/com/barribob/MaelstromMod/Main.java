@@ -51,6 +51,7 @@ public class Main {
     public static Config mobsConfig;
     public static Config soundsConfig;
     public static Config manaConfig;
+    public static Config maelstromFriendsConfig;
 
     public static Logger log;
 
@@ -104,5 +105,6 @@ public class Main {
         mobsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "mobs");
         soundsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "sounds");
         manaConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "mana");
+        maelstromFriendsConfig = CONFIG_MANAGER.handleConfigLoad(CONFIG_DIRECTORY_NAME, "maelstrom_friends");
     }
 }

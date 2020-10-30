@@ -51,7 +51,7 @@ public class ProjectileHomingFlame extends Projectile {
         }
 
         if(!this.world.isRemote && this.ticksExisted > AGE) {
-            this.setDead();
+            onHit(null);
         }
 
         if(this.shootingEntity != null && this.shootingEntity.isDead) {
@@ -61,6 +61,12 @@ public class ProjectileHomingFlame extends Projectile {
         if (!this.world.isRemote && this.ticksExisted % 3 == 0) {
             this.playSound(SoundEvents.BLOCK_STONE_BREAK, 0.2f, ModRandom.getFloat(0.2f) + 0.3f);
         }
+    }
+
+    @Override
+    protected void spawnImpactParticles() {
+        ParticleManager.spawnColoredExplosion(world, getPositionVector(), Vec3d.ZERO);
+        super.spawnImpactParticles();
     }
 
     @Override
@@ -75,18 +81,15 @@ public class ProjectileHomingFlame extends Projectile {
 
     @Override
     protected void onHit(@Nullable RayTraceResult result) {
-        if(result != null) {
-            DamageSource source = ModDamageSource.builder()
-                    .type(ModDamageSource.PROJECTILE)
-                    .directEntity(this)
-                    .indirectEntity(shootingEntity)
-                    .element(getElement())
-                    .stoppedByArmorNotShields().build();
+        DamageSource source = ModDamageSource.builder()
+                .type(ModDamageSource.PROJECTILE)
+                .directEntity(this)
+                .indirectEntity(shootingEntity)
+                .element(getElement())
+                .stoppedByArmorNotShields().build();
 
-            ModUtils.handleBulletImpact(result.entityHit, this, this.getDamage(), source);
-
-            playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 0.5f, 1.0f + ModRandom.getFloat(0.2f));
-        }
+        ModUtils.handleAreaImpact(0.6f, (e) -> getDamage(), shootingEntity, getPositionVector(), source, 0, 0, false);
+        playSound(SoundEvents.ENTITY_SHULKER_BULLET_HIT, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
         super.onHit(result);
     }
 

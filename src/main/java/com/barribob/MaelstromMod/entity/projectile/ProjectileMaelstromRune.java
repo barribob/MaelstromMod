@@ -4,6 +4,8 @@ import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -40,5 +42,10 @@ public class ProjectileMaelstromRune extends EntityLargeGoldenRune {
             ModUtils.circleCallback(this.blastRadius - 2, 30,
                     (offset) -> ParticleManager.spawnSwirl(world, ModUtils.entityPos(this).add(new Vec3d(offset.x, 0.7f, offset.y)), ModColors.PURPLE, ModUtils.getEntityVelocity(this), 5));
         }
+    }
+
+    @Override
+    protected void blastEffect(EntityLivingBase e) {
+        e.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 40, 0));
     }
 }

@@ -55,7 +55,7 @@ public class EntityCrimsonCrystal extends Entity {
             Vec3d pos = this.getPositionVector();
             OptionalDouble optionalDistance = ModUtils.getEntitiesInBox(this, ModUtils.makeBox(pos, pos).grow(20))
                     .stream()
-                    .filter(EntityMaelstromMob.maelstromTargetFilter)
+                    .filter(EntityMaelstromMob.CAN_TARGET)
                     .mapToDouble((e) -> e.getDistanceSq(this))
                     .min();
 

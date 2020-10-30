@@ -33,7 +33,7 @@ public class ProjectileStatueMaelstromMissile extends Projectile {
     @Override
     protected void onHit(RayTraceResult result) {
         if(!world.isRemote && result.entityHit instanceof EntityLivingBase) {
-            ((EntityLivingBase)result.entityHit).addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20, 0));
+            ((EntityLivingBase)result.entityHit).addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 40, 0));
         }
         DamageSource source = ModDamageSource.builder()
                 .type(ModDamageSource.PROJECTILE)

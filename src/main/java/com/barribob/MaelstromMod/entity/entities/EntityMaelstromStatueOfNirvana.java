@@ -137,6 +137,7 @@ public class EntityMaelstromStatueOfNirvana extends EntityMaelstromMob implement
 
         addEvent(() -> {
             new ActionRayAttack(maelstromMissile, 1.1f).performAction(this, target);
+            new ActionRayAttack(maelstromMissile, 1.1f).performAction(this, target);
             this.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, ModRandom.getFloat(0.2f) + 1.3f);
         }, 22);
     };

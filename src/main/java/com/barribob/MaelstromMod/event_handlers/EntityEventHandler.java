@@ -2,6 +2,7 @@ package com.barribob.MaelstromMod.event_handlers;
 
 import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.config.ModConfig;
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.entity.util.LeapingEntity;
 import com.barribob.MaelstromMod.gui.InGameGui;
 import com.barribob.MaelstromMod.init.ModDimensions;
@@ -23,6 +24,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -162,6 +164,15 @@ public class EntityEventHandler {
             if (event.getEntityLiving().dimension == ModConfig.world.cliff_dimension_id) {
                 ((EntitySheep) event.getEntityLiving()).setFleeceColor(EnumDyeColor.GRAY);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onAttackEntity(LivingAttackEvent event) {
+        boolean isMaelstromFriend = !EntityMaelstromMob.CAN_TARGET.apply(event.getEntityLiving());
+        boolean sourceIsMaelstromFriend = !EntityMaelstromMob.CAN_TARGET.apply(event.getSource().getTrueSource());
+        if(isMaelstromFriend && sourceIsMaelstromFriend) {
+            event.setCanceled(true);
         }
     }
 }

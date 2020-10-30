@@ -60,13 +60,17 @@ public class EntityLargeGoldenRune extends Projectile {
                 .stoppedByArmorNotShields().build();
 
         ModUtils.handleAreaImpact(blastRadius, (e) -> {
-                    if (e instanceof EntityLivingBase) {
-                        ((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));
+                    if (e instanceof EntityLivingBase && !world.isRemote) {
+                        blastEffect((EntityLivingBase) e);
                     }
                     return this.getDamage();
                 }, this.shootingEntity, this.getPositionVector(), source, 1, 0, false);
         this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
         super.onHit(result);
+    }
+
+    protected void blastEffect(EntityLivingBase e) {
+        e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 0));
     }
 
     @Override
