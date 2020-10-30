@@ -26,14 +26,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-/**
- * 2 ai's - a passive circling flying ai and the dive attack ai
- * The dive attack ai gets priority and is triggered when it goes out of the player view and gets a straight shot
- * The flying ai is a simple avoidance ai that revolves around the player - it takes over as soon as the dive finishes
- * and the entity goes back to revolving around until the dive attack cooldown and other conditions are met again.
- * We can probably reuse the healer acceleration to an extent.
- */
-
 public class EntityMaelstromFury extends EntityMaelstromMob implements IAcceleration {
     Vec3d acceleration = Vec3d.ZERO;
     public EntityMaelstromFury(World worldIn) {
@@ -137,5 +129,10 @@ public class EntityMaelstromFury extends EntityMaelstromMob implements IAccelera
     @Override
     protected SoundEvent getDeathSound() {
         return SoundsHandler.ENTITY_SHADE_HURT;
+    }
+
+    @Override
+    protected boolean canDespawn() {
+         return this.ticksExisted > 20 * getMobConfig().getInt("seconds_existed_to_be_able_to_despawn");
     }
 }

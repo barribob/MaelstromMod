@@ -18,6 +18,7 @@ public class MovementTracker {
 
     public Vec3d getMovementOverTicks(int ticks) {
         if(ticks > maxTicksTracking) throw new IllegalArgumentException("Ticks was larger than tick tracking");
+        if(positions.size() == 0) return Vec3d.ZERO;
         ticks = Math.min(ticks, positions.size() - 1);
         Vec3d firstPos = positions.get(0);
         Vec3d secondPos = positions.get(ticks);

@@ -6,7 +6,6 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -15,7 +14,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Fireball for the Gauntlet. Main things are that it can be collided with (shot down) and it spawns more projectiles on impact
@@ -59,7 +58,7 @@ public class ProjectileMegaFireball extends ProjectileAbstractMegaFireball {
     }
 
     @Override
-    protected void onImpact(RayTraceResult result) {
+    protected void onImpact(@Nullable RayTraceResult result) {
         int fireFactor = this.isBurning() ? 10 : 5;
 
         DamageSource source = ModDamageSource.builder()
