@@ -248,9 +248,9 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         double[] weights = {
                 (1 - (distance / 10)) * (prevAttack != sideSwipe ? 1.5 : 1.0), // Swipe
                 0.2 + 0.04 * distance, // Leap
-                healthRatio < 0.5 ? 0.2 + 0.04 * distance : 0, // Dash
-                healthRatio < 0.75 ? 0.5 - (prevAttack == spinSlash ? 0.3 : 0.0) : 0, // Spin slash
-                prevAttack == summonMeteors || healthRatio > 0.4 ? 0.0 : (1 - healthRatio) // Meteors
+                healthRatio < 0.7 ? 0.2 + 0.04 * distance : 0, // Dash
+                0.5 - (prevAttack == spinSlash ? 0.3 : 0.0), // Spin slash
+                prevAttack == summonMeteors || healthRatio > 0.5 ? 0.0 : (1 - healthRatio) // Meteors
         };
 
         prevAttack = ModRandom.choice(attacks, rand, weights).next();
