@@ -332,4 +332,9 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
     public void playSoundWithFallback(SoundEvent sound) {
         playSoundWithFallback(sound, SoundsHandler.NONE);
     }
+
+    @Override
+    public boolean isBeingRidden() {
+        return super.isBeingRidden() || (getMobConfig().hasPath("can_be_pushed") && !getMobConfig().getBoolean("can_be_pushed"));
+    }
 }
