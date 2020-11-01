@@ -318,7 +318,7 @@ tile.cracked_redstone_brick.name=Cracked Redstone Bricks
 entity.shade.name=Maelstrom Scout
 entity.horror.name=Maelstrom Cauldron
 entity.dream_elk.name=Azure Elk
-entity.beast.name=Maelstrom Crawler
+entity.maelstrom_crawler.name=Maelstrom Crawler
 entity.maelstrom_illager.name=Maelstrom Illager
 entity.azure_villager.name=Azure Villager
 entity.maelstrom_mage.name=Maelstrom Mage
@@ -390,7 +390,6 @@ entity.meteor.name=Maelstrom Meteor
 entity.meteor_spawner.name=Meteor Summoner
 entity.beast_quake.name=Minotaur Fissure
 entity.monolith.name=Maelstrom Monolith
-enttiy.white_monolith.name=Monolith
 entity.maelstrom_lancer.name=Maelstrom Lancer
 
 //———————————————————————————————————————————————————————————

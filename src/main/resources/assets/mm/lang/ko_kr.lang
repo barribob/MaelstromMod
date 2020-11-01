@@ -255,7 +255,7 @@ tile.swamp_fence.name=늪 판자 울타리
 entity.shade.name=마엘스트롬 스카우트
 entity.horror.name=마엘스트롬 솥
 entity.dream_elk.name=푸른 엘크
-entity.beast.name=마엘스트롬 크롤러
+entity.maelstrom_crawler.name=마엘스트롬 크롤러
 entity.maelstrom_illager.name=마엘스트롬 우민
 entity.azure_villager.name=프랙쳐 주민
 entity.maelstrom_mage.name=마엘스트롬 마법사
@@ -320,7 +320,6 @@ entity.meteor.name=Maelstrom Meteor
 entity.meteor_spawner.name=Meteor Summoner
 entity.beast_quake.name=Minotaur Fissure
 entity.monolith.name=마엘스트롬의 비석
-enttiy.white_monolith.name=비석
 entity.maelstrom_lancer.name=마엘스트롬 창병
 
 //뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓뿓?

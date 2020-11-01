@@ -94,7 +94,7 @@ public class ModEntities {
         registerEntityWithID("shade", EntityShade.class, SHADE_ID, 50, maelstrom);
         registerEntityWithID("horror", EntityHorror.class, HORROR_ID, 50, maelstrom);
         registerEntity("dream_elk", EntityDreamElk.class, DREAM_ELK_ID, 50, azure);
-        registerEntityWithID("beast", EntityBeast.class, BEAST_ID, 100, maelstrom);
+        registerEntityWithID("maelstrom_crawler", EntityBeast.class, BEAST_ID, 100, maelstrom);
         registerEntity("maelstrom_illager", EntityMaelstromIllager.class, MAELSTROM_ILLAGER_ID, 50, maelstrom);
         registerEntity("azure_villager", EntityAzureVillager.class, AZURE_VILLAGER_ID, 100, azure);
         registerEntityWithID("maelstrom_mage", EntityMaelstromMage.class, MAELSTROM_MAGE_ID, 50, maelstrom);
