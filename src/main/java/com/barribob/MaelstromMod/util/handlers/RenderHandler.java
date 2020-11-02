@@ -64,7 +64,7 @@ public class RenderHandler {
         registerModEntityRenderer(EntityAlternativeMaelstromGauntletStage2.class, new ModelMaelstromGauntlet(), "maelstrom_gauntlet_stage_2.png");
         registerModEntityRenderer(EntityMaelstromFury.class, new ModelMaelstromFury(), "maelstrom_fury.png");
         registerModEntityRenderer(EntityAlternativeMaelstromGauntletStage1.class, new ModelMaelstromGauntlet(), "maelstrom_gauntlet.png");
-        registerModEntityRenderer(EntityCrimsonCrystal.class, (manager) -> new RenderCrimsonCrystal(manager, "crystal.png", -0.2F));
+        registerModEntityRenderer(EntityCrimsonCrystal.class, (manager) -> new RenderCrimsonCrystal(manager, "crystal.png", -0.5f));
 
         registerProjectileRenderer(Projectile.class);
         registerProjectileRenderer(ProjectileBullet.class);

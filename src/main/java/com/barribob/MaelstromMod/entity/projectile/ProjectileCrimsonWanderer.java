@@ -53,10 +53,10 @@ public class ProjectileCrimsonWanderer extends Projectile {
 
     @Override
     protected void onHit(@Nullable RayTraceResult result) {
-        if(!world.isRemote && result != null && result.typeOfHit == RayTraceResult.Type.ENTITY) {
+        if(!world.isRemote) {
             onImpact();
-            super.onHit(result);
         }
+        super.onHit(result);
     }
 
     @Override

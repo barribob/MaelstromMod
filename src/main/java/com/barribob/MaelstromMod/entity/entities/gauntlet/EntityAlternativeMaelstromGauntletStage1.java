@@ -40,7 +40,7 @@ public class EntityAlternativeMaelstromGauntletStage1 extends EntityAbstractMael
     }
 
     private void spawnMob() {
-        if(!trySpawnMob(false)) trySpawnMob(true);
+        if(!trySpawnMob(true)) trySpawnMob(false);
     }
 
     private boolean trySpawnMob(boolean findGround) {
@@ -77,8 +77,8 @@ public class EntityAlternativeMaelstromGauntletStage1 extends EntityAbstractMael
             secondStage.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(this)), null);
             secondStage.setLevel(getLevel());
             secondStage.setElement(getElement());
-            world.spawnEntity(secondStage);
             secondStage.setAttackTarget(getAttackTarget());
+            world.spawnEntity(secondStage);
             for(int i = 0; i < 30; i++) {
                 summonCrimsonWanderer();
             }

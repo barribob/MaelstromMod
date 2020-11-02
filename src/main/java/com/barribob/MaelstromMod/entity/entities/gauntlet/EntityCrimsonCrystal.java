@@ -33,12 +33,13 @@ public class EntityCrimsonCrystal extends Entity {
 
     public EntityCrimsonCrystal(World world) {
         super(world);
+        this.setSize(1, 1);
     }
 
     public EntityCrimsonCrystal(World world, EntityLeveledMob shootingEntity) {
         super(world);
         this.shootingEntity = shootingEntity;
-        this.setSize(0.25f, 0.25f);
+        this.setSize(1, 1);
     }
 
     @Override
@@ -85,6 +86,7 @@ public class EntityCrimsonCrystal extends Entity {
     }
 
     public void explodeAndDespawn() {
+        this.setDead();
         DamageSource source = ModDamageSource.builder()
                 .type(ModDamageSource.EXPLOSION)
                 .directEntity(this)
@@ -93,10 +95,9 @@ public class EntityCrimsonCrystal extends Entity {
                 .stoppedByArmorNotShields().build();
 
         ModUtils.handleAreaImpact(explosionDistance, e -> shootingEntity.getAttack(), this.shootingEntity, getPositionVector(), source, 1, 0, false);
-        world.newExplosion(shootingEntity, posX, posY, posZ, 1, false, false);
+        world.newExplosion(shootingEntity, posX, posY, posZ, 1, false, ModUtils.mobGriefing(world, shootingEntity));
         playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.2f));
         world.setEntityState(this, ModUtils.PARTICLE_BYTE);
-        this.setDead();
     }
 
     @Override
@@ -146,5 +147,22 @@ public class EntityCrimsonCrystal extends Entity {
     @Override
     protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return true;
+    }
+
+    public final boolean canBeAttackedWithItem() {
+        return true;
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if(EntityMaelstromMob.CAN_TARGET.apply(source.getTrueSource()) && !world.isRemote && !isDead) {
+            explodeAndDespawn();
+        }
+        return super.attackEntityFrom(source, amount);
     }
 }

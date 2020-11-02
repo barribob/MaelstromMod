@@ -9,6 +9,7 @@ import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.SoundsHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
@@ -66,7 +67,13 @@ public class LaserAction implements IGauntletAction{
                     }
 
                     for (Entity target : ModUtils.findEntitiesInLine(entity.getPositionEyes(1), lazerPos, entity.world, entity)) {
-                        target.attackEntityFrom(ModDamageSource.causeElementalMagicDamage(entity, null, entity.getElement()), 6);
+                        DamageSource source = ModDamageSource.builder()
+                                .directEntity(entity)
+                                .stoppedByArmorNotShields()
+                                .element(entity.getElement())
+                                .type(ModDamageSource.MAGIC)
+                                .build();
+                        target.attackEntityFrom(source, entity.getAttack() * 0.5f);
                     }
 
                     ModUtils.addEntityVelocity(entity, laserDirection.scale(-0.03f));

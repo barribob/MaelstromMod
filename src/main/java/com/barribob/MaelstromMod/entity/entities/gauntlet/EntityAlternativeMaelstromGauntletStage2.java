@@ -39,7 +39,7 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
     }
 
     private void spawnMob() {
-        if(!trySpawnMob(false)) trySpawnMob(true);
+        if(!trySpawnMob(true)) trySpawnMob(false);
     }
 
     private boolean trySpawnMob(boolean findGround) {
