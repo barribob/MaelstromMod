@@ -898,46 +898,38 @@ public final class ModUtils {
         int tries = 100;
         for (int i = 0; i < tries; i++) {
             // Find a random position to spawn the enemy
-            int x = pos.getX() + ModRandom.range(0, range.getX()) * ModRandom.randSign();
-            int y = pos.getY() + ModRandom.range(0, range.getY()) * ModRandom.randSign();
-            int z = pos.getZ() + ModRandom.range(0, range.getZ()) * ModRandom.randSign();
+            int x = pos.getX() + ModRandom.range(-range.getX(), range.getX());
+            int y = pos.getY() + ModRandom.range(-range.getY(), range.getY());
+            int z = pos.getZ() + ModRandom.range(-range.getZ(), range.getZ());
+
+            BlockPos spawnPos = new BlockPos(x, y, z);
 
             if(findGround) {
-                int yOffset = range.getY();
-                while (yOffset > -range.getY()) {
-                    if (!world.isAirBlock(new BlockPos(x, pos.getY() + yOffset - 1, z))) {
-                        break;
-                    }
-                    yOffset--;
-                }
-
-                y = pos.getY() + yOffset;
+                spawnPos = ModUtils.findGroundBelow(world, spawnPos).up();
+                int lowestY = pos.getY() - range.getY();
+                if(spawnPos.getY() < lowestY) return null;
             }
 
-            if (!findGround || world.getBlockState(new BlockPos(x, y - 1, z)).isSideSolid(world, new BlockPos(x, y - 1, z), EnumFacing.UP)) {
-                Entity mob = createMobFromSpawnData(data, world, x + 0.5, y, z + 0.5);
+            if (!findGround || world.getBlockState(spawnPos.down()).isSideSolid(world, spawnPos.down(), EnumFacing.UP)) {
+                Entity mob = createMobFromSpawnData(data, world, x + 0.5, spawnPos.getY(), z + 0.5);
 
-                if (mob == null) {
-                    return null;
-                }
+                if (!(mob instanceof EntityLeveledMob))return null;
 
-                // Make sure that the position is a proper spawning position
-                if (!world.isAnyPlayerWithinRangeAt(x, y, z, 3.0D) && world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(mob.getEntityBoundingBox())) {
+                boolean notNearPlayer = !world.isAnyPlayerWithinRangeAt(x, spawnPos.getY(), z, 3.0D);
+                boolean clearAroundHitbox = world.getCollisionBoxes(mob, mob.getEntityBoundingBox()).isEmpty();
+                boolean noLiquid = !world.containsAnyLiquid(mob.getEntityBoundingBox());
 
-                    if (mob instanceof EntityLeveledMob) {
+                if (notNearPlayer && clearAroundHitbox && noLiquid) {
+                    EntityLeveledMob leveledMob = (EntityLeveledMob) mob;
 
-                        EntityLeveledMob leveledMob = (EntityLeveledMob) mob;
+                    world.spawnEntity(leveledMob);
+                    leveledMob.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(mob)), null);
+                    leveledMob.spawnExplosionParticle();
 
-                        // Spawn the entity
-                        world.spawnEntity(leveledMob);
-                        leveledMob.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(mob)), (IEntityLivingData) null);
-                        leveledMob.spawnExplosionParticle();
+                    leveledMob.setElement(ModRandom.choice(data.possibleElements, random, data.elementalWeights).next());
+                    leveledMob.setLevel(level);
 
-                        leveledMob.setElement(ModRandom.choice(data.possibleElements, random, data.elementalWeights).next());
-                        leveledMob.setLevel(level);
-
-                        return leveledMob;
-                    }
+                    return leveledMob;
                 }
             }
         }
