@@ -118,7 +118,7 @@ public class ModEntities {
         registerEntity("monolith", EntityMonolith.class, ENTITY_START_ID++, 70, maelstrom);
         registerEntity("white_monolith", EntityWhiteMonolith.class, ENTITY_START_ID++, 70);
         registerEntityWithID("maelstrom_lancer", EntityMaelstromLancer.class, ENTITY_START_ID++, 50, maelstrom);
-        registerEntityWithID("chaos_knight", EntityChaosKnight.class, ENTITY_START_ID++, 70, maelstrom);
+        registerEntityWithID("chaos_knight", EntityChaosKnight.class, ENTITY_START_ID++, 70, crimson_maelstrom);
         registerEntityWithID("maelstrom_healer", EntityMaelstromHealer.class, ENTITY_START_ID++, 50, maelstrom);
         registerEntityWithID("maelstrom_gauntlet", EntityMaelstromGauntlet.class, ENTITY_START_ID++, 70, crimson_maelstrom);
         registerEntityWithID("maelstrom_statue_of_nirvana", EntityMaelstromStatueOfNirvana.class, ENTITY_START_ID++, 70, cliff_maelstrom);

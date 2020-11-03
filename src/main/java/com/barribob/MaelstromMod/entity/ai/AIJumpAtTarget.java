@@ -55,7 +55,6 @@ public class AIJumpAtTarget extends EntityAIBase {
 
                         for (int y = -1; y <= 1; y++) {
                             if (processor.getPathNodeType(this.entity.world, pos.getX(), pos.getY() + y, pos.getZ()) == PathNodeType.WALKABLE) {
-                                System.out.println(i);
                                 ModUtils.leapTowards(entity, entity.getAttackTarget().getPositionVector(), horzVel * (i * 0.3f + ModRandom.getFloat(0.3f) + 1), yVel);
                                 return true;
                             }

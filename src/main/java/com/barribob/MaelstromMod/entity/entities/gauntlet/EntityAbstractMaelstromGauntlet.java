@@ -164,7 +164,6 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
         Vec3d targetMovement = movementTracker.getMovementOverTicks(5);
         double velocityTowardsThis = ModUtils.direction(target.getPositionVector(), getPositionVector())
                 .dotProduct(targetMovement);
-        System.out.println(velocityTowardsThis);
         return velocityTowardsThis > 3;
     }
 

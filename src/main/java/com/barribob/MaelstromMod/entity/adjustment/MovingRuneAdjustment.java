@@ -21,6 +21,6 @@ public class MovingRuneAdjustment implements IEntityAdjustment {
                         .add(ModUtils.yVec(0.1))
                         .add(randomDirection.scale(2)));
         Vec3d velocity = randomDirection.scale(0.13 + ModRandom.getFloat(0.05f)).scale(-1);
-        entity.setVelocity(velocity.x, 0, velocity.z);
+        ModUtils.setEntityVelocity(entity, velocity);
     }
 }
