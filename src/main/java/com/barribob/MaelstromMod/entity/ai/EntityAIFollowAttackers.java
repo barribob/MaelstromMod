@@ -27,7 +27,7 @@ public class EntityAIFollowAttackers extends EntityAIBase {
         EntityLivingBase closestMob = null;
         double distanceSq = Math.pow(creature.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue(), 2);
         for (EntityLivingBase entity : ModUtils.getEntitiesInBox(creature, new AxisAlignedBB(creature.getPosition()).grow(creature.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue()))) {
-            if (entity instanceof EntityMaelstromMob && creature.getAttackTarget() == null && ((EntityMaelstromMob) entity).getAttackTarget() != null) {
+            if (!EntityMaelstromMob.CAN_TARGET.apply(entity) && creature.getAttackTarget() == null && ((EntityMaelstromMob) entity).getAttackTarget() != null) {
                 if (entity.getDistanceSq(creature) < distanceSq) {
                     closestMob = entity;
                     distanceSq = entity.getDistanceSq(creature);

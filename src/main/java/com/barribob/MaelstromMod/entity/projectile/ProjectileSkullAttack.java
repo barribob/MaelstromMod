@@ -56,7 +56,7 @@ public class ProjectileSkullAttack extends Projectile {
         List list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(AREA_FACTOR));
         if (list != null) {
             for (Object entity : list) {
-                if (entity instanceof EntityLivingBase && this.shootingEntity != null && entity != this.shootingEntity && !(entity instanceof EntityMaelstromMob)) {
+                if (entity instanceof EntityLivingBase && this.shootingEntity != null && entity != this.shootingEntity && EntityMaelstromMob.CAN_TARGET.apply(((EntityLivingBase) entity))) {
                     int burnTime = 5;
                     ((EntityLivingBase) entity).setFire(burnTime);
 

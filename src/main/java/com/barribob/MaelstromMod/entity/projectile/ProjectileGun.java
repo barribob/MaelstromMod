@@ -54,7 +54,7 @@ public class ProjectileGun extends Projectile {
     }
 
     protected float getGunDamage(Entity entity) {
-        if (entity instanceof EntityMaelstromMob) {
+        if (!EntityMaelstromMob.CAN_TARGET.apply(entity)) {
             float maxDamageBonus = (float) (Math.pow(ModConfig.balance.progression_scale, 2.5) - 1); // Max damage is slightly more than the damage enchantment
             float damageBonus = super.getDamage() * maxDamageBonus * (this.maelstromDestroyer / (float) ModEnchantments.maelstrom_destroyer.getMaxLevel());
             return super.getDamage() + damageBonus;

@@ -40,6 +40,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import org.lwjgl.Sys;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -50,7 +51,6 @@ import java.util.List;
 public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRangedAttackMob {
     // Swinging arms is the animation for the attack
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityLeveledMob.class, DataSerializers.BOOLEAN);
-    private static final List<String> maelstromFriends = Main.maelstromFriendsConfig.getStringList("maelstrom_friends");
     public static final Predicate<Entity> CAN_TARGET = entity -> {
         boolean isConfigFriend = false;
         if (entity != null) {
@@ -58,7 +58,8 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
             if(entry != null) {
                 ResourceLocation registryName = entry.getRegistryName();
                 if(registryName != null) {
-                    isConfigFriend = maelstromFriends.contains(registryName.toString());
+                    isConfigFriend = Main.maelstromFriendsConfig.getStringList("maelstrom_friends")
+                            .contains(registryName.toString());
                 }
             }
         }

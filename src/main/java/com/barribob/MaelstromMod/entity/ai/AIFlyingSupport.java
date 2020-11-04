@@ -56,7 +56,7 @@ public class AIFlyingSupport extends EntityAIBase {
         EntityLivingBase optimalMob = null;
         double health = 2;
         for (EntityLivingBase entity : ModUtils.getEntitiesInBox(supporter, new AxisAlignedBB(supporter.getPosition()).grow(supporter.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue()))) {
-            if (entity instanceof EntityMaelstromMob && entity.getHealth() / entity.getMaxHealth() < health && this.supporter.getDistanceSq(entity) < Math.pow(supportDistance, 2)) {
+            if (!EntityMaelstromMob.CAN_TARGET.apply(entity) && entity.getHealth() / entity.getMaxHealth() < health && this.supporter.getDistanceSq(entity) < Math.pow(supportDistance, 2)) {
                 optimalMob = entity;
                 health = entity.getHealth() / entity.getMaxHealth();
             }
