@@ -394,7 +394,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
             this.setPosition(0, 0, 0);
         }
 
-        ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(15, 2, 15)).stream().filter((e) -> e instanceof EntityMaelstromMob).forEach((e) -> {
+        ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(15, 2, 15)).stream().filter(EntityMaelstromMob::isMaelstromMob).forEach((e) -> {
             e.hurtResistantTime = 0;
             e.attackEntityFrom(DamageSource.MAGIC, 50);
         });
@@ -438,7 +438,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
         this.playSound(SoundsHandler.ENTITY_MONOLITH_AMBIENT, 0.7f, 1.0f * ModRandom.getFloat(0.2f));
 
-        int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(10, 2, 10)).stream().filter((e) -> e instanceof EntityMaelstromMob).count();
+        int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(10, 2, 10)).stream().filter(EntityMaelstromMob::isMaelstromMob).count();
 
         double yellowWeight = 0.0;
         if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) < 6) {

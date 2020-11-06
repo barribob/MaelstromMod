@@ -67,6 +67,10 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
         return !(entity instanceof EntityMaelstromMob) && !isConfigFriend;
     };
 
+    public static boolean isMaelstromMob(Entity entity) {
+        return !CAN_TARGET.apply(entity);
+    }
+
     public EntityMaelstromMob(World worldIn) {
         super(worldIn);
     }

@@ -1044,10 +1044,6 @@ public final class ModUtils {
         return null;
     }
 
-    public static boolean isMaelstromMob(@Nullable Entity entity) {
-        return entity instanceof EntityMaelstromMob;
-    }
-
     /**
      * Find the closest entity that satisfies the condition given
      *

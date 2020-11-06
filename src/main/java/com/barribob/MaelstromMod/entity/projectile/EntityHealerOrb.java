@@ -155,11 +155,8 @@ public class EntityHealerOrb extends Entity {
                  * Default just flow down if no target
                  */
                 if (this.target == null || !this.target.isEntityAlive() || this.target instanceof EntityPlayer && ((EntityPlayer) this.target).isSpectator()) {
-                    EntityLivingBase newTarget = ModUtils.closestEntityExcluding(this, this.getEntityBoundingBox().grow(10), (entity) -> {
-                        return ModUtils.isMaelstromMob(entity) && entity != this.owner;
-                    });
 
-                    this.target = newTarget;
+                    this.target = ModUtils.closestEntityExcluding(this, this.getEntityBoundingBox().grow(10), (entity) -> EntityMaelstromMob.isMaelstromMob(entity) && entity != this.owner);
 
                     if (!this.hasNoGravity()) {
                         this.motionY -= 0.04D;
@@ -257,7 +254,7 @@ public class EntityHealerOrb extends Entity {
 
     protected void bulletHit(RayTraceResult result) {
         Entity entity = ModUtils.getLivingEntity(result.entityHit);
-        if (ModUtils.isMaelstromMob(entity) && owner != null) {
+        if (EntityMaelstromMob.isMaelstromMob(entity) && owner != null) {
             world.setEntityState(this, ModUtils.PARTICLE_BYTE);
             this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 1.0F);
             ((EntityMaelstromMob) entity).addPotionEffect(new PotionEffect(MobEffects.SPEED, 100));

@@ -63,7 +63,7 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
     @Override
     protected IGauntletAction getNextAttack(EntityLivingBase target, float distanceSq, IGauntletAction previousAction) {
         int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(50)).stream()
-                .filter((e) -> e instanceof EntityMaelstromMob).count();
+                .filter(EntityMaelstromMob::isMaelstromMob).count();
 
         double summonWeight = previousAction == summonAttack || numMinions > 3 ? 0 : 0.8;
         double fireballWeight = distanceSq < Math.pow(maxFireballDistance, 2) ? 1 : 0;

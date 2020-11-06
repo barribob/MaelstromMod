@@ -31,7 +31,7 @@ public class ProjectileMaelstromMissile extends Projectile {
 
     @Override
     protected void onHit(RayTraceResult result) {
-        if (result.entityHit != null && !(result.entityHit instanceof EntityMaelstromMob) && this.shootingEntity != null) {
+        if (result.entityHit != null && !EntityMaelstromMob.isMaelstromMob(result.entityHit) && this.shootingEntity != null) {
             DamageSource source = ModDamageSource.builder()
                     .type(ModDamageSource.MAGIC)
                     .indirectEntity(this)

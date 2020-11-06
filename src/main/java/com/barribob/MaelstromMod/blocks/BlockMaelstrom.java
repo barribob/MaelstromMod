@@ -53,7 +53,7 @@ public class BlockMaelstrom extends BlockBase {
      */
     @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-        if (entityIn instanceof EntityLivingBase && !(entityIn instanceof EntityMaelstromMob)) {
+        if (entityIn instanceof EntityLivingBase && !EntityMaelstromMob.isMaelstromMob(entityIn)) {
             entityIn.attackEntityFrom(ModDamageSource.MAELSTROM_DAMAGE, damage);
         }
     }
