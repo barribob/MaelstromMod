@@ -70,36 +70,27 @@ public class EntityMaelstromIllager extends EntityMaelstromMob {
         this.setSize(0.9f, 2.5f);
         this.healthScaledAttackFactor = 0.2;
         if (!world.isRemote) {
-            attackHandler.setAttack(magicMissile, new IAction() {
-                @Override
-                public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    ModUtils.throwProjectile(actor, target, new ProjectileHorrorAttack(world, actor, getAttack()), 6.0f, 1.2f,
-                            ModUtils.getRelativeOffset(actor, new Vec3d(0, 0, 1)));
-                    actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
-                }
+            attackHandler.setAttack(magicMissile, (IAction) (actor, target) -> {
+                ModUtils.throwProjectile(actor, target, new ProjectileHorrorAttack(world, actor, getAttack() * getConfigFloat("maelstrom_missile_damage")), 6.0f, 1.2f,
+                        ModUtils.getRelativeOffset(actor, new Vec3d(0, 0, 1)));
+                actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
             });
-            attackHandler.setAttack(wisp, new IAction() {
-                @Override
-                public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    Projectile proj = new ProjectileMaelstromWisp(world, actor, getAttack());
-                    proj.setTravelRange(15f);
-                    ModUtils.throwProjectile(actor, target, proj, 1.0f, 1.0f);
-                    playSoundWithFallback(SoundsHandler.Hooks.ENTITY_ILLAGER_VORTEX, SoundEvents.ENTITY_BLAZE_AMBIENT);
-                }
+            attackHandler.setAttack(wisp, (IAction) (actor, target) -> {
+                Projectile proj = new ProjectileMaelstromWisp(world, actor, getAttack() * getConfigFloat("ring_damage"));
+                proj.setTravelRange(15f);
+                ModUtils.throwProjectile(actor, target, proj, 1.0f, 1.0f);
+                playSoundWithFallback(SoundsHandler.Hooks.ENTITY_ILLAGER_VORTEX, SoundEvents.ENTITY_BLAZE_AMBIENT);
             });
-            attackHandler.setAttack(shield, new IAction() {
-                @Override
-                public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    DamageSource damageSource = ModDamageSource.builder()
-                            .directEntity(actor)
-                            .type(ModDamageSource.MAGIC)
-                            .element(getElement())
-                            .stoppedByArmorNotShields().build();
+            attackHandler.setAttack(shield, (IAction) (actor, target) -> {
+                DamageSource damageSource = ModDamageSource.builder()
+                        .directEntity(actor)
+                        .type(ModDamageSource.MAGIC)
+                        .element(getElement())
+                        .stoppedByArmorNotShields().build();
 
-                    ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack(), actor, getPositionVector(), damageSource);
-                    playSoundWithFallback(SoundsHandler.Hooks.ENTITY_ILLAGER_DOME, SoundEvents.ENTITY_FIREWORK_BLAST);
-                    actor.world.setEntityState(actor, ModUtils.THIRD_PARTICLE_BYTE);
-                }
+                ModUtils.handleAreaImpact(shieldSize, (e) -> getAttack() * getConfigFloat("defensive_burst_damage"), actor, getPositionVector(), damageSource);
+                playSoundWithFallback(SoundsHandler.Hooks.ENTITY_ILLAGER_DOME, SoundEvents.ENTITY_FIREWORK_BLAST);
+                actor.world.setEntityState(actor, ModUtils.THIRD_PARTICLE_BYTE);
             });
             attackHandler.setAttack(enemy, spawnEnemy);
         }

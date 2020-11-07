@@ -31,7 +31,7 @@ public class ActionSpinSlash implements IAction {
                 .disablesShields()
                 .stoppedByArmorNotShields().build();
         
-        ModUtils.handleAreaImpact(size, (e) -> actor.getAttack(), actor, actor.getPositionVector(), source, 0.3f, actor.getElement().matchesElement(Element.CRIMSON) ? 3 : 0, false);
+        ModUtils.handleAreaImpact(size, (e) -> actor.getAttack() * actor.getConfigFloat("spin_damage"), actor, actor.getPositionVector(), source, 0.3f, actor.getElement().matchesElement(Element.CRIMSON) ? 3 : 0, false);
 
         actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 

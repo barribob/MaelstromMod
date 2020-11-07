@@ -73,7 +73,7 @@ public class LaserAction implements IGauntletAction{
                                 .element(entity.getElement())
                                 .type(ModDamageSource.MAGIC)
                                 .build();
-                        target.attackEntityFrom(source, entity.getAttack() * 0.5f);
+                        target.attackEntityFrom(source, entity.getAttack() * entity.getConfigFloat("laser_damage"));
                     }
 
                     ModUtils.addEntityVelocity(entity, laserDirection.scale(-0.03f));

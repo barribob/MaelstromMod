@@ -52,7 +52,7 @@ public class EntityIronShade extends EntityMaelstromMob {
 
                 Vec3d pos = this.getPositionVector().add(ModUtils.yVec(1)).add(this.getLookVec().scale(2.0f));
                 this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.8F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-                ModUtils.handleAreaImpact(1.0f, (e) -> this.getAttack(), this, pos, source, 0.20f, this.getElement() == Element.CRIMSON ? 3 : 0, false);
+                ModUtils.handleAreaImpact(1.0f, (e) -> this.getAttack() * getConfigFloat("flip_damage"), this, pos, source, 0.20f, this.getElement() == Element.CRIMSON ? 3 : 0, false);
                 actor.world.setEntityState(actor, ModUtils.SECOND_PARTICLE_BYTE);
             });
             attackHandler.setAttack(spin, new ActionSpinSlash(3.0f));

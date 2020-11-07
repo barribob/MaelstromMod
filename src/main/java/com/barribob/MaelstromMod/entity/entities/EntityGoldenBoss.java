@@ -68,10 +68,10 @@ public class EntityGoldenBoss extends EntityMaelstromMob implements IAttack {
         return this.getEntityBoundingBox().grow(targetDistance);
     }
 
-    Supplier<Projectile> goldenMissile = () -> new ProjectileGoldenMissile(world, this, this.getAttack());
-    Supplier<Projectile> maelstromMissile = () -> new ProjectileStatueMaelstromMissile(world, this, this.getAttack());
-    Supplier<Projectile> goldenRune = () -> new EntityLargeGoldenRune(this.world, this, this.getAttack() * 2);
-    Supplier<Projectile> maelstromRune = () -> new ProjectileMaelstromRune(this.world, this, this.getAttack() * 2);
+    Supplier<Projectile> goldenMissile = () -> new ProjectileGoldenMissile(world, this, this.getAttack() * getConfigFloat("golden_missile_damage"));
+    Supplier<Projectile> maelstromMissile = () -> new ProjectileStatueMaelstromMissile(world, this, this.getAttack() * getConfigFloat("maelstrom_missile_damage"));
+    Supplier<Projectile> goldenRune = () -> new EntityLargeGoldenRune(this.world, this, this.getAttack() * getConfigFloat("golden_rune_damage"));
+    Supplier<Projectile> maelstromRune = () -> new ProjectileMaelstromRune(this.world, this, this.getAttack() * getConfigFloat("maelstrom_rune_damage"));
     Supplier<Projectile> maelstromOrGoldenMissile = () -> rand.nextInt(2) == 0 ? goldenMissile.get() : maelstromMissile.get();
     IAction goldenRayAction = new ActionRayAttack(goldenMissile, 1.1f);
     IAction maelstromRayAction = new ActionRayAttack(maelstromMissile, 1.1f);

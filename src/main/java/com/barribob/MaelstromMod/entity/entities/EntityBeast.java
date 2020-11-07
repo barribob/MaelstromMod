@@ -44,27 +44,19 @@ public class EntityBeast extends EntityMaelstromMob {
         this.setSize(2.8f, 2.2f);
         this.healthScaledAttackFactor = 0.2;
         if (!worldIn.isRemote) {
-            attackHandler.setAttack(leap, new IAction() {
-                @Override
-                public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    ModUtils.leapTowards(actor, target.getPositionVector(), 1.0f, 0.5f);
-                }
-            });
-            attackHandler.setAttack(spit, new IAction() {
-                @Override
-                public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                    for (int i = 0; i < 5; i++) {
-                        ProjectileBeastAttack projectile = new ProjectileBeastAttack(actor.world, actor, actor.getAttack() * 0.5f);
-                        double d0 = target.posY + target.getEyeHeight();
-                        double d1 = target.posX - actor.posX;
-                        double d2 = d0 - projectile.posY;
-                        double d3 = target.posZ - actor.posZ;
-                        float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-                        projectile.setElement(getElement());
-                        projectile.shoot(d1, d2 + f, d3, 1, 8);
-                        actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
-                        actor.world.spawnEntity(projectile);
-                    }
+            attackHandler.setAttack(leap, (IAction) (actor, target) -> ModUtils.leapTowards(actor, target.getPositionVector(), 1.0f, 0.5f));
+            attackHandler.setAttack(spit, (IAction) (actor, target) -> {
+                for (int i = 0; i < 5; i++) {
+                    ProjectileBeastAttack projectile = new ProjectileBeastAttack(actor.world, actor, actor.getAttack() * getConfigFloat("spit_damage"));
+                    double d0 = target.posY + target.getEyeHeight();
+                    double d1 = target.posX - actor.posX;
+                    double d2 = d0 - projectile.posY;
+                    double d3 = target.posZ - actor.posZ;
+                    float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+                    projectile.setElement(getElement());
+                    projectile.shoot(d1, d2 + f, d3, 1, 8);
+                    actor.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
+                    actor.world.spawnEntity(projectile);
                 }
             });
         }
@@ -143,7 +135,8 @@ public class EntityBeast extends EntityMaelstromMob {
     @Override
     public void onLivingUpdate() {
         if (!world.isRemote && this.isLeaping()) {
-            ModUtils.handleAreaImpact(2.5f, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.3f, 0, false);
+            ModUtils.handleAreaImpact(2.5f, (e) -> this.getAttack() * getConfigFloat("leap_damage"), this,
+                    this.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(this, getElement()), 0.3f, 0, false);
         }
         super.onLivingUpdate();
     }

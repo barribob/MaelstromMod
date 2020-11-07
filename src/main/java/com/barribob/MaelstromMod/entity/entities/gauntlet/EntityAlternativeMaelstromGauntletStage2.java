@@ -48,7 +48,7 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
     }
 
     private Projectile generateFireball() {
-        ProjectileMegaFireball fireball = new ProjectileMegaFireball(world, this, this.getAttack() * 2f, null, false);
+        ProjectileMegaFireball fireball = new ProjectileMegaFireball(world, this, this.getAttack() * getConfigFloat("fireball_damage"), null, false);
         fireball.setTravelRange((float) maxFireballDistance);
         return fireball;
     }

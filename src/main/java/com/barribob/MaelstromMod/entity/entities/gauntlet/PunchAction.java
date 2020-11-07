@@ -62,6 +62,7 @@ public class PunchAction implements IGauntletAction {
             double vel = ModUtils.getEntityVelocity(entity).lengthVector();
             AxisAlignedBB box = entity.getEntityBoundingBox().grow(0.3, 0.3, 0.3);
             ModUtils.destroyBlocksInAABB(box, entity.world, entity);
+            float punchDamage = entity.getAttack() * (float) vel * entity.getConfigFloat("punch_damage");
 
             DamageSource source = ModDamageSource.builder()
                     .type(ModDamageSource.MOB)
@@ -69,7 +70,7 @@ public class PunchAction implements IGauntletAction {
                     .stoppedByArmorNotShields()
                     .element(entity.getElement()).build();
 
-            ModUtils.handleAreaImpact(1.3f, (e) -> entity.getAttack() * (float) vel, entity,
+            ModUtils.handleAreaImpact(1.3f, (e) -> punchDamage, entity,
                     entity.getPositionEyes(1), source, (float) vel, 0, false);
 
             whilePunching.run();

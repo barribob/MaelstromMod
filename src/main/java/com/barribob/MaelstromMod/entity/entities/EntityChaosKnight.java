@@ -60,8 +60,9 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                     .directEntity(this)
                     .element(getElement())
                     .disablesShields().build();
+            float damage = getAttack() * getConfigFloat("single_swipe_damage");
 
-            ModUtils.handleAreaImpact(2, (e) -> getAttack(), this, offset, source, 0.5f, 0, false);
+            ModUtils.handleAreaImpact(2, (e) -> damage, this, offset, source, 0.5f, 0, false);
             swipeBlocks();
 
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
@@ -92,7 +93,8 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                     .stoppedByArmorNotShields().build();
 
             Vec3d pos = this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 0)));
-            ModUtils.handleAreaImpact(3, (e) -> this.getAttack() * 1.5f, this, pos, source);
+            float damage = this.getAttack() * getConfigFloat("leap_slam_damage");
+            ModUtils.handleAreaImpact(3, (e) -> damage, this, pos, source);
             this.world.newExplosion(this, pos.x, pos.y + 1, pos.z, (float) getMobConfig().getDouble("slam_explosion_strength"), false, true);
             this.world.setEntityState(this, ModUtils.PARTICLE_BYTE);
         }, 42);
@@ -137,8 +139,8 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
                         .directEntity(this)
                         .element(getElement())
                         .stoppedByArmorNotShields().build();
-
-                ModUtils.handleAreaImpact(dashRadius, (e) -> getAttack() * 1.5f, this, vec, source, 0.3f, 5);
+                float damage = getAttack() * getConfigFloat("dash_damage");
+                ModUtils.handleAreaImpact(dashRadius, (e) -> damage, this, vec, source, 0.3f, 5);
                 ModUtils.destroyBlocksInAABB(this.getEntityBoundingBox().offset(getPositionVector().scale(-1)).offset(vec), world, this);
                 world.playSound(vec.x, vec.y, vec.z, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 1.0f, 1.0f + ModRandom.getFloat(0.1f), false);
             });
@@ -157,14 +159,14 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
             this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
         };
         Runnable meleeAttack = () -> {
-            Vec3d offset = getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(0.5, 1, -1)));
             DamageSource source = ModDamageSource.builder()
                     .type(ModDamageSource.MOB)
                     .directEntity(this)
                     .element(getElement())
                     .disablesShields().build();
 
-            ModUtils.handleAreaImpact(2.7f, (e) -> getAttack(), this, getPositionVector().add(ModUtils.yVec(1)), source, 0.5f, 0, false);
+            float damage = getAttack() * getConfigFloat("spin_slash_damage");
+            ModUtils.handleAreaImpact(2.7f, (e) -> damage, this, getPositionVector().add(ModUtils.yVec(1)), source, 0.5f, 0, false);
             swipeBlocks();
 
             playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
@@ -185,7 +187,8 @@ public class EntityChaosKnight extends EntityMaelstromMob implements IAttack, Di
         ModBBAnimations.animation(this, "chaos_knight.summon", false);
         for (int tick = 20; tick < 140; tick += 5) {
             addEvent(() -> {
-                ProjectileChaosFireball meteor = new ProjectileChaosFireball(world, this, this.getAttack(), null);
+                float damage = this.getAttack() * getConfigFloat("meteor_damage");
+                ProjectileChaosFireball meteor = new ProjectileChaosFireball(world, this, damage, null);
                 Vec3d pos = new Vec3d(ModRandom.getFloat(10), ModRandom.getFloat(1), ModRandom.getFloat(10)).add(this.getPositionVector()).add(ModUtils.yVec(13));
                 Vec3d targetPos = new Vec3d(ModRandom.getFloat(5), 0, ModRandom.getFloat(5)).add(target.getPositionVector());
                 Vec3d vel = targetPos.subtract(pos).normalize().scale(0.4);

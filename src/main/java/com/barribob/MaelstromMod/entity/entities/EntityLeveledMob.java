@@ -69,6 +69,10 @@ public abstract class EntityLeveledMob extends EntityCreature implements IAnimat
         return ConfigFactory.empty();
     }
 
+    public float getConfigFloat(String path) {
+        return (float) getMobConfig().getDouble(path);
+    }
+
     // Because for some reason the default entity ai for 1.12 sends entities
     // off cliffs and holes instead of going around them
     @Override

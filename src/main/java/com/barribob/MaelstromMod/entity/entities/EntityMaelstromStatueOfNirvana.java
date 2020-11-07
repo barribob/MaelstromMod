@@ -122,13 +122,13 @@ public class EntityMaelstromStatueOfNirvana extends EntityMaelstromMob implement
     }
 
     public Supplier<Projectile> maelstromFlame = () -> {
-        ProjectileHomingFlame projectile = new ProjectileHomingFlame(world, this, this.getAttack());
+        ProjectileHomingFlame projectile = new ProjectileHomingFlame(world, this, this.getAttack() * getConfigFloat("homing_projectile_damage"));
         projectile.setNoGravity(true);
         projectile.setTravelRange(40);
         return projectile;
     };
-    Supplier<Projectile> maelstromRune = () -> new ProjectileMaelstromRune(this.world, this, this.getAttack() * 2);
-    Supplier<Projectile> maelstromMissile = () -> new ProjectileStatueMaelstromMissile(this.world, this, this.getAttack());
+    Supplier<Projectile> maelstromRune = () -> new ProjectileMaelstromRune(this.world, this, this.getAttack() * getConfigFloat("maelstrom_rune_damage"));
+    Supplier<Projectile> maelstromMissile = () -> new ProjectileStatueMaelstromMissile(this.world, this, this.getAttack() * getConfigFloat("maelstrom_missile_damage"));
 
     private final Consumer<EntityLivingBase> teleportAttack = target -> new ActionAerialTeleport(ModColors.PURPLE).performAction(this, target);
 

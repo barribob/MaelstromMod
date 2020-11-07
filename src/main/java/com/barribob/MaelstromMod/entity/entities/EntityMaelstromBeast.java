@@ -103,8 +103,8 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements IAttack 
 
     Runnable spawnQuake = () -> {
         Projectile projectile = this.isRaged() ?
-                new ProjectileBoneQuake(world, this, this.getAttack()) :
-                new ProjectileBeastQuake(world, this, this.getAttack());
+                new ProjectileBoneQuake(world, this, this.getAttack() * getConfigFloat("bone_hammer_wave_damage")) :
+                new ProjectileBeastQuake(world, this, this.getAttack() * getConfigFloat("hammer_wave_damage"));
 
         Vec3d projectileOffset = ModUtils.getRelativeOffset(this, new Vec3d(2, -2, 0));
         Vec3d forwardPos = ModUtils.getRelativeOffset(this, new Vec3d(3, -2, 0)).add(getPositionEyes(1));
@@ -143,8 +143,9 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements IAttack 
                     .stoppedByArmorNotShields()
                     .disablesShields().build();
 
-            ModUtils.handleAreaImpact(2, (e) -> this.getAttack(), this, offset, source, 1, 0, false);
-            ModUtils.handleAreaImpact(2, (e) -> this.getAttack(), this, offset2, source, 1, 0, false);
+            float damage = this.getAttack() * getConfigFloat("swipe_damage");
+            ModUtils.handleAreaImpact(2, (e) -> damage, this, offset, source, 1, 0, false);
+            ModUtils.handleAreaImpact(2, (e) -> damage, this, offset2, source, 1, 0, false);
 
             double width = getMobConfig().getDouble("swipe_width");
 
@@ -190,7 +191,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements IAttack 
             Vec3d axis = ModUtils.rotateVector2(dir.crossProduct(ModUtils.Y_AXIS), dir, 90).normalize().scale(5);
 
             ModUtils.lineCallback(targetPos.add(axis), targetPos.subtract(axis), 5, (pos, i) -> {
-                Projectile projectile = new ProjectileBeastFireball(world, this, this.getAttack());
+                Projectile projectile = new ProjectileBeastFireball(world, this, this.getAttack() * getConfigFloat("high_leap_fireball_damage"));
                 ModUtils.throwProjectile(this, pos, projectile, 4, 0.7f);
             });
 
@@ -208,7 +209,7 @@ public class EntityMaelstromBeast extends EntityMaelstromMob implements IAttack 
 
     public static void spawnBone(World world, Vec3d pos, EntityLeveledMob entity) {
         if (!world.isRemote) {
-            ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack() * 0.5f);
+            ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack() * entity.getConfigFloat("bone_projectile_damage"));
             projectile.setPosition(pos.x, pos.y + 1.5, pos.z);
             double xDir = ModRandom.getFloat(0.1f);
             double yDir = 1 + ModRandom.getFloat(0.1f);
