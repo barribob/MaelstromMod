@@ -83,7 +83,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
         this.tasks.addTask(7, new EntityAIWanderWithGroup(this, 1.0D));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true){
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, 1, true, false, null){
             @Override
             @Nonnull
             protected AxisAlignedBB getTargetableArea(double targetDistance) {
@@ -93,7 +93,7 @@ public abstract class EntityMaelstromMob extends EntityLeveledMob implements IRa
 
         if (ModConfig.entities.attackAll) {
             // This makes it so that the entity attack every entity except others of its kind
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 1, true, false, CAN_TARGET){
+            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 10, true, false, CAN_TARGET){
                 @Override
                 @Nonnull
                 protected AxisAlignedBB getTargetableArea(double targetDistance) {

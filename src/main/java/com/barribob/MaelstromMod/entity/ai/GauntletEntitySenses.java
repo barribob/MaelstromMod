@@ -4,13 +4,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntitySenses;
 
-/**
- * Sames as {@code EntitySenses} except that the entity can see through glass
- */
+import javax.annotation.Nonnull;
+
 public class GauntletEntitySenses extends EntitySenses {
+
+    private final EntityLiving entity;
 
     public GauntletEntitySenses(EntityLiving entityIn) {
         super(entityIn);
+        entity = entityIn;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class GauntletEntitySenses extends EntitySenses {
     }
 
     @Override
-    public boolean canSee(Entity entityIn) {
-        return true;
+    public boolean canSee(@Nonnull Entity entityIn) {
+        return entity.getAttackTarget() != null || super.canSee(entityIn);
     }
 }
