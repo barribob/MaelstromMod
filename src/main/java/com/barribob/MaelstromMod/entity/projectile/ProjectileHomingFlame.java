@@ -1,10 +1,10 @@
 package com.barribob.MaelstromMod.entity.projectile;
 
+import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.function.BiFunction;
 
 public class ProjectileHomingFlame extends Projectile {
     private static final int AGE = 20 * 8;
@@ -81,6 +80,10 @@ public class ProjectileHomingFlame extends Projectile {
 
     @Override
     protected void onHit(@Nullable RayTraceResult result) {
+        if(result != null && EntityMaelstromMob.isMaelstromMob(result.entityHit)) {
+            return;
+        }
+
         DamageSource source = ModDamageSource.builder()
                 .type(ModDamageSource.PROJECTILE)
                 .directEntity(this)

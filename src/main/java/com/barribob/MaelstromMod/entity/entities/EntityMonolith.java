@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class EntityMonolith extends EntityMaelstromMob implements IAttack, DirectionalRender, ITarget {
     private ComboAttack attackHandler = new ComboAttack();
@@ -72,16 +73,8 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
         this.isImmuneToFire = true;
 
         BiConsumer<EntityLeveledMob, EntityLivingBase> fireballs = (EntityLeveledMob actor, EntityLivingBase target) -> {
-            ModUtils.performNTimes(3, (i) -> {
-                ProjectileMonolithFireball meteor = new ProjectileMonolithFireball(world, actor, actor.getAttack() * actor.getConfigFloat("fireball_damage"), null);
-                Vec3d pos = ModRandom.randVec().scale(3).add(target.getPositionVector()).add(ModUtils.yVec(15));
-                meteor.setPosition(pos.x, pos.y, pos.z);
-                meteor.shoot(actor, 90, 0, 0.0F, 0.5f, 0);
-                meteor.motionX -= actor.motionX;
-                meteor.motionZ -= actor.motionZ;
-                meteor.setTravelRange(100f);
-                world.spawnEntity(meteor);
-            });
+            ModUtils.performNTimes(3, (i) -> spawnFireball(actor, target, this::getRandomFireballPosition));
+            spawnFireball(actor, target, this::getPositionAboveTarget);
         };
 
         BiConsumer<EntityLeveledMob, EntityLivingBase> lazer = (EntityLeveledMob actor, EntityLivingBase target) -> {
@@ -154,6 +147,29 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
                 }
             });
         }
+    }
+
+    public void spawnFireball(EntityLeveledMob actor, EntityLivingBase target, Function<EntityLivingBase, Vec3d> getPosition) {
+        ProjectileMonolithFireball meteor = new ProjectileMonolithFireball(world, actor, actor.getAttack() * actor.getConfigFloat("fireball_damage"), null);
+        Vec3d pos = getPosition.apply(target);
+        meteor.setPosition(pos.x, pos.y, pos.z);
+        meteor.shoot(actor, 90, 0, 0.0F, 0.5f, 0);
+        meteor.motionX -= actor.motionX;
+        meteor.motionZ -= actor.motionZ;
+        meteor.setTravelRange(100f);
+        world.spawnEntity(meteor);
+    }
+
+    private Vec3d getRandomFireballPosition(EntityLivingBase target) {
+        return ModRandom.randFlatVec(ModUtils.Y_AXIS)
+                .scale(ModRandom.range(4, 5))
+                .add(target.getPositionVector())
+                .add(ModUtils.yVec(ModRandom.range(15, 20)));
+    }
+
+    private Vec3d getPositionAboveTarget(EntityLivingBase target) {
+        return target.getPositionVector()
+                .add(ModUtils.yVec(ModRandom.range(15, 20)));
     }
 
     @Override
@@ -435,6 +451,22 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
     public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
         this.playSound(SoundsHandler.ENTITY_MONOLITH_AMBIENT, 0.7f, 1.0f * ModRandom.getFloat(0.2f));
 
+        chooseAttack();
+
+        world.setEntityState(this, attackHandler.getCurrentAttack());
+        this.dataManager.set(ATTACK, attackHandler.getCurrentAttack());
+
+        addEvent(() -> {
+            this.attackHandler.getCurrentAttackAction().performAction(this, target);
+            this.dataManager.set(ATTACK, noAttack);
+        }, 40);
+
+        int attackCooldown = this.attackHandler.getCurrentAttack() == yellowAttack && this.isTransformed() ? 120 : 90;
+
+        return attackCooldown - (int) (30 * (1 - (this.getHealth() / this.getMaxHealth())));
+    }
+
+    public void chooseAttack() {
         int numMinions = (int) ModUtils.getEntitiesInBox(this, getEntityBoundingBox().grow(10, 2, 10)).stream().filter(EntityMaelstromMob::isMaelstromMob).count();
 
         double yellowWeight = 0.0;
@@ -460,18 +492,6 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
             // Send the aimed position to the client side
             Main.network.sendToAllTracking(new MessageDirectionForRender(this, this.lazerDir), this);
         }
-
-        world.setEntityState(this, attackHandler.getCurrentAttack());
-        this.dataManager.set(ATTACK, Byte.valueOf(attackHandler.getCurrentAttack()));
-
-        addEvent(() -> {
-            this.attackHandler.getCurrentAttackAction().performAction(this, target);
-            this.dataManager.set(ATTACK, Byte.valueOf(noAttack));
-        }, 40);
-
-        int attackCooldown = this.attackHandler.getCurrentAttack() == yellowAttack && this.isTransformed() ? 120 : 90;
-
-        return attackCooldown - (int) (30 * (1 - (this.getHealth() / this.getMaxHealth())));
     }
 
     @Override

@@ -237,13 +237,14 @@ public final class ModUtils {
             double damage = maxDamage.apply(entity) * damageFactorSq;
             if (damage > 0 && adjustedDistanceSq < radiusSq) {
                 entity.setFire((int) (fireFactor * damageFactorSq));
-                entity.attackEntityFrom(damageSource, (float) damage);
-                double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
-                double entitySizeFactorSq = Math.pow(entitySizeFactor, 2);
+                if(entity.attackEntityFrom(damageSource, (float) damage)) {
+                    double entitySizeFactor = avgEntitySize == 0 ? 1 : Math.max(0.5, Math.min(1, 1 / avgEntitySize));
+                    double entitySizeFactorSq = Math.pow(entitySizeFactor, 2);
 
-                // Velocity depends on the entity's size and the damage dealt squared
-                Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactorSq).scale(knockbackFactor).scale(entitySizeFactorSq);
-                entity.addVelocity(velocity.x, velocity.y, velocity.z);
+                    // Velocity depends on the entity's size and the damage dealt squared
+                    Vec3d velocity = getCenter(entity.getEntityBoundingBox()).subtract(pos).normalize().scale(damageFactorSq).scale(knockbackFactor).scale(entitySizeFactorSq);
+                    entity.addVelocity(velocity.x, velocity.y, velocity.z);
+                }
             }
         });
     }

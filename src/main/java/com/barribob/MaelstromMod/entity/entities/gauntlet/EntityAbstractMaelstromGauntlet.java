@@ -122,7 +122,7 @@ public abstract class EntityAbstractMaelstromGauntlet extends EntityMaelstromMob
         this.tasks.addTask(4, new
                 AIAerialTimedAttack(this, attackDistance, 20, 20,
                 new GauntletAttackInitiator( 60, this::startAttack, this::defendAttack)));
-        this.tasks.addTask(7, new AiFistWander(this, punchAtPos, 80, 8));
+        this.tasks.addTask(7, new AiFistWander(this, punchAtPos, 120, 10));
     }
 
     public final IGauntletAction startAttack(EntityLivingBase target) {

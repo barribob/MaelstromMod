@@ -18,7 +18,6 @@ import java.util.function.Consumer;
  */
 public class AiFistWander extends EntityAIBase {
     protected final EntityLiving entity;
-    protected Vec3d direction;
     protected int cooldown;
     protected float heightAboveGround;
     Consumer<Vec3d> movement;
@@ -28,6 +27,7 @@ public class AiFistWander extends EntityAIBase {
         this.cooldown = cooldown;
         this.heightAboveGround = heightAboveGround;
         this.movement = movement;
+        this.setMutexBits(3);
     }
 
     @Nullable
@@ -52,29 +52,21 @@ public class AiFistWander extends EntityAIBase {
     }
 
     @Override
-    public void startExecuting() {
-        if (entity.getAttackTarget() == null) {
-            movement.accept(direction);
-        }
+    public boolean shouldExecute() {
+        return entity.getAttackTarget() == null;
     }
 
     @Override
-    public boolean shouldExecute() {
-        if (this.entity.getIdleTime() >= 100) {
-            return false;
-        }
-
-        if (this.entity.ticksExisted % 100 != this.cooldown) {
-            return false;
+    public void updateTask() {
+        int ticks = this.entity.ticksExisted % this.cooldown;
+        if (ticks != 0) {
+            return;
         }
 
         Vec3d vec3d = this.getPosition();
 
-        if (vec3d == null) {
-            return false;
-        } else {
-            direction = vec3d;
-            return true;
+        if (vec3d != null) {
+            movement.accept(vec3d);
         }
     }
 }

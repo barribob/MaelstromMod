@@ -17,9 +17,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ProjectileMonolithFireball extends ProjectileGun {
-    private static final int PARTICLE_AMOUNT = 15;
-    private static final int IMPACT_PARTICLE_AMOUNT = 100;
-    private static final int EXPOSION_AREA_FACTOR = 3;
+    private static final int EXPOSION_AREA_FACTOR = 2;
     public static final Vec3d FIREBALL_COLOR = new Vec3d(1.0, 0.6, 0.5);
 
     public ProjectileMonolithFireball(World worldIn, EntityLivingBase throwerIn, float baseDamage, ItemStack stack) {
@@ -48,11 +46,24 @@ public class ProjectileMonolithFireball extends ProjectileGun {
         float size = 0.25f;
         ParticleManager.spawnEffect(this.world, getPositionVector().add(ModRandom.randVec().scale(size)), ModColors.RED);
         world.spawnParticle(EnumParticleTypes.LAVA, this.posX, this.posY, this.posZ, 0, 0, 0);
+
+        float groundHeight = ModUtils.findGroundBelow(world, getPosition()).getY() + 1.2f;
+        Vec3d indicationPos = new Vec3d(posX, groundHeight, posZ);
+        ModUtils.circleCallback(EXPOSION_AREA_FACTOR, 6, (pos) -> {
+            Vec3d circleOffset = rotateCircleOverTime(pos);
+            ParticleManager.spawnEffect(world, indicationPos.add(circleOffset), ModColors.RED);
+        });
+    }
+
+    private Vec3d rotateCircleOverTime(Vec3d pos) {
+        Vec3d circleOffset = new Vec3d(pos.x, 0, pos.y);
+        circleOffset = ModUtils.rotateVector2(circleOffset, ModUtils.Y_AXIS, ticksExisted * 2);
+        return circleOffset;
     }
 
     @Override
     protected void spawnImpactParticles() {
-        for (int i = 0; i < this.IMPACT_PARTICLE_AMOUNT; i++) {
+        for (int i = 0; i < 30; i++) {
             this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX + ModRandom.getFloat(EXPOSION_AREA_FACTOR),
                     this.posY + ModRandom.getFloat(EXPOSION_AREA_FACTOR), this.posZ + ModRandom.getFloat(EXPOSION_AREA_FACTOR), 0, 0, 0);
             this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + ModRandom.getFloat(EXPOSION_AREA_FACTOR), this.posY + ModRandom.getFloat(EXPOSION_AREA_FACTOR),
