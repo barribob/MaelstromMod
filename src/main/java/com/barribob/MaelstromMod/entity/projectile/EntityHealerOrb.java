@@ -253,12 +253,12 @@ public class EntityHealerOrb extends Entity {
     }
 
     protected void bulletHit(RayTraceResult result) {
-        Entity entity = ModUtils.getLivingEntity(result.entityHit);
-        if (EntityMaelstromMob.isMaelstromMob(entity) && owner != null) {
+        EntityLivingBase entity = ModUtils.getLivingEntity(result.entityHit);
+        if (EntityMaelstromMob.isMaelstromMob(entity) && entity != null && owner != null) {
             world.setEntityState(this, ModUtils.PARTICLE_BYTE);
             this.playSound(SoundEvents.ENTITY_ILLAGER_CAST_SPELL, 1.0F, 1.0F);
-            ((EntityMaelstromMob) entity).addPotionEffect(new PotionEffect(MobEffects.SPEED, 100));
-            ((EntityMaelstromMob) entity).heal((float) (owner.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * 4));
+            entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100));
+            entity.heal((float) (owner.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * 4));
         } else if (result.entityHit != null && owner != null) {
             result.entityHit.attackEntityFrom(ModDamageSource.causeElementalThrownDamage(this, owner, owner.getElement()), owner.getAttack());
         }

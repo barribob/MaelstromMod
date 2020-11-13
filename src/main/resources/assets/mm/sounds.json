@@ -168,5 +168,25 @@
 				"stream": true
 			}
 		]
+	},
+	"music.new_world": {
+		"category": "music",
+		"subtitle": "music.new_world",
+		"sounds": [
+			{
+				"name": "mm:music/new_world",
+				"stream": true
+			}
+		]
+	},
+	"music.wandering": {
+		"category": "music",
+		"subtitle": "music.wandering",
+		"sounds": [
+			{
+				"name": "mm:music/wandering",
+				"stream": true
+			}
+		]
 	}
 }

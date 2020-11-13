@@ -25,6 +25,7 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
 
     public EntityAlternativeMaelstromGauntletStage2(World worldIn) {
         super(worldIn);
+        this.healthScaledAttackFactor = 0.2;
         Supplier<Vec3d> position = () -> getAttackTarget() == null ? null : getAttackTarget().getPositionVector();
         IGauntletAction swirlPunchAttack = new PunchAction("gauntlet.swirl_punch", position, this::summonWanderersAndSmoke, this, fist);
         summonAttack = new SummonMobsAction(this::spawnMob, this, fist);
@@ -55,7 +56,8 @@ public class EntityAlternativeMaelstromGauntletStage2 extends EntityAbstractMael
 
     private void summonWanderersAndSmoke() {
         world.setEntityState(this, ModUtils.THIRD_PARTICLE_BYTE);
-        if(rand.nextInt(2) == 0) {
+        int chance = getAttackTarget() != null && getAttackTarget().onGround ? 4 : 2;
+        if(rand.nextInt(chance) == 0) {
             summonCrimsonWanderer();
         }
     }

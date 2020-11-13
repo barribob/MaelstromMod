@@ -131,17 +131,15 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
                 @Override
                 public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
                     actor.getDataManager().set(TRANSFORMED, Boolean.valueOf(true));
-                    attackHandler.setAttack(yellowAttack, new IAction() {
-                        @Override
-                        public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-                            actor.setImmovable(false);
-                            actor.setNoGravity(false);
-                            Vec3d pos = target.getPositionVector().add(target.getLookVec()).add(ModUtils.yVec(24))
-                                    .add(new Vec3d(ModRandom.getFloat(1), 0, ModRandom.getFloat(1)));
-                            actor.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
-                            actor.setPosition(pos.x, pos.y, pos.z);
-                            EntityMonolith.this.setLeaping(true);
-                        }
+                    attackHandler.setAttack(yellowAttack, (IAction) (actor1, target1) -> {
+                        actor1.motionY = 0;
+                        actor1.setImmovable(false);
+                        actor1.setNoGravity(false);
+                        Vec3d pos = target1.getPositionVector().add(target1.getLookVec()).add(ModUtils.yVec(24))
+                                .add(new Vec3d(ModRandom.getFloat(1), 0, ModRandom.getFloat(1)));
+                        actor1.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
+                        actor1.setPosition(pos.x, pos.y, pos.z);
+                        EntityMonolith.this.setLeaping(true);
                     });
                     attackHandler.setAttack(redAttack, lazer);
                 }
@@ -241,7 +239,7 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
         this.setRotationYawHead(0);
 
         if (!world.isRemote && this.getAttackTarget() == null) {
-            this.dataManager.set(ATTACK, Byte.valueOf(noAttack));
+            this.dataManager.set(ATTACK, noAttack);
         }
 
         // When is is "moving" make sure it still feels immovable
@@ -359,12 +357,12 @@ public class EntityMonolith extends EntityMaelstromMob implements IAttack, Direc
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataManager.register(ATTACK, Byte.valueOf(noAttack));
-        this.dataManager.register(TRANSFORMED, Boolean.valueOf(false));
+        this.dataManager.register(ATTACK, noAttack);
+        this.dataManager.register(TRANSFORMED, Boolean.FALSE);
     }
 
     public byte getAttackColor() {
-        return this.dataManager.get(ATTACK).byteValue();
+        return this.dataManager.get(ATTACK);
     }
 
     @Override

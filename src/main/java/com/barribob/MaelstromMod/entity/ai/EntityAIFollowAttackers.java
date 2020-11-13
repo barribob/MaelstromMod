@@ -3,6 +3,7 @@ package com.barribob.MaelstromMod.entity.ai;
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
 import com.barribob.MaelstromMod.util.ModUtils;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -27,7 +28,10 @@ public class EntityAIFollowAttackers extends EntityAIBase {
         EntityLivingBase closestMob = null;
         double distanceSq = Math.pow(creature.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue(), 2);
         for (EntityLivingBase entity : ModUtils.getEntitiesInBox(creature, new AxisAlignedBB(creature.getPosition()).grow(creature.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue()))) {
-            if (!EntityMaelstromMob.CAN_TARGET.apply(entity) && creature.getAttackTarget() == null && ((EntityMaelstromMob) entity).getAttackTarget() != null) {
+            if (!EntityMaelstromMob.CAN_TARGET.apply(entity) &&
+                    creature.getAttackTarget() == null &&
+                    entity instanceof EntityLiving &&
+                    ((EntityLiving)entity).getAttackTarget() != null) {
                 if (entity.getDistanceSq(creature) < distanceSq) {
                     closestMob = entity;
                     distanceSq = entity.getDistanceSq(creature);
