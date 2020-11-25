@@ -207,6 +207,7 @@ tile.maelstrom_brick_fence.name=Maelstrom Brick Fence
 tile.maelstrom_brick_stairs.name=Maelstrom Brick Stairs
 tile.maelstrom_core_block.name=Maelstrom Core
 tile.cliff_maelstrom_core.name=Golden Maelstrom Core
+tile.maelstrom_heart.name=Maelstrom Tower Core
 
 //———————————————————————————————————————————————————————————
 // Ore
@@ -263,6 +264,8 @@ tile.mega_structure_block.name=Mega Structure Block
 tile.disappearing_spawner.name=Disappearing Spawner
 tile.black_sky.name=Black Air
 tile.lighting_updater.name=Temporary Lighting Updater
+mm.unit_test_failed=One or more unit tests failed!
+mm.test_success=Test Successful
 
 //———————————————————————————————————————————————————————————
 // Cliff Dimension
@@ -315,7 +318,7 @@ tile.cracked_redstone_brick.name=Cracked Redstone Bricks
 entity.shade.name=Maelstrom Scout
 entity.horror.name=Maelstrom Cauldron
 entity.dream_elk.name=Azure Elk
-entity.beast.name=Maelstrom Crawler
+entity.maelstrom_crawler.name=Maelstrom Crawler
 entity.maelstrom_illager.name=Maelstrom Illager
 entity.azure_villager.name=Azure Villager
 entity.maelstrom_mage.name=Maelstrom Mage
@@ -330,7 +333,7 @@ entity.nexus_saiyan.name=Nexus Saiyan
 entity.nexus_bladesmith.name=Nexus Bladesmith
 entity.golden_pillar.name=Golden Pillar
 entity.golden_boss.name=Statue of Nirvana
-entity.maelstrom_golden_boss.name=Maelstrom Statue of Nirvana
+entity.maelstrom_golden_boss.name=Statue of Nirvana
 entity.maelstrom_witch.name=Maelstrom Witch
 entity.cliff_golem.name=Cliff Stone Golem
 entity.swamp_crawler.name=Swamp Crawler
@@ -341,6 +344,10 @@ entity.white_monolith.name=White Monolith
 entity.chaos_knight.name=Maelstrom Champion
 entity.maelstrom_healer.name=Maelstrom Healer
 entity.maelstrom_gauntlet.name=Maelstrom Gauntlet
+entity.maelstrom_statue_of_nirvana.name=Maelstrom Statue Of Nirvana
+entity.maelstrom_fury.name=Maelstrom Fury
+entity.alternative_maelstrom_gauntlet_stage_1.name=Alternative Maelstrom Gauntlet Stage 1
+entity.alternative_maelstrom_gauntlet_stage_2.name=Alternative Maelstrom Gauntlet Stage 2
 
 //———————————————————————————————————————————————————————————
 // Projectiles
@@ -383,20 +390,18 @@ entity.meteor.name=Maelstrom Meteor
 entity.meteor_spawner.name=Meteor Summoner
 entity.beast_quake.name=Minotaur Fissure
 entity.monolith.name=Maelstrom Monolith
-enttiy.white_monolith.name=Monolith
 entity.maelstrom_lancer.name=Maelstrom Lancer
 
 //———————————————————————————————————————————————————————————
 // Damage Sources
 //———————————————————————————————————————————————————————————
 death.attack.mm:maelstrom=%1$s succumbed to the maelstrom
-death.attack.mm:mobMaelstrom=%1$s was pwned by a maelstrom mob
-death.attack.mm:playerMaelstrom=%1$s was pwned by another player using maelstrom powers
-death.attack.mm:arrowMaelstrom=%1$s was shot to death by a maelstrom mob
-death.attack.mm:thrownMaelstrom=%1$s was pummeled to death by a maelstrom mob
-death.attack.mm:explosionMaelstrom=%1$s was blown up by the maelstrom
-death.attack.mm:explosionMaelstrom.player=%1$s was blown up by the maelstrom while fighting %2$s
-death.attack.mm:magicMaelstrom=%1$s was magicked by a maelstrom mob
+death.attack.mm:mobMaelstrom=%1$s was killed by a %2$s
+death.attack.mm:playerMaelstrom=%1$s was killed by %2$s
+death.attack.mm:thrownMaelstrom=%1$s was pummeled to death by a %2$s
+death.attack.mm:explosionMaelstrom=%1$s was blown up
+death.attack.mm:explosionMaelstrom.player=%1$s was blown up while fighting a %2$s
+death.attack.mm:magicMaelstrom=%1$s was magicked by a %2$s
 
 //———————————————————————————————————————————————————————————
 // Item Attributes
@@ -497,6 +502,9 @@ mm.config.dark_nexus_dimension_id=Dark Nexus Dimension Id
 mm.config.invasion_time=Invasion Time
 mm.config.render_cliff_fog=Render Cliff Fog
 mm.config.invasion_warning_time=Invasion Warning Time
+mm.config.disable_dimensions=Disable Dimensions
+mm.config.disable_maelstrom_item_tooltips=Disable Maelstrom Item Tooltips and Armor
+mm.config.disable_elemental_visuals=Disable Elemental System Visuals
 
 mm.config.gui=Gui
 mm.config.armor_bar_x=Maelstrom Armor Bar X Offset
@@ -525,6 +533,9 @@ mm.config.sync_config_on_login=Sync Config On Login
 
 mm.config.shaders=Shader Compatability
 mm.config.render_custom_sky=Render Custom Skies
+
+mm.config_load_failed=Config Load Failed! View logs for more info.
+mm.config_load_success=Maelstrom Configs Reloaded Successfully
 
 
 //———————————————————————————————————————————————————————————
@@ -586,6 +597,7 @@ item.record.music_disc_new_world.desc=Barribob - New World
 item.record.music_disc_wandering.desc=Barribob - Wandering
 mm.desc.maelstrom_key=Congrats! You have reached the ending. See the mod page for more details.
 mm.desc.key_desc=Give to herobrine to craft
+mm.desc.disabled=DISABLED
 
 //———————————————————————————————————————————————————————————
 // Entity Dialog

@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "0.4"
+version = "0.4.1"
 group = "com.barribob.mm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Maelstrom Mod"
 
@@ -73,5 +73,13 @@ processResources {
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+jar {
+    manifest {
+        attributes 'FMLAT': 'mm_at.cfg'
     }
 }

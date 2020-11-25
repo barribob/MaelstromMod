@@ -8,7 +8,6 @@ import com.barribob.MaelstromMod.entity.util.ComboAttack;
 import com.barribob.MaelstromMod.init.ModEntities;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -24,8 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityMaelstromWitch extends EntityMaelstromMob
-{
+public class EntityMaelstromWitch extends EntityMaelstromMob {
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_12));
     private ComboAttack attackHandler = new ComboAttack();
     private byte lingeringPotions = 4;
@@ -36,181 +34,143 @@ public class EntityMaelstromWitch extends EntityMaelstromMob
     private float threshold;
     private boolean isRaged = false;
 
-    public EntityMaelstromWitch(World worldIn)
-    {
-	super(worldIn);
-	this.setLevel(2);
-	threshold = this.getMaxHealth() * 0.3f;
-	this.healthScaledAttackFactor = 0.2;
-	this.experienceValue = ModEntities.MINIBOSS_EXPERIENCE;
-	this.setSize(0.9f, 1.8f);
-	if (!worldIn.isRemote)
-	{
-	    attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION));
-	    attackHandler.setAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION));
-	    attackHandler.setAttack(throwWood, new ActionDarkMissile());
-	}
+    public EntityMaelstromWitch(World worldIn) {
+        super(worldIn);
+        threshold = this.getMaxHealth() * 0.3f;
+        this.healthScaledAttackFactor = 0.2;
+        this.setSize(0.9f, 1.8f);
+        if (!worldIn.isRemote) {
+            attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION));
+            attackHandler.setAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION));
+            attackHandler.setAttack(throwWood, new ActionDarkMissile());
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    protected void initAnimation()
-    {
-	attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION), () -> new AnimationWitchFlail());
-	attackHandler.setAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
-	attackHandler.setAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
-	this.currentAnimation = new AnimationWitchFlail();
+    protected void initAnimation() {
+        attackHandler.setAttack(lingeringPotions, new ActionThrowPotion(Items.LINGERING_POTION), () -> new AnimationWitchFlail());
+        attackHandler.setAttack(rapidPotions, new ActionThrowPotion(Items.SPLASH_POTION), () -> new AnimationWitchFlail());
+        attackHandler.setAttack(throwWood, new ActionDarkMissile(), () -> new AnimationWitchFlail());
+        this.currentAnimation = new AnimationWitchFlail();
     }
 
     @Override
-    protected void initEntityAI()
-    {
-	super.initEntityAI();
-	rangedAttack = new EntityAIRangedAttack<EntityMaelstromWitch>(this, 1.0f, 60, 30, 12.0f, 0.4f);
-	rageRangedAttack = new EntityAIRangedAttack<EntityMaelstromWitch>(this, 1.0f, 35, 30, 12.0f, 0.4f);
-	this.tasks.addTask(4, rangedAttack);
+    protected void initEntityAI() {
+        super.initEntityAI();
+        rangedAttack = new EntityAIRangedAttack<EntityMaelstromWitch>(this, 1.0f, 60, 30, 12.0f, 0.4f);
+        rageRangedAttack = new EntityAIRangedAttack<EntityMaelstromWitch>(this, 1.0f, 35, 30, 12.0f, 0.4f);
+        this.tasks.addTask(4, rangedAttack);
     }
 
     @Override
-    public void onUpdate()
-    {
-	super.onUpdate();
-	bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
-	if (this.isSwingingArms() && this.ticksExisted % 3 == 0 && this.getAttackTarget() != null)
-	{
-	    attackHandler.getCurrentAttackAction().performAction(this, this.getAttackTarget());
-	}
+    public void onUpdate() {
+        super.onUpdate();
+        bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        if (this.isSwingingArms() && this.ticksExisted % 3 == 0 && this.getAttackTarget() != null) {
+            attackHandler.getCurrentAttackAction().performAction(this, this.getAttackTarget());
+        }
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
-    {
-	if (source.isMagicDamage())
-	{
-	    return false;
-	}
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if (source.isMagicDamage()) {
+            return false;
+        }
 
-	float prevHealth = this.getHealth();
-	boolean flag = super.attackEntityFrom(source, amount);
-	if (prevHealth > threshold && this.getHealth() < threshold && rangedAttack != null)
-	{
-	    this.tasks.removeTask(rangedAttack);
-	    this.tasks.addTask(4, rageRangedAttack);
-	    this.isRaged = true;
-	}
-	return flag;
+        float prevHealth = this.getHealth();
+        boolean flag = super.attackEntityFrom(source, amount);
+        if (prevHealth > threshold && this.getHealth() < threshold && rangedAttack != null) {
+            this.tasks.removeTask(rangedAttack);
+            this.tasks.addTask(4, rageRangedAttack);
+            this.isRaged = true;
+        }
+        return flag;
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
-    {
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
     }
 
     @Override
-    protected void applyEntityAttributes()
-    {
-	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150);
-    }
-
-    @Override
-    public void setSwingingArms(boolean swingingArms)
-    {
-	super.setSwingingArms(swingingArms);
-	if (swingingArms)
-	{
-	    Byte[] attack = { lingeringPotions, rapidPotions, throwWood };
-	    attackHandler.setCurrentAttack(ModRandom.choice(attack));
-	    world.setEntityState(this, attackHandler.getCurrentAttack());
-	}
+    public void setSwingingArms(boolean swingingArms) {
+        super.setSwingingArms(swingingArms);
+        if (swingingArms) {
+            Byte[] attack = {lingeringPotions, rapidPotions, throwWood};
+            attackHandler.setCurrentAttack(ModRandom.choice(attack));
+            world.setEntityState(this, attackHandler.getCurrentAttack());
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void handleStatusUpdate(byte id)
-    {
-	if (id >= 4 && id <= 6)
-	{
-	    currentAnimation = attackHandler.getAnimation(id);
-	    getCurrentAnimation().startAnimation();
-	}
-	else
-	{
-	    super.handleStatusUpdate(id);
-	}
+    public void handleStatusUpdate(byte id) {
+        if (id >= 4 && id <= 6) {
+            currentAnimation = attackHandler.getAnimation(id);
+            getCurrentAnimation().startAnimation();
+        } else {
+            super.handleStatusUpdate(id);
+        }
     }
 
     @Override
-    protected SoundEvent getAmbientSound()
-    {
-	return SoundEvents.ENTITY_WITCH_AMBIENT;
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_WITCH_AMBIENT;
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-	return SoundEvents.ENTITY_WITCH_HURT;
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.ENTITY_WITCH_HURT;
     }
 
     @Override
-    protected SoundEvent getDeathSound()
-    {
-	return SoundEvents.ENTITY_WITCH_DEATH;
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_WITCH_DEATH;
     }
 
     @Override
-    protected ResourceLocation getLootTable()
-    {
-	return LootTableHandler.SWAMP_BOSS;
+    protected ResourceLocation getLootTable() {
+        return LootTableHandler.SWAMP_BOSS;
     }
 
     @Override
-    protected float getSoundPitch()
-    {
-	return 0.6f;
+    protected float getSoundPitch() {
+        return 0.6f;
     }
 
     @Override
-    public void setCustomNameTag(String name)
-    {
-	super.setCustomNameTag(name);
-	this.bossInfo.setName(this.getDisplayName());
+    public void setCustomNameTag(String name) {
+        super.setCustomNameTag(name);
+        this.bossInfo.setName(this.getDisplayName());
     }
 
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player)
-    {
-	super.addTrackingPlayer(player);
-	this.bossInfo.addPlayer(player);
+    public void addTrackingPlayer(EntityPlayerMP player) {
+        super.addTrackingPlayer(player);
+        this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player)
-    {
-	super.removeTrackingPlayer(player);
-	this.bossInfo.removePlayer(player);
+    public void removeTrackingPlayer(EntityPlayerMP player) {
+        super.removeTrackingPlayer(player);
+        this.bossInfo.removePlayer(player);
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound)
-    {
-	super.writeEntityToNBT(compound);
-	compound.setBoolean("raged", this.isRaged);
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setBoolean("raged", this.isRaged);
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound)
-    {
-	super.readEntityFromNBT(compound);
-	if (compound.hasKey("raged"))
-	{
-	    this.isRaged = compound.getBoolean("raged");
-	    if (isRaged && rangedAttack != null)
-	    {
-		this.tasks.removeTask(rangedAttack);
-		this.tasks.addTask(4, rageRangedAttack);
-	    }
-	}
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        if (compound.hasKey("raged")) {
+            this.isRaged = compound.getBoolean("raged");
+            if (isRaged && rangedAttack != null) {
+                this.tasks.removeTask(rangedAttack);
+                this.tasks.addTask(4, rageRangedAttack);
+            }
+        }
     }
 }

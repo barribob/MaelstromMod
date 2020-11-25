@@ -7,8 +7,7 @@ import net.minecraft.entity.Entity;
  * ModelGoldenShade - Barribob
  * Created using Tabula 7.0.0
  */
-public class ModelIronShade extends ModelAnimated
-{
+public class ModelIronShade extends ModelAnimated {
     public ModelRenderer wisps;
     public ModelRenderer body;
     public ModelRenderer rightArm;
@@ -145,7 +144,7 @@ public class ModelIronShade extends ModelAnimated
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.wisps.render(f5);
     }
 

@@ -68,7 +68,7 @@ public class ModelArmorer extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.rightLeg.render(f5);
         this.cloak.render(f5);
         this.cloak_1.render(f5);
@@ -76,12 +76,11 @@ public class ModelArmorer extends ModelBase {
         this.body.render(f5);
         this.leftLeg.render(f5);
     }
-    
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
-	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-	this.head.rotateAngleX = headPitch * 0.017453292F;
-	
+
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.head.rotateAngleX = headPitch * 0.017453292F;
+
         this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
         this.leftLeg.rotateAngleZ = 0.0F;
         this.leftLeg.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;

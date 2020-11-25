@@ -131,29 +131,28 @@ public class ModelMageTrader extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.cloak.render(f5);
         this.body.render(f5);
         this.rightLeg.render(f5);
         this.head.render(f5);
         this.leftLeg.render(f5);
     }
-    
+
     /**
      * Sets the model's various rotation angles. For bipeds, par1 and par2 are used
      * for animating the movement of arms and legs, where par1 represents the
      * time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
-	this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-	this.head.rotateAngleX = headPitch * 0.017453292F;
-	this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-	this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
-	this.leftLeg.rotateAngleY = 0.0F;
-	this.rightLeg.rotateAngleY = 0.0F;
-	
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.head.rotateAngleX = headPitch * 0.017453292F;
+        this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
+        this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.leftLeg.rotateAngleY = 0.0F;
+        this.rightLeg.rotateAngleY = 0.0F;
+
         this.leftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
         this.leftArm.rotateAngleZ = 0.0F;
         this.leftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;

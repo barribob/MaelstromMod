@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.mana;
 
-public interface IMana
-{
+public interface IMana {
     public boolean isRecentlyConsumed();
 
     public void setRecentlyConsumed(boolean consumed);

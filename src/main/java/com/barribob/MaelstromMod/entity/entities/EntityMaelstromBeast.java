@@ -1,30 +1,16 @@
 package com.barribob.MaelstromMod.entity.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiConsumer;
-
-import com.barribob.MaelstromMod.entity.action.Action;
-import com.barribob.MaelstromMod.entity.action.ActionGroundSlash;
-import com.barribob.MaelstromMod.entity.action.ActionSpawnEnemy;
-import com.barribob.MaelstromMod.entity.ai.EntityAIRangedAttackNoReset;
-import com.barribob.MaelstromMod.entity.animation.AnimationClip;
-import com.barribob.MaelstromMod.entity.animation.AnimationMaelstromBeast;
-import com.barribob.MaelstromMod.entity.model.ModelMaelstromBeast;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBeastQuake;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBone;
-import com.barribob.MaelstromMod.entity.projectile.ProjectileBoneQuake;
-import com.barribob.MaelstromMod.entity.util.ComboAttack;
-import com.barribob.MaelstromMod.init.ModEntities;
+import com.barribob.MaelstromMod.entity.ai.EntityAITimedAttack;
+import com.barribob.MaelstromMod.entity.projectile.*;
+import com.barribob.MaelstromMod.entity.util.IAttack;
+import com.barribob.MaelstromMod.init.ModBBAnimations;
 import com.barribob.MaelstromMod.util.ModColors;
 import com.barribob.MaelstromMod.util.ModDamageSource;
 import com.barribob.MaelstromMod.util.ModRandom;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.handlers.LootTableHandler;
 import com.barribob.MaelstromMod.util.handlers.ParticleManager;
-
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -33,402 +19,275 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-public class EntityMaelstromBeast extends EntityMaelstromMob {
-    private ComboAttack attackHandler = new ComboAttack();
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class EntityMaelstromBeast extends EntityMaelstromMob implements IAttack {
     private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.NOTCHED_20));
-    private byte hammerSwing = 4;
-    private byte battleShout = 5;
-    private byte groundSlash = 6;
-    private byte leap = 7;
-    public static final byte explosionParticles = 8;
-    private byte rageParticles = 9;
-    private static final int RAGED_ATTACK_DAMAGE = 12;
-    private static final int NORMAL_ATTACK_DAMAGE = 9;
+    private Consumer<EntityLivingBase> attack;
 
     public EntityMaelstromBeast(World worldIn) {
-	super(worldIn);
-	this.healthScaledAttackFactor = 0.2;
-	this.setSize(1.4f, 2.5f);
-	this.experienceValue = ModEntities.BOSS_EXPERIENCE;
-	this.setLevel(1.5f);
-	if (!world.isRemote) {
-	    attackHandler.setAttack(hammerSwing, new Action() {
-		@Override
-		public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-		    Vec3d offset = actor.getPositionVector().add(ModUtils.getRelativeOffset(actor, new Vec3d(2, 0, 0)));
-		    ModUtils.handleAreaImpact(3, (e) -> actor.getAttack(), actor, offset, ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 1, 0, false);
-		    if (EntityMaelstromBeast.this.isRaged()) {
-			ModUtils.performNTimes(8, (i) -> {
-			    spawnBone(worldIn, offset.add(ModRandom.randVec().scale(3)), EntityMaelstromBeast.this);
-			});
-		    }
-		    actor.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
-		}
-	    });
-	    attackHandler.setAttack(battleShout, new Action() {
-		@Override
-		public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-		    if (EntityMaelstromBeast.this.isRaged()) {
-			new ActionSpawnEnemy(() -> new EntityFloatingSkull(worldIn)).performAction(actor, target);
-		    }
-		    else {
-			ModUtils.handleAreaImpact(20, (e) -> {
-			    if (e instanceof EntityLivingBase) {
-				((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
-			    }
-			    return actor.getAttack() * 0.5f;
-			}, actor, actor.getPositionVector(), ModDamageSource.causeElementalMeleeDamage(actor, actor.getElement()), 0, 0, false);
-		    }
-		    actor.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1.0F, 0.9F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
-		}
-	    });
-	    attackHandler.setAttack(groundSlash, new ActionGroundSlash(() -> {
-		if (EntityMaelstromBeast.this.isRaged()) {
-		    return new ProjectileBoneQuake(worldIn, this, this.getAttack());
-		}
-		else {
-		    return new ProjectileBeastQuake(worldIn, this, this.getAttack());
-		}
-	    }));
-	    attackHandler.setAttack(leap, new Action() {
-
-		@Override
-		public void performAction(EntityLeveledMob actor, EntityLivingBase target) {
-		    ModUtils.leapTowards(actor, target.getPositionVector(), 1.4f, 0.7f);
-		}
-
-	    });
-	}
-
-    }
-
-    public static void spawnBone(World world, Vec3d pos, EntityLeveledMob entity) {
-	if (!world.isRemote) {
-	    ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack() * 0.5f);
-	    projectile.setPosition(pos.x, pos.y + 1.5, pos.z);
-	    double xDir = (world.rand.nextFloat() - world.rand.nextFloat()) * 0.5f;
-	    double yDir = 1;
-	    double zDir = (world.rand.nextFloat() - world.rand.nextFloat()) * 0.5f;
-	    projectile.shoot(xDir, yDir, zDir, 0.5f, 0.5f);
-	    world.spawnEntity(projectile);
-	}
-    }
-
-    @Override
-    protected void initAnimation() {
-	List<List<AnimationClip<ModelMaelstromBeast>>> animationHammer = new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>();
-	List<AnimationClip<ModelMaelstromBeast>> body = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	List<AnimationClip<ModelMaelstromBeast>> rightArmXStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	List<AnimationClip<ModelMaelstromBeast>> rightArmZStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	List<AnimationClip<ModelMaelstromBeast>> hammerStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-
-	BiConsumer<ModelMaelstromBeast, Float> bodyY = (model, f) -> {
-	    model.body.rotateAngleY = f;
-	};
-
-	BiConsumer<ModelMaelstromBeast, Float> rightArmX = (model, f) -> {
-	    model.rightArm.rotateAngleX = f;
-	};
-
-	BiConsumer<ModelMaelstromBeast, Float> rightArmZ = (model, f) -> {
-	    model.rightArm.rotateAngleZ = f;
-	};
-
-	BiConsumer<ModelMaelstromBeast, Float> hammerX = (model, f) -> {
-	    model.hammer_handle.rotateAngleX = f;
-	};
-
-	body.add(new AnimationClip(12, 0, -50, bodyY));
-	body.add(new AnimationClip(8, -50, -50, bodyY));
-	body.add(new AnimationClip(6, -50, 50, bodyY));
-	body.add(new AnimationClip(12, 50, 0, bodyY));
-
-	rightArmXStream.add(new AnimationClip(12, 0, -75, rightArmX));
-	rightArmXStream.add(new AnimationClip(8, -75, -75, rightArmX));
-	rightArmXStream.add(new AnimationClip(6, -75, 75, rightArmX));
-	rightArmXStream.add(new AnimationClip(8, 75, 0, rightArmX));
-
-	rightArmZStream.add(new AnimationClip(12, 0, 60, rightArmZ));
-	rightArmZStream.add(new AnimationClip(8, 60, 60, rightArmZ));
-	rightArmZStream.add(new AnimationClip(6, 60, 60, rightArmZ));
-	rightArmZStream.add(new AnimationClip(8, 60, 0, rightArmZ));
-
-	hammerStream.add(new AnimationClip(12, 0, 0, hammerX));
-	hammerStream.add(new AnimationClip(8, 0, 0, hammerX));
-	hammerStream.add(new AnimationClip(6, 0, 90, hammerX));
-	hammerStream.add(new AnimationClip(8, 90, 0, hammerX));
-
-	animationHammer.add(body);
-	animationHammer.add(rightArmXStream);
-	animationHammer.add(rightArmZStream);
-	animationHammer.add(hammerStream);
-
-	List<List<AnimationClip<ModelMaelstromBeast>>> animationShout = new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>();
-	List<AnimationClip<ModelMaelstromBeast>> shoutStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-
-	BiConsumer<ModelMaelstromBeast, Float> shout = (model, f) -> {
-	    model.body.rotateAngleX = model.defaultBodyRotation + f / 3;
-	    model.leftArm.rotateAngleX = f;
-	    model.rightArm.rotateAngleX = f;
-	    model.lowerJaw.rotateAngleX = -f / 3;
-	};
-
-	shoutStream.add(new AnimationClip(20, 0, -130, shout));
-	shoutStream.add(new AnimationClip(5, -130, -130, shout));
-	shoutStream.add(new AnimationClip(12, -130, 0, shout));
-
-	animationShout.add(shoutStream);
-
-	List<List<AnimationClip<ModelMaelstromBeast>>> animationGroundSlash = new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>();
-	rightArmXStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	rightArmZStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	List<AnimationClip<ModelMaelstromBeast>> bodyXStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	hammerStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-
-	BiConsumer<ModelMaelstromBeast, Float> bodyX = (model, f) -> {
-	    model.body.rotateAngleX = model.defaultBodyRotation + f;
-	};
-
-	rightArmXStream.add(new AnimationClip(18, 0, -130, rightArmX));
-	rightArmXStream.add(new AnimationClip(6, -130, -80, rightArmX));
-	rightArmXStream.add(new AnimationClip(8, -80, -80, rightArmX));
-	rightArmXStream.add(new AnimationClip(8, -80, 0, rightArmX));
-
-	rightArmZStream.add(new AnimationClip(18, 0, 0, rightArmZ));
-	rightArmZStream.add(new AnimationClip(6, 0, 20, rightArmZ));
-	rightArmZStream.add(new AnimationClip(8, 20, 20, rightArmZ));
-	rightArmZStream.add(new AnimationClip(8, 20, 0, rightArmZ));
-
-	bodyXStream.add(new AnimationClip(18, 0, -40, bodyX));
-	bodyXStream.add(new AnimationClip(6, -40, 47, bodyX));
-	bodyXStream.add(new AnimationClip(8, 47, 47, bodyX));
-	bodyXStream.add(new AnimationClip(8, 47, 0, bodyX));
-
-	hammerStream.add(new AnimationClip(18, 0, 0, hammerX));
-	hammerStream.add(new AnimationClip(6, 0, 81, hammerX));
-	hammerStream.add(new AnimationClip(8, 81, 81, hammerX));
-	hammerStream.add(new AnimationClip(8, 81, 0, hammerX));
-
-	animationGroundSlash.add(hammerStream);
-	animationGroundSlash.add(rightArmXStream);
-	animationGroundSlash.add(rightArmZStream);
-	animationGroundSlash.add(bodyXStream);
-
-	List<List<AnimationClip<ModelMaelstromBeast>>> animationLeap = new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>();
-	rightArmXStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	rightArmZStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	bodyXStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-	hammerStream = new ArrayList<AnimationClip<ModelMaelstromBeast>>();
-
-	rightArmXStream.add(new AnimationClip(24, 0, 0, rightArmX));
-	rightArmXStream.add(new AnimationClip(8, 0, -130, rightArmX));
-	rightArmXStream.add(new AnimationClip(6, -130, -80, rightArmX));
-	rightArmXStream.add(new AnimationClip(8, -80, -80, rightArmX));
-	rightArmXStream.add(new AnimationClip(8, -80, 0, rightArmX));
-
-	rightArmZStream.add(new AnimationClip(24, 0, 0, rightArmZ));
-	rightArmZStream.add(new AnimationClip(8, 0, 0, rightArmZ));
-	rightArmZStream.add(new AnimationClip(6, 0, 20, rightArmZ));
-	rightArmZStream.add(new AnimationClip(8, 20, 20, rightArmZ));
-	rightArmZStream.add(new AnimationClip(8, 20, 0, rightArmZ));
-
-	bodyXStream.add(new AnimationClip(16, 0, 50, bodyX));
-	bodyXStream.add(new AnimationClip(8, 50, 50, bodyX));
-	bodyXStream.add(new AnimationClip(8, 50, -40, bodyX));
-	bodyXStream.add(new AnimationClip(6, -40, 47, bodyX));
-	bodyXStream.add(new AnimationClip(8, 47, 47, bodyX));
-	bodyXStream.add(new AnimationClip(8, 47, 0, bodyX));
-
-	hammerStream.add(new AnimationClip(24, 0, 0, hammerX));
-	hammerStream.add(new AnimationClip(8, 0, 0, hammerX));
-	hammerStream.add(new AnimationClip(6, 0, 81, hammerX));
-	hammerStream.add(new AnimationClip(8, 81, 81, hammerX));
-	hammerStream.add(new AnimationClip(8, 81, 0, hammerX));
-
-	animationLeap.add(hammerStream);
-	animationLeap.add(rightArmXStream);
-	animationLeap.add(rightArmZStream);
-	animationLeap.add(bodyXStream);
-
-	attackHandler.setAttack(hammerSwing, Action.NONE, () -> new AnimationMaelstromBeast(animationHammer));
-	attackHandler.setAttack(battleShout, Action.NONE, () -> new AnimationMaelstromBeast(animationShout));
-	attackHandler.setAttack(groundSlash, Action.NONE, () -> new AnimationMaelstromBeast(animationGroundSlash));
-	attackHandler.setAttack(leap, Action.NONE, () -> new AnimationMaelstromBeast(animationLeap));
-
-	currentAnimation = new AnimationMaelstromBeast(new ArrayList<List<AnimationClip<ModelMaelstromBeast>>>());
-    }
-
-    @Override
-    protected void applyEntityAttributes() {
-	super.applyEntityAttributes();
-	this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-	this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(9);
-	this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400);
+        super(worldIn);
+        this.healthScaledAttackFactor = 0.2;
+        this.setSize(1.4f, 2.5f);
     }
 
     @Override
     protected void initEntityAI() {
-	super.initEntityAI();
-	this.tasks.addTask(4, new EntityAIRangedAttackNoReset<EntityMaelstromMob>(this, 1.25f, 50, 20, 9.0f, 0.5f));
-    }
-
-    @Override
-    protected boolean canDespawn() {
-	return false;
-    }
-
-    @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-	this.attackHandler.getCurrentAttackAction().performAction(this, target);
-	if (attackHandler.getCurrentAttack() == leap) {
-	    setLeaping(true);
-	}
-    }
-
-    @Override
-    public void setSwingingArms(boolean swingingArms) {
-	super.setSwingingArms(swingingArms);
-	if (this.isSwingingArms()) {
-	    Byte[] attack = { groundSlash, battleShout };
-	    double[] weights = { 0.8, 0.2 };
-	    attackHandler.setCurrentAttack(ModRandom.choice(attack, rand, weights).next());
-	    if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) > 8) {
-		attackHandler.setCurrentAttack(leap);
-	    }
-	    if (this.getAttackTarget() != null && this.getDistance(this.getAttackTarget()) < 4) {
-		attackHandler.setCurrentAttack(hammerSwing);
-	    }
-	    world.setEntityState(this, attackHandler.getCurrentAttack());
-	}
+        super.initEntityAI();
+        this.tasks.addTask(4, new EntityAITimedAttack<>(this, 1.25f, 50, 30, 0.5f, 10f));
     }
 
     @Override
     public void onUpdate() {
-	super.onUpdate();
-	if (this.isRaged()) {
-	    world.setEntityState(this, rageParticles);
-	}
+        super.onUpdate();
+        if (!world.isRemote && this.isRaged()) {
+            world.setEntityState(this, ModUtils.SECOND_PARTICLE_BYTE);
+        }
 
-    }
+        if(!world.isRemote && this.isLeaping() && this.getAttackTarget() != null &&
+                this.getDistanceSq(this.getAttackTarget()) < Math.pow(4, 2)){
+            this.setLeaping(false);
+            onStopLeaping();
+        }
 
-    @Override
-    public void heal(float healAmount) {
-	float prevHealth = this.getHealth();
-	super.heal(healAmount);
-	if (prevHealth < this.getMaxHealth() * 0.3f && this.getHealth() >= this.getMaxHealth() * 0.3f) {
-	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(NORMAL_ATTACK_DAMAGE);
-	}
+        if(!world.isRemote && this.isLeaping()) {
+            AxisAlignedBB box = getEntityBoundingBox().grow(0.25, 0.12, 0.25).offset(0, 0.12, 0);
+            ModUtils.destroyBlocksInAABB(box, world, this);
+        }
     }
 
     @Override
     public void handleStatusUpdate(byte id) {
-	if (id >= 4 && id <= 7) {
-	    currentAnimation = attackHandler.getAnimation(id);
-	    getCurrentAnimation().startAnimation();
-	}
-	else if (id == explosionParticles) {
-	    ModUtils.performNTimes(100, (i) -> {
-		ParticleManager.spawnMaelstromExplosion(world, rand, ModRandom.randVec().scale(5).add(getPositionVector()));
-	    });
-	}
-	else if (id == rageParticles) {
-	    ParticleManager.spawnEffect(world, getPositionVector().add(ModRandom.randVec().scale(2)).add(ModUtils.yVec(this.getEyeHeight())), ModColors.RED);
-	}
-	super.handleStatusUpdate(id);
-    }
-
-    @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-	float prevHealth = this.getHealth();
-	boolean flag = super.attackEntityFrom(source, amount);
-	if (prevHealth > this.getMaxHealth() * 0.3f && this.getHealth() <= this.getMaxHealth() * 0.3f) {
-	    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(RAGED_ATTACK_DAMAGE);
-	}
-	return flag;
+        if (id == ModUtils.SECOND_PARTICLE_BYTE) {
+            ParticleManager.spawnEffect(world, getPositionVector().add(ModRandom.randVec().scale(2)).add(ModUtils.yVec(this.getEyeHeight())), ModColors.RED);
+        }
+        super.handleStatusUpdate(id);
     }
 
     public boolean isRaged() {
-	return this.getHealth() <= this.getMaxHealth() * 0.3f;
+        return this.getHealth() <= getMobConfig().getDouble("second_phase_hp");
+    }
+
+    @Override
+    public int startAttack(EntityLivingBase target, float distanceSq, boolean strafingBackwards) {
+
+        if(target.posY - posY > 3)
+        {
+            spray.accept(target);
+            return 50;
+        }
+        else if(distanceSq > Math.pow(12, 2)) {
+            leap.accept(target);
+            return 50;
+        }
+
+        List<Consumer<EntityLivingBase>> attacks = new ArrayList<>(Arrays.asList(swipe, roar, quake));
+        double[] weights = {
+                Math.sqrt(Math.max(0, Math.pow(5, 2) - distanceSq)),
+                attack != roar ? 0.5 : 0,
+                1};
+
+        attack = ModRandom.choice(attacks, rand, weights).next();
+        attack.accept(target);
+        return 50;
+    }
+
+    Runnable spawnQuake = () -> {
+        Projectile projectile = this.isRaged() ?
+                new ProjectileBoneQuake(world, this, this.getAttack() * getConfigFloat("bone_hammer_wave_damage")) :
+                new ProjectileBeastQuake(world, this, this.getAttack() * getConfigFloat("hammer_wave_damage"));
+
+        Vec3d projectileOffset = ModUtils.getRelativeOffset(this, new Vec3d(2, -2, 0));
+        Vec3d forwardPos = ModUtils.getRelativeOffset(this, new Vec3d(3, -2, 0)).add(getPositionEyes(1));
+        ModUtils.throwProjectile(this, forwardPos, projectile, 0, 0.8f, projectileOffset);
+    };
+
+    private final Consumer<EntityLivingBase> quake = target -> {
+        ModBBAnimations.animation(this, "beast.quake", false);
+        ModUtils.leapTowards(this, target.getPositionVector(), 0, 0.5f);
+        addEvent(spawnQuake, 20);
+    };
+
+    @Override
+    public void onStopLeaping() {
+        ModBBAnimations.animation(this, "beast.leap", true);
+
+        if(getAttackTarget() != null && getAttackTarget().getDistanceSq(this) < Math.pow(12, 2)) {
+            ModBBAnimations.animation(this, "beast.slam", false);
+            addEvent(spawnQuake, 4);
+        }
+        else {
+            ModBBAnimations.animation(this, "beast.reset", false);
+        }
+    }
+
+    private final Consumer<EntityLivingBase> swipe = target -> {
+        ModBBAnimations.animation(this, "beast.swipe", false);
+
+        addEvent(() -> {
+            Vec3d offset = this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(2, 0, 0)));
+            Vec3d offset2 = this.getPositionVector().add(ModUtils.getRelativeOffset(this, new Vec3d(1, 0, 1)));
+            DamageSource source = ModDamageSource.builder()
+                    .type(ModDamageSource.MOB)
+                    .directEntity(this)
+                    .element(this.getElement())
+                    .stoppedByArmorNotShields()
+                    .disablesShields().build();
+
+            float damage = this.getAttack() * getConfigFloat("swipe_damage");
+            ModUtils.handleAreaImpact(2, (e) -> damage, this, offset, source, 1, 0, false);
+            ModUtils.handleAreaImpact(2, (e) -> damage, this, offset2, source, 1, 0, false);
+
+            double width = getMobConfig().getDouble("swipe_width");
+
+            ModUtils.destroyBlocksInAABB(new AxisAlignedBB(getPosition())
+                    .grow(width, 1, width)
+                    .offset(ModUtils.getRelativeOffset(this, new Vec3d(1, 1, 0))), world, this);
+
+            if (EntityMaelstromBeast.this.isRaged()) {
+                ModUtils.performNTimes(8, (i) -> spawnBone(world, offset.add(ModRandom.randVec().scale(3)), EntityMaelstromBeast.this));
+            }
+            this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 0.4f + ModRandom.getFloat(0.1f));
+        }, 15);
+    };
+
+    private final Consumer<EntityLivingBase> roar = target -> {
+        ModBBAnimations.animation(this, "beast.roar", false);
+
+        addEvent(() -> {
+            if (EntityMaelstromBeast.this.isRaged()) {
+                ModUtils.spawnMob(world, getPosition(), getLevel(), getMobConfig().getConfig("spawning_algorithm"));
+            } else {
+                ModUtils.handleAreaImpact(20, (e) -> {
+                    if (e instanceof EntityLivingBase) {
+                        ((EntityLivingBase) e).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 120, 3));
+                    }
+                    return 0.0f;
+                }, this, this.getPositionVector(), ModDamageSource.MAELSTROM_DAMAGE);
+            }
+            this.playSound(SoundEvents.ENTITY_ENDERDRAGON_GROWL, 1.0F, 0.9F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        }, 12);
+    };
+
+    public final Consumer<EntityLivingBase> spray = target -> {
+        ModUtils.leapTowards(this, target.getPositionVector(), 0, 1.6f);
+        ModBBAnimations.animation(this, "beast.leap", false);
+
+        addEvent(() -> {
+            ModBBAnimations.animation(this, "beast.leap", true);
+            ModBBAnimations.animation(this, "beast.slam", false);
+
+            Vec3d targetPos = target.getPositionEyes(1);
+            Vec3d dir = getPositionEyes(1).subtract(targetPos);
+            Vec3d axis = ModUtils.rotateVector2(dir.crossProduct(ModUtils.Y_AXIS), dir, 90).normalize().scale(5);
+
+            ModUtils.lineCallback(targetPos.add(axis), targetPos.subtract(axis), 5, (pos, i) -> {
+                Projectile projectile = new ProjectileBeastFireball(world, this, this.getAttack() * getConfigFloat("high_leap_fireball_damage"));
+                ModUtils.throwProjectile(this, pos, projectile, 4, 0.7f);
+            });
+
+        }, 30);
+    };
+
+    private final Consumer<EntityLivingBase> leap = target -> {
+        ModBBAnimations.animation(this, "beast.leap", false);
+
+        addEvent(() -> {
+            ModUtils.leapTowards(this, target.getPositionVector(), 1.8f, (float) 0.75);
+            setLeaping(true);
+        }, 16);
+    };
+
+    public static void spawnBone(World world, Vec3d pos, EntityLeveledMob entity) {
+        if (!world.isRemote) {
+            ProjectileBone projectile = new ProjectileBone(world, entity, entity.getAttack() * entity.getConfigFloat("bone_projectile_damage"));
+            projectile.setPosition(pos.x, pos.y + 1.5, pos.z);
+            double xDir = ModRandom.getFloat(0.1f);
+            double yDir = 1 + ModRandom.getFloat(0.1f);
+            double zDir = ModRandom.getFloat(0.1f);
+            projectile.shoot(xDir, yDir, zDir, 0.5f, 0.5f);
+            world.spawnEntity(projectile);
+        }
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
-	if (this.hasCustomName()) {
-	    this.bossInfo.setName(this.getDisplayName());
-	}
+        if (this.hasCustomName()) {
+            this.bossInfo.setName(this.getDisplayName());
+        }
 
-	super.readEntityFromNBT(compound);
-
+        super.readEntityFromNBT(compound);
     }
 
     @Override
     public void setCustomNameTag(String name) {
-	super.setCustomNameTag(name);
-	this.bossInfo.setName(this.getDisplayName());
+        super.setCustomNameTag(name);
+        this.bossInfo.setName(this.getDisplayName());
     }
 
     @Override
     protected void updateAITasks() {
-	this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
-	super.updateAITasks();
+        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        super.updateAITasks();
     }
 
     @Override
     public void addTrackingPlayer(EntityPlayerMP player) {
-	super.addTrackingPlayer(player);
-	this.bossInfo.addPlayer(player);
+        super.addTrackingPlayer(player);
+        this.bossInfo.addPlayer(player);
     }
 
     @Override
     public void removeTrackingPlayer(EntityPlayerMP player) {
-	super.removeTrackingPlayer(player);
-	this.bossInfo.removePlayer(player);
+        super.removeTrackingPlayer(player);
+        this.bossInfo.removePlayer(player);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-	return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
+        return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-	return SoundEvents.ENTITY_POLAR_BEAR_HURT;
+        return SoundEvents.ENTITY_POLAR_BEAR_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-	return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
+        return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
     }
 
     @Override
     protected ResourceLocation getLootTable() {
-	return LootTableHandler.BEAST;
+        return LootTableHandler.BEAST;
     }
 
     @Override
     protected float getSoundPitch() {
-	return super.getSoundPitch() * 0.8f;
+        return super.getSoundPitch() * 0.8f;
     }
 
     @Override
     protected float getSoundVolume() {
-	return 0.6F;
+        return 0.6F;
     }
 
     @Override
-    public void onStopLeaping() {
-	ModUtils.handleAreaImpact(5, (e) -> this.getAttack(), this, this.getPositionVector(), ModDamageSource.causeElementalExplosionDamage(this, getElement()));
-	this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f + ModRandom.getFloat(0.1f));
-	this.world.setEntityState(this, this.explosionParticles);
-	if (this.isRaged()) {
-	    ModUtils.performNTimes(9, (i) -> {
-		spawnBone(world, this.getPositionVector().add(ModRandom.randVec().scale(3)), this);
-	    });
-	}
+    protected boolean canDespawn() {
+        return false;
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
     }
 }

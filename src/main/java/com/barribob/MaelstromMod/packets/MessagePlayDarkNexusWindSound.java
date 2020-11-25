@@ -15,12 +15,12 @@ public class MessagePlayDarkNexusWindSound implements IMessage {
     }
 
     public static class Handler implements IMessageHandler<MessagePlayDarkNexusWindSound, IMessage> {
-	@Override
-	public IMessage onMessage(MessagePlayDarkNexusWindSound message, MessageContext ctx) {
-	    if (PacketUtils.getPlayer() != null) {
-		PacketUtils.playDarkNexusWindSound();
-	    }
-	    return null;
-	}
+        @Override
+        public IMessage onMessage(MessagePlayDarkNexusWindSound message, MessageContext ctx) {
+            if (PacketUtils.getPlayer() != null) {
+                PacketUtils.playDarkNexusWindSound();
+            }
+            return null;
+        }
     }
 }

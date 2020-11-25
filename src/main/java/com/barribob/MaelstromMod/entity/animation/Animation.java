@@ -2,8 +2,7 @@ package com.barribob.MaelstromMod.entity.animation;
 
 import net.minecraft.client.model.ModelBase;
 
-public interface Animation<T extends ModelBase>
-{
+public interface Animation<T extends ModelBase> {
     /*
      * Called by the entity's model to get the rotations it needs
      */

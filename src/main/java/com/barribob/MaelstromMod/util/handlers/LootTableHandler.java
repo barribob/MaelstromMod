@@ -1,17 +1,13 @@
 package com.barribob.MaelstromMod.util.handlers;
 
 import com.barribob.MaelstromMod.util.Reference;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
 
 /**
- * 
  * Keeps track of all the item drop resource locations
- *
  */
-public class LootTableHandler
-{
+public class LootTableHandler {
     public static final ResourceLocation MAELSTROM = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/maelstrom"));
     public static final ResourceLocation AZURE_MAELSTROM = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/azure_maelstrom"));
     public static final ResourceLocation GOLDEN_MAELSTROM = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entity/golden_maelstrom"));

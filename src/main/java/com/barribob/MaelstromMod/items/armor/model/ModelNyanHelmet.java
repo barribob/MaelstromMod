@@ -7,8 +7,7 @@ import net.minecraft.client.model.ModelRenderer;
  * ModelPlayer - Either Mojang or a mod author
  * Created using Tabula 7.0.0
  */
-public class ModelNyanHelmet extends ModelBiped
-{
+public class ModelNyanHelmet extends ModelBiped {
     public ModelRenderer helmet;
     public ModelRenderer rightEar1;
     public ModelRenderer rightEar2;
@@ -33,10 +32,10 @@ public class ModelNyanHelmet extends ModelBiped
         this.helmet = new ModelRenderer(this, 23, 7);
         this.helmet.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.helmet.addBox(-4.5F, -8.5F, -4.5F, 9, 9, 9, 0.0F);
-	this.bipedHead.addChild(this.rightEar2);
-	this.bipedHead.addChild(this.rightEar2_1);
-	this.bipedHead.addChild(this.rightEar1_1);
-	this.bipedHead.addChild(this.rightEar1);
-	this.bipedHead.addChild(this.helmet);
+        this.bipedHead.addChild(this.rightEar2);
+        this.bipedHead.addChild(this.rightEar2_1);
+        this.bipedHead.addChild(this.rightEar1_1);
+        this.bipedHead.addChild(this.rightEar1);
+        this.bipedHead.addChild(this.helmet);
     }
 }

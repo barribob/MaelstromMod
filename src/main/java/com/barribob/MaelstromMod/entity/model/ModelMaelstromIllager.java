@@ -1,7 +1,6 @@
 package com.barribob.MaelstromMod.entity.model;
 
 import com.barribob.MaelstromMod.entity.entities.EntityMaelstromMob;
-
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -10,8 +9,7 @@ import net.minecraft.util.math.MathHelper;
  * ModelMaelstromIllager - Barribob
  * Created using Tabula 7.0.0
  */
-public class ModelMaelstromIllager extends ModelAnimated
-{
+public class ModelMaelstromIllager extends ModelAnimated {
     public ModelRenderer head;
     public ModelRenderer bipedRightArm;
     public ModelRenderer rightLeg;
@@ -80,41 +78,37 @@ public class ModelMaelstromIllager extends ModelAnimated
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
         this.head.render(f5);
         this.leftLeg.render(f5);
         this.mainBody.render(f5);
         this.rightLeg.render(f5);
-                
+
         // Only render the standard villager wrists when not swinging (summoning)
-        if (((EntityMaelstromMob)entity).isSwingingArms())
-        {
+        if (((EntityMaelstromMob) entity).isSwingingArms()) {
             this.bipedLeftArm.render(f5);
             this.bipedRightArm.render(f5);
-        }
-        else
-        {
+        } else {
             this.arms.render(f5);
             this.villagerWrist.render(f5);
         }
     }
-    
+
     /**
      * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.arms.rotationPointY = 3.0F;
         this.arms.rotationPointZ = -1.0F;
         this.arms.rotateAngleX = -0.75F;
         this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-        this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
         this.leftLeg.rotateAngleY = 0.0F;
         this.leftLeg.rotateAngleY = 0.0F;
     }

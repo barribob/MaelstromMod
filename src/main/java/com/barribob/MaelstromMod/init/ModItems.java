@@ -1,58 +1,19 @@
 package com.barribob.MaelstromMod.init;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
-import com.barribob.MaelstromMod.items.ItemBase;
-import com.barribob.MaelstromMod.items.ItemCatalyst;
-import com.barribob.MaelstromMod.items.ItemFoodBase;
-import com.barribob.MaelstromMod.items.ItemKey;
-import com.barribob.MaelstromMod.items.ItemModElytra;
-import com.barribob.MaelstromMod.items.ItemModRecord;
-import com.barribob.MaelstromMod.items.ItemSingleDescription;
-import com.barribob.MaelstromMod.items.ItemTradable;
+import com.barribob.MaelstromMod.Main;
+import com.barribob.MaelstromMod.items.*;
 import com.barribob.MaelstromMod.items.armor.ArmorNyanHelmet;
 import com.barribob.MaelstromMod.items.armor.ArmorStrawHat;
 import com.barribob.MaelstromMod.items.armor.ItemSpeedBoots;
 import com.barribob.MaelstromMod.items.armor.ModArmorBase;
-import com.barribob.MaelstromMod.items.gun.ItemAmmoCase;
-import com.barribob.MaelstromMod.items.gun.ItemBoomstick;
-import com.barribob.MaelstromMod.items.gun.ItemExplosiveStaff;
-import com.barribob.MaelstromMod.items.gun.ItemFireballStaff;
-import com.barribob.MaelstromMod.items.gun.ItemFlintlock;
-import com.barribob.MaelstromMod.items.gun.ItemLeapStaff;
-import com.barribob.MaelstromMod.items.gun.ItemMaelstromCannon;
-import com.barribob.MaelstromMod.items.gun.ItemMeteorStaff;
-import com.barribob.MaelstromMod.items.gun.ItemMusket;
-import com.barribob.MaelstromMod.items.gun.ItemPiercer;
-import com.barribob.MaelstromMod.items.gun.ItemPotionEffectStaff;
-import com.barribob.MaelstromMod.items.gun.ItemPumpkin;
-import com.barribob.MaelstromMod.items.gun.ItemQuakeStaff;
-import com.barribob.MaelstromMod.items.gun.ItemRepeater;
-import com.barribob.MaelstromMod.items.gun.ItemRifle;
-import com.barribob.MaelstromMod.items.gun.ItemRuneStaff;
-import com.barribob.MaelstromMod.items.gun.ItemSpeedStaff;
-import com.barribob.MaelstromMod.items.gun.ItemTuningFork;
-import com.barribob.MaelstromMod.items.gun.ItemWispStaff;
+import com.barribob.MaelstromMod.items.gun.*;
 import com.barribob.MaelstromMod.items.gun.bullet.BrownstoneCannon;
 import com.barribob.MaelstromMod.items.gun.bullet.GoldenFireball;
-import com.barribob.MaelstromMod.items.tools.ItemMagisteelSword;
-import com.barribob.MaelstromMod.items.tools.ToolBattleaxe;
-import com.barribob.MaelstromMod.items.tools.ToolCrusadeSword;
-import com.barribob.MaelstromMod.items.tools.ToolDagger;
-import com.barribob.MaelstromMod.items.tools.ToolDragonslayer;
-import com.barribob.MaelstromMod.items.tools.ToolExplosiveDagger;
-import com.barribob.MaelstromMod.items.tools.ToolFrostSword;
-import com.barribob.MaelstromMod.items.tools.ToolLongsword;
-import com.barribob.MaelstromMod.items.tools.ToolPickaxe;
-import com.barribob.MaelstromMod.items.tools.ToolSword;
-import com.barribob.MaelstromMod.items.tools.ToolVenomDagger;
+import com.barribob.MaelstromMod.items.tools.*;
 import com.barribob.MaelstromMod.util.Element;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.barribob.MaelstromMod.util.Reference;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -68,13 +29,14 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 /**
- * 
  * Holds all of our new items
- *
  */
-public class ModItems
-{
+public class ModItems {
     public static final float BASE_MELEE_DAMAGE = 6;
 
     private static final ToolMaterial DAGGER = EnumHelper.addToolMaterial("rare_dagger", 2, 600, 8.0f, BASE_MELEE_DAMAGE, 20);
@@ -82,7 +44,7 @@ public class ModItems
     private static final ToolMaterial BATTLEAXE = EnumHelper.addToolMaterial("rare_battleaxe", 2, 400, 8.0f, BASE_MELEE_DAMAGE, 20);
     public static final int GUN_USE_TIME = 12000;
     public static final int STAFF_USE_TIME = 9000;
-    private static final ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[] { 3, 6, 8, 3 }, 16, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0);
+    private static final ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("maelstrom", Reference.MOD_ID + ":maelstrom", 32, new int[]{3, 6, 8, 3}, 16, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0);
     private static final ToolMaterial ENERGETIC_PICKAXE = EnumHelper.addToolMaterial("energetic_pickaxe", 5, 8000, 100, 6, 15);
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
@@ -90,7 +52,9 @@ public class ModItems
     public static final Item INVISIBLE = new ItemBase("invisible", null);
 
     static Consumer<List<String>> kanshouBakuya = (tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
+        if(Main.itemsConfig.getBoolean("full_set_bonuses.kanshou_bakuya")) {
+            tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("kanshou_bakuya"));
+        }
     };
 
     /*
@@ -134,7 +98,7 @@ public class ModItems
     public static final Item MUSKET = new ItemMusket("musket", LevelHandler.AZURE_OVERWORLD);
     public static final Item REPEATER = new ItemRepeater("repeater", LevelHandler.AZURE_OVERWORLD);
     public static final Item RIFLE = new ItemRifle("rifle", LevelHandler.AZURE_OVERWORLD).setInformation((tooltip) -> {
-	tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("rifle"));
+        tooltip.add(TextFormatting.GRAY + ModUtils.translateDesc("rifle"));
     });
     public static final Item ELK_BLASTER = new ItemPiercer("elk_blaster", LevelHandler.AZURE_ENDGAME).setElement(Element.AZURE);
     public static final Item PUMPKIN = new ItemPumpkin("pumpkin", 80, null, LevelHandler.AZURE_ENDGAME);
@@ -154,28 +118,28 @@ public class ModItems
      */
 
     public static final Item MAELSTROM_CANNON = new ItemMaelstromCannon("maelstrom_cannon", STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
-    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", 40, STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
-    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", 25, STAFF_USE_TIME, LevelHandler.AZURE_OVERWORLD, ModCreativeTabs.ITEMS);
-    public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", 20, STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
+    public static final Item WILLOTHEWISP_STAFF = new ItemWispStaff("will-o-the-wisp_staff", STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
+    public static final Item QUAKE_STAFF = new ItemQuakeStaff("quake_staff", STAFF_USE_TIME, LevelHandler.AZURE_OVERWORLD, ModCreativeTabs.ITEMS);
+    public static final Item LEAP_STAFF = new ItemLeapStaff("leap_staff", STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
     public static final Item SPEED_STAFF = new ItemSpeedStaff("speed_staff", STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
     public static final Item FIREBALL_STAFF = new ItemFireballStaff("fireball_staff", STAFF_USE_TIME, LevelHandler.AZURE_ENDGAME, ModCreativeTabs.ITEMS);
-    public static final Item CROSS_OF_AQUA = (new ItemBase("cross_of_aqua", ModCreativeTabs.ITEMS)
-    {
-	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-	{
-	    tooltip.add(TextFormatting.BLUE + "When held, allows the player to walk on water");
-	    tooltip.add(TextFormatting.GRAY + "Mana cost: " + TextFormatting.DARK_PURPLE + "0.5" + TextFormatting.GRAY + " per second");
-	};
+    public static final Item CROSS_OF_AQUA = (new ItemBase("cross_of_aqua", ModCreativeTabs.ITEMS) {
+        @Override
+        public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+            tooltip.add(TextFormatting.BLUE + "When held, allows the player to walk on water");
+            tooltip.add(TextFormatting.GRAY + "Mana cost: " + TextFormatting.DARK_PURPLE + "0.5" + TextFormatting.GRAY + " per second");
+        }
+
+        ;
     }).setMaxStackSize(1);
     public static final Item BROWNSTONE_CANNON = new ItemMaelstromCannon("brownstone_cannon", STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS).setFactory(new BrownstoneCannon());
-    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", 50, STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS);
-    public static final Item GOLDEN_QUAKE_STAFF = new ItemQuakeStaff("golden_quake_staff", 25, STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS).setElement(Element.GOLDEN);
-    public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", 60, STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS);
+    public static final Item METEOR_STAFF = new ItemMeteorStaff("meteor_staff", STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS);
+    public static final Item GOLDEN_QUAKE_STAFF = new ItemQuakeStaff("golden_quake_staff", STAFF_USE_TIME, LevelHandler.CLIFF_OVERWORLD, ModCreativeTabs.ITEMS).setElement(Element.GOLDEN);
+    public static final Item EXPLOSIVE_STAFF = new ItemExplosiveStaff("explosive_staff", STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS);
     public static final Item GOLDEN_FIREBALL_STAFF = new ItemFireballStaff("golden_fireball_staff", STAFF_USE_TIME, LevelHandler.CLIFF_ENDGAME, ModCreativeTabs.ITEMS).setFactory(new GoldenFireball()).setElement(Element.GOLDEN);
     public static final Item CRIMSON_RUNE_STAFF = new ItemRuneStaff("crimson_rune_staff", LevelHandler.CRIMSON_START).setElement(Element.CRIMSON);
-    public static final Item ENERGIZED_CADUCEUS = new ItemPotionEffectStaff("energized_caduceus", LevelHandler.CRIMSON_END, 15, 150,
-	    () -> new PotionEffect[] { new PotionEffect(MobEffects.REGENERATION, 150, 3), new PotionEffect(MobEffects.ABSORPTION, 2400, 4) }, "energized_caduceus");
+    public static final Item ENERGIZED_CADUCEUS = new ItemPotionEffectStaff("energized_caduceus", LevelHandler.CRIMSON_END,
+            () -> new PotionEffect[]{new PotionEffect(MobEffects.REGENERATION, 150, 3), new PotionEffect(MobEffects.ABSORPTION, 2400, 4)}, "energized_caduceus");
     public static final Item TUNING_FORK = new ItemTuningFork("tuning_fork", LevelHandler.CRIMSON_END).setElement(Element.CRIMSON);
 
     /**
@@ -255,13 +219,13 @@ public class ModItems
     public static final Item BLACK_GOLD_BOOTS = new ModArmorBase("black_gold_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CLIFF_ENDGAME, "black_gold").setElement(Element.GOLDEN).setArmorBonusDesc("black_gold_full_set");
 
     public static final Item ENERGETIC_STEEL_HELMET =
-	    new ModArmorBase("energetic_steel_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+            new ModArmorBase("energetic_steel_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
     public static final Item ENERGETIC_STEEL_CHESTPLATE =
-	    new ModArmorBase("energetic_steel_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+            new ModArmorBase("energetic_steel_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
     public static final Item ENERGETIC_STEEL_LEGGINGS =
-	    new ModArmorBase("energetic_steel_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+            new ModArmorBase("energetic_steel_leggings", ARMOR, 2, EntityEquipmentSlot.LEGS, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
     public static final Item ENERGETIC_STEEL_BOOTS =
-	    new ModArmorBase("energetic_steel_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
+            new ModArmorBase("energetic_steel_boots", ARMOR, 1, EntityEquipmentSlot.FEET, LevelHandler.CRIMSON_START, "energetic_steel").setElement(Element.CRIMSON).setArmorBonusDesc("energetic_steel_full_set");
 
     public static final Item FADESTEEL_HELMET = new ModArmorBase("fadesteel_helmet", ARMOR, 1, EntityEquipmentSlot.HEAD, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");
     public static final Item FADESTEEL_CHESTPLATE = new ModArmorBase("fadesteel_chestplate", ARMOR, 1, EntityEquipmentSlot.CHEST, LevelHandler.CRIMSON_START, "fadesteel").setArmorBonusDesc("fadesteel_full_set");

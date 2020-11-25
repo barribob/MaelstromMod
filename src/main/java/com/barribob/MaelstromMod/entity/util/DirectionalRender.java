@@ -6,9 +6,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Allows mobs to communicate directions so that it can be indicated on the client (in the form of lazers for example)
- * 
- * @author Barribob
  *
+ * @author Barribob
  */
 public interface DirectionalRender {
     @SideOnly(Side.CLIENT)

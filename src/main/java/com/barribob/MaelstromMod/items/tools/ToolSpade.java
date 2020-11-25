@@ -4,26 +4,20 @@ import com.barribob.MaelstromMod.Main;
 import com.barribob.MaelstromMod.init.ModCreativeTabs;
 import com.barribob.MaelstromMod.init.ModItems;
 import com.barribob.MaelstromMod.util.IHasModel;
-
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemSpade;
 
-public class ToolSpade extends ItemSpade implements IHasModel
-{
-    public ToolSpade(String name, ToolMaterial material)
-    {
-	super(material);
-	setUnlocalizedName(name);
-	setRegistryName(name);
-	setCreativeTab(ModCreativeTabs.ITEMS);
+public class ToolSpade extends ItemSpade implements IHasModel {
+    public ToolSpade(String name, ToolMaterial material) {
+        super(material);
+        setUnlocalizedName(name);
+        setRegistryName(name);
+        setCreativeTab(ModCreativeTabs.ITEMS);
 
-	ModItems.ITEMS.add(this);
+        ModItems.ITEMS.add(this);
     }
 
     @Override
-    public void registerModels()
-    {
-	Main.proxy.registerItemRenderer(this, 0, "inventory");
+    public void registerModels() {
+        Main.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }

@@ -6,8 +6,7 @@ import net.minecraft.entity.Entity;
 /**
  * CrystalGolem - Barribob Created using Tabula 7.0.0
  */
-public class ModelAzureGolem extends ModelAnimated
-{
+public class ModelAzureGolem extends ModelAnimated {
     public ModelRenderer waist;
     public ModelRenderer leftLeg;
     public ModelRenderer rightLeg;
@@ -22,7 +21,7 @@ public class ModelAzureGolem extends ModelAnimated
     public ModelRenderer rightShoulderpad;
     public ModelRenderer rightHand;
     public ModelRenderer nose;
-    
+
     public float limbSwingFactor = 1.5f;
 
     public ModelAzureGolem() {
@@ -87,21 +86,19 @@ public class ModelAzureGolem extends ModelAnimated
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-	this.waist.render(f5);
-	this.rightLeg.render(f5);
-	this.leftLeg.render(f5);
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        this.waist.render(f5);
+        this.rightLeg.render(f5);
+        this.leftLeg.render(f5);
     }
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
-    {
-	modelRenderer.rotateAngleX = x;
-	modelRenderer.rotateAngleY = y;
-	modelRenderer.rotateAngleZ = z;
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
     }
 
     /**
@@ -110,17 +107,15 @@ public class ModelAzureGolem extends ModelAnimated
      * time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
-	this.leftLeg.rotateAngleX = -limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-	this.rightLeg.rotateAngleX = limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-	
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        this.leftLeg.rotateAngleX = -limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+        this.rightLeg.rotateAngleX = limbSwingFactor * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleX = headPitch * 0.017453292F;
     }
 
-    private float triangleWave(float p_78172_1_, float p_78172_2_)
-    {
-	return (Math.abs(p_78172_1_ % p_78172_2_ - p_78172_2_ * 0.5F) - p_78172_2_ * 0.25F) / (p_78172_2_ * 0.25F);
+    private float triangleWave(float p_78172_1_, float p_78172_2_) {
+        return (Math.abs(p_78172_1_ % p_78172_2_ - p_78172_2_ * 0.5F) - p_78172_2_ * 0.25F) / (p_78172_2_ * 0.25F);
     }
 }
