@@ -7,6 +7,7 @@ import com.barribob.MaelstromMod.mana.ManaProvider;
 import com.barribob.MaelstromMod.packets.MessageMana;
 import com.barribob.MaelstromMod.util.ModUtils;
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -153,8 +154,11 @@ public class ItemToManaSystem {
         ResourceLocation registryName = itemStack.getItem().getRegistryName();
         if(registryName != null) {
             String registryPath = registryName.toString().replace(':', '.');
-            if (Main.manaConfig.hasPath(registryPath)) {
-                return Main.manaConfig.getConfig(registryPath);
+            try {
+                if (Main.manaConfig.hasPath(registryPath)) {
+                    return Main.manaConfig.getConfig(registryPath);
+                }
+            } catch(ConfigException.BadPath ignored) {
             }
         }
 
