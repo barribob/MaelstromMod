@@ -14,7 +14,6 @@ import com.barribob.MaelstromMod.invasion.InvasionWorldSaveData;
 import com.barribob.MaelstromMod.packets.MessageModParticles;
 import com.barribob.MaelstromMod.particle.EnumModParticles;
 import com.barribob.MaelstromMod.util.handlers.LevelHandler;
-import com.barribob.MaelstromMod.util.handlers.ParticleManager;
 import com.google.common.collect.Sets;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigRenderOptions;
@@ -1003,7 +1002,6 @@ public final class ModUtils {
     public static BlockPos findGroundBelow(World world, BlockPos pos) {
         for (int i = pos.getY(); i > 0; i--) {
             BlockPos tempPos = new BlockPos(pos.getX(), i, pos.getZ());
-            ParticleManager.spawnEffect(world, new Vec3d(tempPos), ModColors.YELLOW);
             if (world.getBlockState(tempPos).isSideSolid(world, tempPos, EnumFacing.UP)) {
                 return tempPos;
             }
