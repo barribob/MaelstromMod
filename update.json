@@ -1,6 +1,7 @@
 {
 	"homepage": "https://www.curseforge.com/minecraft/mc-mods/into-the-maelstrom",
 	"1.12.2": {
+		"0.4.4": "Add korean localization",
 		"0.4.3": "Fix serverside crash",
 		"0.4.2": "Fix compatibility with some mods",
 		"0.4.1": "Configuration Update",
@@ -15,7 +16,7 @@
 		"0.1": "First version of mod: Adds the Fracture dimension"
 	},
 	"promos": {
-		"1.12.2-latest": "0.4.3",
-		"1.12.1-recommended": "0.4.3"
+		"1.12.2-latest": "0.4.4",
+		"1.12.1-recommended": "0.4.4"
 	}
 }
